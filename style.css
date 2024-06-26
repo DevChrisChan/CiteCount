@@ -4,7 +4,7 @@ body {
 	color: #333;
 	line-height: 1.6em;
 	padding: 20px;
-	text-align: cente;
+	text-align: center;
 }
 
 .container {
@@ -22,7 +22,7 @@ body {
 	font-size: 1.5em;
 	color: #333;
 	margin-bottom: 10px;
-	user-select: text; /* Make text selectable */
+	user-select: text;
 }
 
 .textareas {
@@ -34,7 +34,7 @@ body {
 
 @media (min-width: 768px) {
 	.textareas {
-			flex-direction: row;
+		flex-direction: row;
 	}
 }
 
@@ -47,4 +47,49 @@ textarea {
 	outline: none;
 	box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.1);
 	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.counters {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+
+.counters > .counter {
+	background-color: #f4f4f4;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+	box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+	.counters > .counter {
+		flex-basis: 100%;
+		margin-bottom: 10px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+}
+
+@media (min-width: 768px) {
+	.counters > .counter {
+		flex-basis: 20%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+}
+
+.counters > .counter > .label {
+	font-size: 0.8em;
+}
+
+.counters > .counter > .value {
+	font-size: 1.5em;
+	font-weight: 900;
 }

@@ -11,15 +11,22 @@ function WordCount(str) {
 		return str.split(/\s+/).filter(function(word) { return word.length > 0 }).length;
 }
 
-function SetCountText(formattedText) {
-		var count = WordCount(formattedText);
-		document.getElementById("result").innerHTML = 'With no citations, your text is <b>' + count + '</b> words long';
+function UpdateCounts() {
+	var rawText = document.getElementById("rawData").value;
+	var formattedText = FormatText(rawText);
+	document.getElementById("formattedData").value = formattedText;
+
+	var wordCountNoCitations = WordCount(formattedText);
+	var charCountNoCitations = formattedText.length;
+	var wordCountWithCitations = WordCount(rawText);
+	var charCountWithCitations = rawText.length;
+	var citationCount = (rawText.match(/\(.*?\)/g) || []).length;
+
+	document.getElementById("wordCountNoCitationsValue").innerText = wordCountNoCitations;
+	document.getElementById("charCountNoCitationsValue").innerText = charCountNoCitations;
+	document.getElementById("wordCountWithCitationsValue").innerText = wordCountWithCitations;
+	document.getElementById("charCountWithCitationsValue").innerText = charCountWithCitations;
+	document.getElementById("citationCountValue").innerText = citationCount;
 }
 
-function UpdateWordCount() {
-		var formattedText = FormatText();
-		document.getElementById("formattedData").value = formattedText;
-		SetCountText(formattedText);
-}
-
-window.onload = UpdateWordCount;
+window.onload = UpdateCounts;

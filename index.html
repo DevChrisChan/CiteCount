@@ -17,17 +17,41 @@
       "applicationCategory": "Reference",
       "operatingSystem": "All"
   }></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
 </head>
-
   <body>
-    <div class="container">
-      <div id="result" style="user-select: none;"></div>
-      <div class="textareas">
-        <textarea id="rawData" oninput="UpdateWordCount()" placeholder="Start typing, or paste your document here." style="flex-grow: 1;"></textarea>
-        <textarea id="formattedData" placeholder="Text without citation appears here." style="flex-grow: 1;" readonly></textarea>
+      <div class="container">
+        <div class="counters">
+          <div class="counter">
+            <div class="label">Words without citations:</div>
+            <div class="value" id="wordCountNoCitationsValue">initiating...</div>
+          </div>
+          <div class="counter">
+            <div class="label">Characters without citations:</div>
+            <div class="value" id="charCountNoCitationsValue">initiating...</div>
+          </div>
+          <div class="counter">
+            <div class="label">Word counts with citations:</div>
+            <div class="value" id="wordCountWithCitationsValue">initiating...</div>
+          </div>
+          <div class="counter">
+            <div class="label">Characters with citations:</div>
+            <div class="value" id="charCountWithCitationsValue">initiating...</div>
+          </div>
+          <div class="counter">
+            <div class="label">Citation count:</div>
+            <div class="value" id="citationCountValue">initiating...</div>
+          </div>
+        </div>
+        <div class="textareas">
+          <textarea id="rawData" oninput="UpdateCounts()" placeholder="Start typing, or paste your document here." style="flex-grow: 1;"></textarea>
+          <textarea id="formattedData" placeholder="Text without citation appears here." style="flex-grow: 1;" readonly></textarea>
+        </div>
       </div>
-    </div>
-    <script src="script.js"></script>
+      <script src="script.js"></script>
   </body>
 
 </html>
