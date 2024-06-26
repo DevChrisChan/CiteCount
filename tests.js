@@ -1,37 +1,3 @@
-var text;
-var forText;
-
-function FormatText() {
-	text = document.getElementById("rawData").value;
-	forText = text.replace(/\s*\(.*?\)\s*/g, '');
-	return forText;
-}
-
-function WordCount(str) {
-		return str.length > 0 ? str.split(" ").length : 0;
-}
-
-
-function UpdateCounts() {
-	var rawText = document.getElementById("rawData").value;
-	var formattedText = FormatText(rawText);
-	document.getElementById("formattedData").value = formattedText;
-
-	var wordCountNoCitations = WordCount(formattedText);
-	var charCountNoCitations = formattedText.length;
-	var wordCountWithCitations = WordCount(rawText);
-	var charCountWithCitations = rawText.length;
-	var citationCount = (rawText.match(/\(.*?\)/g) || []).length;
-
-	document.getElementById("wordCountNoCitationsValue").innerText = wordCountNoCitations;
-	document.getElementById("charCountNoCitationsValue").innerText = charCountNoCitations;
-	document.getElementById("wordCountWithCitationsValue").innerText = wordCountWithCitations;
-	document.getElementById("charCountWithCitationsValue").innerText = charCountWithCitations;
-	document.getElementById("citationCountValue").innerText = citationCount;
-}
-
-// REMOVE FROM PRODUCTION
-
 var testCases = [
 		{ text: "This is a test sentence (Citation 1).", expected: 5 },
 		{ text: "This is a test sentence (Citation 1). This is another test sentence (Citation 2).", expected: 10 },
@@ -55,8 +21,7 @@ function runTests() {
 		}
 }
 
-// REMOVE FROM PRODUCTION
-
 window.onload = function() {
 		UpdateCounts();
+		runTests();
 };
