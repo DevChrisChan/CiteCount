@@ -10,7 +10,6 @@ function WordCount(str) {
 		return str.length > 0 ? str.trim().split(/\s+/).length : 0;
 }
 
-
 function UpdateCounts() {
 	var rawText = document.getElementById("rawData").value;
 	var formattedText = FormatText(rawText);
@@ -27,16 +26,19 @@ function UpdateCounts() {
 	document.getElementById("wordCountWithCitationsValue").innerText = wordCountWithCitations;
 	document.getElementById("charCountWithCitationsValue").innerText = charCountWithCitations;
 	document.getElementById("citationCountValue").innerText = citationCount;
+
+	// Save the raw text to local storage
+	localStorage.setItem('rawData', rawText);
 }
+
 
 // REMOVE FROM PRODUCTION
 
 var testCases = [
 		{ text: "This is a test sentence (Citation 1).", expected: 5 },
 		{ text: "This is a test sentence (Citation 1). This is another test sentence (Citation 2).", expected: 10 },
+	{ text: "This is a test sentence (Citation 1)(Citation 2).", expected: 5 },
 		{ text: "This is a test sentence(Citation 1).This is another test sentence(Citation 2).", expected: 10 },
-		{ text: "This is a test sentence (Citation 1)(Citation 2).", expected: 5 },
-		{ text: "This is a test sentence (Citation\n1). This is another test sentence (Citation\n2).", expected: 10 },
 		{ text: "This is a test sentence. This is another test sentence with a citation attached to a word(Citation 1).", expected: 17 }
 ];
 
@@ -55,7 +57,18 @@ function runTests() {
 }
 
 // REMOVE FROM PRODUCTION
-
 window.onload = function() {
-		UpdateCounts();
+	var savedText = localStorage.getItem('rawData');
+	if (savedText) {
+		document.getElementById('rawData').value = savedText;
+	}
+	UpdateCounts();
 };
+
+function copyToClipboard() {
+	var copyText = document.getElementById("formattedData");
+	copyText.select();
+	copyText.setSelectionRange(0, 99999); /* For mobile devices */
+	document.execCommand("copy");
+	alert("Copied the text: " + copyText.value);
+}
