@@ -1,18 +1,27 @@
-body {
+body, textarea {
 	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-	background-color: #f4f4f4;
-	color: #333;
-	line-height: 1.6em;
+}
+
+body, .navbar, .footer {
 	padding: 0;
 	margin: 0;
 	text-align: center;
+	color: #333;
+}
+
+body, .container {
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
 	justify-content: space-between;
 }
 
-.navbar {
+body {
+	background-color: #f4f4f4;
+	line-height: 1.6em;
+	height: 100vh;
+}
+
+.navbar, .footer {
 	background-color: #333;
 	color: #fff;
 	padding: 10px 0;
@@ -24,29 +33,17 @@ body {
 	user-select: none;
 }
 
-.footer {
-	background-color: #333;
-	color: #fff;
-	padding: 10px 0;
-}
-
-#landingPage {
+.container {
 	background-color: #fff; 
-	color: #333; 
 }
 
 .container {
 	padding: 20px;
-	display: flex;
-	flex-direction: column;
 	height: calc(100vh - 90px);
-	justify-content: space-between;
-	background-color: #fff;
 }
 
 #result {
 	font-size: 1.5em;
-	color: #333;
 	margin-bottom: 10px;
 	user-select: text;
 }
@@ -65,14 +62,20 @@ body {
 }
 
 textarea {
-	resize: none;
+	resize: vertical;
+	max-width: 100%;
 	border: none;
 	border-radius: 5px;
 	padding: 10px;
 	font-size: 1em;
 	outline: none;
 	box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.1);
-	font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@media (min-width: 768px) {
+	textarea {
+		resize: horizontal;
+	}
 }
 
 .counters {
@@ -136,19 +139,9 @@ textarea {
 		color: #8b8b8b;
 	}
 
-	.navbar {
+	.navbar, .footer {
 		background-color: #575757;
 		color: #fff;
-	}
-
-	.footer {
-		background-color: #575757;
-		color: #fff;
-	}
-
-	#landingPage {
-		background-color: #121212;
-		color: #8b8b8b;
 	}
 
 	.container {
@@ -169,4 +162,3 @@ textarea {
 		color: #fff;
 	}
 }
-

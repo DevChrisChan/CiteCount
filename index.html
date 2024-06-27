@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link href="style.css" rel="stylesheet" type="text/css" />
-  <title>CitationSieve - Count Words without In-text Citations</title>
+  <title>CiteCount - Count Words without In-text Citations</title>
   <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
-  <meta name="description" content="CitationSieve is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.">
-  <meta name="keywords" content="CitationSieve, Word Count, Word Counter, Citations, Text Analysis, Web Application">
+  <meta name="description" content="CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.">
+  <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Text Analysis, Web Application">
   <script type="application/ld+json">
   {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "CitationSieve",
-      "description": "CitationSieve is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.
+      "name": "CiteCount",
+      "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.
       "applicationCategory": "Reference",
       "operatingSystem": "All"
   }></script>
@@ -21,51 +21,51 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
   <link rel="manifest" href="/favicon/site.webmanifest">
+  <script src="https://cdn.jsdelivr.net/npm/split.js"></script> 
 </head>
-  <body>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZHDTH4RVM"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<body>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZHDTH4RVM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-      gtag('config', 'G-KZHDTH4RVM');
-    </script>
-    <nav class="navbar">
-       CitationSieve
-    </nav>
-      <div class="container">
-        <div class="counters">
-          <div class="counter">
-            <div class="label">Words without citations</div>
-            <div class="value" id="wordCountNoCitationsValue">initiating...</div>
-          </div>
-          <div class="counter">
-            <div class="label">Characters without citations</div>
-            <div class="value" id="charCountNoCitationsValue">initiating...</div>
-          </div>
-          <div class="counter">
-            <div class="label">Words with citations</div>
-            <div class="value" id="wordCountWithCitationsValue">initiating...</div>
-          </div>
-          <div class="counter">
-            <div class="label">Characters with citations</div>
-            <div class="value" id="charCountWithCitationsValue">initiating...</div>
-          </div>
-          <div class="counter">
-            <div class="label">Citations</div>
-            <div class="value" id="citationCountValue">initiating...</div>
-          </div>
+    gtag('config', 'G-KZHDTH4RVM');
+  </script>
+  <nav class="navbar">
+     CiteCount
+  </nav>
+    <div class="container">
+      <div class="counters">
+        <div class="counter">
+          <div class="label">Words without citations</div>
+          <div class="value" id="wordCountNoCitationsValue">initiating...</div>
         </div>
-        <div class="textareas">
-          <textarea id="rawData" oninput="UpdateCounts()" placeholder="Start typing, or paste your document here." style="flex-grow: 1;"></textarea>
-          <textarea id="formattedData" placeholder="Text without citation appears here." style="flex-grow: 1;" readonly></textarea>
+        <div class="counter">
+          <div class="label">Characters without citations</div>
+          <div class="value" id="charCountNoCitationsValue">initiating...</div>
+        </div>
+        <div class="counter">
+          <div class="label">Words with citations</div>
+          <div class="value" id="wordCountWithCitationsValue">initiating...</div>
+        </div>
+        <div class="counter">
+          <div class="label">Characters with citations</div>
+          <div class="value" id="charCountWithCitationsValue">initiating...</div>
+        </div>
+        <div class="counter">
+          <div class="label">Citations</div>
+          <div class="value" id="citationCountValue">initiating...</div>
         </div>
       </div>
-    <!--<div id="landingPage" style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-      <h1>Welcome to CitationSieve</h1>
-    </div>-->
-      <script src="script.js"></script>
-  </body>
-
+      <div class="textareas" id="splitContainer"> <!-- Add an ID to the container -->
+        <textarea id="rawData" oninput="UpdateCounts()" placeholder="Start typing, or paste your document here." style="flex-grow: 1;"></textarea>
+        <textarea id="formattedData" placeholder="Text without citation appears here." style="flex-grow: 1;" readonly></textarea>
+      </div>
+    </div>
+  <footer>
+    <h1>Welcome to CiteCount</h1>
+  </footer>
+    <script src="script.js"></script>
+</body>
 </html>

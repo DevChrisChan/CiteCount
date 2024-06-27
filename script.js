@@ -1,18 +1,10 @@
-var text;
-var forText;
-function FormatText() {
-	text = document.getElementById("rawData").value;
-	forText = text.replace(/\s*\(.*?\)\s*/g, '');
-	return forText;
-}
-
 function WordCount(str) {
-		return str.length > 0 ? str.trim().split(/\s+/).length : 0;
+	return str.length > 0 ? str.trim().split(/\s+/).length : 0;
 }
 
 function UpdateCounts() {
 	var rawText = document.getElementById("rawData").value;
-	var formattedText = FormatText(rawText);
+	var formattedText = rawText.replace(/\s*\(.*?\)\s*/g, '');
 	document.getElementById("formattedData").value = formattedText;
 
 	var wordCountNoCitations = WordCount(formattedText);
@@ -27,10 +19,8 @@ function UpdateCounts() {
 	document.getElementById("charCountWithCitationsValue").innerText = charCountWithCitations;
 	document.getElementById("citationCountValue").innerText = citationCount;
 
-	// Save the raw text to local storage
 	localStorage.setItem('rawData', rawText);
 }
-
 
 // REMOVE FROM PRODUCTION
 
@@ -57,6 +47,7 @@ function runTests() {
 }
 
 // REMOVE FROM PRODUCTION
+
 window.onload = function() {
 	var savedText = localStorage.getItem('rawData');
 	if (savedText) {
@@ -64,11 +55,3 @@ window.onload = function() {
 	}
 	UpdateCounts();
 };
-
-function copyToClipboard() {
-	var copyText = document.getElementById("formattedData");
-	copyText.select();
-	copyText.setSelectionRange(0, 99999); /* For mobile devices */
-	document.execCommand("copy");
-	alert("Copied the text: " + copyText.value);
-}
