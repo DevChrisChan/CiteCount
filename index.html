@@ -21,7 +21,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
   <link rel="manifest" href="/favicon/site.webmanifest">
-  <script src="https://cdn.jsdelivr.net/npm/split.js"></script> 
   <script defer async data-host="citecount.netlify.app" src="https://liteanalytics.com/lite.js"></script>
 </head>
 <body>
@@ -51,7 +50,7 @@
           <div class="value" id="citationCountValue">initiating...</div>
         </div>
       </div>
-      <div class="textareas" id="splitContainer"> <!-- Add an ID to the container -->
+      <div class="textareas" id="splitContainer">
         <textarea id="rawData" oninput="UpdateCounts()" placeholder="Start typing, or paste your document here." style="flex-grow: 1;"></textarea>
         <textarea id="formattedData" placeholder="Text without citation appears here." style="flex-grow: 1;" readonly></textarea>
       </div>

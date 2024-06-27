@@ -55,3 +55,11 @@ window.onload = function() {
 	}
 	UpdateCounts();
 };
+
+window.addEventListener('resize', function() {
+		if (window.innerWidth < 768) {
+				document.querySelector('textarea').style.height = ""; 
+		} else {
+				document.querySelector('textarea').style.width = "";
+		}
+});
