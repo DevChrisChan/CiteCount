@@ -153,7 +153,7 @@ textarea {
 @media (prefers-color-scheme: dark) {
 	body {
 		background-color: #121212;
-		color: #8b8b8b;
+		color: #fff;
 	}
 
 	.navbar, .footer {
@@ -190,4 +190,12 @@ textarea {
 	padding: 20px;
 	text-align: left!important;
 	font-size: 1em;
+}
+
+.material-symbols-outlined {
+	font-variation-settings:
+	'FILL' 0,
+	'wght' 400,
+	'GRAD' 0,
+	'opsz' 24
 }
