@@ -1,5 +1,6 @@
 function WordCount(str) {
-	return str.length > 0 ? str.trim().split(/\s+/).length : 0;
+	str = str.trim();
+	return str.length > 0 ? str.split(/\s+/).length : 0;
 }
 
 function UpdateCounts() {
@@ -21,6 +22,7 @@ function UpdateCounts() {
 
 	localStorage.setItem('rawData', rawText);
 }
+
 
 // REMOVE FROM PRODUCTION
 
@@ -62,4 +64,14 @@ window.addEventListener('resize', function() {
 		} else {
 				document.querySelector('textarea').style.width = "";
 		}
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+	anchor.addEventListener('click', function (e) {
+		e.preventDefault();
+
+		document.querySelector(this.getAttribute('href')).scrollIntoView({
+			behavior: 'smooth'
+		});
+	});
 });
