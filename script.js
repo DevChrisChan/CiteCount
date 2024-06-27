@@ -1,17 +1,15 @@
 var text;
 var forText;
-
 function FormatText() {
-		text = document.getElementById("rawData").value;
-		var spacedText = text.replace(/(\w+)/g, '$1 ');
-		forText = spacedText.replace(/\s*\(.*?\)\s*/g, '');
-		forText = forText.replace(/\s+/g, ' ');
-		return forText.trim();
+	text = document.getElementById("rawData").value;
+	forText = text.replace(/\s*\(.*?\)\s*/g, '');
+	return forText;
 }
 
 function WordCount(str) {
-		return str.split(/\s+/).filter(function(word) { return word.length > 0 }).length;
+		return str.length > 0 ? str.trim().split(/\s+/).length : 0;
 }
+
 
 function UpdateCounts() {
 	var rawText = document.getElementById("rawData").value;
@@ -60,5 +58,4 @@ function runTests() {
 
 window.onload = function() {
 		UpdateCounts();
-
 };
