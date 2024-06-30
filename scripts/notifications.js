@@ -15,7 +15,7 @@ function notify(message) {
 				notification.className = ""; 
 				notification.style.opacity = 0; 
 				setTimeout(function(){ notification.style.opacity = ""; }, 1000); 
-		}, 3000);
+		}, 5000);
 
 		notification.onclick = function() {
 				notification.className = "";

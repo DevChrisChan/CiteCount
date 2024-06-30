@@ -1,4 +1,3 @@
-
 var testCases = [
 		{ text: "This is a test sentence (Citation 1).", expected: 5 },
 		{ text: "This is a test sentence (Citation 1). This is another test sentence (Citation 2).", expected: 10 },

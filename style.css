@@ -254,12 +254,6 @@ textarea {
 	opacity: 1;
 }
 
-
-#notification.show {
-	visibility: visible;
-	opacity: 1;
-}
-
 .modal {
 	position: fixed;
 	z-index: 2;
@@ -282,7 +276,7 @@ textarea {
 .modal-content {
 	background-color: #fff;
 	margin: auto;
-	padding: 20px;
+	padding: 0 20px 20px;
 	border-radius: 5px;
 	width: 80%;
 	height: 80vh;
@@ -293,13 +287,14 @@ textarea {
 }
 
 .modal-header {
-	backdrop-filter: blur(1px);
+	backdrop-filter: blur(2px);
 	position: sticky;
 	top: 0;
+	padding: 20px 0px 0px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: rgba(255, 255, 255, 0.5);
 }
 
 .title {
@@ -363,4 +358,23 @@ textarea {
 .description {
 	font-size: 0.9em;
 	color: #666;
+}
+
+.paste-container {
+	position: relative;
+	display: inline-block;
+}
+
+.paste-container textarea {
+	width: 100%;
+	height: 100%;
+	resize: both;
+	overflow: auto;
+}
+
+.paste-container button {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
 }

@@ -6,6 +6,7 @@ function WordCount(str) {
 
 function UpdateCounts() {
 	var rawText = document.getElementById("rawData").value;
+	rawText = rawText.replace(/ +/g, ' ');
 	var formattedText = rawText.replace(/\s*\(.*?\)\s*/g, '');
 	document.getElementById("formattedData").value = formattedText;
 

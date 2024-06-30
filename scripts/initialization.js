@@ -33,7 +33,6 @@ window.onload = function() {
 	if (localStorage.getItem('Citations') === 'disabled') {
 		document.getElementById('Citations').style.display = 'none';
 	}
-	
 	UpdateCounts();
 	console.log("App initialized.")
 };
@@ -53,3 +52,4 @@ window.addEventListener('beforeunload', function (e) {
 		return confirmationMessage; 
 	}
 });
+
