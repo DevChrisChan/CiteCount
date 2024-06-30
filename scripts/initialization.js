@@ -8,7 +8,7 @@ window.onload = function() {
 
 	// Settings
 
-	if (localStorage.getItem('AutoSave') === 'enabled') {
+	if (localStorage.getItem('autoSave') === 'enabled' || localStorage.getItem('AutoSave') === 'enabled') {
 		var savedText = localStorage.getItem('rawData');
 		if (savedText) {
 				document.getElementById('rawData').value = savedText;
@@ -33,6 +33,7 @@ window.onload = function() {
 	if (localStorage.getItem('Citations') === 'disabled') {
 		document.getElementById('Citations').style.display = 'none';
 	}
+	
 	UpdateCounts();
 	console.log("App initialized.")
 };
@@ -46,7 +47,7 @@ window.addEventListener('resize', function() {
 });
 
 window.addEventListener('beforeunload', function (e) {
-	if (localStorage.getItem('AutoSave') !== 'enabled') {
+	if (localStorage.getItem('autoSave') == 'disabled' || localStorage.getItem('AutoSave') == 'disabled') {
 		var confirmationMessage = 'AutoSave is not enabled. Are you sure you want to leave?';
 		e.returnValue = confirmationMessage;
 		return confirmationMessage; 

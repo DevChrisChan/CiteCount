@@ -253,6 +253,7 @@ textarea {
 	height: 100%; 
 	overflow: auto; 
 	background-color: rgba(0,0,0,0.4); 
+	backdrop-filter: blur(2px);
 	display: none; 
 	align-items: center; 
 	justify-content: center;
@@ -264,22 +265,25 @@ textarea {
 
 .modal-content {
 	background-color: #fff; 
-	margin: auto; /* Adjust this */
+	margin: auto; 
 	padding: 20px;
 	border-radius: 5px;
 	width: 80%; 
-	height: 80vh; /* Add this line */
+	height: 80vh; 
 	color: #333;
 	text-align: center;
 	box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.1);
-	overflow: auto; /* Add this line */
+	overflow: auto; 
 }
 
-
 .modal-header {
+	backdrop-filter: blur(1px);
+	position: sticky; 
+	top: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 .title {

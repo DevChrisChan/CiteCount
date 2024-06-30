@@ -31,8 +31,9 @@ document.onkeydown = function(event) {
 // Settings
 // Define the settings
 var settings = [
-	{ name: 'AutoSave', id: 'AutoSave', default: 'enabled' },
+	{ name: 'AutoSave', id: 'autoSave', default: 'enabled' },
 	{ name: 'Warn on leave', id: 'Warn', default: 'enabled' },
+	{ name: 'Spell check', id: 'Spellcheck', default: 'enabled' },
 	{ name: 'Focus', id: 'Focus', default: 'disabled' },
 	{ name: 'Words without citations counter', id: 'WordsWithoutCitations', default: 'enabled' },
 	{ name: 'Characters without citations counter', id: 'CharsWithoutCitations', default: 'enabled' },
@@ -60,9 +61,6 @@ settings.forEach(function(setting) {
 
 	disableButton.onclick = function() {
 		var message = setting.name + " is disabled.";
-		if (setting.id === 'AutoSave') {
-			message = "AutoSave is disabled. You will be warned upon leaving or reloading CiteCount.";
-		}
 		if (setting.id === 'WordsWithoutCitations' || setting.id === 'CharsWithoutCitations' || setting.id === 'WordsWithCitations' || setting.id === 'CharsWithCitations' || setting.id === 'Citations') {
 			message = setting.name + " is disabled. Please reload for settings to take effect.";
 		}
@@ -97,6 +95,11 @@ function applySetting(id, state) {
 			applyFocus(state);
 			break;
 	}
+	switch (id) {
+		case 'Spellcheck':
+			applySpellcheck(state);
+			break;
+	}
 }
 
 function applyFocus(state) {
@@ -105,5 +108,14 @@ function applyFocus(state) {
 	}
 	else if (state === 'disabled') {
 		document.getElementById('lander').style.display = 'block';
+	}
+}
+
+function applySpellcheck(state) {
+	if (state === 'enabled') {
+		document.getElementById("rawData").spellcheck = true;
+	}
+	else if (state === 'disabled') {
+		document.getElementById("rawData").spellcheck = false;
 	}
 }

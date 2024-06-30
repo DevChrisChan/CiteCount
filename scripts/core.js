@@ -21,7 +21,7 @@ function UpdateCounts() {
 	document.getElementById("charCountWithCitationsValue").innerText = charCountWithCitations;
 	document.getElementById("citationCountValue").innerText = citationCount;
 
-	if (localStorage.getItem('autoSave') === 'enabled') {
+	if (localStorage.getItem('autoSave') === 'enabled' || localStorage.getItem('AutoSave') === 'enabled') {
 		localStorage.setItem('rawData', rawText);
 	}
 }
