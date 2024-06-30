@@ -3,6 +3,7 @@ function WordCount(str) {
 	return str.length > 0 ? str.split(/\s+/).length : 0;
 }
 
+
 function UpdateCounts() {
 	var rawText = document.getElementById("rawData").value;
 	var formattedText = rawText.replace(/\s*\(.*?\)\s*/g, '');
@@ -23,39 +24,51 @@ function UpdateCounts() {
 	localStorage.setItem('rawData', rawText);
 }
 
+function notify(message) {
+		var notification = document.getElementById("notification");
+		notification.textContent = message;
+		notification.className = "show";
+		setTimeout(function(){ 
+				notification.className = ""; 
+				notification.style.opacity = 0; 
+				setTimeout(function(){ notification.style.opacity = ""; }, 1000); 
+		}, 3000);
 
-// REMOVE FROM PRODUCTION
-
-var testCases = [
-		{ text: "This is a test sentence (Citation 1).", expected: 5 },
-		{ text: "This is a test sentence (Citation 1). This is another test sentence (Citation 2).", expected: 10 },
-	{ text: "This is a test sentence (Citation 1)(Citation 2).", expected: 5 },
-		{ text: "This is a test sentence(Citation 1).This is another test sentence(Citation 2).", expected: 10 },
-		{ text: "This is a test sentence. This is another test sentence with a citation attached to a word(Citation 1).", expected: 17 }
-];
-
-function runTests() {
-		for (var i = 0; i < testCases.length; i++) {
-				var testCase = testCases[i];
-				document.getElementById("rawData").value = testCase.text;
-				UpdateCounts();
-				var wordCountNoCitations = parseInt(document.getElementById("wordCountNoCitationsValue").innerText);
-				if (wordCountNoCitations === testCase.expected) {
-						console.log("Test Case " + (i + 1) + ": Passed");
-				} else {
-						console.log("Test Case " + (i + 1) + ": Failed (Expected " + testCase.expected + ", Got " + wordCountNoCitations + ")");
-				}
+		notification.onclick = function() {
+				notification.className = "";
+				notification.style.opacity = 0;
+				setTimeout(function(){ notification.style.opacity = ""; }, 1000);
 		}
 }
 
-// REMOVE FROM PRODUCTION
+function setActiveAppearance(appearance) {
+	var button = document.getElementById(appearance);
+	if (button) {
+		button.classList.add('active');
+	} else {
+		console.log("No button with id: " + appearance);
+	}
+}
 
 window.onload = function() {
+	console.log("App initialized.")
 	var savedText = localStorage.getItem('rawData');
 	if (savedText) {
 		document.getElementById('rawData').value = savedText;
+		notify("Sucessfully restored from AutoSave.")
 	}
+
+	var appearanceSettings = localStorage.getItem('appearanceSettings');
+	if (appearanceSettings) {
+		setActiveAppearance(appearanceSettings);
+	} else {
+		console.log("Initializing app... Setting appearance settings.")
+		localStorage.setItem('appearanceSettings', 'system');
+		setActiveAppearance('system');
+	}
+	
 	UpdateCounts();
+	 document.getElementById("rawData").focus();
 };
 
 window.addEventListener('resize', function() {
@@ -66,12 +79,25 @@ window.addEventListener('resize', function() {
 		}
 });
 
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-	anchor.addEventListener('click', function (e) {
-		e.preventDefault();
-
-		document.querySelector(this.getAttribute('href')).scrollIntoView({
-			behavior: 'smooth'
-		});
-	});
+document.addEventListener("DOMContentLoaded", function() {
+	console.log("Initializing app...")
 });
+
+var modal = document.getElementById("settingsModal");
+var btn = document.querySelector(".about-link");
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+	modal.classList.add("show");
+}
+
+span.onclick = function() {
+	modal.classList.remove("show");
+}
+
+window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.classList.remove("show");
+	}
+}
+

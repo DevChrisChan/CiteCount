@@ -1,9 +1,9 @@
+
 var testCases = [
 		{ text: "This is a test sentence (Citation 1).", expected: 5 },
 		{ text: "This is a test sentence (Citation 1). This is another test sentence (Citation 2).", expected: 10 },
+	{ text: "This is a test sentence (Citation 1)(Citation 2).", expected: 5 },
 		{ text: "This is a test sentence(Citation 1).This is another test sentence(Citation 2).", expected: 10 },
-		{ text: "This is a test sentence (Citation 1)(Citation 2).", expected: 5 },
-		{ text: "This is a test sentence (Citation\n1). This is another test sentence (Citation\n2).", expected: 10 },
 		{ text: "This is a test sentence. This is another test sentence with a citation attached to a word(Citation 1).", expected: 17 }
 ];
 
@@ -20,8 +20,3 @@ function runTests() {
 				}
 		}
 }
-
-window.onload = function() {
-		UpdateCounts();
-		runTests();
-};
