@@ -47,7 +47,7 @@ window.addEventListener('resize', function() {
 });
 
 window.addEventListener('beforeunload', function (e) {
-	if (localStorage.getItem('autoSave') == 'disabled' || localStorage.getItem('AutoSave') == 'disabled') {
+		if (localStorage.getItem('autoSave') == 'disabled' && localStorage.getItem('Warn') == 'enabled') {
 		var confirmationMessage = 'AutoSave is not enabled. Are you sure you want to leave?';
 		e.returnValue = confirmationMessage;
 		return confirmationMessage; 
