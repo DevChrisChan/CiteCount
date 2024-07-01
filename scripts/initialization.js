@@ -33,6 +33,11 @@ window.onload = function() {
 	if (localStorage.getItem('Citations') === 'disabled') {
 		document.getElementById('Citations').style.display = 'none';
 	}
+	var citationsCounter = document.getElementById("Citations");
+
+	citationsCounter.onclick = function() {
+		citationsModal.classList.add("show");
+	}
 	UpdateCounts();
 	console.log("App initialized.")
 };
@@ -46,10 +51,10 @@ window.addEventListener('resize', function() {
 });
 
 window.addEventListener('beforeunload', function (e) {
-		if (localStorage.getItem('autoSave') == 'disabled' && localStorage.getItem('Warn') == 'enabled') {
+	var rawData = document.getElementById("rawData").value;
+	if (localStorage.getItem('autoSave') == 'disabled' && localStorage.getItem('Warn') == 'enabled' && rawData.trim().length > 0) {
 		var confirmationMessage = 'AutoSave is not enabled. Are you sure you want to leave?';
 		e.returnValue = confirmationMessage;
 		return confirmationMessage; 
 	}
 });
-

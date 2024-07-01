@@ -31,14 +31,17 @@
 </head>
 
 <body>
+
+<!-- Navigation bar-->
   <nav class="navbar">
     <a href="index.html" class="nav-link">
       <!--<img class="logo" src="/sieve.png" alt="Logo">-->
       <span style="font-weight:900">CiteCount</span>
     </a>
-    <a data-lta-event="settings opened" href="#settings" class="about-link">Settings</a>
+    <a data-lta-event="settings opened" style="cursor: pointer" class="about-link">Settings</a>
   </nav>
   <div class="container">
+<!-- Notifications, Settings Modal, Citations Modal-->
     <div style="user-select: none;" id="notification"></div>
     <div style="user-select: none;" id="settingsModal" class="modal">
       <div class="modal-content">
@@ -140,8 +143,8 @@
           <span class="setting-name">CiteCount version</span>
           <div class="options">
             <p style="cursor: pointer"
-              onclick="navigator.clipboard.writeText('1.0 (77f775a)'); notify('CiteCount version copied to clipboard.')">
-              1.0 (77f775a)</p>
+              onclick="navigator.clipboard.writeText('1.0 (1A24b)'); notify('CiteCount version copied to clipboard.')">
+              1.0 (1A24b)</p>
           </div>
         </div>
         <div class="setting">
@@ -158,6 +161,19 @@
         </div>
       </div>
     </div>
+
+    <!-- Citations Modal -->
+    <div style="user-select: none;" id="citationsModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="title">Citations</span>
+          <span data-lta-event="close citations" class="close">×</span>
+        </div>
+        <div style="word-break: break-word; text-align: left; user-select: text;" id="citationList"></div>
+      </div>
+    </div>
+    
+<!-- Content -->
     <div class="counters">
       <div id="WordsWithoutCitations" class="counter">
         <div class="label">Words without citations</div>
@@ -175,7 +191,7 @@
         <div class="label">Characters with citations</div>
         <div class="value" id="charCountWithCitationsValue">initiating<span class="dots">...</span></div>
       </div>
-      <div id="Citations" class="counter">
+      <div style="cursor: pointer" id="Citations" class="counter" class="citations-link">
         <div class="label">Citations</div>
         <div class="value" id="citationCountValue">initiating<span class="dots">...</span></div>
       </div>
@@ -183,7 +199,7 @@
     <div class="textareas" id="splitContainer">
       <textarea spellcheck="true" id="rawData" oninput="UpdateCounts()"
         placeholder="Start typing, or paste your document here." style="flex-grow: 1;" autofocus></textarea>
-      <textarea id="formattedData" placeholder="Text without citation appears here." style="flex-grow: 1;"
+      <textarea id="formattedData" placeholder="Text without citation appears here. Click the Citations counter to view the list of in-text citations you have included in your text." style="flex-grow: 1;"
         readonly></textarea>
     </div>
   </div>
@@ -222,5 +238,6 @@
   <script src="/scripts/initialization.js"></script>
   <script src="/scripts/notifications.js"></script>
   <script src="/scripts/settings.js"></script>
+  <script src="/scripts/citations.js"></script>
 </body>
 </html>

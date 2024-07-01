@@ -14,6 +14,9 @@ window.onclick = function(event) {
 	if (event.target == modal) {
 		modal.classList.remove("show");
 	}
+	if (event.target == citationsModal) {
+		citationsModal.classList.remove("show");
+	}
 }
 
 document.onkeydown = function(event) {
@@ -23,10 +26,16 @@ document.onkeydown = function(event) {
 	} else {
 		isEscape = (event.keyCode === 27);
 	}
-	if (isEscape && modal.classList.contains('show')) {
-		modal.classList.remove("show");
+	if (isEscape) {
+		if (modal.classList.contains('show')) {
+			modal.classList.remove("show");
+		}
+		if (citationsModal.classList.contains('show')) {
+			citationsModal.classList.remove("show");
+		}
 	}
 };
+
 
 // Settings
 // Define the settings
@@ -42,43 +51,28 @@ var settings = [
 	{ name: 'Citations counter', id: 'Citations', default: 'enabled' }
 ];
 
-settings.forEach(function(setting) {
-	var enableButton = document.getElementById('enable' + setting.id);
-	var disableButton = document.getElementById('disable' + setting.id);
-	enableButton.onclick = function() {
-		var message = setting.name + " is enabled.";
-		localStorage.setItem(setting.id, 'enabled');
-		this.classList.add('active');
-		disableButton.classList.remove('active');
-		this.textContent = 'Enabled';
-		disableButton.textContent = 'Disable';
-		applySetting(setting.id, 'enabled');
-		if (setting.id === 'WordsWithoutCitations' || setting.id === 'CharsWithoutCitations' || setting.id === 'WordsWithCitations' || setting.id === 'CharsWithCitations' || setting.id === 'Citations') {
-			message = setting.name + " is enabled. Please reload for settings to take effect.";
-		}
-		notify(message);
-	}
+settings.forEach(setting => {
+	const enableButton = document.getElementById('enable' + setting.id);
+	const disableButton = document.getElementById('disable' + setting.id);
 
-	disableButton.onclick = function() {
-		var message = setting.name + " is disabled.";
-		if (setting.id === 'WordsWithoutCitations' || setting.id === 'CharsWithoutCitations' || setting.id === 'WordsWithCitations' || setting.id === 'CharsWithCitations' || setting.id === 'Citations') {
-			message = setting.name + " is disabled. Please reload for settings to take effect.";
-		}
+	const handleClick = (state, activeButton, inactiveButton) => {
+		let message = `${setting.name} is ${state}.`;
 		notify(message);
-		localStorage.setItem(setting.id, 'disabled');
-		this.classList.add('active');
-		enableButton.classList.remove('active');
-		this.textContent = 'Disabled';
-		enableButton.textContent = 'Enable';
-		applySetting(setting.id, 'disabled');
-	}
+		localStorage.setItem(setting.id, state);
+		activeButton.classList.add('active');
+		inactiveButton.classList.remove('active');
+		activeButton.textContent = state.charAt(0).toUpperCase() + state.slice(1);
+		inactiveButton.textContent = state === 'enabled' ? 'Disable' : 'Enable';
+		applySetting(setting.id, state);
+	};
 
-	// Set default settings
+	enableButton.onclick = () => handleClick('enabled', enableButton, disableButton);
+	disableButton.onclick = () => handleClick('disabled', disableButton, enableButton);
+
 	if (!localStorage.getItem(setting.id)) {
 		localStorage.setItem(setting.id, setting.default);
 	}
 
-	// Highlight appropriate settings on load
 	if (localStorage.getItem(setting.id) === 'enabled') {
 		enableButton.classList.add('active');
 		enableButton.textContent = 'Enabled';
@@ -88,34 +82,23 @@ settings.forEach(function(setting) {
 	}
 });
 
-
 function applySetting(id, state) {
 	switch (id) {
 		case 'Focus':
-			applyFocus(state);
+			document.getElementById('lander').style.display = state === 'enabled' ? 'none' : 'block';
 			break;
-	}
-	switch (id) {
+		case 'WordsWithoutCitations':
+		case 'CharsWithoutCitations':
+		case 'WordsWithCitations':
+		case 'CharsWithCitations':
+		case 'Citations':
+			document.getElementById(id).style.display = state === 'enabled' ? 'block' : 'none';
+			break;
 		case 'Spellcheck':
-			applySpellcheck(state);
+			document.getElementById("rawData").spellcheck = state === 'enabled';
 			break;
-	}
-}
-
-function applyFocus(state) {
-	if (state === 'enabled') {
-		document.getElementById('lander').style.display = 'none';
-	}
-	else if (state === 'disabled') {
-		document.getElementById('lander').style.display = 'block';
-	}
-}
-
-function applySpellcheck(state) {
-	if (state === 'enabled') {
-		document.getElementById("rawData").spellcheck = true;
-	}
-	else if (state === 'disabled') {
-		document.getElementById("rawData").spellcheck = false;
+		case 'autoSave':
+			localStorage.setItem('rawData', state === 'enabled' ? document.getElementById("rawData").value : '');
+			break;
 	}
 }
