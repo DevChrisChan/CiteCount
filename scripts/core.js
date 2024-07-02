@@ -1,20 +1,48 @@
 function WordCount(str) {
 	str = str.trim();
-	return str.length > 0 ? str.split(/\s+/).length : 0;
-}
+	var count = 0;
+	var inWord = false;
 
+	for (var i = 0; i < str.length; i++) {
+		if (/[\u4e00-\u9fa5\u3040-\u309F\u30A0-\u30FF]/.test(str[i]) && !/[\u3000-\u303F]/.test(str[i])) { // If the character is Chinese or Japanese and not punctuation
+			count++;
+			inWord = false;
+		} else if (/[\u3000-\u303F]/.test(str[i])) { // If the character is a punctuation mark
+			inWord = false;
+		} else if (/[\u0E00-\u0E7F]/.test(str[i])) { // If the character is Thai
+			if (!inWord) {
+				count++;
+				inWord = true;
+			}
+		} else if (/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(str[i])) { // If the character is Arabic
+			if (!inWord) {
+				count++;
+				inWord = true;
+			}
+		} else if (/\s/.test(str[i])) { // If the character is a space
+			inWord = false;
+		} else if (/[\w]/.test(str[i])) { // If the character is a word character (alphanumeric or underscore)
+			if (!inWord) {
+				count++;
+				inWord = true;
+			}
+		}
+	}
+
+	return count;
+}
 
 function UpdateCounts() {
 	var rawText = document.getElementById("rawData").value;
 	rawText = rawText.replace(/ +/g, ' ');
-	var formattedText = rawText.replace(/\s*\(.*?\)\s*/g, '');
+	var formattedText = rawText.replace(/\s*\(.*?\)\s*/g, '').replace(/\s*（.*?）\s*/g, '');
 	document.getElementById("formattedData").value = formattedText;
 
 	var wordCountNoCitations = WordCount(formattedText);
 	var charCountNoCitations = formattedText.length;
 	var wordCountWithCitations = WordCount(rawText);
 	var charCountWithCitations = rawText.length;
-	var citations = rawText.match(/\(.*?\)/g) || [];
+	var citations = rawText.match(/\(.*?\)/g) || rawText.match(/（.*?）/g) || [];
 	var citationCount = citations.length;
 
 	document.getElementById("wordCountNoCitationsValue").innerText = wordCountNoCitations;

@@ -1,3 +1,6 @@
+var version = '1.0 (1A29c)';
+document.getElementById('version').innerText = version;
+
 document.addEventListener("DOMContentLoaded", function() {
 	console.log("Initializing app...")
 });
@@ -58,3 +61,9 @@ window.addEventListener('beforeunload', function (e) {
 		return confirmationMessage; 
 	}
 });
+
+window.onerror = function(message, source) {
+		if (source === 'https://liteanalytics.com/lite.js') {
+				return true;
+		}
+};

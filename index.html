@@ -142,9 +142,9 @@
         <div class="setting">
           <span class="setting-name">CiteCount version</span>
           <div class="options">
-            <p style="cursor: pointer"
-              onclick="navigator.clipboard.writeText('1.0 (1A24b)'); notify('CiteCount version copied to clipboard.')">
-              1.0 (1A24b)</p>
+            <p id="version" style="cursor: pointer"
+              onclick="navigator.clipboard.writeText(this.innerText); notify('CiteCount version copied to clipboard.')">
+            </p>
           </div>
         </div>
         <div class="setting">
@@ -226,11 +226,14 @@
         <br> <br>
         Word counts are real time updated, so you can see the results as you type.
         <br> <br>
+        CiteCount supports languages from all over the world, and strives to provide 100% accurate word counting tools. CiteCount is proud to be more accurate than word-processing software such as Microsoft Word and Google Docs*. Our features expand as users use CiteCount. Feel free to submit feedback at cchc [at] duck [dot] com
+        <br> <br>
         Most importantly, this web application is ad free and open source. You can use it for free, without any
         restrictions. View the source on <a target="_blank" rel="noopener noreferrer"
           data-lta-event="github outbound click" href="https://github.com/DevChrisChan/CiteCount">GitHub</a>.
         <br> <br>
-      <p style="text-align: center">Project by Chris. Contact me at cchc [at] duck [dot] com.</p>
+        * Microsoft Word treats punctuation marks in Chinese as a word, however it shouldn't be included. CiteCount addresses this problem.<br> * Google Docs reports incorrect word counts with languages such as Chinese. It also incorrectly reports links as multiple words in English. CiteCount addresses this problem.
+        <p style="text-align: center">Project by Chris. Contact me at cchc [at] duck [dot] com.</p>
       </p>
     </div>
   </footer>
