@@ -1,4 +1,4 @@
-var version = '1.0 (1A29c)';
+var version = '2.0 (2A26c)';
 document.getElementById('version').innerText = version;
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.onload = function() {
-
 	document.getElementById("rawData").focus();
 
 	// Settings
@@ -36,22 +35,31 @@ window.onload = function() {
 	if (localStorage.getItem('Citations') === 'disabled') {
 		document.getElementById('Citations').style.display = 'none';
 	}
+	
+	if (window.innerHeight < 500 && window.innerWidth <= 767 ) {
+		if (localStorage.getItem('Focus') === 'disabled'){
+			notify('Problems using CiteCount? Enable Focus in settings.')
+		}	
+	}
+	
 	var citationsCounter = document.getElementById("Citations");
 
 	citationsCounter.onclick = function() {
 		citationsModal.classList.add("show");
 	}
+
+	if(!localStorage.getItem('Version')) {
+		localStorage.setItem('Version', version);
+	}
+
+	if(localStorage.getItem('Version') !== version) {
+		notify('CiteCount has been automatically updated to version ' + version + '.')
+		localStorage.setItem('Version', version);
+	}
+	
 	UpdateCounts();
 	console.log("App initialized.")
 };
-
-window.addEventListener('resize', function() {
-		if (window.innerWidth < 768) {
-				document.querySelector('textarea').style.height = ""; 
-		} else {
-				document.querySelector('textarea').style.width = "";
-		}
-});
 
 window.addEventListener('beforeunload', function (e) {
 	var rawData = document.getElementById("rawData").value;
@@ -62,8 +70,16 @@ window.addEventListener('beforeunload', function (e) {
 	}
 });
 
-window.onerror = function(message, source) {
+window.onerror = function(source) {
 		if (source === 'https://liteanalytics.com/lite.js') {
 				return true;
 		}
 };
+
+window.addEventListener("offline", () => {
+	notify("CiteCount is now working offline. You can keep using with full functionality.")
+});
+
+window.addEventListener("online", () => {
+	notify("CiteCount is now working online.")
+});

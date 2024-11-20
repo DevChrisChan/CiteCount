@@ -1,0 +1,76 @@
+@media (prefers-color-scheme: dark) {
+	#modal-header {
+		backdrop-filter: blur(2px);
+		background-color: rgba(63, 63, 63, 0.5)!important;
+	}
+	.description {
+		color: #fff!important;
+	}
+	#settingsModal {
+		background-color: rgba(40, 40, 40, 0.4);
+		color: #fff;
+	}
+	.modal-content {
+		background-color: #282828;
+		color: #fff;
+	}
+
+	#citationsModal {
+		background-color: rgba(40, 40, 40, 0.4);
+		color: #fff;
+	}
+	
+	body {
+		color: #fff;
+		background-color: #575757;
+	}
+
+	.navbar,
+	.footer {
+		background-color: #575757;
+		color: #fff;
+	}
+
+	.container {
+		background-color: #282828;
+	}
+
+	#result {
+		color: #8b8b8b;
+	}
+
+	textarea {
+		background-color: #3f3f3f;
+		color: #fff;
+	}
+
+	.counters>.counter {
+		background-color: #3f3f3f;
+		color: #fff;
+	}
+
+	#notification {
+		background-color: #fff !important;
+		color: #000 !important;
+	}
+	
+	.option {
+		background-color: #4a4a4a;
+		color: #fff;
+	}
+
+	.option:hover {
+		background-color: #282828;
+	}
+
+	.option.active {
+		background-color: #1a1a1a !important;
+		cursor: pointer;
+	}
+
+	.option.active:hover {
+		background-color: #0a0a0a !important;
+	}
+
+}
+

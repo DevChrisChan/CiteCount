@@ -1,0 +1,36 @@
+/* Drop handling screen */
+#overlay {
+	display: none;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 2;
+	cursor: pointer;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+#overlay::before {
+	content: "";
+	position: absolute;
+	border: 5px dotted white; 
+	width: 80%; 
+	height: 80%; 
+	top: 10%;
+	left: 10%;
+	border-radius: 3%; 
+	animation: enlargeUnlarge 1.5s infinite; 
+	box-sizing: border-box; 
+}
+
+@keyframes enlargeUnlarge {
+	0% { width: 80%; height: 80%; top: 10%; left: 10%; }
+	50% { width: 85%; height: 85%; top: 7.5%; left: 7.5%; }
+	100% { width: 80%; height: 80%; top: 10%; left: 10%; }
+}

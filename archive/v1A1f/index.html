@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <title>CitationSieve - Accurate Word Count Without Citations</title>
+  <meta name="description" content="CitationSieve is a web application that provides an accurate word count by excluding all citations from your text. Ideal for academic, professional, or personal use.">
+  <meta name="keywords" content="CitationSieve, Word Count, Citations, Text Analysis, Web Application">
+  <script type="application/ld+json">
+  {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CitationSieve",
+      "description": "A web application that provides an accurate word count by excluding all citations from your text.",
+      "applicationCategory": "Reference",
+      "operatingSystem": "All"
+  }
+  </script>
+</head>
+
+  <body>
+    <div class="container">
+      <div id="result" style="user-select: none;"></div>
+      <div class="textareas">
+        <textarea id="rawData" oninput="UpdateWordCount()" placeholder="Start typing, or paste your document here." style="flex-grow: 1;"></textarea>
+        <textarea id="formattedData" placeholder="Text without citation appears here." style="flex-grow: 1;" readonly></textarea>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+
+</html>

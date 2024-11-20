@@ -129,14 +129,16 @@ textarea {
 	}
 
 	.counters>.counter {
-		flex-basis: 100%;
-		margin-bottom: 10px;
+		flex-basis: calc(50% - 10px); /* Subtract double the margin */
+		margin: 5px;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+		box-sizing: border-box;
 	}
 }
+
 
 @media (min-width: 768px) {
 	.counters {
@@ -167,42 +169,6 @@ textarea {
 	font-weight: 900;
 }
 
-@media (prefers-color-scheme: dark) {
-	body {
-		background-color: #121212;
-		color: #fff;
-	}
-
-	.navbar,
-	.footer {
-		background-color: #575757;
-		color: #fff;
-	}
-
-	.container {
-		background-color: #282828;
-	}
-
-	#result {
-		color: #8b8b8b;
-	}
-
-	textarea {
-		background-color: #3f3f3f;
-		color: #fff;
-	}
-
-	.counters>.counter {
-		background-color: #3f3f3f;
-		color: #fff;
-	}
-
-	#notification {
-		background-color: #fff !important;
-		color: #000 !important;
-	}
-}
-
 .footer {
 	padding: 20px;
 	background-color: #333;
@@ -214,6 +180,7 @@ textarea {
 	text-align: left !important;
 	font-size: 1em;
 }
+
 
 .dots {
 	width: fit-content;
@@ -284,6 +251,11 @@ textarea {
 	text-align: center;
 	box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 	overflow: auto;
+	resize: both;
+	max-height: 90vh;
+	max-width: 90vw;
+	min-height: 50vh;
+	min-width: 50vw;
 }
 
 .modal-header {
@@ -294,7 +266,6 @@ textarea {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: rgba(255, 255, 255, 0.5);
 }
 
 .title {
@@ -346,14 +317,19 @@ textarea {
 
 .option.active {
 	background-color: #bbb !important;
+	cursor: pointer;
 }
+
+.option.active:hover {
+	background-color: #aaa !important;
+}
+
 
 .setting-description {
 	display: flex;
 	flex-direction: column;
 	margin-right: 5px;
 }
-
 
 .description {
 	font-size: 0.9em;

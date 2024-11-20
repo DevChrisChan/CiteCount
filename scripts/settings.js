@@ -6,6 +6,13 @@ btn.onclick = function() {
 	modal.classList.add("show");
 }
 
+document.addEventListener('keydown', function(event) {
+		if ((event.ctrlKey || event.metaKey) && event.key === ',') {
+			modal.classList.add("show");
+			event.preventDefault();
+		}
+});
+
 span.onclick = function() {
 	modal.classList.remove("show");
 }
@@ -36,9 +43,6 @@ document.onkeydown = function(event) {
 	}
 };
 
-
-// Settings
-// Define the settings
 var settings = [
 	{ name: 'AutoSave', id: 'autoSave', default: 'enabled' },
 	{ name: 'Warn on leave', id: 'Warn', default: 'enabled' },
@@ -51,21 +55,23 @@ var settings = [
 	{ name: 'Citations counter', id: 'Citations', default: 'enabled' }
 ];
 
-settings.forEach(setting => {
-	const enableButton = document.getElementById('enable' + setting.id);
-	const disableButton = document.getElementById('disable' + setting.id);
+	settings.forEach(setting => {
+		const enableButton = document.getElementById('enable' + setting.id);
+		const disableButton = document.getElementById('disable' + setting.id);
 
-	const handleClick = (state, activeButton, inactiveButton) => {
-		let message = `${setting.name} is ${state}.`;
-		notify(message);
-		localStorage.setItem(setting.id, state);
-		activeButton.classList.add('active');
-		inactiveButton.classList.remove('active');
-		activeButton.textContent = state.charAt(0).toUpperCase() + state.slice(1);
-		inactiveButton.textContent = state === 'enabled' ? 'Disable' : 'Enable';
-		applySetting(setting.id, state);
-	};
-
+		const handleClick = (state, activeButton, inactiveButton) => {
+			let currentState = localStorage.getItem(setting.id);
+			if (currentState !== state) {
+				let message = `${setting.name} is ${state}.`;
+				notify(message);
+				localStorage.setItem(setting.id, state);
+				activeButton.classList.add('active');
+				inactiveButton.classList.remove('active');
+				activeButton.textContent = state.charAt(0).toUpperCase() + state.slice(1);
+				inactiveButton.textContent = state === 'enabled' ? 'Disable' : 'Enable';
+				applySetting(setting.id, state);
+			}
+		};
 	enableButton.onclick = () => handleClick('enabled', enableButton, disableButton);
 	disableButton.onclick = () => handleClick('disabled', disableButton, enableButton);
 

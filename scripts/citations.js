@@ -6,8 +6,8 @@ citationsCounter.onclick = function() {
 }
 
 var citationsModal = document.getElementById("citationsModal");
-var citationsBtn = document.querySelector(".citations-link"); // Add this class to your citations counter
-var citationsSpan = document.getElementsByClassName("close")[1]; // Assuming this is the second modal
+var citationsBtn = document.querySelector(".citations-link");
+var citationsSpan = document.getElementsByClassName("close")[1];
 
 citationsSpan.onclick = function() {
 	citationsModal.classList.remove("show");

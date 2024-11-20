@@ -4,7 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/style.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/dark.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/drop.css" rel="stylesheet" type="text/css" />
   <title>CiteCount - Count Words without In-text Citations</title>
   <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
   <meta name="description"
@@ -29,24 +31,41 @@
   <script defer async data-host="citecount.netlify.app" data-events="true"
     src="https://liteanalytics.com/lite.js"></script>
 </head>
-
 <body>
+<!-- JavaScript not enabled -->
+  <noscript>
+    <div style="background-color: yellow; padding: 10px;">
+      <p><strong>JavaScript is not enabled!</strong></p>
+      <p>CiteCount is built as a client-side JavaScript application to ensure your files are not sent to servers to process. Hence, JavaScript has to be enabled for CiteCount to function properly.</p>
+    </div>
+  </noscript>
 
+<!-- Drop area -->
+  <div id="overlay">
+    <div>
+      <h1 id="overlayText" style="color:white;">Drop your file to import into CiteCount.</h1>
+      <p style="color:white">Only Microsoft Word files (.docx and .doc) are supported.<br>Your document stays securely within your device. All operations are performed locally in your browser.</p>
+    </div>
+  </div>
+  
 <!-- Navigation bar-->
   <nav class="navbar">
-    <a href="index.html" class="nav-link">
-      <!--<img class="logo" src="/sieve.png" alt="Logo">-->
-      <span style="font-weight:900">CiteCount</span>
-    </a>
+      <a href="/" class="nav-link">
+      <span style="font-weight:900">CiteCount</span></a>
     <a data-lta-event="settings opened" style="cursor: pointer" class="about-link">Settings</a>
   </nav>
+  <p id="message">
+    We'd like to invite you to <a target="_blank" rel="noopener noreferrer"
+      data-lta-event="survey outbound click" href="https://forms.gle/75BvyudP82DxZkfAA">fill in a survey</a> to improve CiteCount.
+    <span style="text-decoration: underline; cursor: pointer;" onclick="document.getElementById('message').style.display='none';">[dismiss]</span>
+  </p>
   <div class="container">
 <!-- Notifications, Settings Modal, Citations Modal-->
-    <div style="user-select: none;" id="notification"></div>
-    <div style="user-select: none;" id="settingsModal" class="modal">
+    <div style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;" id="notification">There is an error displaying this notification.</div>
+    <div style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;" id="settingsModal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
-          <span class="title">Settings</span>
+          <span data-lta-event="open settings" class="title">Settings</span>
           <span data-lta-event="close settings" class="close">×</span>
         </div>
         <div class="setting-name">Editing</div>
@@ -148,13 +167,38 @@
           </div>
         </div>
         <div class="setting">
+          <span class="setting-name">What's new</span>
+          <div class="options">
+            <p>
+              - Added changelog<br>
+              - Now supports word counting in over 100 languages<br>
+              - Dark mode support for settings and citations modal<br>
+              - Counters take less space on mobile<br>
+              - Settings menu is now resizable<br>
+              - Added archive for older versions of CiteCount<br>
+              - Users will be notified when CiteCount has been updated<br>
+              - Support for drag and dropping Word files<br>
+              - Command / control + , now opens settings
+            </p>
+          </div>
+        </div>
+        <!--<div class="setting">
+          <span class="setting-name">Load previous versions</span>
+          <div class="options">
+            <p>
+              <a href="/archive/v1A1f">Initial beta</a>
+              <a href="/archive/v1A10d">Initial release</a>
+            </p>
+          </div>
+        </div>-->
+        <div class="setting">
           <div class="setting-description">
             <span class="setting-name">Reset all settings</span>
             <p class="description">Requires app restart to take effect. AutoSave data will be lost. Recommended if
               CiteCount is not working as expected.</p>
           </div>
           <div class="options">
-            <button style="color: red!important;"
+            <button style="color: #DC143C!important;"
               onclick="localStorage.clear();notify('All settings have been reset. Reload app to take effect. Save text before reloading to avoid losing work.')"
               class="option">Reset All Settings</button>
           </div>
@@ -177,29 +221,29 @@
     <div class="counters">
       <div id="WordsWithoutCitations" class="counter">
         <div class="label">Words without citations</div>
-        <div class="value" id="wordCountNoCitationsValue">initiating<span class="dots">...</span></div>
+        <div class="value" id="wordCountNoCitationsValue"><span class="dots">...</span></div>
       </div>
       <div id="CharsWithoutCitations" class="counter">
         <div class="label">Characters without citations</div>
-        <div class="value" id="charCountNoCitationsValue">initiating<span class="dots">...</span></div>
+        <div class="value" id="charCountNoCitationsValue"><span class="dots">...</span></div>
       </div>
       <div id="WordsWithCitations" class="counter">
         <div class="label">Words with citations</div>
-        <div class="value" id="wordCountWithCitationsValue">initiating<span class="dots">...</span></div>
+        <div class="value" id="wordCountWithCitationsValue"><span class="dots">...</span></div>
       </div>
       <div id="CharsWithCitations" class="counter">
         <div class="label">Characters with citations</div>
-        <div class="value" id="charCountWithCitationsValue">initiating<span class="dots">...</span></div>
+        <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
       </div>
       <div style="cursor: pointer" id="Citations" class="counter" class="citations-link">
         <div class="label">Citations</div>
-        <div class="value" id="citationCountValue">initiating<span class="dots">...</span></div>
+        <div class="value" id="citationCountValue"><span class="dots">...</span></div>
       </div>
     </div>
     <div class="textareas" id="splitContainer">
       <textarea spellcheck="true" id="rawData" oninput="UpdateCounts()"
-        placeholder="Start typing, or paste your document here." style="flex-grow: 1;" autofocus></textarea>
-      <textarea id="formattedData" placeholder="Text without citation appears here. Click the Citations counter to view the list of in-text citations you have included in your text." style="flex-grow: 1;"
+        placeholder="Start typing, or paste the content of your document here, or drag and drop your Word document directly into CiteCount." style="flex-grow: 1;" autofocus></textarea>
+      <textarea id="formattedData" placeholder="Text without in-text citations appears here. Click the Citations counter to view the list of in-text citations you have included in your text." style="flex-grow: 1;"
         readonly></textarea>
     </div>
   </div>
@@ -233,7 +277,12 @@
           data-lta-event="github outbound click" href="https://github.com/DevChrisChan/CiteCount">GitHub</a>.
         <br> <br>
         * Microsoft Word treats punctuation marks in Chinese as a word, however it shouldn't be included. CiteCount addresses this problem.<br> * Google Docs reports incorrect word counts with languages such as Chinese. It also incorrectly reports links as multiple words in English. CiteCount addresses this problem.
-        <p style="text-align: center">Project by Chris. Contact me at cchc [at] duck [dot] com.</p>
+
+        <br> <br>
+     
+        <p style="text-align: center">Project by Chris. Contact me at cchc [at] duck [dot] com.<br>   <a target="_blank" rel="noopener noreferrer"
+          data-lta-event="privacy policy outbound click" href="/privacy-policy.html">Privacy policy</a> • <a target="_blank" rel="noopener noreferrer"
+          data-lta-event="tos outbound click" href="/tos.html">Terms of Service</a></p><br>
       </p>
     </div>
   </footer>
@@ -242,5 +291,8 @@
   <script src="/scripts/notifications.js"></script>
   <script src="/scripts/settings.js"></script>
   <script src="/scripts/citations.js"></script>
+  <script src="/scripts/drop.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
 </body>
 </html>
