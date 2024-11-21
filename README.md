@@ -10,3 +10,6 @@ Changelog:
 - Users will be notified when CiteCount has been updated
 - Support for drag and drop (Only word files supported currently. This will be expanded soon.)
 - Command / control + , now opens settings
+- Keyboard shortcuts modal
+- Notifications will countdown before disappearing
+- New blogs

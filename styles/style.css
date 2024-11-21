@@ -197,28 +197,40 @@ textarea {
 }
 
 #notification {
-	visibility: hidden;
-	min-width: 250px;
-	background-color: #333;
-	color: #fff;
-	text-align: center;
-	border-radius: 5px;
-	padding: 16px;
-	position: fixed;
-	z-index: 10;
-	left: 50%;
-	bottom: 30px;
-	font-size: 1em;
-	opacity: 0;
-	transition: opacity 1s;
-	box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
-	cursor: pointer;
-	transform: translateX(-50%);
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px;
+    position: fixed;
+    z-index: 10;
+    left: 50%;
+    bottom: 30px;
+    font-size: 1em;
+    opacity: 0;
+    transition: opacity 1s;
+    box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transform: translateX(-50%);
 }
 
 #notification.show {
-	visibility: visible;
-	opacity: 1;
+    visibility: visible;
+    opacity: 1;
+}
+
+#progress-bar {
+    height: 4px; 
+    background-color: #fff;
+	opacity: 75%; 
+    width: 100%; 
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.1s linear; 
+    border-bottom-left-radius: 5px; 
 }
 
 .modal {
