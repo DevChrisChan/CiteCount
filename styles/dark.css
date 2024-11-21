@@ -71,6 +71,17 @@
 	.option.active:hover {
 		background-color: #0a0a0a !important;
 	}
-
+	#links {
+		text-decoration: none;
+		opacity: 80%;
+		color: #fff;
+	}
+	.blog {
+		color: #fff;
+		background-color: #282828;
+	}
+	.note {
+		background-color: #f8f9fa!important;
+        border-left: 5px solid #fff!important;
+	}
 }
-

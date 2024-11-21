@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+Disallow: /archive
+Sitemap: https://citecount.netlify.app/sitemap.xml
