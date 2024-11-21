@@ -24,6 +24,9 @@ window.onclick = function(event) {
 	if (event.target == citationsModal) {
 		citationsModal.classList.remove("show");
 	}
+	if (event.target == shortcutsModal) {
+		shortcutsModal.classList.remove("show");
+	}
 }
 
 document.onkeydown = function(event) {
@@ -39,6 +42,9 @@ document.onkeydown = function(event) {
 		}
 		if (citationsModal.classList.contains('show')) {
 			citationsModal.classList.remove("show");
+		}
+		if (shortcutsModal.classList.contains('show')) {
+			shortcutsModal.classList.remove("show");
 		}
 	}
 };
@@ -108,3 +114,10 @@ function applySetting(id, state) {
 			break;
 	}
 }
+
+document.addEventListener('keydown', function(event) {
+	if ((event.ctrlKey || event.metaKey) && event.key === '/') {
+		shortcutsModal.classList.add("show");
+		event.preventDefault();
+	}
+});

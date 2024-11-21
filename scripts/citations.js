@@ -13,3 +13,11 @@ citationsSpan.onclick = function() {
 	citationsModal.classList.remove("show");
 }
 
+document.addEventListener('keydown', function(event) {
+	if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+		citationsModal.classList.add("show");
+		event.preventDefault();
+	}
+});
+
+

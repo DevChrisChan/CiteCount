@@ -389,3 +389,36 @@ a {
 .back-button:hover {
 	background-color: #999;
 }
+
+.shortcut {
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.shortcut:last-child {
+	border-bottom: none;
+}
+
+.key, .command {
+	background-color: #eee;
+	color: #000;
+	padding: 5px 10px;
+	border-radius: 4px;
+	font-weight: bold;
+	margin-right: 2px;
+}
+
+.plus {
+	margin: 0 2px;
+	font-weight: bold;
+	color: #333;
+}
+
+.scdescription {
+	flex-grow: 1;
+	text-align: right!important;
+	color: #555;
+	text-align: left;
+}
