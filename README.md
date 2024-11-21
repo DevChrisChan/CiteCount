@@ -10,5 +10,3 @@ Changelog:
 - Users will be notified when CiteCount has been updated
 - Support for drag and drop (Only word files supported currently. This will be expanded soon.)
 - Command / control + , now opens settings
-
-cannot be shipped until settings and citations modal dark mode is fixed, also chinese word count is incorrect right now
