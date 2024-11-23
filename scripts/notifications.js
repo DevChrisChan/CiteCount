@@ -23,7 +23,7 @@ var timeoutId;
             notification.classList.remove("show");
             notification.style.opacity = 0;
             setTimeout(function () { notification.style.opacity = ""; }, 1000);
-        }, 5000);
+        }, 5300);
 
         // Start progress bar countdown
         var timeLeft = 5000;

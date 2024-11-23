@@ -20,4 +20,17 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
-
+document.querySelectorAll('.counter').forEach(counter => {
+	counter.addEventListener('click', function() {
+	  const countValue = this.getAttribute('data-value');
+	  
+	  // Create a temporary textarea to hold the count value
+	  const tempInput = document.createElement('textarea');
+	  tempInput.value = countValue;
+	  document.body.appendChild(tempInput);
+	  tempInput.select();
+	  document.execCommand('copy');
+	  document.body.removeChild(tempInput);
+	
+	});
+  });

@@ -1,11 +1,18 @@
 var version = '2.0 (2A26c)';
-document.getElementById('version').innerText = version;
-
-document.addEventListener("DOMContentLoaded", function() {
-	console.log("Initializing app...")
+function getTimestamp() {
+	const now = new Date();
+	const hours = String(now.getHours()).padStart(2, '0');
+	const minutes = String(now.getMinutes()).padStart(2, '0');
+	const seconds = String(now.getSeconds()).padStart(2, '0');
+	return `[${hours}:${minutes}:${seconds}]`;
+}
+let startTime;
+document.addEventListener("DOMContentLoaded", function () {
+	startTime = performance.now();
+	console.log(getTimestamp() + " Initializing app...")
 });
 
-window.onload = function() {
+window.onload = function () {
 	document.getElementById("rawData").focus();
 
 	// Settings
@@ -13,8 +20,8 @@ window.onload = function() {
 	if (localStorage.getItem('autoSave') === 'enabled' || localStorage.getItem('AutoSave') === 'enabled') {
 		var savedText = localStorage.getItem('rawData');
 		if (savedText) {
-				document.getElementById('rawData').value = savedText;
-				notify("Successfully restored from AutoSave.")
+			document.getElementById('rawData').value = savedText;
+			notify("Successfully restored from AutoSave.")
 		}
 	}
 	if (localStorage.getItem('Focus') === 'enabled') {
@@ -35,30 +42,32 @@ window.onload = function() {
 	if (localStorage.getItem('Citations') === 'disabled') {
 		document.getElementById('Citations').style.display = 'none';
 	}
-	
-	if (window.innerHeight < 500 && window.innerWidth <= 767 ) {
-		if (localStorage.getItem('Focus') === 'disabled'){
+
+	if (window.innerHeight < 500 && window.innerWidth <= 767) {
+		if (localStorage.getItem('Focus') === 'disabled') {
 			notify('Problems using CiteCount? Enable Focus in settings.')
-		}	
+		}
 	}
-	
+
 	var citationsCounter = document.getElementById("Citations");
 
-	citationsCounter.onclick = function() {
+	citationsCounter.onclick = function () {
 		citationsModal.classList.add("show");
 	}
 
-	if(!localStorage.getItem('Version')) {
+	if (!localStorage.getItem('Version')) {
 		localStorage.setItem('Version', version);
 	}
 
-	if(localStorage.getItem('Version') !== version) {
+	if (localStorage.getItem('Version') !== version) {
 		notify('CiteCount has been automatically updated to version ' + version + '.')
 		localStorage.setItem('Version', version);
+		console.log(getTimestamp() + ' CiteCount updated to version ' + version + '.')
 	}
-	
 	UpdateCounts();
-	console.log("App initialized.")
+	const endTime = performance.now();
+	const timeTaken = (endTime - startTime).toFixed(2);
+	console.log(getTimestamp() + ` App initialized. (${timeTaken} ms)`)
 };
 
 window.addEventListener('beforeunload', function (e) {
@@ -66,14 +75,20 @@ window.addEventListener('beforeunload', function (e) {
 	if (localStorage.getItem('autoSave') == 'disabled' && localStorage.getItem('Warn') == 'enabled' && rawData.trim().length > 0) {
 		var confirmationMessage = 'AutoSave is not enabled. Are you sure you want to leave?';
 		e.returnValue = confirmationMessage;
-		return confirmationMessage; 
+		return confirmationMessage;
 	}
 });
 
-window.onerror = function(source) {
-		if (source === 'https://liteanalytics.com/lite.js') {
-				return true;
-		}
+window.onerror = function (message, source, lineno, colno, error) {
+	const errorMessage = `An error occured, please contact the developers.\n` + `Error: ${message}\n` +
+		`Source: ${source}\n` +
+		`Line: ${lineno}\n` +
+		`Column: ${colno}\n` +
+		`Stack: ${error ? error.stack : 'N/A'}`;
+	notify(errorMessage)
+	if (source === 'https://liteanalytics.com/lite.js') {
+		return true;
+	}
 };
 
 window.addEventListener("offline", () => {
@@ -83,3 +98,16 @@ window.addEventListener("offline", () => {
 window.addEventListener("online", () => {
 	notify("CiteCount is now working online.")
 });
+
+// Register the service worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch((error) => {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
+}

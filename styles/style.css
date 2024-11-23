@@ -123,6 +123,10 @@ textarea {
 	box-sizing: border-box;
 }
 
+.counters>.counter:hover {
+	background-color: #e0e0e0;
+}
+
 @media (max-width: 767px) {
 	.options {
 		flex-direction: column;

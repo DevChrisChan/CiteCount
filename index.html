@@ -272,34 +272,34 @@
 
     <!-- Content -->
     <div class="counters">
-      <div id="WordsWithoutCitations" class="counter">
+      <div id="WordsWithoutCitations" class="counter" data-value="0">
         <div class="label">Words without citations</div>
         <div class="value" id="wordCountNoCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div id="CharsWithoutCitations" class="counter">
+      <div id="CharsWithoutCitations" class="counter" data-value="0">
         <div class="label">Characters without citations</div>
         <div class="value" id="charCountNoCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div id="WordsWithCitations" class="counter">
+      <div id="WordsWithCitations" class="counter" data-value="0">
         <div class="label">Words with citations</div>
         <div class="value" id="wordCountWithCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div id="CharsWithCitations" class="counter">
+      <div id="CharsWithCitations" class="counter" data-value="0">
         <div class="label">Characters with citations</div>
         <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div style="cursor: pointer" id="Citations" class="counter" class="citations-link">
+      <div style="cursor: pointer" id="Citations" class="counter citations-link" data-value="0">
         <div class="label">Citations</div>
         <div class="value" id="citationCountValue"><span class="dots">...</span></div>
       </div>
     </div>
     <div class="textareas" id="splitContainer">
       <textarea spellcheck="true" id="rawData" oninput="UpdateCounts()"
-        placeholder="Start typing, or paste the content of your document here, or drag and drop your Word document directly into CiteCount."
+        placeholder="Start typing, paste your document, or drag and drop your Word document directly into CiteCount."
         style="flex-grow: 1;" autofocus></textarea>
-      <textarea id="formattedData"
+      <!--<textarea id="formattedData"
         placeholder="Text without in-text citations appears here. Click the Citations counter to view the list of in-text citations you have included in your text."
-        style="flex-grow: 1;" readonly></textarea>
+        style="flex-grow: 1;" readonly></textarea>-->
     </div>
   </div>
   <footer>

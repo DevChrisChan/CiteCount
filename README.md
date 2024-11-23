@@ -13,3 +13,4 @@ Changelog:
 - Keyboard shortcuts modal
 - Notifications will countdown before disappearing
 - New blogs
+- Clicking counter now copies the word count
