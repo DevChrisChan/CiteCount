@@ -13,6 +13,30 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 window.onload = function () {
+	
+	/*const url = 'https://raw.githubusercontent.com/DevChrisChan/Notifications/refs/heads/main/notification.txt';
+
+	setTimeout(function() {
+		fetch(url)
+			.then(response => {
+				if (!response.ok) throw new Error('Error fetching notifications');
+				return response.text();
+			})
+			.then(data => {
+				document.getElementById('content').innerHTML = data; // Use innerHTML to parse HTML content
+				document.getElementById('banner').style.display = 'block'; // Show the banner
+			})
+			.catch(error => {
+				document.getElementById('content').innerText = 'Failed to load content: ' + error.message;
+				document.getElementById('banner').style.display = 'block'; // Show the banner even if there's an error
+			});
+	}, 1000); // 1000 milliseconds = 1 second
+
+	document.getElementById('dismissButton').onclick = function() {
+		document.getElementById('banner').style.display = 'none'; // Hide the banner on click
+	};
+    */
+	
 	document.getElementById("rawData").focus();
 
 	// Settings
@@ -104,10 +128,10 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-                console.log('Service Worker registered with scope:', registration.scope);
+                console.log(getTimestamp() + ' CiteCount installed, ready to run offline.');
             })
             .catch((error) => {
-                console.error('Service Worker registration failed:', error);
+                console.error(getTimestamp() + ' There is an error while installing CiteCount:', error);
             });
     });
 }
