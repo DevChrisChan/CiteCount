@@ -491,11 +491,46 @@ a {
 }
 
 .banner-message {
-	flex-grow: 1; /* Allow message to take up remaining space */
+	flex-grow: 1; 
 }
 
 .banner-dismiss {
 	cursor: pointer;
 	margin-left: 10px;
 	font-weight: bold;
+}
+
+#citationList {
+    max-height: 90%; 
+    overflow-y: auto; 
+    position: relative; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+tfoot {
+    position: sticky;
+    bottom: 0; 
+    background-color: #f4f4f4;
+    z-index: 10;
+}
+
+tr:hover {
+    background-color: #e9e9e9; /* Subtle hover effect */
 }

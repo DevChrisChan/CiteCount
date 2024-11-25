@@ -33,27 +33,114 @@ function WordCount(str) {
 }
 
 function UpdateCounts() {
-    var rawText = document.getElementById("rawData").value;
+    var textarea = document.getElementById("rawData");
+    var rawText = textarea.value;
+    var selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+    var isTextSelected = selectedText.length > 0;
+
     rawText = rawText.replace(/ +/g, ' ');
-    var formattedText = rawText.replace(/\s*\(.*?\)\s*/g, '').replace(/\s*（.*?）\s*/g, '');
-    //document.getElementById("formattedData").value = formattedText;
-
-    var wordCountNoCitations = WordCount(formattedText);
-    var charCountNoCitations = formattedText.length;
-    var wordCountWithCitations = WordCount(rawText);
-    var charCountWithCitations = rawText.length;
     var citations = rawText.match(/\(.*?\)/g) || rawText.match(/（.*?）/g) || [];
-    var citationCount = citations.length;
+    
+    // Store original citation information for later use
+    window.citationsData = citations.map(citation => ({
+        text: citation,
+        wordCount: WordCount(citation),
+        included: true
+    }));
 
+    recalculateAllCounts(isTextSelected, selectedText);
+}
+
+function recalculateAllCounts(isTextSelected = false, selectedText = '') {
+    var rawText = document.getElementById("rawData").value;
+    var formattedText = rawText;
+    var textToAnalyze = isTextSelected ? selectedText : rawText;
+    var formattedTextToAnalyze = textToAnalyze;
+
+    // Only remove citations that are still included
+    window.citationsData.forEach((citation, index) => {
+        if (citation.included) {
+            formattedTextToAnalyze = formattedTextToAnalyze.replace(citation.text, '');
+        }
+    });
+
+    var wordCountNoCitations = WordCount(formattedTextToAnalyze);
+    var charCountNoCitations = formattedTextToAnalyze.length;
+    var wordCountWithCitations = WordCount(textToAnalyze);
+    var includedCitationsCount = isTextSelected ? 
+        (textToAnalyze.match(/\(.*?\)/g) || textToAnalyze.match(/（.*?）/g) || []).length :
+        window.citationsData.filter(c => c.included).length;
+
+    // Update display elements with count information
     document.getElementById("wordCountNoCitationsValue").innerText = wordCountNoCitations;
     document.getElementById("charCountNoCitationsValue").innerText = charCountNoCitations;
     document.getElementById("wordCountWithCitationsValue").innerText = wordCountWithCitations;
-    document.getElementById("charCountWithCitationsValue").innerText = charCountWithCitations;
-    document.getElementById("citationCountValue").innerText = citationCount;
+    document.getElementById("charCountWithCitationsValue").innerText = textToAnalyze.length;
+    document.getElementById("citationCountValue").innerText = includedCitationsCount;
 
+    // Add selection indicator if text is selected
+    const countLabels = document.querySelectorAll('.count-label');
+    countLabels.forEach(label => {
+        if (isTextSelected) {
+            label.textContent = label.textContent.replace(' (Selected)', '') + ' (Selected)';
+        } else {
+            label.textContent = label.textContent.replace(' (Selected)', '');
+        }
+    });
+
+    // Generate Citation List
     var citationList = document.getElementById("citationList");
-    if (citations.length > 0) {
-        citationList.innerHTML = citations.map((citation, index) => `<span style="user-select: none;">${index + 1}.</span> ${citation}`).join('<br>');
+
+    if (window.citationsData.length > 0) {
+        const includedCitationsWordCount = window.citationsData
+            .filter(c => c.included)
+            .reduce((sum, citation) => sum + citation.wordCount, 0);
+
+        const citationTable = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Citation #</th>
+                        <th>In-text Citation</th>
+                        <th>Word Count</th>
+                        <th>Include</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${window.citationsData.map((citation, index) => {
+                        const citationId = `citation-${index}`;
+                        return `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${citation.text}</td>
+                                <td>${citation.wordCount}</td>
+                                <td>
+                                    <input type="checkbox" 
+                                           id="${citationId}" 
+                                           ${citation.included ? 'checked' : ''} 
+                                           onchange="updateCitationInclusion(${index})">
+                                </td>
+                            </tr>
+                        `;
+                    }).join('')}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Total Included Citations Word Count</td>
+                        <td colspan="2" id="totalCitationWords">${includedCitationsWordCount}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Words without Citations</td>
+                        <td colspan="2">${wordCountNoCitations}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Total Words</td>
+                        <td colspan="2">${wordCountWithCitations}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        `;
+        citationList.innerHTML = citationTable;
     } else {
         citationList.innerHTML = "There are currently no in-text citations.";
     }
@@ -63,3 +150,17 @@ function UpdateCounts() {
         localStorage.setItem('rawData', rawText);
     }
 }
+
+function updateCitationInclusion(citationIndex) {
+    const checkbox = document.getElementById(`citation-${citationIndex}`);
+    window.citationsData[citationIndex].included = checkbox.checked;
+    recalculateAllCounts();
+}
+
+document.getElementById("rawData").addEventListener('mouseup', function() {
+    UpdateCounts();
+});
+
+document.getElementById("rawData").addEventListener('keyup', function() {
+    UpdateCounts();
+});

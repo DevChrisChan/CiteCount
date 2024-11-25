@@ -34,3 +34,5 @@ document.querySelectorAll('.counter').forEach(counter => {
 	
 	});
   });
+
+

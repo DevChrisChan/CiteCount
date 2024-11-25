@@ -24,7 +24,12 @@
 		color: #fff;
 		background-color: #575757;
 	}
-
+	.close:hover,
+	.close:focus {
+		color: #fff;
+		text-decoration: none;
+		cursor: pointer;
+	}
 	.navbar,
 	.footer {
 		background-color: #575757;
@@ -80,6 +85,13 @@
 		color: #fff;
 		background-color: #282828;
 	}
+	.blog>p {
+		color: #fff;
+	}
+	#progress-bar {
+		background-color: #141414;
+		opacity: 100%!important;
+	}
 	.note {
 		background-color: #f8f9fa!important;
         border-left: 5px solid #fff!important;
@@ -90,4 +102,33 @@
 	.logo {
 		filter: invert(1);
 	}
+	.scdescription {
+		color: #fff;
+	}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #1e1e1e; /* Dark header background */
+    position: sticky;
+    top: 0; /* Stick to the top */
+    z-index: 10; /* Ensure it is above other content */
+}
+
+tfoot {
+    position: sticky;
+    bottom: 0; /* Stick to the bottom */
+    background-color: #1e1e1e; /* Dark footer background */
+    z-index: 10; /* Ensure it is above other content */
+}
+tr:hover {
+    background-color: #555; /* Dark mode hover effect */
+}
 }

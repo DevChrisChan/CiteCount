@@ -11,7 +11,7 @@
   <meta property="og:title" content="CiteCount - Count Words without In-text Citations" />
   <meta property="og:description"
     content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
-  <meta property="og:image" content="/assets/mockup1.png" />
+  <meta property="og:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
   <meta property="og:url" content="https://citecount.netlify.app" />
   <meta property="og:type" content="website" />
   <meta name="twitter:image" content="/assets/mockup1.png" />
@@ -210,15 +210,9 @@
           <span class="setting-name">What's new</span>
           <div class="options">
             <p>
-              - Added changelog<br>
-              - Now supports word counting in over 100 languages<br>
-              - Dark mode support for settings and citations modal<br>
-              - Counters take less space on mobile<br>
-              - Settings menu is now resizable<br>
-              - Added archive for older versions of CiteCount<br>
-              - Users will be notified when CiteCount has been updated<br>
-              - Support for drag and dropping Word files<br>
-              - Command / control + , now opens settings
+              - You can now manually exclude citations from being counted by clicking the citations counter<br>
+              - Citations modal has a new design<br>
+              - Selecting text in text box will now dynamically update word counts<br>
             </p>
           </div>
         </div>
@@ -310,9 +304,11 @@
         <div class="label">Characters with citations</div>
         <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div style="cursor: pointer" id="Citations" class="counter citations-link" data-value="0">
+      <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link" data-value="0">
         <div class="label">Citations</div>
-        <div class="value" id="citationCountValue"><span class="dots">...</span></div>
+        
+        <div class="value" id="citationCountValue"><span class="dots">...</span><div id="citationList"></div>
+        <div id="totalWordCount"></div></div>
       </div>
     </div>
     <div class="textareas" id="splitContainer">
@@ -328,16 +324,6 @@
     <div id="lander" class="lander">
       <h1>Welcome to CiteCount</h1>
       <p>Word counting solution for students and researchers.</p>
-      <h2>
-        CiteCount blogs
-      </h2>
-      <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
-        href="/blogs/ee-wordcount.html">
-        <div class="blog">
-          <h2>What is included in the word count of an IB Extended Essay?</h2>
-          <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
-        </div>
-      </a>
       <h2>
         What is CiteCount?
       </h2>
@@ -371,7 +357,16 @@
         Most importantly, this web application is ad-free and open-source. You can use it for free, without any
         restrictions.
       </p>
-
+      <h2>
+        CiteCount blogs
+      </h2>
+      <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
+        href="/blogs/ee-wordcount.html">
+        <div class="blog">
+          <h2>What is included in the word count of an IB Extended Essay?</h2>
+          <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
+        </div>
+      </a>
       <p style="text-align: center">&copy; 2024 CiteCount. All rights reserved.<br><a id="links" target="_blank"
           rel="noopener noreferrer" data-lta-event="privacy policy outbound click"
           href="https://forms.gle/qPKDmv69YBRhUUvc6">Contact the developers</a><br> <a id="links"

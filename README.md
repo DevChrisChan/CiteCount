@@ -13,4 +13,8 @@ Changelog:
 - Keyboard shortcuts modal
 - Notifications will countdown before disappearing
 - New blogs
-- Clicking counter now copies the word count
+
+2.1 (2B34b):
+- You can now manually exclude citations from being counted by clicking the citations counter
+- Citations modal has a new design
+- Selecting text in text box will now dynamically update word counts

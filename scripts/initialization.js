@@ -1,4 +1,4 @@
-var version = '2.0 (2A26c)';
+var version = '2.1 (2B34b)';
 function getTimestamp() {
 	const now = new Date();
 	const hours = String(now.getHours()).padStart(2, '0');
@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 window.onload = function () {
+	document.getElementById("version").innerText = version;
 	
 	/*const url = 'https://raw.githubusercontent.com/DevChrisChan/Notifications/refs/heads/main/notification.txt';
 
