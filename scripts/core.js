@@ -112,7 +112,7 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
                         return `
                             <tr>
                                 <td>${index + 1}</td>
-                                <td>${citation.text}</td>
+                                <td style="user-select: text;">${citation.text}</td>
                                 <td>${citation.wordCount}</td>
                                 <td>
                                     <input type="checkbox" 
