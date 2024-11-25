@@ -32,6 +32,15 @@ function WordCount(str) {
     return count;
 }
 
+// Load saved data when page loads
+window.onload = function() {
+    const savedText = localStorage.getItem('rawData');
+    if (savedText) {
+        document.getElementById("rawData").value = savedText;
+    }
+    UpdateCounts();
+};
+
 function UpdateCounts() {
     var textarea = document.getElementById("rawData");
     var rawText = textarea.value;
@@ -41,12 +50,36 @@ function UpdateCounts() {
     rawText = rawText.replace(/ +/g, ' ');
     var citations = rawText.match(/\(.*?\)/g) || rawText.match(/（.*?）/g) || [];
     
-    // Store original citation information for later use
-    window.citationsData = citations.map(citation => ({
-        text: citation,
-        wordCount: WordCount(citation),
-        included: true
-    }));
+    // Only initialize citationsData if it doesn't exist
+    if (!window.citationsData) {
+        const savedCitationStates = localStorage.getItem('citationStates');
+        if (savedCitationStates) {
+            const savedStates = JSON.parse(savedCitationStates);
+            window.citationsData = citations.map(citation => ({
+                text: citation,
+                wordCount: WordCount(citation),
+                included: savedStates[citation] !== undefined ? savedStates[citation] : true
+            }));
+        } else {
+            window.citationsData = citations.map(citation => ({
+                text: citation,
+                wordCount: WordCount(citation),
+                included: true
+            }));
+        }
+    } else {
+        // Update citations while preserving existing states
+        const existingStates = {};
+        window.citationsData.forEach(citation => {
+            existingStates[citation.text] = citation.included;
+        });
+
+        window.citationsData = citations.map(citation => ({
+            text: citation,
+            wordCount: WordCount(citation),
+            included: existingStates[citation] !== undefined ? existingStates[citation] : true
+        }));
+    }
 
     recalculateAllCounts(isTextSelected, selectedText);
 }
@@ -57,7 +90,6 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
     var textToAnalyze = isTextSelected ? selectedText : rawText;
     var formattedTextToAnalyze = textToAnalyze;
 
-    // Only remove citations that are still included
     window.citationsData.forEach((citation, index) => {
         if (citation.included) {
             formattedTextToAnalyze = formattedTextToAnalyze.replace(citation.text, '');
@@ -67,18 +99,28 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
     var wordCountNoCitations = WordCount(formattedTextToAnalyze);
     var charCountNoCitations = formattedTextToAnalyze.length;
     var wordCountWithCitations = WordCount(textToAnalyze);
+    var totalCitations = isTextSelected ? 
+        (textToAnalyze.match(/\(.*?\)/g) || textToAnalyze.match(/（.*?）/g) || []).length :
+        window.citationsData.length;
     var includedCitationsCount = isTextSelected ? 
         (textToAnalyze.match(/\(.*?\)/g) || textToAnalyze.match(/（.*?）/g) || []).length :
         window.citationsData.filter(c => c.included).length;
 
-    // Update display elements with count information
+    // Update citations label
+    const citationsLabel = document.getElementById("citationslabel");
+    if (totalCitations > 0 && includedCitationsCount < totalCitations) {
+        citationsLabel.textContent = `Citations (${includedCitationsCount} of ${totalCitations} included)`;
+    } else {
+        citationsLabel.textContent = "Citations";
+    }
+
     document.getElementById("wordCountNoCitationsValue").innerText = wordCountNoCitations;
     document.getElementById("charCountNoCitationsValue").innerText = charCountNoCitations;
     document.getElementById("wordCountWithCitationsValue").innerText = wordCountWithCitations;
     document.getElementById("charCountWithCitationsValue").innerText = textToAnalyze.length;
     document.getElementById("citationCountValue").innerText = includedCitationsCount;
 
-    // Add selection indicator if text is selected
+
     const countLabels = document.querySelectorAll('.count-label');
     countLabels.forEach(label => {
         if (isTextSelected) {
@@ -88,7 +130,6 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
         }
     });
 
-    // Generate Citation List
     var citationList = document.getElementById("citationList");
 
     if (window.citationsData.length > 0) {
@@ -97,13 +138,40 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
             .reduce((sum, citation) => sum + citation.wordCount, 0);
 
         const citationTable = `
+            <style>
+                #selectAllBtn {
+                    padding: 4px 8px;
+                    margin-left: 8px;
+                    background-color: #f0f0f0;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    transition: all 0.3s ease;
+                }
+                
+                #selectAllBtn:hover {
+                    background-color: #e0e0e0;
+                    border-color: #999;
+                }
+                
+                #selectAllBtn:active {
+                    background-color: #d0d0d0;
+                    transform: translateY(1px);
+                }
+            </style>
             <table>
                 <thead>
                     <tr>
                         <th>Citation #</th>
                         <th>In-text Citation</th>
                         <th>Word Count</th>
-                        <th>Include</th>
+                        <th>
+                            Include
+                            <button onclick="toggleAllCitations()" id="selectAllBtn">
+                                ${areAllCitationsSelected() ? 'Unselect All' : 'Select All'}
+                            </button>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -145,17 +213,44 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
         citationList.innerHTML = "There are currently no in-text citations.";
     }
 
-    // Save to local storage if enabled
     if (localStorage.getItem('autoSave') === 'enabled' || localStorage.getItem('AutoSave') === 'enabled') {
         localStorage.setItem('rawData', rawText);
     }
 }
 
+function areAllCitationsSelected() {
+    return window.citationsData.every(citation => citation.included);
+}
+
+function toggleAllCitations() {
+    const newState = !areAllCitationsSelected();
+    window.citationsData.forEach(citation => {
+        citation.included = newState;
+    });
+    
+    // Save citation states to localStorage immediately
+    const citationStates = {};
+    window.citationsData.forEach(citation => {
+        citationStates[citation.text] = citation.included;
+    });
+    localStorage.setItem('citationStates', JSON.stringify(citationStates));
+    
+    recalculateAllCounts();
+}
 function updateCitationInclusion(citationIndex) {
     const checkbox = document.getElementById(`citation-${citationIndex}`);
     window.citationsData[citationIndex].included = checkbox.checked;
+    
+    // Save citation states to localStorage immediately
+    const citationStates = {};
+    window.citationsData.forEach(citation => {
+        citationStates[citation.text] = citation.included;
+    });
+    localStorage.setItem('citationStates', JSON.stringify(citationStates));
+    
     recalculateAllCounts();
 }
+
 
 document.getElementById("rawData").addEventListener('mouseup', function() {
     UpdateCounts();
