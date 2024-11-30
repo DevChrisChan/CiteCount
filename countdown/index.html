@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CiteCount - IB Exams Countdowns</title>
+    <meta property="og:title" content="CiteCount - IB Exams Countdowns" />
+    <meta property="og:description"
+      content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
+    <meta property="og:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+    <meta property="og:url" content="https://citecount.netlify.app/countdown" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:image" content="/assets/mockup1.png" />
+    <meta name="twitter:description"
+      content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CiteCount - IB Exams Countdowns" />
+    <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+    <meta name="description"
+      content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats.">
+    <meta name="keywords"
+      content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#575757" />
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CiteCount",
+        "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.",
+        "applicationCategory": "Reference",
+        "operatingSystem": "All"
+    }></script>
+    <link href="/countdown/countdown.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CiteCount" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+  <script defer async data-host="citecount.netlify.app" data-events="true"
+    src="https://liteanalytics.com/lite.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-LHVN622J29');
+  </script>
+</head>
+<body>
+    <div class="container">
+        <h1>May 2025 IB Exams Countdown</h1>
+        <select id="examSelect">
+            <option value="2025-04-25" style="text-align: center;">Select exam...</option>
+        </select>
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="number" id="days">000</div>
+                <div class="label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="hours">00</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="minutes">00</div>
+                <div class="label">Minutes</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="seconds">00</div>
+                <div class="label">Seconds</div>
+            </div>
+            <div id="overlay">
+                <div id="iframeContainer">
+                    <button class="button" id="returnToCountdownBtn">Return to Countdown</button>
+                    <iframe src="https://docs.google.com/gview?url=https://raw.githubusercontent.com/DevChrisChan/Notifications/refs/heads/main/May-2025-Examination-Schedule.pdf&embedded=true"> Loading... (if this persists, try refreshing the page)</iframe>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+        <button class="button" id="checkScheduleBtn">Check exam schedule</button>
+        <a class="button" href="/" style="text-decoration: none;">Check out CiteCount</a>
+            <p style="text-align: center; font-size: xx-small;">International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not endorsed by the International Baccalaureate Organization.</p>
+
+            <p style="padding-top: 5px;">&copy; 2024 CiteCount. All rights reserved.</p>
+    </footer>
+    <script src="/countdown/countdown.js"></script>
+</body>
+</html>

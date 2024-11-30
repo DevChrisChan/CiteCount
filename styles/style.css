@@ -398,14 +398,14 @@ a {
 }
 
 .blog {
-	background-color: white;
+	background-color: rgba(255, 255, 255, 0.1);
 	border-radius: 10px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	padding: 20px;
 	box-sizing: border-box;
 	transition: transform 0.1s ease, box-shadow 0.1s ease;
 	cursor: pointer;
-	color: #000;
+	color: #fff;
 }
 
 .blog:hover {
@@ -421,7 +421,7 @@ a {
 .blog p {
 	margin: 0;
 	font-size: 16px;
-	color: #555;
+	color: #ffffffb3;
 }
 
 .back-button {
@@ -483,7 +483,6 @@ a {
 	border-radius: 5px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 	z-index: 1000; 
-	font-family: Arial, sans-serif;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -541,4 +540,9 @@ tr:hover {
 	-khtml-user-select: none;
 	-webkit-user-select: none;
 	-o-user-select: none;
+}
+
+.bottomhr {
+	opacity: 10%;
+	margin-top: 100px;
 }

@@ -29,7 +29,6 @@ body {
     padding: 2rem 1rem;
 }
 
-
 .header {
     display: flex;
     align-items: center;
@@ -62,33 +61,40 @@ body {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
     margin-bottom: 2rem;
 }
 
 .stat-card {
     background: var(--card-background);
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 12px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .stat-label {
     font-size: 0.875rem;
     color: #64748b;
-    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: auto;
 }
 
 .stat-value {
-    font-size: 2rem;
-    font-weight: 700;
     color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-top: auto;
+    line-height: 1;
 }
 
-/* New responsive styles for stats */
-@media (max-width: 768px) {
+@media (max-width: 829px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.5rem;
@@ -96,43 +102,14 @@ body {
 
     .stat-card {
         padding: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
     }
 
     .stat-label {
         font-size: 0.75rem;
-        margin-bottom: 0;
-        flex: 1;
     }
 
     .stat-value {
         font-size: 1.25rem;
-        margin-left: 0.5rem;
-    }
-
-    /* Make the Citations card full width */
-    .stat-card:last-child {
-        grid-column: 1 / -1;
-    }
-}
-
-@media (max-width: 480px) {
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .stat-card {
-        padding: 0.5rem 0.75rem;
-    }
-
-    .stat-label {
-        font-size: 0.7rem;
-    }
-
-    .stat-value {
-        font-size: 1rem;
     }
 }
 
@@ -142,11 +119,12 @@ body {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     margin-bottom: 1rem;
+    min-height: 200px; /* Adjust this value to your preference */
 }
 
 .editor textarea {
     width: 100%;
-    min-height: 300px;
+    height: 38vh; 
     padding: 1rem;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -154,7 +132,6 @@ body {
     line-height: 1.5;
     resize: vertical;
 }
-
 .editor textarea:focus {
     outline: none;
     border-color: var(--primary-color);
@@ -165,7 +142,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 10px;
 }
 
 .secondary-stat-card {
@@ -187,9 +164,8 @@ body {
     color: var(--primary-color);
 }
 
-/* Landing Page Styles */
 .landing-section {
-    background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+    background: linear-gradient(135deg, #4d4fc0 0%, #9ba6ff 100%);
     color: white;
     padding: 4rem 0;
 }
@@ -214,6 +190,12 @@ body {
     margin-bottom: 1rem;
 }
 
+.feature-image {
+    width: 100%; /* Adjusts to the width of the card */
+    height: auto; /* Maintains aspect ratio */
+    margin-bottom: 1rem; /* Space below the image */
+}
+
 .feature-title {
     font-size: 1.25rem;
     font-weight: 600;
@@ -225,8 +207,13 @@ body {
     opacity: 0.9;
 }
 
-@media (max-width: 768px) {
-    .stat-value {
-        font-size: 1.5rem;
-    }
+h1 {
+    font-weight: 900;
+    font-size: 2.5em!important;
+    padding: 5px;
+}
+
+h1 {
+    font-weight: 900;
+    font-size: x-large;
 }

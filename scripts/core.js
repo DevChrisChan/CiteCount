@@ -109,10 +109,11 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
     // Update citations label
     const citationsLabel = document.getElementById("citationslabel");
     if (totalCitations > 0 && includedCitationsCount < totalCitations) {
-        citationsLabel.textContent = `Citations (${includedCitationsCount} of ${totalCitations} included)`;
+        citationsLabel.textContent = `Citations (${includedCitationsCount} of ${totalCitations} detected included)`;
     } else {
         citationsLabel.textContent = "Citations";
     }
+    
 
     document.getElementById("wordCountNoCitationsValue").innerText = wordCountNoCitations;
     document.getElementById("charCountNoCitationsValue").innerText = charCountNoCitations;
@@ -183,7 +184,7 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
                                 <td style="user-select: text;">${citation.text}</td>
                                 <td>${citation.wordCount}</td>
                                 <td>
-                                    <input type="checkbox" 
+                                    <input data-lta-event="toggled citation inclusion" type="checkbox" 
                                            id="${citationId}" 
                                            ${citation.included ? 'checked' : ''} 
                                            onchange="updateCitationInclusion(${index})">
@@ -259,3 +260,39 @@ document.getElementById("rawData").addEventListener('mouseup', function() {
 document.getElementById("rawData").addEventListener('keyup', function() {
     UpdateCounts();
 });
+
+
+/*const editor = document.getElementById('rawData');
+        const overlay = document.getElementById('highlight-overlay');
+
+        function updateHighlights() {
+            var textarea = document.getElementById("rawData");
+    var text = textarea.value;
+            let htmlContent = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n/g, '<br>');
+
+            // Highlight complete parentheses pairs
+            htmlContent = htmlContent.replace(/\([^)]+\)/g, match => 
+                `<mark>${match}</mark>`
+            );
+
+            overlay.innerHTML = htmlContent;
+            overlay.scrollTop = editor.scrollTop;
+            
+            // Update word counts and citations
+            UpdateCounts();
+        }
+
+        editor.addEventListener('input', updateHighlights);
+        editor.addEventListener('scroll', () => {
+            overlay.scrollTop = editor.scrollTop;
+        });
+
+        // Insert all the functions from the provided code here
+        [YOUR_PREVIOUS_CODE_HERE]
+
+        // Initialize
+        updateHighlights();*/

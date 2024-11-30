@@ -1,1 +1,71 @@
-<meta http-equiv="refresh" content="0;url=/">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 1.5em;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #999;
+        }
+        .timer {
+            font-size: 1.2em;
+            margin-top: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>404 - Page Not Found</h1>
+    <button class="button" onclick="redirectToHome()">Return to CiteCount</button>
+    <div class="timer" id="timer">Redirecting in 10 seconds...</div>
+
+    <script>
+        let countdown = 10;
+        const timerElement = document.getElementById('timer');
+
+        const interval = setInterval(() => {
+            countdown--;
+            timerElement.textContent = `Redirecting in ${countdown === 1 ? '1 second' : countdown + ' seconds'}...`;
+            if (countdown <= 0) {
+                clearInterval(interval);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+
+        function redirectToHome() {
+            clearInterval(interval);
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

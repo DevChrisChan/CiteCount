@@ -1,0 +1,68 @@
+.new-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+.landing-section {
+    background: linear-gradient(90deg, #000428 0%, #004e92 100%)!important;
+    color: white;
+    padding: 4rem 0;
+}
+
+.alt-landing-section {
+    background: linear-gradient(90deg, #525252 0%, #3d72b4 100%)!important;
+    color: white;
+    padding: 4rem 0;
+}
+
+.landing-section {
+    padding: 4rem 0;
+}
+
+.landing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    align-items: center;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.feature-image {
+    width: 100%; 
+    max-width: 888px;
+    height: auto; 
+    margin-bottom: 1rem; 
+}
+
+.feature-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.feature-description {
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+h1 {
+    font-weight: 900;
+    font-size: 2.5em!important;
+}
+
+h1 {
+    font-weight: 900;
+    font-size: x-large;
+}
