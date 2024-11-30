@@ -50,7 +50,7 @@ window.onload = function () {
 		}
 	}
 	if (localStorage.getItem('Focus') === 'enabled') {
-		document.getElementById('lander').style.display = 'none';
+		document.getElementById('landing-section').style.display = 'none';
 	}
 	if (localStorage.getItem('WordsWithoutCitations') === 'disabled') {
 		document.getElementById('WordsWithoutCitations').style.display = 'none';
