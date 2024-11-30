@@ -97,7 +97,7 @@ var settings = [
 function applySetting(id, state) {
 	switch (id) {
 		case 'Focus':
-			document.getElementById('lander').style.display = state === 'enabled' ? 'none' : 'block';
+			document.getElementById('landing-section').style.display = state === 'enabled' ? 'none' : 'block';
 			break;
 		case 'WordsWithoutCitations':
 		case 'CharsWithoutCitations':

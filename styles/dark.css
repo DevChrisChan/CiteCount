@@ -81,13 +81,6 @@
 		opacity: 80%;
 		color: #fff;
 	}
-	.blog {
-		color: #fff;
-		background-color: #282828;
-	}
-	.blog>p {
-		color: #fff;
-	}
 	#progress-bar {
 		background-color: #141414;
 		opacity: 100%!important;
