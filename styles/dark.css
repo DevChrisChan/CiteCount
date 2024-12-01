@@ -85,10 +85,7 @@
 		background-color: #141414;
 		opacity: 100%!important;
 	}
-	.note {
-		background-color: #f8f9fa!important;
-        border-left: 5px solid #fff!important;
-	}
+
 	.counters>.counter:hover {
 		background-color: #626262;
 	}
@@ -124,4 +121,13 @@ tfoot {
 tr:hover {
     background-color: #555; /* Dark mode hover effect */
 }
+#blog {
+    color: #fff!important;
+}
+.note {
+	color: #fff;
+	border-left: 5px solid #fff!important;
+	background-color: #575757!important;
+}
+
 }
