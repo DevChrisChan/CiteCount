@@ -4,8 +4,8 @@
     padding: 0;
     color: #333;
     text-align: justify!important;
-    margin-left: 25%;
-    margin-right: 25%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 .note {
@@ -25,3 +25,19 @@ ul {
         background-color: #282828;
     }
 }
+
+@media (max-width: 1000px) {
+	#blog {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+}
+
+@media (min-width: 1500px) {
+	#blog {
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+}
+
+

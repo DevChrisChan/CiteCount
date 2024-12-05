@@ -1,5 +1,9 @@
 /* Drop handling screen */
 #overlay {
+	background: rgba(255, 255, 255, 0.05);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(4.5px);
+-webkit-backdrop-filter: blur(4.5px);
 	display: none;
 	position: fixed;
 	width: 100%;
@@ -8,18 +12,18 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: rgba(0,0,0,0.5);
 	z-index: 2;
 	cursor: pointer;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
+	color: black;
 }
 
 #overlay::before {
 	content: "";
 	position: absolute;
-	border: 5px dotted white; 
+	border: 5px dotted black; 
 	width: 80%; 
 	height: 80%; 
 	top: 10%;
