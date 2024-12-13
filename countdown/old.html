@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CiteCount - IB Exams Countdowns</title>
     <meta property="og:title" content="CiteCount - IB Exams Countdowns" />
     <meta property="og:description" content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
@@ -34,48 +32,46 @@
         gtag('js', new Date());
         gtag('config', 'G-LHVN622J29');
     </script>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .button {
-            margin: 10px 0;
-            padding: 10px 20px;
-            cursor: pointer;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-        }
-        .button:hover {
-            background: rgba(11, 10, 10, 0.2);
-            box-shadow: 0 0 20px rgba(0, 1, 255, 0.5);
-            color: black;
-        }
-    </style>
 </head>
 <body>
-    <iframe src="https://drive.google.com/file/d/11lwOwoXjYwW0nl2oyQtxTkuYRqCtMcvW/preview" allow="autoplay"></iframe>
-    <button class="button" onclick="window.location.href='/countdown'">Return to CiteCount Countdown</button>
+    
+    <div class="container">
+        <h1>May 2025 IB Exams Countdown</h1>
+        <select id="examSelect">
+            <option value="2025-04-25" style="text-align: center;">Select exam...</option>
+        </select>
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="number" id="days">000</div>
+                <div class="label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="hours">00</div>
+                <div class="label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="minutes">00</div>
+                <div class="label">Mins</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="seconds">00</div>
+                <div class="label">Secs</div>
+            </div>
+        </div>
+    </div>
+    <div style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;" id="notification">
+        There is an error displaying this notification.
+        <div id="progress-bar"></div>
+    </div>
+    <footer class="footer">
+        <div style="padding-bottom: 20px;"><a class="button" href="/countdown/schedule.html" style="text-decoration: none;">Check exam schedule</a>
+        <a class="button" href="/" style="text-decoration: none;">Check out CiteCount</a>
+        <a class="button" href="/contact.html?source=countdown" style="text-decoration: none;">Contact the developers</a>
+    </div>
+        <p style="text-align: center; font-size: xx-small;">International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not endorsed by the International Baccalaureate Organization.</p>
+        <p style="padding-top: 5px;">&copy; 2024 CiteCount. All rights reserved.</p>
+    </footer>
+    <script src="/countdown/countdown.js"></script>
+    <script src="/scripts/notifications.js"></script>
 </body>
 </html>

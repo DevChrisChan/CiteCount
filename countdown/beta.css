@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
 }
 
 body {
@@ -118,14 +118,14 @@ body {
     padding: 1rem;
     border-radius: 15px;
     flex: 1;
-    margin: 0 0.5rem;
-    min-width: 80px;
+    margin: 0 0.2rem;
+    min-width: 65px;
     max-width: 120px;
     text-align: center;
 }
 
 .countdown-number {
-    font-size: 2.5rem;
+    font-size: 4rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
@@ -143,12 +143,18 @@ body {
 }
 
 @media (max-width: 900px) {
+    .countdown-number {
+        font-size: 3rem;
+    }
     .countdown-label {
         font-size: 0.8rem;
     }
 }
 
 @media (max-width: 600px) {
+    .countdown-number {
+        font-size: 2rem;
+    }
     .countdown-label {
         font-size: 0.7rem;
     }
@@ -229,4 +235,15 @@ footer {
 .countdown {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+
+#links {
+	text-decoration: none;
+	opacity: 80%;
+	color: #333;
+}
+
+#links:hover {
+    text-decoration: underline;
 }
