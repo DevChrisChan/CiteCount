@@ -36,6 +36,10 @@ function updateCountdown() {
 function updateExamDisplay(exam, displayTitle) {
     currentExam = exam;
     document.getElementById('examTitle').textContent = displayTitle || exam.name;
+
+    // Update the window title
+    document.title = `${exam.name} Countdown - CiteCount`;
+    
     updateCountdown();
     
     if (exam.id) {
