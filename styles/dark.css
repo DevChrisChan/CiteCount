@@ -55,9 +55,9 @@
 	}
 
 	#notification {
-		background-color: #fff !important;
-		color: #000 !important;
-	}
+        background-color: rgba(255, 255, 255, 0.1); 
+        color: #fff;
+    }
 	
 	.option {
 		background-color: #4a4a4a;
@@ -106,20 +106,20 @@ th, td {
 }
 
 th {
-    background-color: #1e1e1e; /* Dark header background */
+    background-color: #1e1e1e; 
     position: sticky;
-    top: 0; /* Stick to the top */
-    z-index: 10; /* Ensure it is above other content */
+    top: 0; 
+    z-index: 10; 
 }
 
 tfoot {
     position: sticky;
-    bottom: 0; /* Stick to the bottom */
-    background-color: #1e1e1e; /* Dark footer background */
-    z-index: 10; /* Ensure it is above other content */
+    bottom: 0; 
+    background-color: #1e1e1e; 
+    z-index: 10; 
 }
 tr:hover {
-    background-color: #555; /* Dark mode hover effect */
+    background-color: #555; 
 }
 #blog {
     color: #fff!important;

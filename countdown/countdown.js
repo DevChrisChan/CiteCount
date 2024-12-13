@@ -102,27 +102,10 @@ document.getElementById('examSelect').addEventListener('change', function(e) {
     window.history.pushState({}, '', newUrl);
 });
 
-// Show the overlay when the button is clicked
-document.getElementById('checkScheduleBtn').addEventListener('click', function() {
-    document.getElementById('overlay').style.display = 'flex';
-});
-
-// Hide the overlay when clicking outside the iframe or pressing Escape
-document.getElementById('overlay').addEventListener('click', function(e) {
-    if (e.target === this) {
-        this.style.display = 'none';
-    }
-});
-
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         document.getElementById('overlay').style.display = 'none';
     }
-});
-
-// Return to countdown button functionality
-document.getElementById('returnToCountdownBtn').addEventListener('click', function() {
-    document.getElementById('overlay').style.display = 'none';
 });
 
 // Fetch exam dates when the page loads

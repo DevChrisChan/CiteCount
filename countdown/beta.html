@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB Exams Countdown</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="/countdown/beta.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <p style="text-align: center; font-size: 50px; font-weight: 900;">IB May 2025 Examinations Countdown</p>
+            <h1 class="countdown-title" id="examTitle"></h1>
+            
+            <div class="select-wrapper">
+                <select id="examSelect" style="width: 100%">
+                    <option></option>
+                </select>
+            </div>
+            
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="months">0</div>
+                    <div class="countdown-label">Months</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">0</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">0</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">0</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">0</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+            <button class="button" id="scheduleBtn">Check Exam Schedule</button>
+        </div>
+
+        <footer>
+            <p class="footer-small" style="margin-left: 10%; margin-right: 10%;">International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not endorsed by the International Baccalaureate Organization.</p>
+            <p class="footer-copyright">© 2024 CiteCount. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div class="modal" id="scheduleModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <iframe src="https://drive.google.com/file/d/11lwOwoXjYwW0nl2oyQtxTkuYRqCtMcvW/preview" allow="autoplay"></iframe>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        let examData = [];
+        let currentExam = null;
+
+        function updateCountdown() {
+            if (!currentExam) return;
+
+            const now = new Date().getTime();
+            const examDate = new Date(currentExam.date).getTime();
+            const distance = examDate - now;
+
+            const months = Math.floor(distance / (1000 * 60 * 60 * 24 * 30));
+            const days = Math.floor((distance % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        function updateExamDisplay(exam) {
+            currentExam = exam;
+            document.getElementById('examTitle').textContent = exam.name;
+            updateCountdown();
+            
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('id', exam.id);
+            history.pushState({}, '', newUrl);
+        }
+
+        function initializeSelect2() {
+    $('#examSelect').select2({
+        placeholder: 'Select an exam...', // Placeholder for the selected item
+        allowClear: true,
+        data: examData.map(exam => ({
+            id: exam.id,
+            text: exam.name
+        }))
+    });
+
+    // Set the placeholder for the search input when the dropdown is opened
+    $('#examSelect').on('select2:open', function() {
+        const searchInput = $('.select2-search__field');
+        searchInput.attr('placeholder', 'Search for an exam...');
+    });
+}
+        
+
+        // Modal handlers
+        document.getElementById('scheduleBtn').addEventListener('click', () => {
+            document.getElementById('scheduleModal').style.display = 'block';
+        });
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('scheduleModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('scheduleModal')) {
+                document.getElementById('scheduleModal').style.display = 'none';
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Fetch exam data from external JSON file
+                const response = await fetch('/countdown/dates.json');
+                examData = await response.json();
+
+                initializeSelect2();
+
+                // Check URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+                const examId = urlParams.get('id');
+                const initialExam = examId ? 
+                    examData.find(exam => exam.id === examId) : 
+                    examData[0];
+
+                $('#examSelect').val(initialExam.id).trigger('change');
+                updateExamDisplay(initialExam);
+
+                // Set up exam selection change handler
+                $('#examSelect').on('select2:select', function(e) {
+                    const selectedExam = examData.find(exam => exam.id === e.params.data.id);
+                    updateExamDisplay(selectedExam);
+                });
+
+                // Start countdown
+                setInterval(updateCountdown, 1000);
+            } catch (error) {
+                console.error('Error loading exam data:', error);
+            }
+        });
+    </script>
+</body>
+</html>

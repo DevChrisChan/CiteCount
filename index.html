@@ -12,10 +12,12 @@
   <meta property="og:title" content="CiteCount - Count Words without In-text Citations" />
   <meta property="og:description"
     content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
-  <meta property="og:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+  <meta property="og:image"
+    content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
   <meta property="og:url" content="https://citecount.netlify.app" />
   <meta property="og:type" content="website" />
-  <meta name="twitter:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+  <meta name="twitter:image"
+    content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
   <meta name="twitter:description"
     content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
   <meta name="twitter:card" content="summary_large_image" />
@@ -68,7 +70,8 @@
   <div id="overlay">
     <div>
       <h1 id="overlayText" style="color:black;">Drop your file to import into CiteCount.</h1>
-      <p style="color:black">Only Microsoft Word (.docx and .doc) and PDF (.pdf) files are supported.<br>Your document stays securely
+      <p style="color:black">Only Microsoft Word (.docx and .doc) and PDF (.pdf) files are supported.<br>Your document
+        stays securely
         within your device. All operations are performed locally in your browser.</p>
     </div>
   </div>
@@ -76,8 +79,13 @@
   <!-- Navigation bar-->
   <nav class="navbar">
     <a href="/" class="nav-link">
-      <img draggable="false" src="/assets/logo.svg" alt="CiteCount Logo" class="logo" />CiteCount
-      <a data-lta-event="settings opened" style="cursor: pointer" class="about-link">Settings</a>
+      <img draggable="false" src="/assets/logo.svg" alt="CiteCount Logo" class="logo"/>CiteCount
+    </a>
+    <div class="nav-buttons">
+      <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB M25 Countdown</a>
+      <a href="/blogs" class="nav-link" style="font-weight: 500;">Blogs</a>
+      <a data-lta-event="settings opened" style="cursor: pointer" class="about-link"><img draggable="false"
+          src="/assets/settings.svg" alt="Settings" class="logo" /></a>
   </nav>
   <!--<p id="message">
     We'd like to invite you to <a style="opacity:100%!important;text-decoration: underline;" id="links" target="_blank"
@@ -288,197 +296,185 @@
 
     <!-- Content -->
     <div class="counters">
-      <div id="WordsWithoutCitations" class="counter" data-value="0">
+      <div id="WordsWithoutCitations" class="counter" data-value="0"
+        title="Total number of words excluding your in-text citations">
         <div class="label">Words without citations</div>
         <div class="value" id="wordCountNoCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div id="CharsWithoutCitations" class="counter" data-value="0">
+      <div id="CharsWithoutCitations" class="counter" data-value="0"
+        title="Total number of characters excluding your in-text citations">
         <div class="label">Characters without citations</div>
         <div class="value" id="charCountNoCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div id="WordsWithCitations" class="counter" data-value="0">
+      <div id="WordsWithCitations" class="counter" data-value="0"
+        title="Total number of words, including your in-text citations">
         <div class="label">Words with citations</div>
         <div class="value" id="wordCountWithCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div id="CharsWithCitations" class="counter" data-value="0">
+      <div id="CharsWithCitations" class="counter" data-value="0"
+        title="Total number of characters, including your in-text citations">
         <div class="label">Characters with citations</div>
         <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
       </div>
-      <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link" data-value="0">
+      <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
+        data-value="0" title="Total number of citations. Click to view a list of your citations.">
         <div id="citationslabel" class="label">Citations</div>
-        
-        <div class="value" id="citationCountValue"><span class="dots">...</span><div id="citationList"></div>
-        <div id="totalWordCount"></div></div>
+
+        <div class="value" id="citationCountValue"><span class="dots">...</span>
+          <div id="citationList"></div>
+          <div id="totalWordCount"></div>
+        </div>
       </div>
     </div>
     <div class="textareas">
       <textarea spellcheck="true" id="rawData" oninput="UpdateCounts()"
         placeholder="Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount."
-        style="flex-grow: 1;" autofocus></textarea><!--<div id="highlight-overlay"></div>-->
+        style="flex-grow: 1;" autofocus></textarea>
     </div>
-    <!--<textarea id="formattedData"
-        placeholder="Text without in-text citations appears here. Click the Citations counter to view the list of in-text citations you have included in your text."
-        style="flex-grow: 1;" readonly></textarea>-->
+
+    <!-- Additional conters-->
+    <div id="bottom-counters" style="display: none;">
+      <div class="counters" style="padding-top: 20px;">
+        <div id="WordsWithoutCitations" class="counter" data-value="0"
+          title="Total number of words excluding your in-text citations">
+          <div class="label">Words without citations</div>
+          <div class="value" id="wordCountNoCitationsValue"><span class="dots">...</span></div>
+        </div>
+        <div id="CharsWithoutCitations" class="counter" data-value="0"
+          title="Total number of characters excluding your in-text citations">
+          <div class="label">Characters without citations</div>
+          <div class="value" id="charCountNoCitationsValue"><span class="dots">...</span></div>
+        </div>
+        <div id="WordsWithCitations" class="counter" data-value="0"
+          title="Total number of words, including your in-text citations">
+          <div class="label">Words with citations</div>
+          <div class="value" id="wordCountWithCitationsValue"><span class="dots">...</span></div>
+        </div>
+        <div id="CharsWithCitations" class="counter" data-value="0"
+          title="Total number of characters, including your in-text citations">
+          <div class="label">Characters with citations</div>
+          <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
+        </div>
+
+        <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
+          data-value="0" title="Total number of citations. Click to view a list of your citations.">
+          <div id="citationslabel" class="label">Citations</div>
+
+          <div class="value" id="citationCountValue"><span class="dots">...</span>
+            <div id="citationList"></div>
+            <div id="totalWordCount"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
   <footer>
-    <!--<section class="landing-section" id="landing-section">
+    <section class="alt-landing-section" id="landing-section" style="margin-top: 5px;">
       <div class="new-container">
-          <h1 style="text-align: center;">CiteCount</h1>
-          <h2 style="text-align: center;">Word counting solution for students and researchers.</h2>
-              <h1>CiteCount</h1>
-              <h2>Word counting solution for students and researchers.</h2>
-              <img style="align-items: right;" class="feature-image" src="https://raw.githubusercontent.com/DevChrisChan/CiteCount/refs/heads/main/assets/mockup-new.png">
-          </div>
-      </div>
-  </section>-->
-  <section class="alt-landing-section" id="landing-section">
-    <div class="new-container">
-      <h1>CiteCount</h1>
-              <h2 style="padding-bottom: 30px;">Word counting solution for students and researchers.</h2>
+        <h1>CiteCount</h1>
+        <h2 style="padding-bottom: 30px;">Word counting solution for students and researchers</h2>
         <div class="landing-grid">
-            <div class="feature-card">
-                <div class="feature-icon">📝</div>
-                <h3 class="feature-title">Smart Citation Detection</h3>
-                <p class="feature-description">Automatically detects and counts in-text citations in various formats. 
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3 class="feature-title">Detailed Analytics</h3>
-                <p class="feature-description">Get comprehensive word counts and citation statistics.</p>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">🛠️</div>
-              <h3 class="feature-title">Customise Citations</h3>
-              <p class="feature-description">View a list of your citations and select the ones you'd like to include by clicking Citations.
-              </p>
+          <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3 class="feature-title">Smart Citation Detection</h3>
+            <p class="feature-description">Automatically detects and counts in-text citations in various formats.
+            </p>
           </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Real-time Processing</h3>
-                <p class="feature-description">Counters update as you type. Select parts of your text to view statistics of your selection.</p>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">💾</div>
-              <h3 class="feature-title">AutoSave</h3>
-              <p class="feature-description">Automatically saves your text when you are typing. </p>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Detailed Analytics</h3>
+            <p class="feature-description">Get comprehensive word counts and citation statistics.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛠️</div>
+            <h3 class="feature-title">Customise Citations</h3>
+            <p class="feature-description">View a list of your citations and select the ones you'd like to include by
+              clicking Citations.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Real-time Processing</h3>
+            <p class="feature-description">Counters update as you type. Select parts of your text to view statistics of
+              your selection.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💾</div>
+            <h3 class="feature-title">AutoSave</h3>
+            <p class="feature-description">Automatically saves your text when you are typing. </p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">⚙️</div>
             <h3 class="feature-title">Customisable Counters</h3>
             <p class="feature-description">Select counters that matters the most. Customise in Settings.</p>
+          </div>
         </div>
-    </div>
-</section>
-<section class="landing-section" id="landing-section">
-  <div class="new-container">
-      <!--<h1 style="text-align: center;">CiteCount</h1>
+    </section>
+    <section class="landing-section" id="landing-section">
+      <div class="new-container">
+        <!--<h1 style="text-align: center;">CiteCount</h1>
       <h2 style="text-align: center;">Word counting solution for students and researchers.</h2>-->
-      <h2 style="text-align: left;">
-        CiteCount Applications
-      </h2>
-      <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
-        href="/countdown">
-        <div class="blog" style="text-align: left;">
-          <h2>May 2025 Exams Countdown App</h2>
-          <p>Customisable exam countdowns application for IB May 2025 Examination Session.</p>
-        </div>
-      </a><h2 style="text-align: left;">
-        CiteCount Blogs
-      </h2>
-      <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
-        href="/blogs/ee.html">
-        <div class="blog" style="text-align: left;">
-          <h2>What is included in the word count of an IB Extended Essay?</h2>
-          <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
-        </div>
-      </a>
-      <br>
-      <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
-        href="/blogs/biology-ia.html">
-        <div class="blog" style="text-align: left;">
-          <h2>Mastering Your IB Biology IA: Word Count Requirements and Tips</h2>
-          <p>Navigate the essential structure and word limits for a successful IA!</p>
-        </div>
-      </a>
-      <hr class="bottomhr">
-      <p style="text-align: center"><a id="links" target="_blank"
-        rel="noopener noreferrer" data-lta-event="contact form outbound click"
-        href="/contact.html" style="color: white;">Contact the developers</a><br> <a id="links"
-        data-lta-event="privacy policy outbound click" href="/privacy-policy.html" style="color: white;">Privacy
-        policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html" style="color: white;">Terms of Service</a></p>
-        <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not endorsed by the International Baccalaureate Organization.<br><br>
-        &copy; 2024 CiteCount. All rights reserved.
-        </p>
+        <h2 style="text-align: left;">
+          CiteCount Applications
+        </h2>
+        <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click" href="/countdown">
+          <div class="blog" style="text-align: left;">
+            <h2>May 2025 Exams Countdown App</h2>
+            <p>Customisable exam countdowns application for IB May 2025 Examination Session.</p>
+          </div>
+        </a>
+        <h2 style="text-align: left;">
+          CiteCount Blogs
+        </h2>
+        <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click" href="/blogs/extended-essay-word-count.html">
+          <div class="blog" style="text-align: left;">
+            <h2>What is included in the word count of an IB Extended Essay?</h2>
+            <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
+          </div>
+        </a>
+        <br>
+        <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
+          href="/blogs/biology-ia-word-count.html">
+          <div class="blog" style="text-align: left;">
+            <h2>Mastering Your IB Biology IA: Word Count Requirements and Tips</h2>
+            <p>Navigate the essential structure and word limits for a successful IA!</p>
+          </div>
+        </a>
+        <br>
+        <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
+          href="/blogs/chemistry-ia-word-count.html">
+          <div class="blog" style="text-align: left;">
+            <h2>Excelling in Your IB Chemistry IA: Word Count Guidelines and Advice</h2>
+            <p>Explore the crucial framework and word restrictions for an effective chemistry IA!</p>
+          </div>
+        </a>
+        <hr class="bottomhr">
+        <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
+            data-lta-event="contact form outbound click" href="/contact.html" style="color: white;">Contact the
+            developers</a><br> <a id="links" data-lta-event="privacy policy outbound click" href="/privacy-policy.html"
+            style="color: white;">Privacy
+            policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html" style="color: white;">Terms
+            of Service</a></p>
+        <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned
+          by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not
+          endorsed by the International Baccalaureate Organization.</p>
+          <p style="padding-top: 5px;">
+            &copy; <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
+            </p>
       </div>
-  </div>
-</section>
-
-    <!--<div id="lander" class="lander">
-      <h1>Welcome to CiteCount</h1>
-      <p>Word counting solution for students and researchers.</p>
-      <h2>
-        What is CiteCount?
-      </h2>
-      <p>
-      <p>
-        CiteCount is a tool to count words without citations from your text. Do you have an assignment that requires
-        you to include a word count without citations? Supporting MLA, APA, and Chicago styles, CiteCount is the tool
-        for
-        you.
-      </p>
-      <p>
-        With CiteCount, you can track and count the number of citations you have used, words you have used without
-        citations, and characters you have used without citations. We provide advanced algorithms to ensure you get the
-        most accurate citation counts—all done within your
-        browser.
-      </p>
-      <p>
-        AutoSave is integrated into the text editor of CiteCount, making sure you won't lose any changes while editing,
-        even if you leave the site and come back later. Word counts are updated in real-time, so you can see the results
-        as you type.
-      </p>
-      <p>
-        CiteCount supports languages from all over the world and strives to provide 100% accurate word counting tools.
-        We are proud to be more accurate than word-processing software such as Microsoft Word and Google Docs.
-      </p>
-      <p>
-        Our features expand as users utilize CiteCount. Feel free to submit feedback
-        <a id="links" target="_blank" rel="noopener noreferrer" href="https://forms.gle/qPKDmv69YBRhUUvc6">here</a>.
-      </p>
-      <p>
-        Most importantly, this web application is ad-free and open-source. You can use it for free, without any
-        restrictions.
-      </p>
-      <h2>
-        CiteCount blogs
-      </h2>
-      <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
-        href="/blogs/ee-wordcount.html">
-        <div class="blog">
-          <h2>What is included in the word count of an IB Extended Essay?</h2>
-          <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
-        </div>
-      </a>
-      <p style="text-align: center"><a id="links" target="_blank"
-          rel="noopener noreferrer" data-lta-event="privacy policy outbound click"
-          href="https://forms.gle/qPKDmv69YBRhUUvc6">Contact the developers</a><br> <a id="links"
-          data-lta-event="privacy policy outbound click" href="/privacy-policy.html">Privacy
-          policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html">Terms of Service</a></p>
-          <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not endorsed by the International Baccalaureate Organization.<br>
-          &copy; 2024 CiteCount. All rights reserved.
-          </p>
-    </div>
-  </footer>-->
-  <script src="/scripts/core.js"></script>
-  <script src="/scripts/initialization.js"></script>
-  <script src="/scripts/notifications.js"></script>
-  <script src="/scripts/settings.js"></script>
-  <script src="/scripts/citations.js"></script>
-  <script src="/scripts/drop.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+      </div>
+    </section>
+    <script src="/scripts/core.js"></script>
+    <script src="/scripts/initialization.js"></script>
+    <script src="/scripts/notifications.js"></script>
+    <script src="/scripts/settings.js"></script>
+    <script src="/scripts/citations.js"></script>
+    <script src="/scripts/drop.js"></script>
+    <script src="/scripts/dev.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </body>
 
 </html>

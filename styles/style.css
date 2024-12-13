@@ -82,35 +82,31 @@ body {
 	height: 85vh;
 	gap: 2vh;
 	font-size: large;
-}
-
-@media (min-width: 768px) {
-	.textareas {
-		flex-direction: row;
-	}
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 textarea {
     resize: none;
     max-width: 100%;
-    border: 1px solid transparent; /* Default border color */
+    border: 1px solid transparent; 
     border-radius: 10px;
     padding: 10px;
     font-size: 1em;
     outline: none;
-    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1); /* Original shadow */
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.5s ease, border-color 0.5s ease;
-    position: relative; /* For absolute positioning of pseudo-elements */
+    position: relative; 
 }
 
 textarea:focus {
-    box-shadow: 0 0 8px #e0e0e0, 0 0 15px #e0e0e0; /* Box shadow color on focus */
-    border-color: #e0e0e0; /* Border color on focus */
+    box-shadow: 0 0 8px #e0e0e0, 0 0 15px #e0e0e0; 
+    border-color: #e0e0e0;
 }
 
 textarea:not(:focus) {
-    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1); /* Original shadow */
-    border-color: transparent; /* Keep border transparent when not focused */
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1); 
+    border-color: transparent;
 }
 
 textarea:focus::before {
@@ -120,13 +116,13 @@ textarea:focus::before {
     left: -5px;
     right: -5px;
     bottom: -5px;
-    border-radius: 10px; /* Match the textarea's border radius */
+    border-radius: 10px; 
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
                 0 0 30px rgba(255, 255, 255, 0.6),
                 0 0 40px rgba(255, 255, 255, 0.4),
                 0 0 50px rgba(255, 255, 255, 0.2);
     opacity: 0;
-    animation: glow 1.5s infinite alternate; /* Animation for the glow */
+    animation: glow 1.5s infinite alternate;
 }
 
 @keyframes glow {
@@ -144,6 +140,8 @@ textarea:focus::before {
 	justify-content: space-between;
 	flex-wrap: wrap;
 	margin-bottom: 20px;
+	margin-left: 5%;
+	margin-right: 5%;
 }
 
 .counters>.counter {
@@ -159,13 +157,20 @@ textarea:focus::before {
 	background-color: #e0e0e0;
 }
 
+@media (max-width: 888px) {
+	.textareas, .counters, .bottom-stats {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
 @media (max-width: 767px) {
 	.options {
 		flex-direction: column;
 	}
 
-	.counters>.counter {
-		flex-basis: calc(50% - 10px); /* Subtract double the margin */
+	.counters>.counter, .bottom-stats>.bottom-stat {
+		flex-basis: calc(50% - 10px);
 		margin: 5px;
 		display: flex;
 		flex-direction: row;
@@ -235,10 +240,10 @@ textarea:focus::before {
 #notification {
     visibility: hidden;
     min-width: 250px;
-    background-color: #333;
-    color: #fff;
+    background-color: rgba(50, 50, 50, 0.7); /* Darker semi-transparent grey */
+    color: #fff; /* White text */
     text-align: center;
-    border-radius: 5px;
+    border-radius: 10px; /* Softened corners */
     padding: 16px;
     position: fixed;
     z-index: 10;
@@ -247,9 +252,10 @@ textarea:focus::before {
     font-size: 1em;
     opacity: 0;
     transition: opacity 1s;
-    box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); /* Soft shadow */
     cursor: pointer;
     transform: translateX(-50%);
+    backdrop-filter: blur(10px); /* Background blur */
 }
 
 #notification.show {
@@ -259,14 +265,15 @@ textarea:focus::before {
 
 #progress-bar {
     height: 4px; 
-    background-color: #fff;
-	opacity: 75%; 
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly more opaque white */
     width: 100%; 
     position: absolute;
     bottom: 0;
     left: 0;
     transition: width 0.1s linear; 
     border-bottom-left-radius: 5px; 
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
 
 .modal {
@@ -546,4 +553,61 @@ tr:hover {
 .bottomhr {
 	opacity: 10%;
 	margin-top: 100px;
+}
+
+#selectAllBtn {
+	padding: 4px 8px;
+	margin-left: 8px;
+	background-color: #f0f0f0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 12px;
+	transition: all 0.3s ease;
+}
+
+#selectAllBtn:hover {
+	background-color: #e0e0e0;
+	border-color: #999;
+}
+
+#selectAllBtn:active {
+	background-color: #d0d0d0;
+	transform: translateY(1px);
+}	
+
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.bottom-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 20px;
+	margin: 20px 5%;
+}
+
+.bottom-stat {
+	background: #f0f0f0;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+	transition: background-color 0.3s ease;
+}
+
+.bottom-stat:hover {
+	background-color: #e0e0e0;
+}
+
+.bottom-stat-value {
+	font-size: 1.5em;
+	font-weight: 900;
+	color: #333;
+}
+
+.bottom-stat-label {
+	font-size: 0.8em;
+	color: #666;
+	user-select: none;
 }

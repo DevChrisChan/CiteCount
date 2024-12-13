@@ -11,27 +11,37 @@
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://citecount.netlify.app/countdown</loc>
+  <loc>https://citecount.netlify.app/countdown.html/</loc>
   <lastmod>2024-11-30T12:48:53+00:00</lastmod>
   <priority>0.90</priority>
 </url>
 <url>
-  <loc>https://citecount.netlify.app/blogs</loc>
+  <loc>https://citecount.netlify.app/blogs.html/</loc>
   <lastmod>2024-11-21T12:48:53+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://citecount.netlify.app/blogs/ee-wordcount</loc>
+  <loc>https://citecount.netlify.app/blogs/extended-essay-word-count.html</loc>
   <lastmod>2024-11-21T12:48:53+00:00</lastmod>
-  <priority>0.80</priority>
+  <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://citecount.netlify.app/privacy-policy</loc>
+  <loc>https://citecount.netlify.app/blogs/chemistry-ia-word-count.html</loc>
+  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.netlify.app/blogs/biology-ia-word-count.html/</loc>
+  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.netlify.app/privacy-policy.html/</loc>
   <lastmod>2024-11-21T12:48:53+00:00</lastmod>
   <priority>0.50</priority>
 </url>
 <url>
-  <loc>https://citecount.netlify.app/tos</loc>
+  <loc>https://citecount.netlify.app/tos.html/</loc>
   <lastmod>2024-11-21T12:48:53+00:00</lastmod>
   <priority>0.50</priority>
 </url>

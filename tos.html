@@ -57,6 +57,37 @@
         .back-button:hover {
             background-color: #999; 
         }
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #fff; /* Dark mode text color */
+                background-color: #575757; /* Dark mode background */
+            }
+
+            main {
+                background-color: #282828; /* Dark mode main background */
+                box-shadow: none; /* No shadow in dark mode */
+            }
+
+            h1, h2 {
+                color: #fff; /* Dark mode heading color */
+            }
+
+            footer {
+                color: #fff; /* Dark mode footer text color */
+            }
+
+            .back-button {
+                background-color: #000; /* Dark mode button background */
+            }
+
+            .back-button:hover {
+                background-color: #999; /* Dark mode button hover */
+            }
+
+            ul {
+                color: #fff; /* Dark mode list text color */
+            }
+        }
     </style>
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />

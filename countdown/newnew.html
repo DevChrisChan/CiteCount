@@ -17,7 +17,7 @@
     <meta name="description" content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats.">
     <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
     <meta name="theme-color" content="#004389" />
-    <link href="/countdown/countdown.css" rel="stylesheet" type="text/css" />
+    <link href="/countdown/newnew.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
@@ -26,6 +26,7 @@
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -37,24 +38,32 @@
     
     <div class="container">
         <h1>May 2025 IB Exams Countdown</h1>
-        <select id="examSelect">
-            <option value="2025-04-25" style="text-align: center;">Select exam...</option>
-        </select>
+        <h1 class="countdown-title" id="examTitle"></h1>
+        <div class="select-wrapper">
+            <select id="examSelect" style="width: 100%">
+                <option></option>
+            </select>
+        </div>
+        
         <div class="countdown">
             <div class="countdown-item">
-                <div class="number" id="days">000</div>
+                <div class="number" id="months"></div>
+                <div class="label">Months</div>
+            </div>
+            <div class="countdown-item">
+                <div class="number" id="days"></div>
                 <div class="label">Days</div>
             </div>
             <div class="countdown-item">
-                <div class="number" id="hours">00</div>
+                <div class="number" id="hours"></div>
                 <div class="label">Hours</div>
             </div>
             <div class="countdown-item">
-                <div class="number" id="minutes">00</div>
+                <div class="number" id="minutes"></div>
                 <div class="label">Mins</div>
             </div>
             <div class="countdown-item">
-                <div class="number" id="seconds">00</div>
+                <div class="number" id="seconds"></div>
                 <div class="label">Secs</div>
             </div>
         </div>
@@ -71,7 +80,9 @@
         <p style="text-align: center; font-size: xx-small;">International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not endorsed by the International Baccalaureate Organization.</p>
         <p style="padding-top: 5px;">&copy; 2024 CiteCount. All rights reserved.</p>
     </footer>
-    <script src="/countdown/countdown.js"></script>
     <script src="/scripts/notifications.js"></script>
+    <script src="/countdown/newnew.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

@@ -46,7 +46,9 @@ function UpdateCounts() {
     var rawText = textarea.value;
     var selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
     var isTextSelected = selectedText.length > 0;
-
+    if (rawText == "!enable") {
+        document.getElementById("bottom-counters").style.display = 'block'
+    }
     rawText = rawText.replace(/ +/g, ' ');
     var citations = rawText.match(/\(.*?\)/g) || rawText.match(/（.*?）/g) || [];
     
@@ -139,28 +141,6 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
             .reduce((sum, citation) => sum + citation.wordCount, 0);
 
         const citationTable = `
-            <style>
-                #selectAllBtn {
-                    padding: 4px 8px;
-                    margin-left: 8px;
-                    background-color: #f0f0f0;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    font-size: 12px;
-                    transition: all 0.3s ease;
-                }
-                
-                #selectAllBtn:hover {
-                    background-color: #e0e0e0;
-                    border-color: #999;
-                }
-                
-                #selectAllBtn:active {
-                    background-color: #d0d0d0;
-                    transform: translateY(1px);
-                }
-            </style>
             <table>
                 <thead>
                     <tr>
@@ -211,7 +191,11 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
         `;
         citationList.innerHTML = citationTable;
     } else {
-        citationList.innerHTML = "There are currently no in-text citations.";
+        if (wordCountWithCitations === 0) {
+            citationList.innerHTML = "Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount. Detected in-text citations will appear here.";
+        } else {
+            citationList.innerHTML = "There are currently no in-text citations.";   
+        }
     }
 
     if (localStorage.getItem('autoSave') === 'enabled' || localStorage.getItem('AutoSave') === 'enabled') {
@@ -229,7 +213,6 @@ function toggleAllCitations() {
         citation.included = newState;
     });
     
-    // Save citation states to localStorage immediately
     const citationStates = {};
     window.citationsData.forEach(citation => {
         citationStates[citation.text] = citation.included;
@@ -242,7 +225,6 @@ function updateCitationInclusion(citationIndex) {
     const checkbox = document.getElementById(`citation-${citationIndex}`);
     window.citationsData[citationIndex].included = checkbox.checked;
     
-    // Save citation states to localStorage immediately
     const citationStates = {};
     window.citationsData.forEach(citation => {
         citationStates[citation.text] = citation.included;
@@ -260,39 +242,3 @@ document.getElementById("rawData").addEventListener('mouseup', function() {
 document.getElementById("rawData").addEventListener('keyup', function() {
     UpdateCounts();
 });
-
-
-/*const editor = document.getElementById('rawData');
-        const overlay = document.getElementById('highlight-overlay');
-
-        function updateHighlights() {
-            var textarea = document.getElementById("rawData");
-    var text = textarea.value;
-            let htmlContent = text
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/\n/g, '<br>');
-
-            // Highlight complete parentheses pairs
-            htmlContent = htmlContent.replace(/\([^)]+\)/g, match => 
-                `<mark>${match}</mark>`
-            );
-
-            overlay.innerHTML = htmlContent;
-            overlay.scrollTop = editor.scrollTop;
-            
-            // Update word counts and citations
-            UpdateCounts();
-        }
-
-        editor.addEventListener('input', updateHighlights);
-        editor.addEventListener('scroll', () => {
-            overlay.scrollTop = editor.scrollTop;
-        });
-
-        // Insert all the functions from the provided code here
-        [YOUR_PREVIOUS_CODE_HERE]
-
-        // Initialize
-        updateHighlights();*/
