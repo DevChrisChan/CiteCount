@@ -7,45 +7,68 @@
 
 <url>
   <loc>https://citecount.netlify.app/</loc>
-  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+<changefreq>weekly</changefreq>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://citecount.netlify.app/countdown.html/</loc>
-  <lastmod>2024-11-30T12:48:53+00:00</lastmod>
+<changefreq>weekly</changefreq>
   <priority>0.90</priority>
 </url>
 <url>
   <loc>https://citecount.netlify.app/blogs.html/</loc>
-  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+<changefreq>weekly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://citecount.netlify.app/blogs/extended-essay-word-count.html</loc>
-  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+  <loc>https://citecount.netlify.app/blogs/biology-ia-word-count</loc>
+<changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
   <loc>https://citecount.netlify.app/blogs/chemistry-ia-word-count.html</loc>
-  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+<changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://citecount.netlify.app/blogs/biology-ia-word-count.html/</loc>
-  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+  <loc>https://citecount.netlify.app/blogs/extended-essay-word-count.html/</loc>
+<changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.netlify.app/blogs/integration-with-apple-intelligence.html/</loc>
+<changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.netlify.app/blogs/introducing-ib-exam-countdowns.html/</loc>
+<changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.netlify.app/blogs/our-promise-for-safety/</loc>
+<changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
   <loc>https://citecount.netlify.app/privacy-policy.html/</loc>
-  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+<changefreq>yearly</changefreq>
   <priority>0.50</priority>
 </url>
 <url>
   <loc>https://citecount.netlify.app/tos.html/</loc>
-  <lastmod>2024-11-21T12:48:53+00:00</lastmod>
+<changefreq>yearly</changefreq>
   <priority>0.50</priority>
 </url>
-
-
+<url>
+  <loc>https://citecount.netlify.app/contact.html/</loc>
+<changefreq>monthly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://citecount.netlify.app/advertise.html/</loc>
+<changefreq>weekly</changefreq>
+  <priority>0.50</priority>
+</url>
 
 </urlset>

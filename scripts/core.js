@@ -54,23 +54,71 @@ function UpdateCounts() {
     if (rawText == "!stop") {
         disableDev();
     }
-    if (localStorage.getItem('dev') == "enabled") {
-        if (rawText == "!ram") {
+    if (localStorage.getItem('dev') === "enabled") {
+        const rawText = "!stats"; // Simulating the command
+
+        if (rawText === "!stats") {
+            const browserInfo = {
+                browserName: navigator.appName,
+                browserVersion: navigator.userAgent,
+                platform: navigator.platform,
+            };
             const memoryInfo = window.performance.memory;
-    
-            // Function to log comprehensive memory usage
+
+            function buildTable() {
+                const tableContainer = document.getElementById('tableContainer');
+                tableContainer.innerHTML = ''; // Clear previous table if any
+
+                const table = document.createElement('table');
+                const thead = document.createElement('thead');
+                const tbody = document.createElement('tbody');
+
+                const headerRow = document.createElement('tr');
+                const headerKey = document.createElement('th');
+                const headerValue = document.createElement('th');
+
+                headerKey.textContent = 'Key';
+                headerValue.textContent = 'Value';
+
+                headerRow.appendChild(headerKey);
+                headerRow.appendChild(headerValue);
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                // Populate the table with localStorage data
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    const value = localStorage.getItem(key);
+
+                    const row = document.createElement('tr');
+                    const cellKey = document.createElement('td');
+                    const cellValue = document.createElement('td');
+
+                    cellKey.textContent = key;
+                    cellValue.textContent = value;
+
+                    row.appendChild(cellKey);
+                    row.appendChild(cellValue);
+                    tbody.appendChild(row);
+                }
+
+                table.appendChild(tbody);
+                tableContainer.appendChild(table);
+            }
+
             function logMemoryUsage() {
                 const totalHeapSize = memoryInfo.totalJSHeapSize / (1024 ** 2); // Convert to MB
                 const usedHeapSize = memoryInfo.usedJSHeapSize / (1024 ** 2);   // Convert to MB
                 const heapSizeLimit = memoryInfo.jsHeapSizeLimit / (1024 ** 2); // Convert to MB
                 const usagePercentage = ((memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit) * 100).toFixed(2); // Percentage
-    
+
+                buildTable(); // Rebuild the table to show updated localStorage content
+
                 const debugSpan = document.getElementById('debug');
                 debugSpan.textContent = `Total: ${totalHeapSize.toFixed(2)} MB, Used: ${usedHeapSize.toFixed(2)} MB, Limit: ${heapSizeLimit.toFixed(2)} MB, Usage: ${usagePercentage}%`;
             }
-    
-            // Update memory usage every 0.1 seconds (100 milliseconds)
-            setInterval(logMemoryUsage, 500);
+
+            setInterval(logMemoryUsage, 1000);
         }
     }
     rawText = rawText.replace(/ +/g, ' ');

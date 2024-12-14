@@ -1,9 +1,9 @@
 function enableDev() {
-    /*document.getElementById("bottom-counters").style.display = 'block'*/
     localStorage.setItem('lta_do_not_track', "true");
     document.body.style.backgroundColor = "red";
     document.body.style.backgroundImage = "linear-gradient(red 25%, white 25%, white 50%, red 50%, red 75%, white 75%, white 100%)";
-    document.body.style.backgroundSize = "100% 40px"; 
+    document.body.style.backgroundSize = "100% 40px";
+
     console.log('Enabled developer mode')
     notify('Enabled developer mode.')
     const browserInfo = {
@@ -49,8 +49,9 @@ function enableDev() {
     }
     
     console.log("Browser Information:", browserInfo);
-    const debugSpan = document.getElementById('debug');
-                debugSpan.textContent = `Developer Mode`;
+    const debugSpan = document.getElementById('secondarydebug');
+                debugSpan.textContent = `[Developer Mode] For internal use only. Unauthorized distribution is prohibited.`;
+    
 }
 
 function disableDev() {
