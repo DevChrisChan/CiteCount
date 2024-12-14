@@ -246,3 +246,21 @@ footer {
 #links:hover {
     text-decoration: underline;
 }
+
+.noscript-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(90deg, #000428 0%, #004e92 100%);
+    color: white;
+    text-align: center;
+}
+.noscript-message {
+    font-size: 24px;
+    font-weight: bold;
+}
+.noscript-description {
+    font-size: 18px;
+}

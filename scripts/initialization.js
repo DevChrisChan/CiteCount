@@ -1,4 +1,4 @@
-var version = '2.1 (2B34b)';
+
 function getTimestamp() {
 	const now = new Date();
 	const hours = String(now.getHours()).padStart(2, '0');
@@ -10,10 +10,16 @@ let startTime;
 document.addEventListener("DOMContentLoaded", function () {
 	startTime = performance.now();
 	console.log(getTimestamp() + " Initializing app...")
+	// Dev
+
+	if (localStorage.getItem('dev') === 'enabled') {
+		enableDev();
+	}
 });
 
 window.onload = function () {
-	document.getElementById("version").innerText = version;
+	var version = '2.1 (2B34b)';
+	document.getElementById('version').textContent = version;
 	
 	/*const url = 'https://raw.githubusercontent.com/DevChrisChan/Notifications/refs/heads/main/notification.txt';
 
@@ -93,6 +99,9 @@ window.onload = function () {
 	const endTime = performance.now();
 	const timeTaken = (endTime - startTime).toFixed(2);
 	console.log(getTimestamp() + ` App initialized. (${timeTaken} ms)`)
+	if (localStorage.getItem('dev') === 'enabled') {
+		notify(`App initialized in Developer Mode. (Took ${timeTaken} ms)`)
+	}
 };
 
 window.addEventListener('beforeunload', function (e) {

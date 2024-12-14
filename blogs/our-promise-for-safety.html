@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="/styles/style.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/dark.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/blog.css" rel="stylesheet" type="text/css" />
+  <title>Our Promise for Safety - CiteCount</title>
+  <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+  <meta name="description"
+    content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats.">
+  <meta name="keywords"
+    content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#575757" />
+  <script type="application/ld+json">
+  {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CiteCount",
+      "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.",
+      "applicationCategory": "Reference",
+      "operatingSystem": "All"
+  }></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+  <script defer async data-host="citecount.netlify.app" data-events="true"
+    src="https://liteanalytics.com/lite.js"></script>
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CiteCount" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-LHVN622J29');
+  </script>
+</head>
+
+<body>
+
+  <!-- Navigation bar-->
+  <nav class="navbar">
+    <a href="/" class="nav-link">
+        <img draggable="false" src="/assets/logo.svg" alt="CiteCount Logo" class="logo" />CiteCount
+    </a>
+    <div class="nav-buttons">
+        <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB M25 Exams Countdown</a>
+        <a href="/blogs" class="nav-link" style="font-weight: 900;">Blogs</a>
+    </div>
+</nav>
+
+
+  <!-- Blog Content -->
+  <div id="blog">
+    <h1>Our Promise for Safety</h1>
+    <p>This blog serves as an explanation on how you can trust CiteCount. Some parts might go technical though. I am happy to answer your questions, by clicking "Contact the developers" at the bottom of the page.</p>
+    <h2>Why should I trust CiteCount?</h2>
+
+    <p>CiteCount is a web application designed to help users count words in documents while excluding in-text citations. One of the most significant concerns for users of any online tool is safety and data privacy. Especially, as an IB student developing this tool, I know how you are concerned of the safety of your contents, against plagarism detectors like Turnitin, or other similarity indexes. In this blog post, I will explore how CiteCount ensures user safety through its design and operational mechanisms.</p>
+
+    <h2>Client-Side Processing</h2>
+    <p>One of the primary reasons CiteCount is considered safe is its architecture as a <strong>client-side JavaScript application</strong>. This means that all processing occurs directly in the user's browser, eliminating the need to send documents to external servers for analysis.</p>
+
+    <h3>Benefits of Local Processing</h3>
+    <ul>
+        <li><strong>Data Privacy:</strong> Since files are processed locally, the entered text remains on the user's device, significantly reducing the risk of data breaches.</li>
+        <li><strong>No External Dependencies:</strong> CiteCount operates without third-party ads or services, further enhancing its security profile.</li>
+    </ul>
+
+    <h3>Technical Aspects of the File Upload System in CiteCount</h3>
+
+<p>CiteCount employs two powerful client-side libraries for its file upload system: <strong>PDF.js</strong> for PDF files and <strong>Mammoth.js</strong> for Word files. These technologies ensure a secure and efficient user experience.</p>
+
+<h4>PDF.js: Extracting Text from PDFs</h4>
+<ul>
+    <li><strong>Text Extraction:</strong> PDF.js is used to convert PDF documents into plain text. It reads the PDF file and extracts text content using the <code>getTextContent</code> method.</li>
+    <li><strong>Client-Side Processing:</strong> The extraction occurs entirely in the user's browser, ensuring that sensitive data remains secure and private.</li>
+    <li><strong>Asynchronous Handling:</strong> The library processes pages asynchronously, allowing for smooth performance without blocking the user interface.</li>
+</ul>
+
+<h4>Mammoth.js: Converting Word Files to HTML</h4>
+<ul>
+    <li><strong>File Handling:</strong> Uses an <code>&lt;input type="file"&gt;</code> element to read Word files as an ArrayBuffer.</li>
+    <li><strong>Conversion Process:</strong> Converts Word content into clean HTML asynchronously, preserving semantic styles.</li>
+    <li><strong>User Interaction:</strong> Displays converted HTML dynamically, allowing immediate access to document content.</li>
+</ul>
+
+<h4>Security Considerations</h4>
+<p>Both libraries operate entirely on the client side, enhancing security by:</p>
+<ul>
+    <li><strong>Data Privacy:</strong> Ensuring sensitive information remains on the user's device.</li>
+    <li><strong>No Server-Side Processing:</strong> Eliminating risks associated with file transmission over the internet.</li>
+</ul>
+<h3>Using LocalStorage in CiteCount for Data Safety</h3>
+
+<p>In CiteCount, <code><strong>LocalStorage</strong></code> plays a crucial role in enhancing user privacy and data security. By storing user data locally on the device, CiteCount ensures that sensitive information remains secure and is not transmitted to external servers.</p>
+
+<h4>How LocalStorage Works in CiteCount</h4>
+<ul>
+    <li><strong>Persistent Storage:</strong> LocalStorage allows CiteCount to save user preferences, document content, and other relevant data directly in the user's browser. This means that users can access their information even after closing and reopening the application.</li>
+    <li><strong>No External Transmission:</strong> By utilizing LocalStorage, CiteCount eliminates the need to send user data over the internet. All operations related to document management occur locally, significantly reducing the risk of data breaches.</li>
+    <li><strong>Efficient Data Management:</strong> Users can upload documents and manage their content without worrying about losing their progress. LocalStorage can be used to temporarily hold text extracted from PDFs or DOCX files until the user decides to clear it or save it permanently.</li>
+</ul>
+
+<h4>Security Considerations</h4>
+<p>Using LocalStorage enhances security by:</p>
+<ul>
+    <li><strong>Data Privacy:</strong> Sensitive information remains on the user's device, inaccessible to external entities.</li>
+    <li><strong>User Control:</strong> Users have full control over their stored data, with options to clear or modify it as needed.</li>
+</ul>
+
+<p>LocalStorage is an integral part of the CiteCount application, providing a secure and efficient way to manage user data while ensuring privacy and minimizing risks associated with data transmission.</p>
+
+<p>This combination of technologies allows CiteCount to provide a robust and secure environment for managing documents effectively.</p>
+
+
+    <h2>Open Source Transparency</h2>
+    <p>CiteCount is an open-source application, which means that its source code is publicly available for review. This transparency allows developers and users alike to inspect the code for any potential vulnerabilities or malicious elements.</p>
+    <h2>Conclusion</h2>
+    <p>CiteCount provides a secure environment for users looking to manage their writing effectively. We believe our client-side processing, open-source nature, and user-centric features contribute to a trustworthy experience.</p>
+
+    <a href="/blogs" class="back-button">Back to Blogs</a>
+    <p style="text-align: center">&copy; 2024 CiteCount. All rights reserved.<br><a id="links" target="_blank"
+        rel="noopener noreferrer" data-lta-event="privacy policy outbound click"
+        href="/contact.html">Contact the developers</a><br> <a id="links" target="_blank"
+        rel="noopener noreferrer" data-lta-event="privacy policy outbound click" href="/privacy-policy.html">Privacy
+        policy</a> • <a id="links" target="_blank" rel="noopener noreferrer" data-lta-event="tos outbound click"
+        href="/tos.html">Terms of Service</a></p><br>
+    </p>
+  </div>
+  </div>
+</body>
+
+</html>

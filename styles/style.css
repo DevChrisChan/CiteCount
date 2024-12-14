@@ -82,8 +82,8 @@ body {
 	height: 85vh;
 	gap: 2vh;
 	font-size: large;
-	margin-left: 5%;
-	margin-right: 5%;
+	margin-left: 3%;
+	margin-right: 3%;
 }
 
 textarea {
@@ -140,8 +140,8 @@ textarea:focus::before {
 	justify-content: space-between;
 	flex-wrap: wrap;
 	margin-bottom: 20px;
-	margin-left: 5%;
-	margin-right: 5%;
+	margin-left: 3%;
+	margin-right: 3%;
 }
 
 .counters>.counter {
@@ -611,3 +611,36 @@ tr:hover {
 	color: #666;
 	user-select: none;
 }
+
+#safety {
+    opacity: 0.8;
+    font-size: small;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  #safety img {
+    opacity: 0.8;
+    filter: brightness(0) invert(0);
+	margin-top: -2px; 
+  }
+
+  #safety a {
+    text-decoration: underline;
+    color: rgba(0, 0, 0, 0.8);
+    opacity: 0.8;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    #safety {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    #safety img {
+      filter: brightness(0) invert(1);
+    }
+
+    #safety a {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }

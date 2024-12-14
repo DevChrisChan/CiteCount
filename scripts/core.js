@@ -42,12 +42,36 @@ window.onload = function() {
 };
 
 function UpdateCounts() {
+    
     var textarea = document.getElementById("rawData");
     var rawText = textarea.value;
     var selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
     var isTextSelected = selectedText.length > 0;
-    if (rawText == "!enable") {
-        document.getElementById("bottom-counters").style.display = 'block'
+    if (rawText == "!dev") {
+        localStorage.setItem('dev', 'enabled');
+        notify('Restart for effects to take.')
+    }
+    if (rawText == "!stop") {
+        disableDev();
+    }
+    if (localStorage.getItem('dev') == "enabled") {
+        if (rawText == "!ram") {
+            const memoryInfo = window.performance.memory;
+    
+            // Function to log comprehensive memory usage
+            function logMemoryUsage() {
+                const totalHeapSize = memoryInfo.totalJSHeapSize / (1024 ** 2); // Convert to MB
+                const usedHeapSize = memoryInfo.usedJSHeapSize / (1024 ** 2);   // Convert to MB
+                const heapSizeLimit = memoryInfo.jsHeapSizeLimit / (1024 ** 2); // Convert to MB
+                const usagePercentage = ((memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit) * 100).toFixed(2); // Percentage
+    
+                const debugSpan = document.getElementById('debug');
+                debugSpan.textContent = `Total: ${totalHeapSize.toFixed(2)} MB, Used: ${usedHeapSize.toFixed(2)} MB, Limit: ${heapSizeLimit.toFixed(2)} MB, Usage: ${usagePercentage}%`;
+            }
+    
+            // Update memory usage every 0.1 seconds (100 milliseconds)
+            setInterval(logMemoryUsage, 500);
+        }
     }
     rawText = rawText.replace(/ +/g, ' ');
     var citations = rawText.match(/\(.*?\)/g) || rawText.match(/（.*?）/g) || [];
@@ -218,7 +242,6 @@ function toggleAllCitations() {
         citationStates[citation.text] = citation.included;
     });
     localStorage.setItem('citationStates', JSON.stringify(citationStates));
-    
     recalculateAllCounts();
 }
 function updateCitationInclusion(citationIndex) {
@@ -241,4 +264,8 @@ document.getElementById("rawData").addEventListener('mouseup', function() {
 
 document.getElementById("rawData").addEventListener('keyup', function() {
     UpdateCounts();
+});
+
+document.getElementById('rawData').addEventListener('input', function() {
+    document.getElementById('safety').style.display = 'none';
 });
