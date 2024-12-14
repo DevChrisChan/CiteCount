@@ -11,6 +11,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .container {
@@ -120,7 +121,7 @@ body {
     flex: 1;
     margin: 0 0.2rem;
     min-width: 65px;
-    max-width: 120px;
+    max-width: 155px;
     text-align: center;
 }
 
@@ -134,6 +135,7 @@ body {
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    text-align: center;
 }
 
 @media (max-width: 1200px) {
@@ -156,7 +158,7 @@ body {
         font-size: 2rem;
     }
     .countdown-label {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
 }
 
