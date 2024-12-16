@@ -55,7 +55,7 @@ function UpdateCounts() {
         disableDev();
     }
     if (localStorage.getItem('dev') === "enabled") {
-        const rawText = "!stats"; // Simulating the command
+        const rawText = "!stats"; 
 
         if (rawText === "!stats") {
             const browserInfo = {
@@ -67,7 +67,7 @@ function UpdateCounts() {
 
             function buildTable() {
                 const tableContainer = document.getElementById('tableContainer');
-                tableContainer.innerHTML = ''; // Clear previous table if any
+                tableContainer.innerHTML = ''; 
 
                 const table = document.createElement('table');
                 const thead = document.createElement('thead');
@@ -123,8 +123,6 @@ function UpdateCounts() {
     }
     rawText = rawText.replace(/ +/g, ' ');
     var citations = rawText.match(/\(.*?\)/g) || rawText.match(/（.*?）/g) || [];
-    
-    // Only initialize citationsData if it doesn't exist
     if (!window.citationsData) {
         const savedCitationStates = localStorage.getItem('citationStates');
         if (savedCitationStates) {
@@ -142,7 +140,6 @@ function UpdateCounts() {
             }));
         }
     } else {
-        // Update citations while preserving existing states
         const existingStates = {};
         window.citationsData.forEach(citation => {
             existingStates[citation.text] = citation.included;
@@ -170,9 +167,18 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
         }
     });
 
-    var wordCountNoCitations = WordCount(formattedTextToAnalyze);
-    var charCountNoCitations = formattedTextToAnalyze.length;
-    var wordCountWithCitations = WordCount(textToAnalyze);
+    // Calculate total counts
+    var totalWordCountNoCitations = WordCount(formattedText);
+    var totalCharCountNoCitations = formattedText.length;
+    var totalWordCountWithCitations = WordCount(rawText);
+    var totalCharCountWithCitations = rawText.length;
+
+    // Calculate selected/current counts
+    var wordCountNoCitations = isTextSelected ? WordCount(formattedTextToAnalyze) : totalWordCountNoCitations;
+    var charCountNoCitations = isTextSelected ? formattedTextToAnalyze.length : totalCharCountNoCitations;
+    var wordCountWithCitations = isTextSelected ? WordCount(textToAnalyze) : totalWordCountWithCitations;
+    var charCountWithCitations = isTextSelected ? textToAnalyze.length : totalCharCountWithCitations;
+
     var totalCitations = isTextSelected ? 
         (textToAnalyze.match(/\(.*?\)/g) || textToAnalyze.match(/（.*?）/g) || []).length :
         window.citationsData.length;
@@ -187,8 +193,31 @@ function recalculateAllCounts(isTextSelected = false, selectedText = '') {
     } else {
         citationsLabel.textContent = "Citations";
     }
-    
 
+    // Update both labels and values
+    /*if (isTextSelected) {
+        document.getElementById("wordswolabel").innerText = "Words without citations (Selected)";
+        document.getElementById("charswolabel").innerText = "Characters without citations (Selected)";
+        document.getElementById("wordslabel").innerText = "Words with citations (Selected)";
+        document.getElementById("charslabel").innerText = "Characters with citations (Selected)";
+    
+        document.getElementById("wordCountNoCitationsValue").innerText = `${wordCountNoCitations} of ${totalWordCountNoCitations}`;
+        document.getElementById("charCountNoCitationsValue").innerText = `${charCountNoCitations} of ${totalCharCountNoCitations}`;
+        document.getElementById("wordCountWithCitationsValue").innerText = `${wordCountWithCitations} of ${totalWordCountWithCitations}`;
+        document.getElementById("charCountWithCitationsValue").innerText = `${charCountWithCitations} of ${totalCharCountWithCitations}`;
+    } else {
+        document.getElementById("wordswolabel").innerText = "Words without citations";
+        document.getElementById("charswolabel").innerText = "Characters without citations";
+        document.getElementById("wordslabel").innerText = "Words with citations";
+        document.getElementById("charslabel").innerText = "Characters with citations";
+    
+        document.getElementById("wordCountNoCitationsValue").innerText = wordCountNoCitations;
+        document.getElementById("charCountNoCitationsValue").innerText = charCountNoCitations;
+        document.getElementById("wordCountWithCitationsValue").innerText = wordCountWithCitations;
+        document.getElementById("charCountWithCitationsValue").innerText = charCountWithCitations;
+    }*/
+
+    document.getElementById("citationCountValue").innerText = includedCitationsCount;
     document.getElementById("wordCountNoCitationsValue").innerText = wordCountNoCitations;
     document.getElementById("charCountNoCitationsValue").innerText = charCountNoCitations;
     document.getElementById("wordCountWithCitationsValue").innerText = wordCountWithCitations;
@@ -307,13 +336,24 @@ function updateCitationInclusion(citationIndex) {
 
 
 document.getElementById("rawData").addEventListener('mouseup', function() {
-    UpdateCounts();
+    setTimeout(() => {
+        UpdateCounts();
+        
+    }, 0);
 });
 
 document.getElementById("rawData").addEventListener('keyup', function() {
     UpdateCounts();
 });
 
-document.getElementById('rawData').addEventListener('input', function() {
-    document.getElementById('safety').style.display = 'none';
+document.getElementById("rawData").addEventListener('click', function() {
+    setTimeout(() => {
+        if (!window.getSelection().toString()) {
+            UpdateCounts();
+        }
+    }, 0);
+});
+
+document.getElementById("rawData").addEventListener('blur', function() {
+    UpdateCounts();
 });

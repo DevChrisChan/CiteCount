@@ -2,6 +2,11 @@ function handleFileSelect(evt) {
     evt.stopPropagation();
     evt.preventDefault();
 
+    // Check if dataTransfer has files
+    if (!evt.dataTransfer.files.length) {
+        return; // Ignore if no files are present
+    }
+
     var files = evt.dataTransfer.files; // FileList object.
 
     for (var i = 0, f; f = files[i]; i++) {
@@ -54,8 +59,14 @@ function handleFileSelect(evt) {
 function handleDragOver(evt) {
     evt.stopPropagation();
     evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy';
-    document.getElementById('overlay').style.display = 'flex';
+
+    // Check if the dragged item is a file
+    if (evt.dataTransfer.types.includes('Files')) {
+        evt.dataTransfer.dropEffect = 'copy';
+        document.getElementById('overlay').style.display = 'flex';
+    } else {
+        evt.dataTransfer.dropEffect = 'none'; // Ignore non-file items
+    }
 }
 
 function handleDragLeave(evt) {

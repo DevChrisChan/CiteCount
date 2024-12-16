@@ -1,15 +1,18 @@
 @media (prefers-color-scheme: dark) {
 	#modal-header {
 		backdrop-filter: blur(2px);
-		background-color: rgba(63, 63, 63, 0.5)!important;
+		background-color: rgba(63, 63, 63, 0.5) !important;
 	}
+
 	.description {
-		color: #fff!important;
+		color: #fff !important;
 	}
+
 	#settingsModal {
 		background-color: rgba(40, 40, 40, 0.4);
 		color: #fff;
 	}
+
 	.modal-content {
 		background-color: #282828;
 		color: #fff;
@@ -19,17 +22,19 @@
 		background-color: rgba(40, 40, 40, 0.4);
 		color: #fff;
 	}
-	
+
 	body {
 		color: #fff;
 		background-color: #575757;
 	}
+
 	.close:hover,
 	.close:focus {
 		color: #fff;
 		text-decoration: none;
 		cursor: pointer;
 	}
+
 	.navbar,
 	.footer {
 		background-color: #575757;
@@ -55,10 +60,20 @@
 	}
 
 	#notification {
-        background-color: rgba(255, 255, 255, 0.1); 
-        color: #fff;
-    }
-	
+		background-color: rgba(255, 255, 255, 0.1);
+		color: #fff;
+	}
+
+	#notification:hover {
+		background-color: rgba(255, 255, 255, 0.15);
+		transform: translateX(-50%) translateY(-2px);
+		box-shadow: 0 6px 35px rgba(0, 0, 0, 0.4);
+	}
+
+	#progress-bar {
+		background-color: rgba(200, 200, 200, 0.7);
+	}
+
 	.option {
 		background-color: #4a4a4a;
 		color: #fff;
@@ -76,58 +91,67 @@
 	.option.active:hover {
 		background-color: #0a0a0a !important;
 	}
+
 	#links {
 		text-decoration: none;
 		opacity: 80%;
 		color: #fff;
 	}
+
 	#progress-bar {
 		background-color: #141414;
-		opacity: 100%!important;
+		opacity: 100% !important;
 	}
 
 	.counters>.counter:hover {
 		background-color: #626262;
 	}
+
 	.logo {
 		filter: invert(1);
 	}
+
 	.scdescription {
 		color: #fff;
 	}
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
 
-th, td {
-    padding: 8px;
-    text-align: left;
-}
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
 
-th {
-    background-color: #1e1e1e; 
-    position: sticky;
-    top: 0; 
-    z-index: 10; 
-}
+	th,
+	td {
+		padding: 8px;
+		text-align: left;
+	}
 
-tfoot {
-    position: sticky;
-    bottom: 0; 
-    background-color: #1e1e1e; 
-    z-index: 10; 
-}
-tr:hover {
-    background-color: #555; 
-}
-#blog {
-    color: #fff!important;
-}
-.note {
-	color: #fff;
-	border-left: 5px solid #fff!important;
-	background-color: #575757!important;
-}
+	th {
+		background-color: #1e1e1e;
+		position: sticky;
+		top: 0;
+		z-index: 10;
+	}
+
+	tfoot {
+		position: sticky;
+		bottom: 0;
+		background-color: #1e1e1e;
+		z-index: 10;
+	}
+
+	tr:hover {
+		background-color: #555;
+	}
+
+	#blog {
+		color: #fff !important;
+	}
+
+	.note {
+		color: #fff;
+		border-left: 5px solid #fff !important;
+		background-color: #575757 !important;
+	}
 
 }

@@ -35,20 +35,25 @@ function updateCountdown() {
 
 function updateExamDisplay(exam, displayTitle) {
     currentExam = exam;
-    document.getElementById('examTitle').textContent = displayTitle || exam.name;
 
-    // Update the window title
-    document.title = `${exam.name} Countdown - CiteCount`;
-    
+    if (exam) {
+        document.getElementById('examTitle').textContent = displayTitle || exam.name;
+        // Update the window title with exam name
+        document.title = `${exam.name} Countdown - CiteCount`;
+    } else {
+        document.getElementById('examTitle').textContent = 'Select an Exam Countdown';
+        // Update the window title when no exam is selected
+        document.title = "IB Exam Countdowns - CiteCount";
+    }
+
     updateCountdown();
-    
-    if (exam.id) {
+
+    if (exam && exam.id) {
         const newUrl = new URL(window.location);
         newUrl.searchParams.set('id', exam.id);
         history.pushState({}, '', newUrl);
     }
 }
-
 function initializeSelect2() {
     $('#examSelect').select2({
         placeholder: 'Select an exam...',
@@ -75,10 +80,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const examId = urlParams.get('id');
         const defaultExam = examData[0];
-        
+
         if (!examId) {
             $('#examSelect').val(null).trigger('change');
-            updateExamDisplay(defaultExam, 'Select an Exam Countdown');
+            updateExamDisplay(null);  // Call with null for no exam selected
             history.pushState({}, '', window.location.pathname);
         } else {
             const selectedExam = examData.find(exam => exam.id === examId);
@@ -87,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 updateExamDisplay(selectedExam);
             } else {
                 $('#examSelect').val(null).trigger('change');
-                updateExamDisplay(defaultExam, 'Choose an exam');
+                updateExamDisplay(null);  // Call with null if exam not found
                 history.pushState({}, '', window.location.pathname);
             }
         }
@@ -97,6 +102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateExamDisplay(selectedExam);
         });
 
+        // Set up the countdown interval
         setInterval(updateCountdown, 1000);
     } catch (error) {
         console.error('Error loading exam data:', error);
