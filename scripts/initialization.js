@@ -57,6 +57,7 @@ window.onload = function () {
 	}
 	if (localStorage.getItem('Focus') === 'enabled') {
 		document.getElementById('landing-section').style.display = 'none';
+		document.getElementById('secondary-landing').style.display = 'none';
 	}
 	if (localStorage.getItem('WordsWithoutCitations') === 'disabled') {
 		document.getElementById('WordsWithoutCitations').style.display = 'none';

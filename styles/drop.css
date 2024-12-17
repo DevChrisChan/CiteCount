@@ -1,9 +1,9 @@
-/* Drop handling screen */
 #overlay {
-	background: rgba(255, 255, 255, 0.05);
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(4.5px);
--webkit-backdrop-filter: blur(4.5px);
+	background: rgba(255, 255, 255, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
 	display: none;
 	position: fixed;
 	width: 100%;
@@ -17,24 +17,74 @@ backdrop-filter: blur(4.5px);
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	color: black;
-}
-
-#overlay::before {
+	color: rgba(0, 0, 0, 0.8);
+	transition: all 0.3s ease-in-out;
+  }
+  
+  #overlay::before {
 	content: "";
 	position: absolute;
-	border: 5px dotted black; 
-	width: 80%; 
-	height: 80%; 
+	border: 3px dashed rgba(0, 0, 0, 0.2);
+	width: 80%;
+	height: 80%;
 	top: 10%;
 	left: 10%;
-	border-radius: 3%; 
-	animation: enlargeUnlarge 1.5s infinite; 
-	box-sizing: border-box; 
-}
+	border-radius: 24px;
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	box-sizing: border-box;
+	transition: all 0.3s ease-in-out;
+  }
+  
+  @keyframes pulse {
+	0%, 100% {
+	  transform: scale(1);
+	  opacity: 0.8;
+	}
+	50% {
+	  transform: scale(1.03);
+	  opacity: 1;
+	}
+  }
+  
+  @media (prefers-color-scheme: dark) {
+	#overlay {
+	  background: rgba(255, 255, 255, 0.1);
+	  border: 1px solid rgba(255, 255, 255, 0.1);
+	  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+	  color: rgba(255, 255, 255, 0.8);
+	}
+  
+	#overlay::before {
+	  border-color: rgba(255, 255, 255, 0.2);
+	}
+  }
+  
+  /* Hover effects */
+  #overlay:hover::before {
+	border-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+	#overlay:hover::before {
+	  border-color: rgba(255, 255, 255, 0.3);
+	}
+  }
 
-@keyframes enlargeUnlarge {
-	0% { width: 80%; height: 80%; top: 10%; left: 10%; }
-	50% { width: 85%; height: 85%; top: 7.5%; left: 7.5%; }
-	100% { width: 80%; height: 80%; top: 10%; left: 10%; }
-}
+  #overlay.dragover {
+	background: rgba(255, 255, 255, 0.25);
+  }
+  
+  #overlay.dragover::before {
+	border-style: solid;
+	border-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  @media (prefers-color-scheme: dark) {
+	#overlay.dragover {
+	  background: rgba(255, 255, 255, 0.15);
+	}
+	
+	#overlay.dragover::before {
+	  border-color: rgba(255, 255, 255, 0.4);
+	}
+  }

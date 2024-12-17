@@ -10,40 +10,34 @@ const urlsToCache = [
     '/scripts/initialization.js',
     '/scripts/notifications.js',
     '/scripts/settings.js',
+    '/countdown',
+    ''
 ];
 
-// Install event - cache the initial resources
 self.addEventListener('install', (event) => {
-    // Skip waiting to activate the new service worker immediately
     self.skipWaiting();
 });
 
-// Fetch event - always load from the network when online
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         fetch(event.request)
             .then((networkResponse) => {
-                // Check if we received a valid response
                 if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                    return networkResponse; // Return the network response if invalid
+                    return networkResponse; 
                 }
-
-                // Update the cache with the new response
                 return caches.open(CACHE_NAME).then((cache) => {
-                    cache.put(event.request, networkResponse.clone()); // Cache the new response
-                    return networkResponse; // Return the network response
+                    cache.put(event.request, networkResponse.clone()); 
+                    return networkResponse;
                 });
             })
             .catch(() => {
-                // If the network request fails, check the cache
                 return caches.match(event.request).then((cachedResponse) => {
-                    return cachedResponse || Response.error(); // Return cached response if available or an error response
+                    return cachedResponse || Response.error(); 
                 });
             })
     );
 });
 
-// Activate event - clean up old caches if needed
 self.addEventListener('activate', (event) => {
     const cacheWhitelist = [CACHE_NAME];
     event.waitUntil(
@@ -51,7 +45,7 @@ self.addEventListener('activate', (event) => {
             return Promise.all(
                 cacheNames.map((cacheName) => {
                     if (!cacheWhitelist.includes(cacheName)) {
-                        return caches.delete(cacheName); // Delete old caches
+                        return caches.delete(cacheName); 
                     }
                 })
             );

@@ -80,13 +80,15 @@
   <!-- Navigation bar-->
   <nav class="navbar">
     <a href="/" class="nav-link">
-      <img draggable="false" src="/assets/logo.svg" alt="CiteCount Logo" class="logo"/>CiteCount
-    </a>
+      <img draggable="false" src="/assets/logo.svg" alt="CiteCount Logo" class="logo" />CiteCount
+      <span id="identifier"
+        style="font-family: monospace; padding-left: 10px; display: none; font-weight: 900; text-decoration: underline;">Developer
+        Mode</span></a>
     <div class="nav-buttons">
-      <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB M25 Countdown</a>
+      <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB Exams Countdown</a>
       <a href="/blogs" class="nav-link" style="font-weight: 500;">Blogs</a>
       <span data-lta-event="settings opened" style="cursor: pointer" class="about-link"><img draggable="false"
-          src="/assets/settings.svg" alt="Settings" class="logo" id="cog"/></span>
+          src="/assets/settings.svg" alt="Settings" class="logo" id="cog" title="Settings [Command + ,]"/></span>
   </nav>
   <!--<p id="message">
     We'd like to invite you to <a style="opacity:100%!important;text-decoration: underline;" id="links" target="_blank"
@@ -318,7 +320,7 @@
         <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
       </div>
       <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
-        data-value="0" title="Total number of citations. Click to view a list of your citations.">
+        data-value="0" title="Click to view a list of your citations. [Command + K]">
         <div id="citationslabel" class="label">Citations</div>
 
         <div class="value" id="citationCountValue"><span class="dots">...</span>
@@ -332,7 +334,8 @@
         placeholder="Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount. "
         style="flex-grow: 1;" autofocus data-lta-event="textbox focus"></textarea>
     </div>
-    <span id="safety" style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;">
+    <span id="safety"
+      style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;">
       <img draggable="false" src="/assets/shield.svg" alt="Shield"
         style="width: 1em; height: 1em; vertical-align: middle;" />
       CiteCount prioritizes data security. Your content stays secure on your device.
@@ -344,25 +347,25 @@
     <div id="bottom-counters" style="display: none;">
       <div class="counters" style="padding-top: 20px;">
         <div id="WordsWithoutCitations" class="counter" data-value="0"
-    title="Total number of words excluding your in-text citations">
-    <div id="wordswolabel" class="label">Words without citations</div>
-    <div id="wordCountNoCitationsValue" class="value"><span class="dots">...</span></div>
-</div>
-<div id="CharsWithoutCitations" class="counter" data-value="0"
-    title="Total number of characters excluding your in-text citations">
-    <div id="charswolabel" class="label">Characters without citations</div>
-    <div id="charCountNoCitationsValue" class="value"><span class="dots">...</span></div>
-</div>
-<div id="WordsWithCitations" class="counter" data-value="0"
-    title="Total number of words, including your in-text citations">
-    <div id="wordslabel" class="label">Words with citations</div>
-    <div id="wordCountWithCitationsValue" class="value"><span class="dots">...</span></div>
-</div>
-<div id="CharsWithCitations" class="counter" data-value="0"
-    title="Total number of characters, including your in-text citations">
-    <div id="charslabel" class="label">Characters with citations</div>
-    <div id="charCountWithCitationsValue" class="value"><span class="dots">...</span></div>
-</div>
+          title="Total number of words excluding your in-text citations">
+          <div id="wordswolabel" class="label">Words without citations</div>
+          <div id="wordCountNoCitationsValue" class="value"><span class="dots">...</span></div>
+        </div>
+        <div id="CharsWithoutCitations" class="counter" data-value="0"
+          title="Total number of characters excluding your in-text citations">
+          <div id="charswolabel" class="label">Characters without citations</div>
+          <div id="charCountNoCitationsValue" class="value"><span class="dots">...</span></div>
+        </div>
+        <div id="WordsWithCitations" class="counter" data-value="0"
+          title="Total number of words, including your in-text citations">
+          <div id="wordslabel" class="label">Words with citations</div>
+          <div id="wordCountWithCitationsValue" class="value"><span class="dots">...</span></div>
+        </div>
+        <div id="CharsWithCitations" class="counter" data-value="0"
+          title="Total number of characters, including your in-text citations">
+          <div id="charslabel" class="label">Characters with citations</div>
+          <div id="charCountWithCitationsValue" class="value"><span class="dots">...</span></div>
+        </div>
 
         <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
           data-value="0" title="Total number of citations. Click to view a list of your citations.">
@@ -383,7 +386,8 @@
         <span id="debug" style="font-family: monospace;"></span>
         <div id="tableContainer"></div>
         <h1>CiteCount</h1>
-        <h2 style="padding-bottom: 30px;">Word counting solution for students and researchers</h2>
+        <h2 style="padding-bottom: 30px; opacity: 80%;">Redefining word counting solutions for students and researchers.
+        </h2>
         <div class="landing-grid">
           <div class="feature-card">
             <div class="feature-icon">📝</div>
@@ -397,8 +401,13 @@
             <p class="feature-description">Get comprehensive word counts and citation statistics.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-icon">🛠️</div>
-            <h3 class="feature-title">Customise Citations</h3>
+            <div class="feature-icon">🔒</div>
+            <h3 class="feature-title">Safe & Secure</h3>
+            <p class="feature-description">CiteCount works exlusively within your device, keeping your content safe.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3 class="feature-title">Citations List</h3>
             <p class="feature-description">View a list of your citations and select the ones you'd like to include by
               clicking Citations.
             </p>
@@ -409,112 +418,140 @@
             <p class="feature-description">Counters update as you type. Select parts of your text to view statistics of
               your selection.</p>
           </div>
-          <div class="feature-card">
+          <!--<div class="feature-card">
             <div class="feature-icon">💾</div>
             <h3 class="feature-title">AutoSave</h3>
-            <p class="feature-description">Automatically saves your text when you are typing. </p>
-          </div>
+            <p class="feature-description">Automatically saves your text when you are typing.</p>
+          </div>-->
           <div class="feature-card">
             <div class="feature-icon">⚙️</div>
             <h3 class="feature-title">Customisable Counters</h3>
             <p class="feature-description">Select counters that matters the most. Customise in Settings.</p>
           </div>
+          <div class="feature-card">
+            <div class="feature-icon">📶</div>
+            <h3 class="feature-title">Available Offline</h3>
+            <p class="feature-description">CiteCount will function even when you're offline, as everything is processed
+              on device.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3 class="feature-title">Import Your File</h3>
+            <p class="feature-description">You can drag and drop your Word or PDF file, CiteCount will process the file
+              for you.</p>
+          </div>
+          <a href="/product.html" style="text-decoration: none; color: white;">
+            <div class="cta" data-lta-event="product link">
+              <div class="feature-icon">✨</div>
+              <h3 class="feature-title">... and much more!</h3>
+              <p class="feature-description">Click to learn how 10k+ IB Students utilizes CiteCount to streamline their
+                workflow.</p>
+            </div>
+          </a>
         </div>
     </section>
-    <section class="landing-section" id="landing-section">
-      <div class="new-container">
-        <h2 style="text-align: left;">
-          CiteCount Applications
-        </h2>
-        <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click" href="/countdown">
-          <div class="blog" style="text-align: left;">
-            <h2>May 2025 Exams Countdown App</h2>
-            <p>Customisable exam countdowns application for IB May 2025 Examination Session.</p>
-          </div>
-        </a>
-        <h2 style="text-align: left;">
-          CiteCount Blogs
-        </h2>
-        <a data-lta-event="promise for safety blog outbound click" href="/blogs/our-promise-for-safety.html">
-          <div class="blog" style="text-align: left;">
-            <h2>Our promise for your content's safety on CiteCount</h2>
-            <p>CiteCount's developer explains the mechanism behind this application to debunk your concerns.</p>
-          </div>
-        </a>
-        <br>
-        <a data-lta-event="introducing countdown blog outbound click" href="/blogs/introducing-ib-exam-countdowns.html">
-          <div class="blog" style="text-align: left;">
-            <h2>Introducing the IB Examinations Countdown App</h2>
-            <p>We are excited to share that we have developed a stunning countdown app for IB Examination Countdowns!
-            </p>
-          </div>
-        </a>
-        <br>
-        <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
-          href="/blogs/extended-essay-word-count.html">
-          <div class="blog" style="text-align: left;">
-            <h2>What is included in the word count of an IB Extended Essay?</h2>
-            <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
-          </div>
-        </a>
-        <br>
-        <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
-          href="/blogs/biology-ia-word-count.html">
-          <div class="blog" style="text-align: left;">
-            <h2>Mastering Your IB Biology IA: Word Count Requirements and Tips</h2>
-            <p>Navigate the essential structure and word limits for a successful IA!</p>
-          </div>
-        </a>
-        <br>
-        <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
-          href="/blogs/chemistry-ia-word-count.html">
-          <div class="blog" style="text-align: left;">
-            <h2>Excelling in Your IB Chemistry IA: Word Count Guidelines and Advice</h2>
-            <p>Explore the crucial framework and word restrictions for an effective chemistry IA!</p>
-          </div>
-        </a>
-        <br>
-        <a data-lta-event="ai blog outbound click" href="/blogs/integration-with-apple-intelligence.html">
-          <div class="blog" style="text-align: left;">
-            <h2>Integrating CiteCount with Apple Intelligence</h2>
-            <p>With the official launch of iOS 18.2 and macOS 15.2, Apple Intelligence has been rolled out to devices with new chips. CiteCount is integrated with Apple Intelligence, and this blog will introduce its usage.</p>
-          </div>
-        </a>
-        <br>
-        <a data-lta-event="more blogs outbound click" href="/blogs/index.html">
-          <div class="blog" style="text-align: left;">
-            <h2>View more blogs...</h2>
-            <p>Visit our blog page to view rest of our helpful IB related blogs!</p>
-          </div>
-        </a>
-        
-        <hr class="bottomhr">
-        <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
-            data-lta-event="contact form outbound click" href="/contact.html" style="color: white;">Contact the
-            developers</a><br> <a id="links" data-lta-event="privacy policy outbound click" href="/privacy-policy.html"
-            style="color: white;">Privacy
-            policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html" style="color: white;">Terms
-            of Service</a></p>
-        <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned
-          by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not
-          endorsed by the International Baccalaureate Organization.</p>
-        <p style="padding-top: 5px;">
-          &copy;
-          <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
-        </p>
-      </div>
-      </div>
+    <div id="secondary-landing">
+      <section class="landing-section" id="landing-section">
+        <div class="new-container">
+          <h2 style="text-align: left;">
+            CiteCount Applications
+          </h2>
+          <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click" href="/countdown">
+            <div class="blog" style="text-align: left;">
+              <h2>May 2025 Exams Countdown App</h2>
+              <p>Customisable exam countdowns application for IB May 2025 Examination Session.</p>
+            </div>
+          </a>
+          <h2 style="text-align: left;">
+            CiteCount Blogs
+          </h2>
+          <a data-lta-event="promise for safety blog outbound click" href="/blogs/our-promise-for-safety.html">
+            <div class="blog" style="text-align: left;">
+              <h2>Our promise for your content's safety on CiteCount</h2>
+              <p>CiteCount's developer explains the mechanism behind this application to debunk your concerns.</p>
+            </div>
+          </a>
+          <br>
+          <a data-lta-event="introducing countdown blog outbound click"
+            href="/blogs/introducing-ib-exam-countdowns.html">
+            <div class="blog" style="text-align: left;">
+              <h2>Introducing the IB Examinations Countdown App</h2>
+              <p>We are excited to share that we have developed a stunning countdown app for IB Examination Countdowns!
+              </p>
+            </div>
+          </a>
+          <br>
+          <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
+            href="/blogs/extended-essay-word-count.html">
+            <div class="blog" style="text-align: left;">
+              <h2>What is included in the word count of an IB Extended Essay?</h2>
+              <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
+            </div>
+          </a>
+          <br>
+          <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
+            href="/blogs/biology-ia-word-count.html">
+            <div class="blog" style="text-align: left;">
+              <h2>Mastering Your IB Biology IA: Word Count Requirements and Tips</h2>
+              <p>Navigate the essential structure and word limits for a successful IA!</p>
+            </div>
+          </a>
+          <br>
+          <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
+            href="/blogs/chemistry-ia-word-count.html">
+            <div class="blog" style="text-align: left;">
+              <h2>Excelling in Your IB Chemistry IA: Word Count Guidelines and Advice</h2>
+              <p>Explore the crucial framework and word restrictions for an effective chemistry IA!</p>
+            </div>
+          </a>
+          <br>
+          <a data-lta-event="ai blog outbound click" href="/blogs/integration-with-apple-intelligence.html">
+            <div class="blog" style="text-align: left;">
+              <h2>Integrating CiteCount with Apple Intelligence</h2>
+              <p>With the official launch of iOS 18.2 and macOS 15.2, Apple Intelligence has been rolled out to devices
+                with new chips. CiteCount is integrated with Apple Intelligence, and this blog will introduce its usage.
+              </p>
+            </div>
+          </a>
+          <br>
+          <a data-lta-event="more blogs outbound click" href="/blogs/index.html">
+            <div class="blog" style="text-align: left;">
+              <h2>View more blogs...</h2>
+              <p>Visit our blog page to view rest of our helpful IB related blogs!</p>
+            </div>
+          </a>
+
+          <hr class="bottomhr">
+          <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
+              data-lta-event="contact form outbound click" href="/contact.html" style="color: white;">Contact the
+              developers</a><br> <a id="links" data-lta-event="privacy policy outbound click"
+              href="/privacy-policy.html" style="color: white;">Privacy
+              policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html"
+              style="color: white;">Terms
+              of Service</a></p>
+          <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks
+            owned
+            by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is
+            not
+            endorsed by the International Baccalaureate Organization.</p>
+          <p style="padding-top: 5px;">
+            &copy;
+            <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
+          </p>
+        </div>
+    </div>
     </section>
-    <script src="/scripts/core.js"></script>
-    <script src="/scripts/initialization.js"></script>
-    <script src="/scripts/notifications.js"></script>
-    <script src="/scripts/settings.js"></script>
-    <script src="/scripts/citations.js"></script>
-    <script src="/scripts/drop.js"></script>
-    <script src="/scripts/dev.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+  </footer>
+  <script src="/scripts/core.js"></script>
+  <script src="/scripts/initialization.js"></script>
+  <script src="/scripts/notifications.js"></script>
+  <script src="/scripts/settings.js"></script>
+  <script src="/scripts/citations.js"></script>
+  <script src="/scripts/drop.js"></script>
+  <script src="/scripts/dev.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 </body>
 
 </html>

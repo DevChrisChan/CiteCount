@@ -662,6 +662,40 @@ tr:hover {
 }
 
 .about-link:hover #cog {
-    opacity: 0.5; /* Change opacity on hover */
-    filter: brightness(1.2); /* Slightly brighten the icon */
+    opacity: 0.5;
+    filter: brightness(1.2); 
+}
+
+.cta {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background: linear-gradient(45deg, rgba(255, 0, 150, 0.8), rgba(0, 204, 255, 0.8)); 
+    filter: blur(15px);
+    z-index: 0;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.cta:hover::before {
+    opacity: 1;
+}
+
+.cta > * {
+    position: relative;
+    z-index: 1; 
 }

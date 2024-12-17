@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="/styles/style.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/dark.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/drop.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/test.css" rel="stylesheet" type="text/css" />
+  <title>CiteCount - Count Words without In-text Citations</title>
+  <meta property="og:title" content="CiteCount - Count Words without In-text Citations" />
+  <meta property="og:description"
+    content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
+  <meta property="og:image"
+    content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+  <meta property="og:url" content="https://citecount.netlify.app" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:image"
+    content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+  <meta name="twitter:description"
+    content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CiteCount - Count Words without In-text Citations" />
+  <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+  <meta name="description"
+    content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats.">
+  <meta name="keywords"
+    content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#575757" />
+  <script type="application/ld+json">
+  {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CiteCount",
+      "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.",
+      "applicationCategory": "Reference",
+      "operatingSystem": "All"
+  }></script>
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CiteCount" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+  <script defer async data-host="citecount.netlify.app" data-events="true"
+    src="https://liteanalytics.com/lite.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-LHVN622J29');
+  </script>
+</head>
+
+<body>
+  <!-- JavaScript not enabled -->
+  <noscript>
+    <div style="background-color: red; padding:1px; color: white;">
+      <p><strong>Enable JavaScript for CiteCount</strong></p>
+      <p>CiteCount is built as a client-side JavaScript application to ensure your files are not sent to servers to
+        process. JavaScript has to be enabled for CiteCount to function.</p>
+    </div>
+  </noscript>
+
+ 
+  <!-- Navigation bar-->
+  <nav class="navbar">
+    <a href="/" class="nav-link">
+      <img draggable="false" src="/assets/logo.svg" alt="CiteCount Logo" class="logo"/>CiteCount
+    </a>
+    <div class="nav-buttons">
+      <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB Exams Countdown</a>
+      <a href="/blogs" class="nav-link" style="font-weight: 500;">Blogs</a>
+  </nav>
+
+    <section class="alt-landing-section" id="landing-section" style="margin-top: 5px;">
+      <div class="new-container">
+        <span id="debug" style="font-family: monospace;"></span>
+        <div id="tableContainer"></div>
+        <h1>CiteCount</h1>
+        <h2 style="padding-bottom: 30px; opacity: 80%;">Word counting solution for students and researchers</h2>
+            <h3 style="padding-bottom: 50px;">At CiteCount, we are redefining word counting solutions for students and researchers. Our aim is to improve the workflow of IB students by eliminating the hassle of word counting for their IAs and EEs. Built by an IB student who understands your frustrations.</h3>
+            <h3 style="padding-bottom: 50px;">We are inviting talents to join the CiteCount team. Contact us below for more information.</h3>
+            <h3>This page is a work in progress. Come back soon for more information.</h3>
+        <!--<div class="landing-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3 class="feature-title">Smart Citation Detection</h3>
+            <p class="feature-description">Automatically detects and counts in-text citations in various formats.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Detailed Analytics</h3>
+            <p class="feature-description">Get comprehensive word counts and citation statistics.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3 class="feature-title">Safe & Secure</h3>
+            <p class="feature-description">CiteCount works exlusively within your device, keeping your content safe.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3 class="feature-title">Citations List</h3>
+            <p class="feature-description">View a list of your citations and select the ones you'd like to include by
+              clicking Citations.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 class="feature-title">Real-time Processing</h3>
+            <p class="feature-description">Counters update as you type. Select parts of your text to view statistics of
+              your selection.</p>
+          </div>
+      
+          <div class="feature-card">
+            <div class="feature-icon">⚙️</div>
+            <h3 class="feature-title">Customisable Counters</h3>
+            <p class="feature-description">Select counters that matters the most. Customise in Settings.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📶</div>
+            <h3 class="feature-title">Available Offline</h3>
+            <p class="feature-description">CiteCount will function even when you're offline, as everything is processed on device.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3 class="feature-title">Import Your File</h3>
+            <p class="feature-description">You can drag and drop your Word or PDF file, CiteCount will process the file for you.</p>
+          </div>
+          <a href="/product.html" style="text-decoration: none; color: white;"><div class="cta" data-lta-event="product link">
+            <div class="feature-icon">✨</div>
+            <h3 class="feature-title">... and much more!</h3>
+            <p class="feature-description">Click to learn how 10k+ IB Students utilizes CiteCount to streamline their workflow.</p>
+          </div></a>
+        </div>
+    </section>
+    <section class="landing-section" id="landing-section">
+      <div class="new-container">
+-->
+        <hr class="bottomhr">
+        <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
+            data-lta-event="contact form outbound click" href="/contact.html" style="color: white;">Contact the
+            developers</a><br> <a id="links" data-lta-event="privacy policy outbound click" href="/privacy-policy.html"
+            style="color: white;">Privacy
+            policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html" style="color: white;">Terms
+            of Service</a></p>
+        <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned
+          by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not
+          endorsed by the International Baccalaureate Organization.</p>
+        <p style="padding-top: 5px;">
+          &copy;
+          <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
+        </p>
+      </div>
+      </div>
+    </section>
+    <script src="/scripts/core.js"></script>
+    <script src="/scripts/initialization.js"></script>
+    <script src="/scripts/notifications.js"></script>
+    <script src="/scripts/settings.js"></script>
+    <script src="/scripts/citations.js"></script>
+    <script src="/scripts/drop.js"></script>
+    <script src="/scripts/dev.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+</body>
+
+</html>

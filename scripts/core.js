@@ -49,15 +49,30 @@ function UpdateCounts() {
     var isTextSelected = selectedText.length > 0;
     if (rawText == "!dev") {
         localStorage.setItem('dev', 'enabled');
-        notify('Restart for effects to take.')
+        notify('Restarting soon for effects to take.')
+        setTimeout(function(){
+            document.getElementById("rawData").value = "";
+            localStorage.removeItem('rawData')
+        }, 300);
+        
+        setTimeout(function(){
+            window.location.reload()
+        }, 500);
     }
     if (rawText == "!stop") {
         disableDev();
+        notify('Restarting soon for effects to take.')
+        setTimeout(function(){
+            document.getElementById("rawData").value = "";
+            localStorage.removeItem('rawData')
+        }, 300);
+        
+        setTimeout(function(){
+            window.location.reload()
+        }, 500);
     }
     if (localStorage.getItem('dev') === "enabled") {
-        const rawText = "!stats"; 
-
-        if (rawText === "!stats") {
+        
             const browserInfo = {
                 browserName: navigator.appName,
                 browserVersion: navigator.userAgent,
@@ -120,7 +135,7 @@ function UpdateCounts() {
 
             setInterval(logMemoryUsage, 1000);
         }
-    }
+    
     rawText = rawText.replace(/ +/g, ' ');
     var citations = rawText.match(/\(.*?\)/g) || rawText.match(/（.*?）/g) || [];
     if (!window.citationsData) {
