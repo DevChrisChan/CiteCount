@@ -1,30 +1,15 @@
 function enableDev() {
     localStorage.setItem('lta_do_not_track', "true");
-    document.body.style.backgroundColor = "red";
-    document.body.style.backgroundImage = "linear-gradient(red 25%, white 25%, white 50%, red 50%, red 75%, white 75%, white 100%)";
-    document.body.style.backgroundSize = "100% 40px";
+    document.body.style.backgroundColor = "yellow";
+    document.body.style.backgroundImage = "linear-gradient(45deg, yellow 25%, black 25%, black 50%, yellow 50%, yellow 75%, black 75%, black 100%)";
+    document.body.style.backgroundSize = "40px 40px";
+    document.body.style.border = "3px solid red";
+    document.body.style.margin = "0"; 
+    document.body.style.height = "100vh"; 
     document.getElementById("identifier").style.display = 'block'
     console.log('Enabled developer mode')
     notify('Enabled developer mode.')
-    const browserInfo = {
-        browserName: navigator.appName,
-        browserVersion: navigator.userAgent,
-        onlineStatus: navigator.onLine,
-        platform: navigator.platform,
-        screenWidth: window.screen.width,
-        screenHeight: window.screen.height,
-        availableWidth: window.screen.availWidth,
-        availableHeight: window.screen.availHeight,
-        innerWidth: window.innerWidth,
-        innerHeight: window.innerHeight,
-        outerWidth: window.outerWidth,
-        outerHeight: window.outerHeight,
-        cookies: document.cookie,
-        localStorage: JSON.stringify(localStorage),
-        performanceTiming: window.performance ? window.performance.timing : null,
-        navigationType: window.performance ? window.performance.navigation.type : null
-    };
-        console.log("Browser Information:", browserInfo);
+   
     const debugSpan = document.getElementById('secondarydebug');
                 debugSpan.textContent = `[Developer Mode] For internal use only. Unauthorized distribution is prohibited.`;
     

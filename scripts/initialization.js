@@ -134,15 +134,14 @@ window.addEventListener("online", () => {
 	notify("CiteCount is now working online.")
 });
 
-// Register the service worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-                console.log(getTimestamp() + ' CiteCount installed, ready to run offline.');
+                console.log(getTimestamp() + ' CiteCount is ready to run offline.');
             })
             .catch((error) => {
-                console.error(getTimestamp() + ' There is an error while installing CiteCount:', error);
+                console.error(getTimestamp() + ' There is an error while installing CiteCount for offline use:', error);
             });
     });
 }

@@ -19,7 +19,6 @@ function notify(message) {
         clearInterval(progressIntervalId);
     }
 
-    // Set a new timeout for notification
     function startTimeout() {
         timeoutId = setTimeout(function () {
             notification.classList.remove("show");
@@ -29,7 +28,6 @@ function notify(message) {
     }
     startTimeout();
 
-    // Start progress bar countdown
     function startProgressBar() {
         progressIntervalId = setInterval(function () {
             if (!isPaused) {
@@ -43,7 +41,6 @@ function notify(message) {
     }
     startProgressBar();
 
-    // Add hover events
     notification.onmouseenter = function() {
         isPaused = true;
         clearTimeout(timeoutId);
@@ -54,7 +51,6 @@ function notify(message) {
         startTimeout();
     };
 
-    // Click event to dismiss
     notification.onclick = function () {
         notification.classList.remove("show");
         notification.style.opacity = 0;

@@ -73,7 +73,7 @@
       <h1 id="overlayText" style="color:black;">Drop your file to import into CiteCount.</h1>
       <p style="color:black">Only Microsoft Word (.docx and .doc) and PDF (.pdf) files are supported.<br>Your document
         stays securely
-        within your device. All operations are performed locally in your browser.</p>
+        within your device. All operations are performed locally in your browser.<br><br>Equations and images are automatically removed from the file.</p>
     </div>
   </div>
 
@@ -208,7 +208,7 @@
             <button data-lta-event="disableCitations" id="disableCitations" class="option">Disable</button>
           </div>
         </div>
-        <div class="setting-name">Information</div>
+        <div class="setting-name" id="devtoggle">Information</div>
         <hr>
         <div class="setting">
           <span class="setting-name">CiteCount version</span>
@@ -237,17 +237,18 @@
             </p>
           </div>
         </div>-->
+        <hr>
         <div class="setting">
           <div class="setting-description">
             <span class="setting-name">Reset all settings</span>
-            <p class="description">Requires app restart to take effect. AutoSave data will be lost. Recommended if
+            <p class="description">Requires app restart to take effect. Customised settings and AutoSave data will be lost. Recommended if
               CiteCount is not working as expected.</p>
           </div>
           <div class="options">
             <button style="color: #DC143C!important;"
-              onclick="localStorage.clear();notify('All settings have been reset. Reload app to take effect. Save text before reloading to avoid losing work.')"
-              class="option">Reset All Settings</button>
-          </div>
+                onclick="confirmReset()"
+                class="option">Reset All Settings</button>
+        </div>
         </div>
       </div>
     </div>
@@ -297,6 +298,16 @@
       </div>
     </div>
 
+    <!--Confirmation dialog-->
+    <div id="custom-dialog" class="dialog">
+      <div class="dialog-content">
+          <h2>Confirm Reset</h2>
+          <p>Are you sure you want to reset all settings? This action cannot be undone. Please save your text before reloading to avoid losing work.</p>
+          <button id="confirm-button">Yes, Reset</button>
+          <button id="cancel-button">Cancel</button>
+      </div>
+  </div>
+
     <!-- Content -->
     <div class="counters">
       <div id="WordsWithoutCitations" class="counter" data-value="0"
@@ -331,9 +342,10 @@
     </div>
     <div class="textareas">
       <textarea spellcheck="true" id="rawData" oninput="UpdateCounts()"
-        placeholder="Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount. "
+        placeholder="Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount."
         style="flex-grow: 1;" autofocus data-lta-event="textbox focus"></textarea>
     </div>
+  </label>
     <span id="safety"
       style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;">
       <img draggable="false" src="/assets/shield.svg" alt="Shield"
@@ -343,6 +355,7 @@
         guarantee</a>.
     </span>
     <span id="secondarydebug" style="font-family: monospace;"></span>
+    <span id="status" style="font-family: monospace;"></span>
     <!-- Additional conters-->
     <div id="bottom-counters" style="display: none;">
       <div class="counters" style="padding-top: 20px;">

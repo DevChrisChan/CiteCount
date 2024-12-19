@@ -248,7 +248,7 @@ textarea:focus::before {
     border-radius: 10px;
     padding: 16px;
     position: fixed;
-    z-index: 10;
+    z-index: 10000;
     left: 50%;
     bottom: 30px;
     font-size: 1em;
@@ -412,9 +412,9 @@ a {
 }
 
 .blog {
-    background-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    box-shadow: 0 2px 10px var(--color-shadow-light);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 20px;
     box-sizing: border-box;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
@@ -517,10 +517,10 @@ a {
     overflow-y: auto;
     position: relative;
 }
-
 table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed; 
 }
 
 th,
@@ -529,6 +529,8 @@ td {
     padding: 8px;
     text-align: left;
     width: 40px !important;
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
 }
 
 th {

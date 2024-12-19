@@ -1,12 +1,27 @@
 let examData = [];
 let currentExam = null;
+const DEFAULT_DATE = '2025-04-25';
 
 function padZero(num) {
     return num < 10 ? '0' + num : num;
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate(); 
+    const month = date.getMonth() + 1; 
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+
 function updateCountdown() {
-    if (!currentExam) return;
+    if (!currentExam) {
+        const defaultCountdown = {
+            date: DEFAULT_DATE,
+            name: ''
+        };
+        currentExam = defaultCountdown;
+    }
 
     const now = new Date().getTime();
     const examDate = new Date(currentExam.date).getTime();
@@ -37,12 +52,13 @@ function updateExamDisplay(exam, displayTitle) {
     currentExam = exam;
 
     if (exam) {
-        document.getElementById('examTitle').textContent = displayTitle || exam.name;
-        // Update the window title with exam name
-        document.title = `${exam.name} Countdown - CiteCount`;
+        const formattedDate = formatDate(exam.date);
+        const displayText = `${exam.name} [${formattedDate}]`;
+        document.getElementById('examTitle').textContent = displayTitle || displayText;
+        document.title = `${displayText} Countdown - CiteCount`;
     } else {
-        document.getElementById('examTitle').textContent = 'Select an Exam Countdown';
-        // Update the window title when no exam is selected
+        const defaultDate = formatDate(DEFAULT_DATE);
+        document.getElementById('examTitle').textContent = `Select an exam below.`;
         document.title = "IB Exam Countdowns - CiteCount";
     }
 
@@ -54,13 +70,14 @@ function updateExamDisplay(exam, displayTitle) {
         history.pushState({}, '', newUrl);
     }
 }
+
 function initializeSelect2() {
     $('#examSelect').select2({
         placeholder: 'Select an exam...',
         allowClear: true,
         data: examData.map(exam => ({
             id: exam.id,
-            text: exam.name
+            text: `${exam.name} [${formatDate(exam.date)}]`
         }))
     });
 
@@ -83,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!examId) {
             $('#examSelect').val(null).trigger('change');
-            updateExamDisplay(null);  // Call with null for no exam selected
+            updateExamDisplay(null);
             history.pushState({}, '', window.location.pathname);
         } else {
             const selectedExam = examData.find(exam => exam.id === examId);
@@ -92,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 updateExamDisplay(selectedExam);
             } else {
                 $('#examSelect').val(null).trigger('change');
-                updateExamDisplay(null);  // Call with null if exam not found
+                updateExamDisplay(null);
                 history.pushState({}, '', window.location.pathname);
             }
         }
@@ -102,7 +119,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             updateExamDisplay(selectedExam);
         });
 
-        // Set up the countdown interval
         setInterval(updateCountdown, 1000);
     } catch (error) {
         console.error('Error loading exam data:', error);

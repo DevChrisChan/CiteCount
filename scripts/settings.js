@@ -122,3 +122,40 @@ document.addEventListener('keydown', function(event) {
 		event.preventDefault();
 	}
 });
+
+function showDialog() {
+    document.getElementById('custom-dialog').style.display = 'flex';
+}
+
+function confirmReset() {
+    showDialog();
+}
+
+document.getElementById('confirm-button').onclick = function() {
+    localStorage.clear();
+    location.reload();
+};
+
+document.getElementById('cancel-button').onclick = function() {
+    document.getElementById('custom-dialog').style.display = 'none';
+};
+
+let clickCount = 0;
+
+    document.getElementById('devtoggle').addEventListener('click', function() {
+        clickCount++;
+        if (clickCount === 5) {
+		
+            localStorage.setItem('dev', 'enabled');
+            notify('Restarting soon for effects to take.');
+
+            setTimeout(function() {
+                document.getElementById("rawData").value = "";
+                localStorage.removeItem('rawData');
+            }, 300);
+
+            setTimeout(function() {
+                window.location.reload();
+            }, 500);
+	}
+    });

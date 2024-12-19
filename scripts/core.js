@@ -42,7 +42,7 @@ window.onload = function() {
 };
 
 function UpdateCounts() {
-    
+
     var textarea = document.getElementById("rawData");
     var rawText = textarea.value;
     var selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
@@ -72,69 +72,78 @@ function UpdateCounts() {
         }, 500);
     }
     if (localStorage.getItem('dev') === "enabled") {
+        const browserInfo = {
+            browserName: navigator.appName,
+            browserVersion: navigator.userAgent,
+            platform: navigator.platform,
+        };
+    
+        /*let memoryInfo;
+        const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
         
-            const browserInfo = {
-                browserName: navigator.appName,
-                browserVersion: navigator.userAgent,
-                platform: navigator.platform,
-            };
-            const memoryInfo = window.performance.memory;
-
-            function buildTable() {
-                const tableContainer = document.getElementById('tableContainer');
-                tableContainer.innerHTML = ''; 
-
-                const table = document.createElement('table');
-                const thead = document.createElement('thead');
-                const tbody = document.createElement('tbody');
-
-                const headerRow = document.createElement('tr');
-                const headerKey = document.createElement('th');
-                const headerValue = document.createElement('th');
-
-                headerKey.textContent = 'Key';
-                headerValue.textContent = 'Value';
-
-                headerRow.appendChild(headerKey);
-                headerRow.appendChild(headerValue);
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
-
-                // Populate the table with localStorage data
-                for (let i = 0; i < localStorage.length; i++) {
-                    const key = localStorage.key(i);
-                    const value = localStorage.getItem(key);
-
-                    const row = document.createElement('tr');
-                    const cellKey = document.createElement('td');
-                    const cellValue = document.createElement('td');
-
-                    cellKey.textContent = key;
-                    cellValue.textContent = value;
-
-                    row.appendChild(cellKey);
-                    row.appendChild(cellValue);
-                    tbody.appendChild(row);
-                }
-
-                table.appendChild(tbody);
-                tableContainer.appendChild(table);
+        if (isChrome) {
+            memoryInfo = window.performance.memory;
+        }*/
+    
+        function buildTable() {
+            const tableContainer = document.getElementById('tableContainer');
+            tableContainer.innerHTML = ''; 
+    
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+    
+            const headerRow = document.createElement('tr');
+            const headerKey = document.createElement('th');
+            const headerValue = document.createElement('th');
+    
+            headerKey.textContent = 'Key';
+            headerValue.textContent = 'Value';
+    
+            headerRow.appendChild(headerKey);
+            headerRow.appendChild(headerValue);
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+    
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+    
+                const row = document.createElement('tr');
+                const cellKey = document.createElement('td');
+                const cellValue = document.createElement('td');
+    
+                cellKey.textContent = key;
+                cellValue.textContent = value;
+    
+                row.appendChild(cellKey);
+                row.appendChild(cellValue);
+                tbody.appendChild(row);
             }
-
-            function logMemoryUsage() {
-                const totalHeapSize = memoryInfo.totalJSHeapSize / (1024 ** 2); // Convert to MB
-                const usedHeapSize = memoryInfo.usedJSHeapSize / (1024 ** 2);   // Convert to MB
-                const heapSizeLimit = memoryInfo.jsHeapSizeLimit / (1024 ** 2); // Convert to MB
-                const usagePercentage = ((memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit) * 100).toFixed(2); // Percentage
-
-                buildTable(); // Rebuild the table to show updated localStorage content
-
+    
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
+        }
+        buildTable(); 
+        /*function logMemoryUsage() {
+            if (isChrome && memoryInfo) {
+                const totalHeapSize = memoryInfo.totalJSHeapSize / (1024 ** 2); 
+                const usedHeapSize = memoryInfo.usedJSHeapSize / (1024 ** 2);  
+                const heapSizeLimit = memoryInfo.jsHeapSizeLimit / (1024 ** 2); 
+                const usagePercentage = ((memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit) * 100).toFixed(2); 
+    
+               
+    
                 const debugSpan = document.getElementById('debug');
                 debugSpan.textContent = `Total: ${totalHeapSize.toFixed(2)} MB, Used: ${usedHeapSize.toFixed(2)} MB, Limit: ${heapSizeLimit.toFixed(2)} MB, Usage: ${usagePercentage}%`;
+            } else {
+                const debugSpan = document.getElementById('debug');
+                debugSpan.textContent = "Memory debug only available on Chrome.";
             }
-
-            setInterval(logMemoryUsage, 1000);
         }
+    
+        setInterval(logMemoryUsage, 1000);*/
+    }
     
     rawText = rawText.replace(/ +/g, ' ');
     var citations = rawText.match(/\(.*?\)/g) || rawText.match(/（.*?）/g) || [];
@@ -171,6 +180,7 @@ function UpdateCounts() {
 }
 
 function recalculateAllCounts(isTextSelected = false, selectedText = '') {
+
     var rawText = document.getElementById("rawData").value;
     var formattedText = rawText;
     var textToAnalyze = isTextSelected ? selectedText : rawText;
@@ -353,12 +363,12 @@ function updateCitationInclusion(citationIndex) {
 document.getElementById("rawData").addEventListener('mouseup', function() {
     setTimeout(() => {
         UpdateCounts();
-        
     }, 0);
 });
 
 document.getElementById("rawData").addEventListener('keyup', function() {
     UpdateCounts();
+
 });
 
 document.getElementById("rawData").addEventListener('click', function() {
@@ -367,6 +377,7 @@ document.getElementById("rawData").addEventListener('click', function() {
             UpdateCounts();
         }
     }, 0);
+
 });
 
 document.getElementById("rawData").addEventListener('blur', function() {
