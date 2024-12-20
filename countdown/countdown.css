@@ -38,11 +38,11 @@ h1 {
 
 .countdown-item {
     background: rgba(255, 255, 255, 0.1);
-    padding: 2rem; /* Increased padding for larger boxes */
+    padding: 2rem;
     border-radius: 15px;
-    flex: 1 1 150px; /* Allow boxes to grow and shrink, with a base size */
-    margin: 0 0.5rem; /* Increased margin for more space */
-    max-width: 200px; /* Larger maximum width for bigger boxes */
+    flex: 1 1 150px;
+    margin: 0 0.5rem; 
+    max-width: 200px; 
     text-align: center;
 }
 .number {

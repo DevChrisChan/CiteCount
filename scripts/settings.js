@@ -133,7 +133,8 @@ function confirmReset() {
 
 document.getElementById('confirm-button').onclick = function() {
     localStorage.clear();
-    location.reload();
+	localStorage.setItem('reset', 'true');
+	location.reload();
 };
 
 document.getElementById('cancel-button').onclick = function() {

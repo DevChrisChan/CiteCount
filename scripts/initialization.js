@@ -97,6 +97,10 @@ window.onload = function () {
 		console.log(getTimestamp() + ' CiteCount updated to version ' + version + '.')
 	}
 	UpdateCounts();
+	if (localStorage.getItem('reset') === 'true') {
+		notify('CiteCount has been reset.')
+		localStorage.removeItem('reset');
+	}
 	const endTime = performance.now();
 	const timeTaken = (endTime - startTime).toFixed(2);
 	console.log(getTimestamp() + ` App initialized. (${timeTaken} ms)`)

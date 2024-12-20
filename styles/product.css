@@ -1,0 +1,104 @@
+body {
+    background: linear-gradient(90deg, #001f5b 0%, #0076a8 100%)!important;
+}
+.text-container {
+    display: inline-block;
+    min-width: 10px;
+    text-align: left;
+  }
+  #changing-text {
+    display: inline-block;
+    position: relative; 
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent; 
+    text-decoration: none; 
+}
+
+#changing-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px; 
+    height: 5px;
+    background: white; 
+    border-radius: 2.5px; 
+}
+
+  #title {
+    transition: width 0.5s ease-in-out;
+    margin: 0 auto; 
+    text-align: center;
+    line-height: 1.2!important;
+    margin-top: -6%;
+  }
+  @media (max-width: 750px) {
+    #title {
+      max-width: 500px!important;
+      font-size: 2.5rem!important;
+      
+    }
+    #aim {
+      max-width: 500px!important;
+      font-size: 1.5rem!important;
+    }
+  }
+  @media (max-width: 588px) {
+    #title {
+      max-width: 500px!important;
+    }
+    #aim {
+      max-width: 500px!important;
+    }
+  }
+
+  @media (min-width: 900px) {
+    #title {
+      max-width: 900px!important;
+      font-size: 3.2rem!important;    
+    }
+    #aim {
+      max-width: 900px!important;
+      font-size: 1.8rem!important;
+    }
+  }
+
+  #aim {
+    color: #ffffff;
+    opacity: 70%;
+    margin: 0 auto; 
+    text-align: center;
+    padding-top: 30px;
+    font-size: 1.5rem;
+    max-width: inherit;
+    width: 80%!important;
+    line-height: 1;
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    padding-top: 20%;
+  }
+
+  
+.button {
+  margin: 10px 0;
+  padding: 15px 40px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 40px;
+  font-size: 1rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+}

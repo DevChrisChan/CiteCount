@@ -100,13 +100,13 @@ textarea {
     padding: 10px;
     font-size: 1em;
     outline: none;
-    box-shadow: inset 0px 0px 5px var(--color-shadow-light);
+    box-shadow: inset 0px 0px 1px var(--color-shadow-light);
     transition: box-shadow 0.5s ease, border-color 0.5s ease;
     position: relative;
 }
 
 textarea:focus {
-    box-shadow: 0 0 8px var(--color-gray-dark), 0 0 15px var(--color-gray-dark);
+    box-shadow: 0 0 4px var(--color-gray-dark), 0 0 8px var(--color-gray-dark);
     border-color: var(--color-gray-dark);
 }
 
@@ -637,14 +637,7 @@ tr:hover {
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --color-background: #1c1c1c;
-        --color-background-light: rgba(30, 30, 30, 0.7);
-        --color-text: #fff;
-        --color-text-light: #ccc;
-        --color-gray: #2c2c2c;
-        --color-gray-dark: #333;
-    }
+  
 
     #safety {
         color: rgba(255, 255, 255, 0.8);
