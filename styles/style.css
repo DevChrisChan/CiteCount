@@ -74,6 +74,7 @@ body {
     background-color: var(--color-white);
     padding: 20px;
     height: calc(100vh - 90px);
+    height: calc(var(--vh, 1vh) * 100 - 90px);
 }
 
 #result {
@@ -89,6 +90,8 @@ body {
     font-size: large;
     margin-left: 3%;
     margin-right: 3%;
+    height: calc(var(--vh, 1vh) * 78); 
+    max-height: -webkit-fill-available;
 }
 
 textarea {
@@ -102,6 +105,9 @@ textarea {
     box-shadow: inset 0px 0px 1px var(--color-shadow-light);
     transition: box-shadow 0.5s ease, border-color 0.5s ease;
     position: relative;
+    height: 100%;
+    max-height: -webkit-fill-available;
+    overflow-y: auto;
 }
 
 textarea:focus {

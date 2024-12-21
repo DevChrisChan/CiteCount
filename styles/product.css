@@ -196,14 +196,15 @@ body, #landing-section {
 .product-text {
   flex: 1;
   padding-left: 5%;
-  padding-right: 5%;
-  
+  padding-right: 5%; 
 }
 
 .product-image {
   width: 50%;
   height: auto;
   border-radius: 10px;
+  object-fit: contain;
+  -webkit-transform: translateZ(0);
 }
 
 .bento-grid {

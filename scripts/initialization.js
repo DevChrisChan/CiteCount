@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 window.onload = function () {
 	var version = '2.1 (2B34b)';
 	document.getElementById('version').textContent = version;
-	
+
 	/*const url = 'https://raw.githubusercontent.com/DevChrisChan/Notifications/refs/heads/main/notification.txt';
 
 	setTimeout(function() {
@@ -42,8 +42,8 @@ window.onload = function () {
 	document.getElementById('dismissButton').onclick = function() {
 		document.getElementById('banner').style.display = 'none'; // Hide the banner on click
 	};
-    */
-	
+	*/
+
 	document.getElementById("rawData").focus();
 
 	// Settings
@@ -103,6 +103,14 @@ window.onload = function () {
 	}
 	const endTime = performance.now();
 	const timeTaken = (endTime - startTime).toFixed(2);
+	// Mobile Safari viewport height fix
+	function setVH() {
+		let vh = window.innerHeight * 0.01;
+		document.documentElement.style.setProperty('--vh', `${vh}px`);
+	}
+	setVH();
+	window.addEventListener('resize', setVH);
+	window.addEventListener('orientationchange', setVH);
 	console.log(getTimestamp() + ` App initialized. (${timeTaken} ms)`)
 	if (localStorage.getItem('dev') === 'enabled') {
 		notify(`App initialized in Developer Mode. (Took ${timeTaken} ms)`)
@@ -139,13 +147,13 @@ window.addEventListener("online", () => {
 });
 
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-                console.log(getTimestamp() + ' CiteCount is ready to run offline.');
-            })
-            .catch((error) => {
-                console.error(getTimestamp() + ' There is an error while installing CiteCount for offline use:', error);
-            });
-    });
+	window.addEventListener('load', () => {
+		navigator.serviceWorker.register('/sw.js')
+			.then((registration) => {
+				console.log(getTimestamp() + ' CiteCount is ready to run offline.');
+			})
+			.catch((error) => {
+				console.error(getTimestamp() + ' There is an error while installing CiteCount for offline use:', error);
+			});
+	});
 }
