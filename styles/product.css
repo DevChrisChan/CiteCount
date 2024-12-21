@@ -137,7 +137,7 @@ body, #landing-section {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: 25%;
+  padding-top: 20%;
 }
 .openapp {
   display: inline-block; 
@@ -181,12 +181,16 @@ body, #landing-section {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: left;
+  transition: border-color 0.3s ease; 
 }
 
 .product-item.reverse {
   flex-direction: row-reverse;
   background-color: rgb(12, 15, 25, 0.1);  
+}
 
+.product-item:hover {
+  border-color: rgba(255, 255, 255, 0.3); 
 }
 
 .product-text {
@@ -197,31 +201,32 @@ body, #landing-section {
 }
 
 .product-image {
-  width: 500px;
+  width: 50%;
   height: auto;
   border-radius: 10px;
 }
 
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 40px;
-  background-color: #171717;  /* Very light grey background */
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .bento-item {
   background: var(--surface);
   padding: 20px;
   border-radius: 15px;
-  background-color: rgba(120, 120, 120, 0.1);  /* Light grey */
+  background-color: rgb(12, 15, 25, 0.1);  
 }
 
 .bento-item.large {
-  grid-column: span 2;
-  background-color: rgba(140, 140, 140, 0.1);  /* Slightly darker grey */
+  grid-column: span 3;
+  background-color: rgb(12, 15, 25, 0.1);  
 }
 
 @media (max-width: 900px) {
@@ -289,5 +294,4 @@ body, #landing-section {
     flex-wrap: wrap; 
     gap: 10px;
     font-weight: 500;
-    margin: 20px 0; 
 }
