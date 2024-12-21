@@ -86,7 +86,6 @@ body {
     display: flex;
     flex-direction: column;
     height: 78vh;
-    gap: 2vh;
     font-size: large;
     margin-left: 3%;
     margin-right: 3%;
@@ -242,7 +241,7 @@ textarea:focus::before {
 #notification {
     visibility: hidden;
     min-width: 250px;
-    background-color: rgba(50, 50, 50, 0.7);
+    background-color: rgba(50, 50, 50, 0.6);
     color: var(--color-white);
     text-align: center;
     border-radius: 10px;
@@ -273,7 +272,7 @@ textarea:focus::before {
 
 #progress-bar {
     height: 4px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.7);
     width: 100%;
     position: absolute;
     bottom: 0;

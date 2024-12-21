@@ -54,7 +54,7 @@
 
 	textarea {
 		background-color: #333333;
-		color: #cfcfcf;
+		color: #fff;
 	}
 
 	.counters>.counter {
@@ -74,7 +74,7 @@
 	}
 
 	#progress-bar {
-		background-color: rgba(200, 200, 200, 0.7);
+		background-color: rgb(255, 255, 255, 0.7)!important;
 	}
 
 	.option {

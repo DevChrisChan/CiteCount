@@ -28,8 +28,7 @@
     content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats.">
   <meta name="keywords"
     content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#575757" />
+  <meta name="theme-color" content="#000000" />
   <script type="application/ld+json">
   {
       "@context": "https://schema.org",
@@ -76,7 +75,7 @@
     </a>
     <div class="nav-buttons">
       <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB Exams Countdown</a>
-      <a href="/blogs" class="nav-link" style="font-weight: 500;">Blogs</a>
+      <a href="/blogs" class="nav-link" style="font-weight: 500; padding-right: 40px;">Blogs</a>
   </nav>
 
   <section class="alt-landing-section" id="landing-section" style="margin-top: 5px;">
@@ -91,24 +90,128 @@
         <h3 style="padding-bottom: 80px;" id="aim">At CiteCount, we are redefining word counting solutions for students
           and
           researchers.</h3>
-        <div style="text-align: center;"><a class="button" href="/" style="text-decoration: none;">Open app</a></div>
-        <p style="padding-top: 50px; font-weight: 600; font-size: 1.5em;">Please check back later for more information.</p>
-        <hr class="bottomhr">
-        <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
-            data-lta-event="contact form outbound click" href="/contact.html?source=product.html"
-            style="color: white;">Contact the
-            developers</a><br> <a id="links" data-lta-event="privacy policy outbound click" href="/privacy-policy.html"
-            style="color: white;">Privacy
-            policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html" style="color: white;">Terms
-            of Service</a></p>
-        <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned
-          by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not
-          endorsed by the International Baccalaureate Organization.</p>
-        <p style="padding-top: 5px;">
-          &copy;
-          <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
+        <div class="actions">
+          <div style="text-align: center;"><a class="openapp" href="/"
+              style="text-decoration: none;   background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(0, 76, 153, 0.8)); ">Open
+              CiteCount in
+              your browser</a></div>
+          <div style="text-align: center;"><a class="openapp" href="/download.html"
+              style="text-decoration: none; background-color: white; color: black; "> <img draggable="false"
+                src="/assets/download.svg" alt="CiteCount Logo" style="height: 1em;" />
+              Download CiteCount</a></div>
+        </div>
+        <div class="scroll-prompt" onclick="document.querySelector('.start').scrollIntoView({behavior: 'smooth'})">
+          Learn more
+          <div class="arrow">↓</div>
+        </div>
+        <div class="start"></div>
+        <div class="product-container" style="margin-top: 28vh;"></div>
+        <p style="
+        font-weight: 700;
+        background: linear-gradient(to right, red, purple); 
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent; 
+        text-align: left; 
+        margin: 0 0 10px 0; font-size: 1.2em;">
+          What is CiteCount?
         </p>
+        <p style="
+        text-align: left; 
+        font-size: 1.5em; 
+        font-weight: 500; 
+        margin: 0 0 20px 0;">
+          <span style="font-weight: 900;">CiteCount</span> is a web application that provides an accurate word count
+          without
+          in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats.
+        </p>
+        <p style="
+        text-align: left; 
+        font-size: 1.5em; 
+        font-weight: 500; 
+        margin: 0 0 20px 0;">
+          <span style="font-weight: 900;">CiteCount</span> has helped 10k+ IB students and researchers to count words,
+          boosting their productivity and efficiency. Read on to take advantage of features offered by CiteCount to
+          enhance your workflow.
+        </p>
+        <div class="product-item">
+          <div class="product-text">
+            <h2>Precise Word Counting</h2>
+            <p>CiteCount's word count mechanism is meticulously crafted, giving you the most precise results. Our word counts are more accurate and reliable than mainstream word-processing softwares, such as Microsoft Word and Google Docs.</p>
+            <p style="opacity: 50%; text-align: left;">* According to internal research data.</p>
+          </div>
+          <img src="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/product/1.png" alt="Citation Detection" class="product-image">
+        </div>
+        <div class="product-item reverse">
+          <div class="product-text">
+            <h2>Citation Detection</h2>
+            <p>Our advanced algorithms detect and exclude in-text citations in MLA, APA, and Chicago formats, for an accurate word
+              count. View a list of your citations and select the ones you'd like to include by clicking Citations.</p>
+          </div>
+          <img src="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/product/2.png" alt="File Formats" class="product-image">
+        </div>
+        <div class="product-item">
+          <div class="product-text">
+            <h2>Import your Microsoft Word or PDF files</h2>
+            <p>You can import your documents in .doc, .docx, or .pdf to CiteCount via drag-and-drop. All conversions are done on your device and not sent to any servers.</p>
+          </div>
+          <img src="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/product/3.png" alt="File Formats" class="product-image">
+        </div>
+
+        <div class="product-item reverse">
+          <div class="product-text">
+            <h2>Privacy First</h2>
+            <p>CiteCount's architecture is built as a client-side JavaScript application. This means that all processing occurs directly in the user's browser, eliminating the need to send documents to external servers. Client-side processing ensures your documents never leave your device.</p>
+          </div>
+          <img src="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/product/4.png" alt="Privacy" class="product-image">
+        </div>
+
+       <!-- <div class="product-item reverse">
+          <div class="product-text">
+            <h2>Dark Mode</h2>
+            <p>Comfortable viewing experience with automatic theme switching based on system preferences.</p>
+          </div>
+          <img src="/assets/mockup-new.png" alt="Dark Mode" class="product-image">
+        </div>-->
+
+        <div class="product-item">
+          <div class="product-text" style="text-align: center;">
+            <h2>Please check back later for more information
+           
+        </div>
+
+        <!--<div class="bento-grid">
+          <div class="bento-item large">
+            <h3>Premium Features</h3>
+            <p>Access advanced citation styles and batch processing capabilities.</p>
+          </div>
+          <div class="bento-item">
+            <h3>24/7 Support</h3>
+            <p>Get help anytime you need it.</p>
+          </div>
+          <div class="bento-item">
+            <h3>Regular Updates</h3>
+            <p>New features and improvements.</p>
+          </div>
+        </div>-->
       </div>
+
+      <hr class="bottomhr">
+      <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
+          data-lta-event="contact form outbound click" href="/contact.html?source=product.html"
+          style="color: white;">Contact the
+          developers</a><br> <a id="links" data-lta-event="privacy policy outbound click" href="/privacy-policy.html"
+          style="color: white;">Privacy
+          policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html" style="color: white;">Terms
+          of Service</a></p>
+      <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned
+        by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not
+        endorsed by the International Baccalaureate Organization.</p>
+      <p style="padding-top: 5px;">
+        &copy;
+        <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
+      </p>
+    </div>
     </div>
   </section>
   <script src="/scripts/core.js"></script>
