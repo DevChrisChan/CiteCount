@@ -20,3 +20,13 @@ setInterval(() => {
   changingText.offsetHeight; 
   changingText.style.animation = ''; 
 }, 3000);
+
+document.addEventListener('scroll', function() {
+  const menuNavigator = document.querySelector('.menu-navigator');
+  
+  if (window.scrollY > window.innerHeight / 2) { // 50vh = window.innerHeight / 2
+    menuNavigator.classList.add('show');
+  } else {
+    menuNavigator.classList.remove('show');
+  }
+});

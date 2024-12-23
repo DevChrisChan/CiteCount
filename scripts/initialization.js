@@ -157,3 +157,41 @@ if ('serviceWorker' in navigator) {
 			});
 	});
 }
+
+/*
+function getPWADisplayMode() {
+	if (window.matchMedia('(display-mode: standalone)').matches)
+	  return 'standalone';
+	if (window.matchMedia('(display-mode: fullscreen)').matches)
+		return 'fullscreen';
+	return 'unknown';
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+	if(getPWADisplayMode() === 'standalone') {
+		document.getElementById('landing-section').style.display = 'none';
+		document.getElementById('secondary-landing').style.display = 'none';
+		localStorage.setItem('Focus', 'enabled');
+		notify('Focus is enabled as a standalone app.')
+	}
+	if(getPWADisplayMode() === 'fullscreen') {
+		document.getElementById('landing-section').style.display = 'none';
+		document.getElementById('secondary-landing').style.display = 'none';
+		localStorage.setItem('Focus', 'enabled');
+		notify('Focus is enabled in fullscreen.')
+	}
+  });
+
+  window.addEventListener('resize', function(){
+	if(getPWADisplayMode() === 'fullscreen') {
+		document.getElementById('landing-section').style.display = 'none';
+		document.getElementById('secondary-landing').style.display = 'none';
+		localStorage.setItem('Focus', 'enabled');
+		notify('Focus is enabled in fullscreen.')
+	}
+	else {
+		document.getElementById('landing-section').style.display = 'block';
+		document.getElementById('secondary-landing').style.display = 'block';
+		localStorage.setItem('Focus', 'disabled');
+	}
+  });*/

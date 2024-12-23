@@ -59,13 +59,11 @@ function handleFileSelect(evt) {
 function handleDragOver(evt) {
     evt.stopPropagation();
     evt.preventDefault();
-
-    // Check if the dragged item is a file
     if (evt.dataTransfer.types.includes('Files')) {
         evt.dataTransfer.dropEffect = 'copy';
         document.getElementById('overlay').style.display = 'flex';
     } else {
-        evt.dataTransfer.dropEffect = 'none'; // Ignore non-file items
+        evt.dataTransfer.dropEffect = 'none';
     }
 }
 

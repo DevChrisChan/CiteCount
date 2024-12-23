@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CiteCount - Count Words without In-text Citations</title>
   <meta property="og:title" content="CiteCount - Count Words without In-text Citations" />
   <meta property="og:description"
@@ -51,10 +51,10 @@
     gtag('js', new Date());
     gtag('config', 'G-LHVN622J29');
   </script>
-    <link href="/styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="/styles/dark.css" rel="stylesheet" type="text/css" />
-    <link href="/styles/drop.css" rel="stylesheet" type="text/css" />
-    <link href="/styles/test.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/style.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/dark.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/drop.css" rel="stylesheet" type="text/css" />
+  <link href="/styles/test.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -73,7 +73,8 @@
       <h1 id="overlayText" style="color:black;">Drop your file to import into CiteCount.</h1>
       <p style="color:black">Only Microsoft Word (.docx and .doc) and PDF (.pdf) files are supported.<br>Your document
         stays securely
-        within your device. All operations are performed locally in your browser.<br><br>Equations and images are automatically removed from the file.</p>
+        within your device. All operations are performed locally in your browser.<br><br>Equations and images are
+        automatically removed from the file.</p>
     </div>
   </div>
 
@@ -88,140 +89,138 @@
       <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB Exams Countdown</a>
       <a href="/blogs" class="nav-link" style="font-weight: 500;">Blogs</a>
       <span data-lta-event="settings opened" style="cursor: pointer" class="about-link"><img draggable="false"
-          src="/assets/settings.svg" alt="Settings" class="logo" id="cog" title="Settings [Command + ,]"/></span>
+          src="/assets/settings.svg" alt="Settings" class="logo" id="cog" title="Settings [Command + ,]" /></span>
   </nav>
-  <div class="container">
-    <!-- Banner -->
-    <!--
-  <div class="banner" id="banner" style="display: none;">
+  <div class="app">
+    <div class="container">
+      <!-- Banner -->
+      <!--<div class="banner" id="banner" style="display: none;">
     <span class="banner-message" id="content"></span>
-    <span class="banner-dismiss" id="dismissButton">✖</span>
-</div>
--->
-    <!-- Notifications, Settings Modal, Citations Modal-->
-    <div
-      style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
-      id="notification" title="Click notification to dismiss.">
-      There is an error displaying this notification.
-      <div id="progress-bar"></div>
-    </div>
-    <div
-      style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;"
-      id="settingsModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <span data-lta-event="open settings" class="title">Settings</span>
-          <span data-lta-event="close settings" class="close">×</span>
-        </div>
-        <div class="setting-name">Editing</div>
-        <hr>
-        <div class="setting">
-          <div class="setting-description">
-            <span class="setting-name">AutoSave</span>
-            <p class="description">When enabled, your work will be saved on every edit.</p>
+    <span class="banner-dismiss" id="dismissButton">✖</span> </div>-->
+      <!-- Notifications, Settings Modal, Citations Modal-->
+      <div
+        style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
+        id="notification" title="Click notification to dismiss.">
+        There is an error displaying this notification.
+        <div id="progress-bar"></div>
+      </div>
+      <div
+        style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;"
+        id="settingsModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span data-lta-event="open settings" class="title">Settings</span>
+            <span data-lta-event="close settings" class="close">×</span>
           </div>
-          <div class="options">
-            <button data-lta-event="enableautoSave" id="enableautoSave" class="option">Enable</button>
-            <button data-lta-event="disableautoSave" id="disableautoSave" class="option">Disable</button>
+          <div class="setting-name">Editing</div>
+          <hr>
+          <div class="setting">
+            <div class="setting-description">
+              <span class="setting-name">AutoSave</span>
+              <p class="description">When enabled, your work will be saved on every edit.</p>
+            </div>
+            <div class="options">
+              <button data-lta-event="enableautoSave" id="enableautoSave" class="option">Enable</button>
+              <button data-lta-event="disableautoSave" id="disableautoSave" class="option">Disable</button>
+            </div>
           </div>
-        </div>
-        <div class="setting">
-          <div class="setting-description">
-            <span class="setting-name">Warn on leave</span>
-            <p class="description">When enabled, CiteCount will warn when you leave or reload the page, if AutoSave is
-              disabled.</p>
+          <div class="setting">
+            <div class="setting-description">
+              <span class="setting-name">Warn on leave</span>
+              <p class="description">When enabled, CiteCount will warn when you leave or reload the page, if AutoSave is
+                disabled.</p>
+            </div>
+            <div class="options">
+              <button data-lta-event="enableWarn" id="enableWarn" class="option">Enable</button>
+              <button data-lta-event="disableWarn" id="disableWarn" class="option">Disable</button>
+            </div>
           </div>
-          <div class="options">
-            <button data-lta-event="enableWarn" id="enableWarn" class="option">Enable</button>
-            <button data-lta-event="disableWarn" id="disableWarn" class="option">Disable</button>
+          <div class="setting">
+            <div class="setting-description">
+              <span class="setting-name">Spell check</span>
+              <p class="description">When enabled, native spell checking will be used.</p>
+            </div>
+            <div class="options">
+              <button data-lta-event="enableSpellcheck" id="enableSpellcheck" class="option">Enable</button>
+              <button data-lta-event="disableSpellcheck" id="disableSpellcheck" class="option">Disable</button>
+            </div>
           </div>
-        </div>
-        <div class="setting">
-          <div class="setting-description">
-            <span class="setting-name">Spell check</span>
-            <p class="description">When enabled, native spell checking will be used.</p>
+          <div class="setting">
+            <div class="setting-description">
+              <span class="setting-name">Focus</span>
+              <p class="description">When enabled, information about CiteCount below the app will be hidden.</p>
+            </div>
+            <div class="options">
+              <button data-lta-event="enableFocus" id="enableFocus" class="option">Enable</button>
+              <button data-lta-event="disableFocus" id="disableFocus" class="option">Disable</button>
+            </div>
           </div>
-          <div class="options">
-            <button data-lta-event="enableSpellcheck" id="enableSpellcheck" class="option">Enable</button>
-            <button data-lta-event="disableSpellcheck" id="disableSpellcheck" class="option">Disable</button>
+          <div class="setting-name">Counters</div>
+          <hr>
+          <div class="setting">
+            <span class="setting-name">Words without citations counter</span>
+            <div class="options">
+              <button data-lta-event="enableWordsWithoutCitations" id="enableWordsWithoutCitations"
+                class="option">Enable</button>
+              <button data-lta-event="disableWordsWithoutCitations" id="disableWordsWithoutCitations"
+                class="option">Disable</button>
+            </div>
           </div>
-        </div>
-        <div class="setting">
-          <div class="setting-description">
-            <span class="setting-name">Focus</span>
-            <p class="description">When enabled, information about CiteCount below the app will be hidden.</p>
+          <div class="setting">
+            <span class="setting-name">Characters without citations counter</span>
+            <div class="options">
+              <button data-lta-event="enableCharsWithoutCitations" id="enableCharsWithoutCitations"
+                class="option">Enable</button>
+              <button data-lta-event="disableCharsWithoutCitations" id="disableCharsWithoutCitations"
+                class="option">Disable</button>
+            </div>
           </div>
-          <div class="options">
-            <button data-lta-event="enableFocus" id="enableFocus" class="option">Enable</button>
-            <button data-lta-event="disableFocus" id="disableFocus" class="option">Disable</button>
+          <div class="setting">
+            <span class="setting-name">Words with citations counter</span>
+            <div class="options">
+              <button data-lta-event="enableWordsWithCitations" id="enableWordsWithCitations"
+                class="option">Enable</button>
+              <button data-lta-event="disableWordsWithCitations" id="disableWordsWithCitations"
+                class="option">Disable</button>
+            </div>
           </div>
-        </div>
-        <div class="setting-name">Counters</div>
-        <hr>
-        <div class="setting">
-          <span class="setting-name">Words without citations counter</span>
-          <div class="options">
-            <button data-lta-event="enableWordsWithoutCitations" id="enableWordsWithoutCitations"
-              class="option">Enable</button>
-            <button data-lta-event="disableWordsWithoutCitations" id="disableWordsWithoutCitations"
-              class="option">Disable</button>
+          <div class="setting">
+            <span class="setting-name">Characters with citations counter</span>
+            <div class="options">
+              <button data-lta-event="enableCharsWithCitations" id="enableCharsWithCitations"
+                class="option">Enable</button>
+              <button data-lta-event="disableCharsWithCitations" id="disableCharsWithCitations"
+                class="option">Disable</button>
+            </div>
           </div>
-        </div>
-        <div class="setting">
-          <span class="setting-name">Characters without citations counter</span>
-          <div class="options">
-            <button data-lta-event="enableCharsWithoutCitations" id="enableCharsWithoutCitations"
-              class="option">Enable</button>
-            <button data-lta-event="disableCharsWithoutCitations" id="disableCharsWithoutCitations"
-              class="option">Disable</button>
+          <div class="setting">
+            <span class="setting-name">Citations counter</span>
+            <div class="options">
+              <button data-lta-event="enableCitations" id="enableCitations" class="option">Enable</button>
+              <button data-lta-event="disableCitations" id="disableCitations" class="option">Disable</button>
+            </div>
           </div>
-        </div>
-        <div class="setting">
-          <span class="setting-name">Words with citations counter</span>
-          <div class="options">
-            <button data-lta-event="enableWordsWithCitations" id="enableWordsWithCitations"
-              class="option">Enable</button>
-            <button data-lta-event="disableWordsWithCitations" id="disableWordsWithCitations"
-              class="option">Disable</button>
+          <div class="setting-name" id="devtoggle">Information</div>
+          <hr>
+          <div class="setting">
+            <span class="setting-name">CiteCount version</span>
+            <div class="options">
+              <p id="version" style="cursor: pointer"
+                onclick="navigator.clipboard.writeText(this.innerText); notify('CiteCount version copied to clipboard.')">
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="setting">
-          <span class="setting-name">Characters with citations counter</span>
-          <div class="options">
-            <button data-lta-event="enableCharsWithCitations" id="enableCharsWithCitations"
-              class="option">Enable</button>
-            <button data-lta-event="disableCharsWithCitations" id="disableCharsWithCitations"
-              class="option">Disable</button>
+          <div class="setting">
+            <span class="setting-name">What's new</span>
+            <div class="options">
+              <p>
+                - You can now manually exclude citations from being counted by clicking the citations counter<br>
+                - Citations modal has a new design<br>
+                - Selecting text in text box will now dynamically update word counts<br>
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="setting">
-          <span class="setting-name">Citations counter</span>
-          <div class="options">
-            <button data-lta-event="enableCitations" id="enableCitations" class="option">Enable</button>
-            <button data-lta-event="disableCitations" id="disableCitations" class="option">Disable</button>
-          </div>
-        </div>
-        <div class="setting-name" id="devtoggle">Information</div>
-        <hr>
-        <div class="setting">
-          <span class="setting-name">CiteCount version</span>
-          <div class="options">
-            <p id="version" style="cursor: pointer"
-              onclick="navigator.clipboard.writeText(this.innerText); notify('CiteCount version copied to clipboard.')">
-            </p>
-          </div>
-        </div>
-        <div class="setting">
-          <span class="setting-name">What's new</span>
-          <div class="options">
-            <p>
-              - You can now manually exclude citations from being counted by clicking the citations counter<br>
-              - Citations modal has a new design<br>
-              - Selecting text in text box will now dynamically update word counts<br>
-            </p>
-          </div>
-        </div>
-        <!--<div class="setting">
+          <!--<div class="setting">
           <span class="setting-name">Load previous versions</span>
           <div class="options">
             <p>
@@ -230,156 +229,100 @@
             </p>
           </div>
         </div>-->
-        <hr>
-        <div class="setting">
-          <div class="setting-description">
-            <span class="setting-name">Reset all settings</span>
-            <p class="description">Requires app restart to take effect. Customised settings and AutoSave data will be lost. Recommended if
-              CiteCount is not working as expected.</p>
+          <hr>
+          <div class="setting">
+            <div class="setting-description">
+              <span class="setting-name">Reset all settings</span>
+              <p class="description">Requires app restart to take effect. Customised settings and AutoSave data will be
+                lost. Recommended if
+                CiteCount is not working as expected.</p>
+            </div>
+            <div class="options">
+              <button style="color: #DC143C!important;" onclick="confirmReset()" class="option">Reset All
+                Settings</button>
+            </div>
           </div>
-          <div class="options">
-            <button style="color: #DC143C!important;"
-                onclick="confirmReset()"
-                class="option">Reset All Settings</button>
-        </div>
         </div>
       </div>
-    </div>
 
-    <!-- Citations Modal -->
-    <div style="user-select: none;" id="citationsModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <span class="title">Citations</span>
-          <span data-lta-event="close citations" class="close">×</span>
-        </div>
-        <div style="word-break: break-word; text-align: left; user-select: none;" id="citationList"></div>
-      </div>
-    </div>
-
-    <!-- Keyboard Shortcuts Modal-->
-    <div style="user-select: none;" id="shortcutsModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <span class="title">Keyboard Shortcuts</span>
-          <span data-lta-event="close keyboard shortcuts">[esc] to close</span>
-        </div>
-        <div class="shortcut">
-          <span class="command">Command</span>
-          <span class="plus">+</span>
-          <span class="key">,</span>
-          <span class="scdescription">Settings</span>
-        </div>
-        <div class="shortcut">
-          <span class="command">Command</span>
-          <span class="plus">+</span>
-          <span class="key">K</span>
-          <span class="scdescription">Citations list</span>
-        </div>
-        <div class="shortcut">
-          <span class="command">Command</span>
-          <span class="plus">+</span>
-          <span class="key">/</span>
-          <span class="scdescription">Keyboard shortcuts</span>
-        </div>
-        <div class="shortcut">
-          <span class="key">[esc]</span>
-          <span class="scdescription">Escape menu</span>
+      <!-- Citations Modal -->
+      <div style="user-select: none;" id="citationsModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="title">Citations</span>
+            <span data-lta-event="close citations" class="close">×</span>
+          </div>
+          <div style="word-break: break-word; text-align: left; user-select: none;" id="citationList"></div>
         </div>
       </div>
-    </div>
 
-    <!--Confirmation dialog-->
-    <div id="custom-dialog" class="dialog">
-      <div class="dialog-content">
+      <!-- Keyboard Shortcuts Modal-->
+      <div style="user-select: none;" id="shortcutsModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="title">Keyboard Shortcuts</span>
+            <span data-lta-event="close keyboard shortcuts">[esc] to close</span>
+          </div>
+          <div class="shortcut">
+            <span class="command">Command</span>
+            <span class="plus">+</span>
+            <span class="key">,</span>
+            <span class="scdescription">Settings</span>
+          </div>
+          <div class="shortcut">
+            <span class="command">Command</span>
+            <span class="plus">+</span>
+            <span class="key">K</span>
+            <span class="scdescription">Citations list</span>
+          </div>
+          <div class="shortcut">
+            <span class="command">Command</span>
+            <span class="plus">+</span>
+            <span class="key">/</span>
+            <span class="scdescription">Keyboard shortcuts</span>
+          </div>
+          <div class="shortcut">
+            <span class="key">[esc]</span>
+            <span class="scdescription">Escape menu</span>
+          </div>
+        </div>
+      </div>
+
+      <!--Confirmation dialog-->
+      <div id="custom-dialog" class="dialog">
+        <div class="dialog-content">
           <h2>Confirm Reset</h2>
-          <p>Are you sure you want to reset all settings? This action cannot be undone. Please save your text before reloading to avoid losing work.</p>
+          <p>Are you sure you want to reset all settings? This action cannot be undone. Please save your text before
+            reloading to avoid losing work.</p>
           <button id="confirm-button">Yes, Reset</button>
           <button id="cancel-button">Cancel</button>
-      </div>
-  </div>
-
-    <!-- Content -->
-    <div class="counters">
-      <div id="WordsWithoutCitations" class="counter" data-value="0"
-        title="Total number of words excluding your in-text citations">
-        <div class="label">Words without citations</div>
-        <div class="value" id="wordCountNoCitationsValue"><span class="dots">...</span></div>
-      </div>
-      <div id="CharsWithoutCitations" class="counter" data-value="0"
-        title="Total number of characters excluding your in-text citations">
-        <div class="label">Characters without citations</div>
-        <div class="value" id="charCountNoCitationsValue"><span class="dots">...</span></div>
-      </div>
-      <div id="WordsWithCitations" class="counter" data-value="0"
-        title="Total number of words, including your in-text citations">
-        <div class="label">Words with citations</div>
-        <div class="value" id="wordCountWithCitationsValue"><span class="dots">...</span></div>
-      </div>
-      <div id="CharsWithCitations" class="counter" data-value="0"
-        title="Total number of characters, including your in-text citations">
-        <div class="label">Characters with citations</div>
-        <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
-      </div>
-      <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
-        data-value="0" title="Click to view a list of your citations. [Command + K]">
-        <div id="citationslabel" class="label">Citations</div>
-
-        <div class="value" id="citationCountValue"><span class="dots">...</span>
-          <div id="citationList"></div>
-          <div id="totalWordCount"></div>
         </div>
       </div>
-    </div>
-    <div class="textareas">
-      <textarea spellcheck="true" id="rawData" oninput="UpdateCounts()"
-        placeholder="Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount."
-        style="flex-grow: 1;" autofocus data-lta-event="textbox focus"></textarea>
-    </div>
-  </label>
-    <span id="safety"
-      style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;">
-      <img draggable="false" src="/assets/shield.svg" alt="Shield"
-        style="width: 1em; height: 1em; vertical-align: middle;" />
-      CiteCount prioritizes data security. Your content stays secure on your device.
-      <a href="/blogs/our-promise-for-safety.html" data-lta-event="safety promise click from textarea">View our safety
-        guarantee</a>.
-    </span>
-    <span id="secondarydebug" style="font-family: monospace;"></span>
-    <span id="status" style="font-family: monospace;"></span>
-    <!--<p id="message">
-      We'd like to invite you to <a style="opacity:100%!important;text-decoration: underline;" id="links" target="_blank"
-        rel="noopener noreferrer" data-lta-event="survey outbound click" href="https://forms.gle/75BvyudP82DxZkfAA">fill
-        in a survey</a> to improve CiteCount.
-      <span data-lta-event="dismiss survey" style="text-decoration: underline; cursor: pointer;"
-        onclick="document.getElementById('message').style.display='none';">[dismiss]</span>
-    </p>-->
-    <!-- Additional conters-->
-    <div id="bottom-counters" style="display: none;">
-      <div class="counters" style="padding-top: 20px;">
+
+      <!-- Content -->
+      <div class="counters">
         <div id="WordsWithoutCitations" class="counter" data-value="0"
           title="Total number of words excluding your in-text citations">
-          <div id="wordswolabel" class="label">Words without citations</div>
-          <div id="wordCountNoCitationsValue" class="value"><span class="dots">...</span></div>
+          <div class="label">Words without citations</div>
+          <div class="value" id="wordCountNoCitationsValue"><span class="dots">...</span></div>
         </div>
         <div id="CharsWithoutCitations" class="counter" data-value="0"
           title="Total number of characters excluding your in-text citations">
-          <div id="charswolabel" class="label">Characters without citations</div>
-          <div id="charCountNoCitationsValue" class="value"><span class="dots">...</span></div>
+          <div class="label">Characters without citations</div>
+          <div class="value" id="charCountNoCitationsValue"><span class="dots">...</span></div>
         </div>
         <div id="WordsWithCitations" class="counter" data-value="0"
           title="Total number of words, including your in-text citations">
-          <div id="wordslabel" class="label">Words with citations</div>
-          <div id="wordCountWithCitationsValue" class="value"><span class="dots">...</span></div>
+          <div class="label">Words with citations</div>
+          <div class="value" id="wordCountWithCitationsValue"><span class="dots">...</span></div>
         </div>
         <div id="CharsWithCitations" class="counter" data-value="0"
           title="Total number of characters, including your in-text citations">
-          <div id="charslabel" class="label">Characters with citations</div>
-          <div id="charCountWithCitationsValue" class="value"><span class="dots">...</span></div>
+          <div class="label">Characters with citations</div>
+          <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
         </div>
-
         <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
-          data-value="0" title="Total number of citations. Click to view a list of your citations.">
+          data-value="0" title="Click to view a list of your citations. [Command + K]">
           <div id="citationslabel" class="label">Citations</div>
 
           <div class="value" id="citationCountValue"><span class="dots">...</span>
@@ -388,8 +331,65 @@
           </div>
         </div>
       </div>
+      <div class="textareas">
+        <textarea spellcheck="true" id="rawData" oninput="UpdateCounts()"
+          placeholder="Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount."
+          style="flex-grow: 1;" autofocus data-lta-event="textbox focus"></textarea>
+      </div>
+      </label>
+      <span id="safety"
+        style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;">
+        <img draggable="false" src="/assets/shield.svg" alt="Shield"
+          style="width: 1em; height: 1em; vertical-align: middle;" />
+        CiteCount prioritizes data security. Your content stays secure on your device.
+        <a href="/blogs/our-promise-for-safety.html" data-lta-event="safety promise click from textarea">View our safety
+          guarantee</a>.
+      </span>
+      <span id="secondarydebug" style="font-family: monospace;"></span>
+      <span id="status" style="font-family: monospace;"></span>
+      <!--<p id="message">
+      We'd like to invite you to <a style="opacity:100%!important;text-decoration: underline;" id="links" target="_blank"
+        rel="noopener noreferrer" data-lta-event="survey outbound click" href="https://forms.gle/75BvyudP82DxZkfAA">fill
+        in a survey</a> to improve CiteCount.
+      <span data-lta-event="dismiss survey" style="text-decoration: underline; cursor: pointer;"
+        onclick="document.getElementById('message').style.display='none';">[dismiss]</span>
+    </p>-->
+      <!-- Additional conters-->
+      <div id="bottom-counters" style="display: none;">
+        <div class="counters" style="padding-top: 20px;">
+          <div id="WordsWithoutCitations" class="counter" data-value="0"
+            title="Total number of words excluding your in-text citations">
+            <div id="wordswolabel" class="label">Words without citations</div>
+            <div id="wordCountNoCitationsValue" class="value"><span class="dots">...</span></div>
+          </div>
+          <div id="CharsWithoutCitations" class="counter" data-value="0"
+            title="Total number of characters excluding your in-text citations">
+            <div id="charswolabel" class="label">Characters without citations</div>
+            <div id="charCountNoCitationsValue" class="value"><span class="dots">...</span></div>
+          </div>
+          <div id="WordsWithCitations" class="counter" data-value="0"
+            title="Total number of words, including your in-text citations">
+            <div id="wordslabel" class="label">Words with citations</div>
+            <div id="wordCountWithCitationsValue" class="value"><span class="dots">...</span></div>
+          </div>
+          <div id="CharsWithCitations" class="counter" data-value="0"
+            title="Total number of characters, including your in-text citations">
+            <div id="charslabel" class="label">Characters with citations</div>
+            <div id="charCountWithCitationsValue" class="value"><span class="dots">...</span></div>
+          </div>
+
+          <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
+            data-value="0" title="Total number of citations. Click to view a list of your citations.">
+            <div id="citationslabel" class="label">Citations</div>
+
+            <div class="value" id="citationCountValue"><span class="dots">...</span>
+              <div id="citationList"></div>
+              <div id="totalWordCount"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
   </div>
   <footer>
     <section class="alt-landing-section" id="landing-section" style="margin-top: 5px;">

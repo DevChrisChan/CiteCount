@@ -4,15 +4,15 @@ function enableDev() {
     document.body.style.backgroundImage = "linear-gradient(45deg, yellow 25%, black 25%, black 50%, yellow 50%, yellow 75%, black 75%, black 100%)";
     document.body.style.backgroundSize = "40px 40px";
     document.body.style.border = "3px solid red";
-    document.body.style.margin = "0"; 
-    document.body.style.height = "100vh"; 
+    document.body.style.margin = "0";
+    document.body.style.height = "100%";
     document.getElementById("identifier").style.display = 'block'
     console.log('Enabled developer mode')
     notify('Enabled developer mode.')
-   
+
     const debugSpan = document.getElementById('secondarydebug');
-                debugSpan.textContent = `[Developer Mode] For internal use only. Unauthorized distribution is prohibited.`;
-    
+    debugSpan.textContent = `[Developer Mode] For internal use only. Unauthorized distribution is prohibited.`;
+
 }
 
 function disableDev() {
