@@ -23,29 +23,43 @@ function updateCountdown() {
         currentExam = defaultCountdown;
     }
 
-    const now = new Date().getTime();
-    const examDate = new Date(currentExam.date).getTime();
+    const now = new Date();
+    const examDate = new Date(currentExam.date);
     const distance = examDate - now;
 
-    const totalDays = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-    const startDate = new Date(now);
-    const endDate = new Date(currentExam.date);
-    const months = endDate.getMonth() - startDate.getMonth() + 
-                   (12 * (endDate.getFullYear() - startDate.getFullYear()));
+    let months = (examDate.getFullYear() - now.getFullYear()) * 12;
+    months += examDate.getMonth() - now.getMonth();
     
-    const adjustedStartDate = new Date(startDate.getFullYear(), startDate.getMonth() + months, 1);
-    const remainingDays = Math.floor((endDate - adjustedStartDate) / (1000 * 60 * 60 * 24));
+    if (examDate.getDate() < now.getDate()) {
+        months--;
+    }
+
+    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + months + 1, 0);
+    let remainingDays;
+    
+    if (examDate.getDate() >= now.getDate()) {
+        remainingDays = examDate.getDate() - now.getDate();
+    } else {
+        remainingDays = examDate.getDate() + (lastDayOfMonth.getDate() - now.getDate());
+    }
 
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById('months').textContent = months;
-    document.getElementById('days').textContent = padZero(remainingDays);
-    document.getElementById('hours').textContent = padZero(hours);
-    document.getElementById('minutes').textContent = padZero(minutes);
-    document.getElementById('seconds').textContent = padZero(seconds);
+    if (distance < 0) {
+        document.getElementById('months').textContent = '00';
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+    } else {
+        document.getElementById('months').textContent = months < 0 ? '00' : padZero(months);
+        document.getElementById('days').textContent = padZero(remainingDays);
+        document.getElementById('hours').textContent = padZero(hours);
+        document.getElementById('minutes').textContent = padZero(minutes);
+        document.getElementById('seconds').textContent = padZero(seconds);
+    }
 }
 
 function updateExamDisplay(exam, displayTitle) {
