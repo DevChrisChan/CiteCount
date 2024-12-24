@@ -58,7 +58,26 @@
                     <option></option>
                 </select>
             </div>
-            
+            <div class="days">
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="dmonths">0</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="dhours">0</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="dminutes">0</div>
+                        <div class="countdown-label">Mins</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="dseconds">0</div>
+                        <div class="countdown-label">Secs</div>
+                    </div>
+                </div>
+            </div>
             <div class="countdown">
                 <div class="countdown-item">
                     <div class="countdown-number" id="months">0</div>
@@ -81,6 +100,7 @@
                     <div class="countdown-label">Secs</div>
                 </div>
             </div>
+            <span style="opacity: 50%; text-align: center; display: inline-flex; align-items: center;">Click countdown to toggle between Days countdown and Months countdown.</span>
             <div style="padding-bottom: 20px; text-align: center;"><a class="button" href="/countdown/schedule.html" style="text-decoration: none;">Exam schedule</a>
                 <button id="shareButton" class="button" onclick="copyUrl()">Share Countdown</button>                    
         </div>
@@ -92,7 +112,6 @@
         style="color: white;">Privacy
         policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html" style="color: white;">Terms
         of Service</a></p>
-        <p class="footer-small" style="margin-left: 10%; margin-right: 10%; text-align: center; margin-top: 10px;">International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not endorsed by the International Baccalaureate Organization.</p>
             <p style="padding-top: 10px;">
                 &copy; <script>document.write(new Date().getFullYear())</script> <a href="/" style="color: white;">CiteCount</a>. All rights reserved.
                 </p>

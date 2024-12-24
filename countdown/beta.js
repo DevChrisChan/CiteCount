@@ -14,6 +14,40 @@ function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 
+function calculateTotalDays(targetDate) {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    const examDate = new Date(targetDate);
+    examDate.setHours(0, 0, 0, 0);
+    const diffTime = Math.abs(examDate - now);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
+
+function updateDaysCountdown() {
+    if (!currentExam) return;
+
+    const now = new Date();
+    const examDate = new Date(currentExam.date);
+    const distance = examDate - now;
+
+    const totalDays = calculateTotalDays(currentExam.date);
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    if (distance < 0) {
+        document.getElementById('dmonths').textContent = '00';
+        document.getElementById('dhours').textContent = '00';
+        document.getElementById('dminutes').textContent = '00';
+        document.getElementById('dseconds').textContent = '00';
+    } else {
+        document.getElementById('dmonths').textContent = padZero(totalDays);
+        document.getElementById('dhours').textContent = padZero(hours);
+        document.getElementById('dminutes').textContent = padZero(minutes);
+        document.getElementById('dseconds').textContent = padZero(seconds);
+    }
+}
+
 function updateCountdown() {
     if (!currentExam) {
         const defaultCountdown = {
@@ -60,6 +94,8 @@ function updateCountdown() {
         document.getElementById('minutes').textContent = padZero(minutes);
         document.getElementById('seconds').textContent = padZero(seconds);
     }
+    
+    updateDaysCountdown();
 }
 
 function updateExamDisplay(exam, displayTitle) {
@@ -131,6 +167,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         $('#examSelect').on('select2:select', function(e) {
             const selectedExam = examData.find(exam => exam.id === e.params.data.id);
             updateExamDisplay(selectedExam);
+        });
+
+        const countdownElement = document.querySelector('.countdown:not(.days .countdown)');
+        const daysElement = document.querySelector('.days');
+
+        countdownElement.addEventListener('click', function() {
+            countdownElement.classList.add('hidden');
+            daysElement.classList.add('visible');
+        });
+
+        daysElement.addEventListener('click', function() {
+            daysElement.classList.remove('visible');
+            countdownElement.classList.remove('hidden');
         });
 
         setInterval(updateCountdown, 1000);

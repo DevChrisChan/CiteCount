@@ -266,3 +266,31 @@ footer {
 .noscript-description {
     font-size: 18px;
 }
+
+.countdown {
+    cursor: pointer;
+    transition: opacity 0.5s ease;
+}
+
+.days {
+    opacity: 0;
+    display: none;
+    transition: opacity 0.5s ease;
+}
+
+.days.visible {
+    opacity: 1;
+    display: block;
+}
+
+.countdown.hidden {
+    opacity: 0;
+    display: none;
+}
+
+.days, .countdown {
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none;
+    -ms-user-select: none; 
+}
