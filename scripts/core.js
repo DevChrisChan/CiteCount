@@ -4,6 +4,17 @@ function WordCount(str) {
     str = str.trim();
     var count = 0;
     var inWord = false;
+    var language = '';
+
+    if (/[\u4e00-\u9fa5]/.test(str)) {
+        language = 'Chinese';
+        document.getElementById("wwc").textContent = "Words without citations (Chinese words)";
+    } else if (/[\u3040-\u309F\u30A0-\u30FF]/.test(str)) {
+        language = 'Japanese';
+        document.getElementById("wwc").textContent = "Words without citations (Japanese words)";
+    } else {
+        document.getElementById("wwc").textContent = "Words without citations";
+    }
 
     for (var i = 0; i < str.length; i++) {
         if (/[\u4e00-\u9fa5\u3040-\u309F\u30A0-\u30FF]/.test(str[i]) && !/[\u3000-\u303F]/.test(str[i])) {

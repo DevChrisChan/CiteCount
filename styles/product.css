@@ -1,7 +1,7 @@
 body, #landing-section {
   background: linear-gradient(90deg, 
-    #1e004f 0%,  /* Darker purple */
-    #215fc4 100%) !important;  /* Darker blue */
+    #1e004f 0%,  
+    #215fc4 100%) !important;  
 }
 .text-container {
   display: inline-block;
@@ -238,6 +238,7 @@ body, #landing-section {
   .product-image {
     width: 100%;
     max-width: 700px;
+    border-radius: 10px;
     margin-bottom: 20px;
   }
 
@@ -304,7 +305,7 @@ body, #landing-section {
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  background: rgba(30, 30, 30, 0.6);
+  background: rgba(30, 30, 30, 0.5);
   border-radius: 50px;
   backdrop-filter: blur(20px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
