@@ -684,8 +684,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const currentDomain = window.location.host;
   const isDomainAllowed =
     allowedDomains.includes(currentDomain) ||
-    currentDomain.startsWith('--citecount-priv.netlify.app') ||
-    currentDomain.startsWith('--citecount.netlify.app');
+    currentDomain.endsWith('--citecount.netlify.app') ||
+    currentDomain.endsWith('--citecount-priv.netlify.app');
 
   if (!isDomainAllowed) {
     const warningDiv = document.createElement('div');
