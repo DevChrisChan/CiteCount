@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "https://citecount.netlify.app/*"
+  to = "https://cite.js.org/:splat"
+  status = 301
+  force = true
