@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CiteCount</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #5D5CDE;
+            --background-light: #FFFFFF;
+            --background-dark: #181818;
+            --text-light: #333333;
+            --text-dark: #F5F5F5;
+            --border-light: #E5E7EB;
+            --border-dark: #374151;
+            --header-light: #F9FAFB;
+            --header-dark: #1F1F1F;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 1rem;
+            overflow: hidden;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--header-light);
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--border-light);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--background-dark);
+                color: var(--text-dark);
+            }
+
+            header {
+                background-color: var(--header-dark);
+                border-bottom: 1px solid var(--border-dark);
+            }
+
+            .counter-card {
+                background-color: #242424;
+                border-color: var(--border-dark);
+            }
+
+            .counter-card:hover {
+                background-color: #2a2a2a;
+            }
+
+            .quote-table {
+                border-color: var(--border-dark);
+                background-color: rgba(36, 36, 36, 0.8);
+                backdrop-filter: blur(10px);
+            }
+
+            .quote-table th,
+            .quote-table td {
+                border-color: var(--border-dark);
+            }
+
+            .quote-table tr:hover {
+                background-color: rgba(93, 92, 222, 0.1);
+            }
+
+            .editor-container {
+                background-color: #242424;
+                border-color: var(--border-dark);
+            }
+
+            .toolbar button, .manage-btn {
+                background-color: #2a2a2a;
+                color: var(--text-dark);
+                border-color: var(--border-dark);
+            }
+
+            .toolbar button:hover, .manage-btn:hover {
+                background-color: #333333;
+                transform: scale(1.05);
+            }
+
+            .citations-overlay, .settings-overlay {
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .overlay-background {
+                background-color: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(5px);
+            }
+
+            .gutter {
+                background-color: #333333;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20"><path fill="gray" d="M5 0h2v20H5z"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .gutter:hover {
+                background-color: #999999;
+            }
+
+            .notification {
+                background-color: rgba(51, 51, 51, 0.9);
+                backdrop-filter: blur(10px);
+            }
+
+            .confirmation-overlay {
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: var(--background-light);
+                color: var(--text-light);
+            }
+
+            header {
+                background-color: var(--header-light);
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .counter-card {
+                background-color: white;
+                border-color: var(--border-light);
+            }
+
+            .counter-card:hover {
+                background-color: #f5f5f5;
+            }
+
+            .quote-table {
+                border-color: var(--border-light);
+                background-color: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(10px);
+            }
+
+            .quote-table th,
+            .quote-table td {
+                border-color: var(--border-light);
+            }
+
+            .quote-table tr:hover {
+                background-color: rgba(93, 92, 222, 0.05);
+            }
+
+            .editor-container {
+                background-color: white;
+                border-color: var(--border-light);
+            }
+
+            .toolbar button, .manage-btn {
+                background-color: #f5f5f5;
+                color: var(--text-light);
+                border-color: var(--border-light);
+            }
+
+            .toolbar button:hover, .manage-btn:hover {
+                transform: scale(1.05);
+            }
+
+            .citations-overlay, .settings-overlay {
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .overlay-background {
+                background-color: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(5px);
+            }
+
+            .gutter {
+                background-color: #e0e0e0;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20"><path fill="gray" d="M5 0h2v20H5z"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .gutter:hover {
+                background-color: #999999;
+            }
+
+            .notification {
+                background-color: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(10px);
+            }
+
+            .confirmation-overlay {
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        #editor {
+            outline: none;
+            line-height: 1.5;
+            padding: 3rem 1rem 1rem 1rem;
+            font-size: 16px;
+            height: 100%;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            position: relative;
+            caret-color: #000;
+        }
+
+        #highlight-layer {
+            position: absolute;
+            top: 2.5rem;
+            left: 1rem;
+            width: calc(100% - 2rem);
+            height: calc(100% - 2.5rem);
+            pointer-events: none;
+            padding: 0.5rem 0;
+            line-height: 1.5;
+            font-size: 16px;
+            color: transparent;
+            white-space: pre-wrap;
+            overflow: hidden;
+            word-break: break-word;
+        }
+        
+        #highlight-layer .citation-highlight {
+            background-color: rgba(93, 92, 222, 0.15);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        #highlight-layer .citation-highlight.enlarged {
+            animation: enlarge 1s ease-in-out;
+        }
+
+        @keyframes enlarge {
+            0% { transform: scale(1); background-color: rgba(93, 92, 222, 0.15); }
+            50% { transform: scale(1.3); background-color: rgba(93, 92, 222, 0.5); box-shadow: 0 0 8px rgba(93, 92, 222, 0.7); }
+            100% { transform: scale(1); background-color: rgba(93, 92, 222, 0.15); }
+        }
+
+        .editor-wrapper {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .toolbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 0.5rem;
+            background: inherit;
+            border-bottom: 1px solid var(--border-light);
+            z-index: 20;
+        }
+
+        .dark .toolbar {
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .toolbar button {
+            transition: all 0.2s ease;
+            border-width: 1px;
+            padding: 0.25rem 0.5rem;
+            position: relative;
+            z-index: 21;
+        }
+
+        .toolbar button:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 100;
+        }
+
+        .counter-card {
+            transition: background-color 0.2s ease;
+            min-width: 100px;
+            min-height: 80px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-row .counter-card {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .stats-row .counter-card h3 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .quote-table {
+            width: 100%;
+            max-height: 80vh;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 1rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .quote-table th,
+        .quote-table td {
+            padding: 1rem;
+            text-align: left;
+            border-width: 1px;
+        }
+
+        .quote-table th {
+            border-bottom-width: 2px;
+            position: sticky;
+            top: 0;
+            background-color: inherit;
+            z-index: 10;
+        }
+
+        .quote-table td {
+            border-top-width: 0;
+        }
+
+        .quote-table tr:first-child th:first-child {
+            border-top-left-radius: 1rem;
+        }
+
+        .quote-table tr:first-child th:last-child {
+            border-top-right-radius: 1rem;
+        }
+
+        .quote-table tr:last-child td:first-child {
+            border-bottom-left-radius: 1rem;
+        }
+
+        .quote-table tr:last-child td:last-child {
+            border-bottom-right-radius: 1rem;
+        }
+
+        .quote-table .citation-clickable {
+            cursor: pointer;
+        }
+
+        .citations-overlay, .settings-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-height: 80vh;
+            z-index: 60;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: none;
+            border-radius: 1rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E5E7EB;
+        }
+
+        .citations-overlay h2, .settings-overlay h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .citations-overlay button, .settings-overlay button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .overlay-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            display: none;
+        }
+
+        .split {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .split-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .editor-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            border-width: 1px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            position: relative;
+            max-height: calc(100vh - 12rem);
+        }
+
+        .editor-container.dragover {
+            border: 2px dashed var(--primary-color);
+        }
+
+        .gutter {
+            cursor: col-resize;
+            width: 12px;
+            margin: 0 2px;
+            flex: 0 0 12px;
+            transition: background-color 0.2s;
+            background-color: #e0e0e0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20"><path fill="gray" d="M5 0h2v20H5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .gutter:hover {
+            background-color: #999999;
+        }
+
+        .welcome-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #888;
+            pointer-events: none;
+            display: block;
+        }
+
+        .welcome-buttons {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            pointer-events: all;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            background-color: rgba(51, 51, 51, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .notification .countdown {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 0 0 0.5rem 0.5rem;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .notification .countdown-bar {
+            height: 100%;
+            background-color: #fff;
+            width: 100%;
+            transition: width 5s linear;
+        }
+
+        .notification:hover .countdown-bar {
+            transition: none;
+            width: 100%;
+        }
+
+        .confirmation-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            z-index: 70;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: none;
+            border-radius: 1rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E5E7EB;
+            text-align: center;
+        }
+
+        .confirmation-overlay h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .confirmation-overlay p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .confirmation-overlay button {
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .confirmation-overlay button:first-child {
+            background-color: #DC2626;
+            color: white;
+            margin-right: 1rem;
+        }
+
+        .confirmation-overlay button:last-child {
+            background-color: #E5E7EB;
+            color: #333;
+        }
+
+        .manage-btn {
+            transition: all 0.2s ease;
+            background: linear-gradient(90deg, #5D5CDE, #7B7AE9);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+        }
+
+        .manage-btn:hover {
+            background: linear-gradient(90deg, #4B4ACB, #6968D6);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 1023px) {
+            .split {
+                flex-direction: column;
+                flex: 1;
+                min-height: 0;
+            }
+            
+            .gutter {
+                display: none;
+            }
+            
+            .editor-panel {
+                flex: 1;
+                min-height: 0;
+            }
+            
+            .editor-container {
+                flex: 1;
+                min-height: 0;
+                max-height: calc(100vh - 12rem);
+            }
+            
+            .stats-row .counter-card {
+                min-width: 0;
+                flex: 1;
+            }
+            
+            .manage-btn {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="mb-4 flex justify-between items-center rounded-lg">
+            <div class="flex items-center gap-4">
+                <h1 class="text-2xl font-bold" style="color: var(--primary-color);">CiteCount</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="settings-btn" class="p-2 rounded-md" onclick="toggleSettingsOverlay(true)">
+                    <img src="/path/to/your/settings-icon.png" alt="Settings" class="h-6 w-6">
+                </button>
+                <div class="relative">
+                    <button id="other-apps-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" onclick="toggleDropdown()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    <div id="other-apps-dropdown" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 hidden">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">App 1</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">App 2</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">App 3</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="stats-row">
+            <div class="counter-card rounded-lg border shadow-sm p-3 text-center">
+                <h3 class="text-sm font-medium opacity-75 mb-1">Total Words</h3>
+                <p id="total-word-count" class="text-xl font-bold">0</p>
+            </div>
+            <div class="counter-card rounded-lg border shadow-sm p-3 text-center">
+                <h3 class="text-sm font-medium opacity-75 mb-1">Words (excl. citations)</h3>
+                <p id="filtered-word-count" class="text-xl font-bold">0</p>
+            </div>
+            <div class="counter-card rounded-lg border shadow-sm p-3 text-center">
+                <h3 class="text-sm font-medium opacity-75 mb-1">Citations</h3>
+                <p id="quote-count" class="text-xl font-bold">0</p>
+            </div>
+        </div>
+        
+        <button id="manage-citations-btn" class="manage-btn lg:hidden md:hidden mb-3" onclick="toggleCitationsOverlay(true)">
+            Manage Citations
+        </button>
+
+        <div class="main-content">
+            <div class="split">
+                <div id="editor-panel" class="split-panel">
+                    <div class="editor-container shadow-sm">
+                        <div class="toolbar flex gap-2">
+                            <button data-tooltip="Bold" onclick="formatText('bold')">
+                                <img src="/path/to/your/bold-icon.png" alt="Bold" class="h-5 w-5">
+                            </button>
+                            <button data-tooltip="Italic" onclick="formatText('italic')">
+                                <img src="/path/to/your/italic-icon.png" alt="Italic" class="h-5 w-5">
+                            </button>
+                            <button data-tooltip="Underline" onclick="formatText('underline')">
+                                <img src="/path/to/your/underline-icon.png" alt="Underline" class="h-5 w-5">
+                            </button>
+                            <button data-tooltip="Clear" onclick="clearText()">
+                                <img src="/path/to/your/clear-icon.png" alt="Clear" class="h-5 w-5">
+                            </button>
+                        </div>
+                        <div class="editor-wrapper">
+                            <div id="editor" contenteditable="true" spellcheck="true"></div>
+                            <div id="highlight-layer"></div>
+                            <div id="welcome-text" class="welcome-text">
+                                <p>Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount.</p>
+                                <div class="welcome-buttons">
+                                    <button onclick="pasteFromClipboard()" class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Paste from Clipboard</button>
+                                    <label class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer">
+                                        Upload File
+                                        <input type="file" accept=".docx,.pdf" onchange="handleFileUpload(event)" class="hidden">
+                                    </label>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-2">CiteCount prioritizes data integrity. Your content stays secure on your device. <a href="/safety.html" target="_blank" class="text-blue-500 hover:underline">View our safety promise</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="gutter" class="gutter hidden lg:block"></div>
+                
+                <div id="citations-panel" class="split-panel hidden lg:block border rounded-lg shadow-sm p-4 overflow-auto">
+                    <h2 class="text-lg font-semibold mb-3 sticky top-0 bg-inherit z-10">Citations</h2>
+                    <div id="citations-table-container" class="overflow-x-auto">
+                        <table class="quote-table">
+                            <thead>
+                                <tr>
+                                    <th class="w-2/5">Citation</th>
+                                    <th class="w-1/5">Words</th>
+                                    <th class="w-1/5">Occurrences</th>
+                                    <th class="w-1/5">Count in Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="quotes-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="citations-overlay" class="citations-overlay">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold">Citations Found</h2>
+                <button onclick="toggleCitationsOverlay(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="quote-table">
+                    <thead>
+                        <tr>
+                            <th class="w-2/5">Citation</th>
+                            <th class="w-1/5">Words</th>
+                            <th class="w-1/5">Occurrences</th>
+                            <th class="w-1/5">Count in Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="quotes-table-body-mobile">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="settings-overlay" class="settings-overlay">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold">Settings</h2>
+                <button onclick="toggleSettingsOverlay(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4">
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-medium mb-2">Editing</h3>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md">
+                            <span>AutoSave</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="autoSave" class="sr-only peer" checked onchange="toggleSetting('autoSave', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">When enabled, your work will be saved on every edit.</p>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+                            <span>Warn on leave</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="warnLeave" class="sr-only peer" checked onchange="toggleSetting('warnLeave', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">When enabled, CiteCount will warn when you leave or reload the page, if AutoSave is disabled.</p>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+                            <span>Spell check</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="spellCheck" class="sr-only peer" checked onchange="toggleSetting('spellCheck', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">When enabled, native spell checking will be used.</p>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+                            <span>Focus</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="focus" class="sr-only peer" onchange="toggleSetting('focus', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">When enabled, information about CiteCount below the app will be hidden.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium mb-2">Counters</h3>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md">
+                            <span>Words without citations counter</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="wordsNoCitations" class="sr-only peer" checked onchange="toggleSetting('wordsNoCitations', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+                            <span>Characters without citations counter</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="charsNoCitations" class="sr-only peer" checked onchange="toggleSetting('charsNoCitations', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+                            <span>Words with citations counter</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="wordsWithCitations" class="sr-only peer" checked onchange="toggleSetting('wordsWithCitations', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+                            <span>Characters with citations counter</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="charsWithCitations" class="sr-only peer" checked onchange="toggleSetting('charsWithCitations', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+                            <span>Citations counter</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="citations" class="sr-only peer" checked onchange="toggleSetting('citations', this.checked)">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <button id="resetSettings" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600" onclick="showNotification('Are you sure you want to reset all settings? This action cannot be undone. Please save your text before reloading to avoid losing work.', true, () => { resetSettings(); }, 'confirmation')">Reset All Settings</button>
+                    <p class="text-sm text-gray-500 mt-2">Requires app restart to take effect. Customised settings and AutoSave data will be lost. Recommended if CiteCount is not working as expected.</p>
+                    <p class="text-sm text-gray-500 mt-2">CiteCount version 2.1 (2B34b)</p>
+                    <p class="text-sm text-gray-500 mt-2">What’s new</p>
+                    <ul class="list-disc pl-5 text-sm text-gray-500">
+                        <li>You can now manually exclude citations from being counted by clicking the citations counter</li>
+                        <li>Citations modal has a new design</li>
+                        <li>Selecting text in text box will now dynamically update word counts</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="overlay-background" class="overlay-background"></div>
+        <div id="notification" class="notification"></div>
+        <div id="confirmation-overlay" class="confirmation-overlay"></div>
+    </div>
+
+    <script>
+        const state = {
+            citations: [],
+            citationGroups: new Map(),
+            includedCitations: new Map(),
+            totalWords: 0,
+            citationWords: 0,
+            settings: {
+                autoSave: true,
+                warnLeave: true,
+                spellCheck: true,
+                focus: false,
+                wordsNoCitations: true,
+                charsNoCitations: true,
+                wordsWithCitations: true,
+                charsWithCitations: true,
+                citations: true
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const editor = document.getElementById('editor');
+            const highlightLayer = document.getElementById('highlight-layer');
+            const welcomeText = document.getElementById('welcome-text');
+            
+            const savedContent = localStorage.getItem('editorContent');
+            if (!savedContent || !savedContent.trim()) {
+                welcomeText.style.display = 'block';
+            } else {
+                editor.innerHTML = savedContent;
+                welcomeText.style.display = 'none';
+                handleEditorInput();
+            }
+            
+            const savedSettings = localStorage.getItem('settings');
+            if (savedSettings) {
+                state.settings = JSON.parse(savedSettings);
+                updateSettingsUI();
+            }
+            
+            const savedCitationStates = localStorage.getItem('citationStates');
+            if (savedCitationStates) {
+                state.includedCitations = new Map(JSON.parse(savedCitationStates));
+            }
+            
+            editor.addEventListener('focus', function() {
+                if (!editor.innerText.trim()) {
+                    editor.innerHTML = "";
+                    highlightLayer.innerHTML = "";
+                    welcomeText.style.display = 'block';
+                    saveEditorContent();
+                }
+            });
+            
+            editor.addEventListener('input', function() {
+                welcomeText.style.display = 'none';
+                handleEditorInput();
+            });
+            editor.addEventListener('scroll', syncScroll);
+            editor.addEventListener('paste', handlePaste);
+            editor.addEventListener('mouseup', updateWordCountWithSelection);
+            editor.addEventListener('keyup', updateWordCountWithSelection);
+            setupResizablePanels();
+            setupDragAndDrop();
+            updateWordCount();
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    toggleCitationsOverlay(false);
+                    toggleSettingsOverlay(false);
+                    document.getElementById('confirmation-overlay').style.display = 'none';
+                    document.getElementById('overlay-background').style.display = 'none';
+                    document.getElementById('other-apps-dropdown').classList.add('hidden');
+                }
+            });
+            document.querySelectorAll('.citations-overlay, .settings-overlay, #confirmation-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        overlay.style.display = 'none';
+                        document.getElementById('overlay-background').style.display = 'none';
+                    }
+                });
+            });
+            document.addEventListener('click', (e) => {
+                const dropdown = document.getElementById('other-apps-dropdown');
+                const btn = document.getElementById('other-apps-btn');
+                if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        });
+        
+        function toggleDropdown() {
+            const dropdown = document.getElementById('other-apps-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function handlePaste(e) {
+            e.preventDefault();
+            let text = e.clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, text);
+            handleEditorInput();
+        }
+
+        function handleEditorInput() {
+            const editor = document.getElementById('editor');
+            const highlightLayer = document.getElementById('highlight-layer');
+            const content = editor.innerHTML;
+            highlightLayer.innerHTML = highlightCitations(content);
+            syncScroll();
+            if (state.settings.autoSave) saveEditorContent();
+            debounce(updateWordCount, 300)();
+        }
+
+        function saveEditorContent() {
+            const editor = document.getElementById('editor');
+            localStorage.setItem('editorContent', editor.innerHTML);
+        }
+
+        function saveCitationStates() {
+            const citationStatesArray = Array.from(state.includedCitations.entries());
+            localStorage.setItem('citationStates', JSON.stringify(citationStatesArray));
+        }
+
+        function saveSettings() {
+            localStorage.setItem('settings', JSON.stringify(state.settings));
+            updateSettingsUI();
+            updateWordCount();
+        }
+
+        function toggleSetting(setting, value) {
+            state.settings[setting] = value;
+            saveSettings();
+            if (setting.startsWith('words') || setting.startsWith('chars') || setting === 'citations') {
+                updateWordCount();
+            }
+            if (setting === 'spellCheck') {
+                document.getElementById('editor').spellcheck = value;
+            }
+            if (setting === 'focus') {
+                document.body.style.overflow = value ? 'hidden' : 'auto';
+            }
+            if (setting === 'warnLeave') {
+                window.onbeforeunload = value ? (e => {
+                    if (!state.settings.autoSave && document.getElementById('editor').innerText.trim()) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                    }
+                }) : null;
+            }
+        }
+
+        function updateSettingsUI() {
+            for (let [key, value] of Object.entries(state.settings)) {
+                const checkbox = document.getElementById(key);
+                if (checkbox) checkbox.checked = value;
+            }
+            document.getElementById('editor').spellcheck = state.settings.spellCheck;
+            document.body.style.overflow = state.settings.focus ? 'hidden' : 'auto';
+            window.onbeforeunload = state.settings.warnLeave && !state.settings.autoSave && document.getElementById('editor').innerText.trim() ? (e => {
+                e.preventDefault();
+                e.returnValue = '';
+            }) : null;
+        }
+
+        function resetSettings() {
+            state.settings = {
+                autoSave: true,
+                warnLeave: true,
+                spellCheck: true,
+                focus: false,
+                wordsNoCitations: true,
+                charsNoCitations: true,
+                wordsWithCitations: true,
+                charsWithCitations: true,
+                citations: true
+            };
+            saveSettings();
+            showNotification('Settings have been reset. Please reload the page for changes to take effect.');
+            localStorage.removeItem('editorContent');
+            localStorage.removeItem('citationStates');
+        }
+
+        let citationCounter = 0;
+        function highlightCitations(content) {
+            citationCounter = 0;
+            return content.replace(/(\([^()]*\))/g, (match) => {
+                citationCounter++;
+                return `<span id="citation-${citationCounter}" class="citation-highlight">${match}</span>`;
+            });
+        }
+
+        function syncScroll() {
+            const editor = document.getElementById('editor');
+            const highlightLayer = document.getElementById('highlight-layer');
+            highlightLayer.scrollTop = editor.scrollTop;
+            highlightLayer.scrollLeft = editor.scrollLeft;
+        }
+
+        function debounce(func, delay) {
+            let timeout;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
+        function setupResizablePanels() {
+            const gutter = document.getElementById('gutter');
+            const editorPanel = document.getElementById('editor-panel');
+            const citationsPanel = document.getElementById('citations-panel');
+            const split = document.querySelector('.split');
+            let isResizing = false;
+            let startX, startWidthEditor, startWidthCitations;
+
+            function updatePanelFlex() {
+                if (window.innerWidth >= 1024) {
+                    split.style.flexDirection = 'row';
+                    const containerWidth = split.offsetWidth;
+                    const minWidth = 25;
+                    const maxWidth = 75;
+                    const baseWidth = Math.min(maxWidth, Math.max(minWidth, Math.floor(containerWidth * 0.5 / containerWidth * 100)));
+                    editorPanel.style.flex = `0 0 ${baseWidth}%`;
+                    citationsPanel.style.flex = `0 0 ${100 - baseWidth}%`;
+                    citationsPanel.classList.remove('hidden');
+                } else {
+                    split.style.flexDirection = 'column';
+                    editorPanel.style.flex = '1';
+                    citationsPanel.style.flex = '0';
+                    citationsPanel.classList.add('hidden');
+                }
+            }
+
+            updatePanelFlex();
+            window.addEventListener('resize', updatePanelFlex);
+
+            gutter.addEventListener('mousedown', (e) => {
+                if (window.innerWidth < 1024) return;
+                isResizing = true;
+                startX = e.clientX;
+                startWidthEditor = editorPanel.offsetWidth;
+                startWidthCitations = citationsPanel.offsetWidth;
+                document.documentElement.style.cursor = 'col-resize';
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', stopResize);
+                e.preventDefault();
+            });
+
+            function handleMouseMove(e) {
+                if (!isResizing) return;
+                const container = document.querySelector('.split');
+                const containerWidth = container.offsetWidth;
+                const movementX = e.clientX - startX;
+                const newEditorWidth = (startWidthEditor + movementX) / containerWidth * 100;
+                const newCitationsWidth = (startWidthCitations - movementX) / containerWidth * 100;
+                const minWidth = 25;
+                const maxWidth = 75;
+                if (newEditorWidth >= minWidth && newEditorWidth <= maxWidth && newCitationsWidth >= minWidth && newCitationsWidth <= maxWidth) {
+                    editorPanel.style.flex = `0 0 ${newEditorWidth}%`;
+                    citationsPanel.style.flex = `0 0 ${newCitationsWidth}%`;
+                }
+            }
+
+            function stopResize() {
+                isResizing = false;
+                document.documentElement.style.cursor = '';
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', stopResize);
+            }
+        }
+
+        function setupDragAndDrop() {
+            const editorContainer = document.querySelector('.editor-container');
+            const editor = document.getElementById('editor');
+
+            editorContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                editorContainer.classList.add('dragover');
+            });
+
+            editorContainer.addEventListener('dragleave', () => {
+                editorContainer.classList.remove('dragover');
+            });
+
+            editorContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                editorContainer.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileDrop(files[0]);
+                }
+            });
+        }
+
+        function handleFileDrop(file) {
+            const editor = document.getElementById('editor');
+            const welcomeText = document.getElementById('welcome-text');
+            if (file.type === 'application/pdf') {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const typedarray = new Uint8Array(e.target.result);
+                    const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                    let text = '';
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const content = await page.getTextContent();
+                        text += content.items.map(item => item.str).join(' ') + '\n';
+                    }
+                    editor.innerText = text;
+                    welcomeText.style.display = 'none';
+                    handleEditorInput();
+                };
+                reader.readAsArrayBuffer(file);
+            } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    mammoth.extractRawText({arrayBuffer: e.target.result})
+                        .then(result => {
+                            editor.innerText = result.value;
+                            welcomeText.style.display = 'none';
+                            handleEditorInput();
+                        })
+                        .catch(err => {
+                            showNotification('Error reading DOCX file: ' + err.message);
+                        });
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                showNotification('Unsupported file type. Please use .docx or .pdf files.');
+            }
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFileDrop(file);
+            }
+        }
+
+        function pasteFromClipboard() {
+            navigator.clipboard.readText().then(text => {
+                const editor = document.getElementById('editor');
+                const welcomeText = document.getElementById('welcome-text');
+                editor.innerText = text;
+                welcomeText.style.display = 'none';
+                handleEditorInput();
+            }).catch(err => {
+                showNotification('Failed to read clipboard contents: ' + err);
+            });
+        }
+
+        function toggleCitationsOverlay(show) {
+            const overlay = document.getElementById('citations-overlay');
+            const background = document.getElementById('overlay-background');
+            overlay.style.display = show ? 'block' : 'none';
+            background.style.display = show ? 'block' : 'none';
+        }
+
+        function toggleSettingsOverlay(show) {
+            const overlay = document.getElementById('settings-overlay');
+            const background = document.getElementById('overlay-background');
+            overlay.style.display = show ? 'block' : 'none';
+            background.style.display = show ? 'block' : 'none';
+        }
+
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            document.getElementById('editor').focus();
+            handleEditorInput();
+        }
+
+        function clearText() {
+            showNotification('Are you sure you want to clear all text? This action cannot be undone.', true, () => {
+                const editor = document.getElementById('editor');
+                const highlightLayer = document.getElementById('highlight-layer');
+                const welcomeText = document.getElementById('welcome-text');
+                editor.innerHTML = '';
+                highlightLayer.innerHTML = '';
+                welcomeText.style.display = 'block';
+                state.citations = [];
+                state.citationGroups.clear();
+                state.includedCitations.clear();
+                localStorage.removeItem('editorContent');
+                localStorage.removeItem('citationStates');
+                updateWordCount();
+            }, 'confirmation');
+        }
+
+        function updateWordCountWithSelection() {
+            const selection = window.getSelection();
+            let text = document.getElementById('editor').innerText;
+            
+            if (selection.rangeCount > 0 && selection.toString().length > 0) {
+                text = selection.toString();
+            }
+
+            state.totalWords = countWords(text);
+            state.citations = findCitations(text);
+            groupCitations();
+            calculateCitationWords();
+            
+            document.getElementById('total-word-count').textContent = state.settings.wordsWithCitations ? state.totalWords : (state.settings.wordsNoCitations ? (state.totalWords - state.citationWords) : '0');
+            document.getElementById('filtered-word-count').textContent = state.settings.wordsNoCitations ? (state.totalWords - state.citationWords) : '0';
+            document.getElementById('quote-count').textContent = state.settings.citations ? state.citationGroups.size : '0';
+            
+            updateCitationsTables();
+        }
+
+        function updateWordCount() {
+            updateWordCountWithSelection();
+        }
+
+        function groupCitations() {
+            state.citationGroups = new Map();
+            state.citations.forEach(citation => {
+                if (state.citationGroups.has(citation)) {
+                    const group = state.citationGroups.get(citation);
+                    group.count++;
+                } else {
+                    state.citationGroups.set(citation, {
+                        text: citation,
+                        count: 1,
+                        wordCount: countWords(citation)
+                    });
+                    if (!state.includedCitations.has(citation)) {
+                        state.includedCitations.set(citation, false);
+                    }
+                }
+            });
+        }
+
+        function calculateCitationWords() {
+            state.citationWords = 0;
+            state.citationGroups.forEach((group, citationText) => {
+                if (!state.includedCitations.get(citationText)) {
+                    state.citationWords += group.wordCount * group.count;
+                }
+            });
+        }
+
+        function countWords(text) {
+            if (!text || text.trim() === '') return 0;
+            return text.trim().split(/\s+/).length;
+        }
+
+        function findCitations(text) {
+            const citations = [];
+            const regex = /\(([^()]*)\)/g;
+            let match;
+            while ((match = regex.exec(text)) !== null) {
+                citations.push(match[1]);
+            }
+            return citations;
+        }
+
+        function updateCitationsTables() {
+            const desktopTableBody = document.getElementById('quotes-table-body');
+            const mobileTableBody = document.getElementById('quotes-table-body-mobile');
+            desktopTableBody.innerHTML = '';
+            mobileTableBody.innerHTML = '';
+
+            const editorContent = document.getElementById('editor').innerText.trim();
+            const selection = window.getSelection();
+            const hasSelection = selection.rangeCount > 0 && selection.toString().length > 0;
+
+            if (!editorContent) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.innerHTML = '<td colspan="4" class="text-center">Nothing typed yet</td>';
+                desktopTableBody.appendChild(emptyRow);
+                mobileTableBody.appendChild(emptyRow.cloneNode(true));
+            } else if (state.citationGroups.size === 0) {
+                const noCitationsRow = document.createElement('tr');
+                noCitationsRow.innerHTML = '<td colspan="4" class="text-center">No citations detected' + (hasSelection ? ' in selection' : '') + '</td>';
+                desktopTableBody.appendChild(noCitationsRow);
+                mobileTableBody.appendChild(noCitationsRow.cloneNode(true));
+            } else {
+                let citationIndex = 0;
+                state.citationGroups.forEach((group, citationText) => {
+                    createCitationRow(desktopTableBody, group, citationText, citationIndex);
+                    createCitationRow(mobileTableBody, group, citationText, citationIndex);
+                    citationIndex += group.count;
+                });
+            }
+        }
+
+        function createCitationRow(tableBody, group, citationText, startIndex) {
+            const row = document.createElement('tr');
+            const citationCell = document.createElement('td');
+            citationCell.classList.add('citation-clickable');
+            citationCell.textContent = group.text.length > 50 ? group.text.substring(0, 50) + '...' : group.text;
+            citationCell.title = group.text;
+            citationCell.addEventListener('click', () => jumpToCitation(citationText, startIndex));
+
+            const countCell = document.createElement('td');
+            countCell.textContent = group.wordCount;
+            const occurrencesCell = document.createElement('td');
+            occurrencesCell.textContent = group.count;
+            const toggleCell = document.createElement('td');
+            const toggleSwitch = document.createElement('label');
+            toggleSwitch.className = 'relative inline-flex items-center cursor-pointer';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'sr-only peer';
+            checkbox.checked = state.includedCitations.get(citationText);
+            checkbox.addEventListener('change', function() {
+                state.includedCitations.set(citationText, this.checked);
+                updateFilteredWordCount();
+                saveCitationStates();
+            });
+            const slider = document.createElement('div');
+            slider.className = 'w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600';
+            toggleSwitch.appendChild(checkbox);
+            toggleSwitch.appendChild(slider);
+            toggleCell.appendChild(toggleSwitch);
+            row.appendChild(citationCell);
+            row.appendChild(countCell);
+            row.appendChild(occurrencesCell);
+            row.appendChild(toggleCell);
+            tableBody.appendChild(row);
+        }
+
+        function jumpToCitation(citationText, startIndex) {
+            const editor = document.getElementById('editor');
+            const highlightLayer = document.getElementById('highlight-layer');
+            const editorText = editor.innerText;
+            const regex = new RegExp(`\\(${citationText}\\)`, 'g');
+            let match;
+            let currentIndex = 0;
+            let targetIndex = 0;
+
+            // Count occurrences until we reach the desired startIndex
+            while ((match = regex.exec(editorText)) !== null) {
+                if (currentIndex === startIndex) {
+                    const citationSpan = highlightLayer.querySelector(`#citation-${targetIndex + 1}`);
+                    if (citationSpan) {
+                        editor.scrollTo({
+                            top: citationSpan.offsetTop - editor.offsetHeight / 2,
+                            behavior: 'smooth'
+                        });
+                        citationSpan.classList.add('enlarged');
+                        setTimeout(() => citationSpan.classList.remove('enlarged'), 1000);
+                    }
+                    break;
+                }
+                currentIndex++;
+                targetIndex++;
+            }
+        }
+
+        function updateFilteredWordCount() {
+            calculateCitationWords();
+            document.getElementById('filtered-word-count').textContent = state.settings.wordsNoCitations ? (state.totalWords - state.citationWords) : '0';
+        }
+
+        function showNotification(message, confirm = false, onConfirm = null, type = 'notification') {
+            const notification = document.getElementById('notification');
+            const confirmation = document.getElementById('confirmation-overlay');
+            const target = confirm ? confirmation : notification;
+
+            target.innerHTML = '';
+            if (confirm) {
+                target.innerHTML = `
+                    <h2>Confirm Clear</h2>
+                    <p>${message}</p>
+                    <div class="mt-2 flex justify-center">
+                        <button onclick="this.parentElement.parentElement.style.display='none'; document.getElementById('overlay-background').style.display='none'; ${onConfirm ? 'onConfirm()' : ''}" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Yes, Clear</button>
+                        <button onclick="this.parentElement.parentElement.style.display='none'; document.getElementById('overlay-background').style.display='none'" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 ml-2">Cancel</button>
+                    </div>
+                `;
+                target.style.display = 'block';
+                document.getElementById('overlay-background').style.display = 'block';
+            } else {
+                target.innerHTML = `<div class="notification-content">${message}</div><div class="countdown"><div class="countdown-bar"></div></div>`;
+                target.style.display = 'flex';
+                target.style.opacity = '0';
+                target.style.transition = 'opacity 0.3s ease-in';
+                setTimeout(() => target.style.opacity = '1', 10);
+
+                let timer = 5000;
+                const countdownBar = target.querySelector('.countdown-bar');
+                let interval = setInterval(() => {
+                    timer -= 100;
+                    countdownBar.style.width = `${(timer / 5000) * 100}%`;
+                    if (timer <= 0) {
+                        target.style.opacity = '0';
+                        setTimeout(() => target.style.display = 'none', 300);
+                        clearInterval(interval);
+                    }
+                }, 100);
+
+                target.onmouseover = () => {
+                    clearInterval(interval);
+                    countdownBar.style.transition = 'none';
+                    countdownBar.style.width = `${(timer / 5000) * 100}%`;
+                };
+
+                target.onmouseout = () => {
+                    interval = setInterval(() => {
+                        timer -= 100;
+                        if (timer <= 0) {
+                            target.style.opacity = '0';
+                            setTimeout(() => target.style.display = 'none', 300);
+                            clearInterval(interval);
+                        } else {
+                            countdownBar.style.width = `${(timer / 5000) * 100}%`;
+                        }
+                    }, 100);
+                    countdownBar.style.transition = 'width 5s linear';
+                };
+            }
+        }
+
+        function resetSettings() {
+            state.settings = {
+                autoSave: true,
+                warnLeave: true,
+                spellCheck: true,
+                focus: false,
+                wordsNoCitations: true,
+                charsNoCitations: true,
+                wordsWithCitations: true,
+                charsWithCitations: true,
+                citations: true
+            };
+            saveSettings();
+            showNotification('Settings have been reset. Please reload the page for changes to take effect.');
+            localStorage.removeItem('editorContent');
+            localStorage.removeItem('citationStates');
+        }
+        
+        window.addEventListener('resize', function() {
+            const manageBtn = document.getElementById('manage-citations-btn');
+            const editorContainer = document.querySelector('.editor-container');
+            const split = document.querySelector('.split');
+            const citationsPanel = document.getElementById('citations-panel');
+
+            if (window.innerWidth < 1024) {
+                manageBtn.style.display = 'block';
+                editorContainer.style.flex = '1';
+                split.style.flexDirection = 'column';
+                citationsPanel.classList.add('hidden');
+            } else {
+                manageBtn.style.display = 'none';
+                split.style.flexDirection = 'row';
+                editorContainer.style.flex = '';
+                citationsPanel.classList.remove('hidden');
+                setupResizablePanels();
+            }
+            updateWordCountWithSelection();
+        });
+    </script>
+</body>
+</html>

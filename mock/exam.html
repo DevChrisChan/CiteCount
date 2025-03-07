@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IB Exam Timer</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(90deg, #000428 0%, #004e92 100%);
+            color: white; 
+            margin: 0; 
+            padding: 20px; 
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            position: relative;
+            overflow-y: auto;
+            box-sizing: border-box;
+            gap: 15px;
+        }
+
+        #readingTimeText {
+            display: none;
+        }
+        #currentTime {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            font-size: 1.1rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+    
+        .config-buttons {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+    
+        .config-button {
+            font-size: 1rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            width: max-content;
+        }
+    
+        .config-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    
+        #subjectTitle {
+            font-size: 2rem;
+            margin: 50px 0 10px;
+            text-align: center;
+            color: #4CAF50;
+            line-height: 1.3;
+        }
+    
+        #timer { 
+            font-size: clamp(3rem, 10vw, 6rem); 
+            font-weight: bold; 
+            margin: auto 0;
+            text-align: center;
+            line-height: 1.2;
+        }
+    
+        .time-info-container {
+            display: none;
+            gap: 1rem;
+            margin: 1rem 0;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            flex-direction: column;
+            width: 90%;
+            max-width: 500px;
+        }
+    
+        .time-info { 
+            font-size: 1rem; 
+            text-align: center;
+            line-height: 1.4;
+        }
+    
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin: 5px;
+            width: 90%;
+            max-width: 300px;
+        }
+    
+        #instructions {
+            display: none;
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            line-height: 1.6;
+            max-height: 40vh;
+            overflow-y: auto;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+    
+        #buttonContainer {
+            margin-top: 20px;
+            padding-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+    
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                gap: 10px;
+            }
+    
+            #currentTime {
+                position: static;
+                order: -1;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+    
+            .config-buttons {
+                position: static;
+                order: -2;
+                width: 100%;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+    
+            .config-button {
+                width: 90%;
+                max-width: 300px;
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+    
+            #subjectTitle {
+                font-size: 1.8rem;
+                margin: 20px 0 10px;
+            }
+    
+            #timer {
+                margin: 15px 0;
+                font-size: 3.5rem;
+            }
+    
+            .time-info-container {
+                width: 95%;
+                padding: 10px;
+            }
+    
+            button {
+                font-size: 0.95rem;
+                padding: 12px 20px;
+            }
+    
+            #instructions {
+                width: 95%;
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+        }
+    
+        @media (max-width: 480px) {
+            #subjectTitle {
+                font-size: 1.6rem;
+                margin: 15px 0;
+            }
+    
+            #timer {
+                font-size: 3rem;
+            }
+    
+            .time-info {
+                font-size: 0.9rem;
+            }
+    
+            button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="config-buttons">
+        <a href="/mock/index.html" class="config-button" onclick="return confirm('Are you sure you want to configure the examination? This will end the current exam timer.');">Configure Examination</a>
+        <a href="#" class="config-button" onclick="if(confirm('Are you sure you want to restart the examination?')) { window.location.reload() } return false;">Restart Examination</a>
+        <a href="/mock/index.html" class="config-button">Share Examination</a>
+    </div>
+    <div id="currentTime"></div>
+    <h1 id="subjectTitle"></h1>
+    <h2 id="examDuration"></h2>
+    <h2 id="readingTimeText">Reading Time</h2>
+    <div id="timer"></div>
+    <div class="time-info-container">
+        <div class="time-info" id="startTime"></div>
+        <div class="time-info" id="endTime"></div>
+    </div>
+    <div id="instructions">Get your workspace ready and click Start Exam to begin</div>
+    <button id="startButton">Start Exam</button>
+    <div id="buttonContainer"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const subject = decodeURIComponent(params.get('subject'));
+        const durationHours = parseFloat(params.get('duration'));
+        const hours = Math.floor(durationHours);
+        const minutes = Math.round((durationHours - hours) * 60);
+        let durationText = '';
+        if (hours > 0) durationText += `${hours} hour${hours !== 1 ? 's' : ''}`;
+        if (minutes > 0) durationText += `${hours > 0 ? ' ' : ''}${minutes} minute${minutes !== 1 ? 's' : ''}`;
+        
+        document.getElementById('subjectTitle').textContent = subject;
+        document.getElementById('examDuration').textContent = `Time allowed: ${durationText}`;
+
+        document.getElementById('instructions').style.display = 'block';
+
+        function formatTime(date) {
+            return date.toLocaleTimeString('en-US', { 
+                hour12: true, 
+                hour: 'numeric', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        function updateCurrentTime() {
+            document.getElementById('currentTime').textContent = 
+                `Current Time: ${formatTime(new Date())}`;
+        }
+        currentTimeUpdater = setInterval(updateCurrentTime, 1000);
+        updateCurrentTime();
+
+        document.getElementById('startButton').addEventListener('click', startExam);
+
+        function startExam() {
+            document.getElementById('startButton').style.display = 'none';
+            document.getElementById('instructions').style.display = 'block';
+            startTime = new Date();
+            
+            document.getElementById('instructions').innerHTML = `
+                <h3>Examination Instructions:</h3>
+                <p>${[
+                    "Do not open the examination paper until I instruct you to do so.",
+                    "Are the subject, level and language of your examination paper correct?",
+                    "Read all the instructions very carefully. Do not answer more questions than required.",
+                    "Write as clearly as possible using both sides of each page in your answer booklet.",
+                    "Write your session number and name on the front page of your answer booklet in the boxes provided.",
+                    "Do this carefully please."
+                ].join('<br><br>')}</p>`;
+
+            const skipButton = document.createElement('button');
+            skipButton.id = 'skipButton';
+            skipButton.textContent = 'Skip Instructions';
+            document.getElementById('buttonContainer').appendChild(skipButton);
+            
+            const audio1 = new Audio('1.mp3');
+            audio1.play();
+            
+            skipButton.addEventListener('click', () => {
+                audio1.pause();
+                showReadyButton();
+            });
+
+            audio1.addEventListener('ended', showReadyButton);
+        }
+
+        function showReadyButton() {
+            document.getElementById('buttonContainer').innerHTML = '';
+            document.getElementById('instructions').style.display = 'none';
+            
+            const readyButton = document.createElement('button');
+            readyButton.id = 'readyButton';
+            readyButton.textContent = 'Start Reading Time';
+            document.getElementById('buttonContainer').appendChild(readyButton);
+            
+            readyButton.addEventListener('click', () => {
+                readyButton.style.display = 'none'; 
+                document.getElementById('instructions').style.display = 'block';
+                document.getElementById('instructions').innerHTML = "Examination Instructions:<br><br>You may now open your examination paper. Your reading time starts now.";
+                playAudio('2.mp3').then(() => {
+                    document.getElementById('instructions').style.display = 'none';
+                    startReadingTime();
+                });
+            });
+        }
+
+        function startReadingTime() {
+            document.getElementById('readingTimeText').style.display = 'block';
+            document.querySelector('.time-info-container').style.display = 'flex';
+            
+            const readingDuration = 5 * 60 * 1000;
+            startTime = new Date();
+            endTime = new Date(startTime.getTime() + readingDuration);
+            
+            const skipReading = document.createElement('button');
+            skipReading.id = 'skipReading';
+            skipReading.textContent = 'Skip Reading Time';
+            document.getElementById('buttonContainer').appendChild(skipReading);
+            
+            skipReading.addEventListener('click', () => {
+                clearInterval(examTimer);
+                startMainExam();
+            });
+
+            updateTimer();
+            examTimer = setInterval(updateTimer, 1000);
+            
+            setTimeout(() => {
+                clearInterval(examTimer);
+                startMainExam();
+            }, readingDuration);
+        }
+
+        function startMainExam() {
+            document.getElementById('readingTimeText').style.display = 'none';
+            document.getElementById('buttonContainer').innerHTML = "";
+            document.querySelector('.time-info-container').style.display = 'flex';
+            
+            const mainDuration = durationHours * 60 * 60 * 1000;
+            startTime = new Date();
+            endTime = new Date(startTime.getTime() + mainDuration);
+            
+            // Play initial exam audio
+            playAudio('3.mp3');
+
+            examTimer = setInterval(() => {
+                updateTimer();
+                const remaining = endTime - new Date();
+                if (remaining <= 30*60*1000 && currentPhase < 3) {
+                    playAudio('5.mp3');
+                    currentPhase = 3;
+                }
+                if (remaining <= 5*60*1000 && currentPhase < 4) {
+                    playAudio('6.mp3');
+                    currentPhase = 4;
+                }
+            }, 1000);
+
+            setTimeout(() => {
+                clearInterval(examTimer);
+                playAudio('4.mp3');
+                document.getElementById('timer').textContent = "Time's up!";
+                document.querySelector('.time-info-container').style.display = 'none';
+            }, mainDuration);
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const remaining = endTime - now;
+            
+            const hours = Math.floor(remaining / 3600000);
+            const minutes = Math.floor((remaining % 3600000) / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            
+            document.getElementById('timer').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            document.getElementById('startTime').textContent = `Start Time: ${formatTime(startTime)}`;
+            document.getElementById('endTime').textContent = `Scheduled End: ${formatTime(endTime)}`;
+        }
+
+        function playAudio(file) {
+            return new Promise(resolve => {
+                const audio = new Audio(file);
+                audio.play();
+                audio.addEventListener('ended', resolve);
+            });
+        }
+    </script>
+</body>
+</html>

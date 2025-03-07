@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CiteCount - Citation Word Counter</title>
+    <link href="/beta/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <section class="app-section">
+        <div class="container">
+            <header class="header">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    CiteCount
+                </div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Words without citations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Characters without citations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Words with citations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Characters with citations</div>
+                    <div class="stat-value">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Citations</div>
+                    <div class="stat-value">0</div>
+                </div>
+            </div>
+
+            <div class="editor">
+                <textarea placeholder="Enter your text here..."></textarea>
+            </div>
+
+            <div class="secondary-stats">
+                <div class="secondary-stat-card">
+                    <div class="secondary-stat-label">Sentences</div>
+                    <div class="secondary-stat-value">0</div>
+                </div>
+                <div class="secondary-stat-card">
+                    <div class="secondary-stat-label">Paragraphs</div>
+                    <div class="secondary-stat-value">0</div>
+                </div>
+                <div class="secondary-stat-card">
+                    <div class="secondary-stat-label">Reading Time</div>
+                    <div class="secondary-stat-value">0 min</div>
+                </div>
+                <div class="secondary-stat-card">
+                    <div class="secondary-stat-label">Speaking Time</div>
+                    <div class="secondary-stat-value">0 min</div>
+                </div>
+                <div class="secondary-stat-card">
+                    <div class="secondary-stat-label">Unique Citations</div>
+                    <div class="secondary-stat-value">0</div>
+                </div>
+                <div class="secondary-stat-card">
+                    <div class="secondary-stat-label">Citation Density</div>
+                    <div class="secondary-stat-value">0%</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="landing-section">
+        <div class="container">
+            <h1 style="text-align: center;">CiteCount</h1>
+            <h2 style="text-align: center;">Word counting solution for students and researchers.</h2>
+            <div class="landing-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">Smart Citation Detection</h3>
+                    <p class="feature-description">Automatically detects and counts in-text citations in various formats
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Detailed Analytics</h3>
+                    <p class="feature-description">Get comprehensive word counts and citation statistics</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Real-time Processing</h3>
+                    <p class="feature-description">Instant results as you type with no page reloads</p>
+                </div>
+                <img style="align-items: center;" class="feature-image" src="/assets/hero.png">
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

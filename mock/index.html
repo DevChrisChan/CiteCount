@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IB Exam Timer Setup</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            scroll-behavior: smooth;
+            background: linear-gradient(90deg, #000428 0%, #004e92 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h3 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #cccccc;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .time-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            background: rgba(40, 167, 69, 0.8);
+            backdrop-filter: blur(10px);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background: rgba(40, 167, 69, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .time-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Exam Timer Setup</h1>
+        <h3>Make sure to enable audio for a full examination experience. Get your workspace ready, fill in examination
+            information, and click Start Exam.</h2>
+            <form id="setupForm">
+                <div class="form-group">
+                    <label for="subject">Subject Name:</label>
+                    <input type="text" id="subject" placeholder="Enter subject name">
+                </div>
+
+                <div class="time-inputs">
+                    <div class="form-group">
+                        <label for="hours">Hours:*</label>
+                        <input type="number" id="hours" min="0" value="1" required placeholder="Enter hours">
+                    </div>
+                    <div class="form-group">
+                        <label for="minutes">Minutes:*</label>
+                        <input type="number" id="minutes" min="0" max="59" value="0" required
+                            placeholder="Enter minutes">
+                    </div>
+                    * Required fields
+                </div>
+
+                <button type="submit">Start Exam</button>
+            </form>
+    </div>
+    <script>
+        document.getElementById('setupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const subjectInput = document.getElementById('subject').value;
+            let subjectValue = subjectInput.trim(); // Trim whitespace to handle empty or whitespace-only input
+            if (!subjectValue) {
+                subjectValue = 'Mock Examination';
+            }
+            const subject = encodeURIComponent(subjectValue);
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const totalDuration = hours + (minutes / 60);
+
+            const url = `exam.html?subject=${subject}&duration=${totalDuration}`;
+            window.open(url, '_blank', 'fullscreen=yes');
+        });
+
+        // Validate minutes input
+        document.getElementById('minutes').addEventListener('change', function () {
+            if (this.value > 59) this.value = 59;
+            if (this.value < 0) this.value = 0;
+        });
+    </script>
+</body>
+
+</html>
