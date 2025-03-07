@@ -6,7 +6,7 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>https://citecount.netlify.app/</loc>
+  <loc>https://cite.js.org/</loc>
 <changefreq>weekly</changefreq>
   <priority>1.00</priority>
 </url>

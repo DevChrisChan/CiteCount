@@ -1,13 +1,22 @@
+<!--
+todo:
+import all previous functions from original version
+allow customisation of counters, allow rearranging order
+search for citation in citation table
+offline capabilities
+pwa capabilities
+settings menu fix 
+-->
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CiteCount - Count Words without In-text Citations</title>
+  <title>CiteCount - Precise Word Counter without Citations</title>
   <meta property="og:title" content="CiteCount - Count Words without In-text Citations" />
   <meta property="og:description"
-    content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
+    content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!" />
   <meta property="og:image"
     content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
   <meta property="og:url" content="https://citecount.netlify.app" />
@@ -26,14 +35,20 @@
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
   <script type="application/ld+json">
-  {
+{
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "CiteCount",
-      "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.",
-      "applicationCategory": "Reference",
-      "operatingSystem": "All"
-  }></script>
+      "description": "CiteCount provides accurate word counts by excluding in-text citations in MLA, APA, and Chicago formats for academic and professional writing.",
+      "applicationCategory": "Education",
+      "operatingSystem": "All",
+      "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+      }
+  }
+  </script>
   <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
   <link rel="shortcut icon" href="/favicon/favicon.ico" />
@@ -51,509 +66,538 @@
     gtag('js', new Date());
     gtag('config', 'G-LHVN622J29');
   </script>
-  <link href="/styles/style.css" rel="stylesheet" type="text/css" />
-  <link href="/styles/dark.css" rel="stylesheet" type="text/css" />
-  <link href="/styles/drop.css" rel="stylesheet" type="text/css" />
-  <link href="/styles/test.css" rel="stylesheet" type="text/css" />
+  <link href="/v2/style.css" rel="stylesheet">
+  <link href="/v2/flowbite.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+  <link rel="manifest" href="manifest.json" />
 </head>
 
 <body>
-  <!-- JavaScript not enabled -->
-  <noscript>
-    <div style="background-color: red; padding:1px; color: white;">
-      <p><strong>Enable JavaScript for CiteCount</strong></p>
-      <p>CiteCount is built as a client-side JavaScript application to ensure your files are not sent to servers to
-        process. JavaScript has to be enabled for CiteCount to function.</p>
-    </div>
-  </noscript>
-
-  <!-- Drop area -->
-  <div id="overlay">
-    <div>
-      <h1 id="overlayText" style="color:black;">Drop your file to import into CiteCount.</h1>
-      <p style="color:black">Only Microsoft Word (.docx and .doc) and PDF (.pdf) files are supported.<br>Your document
-        stays securely
-        within your device. All operations are performed locally in your browser.<br><br>Equations and images are
-        automatically removed from the file.</p>
-    </div>
-  </div>
-
-  <!-- Navigation bar-->
-  <nav class="navbar">
-    <a href="/" class="nav-link">
-      <img draggable="false" src="/assets/logo.svg" alt="CiteCount Logo" class="logo" />CiteCount
-      <span id="identifier"
-        style="font-family: monospace; padding-left: 10px; display: none; font-weight: 900; text-decoration: underline;">Developer
-        Mode</span></a>
-    <div class="nav-buttons">
-      <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB Exams Countdown</a>
-      <a href="/blogs" class="nav-link" style="font-weight: 500;">Blogs</a>
-      <span data-lta-event="settings opened" style="cursor: pointer" class="about-link"><img draggable="false"
-          src="/assets/settings.svg" alt="Settings" class="logo" id="cog" title="Settings [Command + ,]" /></span>
-  </nav>
-  <div class="app">
-    <div class="container">
-      <!-- Banner -->
-      <!--<div class="banner" id="banner" style="display: none;">
-    <span class="banner-message" id="content"></span>
-    <span class="banner-dismiss" id="dismissButton">✖</span> </div>-->
-      <!-- Notifications, Settings Modal, Citations Modal-->
-      <div
+  <div
         style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
         id="notification" title="Click notification to dismiss.">
         There is an error displaying this notification.
         <div id="progress-bar"></div>
       </div>
-      <div
-        style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;"
-        id="settingsModal" class="modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <span data-lta-event="open settings" class="title">Settings</span>
-            <span data-lta-event="close settings" class="close">×</span>
-          </div>
-          <div class="setting-name">Editing</div>
-          <hr>
-          <div class="setting">
-            <div class="setting-description">
-              <span class="setting-name">AutoSave</span>
-              <p class="description">When enabled, your work will be saved on every edit.</p>
-            </div>
-            <div class="options">
-              <button data-lta-event="enableautoSave" id="enableautoSave" class="option">Enable</button>
-              <button data-lta-event="disableautoSave" id="disableautoSave" class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting">
-            <div class="setting-description">
-              <span class="setting-name">Warn on leave</span>
-              <p class="description">When enabled, CiteCount will warn when you leave or reload the page, if AutoSave is
-                disabled.</p>
-            </div>
-            <div class="options">
-              <button data-lta-event="enableWarn" id="enableWarn" class="option">Enable</button>
-              <button data-lta-event="disableWarn" id="disableWarn" class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting">
-            <div class="setting-description">
-              <span class="setting-name">Spell check</span>
-              <p class="description">When enabled, native spell checking will be used.</p>
-            </div>
-            <div class="options">
-              <button data-lta-event="enableSpellcheck" id="enableSpellcheck" class="option">Enable</button>
-              <button data-lta-event="disableSpellcheck" id="disableSpellcheck" class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting">
-            <div class="setting-description">
-              <span class="setting-name">Focus</span>
-              <p class="description">When enabled, information about CiteCount below the app will be hidden.</p>
-            </div>
-            <div class="options">
-              <button data-lta-event="enableFocus" id="enableFocus" class="option">Enable</button>
-              <button data-lta-event="disableFocus" id="disableFocus" class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting-name">Counters</div>
-          <hr>
-          <div class="setting">
-            <span class="setting-name">Words without citations counter</span>
-            <div class="options">
-              <button data-lta-event="enableWordsWithoutCitations" id="enableWordsWithoutCitations"
-                class="option">Enable</button>
-              <button data-lta-event="disableWordsWithoutCitations" id="disableWordsWithoutCitations"
-                class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting">
-            <span class="setting-name">Characters without citations counter</span>
-            <div class="options">
-              <button data-lta-event="enableCharsWithoutCitations" id="enableCharsWithoutCitations"
-                class="option">Enable</button>
-              <button data-lta-event="disableCharsWithoutCitations" id="disableCharsWithoutCitations"
-                class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting">
-            <span class="setting-name">Words with citations counter</span>
-            <div class="options">
-              <button data-lta-event="enableWordsWithCitations" id="enableWordsWithCitations"
-                class="option">Enable</button>
-              <button data-lta-event="disableWordsWithCitations" id="disableWordsWithCitations"
-                class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting">
-            <span class="setting-name">Characters with citations counter</span>
-            <div class="options">
-              <button data-lta-event="enableCharsWithCitations" id="enableCharsWithCitations"
-                class="option">Enable</button>
-              <button data-lta-event="disableCharsWithCitations" id="disableCharsWithCitations"
-                class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting">
-            <span class="setting-name">Citations counter</span>
-            <div class="options">
-              <button data-lta-event="enableCitations" id="enableCitations" class="option">Enable</button>
-              <button data-lta-event="disableCitations" id="disableCitations" class="option">Disable</button>
-            </div>
-          </div>
-          <div class="setting-name" id="devtoggle">Information</div>
-          <hr>
-          <div class="setting">
-            <span class="setting-name">CiteCount version</span>
-            <div class="options">
-              <p id="version" style="cursor: pointer"
-                onclick="navigator.clipboard.writeText(this.innerText); notify('CiteCount version copied to clipboard.')">
-              </p>
-            </div>
-          </div>
-          <div class="setting">
-            <span class="setting-name">What's new</span>
-            <div class="options">
-              <p>
-                - You can now manually exclude citations from being counted by clicking the citations counter<br>
-                - Citations modal has a new design<br>
-                - Selecting text in text box will now dynamically update word counts<br>
-              </p>
-            </div>
-          </div>
-          <!--<div class="setting">
-          <span class="setting-name">Load previous versions</span>
-          <div class="options">
-            <p>
-              <a href="/archive/v1A1f">Initial beta</a>
-              <a href="/archive/v1A10d">Initial release</a>
-            </p>
-          </div>
-        </div>-->
-          <hr>
-          <div class="setting">
-            <div class="setting-description">
-              <span class="setting-name">Reset all settings</span>
-              <p class="description">Requires app restart to take effect. Customised settings and AutoSave data will be
-                lost. Recommended if
-                CiteCount is not working as expected.</p>
-            </div>
-            <div class="options">
-              <button style="color: #DC143C!important;" onclick="confirmReset()" class="option">Reset All
-                Settings</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Citations Modal -->
-      <div style="user-select: none;" id="citationsModal" class="modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="title">Citations</span>
-            <span data-lta-event="close citations" class="close">×</span>
-          </div>
-          <div style="word-break: break-word; text-align: left; user-select: none;" id="citationList"></div>
-        </div>
-      </div>
-
-      <!-- Keyboard Shortcuts Modal-->
-      <div style="user-select: none;" id="shortcutsModal" class="modal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="title">Keyboard Shortcuts</span>
-            <span data-lta-event="close keyboard shortcuts">[esc] to close</span>
-          </div>
-          <div class="shortcut">
-            <span class="command">Command</span>
-            <span class="plus">+</span>
-            <span class="key">,</span>
-            <span class="scdescription">Settings</span>
-          </div>
-          <div class="shortcut">
-            <span class="command">Command</span>
-            <span class="plus">+</span>
-            <span class="key">K</span>
-            <span class="scdescription">Citations list</span>
-          </div>
-          <div class="shortcut">
-            <span class="command">Command</span>
-            <span class="plus">+</span>
-            <span class="key">/</span>
-            <span class="scdescription">Keyboard shortcuts</span>
-          </div>
-          <div class="shortcut">
-            <span class="key">[esc]</span>
-            <span class="scdescription">Escape menu</span>
-          </div>
-        </div>
-      </div>
-
-      <!--Confirmation dialog-->
-      <div id="custom-dialog" class="dialog">
-        <div class="dialog-content">
-          <h2>Confirm Reset</h2>
-          <p>Are you sure you want to reset all settings? This action cannot be undone. Please save your text before
-            reloading to avoid losing work.</p>
-          <button id="confirm-button">Yes, Reset</button>
-          <button id="cancel-button">Cancel</button>
-        </div>
-      </div>
-
-      <!-- Content -->
-      <div class="counters">
-        <div id="WordsWithoutCitations" class="counter" data-value="0"
-          title="Total number of words excluding your in-text citations">
-          <div class="label" id="wwc">Words without citations</div>
-          <div class="value" id="wordCountNoCitationsValue"><span class="dots">...</span></div>
-        </div>
-        <div id="CharsWithoutCitations" class="counter" data-value="0"
-          title="Total number of characters excluding your in-text citations">
-          <div class="label">Characters without citations</div>
-          <div class="value" id="charCountNoCitationsValue"><span class="dots">...</span></div>
-        </div>
-        <div id="WordsWithCitations" class="counter" data-value="0"
-          title="Total number of words, including your in-text citations">
-          <div class="label">Words with citations</div>
-          <div class="value" id="wordCountWithCitationsValue"><span class="dots">...</span></div>
-        </div>
-        <div id="CharsWithCitations" class="counter" data-value="0"
-          title="Total number of characters, including your in-text citations">
-          <div class="label">Characters with citations</div>
-          <div class="value" id="charCountWithCitationsValue"><span class="dots">...</span></div>
-        </div>
-        <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
-          data-value="0" title="Click to view a list of your citations. [Command + K]">
-          <div id="citationslabel" class="label">Citations</div>
-
-          <div class="value" id="citationCountValue"><span class="dots">...</span>
-            <div id="citationList"></div>
-            <div id="totalWordCount"></div>
-          </div>
-        </div>
-      </div>
-      <div class="textareas">
-        <textarea spellcheck="true" id="rawData" oninput="UpdateCounts()"
-          placeholder="Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount."
-          style="flex-grow: 1;" autofocus data-lta-event="textbox focus"></textarea>
-      </div>
-      </label>
-      <span id="safety"
-        style="-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none; -moz-user-select: none;-ms-user-select: none;user-select: none;">
-        <img draggable="false" src="/assets/shield.svg" alt="Shield"
-          style="width: 1em; height: 1em; vertical-align: middle;" />
-        CiteCount prioritizes data security. Your content stays secure on your device.
-        <a href="/blogs/our-promise-for-safety.html" data-lta-event="safety promise click from textarea">View our safety
-          guarantee</a>.
+  <div class="app-container">
+    <div id="announcement-banner" class="announcement-banner" style="display: none;">
+      <span style="display: inline-block; width: 16px; height: 16px">
+        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor">
+          <path
+            d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-11zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25.222 25.222 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56V3.224zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009a68.14 68.14 0 0 1 .496.008 64 64 0 0 1 1.51.048zm1.39 1.081c.285.021.569.047.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a65.81 65.81 0 0 1 1.692.064c.327.017.65.037.966.06z" />
+        </svg>
       </span>
-      <span id="secondarydebug" style="font-family: monospace;"></span>
-      <span id="status" style="font-family: monospace;"></span>
-      <!--<p id="message">
-      We'd like to invite you to <a style="opacity:100%!important;text-decoration: underline;" id="links" target="_blank"
-        rel="noopener noreferrer" data-lta-event="survey outbound click" href="https://forms.gle/75BvyudP82DxZkfAA">fill
-        in a survey</a> to improve CiteCount.
-      <span data-lta-event="dismiss survey" style="text-decoration: underline; cursor: pointer;"
-        onclick="document.getElementById('message').style.display='none';">[dismiss]</span>
-    </p>-->
-      <!-- Additional conters-->
-      <div id="bottom-counters" style="display: none;">
-        <div class="counters" style="padding-top: 20px;">
-          <div id="WordsWithoutCitations" class="counter" data-value="0"
-            title="Total number of words excluding your in-text citations">
-            <div id="wordswolabel" class="label">Words without citations</div>
-            <div id="wordCountNoCitationsValue" class="value"><span class="dots">...</span></div>
-          </div>
-          <div id="CharsWithoutCitations" class="counter" data-value="0"
-            title="Total number of characters excluding your in-text citations">
-            <div id="charswolabel" class="label">Characters without citations</div>
-            <div id="charCountNoCitationsValue" class="value"><span class="dots">...</span></div>
-          </div>
-          <div id="WordsWithCitations" class="counter" data-value="0"
-            title="Total number of words, including your in-text citations">
-            <div id="wordslabel" class="label">Words with citations</div>
-            <div id="wordCountWithCitationsValue" class="value"><span class="dots">...</span></div>
-          </div>
-          <div id="CharsWithCitations" class="counter" data-value="0"
-            title="Total number of characters, including your in-text citations">
-            <div id="charslabel" class="label">Characters with citations</div>
-            <div id="charCountWithCitationsValue" class="value"><span class="dots">...</span></div>
-          </div>
+      <span><a href="/blogs/all-new-citecount.html">Welcome to the all new
+          CiteCount! CiteCount is now at <b>cite.js.org</b>: completely rewritten to offer the best text counting solution. <u>Click to read our update
+          blog!</u></a></span>
+      <button onclick="dismissBanner()" style="cursor: pointer;">✕</button>
+    </div>
 
-          <div style="cursor: pointer" data-lta-event="open citations" id="Citations" class="counter citations-link"
-            data-value="0" title="Total number of citations. Click to view a list of your citations.">
-            <div id="citationslabel" class="label">Citations</div>
-
-            <div class="value" id="citationCountValue"><span class="dots">...</span>
-              <div id="citationList"></div>
-              <div id="totalWordCount"></div>
-            </div>
+    <header class="flex justify-between items-center">
+      <div class="flex items-center gap-2 cursor-pointer select-none" onclick="location.reload();">
+        <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+        <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900;">CiteCount</h1>
+        <span style="font-size: small;">[dev preview]</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="https://github.com/DevChrisChan/CiteCount" target="_blank"><button class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-tooltip="View source">
+          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 30 30">
+            <path d="M15,3C8.373,3,3,8.373,3,15c0,5.623,3.872,10.328,9.092,11.63C12.036,26.468,12,26.28,12,26.047v-2.051 c-0.487,0-1.303,0-1.508,0c-0.821,0-1.551-0.353-1.905-1.009c-0.393-0.729-0.461-1.844-1.435-2.526 c-0.289-0.227-0.069-0.486,0.264-0.451c0.615,0.174,1.125,0.596,1.605,1.222c0.478,0.627,0.703,0.769,1.596,0.769 c0.433,0,1.081-0.025,1.691-0.121c0.328-0.833,0.895-1.6,1.588-1.962c-3.996-0.411-5.903-2.399-5.903-5.098 c0-1.162,0.495-2.286,1.336-3.233C9.053,10.647,8.706,8.73,9.435,8c1.798,0,2.885,1.166,3.146,1.481C13.477,9.174,14.461,9,15.495,9 c1.036,0,2.024,0.174,2.922,0.483C18.675,9.17,19.763,8,21.565,8c0.732,0.731,0.381,2.656,0.102,3.594 c0.836,0.945,1.328,2.066,1.328,3.226c0,2.697-1.904,4.684-5.894,5.097C18.199,20.49,19,22.1,19,23.313v2.734 c0,0.104-0.023,0.179-0.035,0.268C23.641,24.676,27,20.236,27,15C27,8.373,21.627,3,15,3z"></path>
+        </svg>
+        </button></a>
+        <button id="help-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-tooltip="Help" onclick="toggleHelpOverlay(true)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12" y2="17"></line>
+          </svg>
+        </button>
+        <button id="settings-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-tooltip="Settings" onclick="toggleSettingsOverlay(true)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
+            <path d="M0 0h48v48h-48z" fill="none" />
+            <path
+              d="M38.86 25.95c.08-.64.14-1.29.14-1.95s-.06-1.31-.14-1.95l4.23-3.31c.38-.3.49-.84.24-1.28l-4-6.93c-.25-.43-.77-.61-1.22-.43l-4.98 2.01c-1.03-.79-2.16-1.46-3.38-1.97l-.75-5.3c-.09-.47-.5-.84-1-.84h-8c-.5 0-.91.37-.99.84l-.75 5.3c-1.22.51-2.35 1.17-3.38 1.97l-4.98-2.01c-.45-.17-.97 0-1.22.43l-4 6.93c-.25.43-.14.97.24 1.28l4.22 3.31c-.08.64-.14 1.29-.14 1.95s.06 1.31.14 1.95l-4.22 3.31c-.38.3-.49.84-.24 1.28l4 6.93c.25.43.77.61 1.22.43l4.98-2.01c1.03.79 2.16 1.46 3.38 1.97l.75 5.3c.08.47.49.84.99.84h8c.5 0 .91-.37.99-.84l.75-5.3c1.22-.51 2.35-1.17 3.38-1.97l4.98 2.01c.45.17.97 0 1.22-.43l4-6.93c.25-.43.14-.97-.24-1.28l-4.22-3.31zm-14.86 5.05c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" />
+          </svg>
+        </button>
+        <div class="relative">
+          <button id="other-apps-btn" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+            data-tooltip="More Apps" onclick="toggleDropdown()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              class="h-5 w-5">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div id="other-apps-dropdown"
+            class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 hidden">
+            <a href="/countdown/"
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">IB
+              Exams Countdown</a>
+            <a href="/mock/"
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">IB
+              Mock Exams</a>
+            <a href="/blogs/"
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Blogs</a>
           </div>
         </div>
       </div>
+    </header>
+
+    <div class="stats-row select-none">
+      <div class="counter-card rounded-lg shadow-sm text-center">
+        <h3 class="text-xs font-medium opacity-75 mb-1">Total Words</h3>
+        <p id="total-word-count" class="text-2xl font-black">0</p>
+      </div>
+      <div class="counter-card rounded-lg shadow-sm text-center">
+        <h3 class="text-xs font-medium opacity-75 mb-1">Words without Citations</h3>
+        <p id="filtered-word-count" class="text-2xl font-black">0</p>
+      </div>
+      <div class="counter-card rounded-lg shadow-sm text-center">
+        <h3 class="text-xs font-medium opacity-75 mb-1">Citations</h3>
+        <p id="quote-count" class="text-2xl font-black">0</p>
+      </div>
+    </div>
+
+    <button id="manage-citations-btn" class="manage-btn lg:hidden md:hidden mb-3"
+      onclick="toggleCitationsOverlay(true)">
+      Manage Citations
+    </button>
+
+    <div class="main-content">
+      <div class="split">
+        <div id="editor-panel" class="split-panel">
+          <div class="editor-container shadow-sm">
+            <div class="toolbar flex gap-2">
+              <button data-tooltip="Bold" onclick="formatText('bold')" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
+                  <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
+                </svg>
+              </button>
+              <button data-tooltip="Italic" onclick="formatText('italic')" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <path d="M16 4l-8 16"></path>
+                  <path d="M12 4h4"></path>
+                  <path d="M8 20h4"></path>
+                </svg>
+              </button>
+              <button data-tooltip="Underline" onclick="formatText('underline')" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
+                  <path d="M4 20h16"></path>
+                </svg>
+              </button>
+              <button data-tooltip="Clear Text" onclick="clearText()" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <path d="M3 6h18"></path>
+                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6"></path>
+                  <path d="M10 11v6"></path>
+                  <path d="M14 11v6"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="editor-wrapper">
+              <div id="editor" contenteditable="true" spellcheck="true"></div>
+              <div id="highlight-layer"></div>
+              <div id="welcome-text" class="welcome-text">
+                <p>Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount.
+                </p>
+                <div class="welcome-buttons">
+                  <button onclick="pasteFromClipboard()"
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Paste
+                    from Clipboard</button>
+                  <label
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer">
+                    Upload File
+                    <input type="file" accept=".docx,.pdf" onchange="handleFileUpload(event)" class="hidden">
+                  </label>
+                  <button onclick="initiateExample()"
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Try
+                    Example</button>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">CiteCount prioritizes data integrity. Your content stays secure on
+                  your device. <a href="/safety.html" target="_blank" class="text-blue-500 hover:underline">View our
+                    safety promise</a>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="gutter" class="gutter hidden lg:block"></div>
+
+        <div id="citations-panel" class="split-panel hidden lg:block border rounded-lg shadow-sm p-4 overflow-hidden">
+          <h2 class="text-lg font-semibold mb-3 sticky top-0 bg-inherit z-10">Citations</h2>
+          <div id="citations-table-container" class="quote-table-container">
+            <table class="quote-table">
+              <thead>
+                <tr>
+                  <th class="w-5/8">Citation</th>
+                  <th class="w-1/8">Words</th>
+                  <th class="w-1/8">Occurrences</th>
+                  <th class="w-1/8">Include in Total</th>
+                </tr>
+              </thead>
+              <tbody id="quotes-table-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="citations-overlay" class="citations-overlay">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Citations</h2>
+        <button onclick="toggleCitationsOverlay(false)"
+          class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <span style="opacity: 75%;">Click on a citation to jump to the respective citation in text.</span>
+      <div class="overflow-x-auto">
+        <table class="quote-table">
+          <thead>
+            <tr>
+              <th class="w-2/5">Citation</th>
+              <th class="w-1/5">Words</th>
+              <th class="w-1/5">Occurrences</th>
+              <th class="w-1/5">Count in Total</th>
+            </tr>
+          </thead>
+          <tbody id="quotes-table-body-mobile">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="settings-overlay" class="settings-overlay">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Settings</h2>
+        <button onclick="toggleSettingsOverlay(false)"
+          class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-4">
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-lg font-medium mb-2">Editing</h3>
+            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md">
+              <span>AutoSave</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="autoSave" class="sr-only peer" checked
+                  onchange="toggleSetting('autoSave', this.checked)">
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+              </label>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">When enabled, your work will be saved on every edit.</p>
+            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+              <span>Warn on leave</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="warnLeave" class="sr-only peer" checked
+                  onchange="toggleSetting('warnLeave', this.checked)">
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+              </label>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">When enabled, CiteCount will warn when you leave or reload the page,
+              if AutoSave is disabled.</p>
+            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+              <span>Spell check</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="spellCheck" class="sr-only peer" checked
+                  onchange="toggleSetting('spellCheck', this.checked)">
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+              </label>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">When enabled, native spell checking will be used.</p>
+          </div>
+          <div>
+            <!--<h3 class="text-lg font-medium mb-2">Counters</h3>
+            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md">
+              <span>Words without citations counter</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="wordsNoCitations" class="sr-only peer" checked
+                  onchange="toggleSetting('wordsNoCitations', this.checked)">
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+              <span>Characters without citations counter</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="charsNoCitations" class="sr-only peer" checked
+                  onchange="toggleSetting('charsNoCitations', this.checked)">
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+              <span>Words with citations counter</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="wordsWithCitations" class="sr-only peer" checked
+                  onchange="toggleSetting('wordsWithCitations', this.checked)">
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+              <span>Characters with citations counter</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="charsWithCitations" class="sr-only peer" checked
+                  onchange="toggleSetting('charsWithCitations', this.checked)">
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
+              <span>Citations counter</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="citations" class="sr-only peer" checked
+                  onchange="toggleSetting('citations', this.checked)">
+                <div
+                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+              </label>
+            </div>--> 
+          </div>
+          <h3 class="text-lg font-medium mb-2">General</h3>
+          <button id="resetSettings" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+            onclick="showNotification('Are you sure you want to reset all settings? This action cannot be undone. Please save your text before reloading to avoid losing work.', true, () => { resetSettings(); }, 'confirmation')">Reset
+            All Settings</button>
+          <p class="text-sm text-gray-500 mt-2">Requires app restart to take effect. Customised settings and AutoSave
+            data will be lost. Recommended if CiteCount is not working as expected.</p>
+            <p class="text-sm text-gray-500 mt-2">Settings from the old CiteCount will soon be ported to the new version.</p>
+            <p class="text-sm text-gray-500 mt-2">CiteCount version 3.0 (3A69c)</p>
+          <p class="text-sm text-gray-500 mt-2">What’s new</p>
+          <ul class="list-disc pl-5 text-sm text-gray-500">
+            <li>CiteCount has been completely rewritten, adding an array of new features on user interface you are familiar with.</li>
+            <li>Visit the <a href="/blogs/all-new-citecount.html" style="text-decoration: underline;">update blog</a> to read more about the new update.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="help-overlay" class="help-overlay">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Help</h2>
+        <button onclick="toggleHelpOverlay(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="p-4">
+        <h3 class="text-lg font-medium mb-2">Welcome to CiteCount</h3>
+        <p class="text-sm text-gray-600 mb-4">CiteCount is a tool designed to help you count words in your text while
+          excluding in-text citations. Here's how to use it:</p>
+        <ul class="list-disc pl-5 text-sm text-gray-600 space-y-2">
+          <li><strong>Typing or Pasting Text:</strong> Start typing in the editor or paste your text directly. You can
+            also drag and drop Word (.docx) or PDF files.</li>
+          <li><strong>Word Count:</strong> The app automatically calculates total words, words without citations, and
+            the number of citations detected.</li>
+          <li><strong>Citations:</strong> Citations in parentheses (e.g., (Smith, 2020)) are detected and highlighted.
+            Click on a citation in the table to jump to it in the text.</li>
+          <li><strong>Settings:</strong> Customize counters and editing options in the settings menu (gear icon).</li>
+          <li><strong>Managing Citations:</strong> Use the "Manage Citations" button or the citations panel to
+            include/exclude specific citations from the word count.</li>
+          <li><strong>Data Safety:</strong> Your text stays on your device and is not sent to any server unless you
+            choose to save it elsewhere.</li>
+        </ul>
+        <p class="text-sm text-gray-500 mt-4">Need more help? Feel free to contact us <a href="/contact.html?source=">here</a>.</p>
+      </div>
+      <!--<div id="iframe-container">
+        <iframe id="forms"
+          src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true"
+          allowfullscreen onload="iframeLoaded()"></iframe>
+      </div>-->
+    </div>
+
+    <div id="overlay-background" class="overlay-background" onclick="closeOverlays()"></div>
+    <div id="notification" class="notification"></div>
+    <div id="confirmation-overlay" class="confirmation-overlay"></div>
+    <div id="ad-banner" class="ad-banner" style="display: none;">
+      <span>CiteCount_M25_Countdown_Promo</span>
+      <button onclick="dismissAd()">✕</button>
     </div>
   </div>
-  <footer>
-    <section class="alt-landing-section" id="landing-section" style="margin-top: 5px;">
-      <div class="new-container">
-        <span id="debug" style="font-family: monospace;"></span>
-        <div id="tableContainer"></div>
-        <h1 style="padding-top: 50px;">CiteCount</h1>
-        <h2 style="padding-bottom: 30px; opacity: 80%;">Redefining word counting solutions for students and researchers.
-        </h2>
-        <div class="landing-grid">
-          <div class="feature-card">
-            <div class="feature-icon">📝</div>
-            <h3 class="feature-title">Smart Citation Detection</h3>
-            <p class="feature-description">Automatically detects and counts in-text citations in various formats.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3 class="feature-title">Detailed Analytics</h3>
-            <p class="feature-description">Get comprehensive word counts and citation statistics.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🔒</div>
-            <h3 class="feature-title">Safe & Secure</h3>
-            <p class="feature-description">CiteCount works exlusively within your device, keeping your content safe.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">📋</div>
-            <h3 class="feature-title">Citations List</h3>
-            <p class="feature-description">View a list of your citations and select the ones you'd like to include by
-              clicking Citations.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <h3 class="feature-title">Real-time Processing</h3>
-            <p class="feature-description">Counters update as you type. Select parts of your text to view statistics of
-              your selection.</p>
-          </div>
-          <!--<div class="feature-card">
-            <div class="feature-icon">💾</div>
-            <h3 class="feature-title">AutoSave</h3>
-            <p class="feature-description">Automatically saves your text when you are typing.</p>
-          </div>-->
-          <div class="feature-card">
-            <div class="feature-icon">⚙️</div>
-            <h3 class="feature-title">Customisable Counters</h3>
-            <p class="feature-description">Select counters that matters the most. Customise in Settings.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">📶</div>
-            <h3 class="feature-title">Available Offline</h3>
-            <p class="feature-description">CiteCount will function even when you're offline, as everything is processed
-              on device.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🚀</div>
-            <h3 class="feature-title">Import Your File</h3>
-            <p class="feature-description">You can drag and drop your Word or PDF file, CiteCount will process the file
-              for you.</p>
-          </div>
-          <a href="/product.html" style="text-decoration: none; color: white;">
-            <div class="cta" data-lta-event="product link">
-              <div class="feature-icon">✨</div>
-              <h3 class="feature-title">... and much more!</h3>
-              <p class="feature-description">Click to learn how 10k+ IB Students utilizes CiteCount to streamline their
-                workflow.</p>
-            </div>
-          </a>
-        </div>
-    </section>
-    <div id="secondary-landing">
-      <section class="landing-section" id="landing-section">
-        <div class="new-container">
-          <h2 style="text-align: left;">
-            CiteCount Applications
+
+  <div id="after-app-placeholder" class="after-app-placeholder">
+    <footer>
+      <section class="alt-landing-section" id="landing-section" style="margin-top: 5px;">
+        <div class="new-container" style="padding-left: 15%; padding-right: 15%;">
+          <span id="debug" style="font-family: monospace;"></span>
+          <div id="tableContainer"></div>
+          <h1 style="padding-top: 50px;" class="text-center text-4xl font-black">CiteCount</h1>
+          <h2 style="padding-bottom: 30px; opacity: 80%; padding-top: 10px;" class="text-center text-2xl font-bold">Redefining word counting solutions for students and researchers.
           </h2>
-          <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click" href="/countdown">
-            <div class="blog" style="text-align: left;">
-              <h2>May 2025 Exams Countdown App</h2>
-              <p>Customisable exam countdowns application for IB May 2025 Examination Session.</p>
-            </div>
-          </a>
-          <h2 style="text-align: left;">
-            CiteCount Blogs
-          </h2>
-          <a data-lta-event="promise for safety blog outbound click" href="/blogs/our-promise-for-safety.html">
-            <div class="blog" style="text-align: left;">
-              <h2>Our promise for your content's safety on CiteCount</h2>
-              <p>CiteCount's developer explains the mechanism behind this application to debunk your concerns.</p>
-            </div>
-          </a>
-          <br>
-          <a data-lta-event="introducing countdown blog outbound click"
-            href="/blogs/introducing-ib-exam-countdowns.html">
-            <div class="blog" style="text-align: left;">
-              <h2>Introducing the IB Examinations Countdown App</h2>
-              <p>We are excited to share that we have developed a stunning countdown app for IB Examination Countdowns!
+          <div class="landing-grid">
+            <div class="feature-card">
+              <div class="feature-icon">📝</div>
+              <h3 class="feature-title">Smart Citation Detection</h3>
+              <p class="feature-description">Automatically detects and counts in-text citations in various formats.
               </p>
             </div>
-          </a>
-          <br>
-          <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
-            href="/blogs/extended-essay-word-count.html">
-            <div class="blog" style="text-align: left;">
-              <h2>What is included in the word count of an IB Extended Essay?</h2>
-              <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
+            <div class="feature-card">
+              <div class="feature-icon">📊</div>
+              <h3 class="feature-title">Detailed Analytics</h3>
+              <p class="feature-description">Get comprehensive word counts and citation statistics.</p>
             </div>
-          </a>
-          <br>
-          <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
-            href="/blogs/biology-ia-word-count.html">
-            <div class="blog" style="text-align: left;">
-              <h2>Mastering Your IB Biology IA: Word Count Requirements and Tips</h2>
-              <p>Navigate the essential structure and word limits for a successful IA!</p>
+            <div class="feature-card">
+              <div class="feature-icon">🔒</div>
+              <h3 class="feature-title">Safe & Secure</h3>
+              <p class="feature-description">CiteCount works exlusively within your device, keeping your content safe.</p>
             </div>
-          </a>
-          <br>
-          <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
-            href="/blogs/chemistry-ia-word-count.html">
-            <div class="blog" style="text-align: left;">
-              <h2>Excelling in Your IB Chemistry IA: Word Count Guidelines and Advice</h2>
-              <p>Explore the crucial framework and word restrictions for an effective chemistry IA!</p>
+            <div class="feature-card">
+              <div class="feature-icon">📋</div>
+              <h3 class="feature-title">Citations List</h3>
+              <p class="feature-description">View a list of your citations and select the ones you'd like to include by
+                clicking Citations.
+              </p>
             </div>
-          </a>
-          <br>
-          <a data-lta-event="more blogs outbound click" href="/blogs/index.html">
-            <div class="blog" style="text-align: left;">
-              <h2>View more blogs...</h2>
-              <p>Visit our blog page to view rest of our helpful IB related blogs!</p>
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <h3 class="feature-title">Real-time Processing</h3>
+              <p class="feature-description">Counters update as you type. Select parts of your text to view statistics of
+                your selection.</p>
             </div>
-          </a>
+            <div class="feature-card">
+              <div class="feature-icon">💾</div>
+              <h3 class="feature-title">AutoSave</h3>
+              <p class="feature-description">Automatically saves your text on your device when you are typing.</p>
+            </div>
+            <!--<div class="feature-card">
+              <div class="feature-icon">⚙️</div>
+              <h3 class="feature-title">Customisable Counters</h3>
+              <p class="feature-description">Select counters that matters the most. Customise in Settings.</p>
+            </div>-->
+            <div class="feature-card">
+              <div class="feature-icon">📶</div>
+              <h3 class="feature-title">Available Offline</h3>
+              <p class="feature-description">CiteCount will function even when you're offline, as everything is processed
+                on device.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🚀</div>
+              <h3 class="feature-title">Import Your File</h3>
+              <p class="feature-description">You can drag and drop your Word or PDF file, CiteCount will process the file
+                for you.</p>
+            </div>
+            <a href="/product.html" style="text-decoration: none; color: white;">
+              <div class="cta" data-lta-event="product link">
+                <div class="feature-icon">✨</div>
+                <h3 class="feature-title">... and much more!</h3>
+                <p class="feature-description">Click to learn how 10k+ IB Students utilizes CiteCount to streamline their
+                  workflow.</p>
+              </div>
+            </a>
+          </div>
+      </section>
+      <div id="secondary-landing">
+        <section class="landing-section" id="landing-section">
+          <div class="new-container" style="padding-left: 15%; padding-right: 15%;">
+            <h2 style="text-align: left;" class="text-2xl font-bold">
+              CiteCount Applications
+            </h2>
+            <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click" href="/countdown">
+              <div class="blog" style="text-align: left;">
+                <h2>May 2025 Exams Countdown App</h2>
+                <p>Customisable exam countdowns application for IB May 2025 Examination Session.</p>
+              </div>
+            </a>
+            <h2 style="text-align: left;" class="text-2xl font-bold">
+              CiteCount Blogs
+            </h2>
+            <a data-lta-event="promise for safety blog outbound click" href="/blogs/our-promise-for-safety.html">
+              <div class="blog" style="text-align: left;">
+                <h2>Our promise for your content's safety on CiteCount</h2>
+                <p>CiteCount's developer explains the mechanism behind this application to debunk your concerns.</p>
+              </div>
+            </a>
+            <br>
+            <a data-lta-event="introducing countdown blog outbound click"
+              href="/blogs/introducing-ib-exam-countdowns.html">
+              <div class="blog" style="text-align: left;">
+                <h2>Introducing the IB Examinations Countdown App</h2>
+                <p>We are excited to share that we have developed a stunning countdown app for IB Examination Countdowns!
+                </p>
+              </div>
+            </a>
+            <br>
+            <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click"
+              href="/blogs/extended-essay-word-count.html">
+              <div class="blog" style="text-align: left;">
+                <h2>What is included in the word count of an IB Extended Essay?</h2>
+                <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
+              </div>
+            </a>
+            <br>
+            <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
+              href="/blogs/biology-ia-word-count.html">
+              <div class="blog" style="text-align: left;">
+                <h2>Mastering Your IB Biology IA: Word Count Requirements and Tips</h2>
+                <p>Navigate the essential structure and word limits for a successful IA!</p>
+              </div>
+            </a>
+            <br>
+            <a target="_blank" rel="noopener noreferrer" data-lta-event="bio ia blog outbound click"
+              href="/blogs/chemistry-ia-word-count.html">
+              <div class="blog" style="text-align: left;">
+                <h2>Excelling in Your IB Chemistry IA: Word Count Guidelines and Advice</h2>
+                <p>Explore the crucial framework and word restrictions for an effective chemistry IA!</p>
+              </div>
+            </a>
+            <br>
+            <a data-lta-event="more blogs outbound click" href="/blogs/index.html">
+              <div class="blog" style="text-align: left;">
+                <h2>View more blogs...</h2>
+                <p>Visit our blog page to view rest of our helpful IB related blogs!</p>
+              </div>
+            </a>
+  
 
-          <hr class="bottomhr">
-          <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
-              data-lta-event="contact form outbound click" href="/contact.html" style="color: white;">Contact the
-              developers</a><br> <a id="links" data-lta-event="privacy policy outbound click"
-              href="/privacy-policy.html" style="color: white;">Privacy
-              policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html"
-              style="color: white;">Terms
-              of Service</a></p>
-          <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks
-            owned
-            by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is
-            not
-            endorsed by the International Baccalaureate Organization.</p>
-          <p style="padding-top: 5px;">
-            &copy;
-            <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
-          </p>
-        </div>
-    </div>
-    </section>
-  </footer>
-  <script src="/scripts/core.js"></script>
-  <script src="/scripts/initialization.js"></script>
-  <script src="/scripts/notifications.js"></script>
-  <script src="/scripts/settings.js"></script>
-  <script src="/scripts/citations.js"></script>
-  <script src="/scripts/drop.js"></script>
-  <script src="/scripts/dev.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+            <p style="text-align: center; padding-top: 30px;"><a id="links" target="_blank" rel="noopener noreferrer"
+                data-lta-event="contact form outbound click" href="/contact.html" style="color: white;">Contact the
+                developers</a><br> <a id="links" data-lta-event="privacy policy outbound click"
+                href="/privacy-policy.html" style="color: white;">Privacy
+                Policy</a> • <a id="links" data-lta-event="tos outbound click" href="/tos.html"
+                style="color: white;">Terms
+                of Service</a></p>
+            <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks
+              owned
+              by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is
+              not
+              endorsed by the International Baccalaureate Organization.</p>
+            <p style="padding-top: 5px;" class="text-center">
+              &copy;
+              <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
+            </p>
+          </div>
+      </div>
+      </section>
+    </footer>
+  </div>
+  <script src="/v2/script.js"></script>
+  <script src="/archive/v1-final/scripts/notifications.js"></script>
 </body>
 
 </html>
