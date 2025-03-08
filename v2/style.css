@@ -255,11 +255,7 @@
       color: var(--text-light);
       border-color: var(--border-light);
     }
-
-    .toolbar button:hover {
-      transform: scale(1.05);
-    }
-
+    
     .citations-overlay,
     .settings-overlay,
     .help-overlay {

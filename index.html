@@ -12,22 +12,22 @@ Coming soon:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CiteCount - Precise Word Counter without Citations</title>
-  <meta property="og:title" content="CiteCount - Count Words without In-text Citations" />
+  <meta property="og:title" content="CiteCount - Precise Word Counter without Citations" />
   <meta property="og:description"
     content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!" />
   <meta property="og:image"
     content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
-  <meta property="og:url" content="https://citecount.netlify.app" />
+  <meta property="og:url" content="https://cite.js.org" />
   <meta property="og:type" content="website" />
   <meta name="twitter:image"
     content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
   <meta name="twitter:description"
-    content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats." />
+    content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="CiteCount - Count Words without In-text Citations" />
+  <meta name="twitter:title" content="CiteCount - Precise Word Counter without Citations" />
   <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
   <meta name="description"
-    content="CiteCount is a web application that provides an accurate word count without in-text citations from your text. Supporting MLA, APA and Chicago style in-text citation formats.">
+    content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!">
   <meta name="keywords"
     content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
@@ -37,7 +37,7 @@ Coming soon:
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "CiteCount",
-      "description": "CiteCount provides accurate word counts by excluding in-text citations in MLA, APA, and Chicago formats for academic and professional writing.",
+      "description": "CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!",
       "applicationCategory": "Education",
       "operatingSystem": "All",
       "offers": {
@@ -94,7 +94,7 @@ Coming soon:
     </div>
 
     <header class="flex justify-between items-center">
-      <div class="flex items-center gap-2 cursor-pointer select-none" onclick="location.reload();">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload();" style="user-select: none;">
         <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
         <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900;">CiteCount</h1>
       </div>
@@ -249,7 +249,7 @@ Coming soon:
         <div id="citations-panel" class="split-panel hidden lg:block border rounded-lg shadow-sm p-4 overflow-hidden">
           <h2 class="text-lg font-semibold mb-3 sticky top-0 bg-inherit z-10">Citations</h2>
           <div id="citations-table-container" class="quote-table-container">
-            <table class="quote-table">
+            <table class="quote-table" style="user-select: none;">
               <thead>
                 <tr>
                   <th class="w-5/8">Citation</th>
@@ -694,7 +694,7 @@ Coming soon:
     </footer>
   </div>
   <script src="/v2/script.js"></script>
-  <script src="/archive/v1-final/scripts/notifications.js"></script>
+  <script src="/v2/notify.js"></script>
 </body>
 
 </html>

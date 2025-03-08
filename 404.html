@@ -58,13 +58,13 @@
             timerElement.textContent = `Redirecting in ${countdown === 1 ? '1 second' : countdown + ' seconds'}...`;
             if (countdown <= 0) {
                 clearInterval(interval);
-                window.location.href = 'https://citecount.netlify.app';
+                window.location.href = 'https://cite.js.org';
             }
         }, 1000);
 
         function redirectToHome() {
             clearInterval(interval);
-            window.location.href = 'https://citecount.netlify.app';
+            window.location.href = 'https://cite.js.org';
         }
     </script>
 </body>

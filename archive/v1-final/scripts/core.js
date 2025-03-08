@@ -1,4 +1,4 @@
-/* © 2024 CiteCount. All rights reserved. No parts of this code can be reproduced without permission by the developer. */
+/* © 2025 CiteCount. All rights reserved. No parts of this code can be reproduced without permission by the developer. */
 
 function WordCount(str) {
     str = str.trim();
