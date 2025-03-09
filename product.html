@@ -9,8 +9,8 @@
   <link href="/archive/v1-final/styles/drop.css" rel="stylesheet" type="text/css" />
   <link href="/archive/v1-final/styles/test.css" rel="stylesheet" type="text/css" />
   <link href="/archive/v1-final/styles/product.css" rel="stylesheet" type="text/css" />
-  <title>CiteCount - Precise Word Counter without Citations</title>
-  <meta property="og:title" content="CiteCount - Precise Word Counter without Citations" />
+  <title>About CiteCount - Precise Word Counter without Citations</title>
+  <meta property="og:title" content="About CiteCount - Precise Word Counter without Citations" />
   <meta property="og:description"
     content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!" />
   <meta property="og:image"
@@ -22,13 +22,13 @@
   <meta name="twitter:description"
     content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="CiteCount - Precise Word Counter without Citations" />
+  <meta name="twitter:title" content="About CiteCount - Precise Word Counter without Citations" />
   <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
   <meta name="description"
     content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!">
   <meta name="keywords"
     content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#242F89" />
   <script type="application/ld+json">
   {
       "@context": "https://schema.org",
@@ -55,6 +55,11 @@
     gtag('js', new Date());
     gtag('config', 'G-LHVN622J29');
   </script>
+  <style>
+    body {
+      background-color: #242F89!important;
+    }
+  </style>
 </head>
 
 <body>
@@ -242,15 +247,41 @@
     <div class="menu-item"><a href="/" style="color: white;">Open</a></div>
     <div class="menu-item"><a href="/download.html" style="color: white;">Download</a></div>
   </div>
+  <script>
+    const texts = ["IB Extended Essay", "Research Papers", "IB Biology IA", "IB Chemistry IA", "IB Math IA"];
+const gradients = [
+  "linear-gradient(90deg, #ffb3b3, #ffcc99)",
+  "linear-gradient(90deg, #ffccff, #ff99cc)",
+  "linear-gradient(90deg, #b3e0ff, #66b3ff)",
+  "linear-gradient(90deg, #ffffb3, #ffcc99)",
+  "linear-gradient(90deg, #d9ffb3, #99ffcc)",
+  "linear-gradient(90deg, #ffb3e6, #d99fff)"
+];
+let index = 0;
+const changingText = document.getElementById("changing-text");
+
+changingText.style.backgroundImage = gradients[index];
+
+setInterval(() => {
+  index = (index + 1) % texts.length;
+  changingText.textContent = texts[index];
+  changingText.style.backgroundImage = gradients[index];
+  changingText.style.animation = 'none';
+  changingText.offsetHeight; 
+  changingText.style.animation = ''; 
+}, 3000);
+
+document.addEventListener('scroll', function() {
+  const menuNavigator = document.querySelector('.menu-navigator');
   
+  if (window.scrollY > window.innerHeight / 2) { // 50vh = window.innerHeight / 2
+    menuNavigator.classList.add('show');
+  } else {
+    menuNavigator.classList.remove('show');
+  }
+});
+  </script>
   <script src="/archive/v1-final/scripts/core.js"></script>
-  <script src="/archive/v1-final/scripts/initialization.js"></script>
-  <script src="/archive/v1-final/scripts/notifications.js"></script>
-  <script src="/archive/v1-final/scripts/settings.js"></script>
-  <script src="/archive/v1-final/scripts/citations.js"></script>
-  <script src="/archive/v1-final/scripts/drop.js"></script>
-  <script src="/archive/v1-final/scripts/dev.js"></script>
-  <script src="/archive/v1-final/scripts/product.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
