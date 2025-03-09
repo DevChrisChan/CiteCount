@@ -80,6 +80,13 @@ Coming soon:
     There is an error displaying this notification.
     <div id="progress-bar"></div>
   </div>
+  <div id="donation-alert">
+    <p id="donation-message"></p>
+    <div class="btn-container">
+      <button class="donate-btn" onclick="handleDonate()" data-lta-event="v2-cta-donate-button-click">Donate</button>
+      <button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="v2-cta-donate-no-thanks-button-click">No Thanks</button>
+    </div>
+  </div>
   <div class="app-container">
     <div id="announcement-banner" class="announcement-banner" style="display: none;">
       <span style="display: inline-block; width: 16px; height: 16px">

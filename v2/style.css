@@ -1028,3 +1028,90 @@
   box-shadow: 0 2px 5px var(--color-shadow-light);
 }
 
+#donation-alert {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: rgba(50, 50, 50, 0.6);
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  padding: 16px;
+  position: fixed;
+  z-index: 10000;
+  right: 20px;
+  bottom: 20px;
+  font-size: 1em;
+  opacity: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+#donation-alert.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+#donation-alert:hover {
+  background-color: rgba(50, 50, 50, 0.8);
+  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.4);
+}
+
+#donation-alert p {
+  margin: 0 0 12px;
+  font-size: 0.9em;
+}
+
+#donation-alert .btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#donation-alert button {
+  padding: 6px 12px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s ease;
+}
+
+#donation-alert .donate-btn {
+  background: #16A34A; 
+  color: #fff;
+}
+
+#donation-alert .donate-btn:hover {
+  background: #15803D; 
+}
+
+#donation-alert .no-thanks-btn {
+  background: #E5E7EB; 
+  color: #333;
+}
+
+#donation-alert .no-thanks-btn:hover {
+  background: #D1D5DB; 
+}
+@media (prefers-color-scheme: dark) {
+  #donation-alert {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #F5F5F5;
+    backdrop-filter: blur(10px);
+    box-shadow: none;
+  }
+
+  #donation-alert:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  #donation-alert .no-thanks-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: #F5F5F5;
+  }
+
+  #donation-alert .no-thanks-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}

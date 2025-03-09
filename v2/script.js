@@ -814,3 +814,63 @@ window.onerror = function (message, source, lineno, colno, error) {
   }
 };
 
+const donationMessages = [
+  "Saved you time? A $1 helps us keep saving yours.",
+  "Keeping CiteCount free takes work. $2 to help us stick around?",
+  "No ads, no cost — just us. $2 could make a difference?",
+  "CiteCount got you covered. Spare a buck to keep it alive?",
+  "CiteCount's free for you. A $1 keeps it goin — help us out?",
+  "Keep CiteCount ad-free — support us!",
+  "You use it, we build it. A $1 keeps the lights on?"
+];
+
+let hasInteracted = false;
+let alertTimeout;
+
+function hasUserDismissedAlert() {
+  const lastDismissed = localStorage.getItem('donationAlertDismissedTimestamp');
+  if (!lastDismissed) return false;
+  const hoursSinceDismissal = (Date.now() - parseInt(lastDismissed)) / (1000 * 60 * 60);
+  return hoursSinceDismissal < 24;
+}
+
+function markAlertAsDismissed() {
+  localStorage.setItem('donationAlertDismissedTimestamp', Date.now());
+}
+
+function showDonationAlert() {
+  if (hasUserDismissedAlert()) return;
+  const alert = document.getElementById('donation-alert');
+  const messageElement = document.getElementById('donation-message');
+  const randomMessage = donationMessages[Math.floor(Math.random() * donationMessages.length)];
+  messageElement.textContent = randomMessage;
+  alert.classList.add('show');
+}
+
+function hideDonationAlert() {
+  const alert = document.getElementById('donation-alert');
+  alert.classList.remove('show');
+  clearTimeout(alertTimeout);
+}
+
+function handleNoThanks() {
+  hideDonationAlert();
+  markAlertAsDismissed();
+}
+
+function handleDonate() {
+  window.open('https://buymeacoffee.com/cite', '_blank');
+  hideDonationAlert();
+  localStorage.removeItem('donationAlertDismissedTimestamp');
+}
+
+document.getElementById('editor').addEventListener('click', function() {
+  if (!hasInteracted && !hasUserDismissedAlert()) {
+    hasInteracted = true;
+    alertTimeout = setTimeout(showDonationAlert, 10000);
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  hideDonationAlert();
+});
