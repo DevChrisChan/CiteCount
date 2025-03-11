@@ -1,8 +1,38 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>IB Exam Timer Setup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB Exam Timer - CiteCount</title>
+    <meta property="og:title" content="IB Exam Timer - CiteCount" />
+    <meta property="og:description" content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!" />
+    <meta property="og:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/countdown/countdown.png" />
+    <meta property="og:url" content="https://citecount.netlify.app/countdown" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/countdown/countdown.png" />
+    <meta name="twitter:description" content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IB Exam Timer - CiteCount" />
+    <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+    <meta name="description" content="CiteCount counts words without citations accurately for your IB coursework and essays. Privacy focused & 100% free. Try now!">
+    <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+    <meta name="theme-color" content="#004389" />
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="CiteCount" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LHVN622J29');
+    </script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -105,7 +135,7 @@
 
 <body>
     <div class="container">
-        <h1>Exam Timer Setup</h1>
+        <h1>IB Exam Timer Setup</h1>
         <h3>Make sure to enable audio for a full examination experience. Get your workspace ready, fill in examination
             information, and click Start Exam.</h2>
             <form id="setupForm">
@@ -135,7 +165,7 @@
             e.preventDefault();
 
             const subjectInput = document.getElementById('subject').value;
-            let subjectValue = subjectInput.trim(); // Trim whitespace to handle empty or whitespace-only input
+            let subjectValue = subjectInput.trim();
             if (!subjectValue) {
                 subjectValue = 'Mock Examination';
             }
@@ -148,7 +178,6 @@
             window.open(url, '_blank', 'fullscreen=yes');
         });
 
-        // Validate minutes input
         document.getElementById('minutes').addEventListener('change', function () {
             if (this.value > 59) this.value = 59;
             if (this.value < 0) this.value = 0;

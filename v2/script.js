@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const contentDiv = document.createElement('div');
     contentDiv.style.textAlign = 'center';
     warningDiv.appendChild(contentDiv);
-    contentDiv.innerHTML = 'Heads Up!<h2>Accessing CiteCount from third-party hosts compromises your data\'s safety.</h2>Please visit the official CiteCount application at <a href="https://citecount.netlify.app" style="text-decoration: underline;">citecount.netlify.app</a>.<br><br>If you are aware of what you are doing, you can proceed by clicking the close button on the top left.';
+    contentDiv.innerHTML = 'Heads Up!<h2>Accessing CiteCount from third-party hosts compromises your data\'s safety.</h2>Please visit the official CiteCount application at <a href="https://cite.js.org" style="text-decoration: underline;">cite.js.org</a>.<br><br>If you are aware of what you are doing, you can proceed by clicking the close button on the top left.';
     const closeButton = document.createElement('button');
     closeButton.innerHTML = '✕';
     closeButton.style.position = 'absolute';
@@ -818,10 +818,10 @@ const donationMessages = [
   "Saved you time? A $1 helps us keep saving yours.",
   "Keeping CiteCount free takes work. $2 to help us stick around?",
   "No ads, no cost — just us. $2 could make a difference?",
-  "CiteCount got you covered. Spare a buck to keep it alive?",
-  "CiteCount's free for you. A $1 keeps it goin — help us out?",
+  "CiteCount got you covered. Spare a buck to keep it running?",
+  "CiteCount's free for you. A $1 keeps it going — help us out?",
   "Keep CiteCount ad-free — support us!",
-  "You use it, we build it. A $1 keeps the lights on?"
+  "You use it, we build it. A $1 keeps CiteCount running?"
 ];
 
 let hasInteracted = false;
