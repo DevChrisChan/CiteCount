@@ -3,3 +3,9 @@
   to = "https://cite.js.org/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "https://www.cite.js.org/*"
+  to = "https://cite.js.org/:splat"
+  status = 301
+  force = true

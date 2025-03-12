@@ -681,6 +681,13 @@ function initiateExample() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  console.log('%cWARNING', 'font-size:8em;color:red;font-weight:900;')
+  console.log(`%cThis is a browser feature intended for developers.
+Do NOT copy and paste something here if you do not understand it.
+
+You can learn more at:
+https://en.wikipedia.org/wiki/Self-XSS`,
+    'font-size:1.5em')
   const currentDomain = window.location.host;
   const isDomainAllowed =
     allowedDomains.includes(currentDomain) ||
@@ -864,13 +871,13 @@ function handleDonate() {
   localStorage.removeItem('donationAlertDismissedTimestamp');
 }
 
-document.getElementById('editor').addEventListener('click', function() {
+document.getElementById('editor').addEventListener('click', function () {
   if (!hasInteracted && !hasUserDismissedAlert()) {
     hasInteracted = true;
     alertTimeout = setTimeout(showDonationAlert, 10000);
   }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   hideDonationAlert();
 });
