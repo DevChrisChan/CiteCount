@@ -16,7 +16,7 @@
   <priority>0.90</priority>
 </url>
 <url>
-  <loc>https://cite.js.org/mock/index.html</loc>
+  <loc>https://cite.js.org/exam-timer/index.html</loc>
 <changefreq>weekly</changefreq>
   <priority>0.90</priority>
 </url>
@@ -68,7 +68,7 @@
 <url>
   <loc>https://cite.js.org/contact.html/</loc>
 <changefreq>monthly</changefreq>
-  <priority>0.50</priority>
+  <priority>0.70</priority>
 </url>
 <url>
   <loc>https://cite.js.org/advertise.html/</loc>
