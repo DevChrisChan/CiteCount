@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IB Exam Timer - CiteCount</title>
     <meta property="og:title" content="IB Exam Timer - CiteCount" />
     <meta property="og:description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments." />
@@ -34,58 +33,69 @@
         gtag('config', 'G-LHVN622J29');
     </script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             scroll-behavior: smooth;
             background: linear-gradient(90deg, #000428 0%, #004e92 100%);
             color: white;
-            margin: 0;
-            padding: 20px;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            padding: 1rem;
         }
 
         .container {
-            max-width: 500px;
             width: 100%;
-            margin: auto;
-            padding: 20px;
+            max-width: 600px;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
+            border-radius: 1rem;
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
-        h1,
-        h3 {
+        h1 {
+            font-size: 1.75rem;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            opacity: 0.9;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 1.25rem;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
             color: #cccccc;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
+            padding: 0.75rem;
+            font-size: 1rem;
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 0.5rem;
             background: rgba(0, 0, 0, 0.3);
             color: white;
-            box-sizing: border-box;
-            transition: all 0.3s;
+            transition: border-color 0.3s, background 0.3s;
         }
 
         input:focus {
@@ -97,37 +107,83 @@
         .time-inputs {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .required-note {
+            font-size: 0.875rem;
+            color: #cccccc;
+            margin-top: 0.25rem;
         }
 
         button {
             width: 100%;
-            padding: 15px;
+            padding: 1rem;
             font-size: 1.1rem;
             background: rgba(40, 167, 69, 0.8);
-            backdrop-filter: blur(10px);
             color: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+            border-radius: 0.5rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
         }
 
-        button:hover {
-            background: rgba(40, 167, 69, 0.4);
-            transform: translateY(-1px);
+        button:hover,
+        button:active {
+            background: rgba(40, 167, 69, 1);
+            transform: translateY(-2px);
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
         }
 
-        @media (max-width: 480px) {
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Mobile-Specific Adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 0.5rem;
+            }
+
             .container {
-                padding: 15px;
+                padding: 1rem;
+                margin: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 0.9rem;
             }
 
             .time-inputs {
                 grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            input {
+                padding: 0.65rem;
+                font-size: 0.95rem;
+            }
+
+            button {
+                padding: 0.85rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            h3 {
+                font-size: 0.85rem;
             }
         }
     </style>

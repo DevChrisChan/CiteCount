@@ -277,6 +277,28 @@ function setupResizablePanels() {
   }
 }
 
+function updateLayout() {
+  const manageBtn = document.getElementById('manage-citations-btn');
+  const editorContainer = document.querySelector('.editor-container');
+  const split = document.querySelector('.split');
+  const citationsPanel = document.getElementById('citations-panel');
+
+  if (window.innerWidth < 1024) {
+    manageBtn.style.display = 'block';
+    editorContainer.style.flex = '1';
+    split.style.flexDirection = 'column';
+    citationsPanel.classList.add('hidden');
+  } else {
+    manageBtn.style.display = 'none';
+    split.style.flexDirection = 'row';
+    editorContainer.style.flex = '';
+    citationsPanel.classList.remove('hidden');
+    setupResizablePanels(); 
+  }
+  updateWordCountWithSelection();
+  updateStatsMargin();
+}
+
 function setupDragAndDrop() {
   const editorContainer = document.querySelector('.editor-container');
   const editor = document.getElementById('editor');
@@ -681,6 +703,7 @@ function initiateExample() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  updateLayout();
   console.log('%cWARNING', 'font-size:8em;color:red;font-weight:900;')
   console.log(`%cThis is a browser feature intended for developers.
 Do NOT copy and paste something here if you do not understand it.
@@ -881,3 +904,4 @@ document.getElementById('editor').addEventListener('click', function () {
 document.addEventListener('DOMContentLoaded', function () {
   hideDonationAlert();
 });
+

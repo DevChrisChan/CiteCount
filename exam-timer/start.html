@@ -50,6 +50,23 @@
             gap: 15px;
         }
 
+        #progressBarContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 2000;
+        }
+
+        #progressBar {
+            width: 100%;
+            height: 100%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        }
+
         #readingTimeText {
             display: none;
         }
@@ -248,12 +265,16 @@
     </style>
 </head>
 <body>
-    <div class="config-buttons">
-        <a href="/exam-timer/index.html" class="config-button" onclick="return confirm('Are you sure you want to configure the examination? This will end the current exam timer.');">Configure Examination</a>
-        <a href="#" class="config-button" onclick="if(confirm('Are you sure you want to restart the examination?')) { window.location.reload() } return false;">Restart Examination</a>
-        <a onclick="alert('Copy URL to Share Examination with others!')" class="config-button">Share Examination</a>
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
     </div>
     <div id="currentTime"></div>
+    <div class="config-buttons">
+        <a href="/exam-timer/index.html" class="config-button" onclick="return confirm('Are you sure you want to configure the examination? This will end the current exam timer.');">Configure Exam</a>
+        <a href="#" class="config-button" onclick="if(confirm('Are you sure you want to restart the examination?')) { window.location.reload() } return false;">Restart Exam</a>
+        <a onclick="alert('Copy URL to Share Examination with others!')" class="config-button">Share Exam</a>
+    </div>
+    
     <h1 id="subjectTitle"></h1>
     <h2 id="examDuration"></h2>
     <h2 id="readingTimeText">Reading Time</h2>
@@ -298,6 +319,19 @@
         updateCurrentTime();
 
         document.getElementById('startButton').addEventListener('click', startExam);
+
+        let totalDuration = 0;
+        let startTime;
+        let endTime;
+
+        function updateProgressBar() {
+            if (!startTime || !endTime) return;
+            const now = new Date();
+            const total = endTime - startTime;
+            const remaining = endTime - now;
+            const progress = Math.max((remaining / total) * 100, 0);
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
 
         function startExam() {
             document.getElementById('startButton').style.display = 'none';
@@ -370,7 +404,10 @@
             });
 
             updateTimer();
-            examTimer = setInterval(updateTimer, 1000);
+            examTimer = setInterval(() => {
+                updateTimer();
+                updateProgressBar();
+            }, 1000);
             
             setTimeout(() => {
                 clearInterval(examTimer);
@@ -387,11 +424,11 @@
             startTime = new Date();
             endTime = new Date(startTime.getTime() + mainDuration);
             
-            // Play initial exam audio
             playAudio('3.mp3');
 
             examTimer = setInterval(() => {
                 updateTimer();
+                updateProgressBar();
                 const remaining = endTime - new Date();
                 if (remaining <= 30*60*1000 && currentPhase < 3) {
                     playAudio('5.mp3');
@@ -408,6 +445,7 @@
                 playAudio('4.mp3');
                 document.getElementById('timer').textContent = "Time's up!";
                 document.querySelector('.time-info-container').style.display = 'none';
+                document.getElementById('progressBar').style.width = '0%';
             }, mainDuration);
         }
 
@@ -433,6 +471,11 @@
                 audio.addEventListener('ended', resolve);
             });
         }
+
+        window.addEventListener("beforeunload", function(e) {
+            e.preventDefault();
+            alert("Are you sure you want to leave the examination?");
+        });
     </script>
 </body>
 </html>

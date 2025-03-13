@@ -109,7 +109,6 @@ function updateExamDisplay(exam, displayTitle) {
     } else {
         const defaultDate = formatDate(DEFAULT_DATE);
         document.getElementById('examTitle').textContent = `Select or search for an exam below.`;
-        document.title = "IB Exam Countdowns - CiteCount";
     }
 
     updateCountdown();
