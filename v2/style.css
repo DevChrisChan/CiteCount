@@ -185,6 +185,10 @@
       border-color: var(--border-dark);
     }
 
+    .confirmation-overlay h2 {
+      color: #fff!important;
+    }
+
     .announcement-banner {
       background: #2e6f40;
       color: #fff;
@@ -1148,4 +1152,202 @@
   margin: 20px 10%;
   font-size: 24px; 
   font-weight: 700; 
+}
+
+#devToolsWindow {
+  --background: rgba(255, 255, 255, 0.9);
+  --header-bg: rgba(245, 245, 245, 0.95);
+  --tabs-bg: rgba(235, 235, 235, 0.95);
+  --tab-button-bg: rgba(200, 200, 200, 0.8);
+  --tab-button-active: rgba(0, 122, 204, 0.9);
+  --text-color: #333333;
+  --border-color: rgba(150, 150, 150, 0.3);
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --table-bg: rgba(245, 245, 245, 0.9);
+  --table-header-bg: rgba(230, 230, 230, 0.95);
+  --nested-table-bg: rgba(220, 220, 220, 0.9);
+  --resize-handle-bg: rgba(150, 150, 150, 0.7);
+  --button-danger-bg: rgba(220, 53, 69, 0.9);
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  background: var(--table-bg);
+  border-radius: 4px;
+}
+
+th, td {
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: var(--table-header-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.nested-table {
+  width: 100%;
+  background: var(--nested-table-bg);
+  border-radius: 4px;
+}
+
+.clear-storage-btn {
+  padding: 2px 8px;
+  background: var(--button-danger-bg);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.clear-storage-btn:hover {
+  background: rgba(220, 53, 69, 1);
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: var(--table-bg);
+  padding: 5px;
+  border-radius: 4px;
+}
+
+#resizeHandle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: var(--resize-handle-bg);
+  cursor: se-resize;
+  border-radius: 50%;
+}
+
+#resizeHandle:hover {
+  background: rgba(0, 122, 204, 0.5);
+}
+}
+
+@media (prefers-color-scheme: dark) {
+  #devToolsWindow {
+    --background: rgba(30, 30, 30, 0.9);
+    --header-bg: rgba(45, 45, 45, 0.95);
+    --tabs-bg: rgba(37, 37, 38, 0.95);
+    --tab-button-bg: rgba(60, 60, 60, 0.8);
+    --tab-button-active: rgba(0, 122, 204, 0.9);
+    --text-color: #ffffff;
+    --border-color: rgba(68, 68, 68, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --table-bg: rgba(40, 40, 40, 0.9);
+    --table-header-bg: rgba(50, 50, 50, 0.95);
+    --nested-table-bg: rgba(45, 45, 46, 0.9);
+    --resize-handle-bg: rgba(68, 68, 68, 0.7);
+    --button-danger-bg: rgba(220, 53, 69, 0.9);
+  }
+}
+
+#devToolsWindow {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 400px;
+  height: 300px;
+  background: var(--background);
+  backdrop-filter: blur(10px);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+#devToolsHeader {
+  padding: 8px;
+  background: var(--header-bg);
+  backdrop-filter: blur(5px);
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 0 0;
+}
+
+#devToolsClose {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+#devToolsClose:hover {
+  opacity: 1;
+}
+
+#devToolsTabs {
+  padding: 5px;
+  background: var(--tabs-bg);
+  backdrop-filter: blur(5px);
+  display: flex;
+  gap: 5px;
+}
+
+.tab-button {
+  padding: 5px 10px;
+  background: var(--tab-button-bg);
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.tab-button:hover {
+  background: rgba(0, 122, 204, 0.2);
+}
+
+.tab-button.active {
+  background: var(--tab-button-active);
+}
+
+#devToolsContent {
+  flex: 1;
+  overflow: auto;
+  padding: 10px;
+  background: var(--background);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.storage-controls {
+  margin-bottom: 10px;
+}
+
+#clearAllStorage {
+  padding: 5px 10px;
+  background: var(--button-danger-bg);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#clearAllStorage:hover {
+  background: rgba(220, 53, 69, 1);
 }

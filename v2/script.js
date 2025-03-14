@@ -98,6 +98,11 @@ function handlePaste(e) {
 }
 
 function handleEditorInput() {
+  if (document.getElementById('editor').innerText === "!dev") {
+    notify('Developer mode enabled');
+    document.getElementById('devToolsWindow').style.display = "flex";
+    return;
+  }
   const editor = document.getElementById('editor');
   const highlightLayer = document.getElementById('highlight-layer');
   const welcomeText = document.getElementById('welcome-text');
@@ -905,3 +910,197 @@ document.addEventListener('DOMContentLoaded', function () {
   hideDonationAlert();
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const devTools = document.getElementById('devToolsWindow');
+  const header = document.getElementById('devToolsHeader');
+  const resizeHandle = document.getElementById('resizeHandle');
+  const closeBtn = document.getElementById('devToolsClose');
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+  const consoleOutput = document.getElementById('consoleOutput');
+  const errorsTable = document.getElementById('errorsTable').querySelector('tbody');
+  const clearAllStorageBtn = document.getElementById('clearAllStorage');
+
+  let isDragging = false;
+  let isResizing = false;
+  let startX, startY, startWidth, startHeight;
+
+  // Dragging functionality
+  header.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX - devTools.offsetLeft;
+    startY = e.clientY - devTools.offsetTop;
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      devTools.style.left = (e.clientX - startX) + 'px';
+      devTools.style.top = (e.clientY - startY) + 'px';
+    }
+    if (isResizing) {
+      devTools.style.width = (startWidth + e.clientX - startX) + 'px';
+      devTools.style.height = (startHeight + e.clientY - startY) + 'px';
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    isResizing = false;
+  });
+
+  // Resizing functionality
+  resizeHandle.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = devTools.offsetWidth;
+    startHeight = devTools.offsetHeight;
+    e.preventDefault();
+  });
+
+  // Close button
+  closeBtn.addEventListener('click', () => {
+    devTools.style.display = 'none';
+  });
+
+  // Console override
+  const originalConsole = console.log;
+  console.log = function (...args) {
+    const output = args.map(arg => 
+      typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg
+    ).join(' ');
+    consoleOutput.textContent += output + '\n';
+    originalConsole.apply(console, args);
+  };
+
+  // Error handling
+  window.onerror = function (message, source, lineno, colno, error) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${new Date().toLocaleTimeString()}</td>
+      <td>${message} (${source}:${lineno}:${colno})</td>
+    `;
+    errorsTable.appendChild(row);
+  };
+
+  // Tab functionality
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tabId = button.dataset.tab;
+      
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+      
+      button.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+
+      updateTabContent(tabId);
+    });
+  });
+
+  // JSON table generator
+  function createJsonTable(obj) {
+    const table = document.createElement('table');
+    table.className = 'nested-table';
+    const thead = document.createElement('thead');
+    thead.innerHTML = '<tr><th>Key</th><th>Value</th></tr>';
+    const tbody = document.createElement('tbody');
+    
+    for (let [key, value] of Object.entries(obj)) {
+      const row = document.createElement('tr');
+      let valueCell;
+      
+      if (typeof value === 'object' && value !== null) {
+        valueCell = createJsonTable(value);
+      } else {
+        valueCell = document.createElement('td');
+        valueCell.textContent = String(value);
+      }
+      
+      row.innerHTML = `<td>${key}</td>`;
+      row.appendChild(valueCell);
+      tbody.appendChild(row);
+    }
+    
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    return table;
+  }
+
+  // Clear all storage
+  clearAllStorageBtn.addEventListener('click', () => {
+    localStorage.clear();
+    updateTabContent('localstorage');
+  });
+
+  // Update tab content
+  function updateTabContent(tabId) {
+    if (tabId === 'localstorage') {
+      const tbody = document.getElementById('localStorageTable').querySelector('tbody');
+      tbody.innerHTML = '';
+      for (let key in localStorage) {
+        if (localStorage.hasOwnProperty(key)) {
+          const row = document.createElement('tr');
+          const valueCell = document.createElement('td');
+          const actionCell = document.createElement('td');
+          let value = localStorage[key];
+          
+          try {
+            const parsed = JSON.parse(value);
+            if (typeof parsed === 'object' && parsed !== null) {
+              valueCell.appendChild(createJsonTable(parsed));
+            } else {
+              valueCell.textContent = value;
+            }
+          } catch (e) {
+            valueCell.textContent = value;
+          }
+          
+          const clearBtn = document.createElement('button');
+          clearBtn.className = 'clear-storage-btn';
+          clearBtn.textContent = 'Clear';
+          clearBtn.addEventListener('click', () => {
+            localStorage.removeItem(key);
+            updateTabContent('localstorage');
+          });
+          
+          row.innerHTML = `<td>${key}</td>`;
+          row.appendChild(valueCell);
+          actionCell.appendChild(clearBtn);
+          row.appendChild(actionCell);
+          tbody.appendChild(row);
+        }
+      }
+    } else if (tabId === 'system') {
+      const tbody = document.getElementById('systemTable').querySelector('tbody');
+      tbody.innerHTML = '';
+      const systemInfo = {
+        'User Agent': navigator.userAgent,
+        'Language': navigator.language,
+        'Screen Resolution': `${window.screen.width}x${window.screen.height}`,
+        'Viewport Size': `${window.innerWidth}x${window.innerHeight}`,
+        'Color Depth': `${screen.colorDepth} bits`,
+        'Pixel Ratio': window.devicePixelRatio,
+        'Available Screen': `${screen.availWidth}x${screen.availHeight}`,
+        'Online Status': navigator.onLine ? 'Online' : 'Offline',
+        'Cookies Enabled': navigator.cookieEnabled ? 'Yes' : 'No',
+        'Platform': navigator.platform,
+        'CPU Cores': navigator.hardwareConcurrency || 'Unknown',
+        'Memory': navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'Unknown',
+        'Touch Points': navigator.maxTouchPoints || 0,
+        'Do Not Track': navigator.doNotTrack || 'Unknown',
+        'Time Zone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+        'Connection': navigator.connection?.effectiveType || 'Unknown',
+        'Downlink': navigator.connection?.downlink ? `${navigator.connection.downlink} Mbps` : 'Unknown'
+      };
+      for (let [key, value] of Object.entries(systemInfo)) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+        tbody.appendChild(row);
+      }
+    }
+  }
+
+  // Initial update
+  updateTabContent('localstorage');
+});
