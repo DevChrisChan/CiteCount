@@ -156,6 +156,21 @@
             "minutes": 45
         },
         {
+            "name": "Language ab initio SL Paper 1",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Language ab initio SL Paper 2 (Listening)",
+            "hours": 0,
+            "minutes": 45
+        },
+        {
+            "name": "Language ab initio SL Paper 2 (Reading)",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
             "name": "Language B HL Paper 1",
             "hours": 1,
             "minutes": 30
@@ -292,21 +307,6 @@
         },
         {
             "name": "Psychology SL Paper 2",
-            "hours": 1,
-            "minutes": 0
-        },
-        {
-            "name": "Spanish ab initio SL Paper 1",
-            "hours": 1,
-            "minutes": 0
-        },
-        {
-            "name": "Spanish SL Paper 2 (Listening)",
-            "hours": 0,
-            "minutes": 45
-        },
-        {
-            "name": "Spanish SL Paper 2 (Reading)",
             "hours": 1,
             "minutes": 0
         }

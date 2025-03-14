@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IB Exam Timer - CiteCount</title>
     <meta property="og:title" content="IB Exam Timer - CiteCount" />
     <meta property="og:description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments." />
@@ -71,10 +69,8 @@
         #readingTimeText {
             display: none;
         }
+
         #currentTime {
-            position: fixed;
-            top: 20px;
-            right: 30px;
             font-size: 1.1rem;
             color: white;
             background: rgba(255, 255, 255, 0.1);
@@ -86,7 +82,7 @@
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
-    
+
         .config-buttons {
             position: fixed;
             top: 20px;
@@ -96,7 +92,7 @@
             gap: 15px;
             z-index: 1000;
         }
-    
+
         .config-button {
             font-size: 1rem;
             color: white;
@@ -112,11 +108,11 @@
             text-align: center;
             width: max-content;
         }
-    
+
         .config-button:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-    
+
         #subjectTitle {
             font-size: 2rem;
             margin: 50px 0 10px;
@@ -124,7 +120,7 @@
             color: #4CAF50;
             line-height: 1.3;
         }
-    
+
         #timer { 
             font-size: clamp(3rem, 10vw, 6rem); 
             font-weight: bold; 
@@ -132,7 +128,7 @@
             text-align: center;
             line-height: 1.2;
         }
-    
+
         .time-info-container {
             display: none;
             gap: 1rem;
@@ -144,13 +140,13 @@
             width: 90%;
             max-width: 500px;
         }
-    
+
         .time-info { 
             font-size: 1rem; 
             text-align: center;
             line-height: 1.4;
         }
-    
+
         button {
             padding: 12px 25px;
             font-size: 1rem;
@@ -162,7 +158,7 @@
             width: 90%;
             max-width: 300px;
         }
-    
+
         #instructions {
             display: none;
             width: 90%;
@@ -177,7 +173,7 @@
             text-align: center;
             font-size: 0.95rem;
         }
-    
+
         #buttonContainer {
             margin-top: 20px;
             padding-bottom: 20px;
@@ -187,78 +183,78 @@
             gap: 10px;
             width: 100%;
         }
-    
+
         @media (max-width: 768px) {
             body {
                 padding: 15px;
                 gap: 10px;
             }
-    
+
             #currentTime {
                 position: static;
-                order: -1;
                 width: 100%;
                 text-align: center;
                 margin-bottom: 20px;
+                order: -1;
             }
-    
+
             .config-buttons {
                 position: static;
-                order: -2;
                 width: 100%;
                 align-items: center;
                 gap: 10px;
                 margin-bottom: 15px;
+                order: -2;
             }
-    
+
             .config-button {
                 width: 90%;
                 max-width: 300px;
                 padding: 12px;
                 font-size: 0.95rem;
             }
-    
+
             #subjectTitle {
                 font-size: 1.8rem;
                 margin: 20px 0 10px;
             }
-    
+
             #timer {
                 margin: 15px 0;
                 font-size: 3.5rem;
             }
-    
+
             .time-info-container {
                 width: 95%;
                 padding: 10px;
             }
-    
+
             button {
                 font-size: 0.95rem;
                 padding: 12px 20px;
             }
-    
+
             #instructions {
                 width: 95%;
                 padding: 12px;
                 font-size: 0.9rem;
             }
         }
-    
+
         @media (max-width: 480px) {
             #subjectTitle {
                 font-size: 1.6rem;
                 margin: 15px 0;
             }
-    
+
             #timer {
                 font-size: 3rem;
             }
-    
+
             .time-info {
                 font-size: 0.9rem;
             }
-    
+
             button {
                 font-size: 0.9rem;
             }
@@ -298,9 +294,9 @@
         if (hours > 0) durationText += `${hours} hour${hours !== 1 ? 's' : ''}`;
         if (minutes > 0) durationText += `${hours > 0 ? ' ' : ''}${minutes} minute${minutes !== 1 ? 's' : ''}`;
         
+
         document.getElementById('subjectTitle').textContent = subject;
         document.getElementById('examDuration').textContent = `Time allowed: ${durationText}`;
-
         document.getElementById('instructions').style.display = 'block';
 
         function formatTime(date) {
@@ -316,7 +312,7 @@
             document.getElementById('currentTime').textContent = 
                 `Current Time: ${formatTime(new Date())}`;
         }
-        currentTimeUpdater = setInterval(updateCurrentTime, 1000);
+        let currentTimeUpdater = setInterval(updateCurrentTime, 1000);
         updateCurrentTime();
 
         document.getElementById('startButton').addEventListener('click', startExam);
@@ -324,6 +320,8 @@
         let totalDuration = 0;
         let startTime;
         let endTime;
+        let examTimer;
+        let currentPhase = 0;
 
         function updateProgressBar() {
             if (!startTime || !endTime) return;
@@ -447,6 +445,7 @@
                 document.getElementById('timer').textContent = "Time's up!";
                 document.querySelector('.time-info-container').style.display = 'none';
                 document.getElementById('progressBar').style.width = '0%';
+                document.title = `${subject} - Time's Up! - CiteCount`;
             }, mainDuration);
         }
 
@@ -454,12 +453,18 @@
             const now = new Date();
             const remaining = endTime - now;
             
+            if (remaining <= 0) {
+                document.title = `${subject} - Time's Up! - CiteCount`;
+                return;
+            }
+
             const hours = Math.floor(remaining / 3600000);
             const minutes = Math.floor((remaining % 3600000) / 60000);
             const seconds = Math.floor((remaining % 60000) / 1000);
             
-            document.getElementById('timer').textContent = 
-                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const timerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timer').textContent = timerText;
+            document.title = `${subject} - ${timerText} - CiteCount`;
             
             document.getElementById('startTime').textContent = `Start Time: ${formatTime(startTime)}`;
             document.getElementById('endTime').textContent = `Scheduled End: ${formatTime(endTime)}`;
@@ -477,6 +482,13 @@
             e.preventDefault();
             alert("Are you sure you want to leave the examination?");
         });
+
+        if (!subject || !durationHours) {
+            document.getElementById('subjectTitle').textContent = "This examination setup is invalid. Redirecting to exam setup...";
+            setTimeout(() => {
+                window.location.href = '/exam-timer';
+            }, 5000);
+        }
     </script>
 </body>
 </html>
