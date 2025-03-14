@@ -1,0 +1,314 @@
+{
+    "exams": [
+        {
+            "name": "Biology HL Paper 1",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Biology HL Paper 2",
+            "hours": 2,
+            "minutes": 30
+        },
+        {
+            "name": "Biology SL Paper 1",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Biology SL Paper 2",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Chemistry HL Paper 1",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Chemistry HL Paper 2",
+            "hours": 2,
+            "minutes": 30
+        },
+        {
+            "name": "Chemistry SL Paper 1",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Chemistry SL Paper 2",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Economics HL Paper 1",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "Economics HL Paper 2",
+            "hours": 1,
+            "minutes": 45
+        },
+        {
+            "name": "Economics HL Paper 3",
+            "hours": 1,
+            "minutes": 45
+        },
+        {
+            "name": "Economics SL Paper 1",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "Economics SL Paper 2",
+            "hours": 1,
+            "minutes": 45
+        },
+        {
+            "name": "Geography HL Paper 1",
+            "hours": 2,
+            "minutes": 15
+        },
+        {
+            "name": "Geography HL Paper 2",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "Geography HL Paper 3",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Geography SL Paper 1",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Geography SL Paper 2",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "History HL Paper 1",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "History HL Paper 2",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "History HL Paper 3",
+            "hours": 2,
+            "minutes": 30
+        },
+        {
+            "name": "History SL Paper 1",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "History SL Paper 2",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Language A HL Paper 1",
+            "hours": 2,
+            "minutes": 15
+        },
+        {
+            "name": "Language A HL Paper 1",
+            "hours": 2,
+            "minutes": 15
+        },
+        {
+            "name": "Language A HL Paper 2",
+            "hours": 1,
+            "minutes": 45
+        },
+        {
+            "name": "Language A HL Paper 2",
+            "hours": 1,
+            "minutes": 45
+        },
+        {
+            "name": "Language A SL Paper 1",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "Language A SL Paper 1",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "Language A SL Paper 2",
+            "hours": 1,
+            "minutes": 45
+        },
+        {
+            "name": "Language A SL Paper 2",
+            "hours": 1,
+            "minutes": 45
+        },
+        {
+            "name": "Language B HL Paper 1",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Language B HL Paper 1",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Language B HL Paper 2 (Listening)",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Language B HL Paper 2 (Listening)",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Language B HL Paper 2 (Reading)",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Language B HL Paper 2 (Reading)",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Language B SL Paper 1",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "Language B SL Paper 2 (Listening)",
+            "hours": 0,
+            "minutes": 45
+        },
+        {
+            "name": "Language B SL Paper 2 (Reading)",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Mathematics AA HL Paper 1",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Mathematics AA HL Paper 2",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Mathematics AA HL Paper 3",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "Mathematics AA SL Paper 1",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Mathematics AA SL Paper 2",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Mathematics AI HL Paper 1",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Mathematics AI HL Paper 2",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Mathematics AI HL Paper 3",
+            "hours": 1,
+            "minutes": 15
+        },
+        {
+            "name": "Mathematics AI SL Paper 1",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Mathematics AI SL Paper 2",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Physics HL Paper 1",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Physics HL Paper 2",
+            "hours": 2,
+            "minutes": 30
+        },
+        {
+            "name": "Physics SL Paper 1",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Physics SL Paper 2",
+            "hours": 1,
+            "minutes": 30
+        },
+        {
+            "name": "Psychology HL Paper 1",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Psychology HL Paper 2",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Psychology HL Paper 3",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Psychology SL Paper 1",
+            "hours": 2,
+            "minutes": 0
+        },
+        {
+            "name": "Psychology SL Paper 2",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Spanish ab initio SL Paper 1",
+            "hours": 1,
+            "minutes": 0
+        },
+        {
+            "name": "Spanish SL Paper 2 (Listening)",
+            "hours": 0,
+            "minutes": 45
+        },
+        {
+            "name": "Spanish SL Paper 2 (Reading)",
+            "hours": 1,
+            "minutes": 0
+        }
+    ]
+}
