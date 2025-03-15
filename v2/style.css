@@ -1168,71 +1168,6 @@
   --nested-table-bg: rgba(220, 220, 220, 0.9);
   --resize-handle-bg: rgba(150, 150, 150, 0.7);
   --button-danger-bg: rgba(220, 53, 69, 0.9);
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
-  background: var(--table-bg);
-  border-radius: 4px;
-}
-
-th, td {
-  padding: 5px;
-  border: 1px solid var(--border-color);
-  text-align: left;
-  vertical-align: top;
-}
-
-th {
-  background: var(--table-header-bg);
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.nested-table {
-  width: 100%;
-  background: var(--nested-table-bg);
-  border-radius: 4px;
-}
-
-.clear-storage-btn {
-  padding: 2px 8px;
-  background: var(--button-danger-bg);
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.clear-storage-btn:hover {
-  background: rgba(220, 53, 69, 1);
-}
-
-pre {
-  margin: 0;
-  white-space: pre-wrap;
-  word-break: break-all;
-  background: var(--table-bg);
-  padding: 5px;
-  border-radius: 4px;
-}
-
-#resizeHandle {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 10px;
-  height: 10px;
-  background: var(--resize-handle-bg);
-  cursor: se-resize;
-  border-radius: 50%;
-}
-
-#resizeHandle:hover {
-  background: rgba(0, 122, 204, 0.5);
-}
 }
 
 @media (prefers-color-scheme: dark) {
@@ -1301,6 +1236,24 @@ pre {
   backdrop-filter: blur(5px);
   display: flex;
   gap: 5px;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Keep tabs in a single row */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: thin; /* Firefox: thinner scrollbar */
+  scrollbar-color: var(--tab-button-bg) var(--tabs-bg); /* Firefox: scrollbar colors */
+}
+
+#devToolsTabs::-webkit-scrollbar {
+  height: 6px; /* Chrome/Safari: thinner scrollbar */
+}
+
+#devToolsTabs::-webkit-scrollbar-thumb {
+  background: var(--tab-button-bg);
+  border-radius: 3px;
+}
+
+#devToolsTabs::-webkit-scrollbar-track {
+  background: var(--tabs-bg);
 }
 
 .tab-button {
@@ -1339,7 +1292,8 @@ pre {
   margin-bottom: 10px;
 }
 
-#clearAllStorage {
+#clearAllStorage,
+#clearAllCookies {
   padding: 5px 10px;
   background: var(--button-danger-bg);
   border: none;
@@ -1348,6 +1302,100 @@ pre {
   border-radius: 4px;
 }
 
-#clearAllStorage:hover {
+#clearAllStorage:hover,
+#clearAllCookies:hover {
   background: rgba(220, 53, 69, 1);
+}
+
+#devToolsWindow {
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  background: var(--table-bg);
+  border-radius: 4px;
+}
+
+th, td {
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: var(--table-header-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.nested-table {
+  width: 100%;
+  background: var(--nested-table-bg);
+  border-radius: 4px;
+}
+
+.clear-storage-btn {
+  padding: 2px 8px;
+  background: var(--button-danger-bg);
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.clear-storage-btn:hover {
+  background: rgba(220, 53, 69, 1);
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: var(--table-bg);
+  padding: 5px;
+  border-radius: 4px;
+}
+
+#resizeHandle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background: var(--resize-handle-bg);
+  cursor: se-resize;
+  border-radius: 50%;
+}
+
+#resizeHandle:hover {
+  background: rgba(0, 122, 204, 0.5);
+}
+
+#opacitySlider {
+  width: 100%;
+}
+
+#forceLightTheme,
+#forceDarkTheme {
+  padding: 5px 10px;
+  background: var(--tab-button-bg);
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+
+#forceLightTheme:hover,
+#forceDarkTheme:hover {
+  background: rgba(0, 122, 204, 0.2);
+}
+
+#forceLightTheme.active,
+#forceDarkTheme.active {
+  background: var(--tab-button-active);
+}
 }
