@@ -925,11 +925,20 @@ document.addEventListener('DOMContentLoaded', () => {
   let isResizing = false;
   let startX, startY, startWidth, startHeight;
 
-  // Dragging functionality
+  // Mouse Events
   header.addEventListener('mousedown', (e) => {
     isDragging = true;
     startX = e.clientX - devTools.offsetLeft;
     startY = e.clientY - devTools.offsetTop;
+  });
+
+  resizeHandle.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startWidth = devTools.offsetWidth;
+    startHeight = devTools.offsetHeight;
+    e.preventDefault();
   });
 
   document.addEventListener('mousemove', (e) => {
@@ -948,14 +957,42 @@ document.addEventListener('DOMContentLoaded', () => {
     isResizing = false;
   });
 
-  // Resizing functionality
-  resizeHandle.addEventListener('mousedown', (e) => {
+  // Touch Events
+  header.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    const touch = e.touches[0];
+    startX = touch.clientX - devTools.offsetLeft;
+    startY = touch.clientY - devTools.offsetTop;
+    e.preventDefault();
+  }, { passive: false });
+
+  resizeHandle.addEventListener('touchstart', (e) => {
     isResizing = true;
-    startX = e.clientX;
-    startY = e.clientY;
+    const touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
     startWidth = devTools.offsetWidth;
     startHeight = devTools.offsetHeight;
     e.preventDefault();
+  }, { passive: false });
+
+  document.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    if (isDragging) {
+      devTools.style.left = (touch.clientX - startX) + 'px';
+      devTools.style.top = (touch.clientY - startY) + 'px';
+      e.preventDefault();
+    }
+    if (isResizing) {
+      devTools.style.width = (startWidth + touch.clientX - startX) + 'px';
+      devTools.style.height = (startHeight + touch.clientY - startY) + 'px';
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  document.addEventListener('touchend', () => {
+    isDragging = false;
+    isResizing = false;
   });
 
   // Close button
