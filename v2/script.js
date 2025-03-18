@@ -936,7 +936,7 @@ document.getElementById('editor').addEventListener('click', function () {
   if (!hasInteracted && !hasUserDismissedAlert()) {
     if (isPremium == "true") return;
     hasInteracted = true;
-    alertTimeout = setTimeout(showDonationAlert, 1000);
+    alertTimeout = setTimeout(showDonationAlert, 8000);
   }
 });
 

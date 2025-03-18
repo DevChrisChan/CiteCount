@@ -1,4 +1,4 @@
-<!--Pro features are coming soon...-->
+<!--Pro features coming soon...-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -240,6 +240,23 @@
             display: none;
             vertical-align: middle;
         }
+
+        /* Loading animation styles */
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -297,7 +314,7 @@
         animateParticles();
 
         const CODE = 'PR0'; 
-        // for testing purposes
+        // This is for testing purposes.
         let confettiInterval;
 
         function showPremiumUnlocked() {
@@ -338,52 +355,65 @@
         function enablePremium() {
             const inputCode = document.getElementById('codeInput').value;
             const statusElement = document.getElementById('status');
-            const featuresElement = document.getElementById('premiumFeatures');
-            const inputElement = document.getElementById('codeInput');
-            const confettiEmoji = document.querySelector('.confetti-emoji');
             const unlockButton = document.getElementById('unlockButton');
-            const experienceButton = document.getElementById('experienceButton');
-            const titleElement = document.getElementById('title');
-            const subtitleElement = document.getElementById('subtitle');
 
-            if (inputCode === CODE) {
-                localStorage.setItem('isPremium', 'true');
-                statusElement.textContent = 'Premium Unlocked! Enjoy Your Benefits!';
-                
-                confetti({
-                    particleCount: 150,
-                    spread: 90,
-                    origin: { y: 0.6 },
-                    colors: ['#ff0', '#f00', '#0f0', '#00f']
-                });
+            // Disable button and show loading
+            unlockButton.disabled = true;
+            statusElement.textContent = 'Verifying';
+            statusElement.classList.add('loading');
 
-                featuresElement.classList.add('active');
-                confettiEmoji.style.display = 'inline';
-                unlockButton.classList.add('hidden');
-                inputElement.classList.add('hidden');
-                experienceButton.classList.remove('hidden');
-                titleElement.textContent = 'Premium Unlocked';
-                titleElement.classList.add('unlocked');
-                subtitleElement.classList.add('hidden');
+            setTimeout(() => {
+                // Remove loading state
+                statusElement.classList.remove('loading');
+                unlockButton.disabled = false;
 
-                confettiEmoji.onmouseenter = () => {
-                    confettiInterval = setInterval(() => {
-                        confetti({
-                            particleCount: 50,
-                            spread: 70,
-                            origin: { y: 0.6 },
-                            colors: ['#ff0', '#f00', '#0f0', '#00f']
-                        });
-                    }, 200);
-                };
-                confettiEmoji.onmouseleave = () => {
-                    clearInterval(confettiInterval);
-                };
-            } else {
-                statusElement.textContent = 'Invalid code - please try again.';
-                inputElement.classList.add('invalid');
-                setTimeout(() => inputElement.classList.remove('invalid'), 500);
-            }
+                if (inputCode === CODE) {
+                    localStorage.setItem('isPremium', 'true');
+                    statusElement.textContent = 'Premium Unlocked! Enjoy Your Benefits!';
+                    
+                    confetti({
+                        particleCount: 150,
+                        spread: 90,
+                        origin: { y: 0.6 },
+                        colors: ['#ff0', '#f00', '#0f0', '#00f']
+                    });
+
+                    const featuresElement = document.getElementById('premiumFeatures');
+                    const inputElement = document.getElementById('codeInput');
+                    const confettiEmoji = document.querySelector('.confetti-emoji');
+                    const experienceButton = document.getElementById('experienceButton');
+                    const titleElement = document.getElementById('title');
+                    const subtitleElement = document.getElementById('subtitle');
+
+                    featuresElement.classList.add('active');
+                    confettiEmoji.style.display = 'inline';
+                    unlockButton.classList.add('hidden');
+                    inputElement.classList.add('hidden');
+                    experienceButton.classList.remove('hidden');
+                    titleElement.textContent = 'Premium Unlocked';
+                    titleElement.classList.add('unlocked');
+                    subtitleElement.classList.add('hidden');
+
+                    confettiEmoji.onmouseenter = () => {
+                        confettiInterval = setInterval(() => {
+                            confetti({
+                                particleCount: 50,
+                                spread: 70,
+                                origin: { y: 0.6 },
+                                colors: ['#ff0', '#f00', '#0f0', '#00f']
+                            });
+                        }, 200);
+                    };
+                    confettiEmoji.onmouseleave = () => {
+                        clearInterval(confettiInterval);
+                    };
+                } else {
+                    statusElement.textContent = 'Invalid code - please try again.';
+                    const inputElement = document.getElementById('codeInput');
+                    inputElement.classList.add('invalid');
+                    setTimeout(() => inputElement.classList.remove('invalid'), 500);
+                }
+            }, 500);
         }
 
         document.getElementById('codeInput').addEventListener('keypress', (e) => {
