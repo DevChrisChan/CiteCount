@@ -860,17 +860,32 @@ window.onerror = function (message, source, lineno, colno, error) {
 };
 
 const donationMessages = [
-  "Saved you time? A $1 helps us keep saving yours.",
-  "Keeping CiteCount free takes work. $2 to help us stick around?",
-  "No ads, no cost — just us. $2 could make a difference?",
-  "CiteCount got you covered. Spare a buck to keep it running?",
-  "CiteCount's free for you. A $1 keeps it going — help us out?",
-  "Keep CiteCount ad-free — support us!",
-  "You use it, we build it. A $1 keeps CiteCount running?"
+  {
+    text: "Saved you time? A donation helps us keep saving yours.",
+    url: "https://buymeacoffee.com/cite",
+    buttonText: "Donate"
+  },
+  {
+    text: "Keep CiteCount ad-free — support us!",
+    url: "https://buymeacoffee.com/cite",
+    buttonText: "Support"
+  },
+  {
+    text: "Join our Discord server for beta access!",
+    url: "https://discord.gg/twnz2957sK",
+    buttonText: "Join"
+  },
+  {
+    text: "Any feedback or suggestions? Drop a message!",
+    url: "/contact?source=/",
+    buttonText: "Contact"
+  }
 ];
 
 let hasInteracted = false;
 let alertTimeout;
+let currentDonationUrl = '';
+let currentButtonText = '';
 
 function hasUserDismissedAlert() {
   const lastDismissed = localStorage.getItem('donationAlertDismissedTimestamp');
@@ -887,8 +902,15 @@ function showDonationAlert() {
   if (hasUserDismissedAlert()) return;
   const alert = document.getElementById('donation-alert');
   const messageElement = document.getElementById('donation-message');
-  const randomMessage = donationMessages[Math.floor(Math.random() * donationMessages.length)];
-  messageElement.textContent = randomMessage;
+  const donateButton = document.getElementById('donate-btn');
+  const randomIndex = Math.floor(Math.random() * donationMessages.length);
+  const randomMessage = donationMessages[randomIndex];
+  
+  messageElement.textContent = randomMessage.text;
+  currentDonationUrl = randomMessage.url;
+  currentButtonText = randomMessage.buttonText;
+  donateButton.textContent = currentButtonText;
+  
   alert.classList.add('show');
 }
 
@@ -904,7 +926,7 @@ function handleNoThanks() {
 }
 
 function handleDonate() {
-  window.open('https://buymeacoffee.com/cite', '_blank');
+  window.open(currentDonationUrl, '_blank');
   hideDonationAlert();
   localStorage.removeItem('donationAlertDismissedTimestamp');
 }
@@ -914,7 +936,7 @@ document.getElementById('editor').addEventListener('click', function () {
   if (!hasInteracted && !hasUserDismissedAlert()) {
     if (isPremium == "true") return;
     hasInteracted = true;
-    alertTimeout = setTimeout(showDonationAlert, 10000);
+    alertTimeout = setTimeout(showDonationAlert, 1000);
   }
 });
 
