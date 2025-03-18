@@ -122,7 +122,7 @@
         }
 
         #timer { 
-            font-size: clamp(3rem, 10vw, 6rem); 
+            font-size: clamp(5rem, 15vw, 10rem); 
             font-weight: bold; 
             margin: auto 0;
             text-align: center;
@@ -221,7 +221,7 @@
 
             #timer {
                 margin: 15px 0;
-                font-size: 3.5rem;
+                font-size: 5rem;
             }
 
             .time-info-container {
@@ -248,7 +248,7 @@
             }
 
             #timer {
-                font-size: 3rem;
+                font-size: 4rem;
             }
 
             .time-info {
@@ -288,16 +288,23 @@
         const params = new URLSearchParams(window.location.search);
         const subject = decodeURIComponent(params.get('subject'));
         const durationHours = parseFloat(params.get('duration'));
+        const disableReading = params.get('disableReading') === 'true';
+        const disableInstructions = params.get('disableInstructions') === 'true';
         const hours = Math.floor(durationHours);
         const minutes = Math.round((durationHours - hours) * 60);
         let durationText = '';
         if (hours > 0) durationText += `${hours} hour${hours !== 1 ? 's' : ''}`;
         if (minutes > 0) durationText += `${hours > 0 ? ' ' : ''}${minutes} minute${minutes !== 1 ? 's' : ''}`;
         
-
         document.getElementById('subjectTitle').textContent = subject;
         document.getElementById('examDuration').textContent = `Time allowed: ${durationText}`;
-        document.getElementById('instructions').style.display = 'block';
+        if (!disableInstructions || !disableReading) {
+            document.getElementById('instructions').style.display = 'block';
+            document.getElementById('startButton').style.display = 'block';
+        } else {
+            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('startButton').style.display = 'none';
+        }
 
         function formatTime(date) {
             return date.toLocaleTimeString('en-US', { 
@@ -317,57 +324,66 @@
 
         document.getElementById('startButton').addEventListener('click', startExam);
 
-        let totalDuration = 0;
         let startTime;
         let endTime;
         let examTimer;
         let currentPhase = 0;
+        let isReadingTime = false;
+        let remainingTime;
 
         function updateProgressBar() {
             if (!startTime || !endTime) return;
-            const now = new Date();
             const total = endTime - startTime;
-            const remaining = endTime - now;
-            const progress = Math.max((remaining / total) * 100, 0);
+            const progress = Math.max((remainingTime / total) * 100, 0);
             document.getElementById('progressBar').style.width = `${progress}%`;
         }
 
         function startExam() {
             document.getElementById('startButton').style.display = 'none';
-            document.getElementById('instructions').style.display = 'block';
-            startTime = new Date();
-            
-            document.getElementById('instructions').innerHTML = `
-                <h3>Examination Instructions:</h3>
-                <p>${[
-                    "Do not open the examination paper until I instruct you to do so.",
-                    "Are the subject, level and language of your examination paper correct?",
-                    "Read all the instructions very carefully. Do not answer more questions than required.",
-                    "Write as clearly as possible using both sides of each page in your answer booklet.",
-                    "Write your session number and name on the front page of your answer booklet in the boxes provided.",
-                    "Do this carefully please."
-                ].join('<br><br>')}</p>`;
+            if (disableInstructions) {
+                startMainExam();
+            } else {
+                document.getElementById('instructions').style.display = 'block';
+                startTime = new Date();
+                document.getElementById('instructions').innerHTML = `
+                    <h3>Examination Instructions:</h3>
+                    <p>${[
+                        "Do not open the examination paper until I instruct you to do so.",
+                        "Are the subject, level and language of your examination paper correct?",
+                        "Read all the instructions very carefully. Do not answer more questions than required.",
+                        "Write as clearly as possible using both sides of each page in your answer booklet.",
+                        "Write your session number and name on the front page of your answer booklet in the boxes provided.",
+                        "Do this carefully please."
+                    ].join('<br><br>')}</p>`;
 
-            const skipButton = document.createElement('button');
-            skipButton.id = 'skipButton';
-            skipButton.textContent = 'Skip Instructions';
-            document.getElementById('buttonContainer').appendChild(skipButton);
-            
-            const audio1 = new Audio('1.mp3');
-            audio1.play();
-            
-            skipButton.addEventListener('click', () => {
-                audio1.pause();
+                const skipButton = document.createElement('button');
+                skipButton.id = 'skipButton';
+                skipButton.textContent = 'Skip Instructions';
+                document.getElementById('buttonContainer').appendChild(skipButton);
+                
+                const audio1 = new Audio('1.mp3');
+                audio1.play();
+                
+                skipButton.addEventListener('click', () => {
+                    audio1.pause();
+                    proceedAfterInstructions();
+                });
+
+                audio1.addEventListener('ended', proceedAfterInstructions);
+            }
+        }
+
+        function proceedAfterInstructions() {
+            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('buttonContainer').innerHTML = '';
+            if (disableReading) {
+                startMainExam();
+            } else {
                 showReadyButton();
-            });
-
-            audio1.addEventListener('ended', showReadyButton);
+            }
         }
 
         function showReadyButton() {
-            document.getElementById('buttonContainer').innerHTML = '';
-            document.getElementById('instructions').style.display = 'none';
-            
             const readyButton = document.createElement('button');
             readyButton.id = 'readyButton';
             readyButton.textContent = 'Start Reading Time';
@@ -385,12 +401,14 @@
         }
 
         function startReadingTime() {
+            isReadingTime = true;
             document.getElementById('readingTimeText').style.display = 'block';
             document.querySelector('.time-info-container').style.display = 'flex';
             
             const readingDuration = 5 * 60 * 1000;
             startTime = new Date();
             endTime = new Date(startTime.getTime() + readingDuration);
+            remainingTime = readingDuration;
             
             const skipReading = document.createElement('button');
             skipReading.id = 'skipReading';
@@ -399,18 +417,23 @@
             
             skipReading.addEventListener('click', () => {
                 clearInterval(examTimer);
+                isReadingTime = false;
                 startMainExam();
             });
 
             updateTimer();
             examTimer = setInterval(() => {
+                remainingTime -= 1000;
                 updateTimer();
                 updateProgressBar();
             }, 1000);
             
             setTimeout(() => {
-                clearInterval(examTimer);
-                startMainExam();
+                if (isReadingTime) {
+                    clearInterval(examTimer);
+                    isReadingTime = false;
+                    startMainExam();
+                }
             }, readingDuration);
         }
 
@@ -422,18 +445,21 @@
             const mainDuration = durationHours * 60 * 60 * 1000;
             startTime = new Date();
             endTime = new Date(startTime.getTime() + mainDuration);
+            remainingTime = mainDuration;
+            currentPhase = 0;
             
             playAudio('3.mp3');
 
+            updateTimer();
             examTimer = setInterval(() => {
+                remainingTime -= 1000;
                 updateTimer();
                 updateProgressBar();
-                const remaining = endTime - new Date();
-                if (remaining <= 30*60*1000 && currentPhase < 3) {
+                if (remainingTime <= 30*60*1000 && currentPhase < 3) {
                     playAudio('5.mp3');
                     currentPhase = 3;
                 }
-                if (remaining <= 5*60*1000 && currentPhase < 4) {
+                if (remainingTime <= 5*60*1000 && currentPhase < 4) {
                     playAudio('6.mp3');
                     currentPhase = 4;
                 }
@@ -450,17 +476,15 @@
         }
 
         function updateTimer() {
-            const now = new Date();
-            const remaining = endTime - now;
-            
-            if (remaining <= 0) {
+            if (remainingTime <= 0) {
+                document.getElementById('timer').textContent = "00:00:00";
                 document.title = `${subject} - Time's Up! - CiteCount`;
                 return;
             }
 
-            const hours = Math.floor(remaining / 3600000);
-            const minutes = Math.floor((remaining % 3600000) / 60000);
-            const seconds = Math.floor((remaining % 60000) / 1000);
+            const hours = Math.floor(remainingTime / 3600000);
+            const minutes = Math.floor((remainingTime % 3600000) / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
             
             const timerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             document.getElementById('timer').textContent = timerText;
@@ -488,6 +512,8 @@
             setTimeout(() => {
                 window.location.href = '/exam-timer';
             }, 5000);
+        } else if (disableInstructions && disableReading) {
+            startExam();
         }
     </script>
 </body>

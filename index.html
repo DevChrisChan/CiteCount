@@ -16,7 +16,7 @@ Coming soon:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CiteCount - Precise Word Counter without Citations</title>
-  
+
   <meta property="og:title" content="CiteCount - Precise Word Counter without Citations" />
   <meta property="og:description"
     content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
@@ -80,12 +80,13 @@ Coming soon:
 <body>
   <noscript>
     <div class="noscript-container">
-        <div>
-            <p class="noscript-message">Please Enable JavaScript for CiteCount</p>
-            <p class="noscript-description">CiteCount is built as a client-side JavaScript application to ensure your files are not sent to servers to process. JavaScript has to be enabled for CiteCount to function.</p>
-        </div>
+      <div>
+        <p class="noscript-message">Please Enable JavaScript for CiteCount</p>
+        <p class="noscript-description">CiteCount is built as a client-side JavaScript application to ensure your files
+          are not sent to servers to process. JavaScript has to be enabled for CiteCount to function.</p>
+      </div>
     </div>
-</noscript>
+  </noscript>
   <div
     style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
     id="notification" title="Click notification to dismiss.">
@@ -96,7 +97,8 @@ Coming soon:
     <p id="donation-message"></p>
     <div class="btn-container">
       <button class="donate-btn" onclick="handleDonate()" data-lta-event="v2-cta-donate-button-click">Donate</button>
-      <button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="v2-cta-donate-no-thanks-button-click">No Thanks</button>
+      <button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="v2-cta-donate-no-thanks-button-click">No
+        Thanks</button>
     </div>
   </div>
   <div class="app-container">
@@ -115,21 +117,29 @@ Coming soon:
     </div>
 
     <header class="flex justify-between items-center">
-      <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload();" style="user-select: none;">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload();" style="user-select: none;" data-lta-event="v2-logo-click">
         <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
-        <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900;">CiteCount</h1>
+        <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900;">CiteCount</h1><span style="font-size: small; font-weight: 900; background-color: #003366; color: white;
+        padding: 2px 5px;
+        border-radius: 15px; display: none;" id="isPremiumDisplay">PRO</span>
       </div>
       <div class="flex items-center gap-2">
-        <a href="https://buymeacoffee.com/cite" target="_blank">
-        <button id="help-btn" class="p-2 rounded-md" data-tooltip="Support CiteCount">
-          <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20" height="20"><path d="M12,0C6.486,0,2,4.486,2,10s4.486,10,10,10,10-4.486,10-10S17.514,0,12,0Zm-1.356,8.761l3.041,.506c1.342,.224,2.315,1.374,2.315,2.733,0,1.654-1.346,3-3,3v1h-2v-1c-1.654,0-3-1.346-3-3h2c0,.552,.449,1,1,1h2c.551,0,1-.448,1-1,0-.379-.271-.698-.644-.761l-3.041-.506c-1.342-.224-2.315-1.374-2.315-2.733,0-1.654,1.346-3,3-3v-1h2v1c1.654,0,3,1.346,3,3h-2c0-.552-.449-1-1-1h-2c-.551,0-1,.448-1,1,0,.379,.271,.698,.644,.761Zm13.356,11.739c0,1.933-1.567,3.5-3.5,3.5H3.5c-1.933,0-3.5-1.567-3.5-3.5,0-1.55,1.014-2.849,2.409-3.309,2.189,2.915,5.664,4.809,9.591,4.809s7.401-1.894,9.591-4.809c1.396,.46,2.409,1.76,2.409,3.309Z"/></svg>
-        </button></a>
-        <button id="help-btn" class="p-2 rounded-md" data-tooltip="Help" onclick="toggleHelpOverlay(true)">
+        <a href="https://buymeacoffee.com/cite" target="_blank" data-lta-event="v2-header-donate-click">
+          <button id="help-btn" class="p-2 rounded-md" data-tooltip="Support CiteCount">
+            <?xml version="1.0" encoding="UTF-8"?>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20" height="20">
+              <path
+                d="M12,0C6.486,0,2,4.486,2,10s4.486,10,10,10,10-4.486,10-10S17.514,0,12,0Zm-1.356,8.761l3.041,.506c1.342,.224,2.315,1.374,2.315,2.733,0,1.654-1.346,3-3,3v1h-2v-1c-1.654,0-3-1.346-3-3h2c0,.552,.449,1,1,1h2c.551,0,1-.448,1-1,0-.379-.271-.698-.644-.761l-3.041-.506c-1.342-.224-2.315-1.374-2.315-2.733,0-1.654,1.346-3,3-3v-1h2v1c1.654,0,3,1.346,3,3h-2c0-.552-.449-1-1-1h-2c-.551,0-1,.448-1,1,0,.379,.271,.698,.644,.761Zm13.356,11.739c0,1.933-1.567,3.5-3.5,3.5H3.5c-1.933,0-3.5-1.567-3.5-3.5,0-1.55,1.014-2.849,2.409-3.309,2.189,2.915,5.664,4.809,9.591,4.809s7.401-1.894,9.591-4.809c1.396,.46,2.409,1.76,2.409,3.309Z" />
+            </svg>
+          </button></a>
+        <button id="help-btn" class="p-2 rounded-md" data-tooltip="Help" onclick="toggleHelpOverlay(true)" data-lta-event="v2-header-help-click">
           <?xml version="1.0" encoding="utf-8"?>
-<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7.92 9.234v.102a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-1.29.998-1.979 2.34-1.979 1.308 0 2.168.689 2.168 1.67 0 .928-.482 1.359-1.686 1.91l-.344.154C11.379 11.54 11 12.21 11 13.381v.119a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-.516.138-.723.55-.912l.345-.155c1.445-.654 2.529-1.514 2.529-3.39v-.103c0-1.978-1.72-3.441-4.164-3.441-2.478 0-4.336 1.428-4.336 3.734zm2.58 7.757c0 .867.659 1.509 1.491 1.509.85 0 1.509-.642 1.509-1.509 0-.867-.659-1.491-1.509-1.491-.832 0-1.491.624-1.491 1.491z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7.92 9.234v.102a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-1.29.998-1.979 2.34-1.979 1.308 0 2.168.689 2.168 1.67 0 .928-.482 1.359-1.686 1.91l-.344.154C11.379 11.54 11 12.21 11 13.381v.119a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-.516.138-.723.55-.912l.345-.155c1.445-.654 2.529-1.514 2.529-3.39v-.103c0-1.978-1.72-3.441-4.164-3.441-2.478 0-4.336 1.428-4.336 3.734zm2.58 7.757c0 .867.659 1.509 1.491 1.509.85 0 1.509-.642 1.509-1.509 0-.867-.659-1.491-1.509-1.491-.832 0-1.491.624-1.491 1.491z" />
+          </svg>
         </button>
-        <button id="settings-btn" class="p-2 rounded-md" data-tooltip="Settings" onclick="toggleSettingsOverlay(true)">
+        <button id="settings-btn" class="p-2 rounded-md" data-tooltip="Settings" onclick="toggleSettingsOverlay(true)" data-lta-event="v2-settings-click">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
             <path d="M0 0h48v48h-48z" fill="none" />
             <path
@@ -139,7 +149,7 @@ Coming soon:
         </button>
 
         <div class="relative">
-          <button id="other-apps-btn" class="p-2 rounded-md" data-tooltip="More Apps" onclick="toggleDropdown()">
+          <button id="other-apps-btn" class="p-2 rounded-md" data-tooltip="More Apps" onclick="toggleDropdown()" data-lta-event="v2-more-apps-click">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
               class="h-5 w-5">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -148,15 +158,16 @@ Coming soon:
           <div id="other-apps-dropdown"
             class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 hidden">
             <a href="/countdown/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">IB
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-countdown-click">IB
               Exams Countdown</a>
             <a href="/exam-timer/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">IB
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-mocks-click">IB
               Mock Exams</a>
             <a href="/blogs/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Blogs</a>
-              <a href="https://github.com/DevChrisChan/CiteCount"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">View source</a>
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-blogs-click">Blogs</a>
+            <a href="https://github.com/DevChrisChan/CiteCount"
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-source-click">View
+              source</a>
           </div>
         </div>
       </div>
@@ -185,70 +196,83 @@ Coming soon:
       </div>
     </div>
 
-    <button id="manage-citations-btn" class="manage-btn lg:hidden md:hidden mb-3"
+    <!--<button id="manage-citations-btn" class="manage-btn lg:hidden md:hidden mb-3"
       onclick="toggleCitationsOverlay(true)">
       Manage Citations
-    </button>
+    </button>-->
 
     <div class="main-content">
       <div class="split">
         <div id="editor-panel" class="split-panel">
           <div class="editor-container shadow-sm">
-            <div class="toolbar flex gap-2">
-              <button data-tooltip="Bold" onclick="formatText('bold')"
-                class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-bold-action">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                  <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
-                  <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
-                </svg>
-              </button>
-              <button data-tooltip="Italic" onclick="formatText('italic')"
-                class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-italic-action">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                  <path d="M16 4l-8 16"></path>
-                  <path d="M12 4h4"></path>
-                  <path d="M8 20h4"></path>
-                </svg>
-              </button>
-              <button data-tooltip="Underline" onclick="formatText('underline')"
-                class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-underline-action">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                  <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
-                  <path d="M4 20h16"></path>
-                </svg>
-              </button>
-              <button data-tooltip="Clear Text" onclick="clearText()"
-                class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-clear-text-action">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                  <path d="M3 6h18"></path>
-                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                  <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6"></path>
-                  <path d="M10 11v6"></path>
-                  <path d="M14 11v6"></path>
-                </svg>
+            <div class="toolbar flex gap-2" style="justify-content: space-between; align-items: center;">
+              <!-- Left-aligned buttons -->
+              <div style="display: flex; gap: 0.5rem;">
+                <button data-tooltip="Bold" onclick="formatText('bold')"
+                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-bold-action">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
+                    <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
+                  </svg>
+                </button>
+                <button data-tooltip="Italic" onclick="formatText('italic')"
+                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-italic-action">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M16 4l-8 16"></path>
+                    <path d="M12 4h4"></path>
+                    <path d="M8 20h4"></path>
+                  </svg>
+                </button>
+                <button data-tooltip="Underline" onclick="formatText('underline')"
+                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-underline-action">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
+                    <path d="M4 20h16"></path>
+                  </svg>
+                </button>
+                <button data-tooltip="Clear Text" onclick="clearText()"
+                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-clear-text-action">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M3 6h18"></path>
+                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6"></path>
+                    <path d="M10 11v6"></path>
+                    <path d="M14 11v6"></path>
+                  </svg>
+                </button>
+              </div>
+              <button id="manage-citations-btn"
+                style="background: #004e92; color: #fff; border-radius: 0.5rem; border: none; transition: background 0.2s ease; display: inline-flex; align-items: center; justify-content: center;"
+                class="lg:hidden md:hidden" onclick="toggleCitationsOverlay(true)"
+                onmouseover="this.style.background='#003a6d'" onmouseout="this.style.background='#004e92'"
+                data-tooltip="Manage Citations" data-lta-event="v2-mobile-manage-citations-click">
+                Manage Citations
               </button>
             </div>
+
             <div class="editor-wrapper">
               <div id="editor" contenteditable="true" spellcheck="true" data-lta-event="v2-input-focus"></div>
               <div id="highlight-layer"></div>
-              <div id="welcome-text" class="welcome-text">
+              <div id="welcome-text" class="welcome-text" style="user-select: none;">
+                <p>CiteCount accurately counts words without citations, references, or brackets for your IB coursework,
+                  essays and documents.</p><br>
                 <p>Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount.
                 </p>
                 <div class="welcome-buttons">
                   <button onclick="pasteFromClipboard()"
-                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Paste
-                    from Clipboard</button>
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600" data-lta-event="v2-paste-action">Paste
+                    Text</button>
                   <label
-                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer">
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer" data-lta-event="v2-choose-file-action">
                     Choose File
                     <input type="file" accept=".docx,.pdf" onchange="handleFileUpload(event)" class="hidden">
                   </label>
                   <button onclick="initiateExample()"
-                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600">Try
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600" data-lta-event="v2-try-example-action">Try
                     Example</button>
                 </div>
                 <p class="text-sm text-gray-500 mt-2">CiteCount prioritizes data integrity. Your content stays secure on
@@ -260,7 +284,7 @@ Coming soon:
           </div>
         </div>
 
-        <div id="gutter" class="gutter hidden lg:block"></div>
+        <div id="gutter" class="gutter hidden lg:block" data-lta-event="v2-gutter-resize"></div>
 
         <div id="citations-panel" class="split-panel hidden lg:block border rounded-lg shadow-sm p-4 overflow-hidden">
           <h2 class="text-lg font-semibold mb-3 sticky top-0 bg-inherit z-10">Citations</h2>
@@ -421,7 +445,7 @@ Coming soon:
           <p class="text-sm text-gray-500 mt-2">Settings from the old CiteCount will soon be ported to the new version.
           </p>
           <p class="text-sm text-gray-500 mt-2">CiteCount version 3.0 (3A69c)</p>
-          <p class="text-sm text-gray-500 mt-2">What’s new</p>
+          <p class="text-sm text-gray-500 mt-2">What's new</p>
           <ul class="list-disc pl-5 text-sm text-gray-500">
             <li>CiteCount has been completely rewritten, adding an array of new features on user interface you are
               familiar with.</li>
@@ -434,14 +458,15 @@ Coming soon:
 
     <div id="help-overlay" class="help-overlay">
       <div class="flex justify-between items-center mb-4">
-      <h2 class="text-lg font-semibold">Help</h2>
-      <button onclick="toggleHelpOverlay(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+        <h2 class="text-lg font-semibold">Help</h2>
+        <button onclick="toggleHelpOverlay(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
-      <iframe id="help-iframe" src="/v2/support/help.html" style="width: 100%; height: 80vh; margin: 0 auto; display: block;"></iframe>
+      <iframe id="help-iframe" src="/v2/support/help.html"
+        style="width: 100%; height: 80vh; margin: 0 auto; display: block;"></iframe>
       <!--<div id="iframe-container">
         <iframe id="forms"
           src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true"
@@ -476,7 +501,13 @@ Coming soon:
           <button id="clearAllStorage">Clear All</button>
         </div>
         <table id="localStorageTable">
-          <thead><tr><th>Key</th><th>Value</th><th>Action</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+              <th>Action</th>
+            </tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
@@ -485,13 +516,23 @@ Coming soon:
       </div>
       <div class="tab-content" id="errors">
         <table id="errorsTable">
-          <thead><tr><th>Time</th><th>Error</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Error</th>
+            </tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="tab-content" id="system">
         <table id="systemTable">
-          <thead><tr><th>Property</th><th>Value</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
@@ -500,24 +541,44 @@ Coming soon:
           <button id="clearAllCookies">Clear All</button>
         </div>
         <table id="cookiesTable">
-          <thead><tr><th>Name</th><th>Value</th><th>Action</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+              <th>Action</th>
+            </tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
       <div class="tab-content" id="internalSettings">
         <table id="internalSettingsTable">
-          <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Setting</th>
+              <th>Value</th>
+            </tr>
+          </thead>
           <tbody>
             <tr>
               <td>Disable Analytics</td>
               <td><input type="checkbox" id="disableAnalytics"></td>
+            </tr>
+            <tr>
+              <td>Grant Pro</td>
+              <td><input type="checkbox" id="grantPro"></td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="tab-content" id="devToolsSettings">
         <table id="devToolsSettingsTable">
-          <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Setting</th>
+              <th>Value</th>
+            </tr>
+          </thead>
           <tbody>
             <tr>
               <td>Disable Developer Mode</td>
@@ -536,6 +597,18 @@ Coming soon:
                 <button id="forceDarkTheme">Dark</button>
               </td>
             </tr>
+            <tr>
+              <td>Restart app as prod</td>
+              <td>
+                <button id="restartApp">Restart</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Restart app in debug mode</td>
+              <td>
+                <button id="restartDebug">Restart</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -551,13 +624,14 @@ Coming soon:
           <div id="tableContainer"></div>
           <h1 style="padding-top: 50px;" class="text-center text-4xl font-black">CiteCount</h1>
           <h2 style="padding-bottom: 30px; opacity: 80%; padding-top: 10px;" class="text-center text-2xl font-bold">
-            Redefining word counting solutions for students and researchers.
+            Redefining word counting solutions for students and researchers
           </h2>
           <div class="landing-grid">
             <div class="feature-card">
               <div class="feature-icon">📝</div>
-              <h3 class="feature-title">Smart Citation Detection</h3>
-              <p class="feature-description">Automatically detects and counts in-text citations in various formats.
+              <h3 class="feature-title">Detect & Filter Citations</h3>
+              <p class="feature-description">Accurately counts words without citations, references, or brackets for your
+                IB coursework, essays and documents.
               </p>
             </div>
             <div class="feature-card">
@@ -636,7 +710,8 @@ Coming soon:
             <a target="_blank" rel="noopener noreferrer" data-lta-event="ee blog outbound click" href="/exam-timer/">
               <div class="blog" style="text-align: left;">
                 <h2>IB Exam Timer App</h2>
-                <p>Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments.</p>
+                <p>Setup and display an IB exam timer along with separate reading time with voice guidance for
+                  invigilators instructions to simulate real IB exam environments.</p>
               </div>
             </a>
             <h2 style="text-align: left; margin-bottom: 20px; margin-top: 20px;" class="text-2xl font-bold">

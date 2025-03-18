@@ -37,7 +37,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            
         }
 
         body {
@@ -93,7 +92,7 @@
             font-weight: 500;
         }
 
-        input {
+        input[type="text"], input[type="number"] {
             width: 100%;
             padding: 0.9rem;
             font-size: 1rem;
@@ -104,7 +103,7 @@
             transition: all 0.3s ease;
         }
 
-        input:focus {
+        input[type="text"]:focus, input[type="number"]:focus {
             outline: none;
             border-color: rgba(255, 255, 255, 0.4);
             background: rgba(255, 255, 255, 0.1);
@@ -128,6 +127,10 @@
             color: #d0d0d0;
             margin-top: 0.25rem;
             width: 100%;
+        }
+
+        .required-asterisk {
+            color: red;
         }
 
         .expandable-section {
@@ -191,7 +194,74 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Select2 Glassmorphism Styling */
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            justify-content: center;
+        }
+
+        .secondary-button {
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .secondary-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .checkbox-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            width: 0.9rem;
+            height: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            margin-right: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        input[type="checkbox"]:checked {
+            background: rgba(40, 167, 69, 0.9);
+            border-color: rgba(40, 167, 69, 1);
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0.5rem;
+            height: 0.25rem;
+            border: solid white;
+            border-width: 0 0 2px 2px;
+            transform: translate(-50%, -60%) rotate(-45deg);
+        }
+
+        input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
         .select2-container {
             width: 100% !important;
             position: relative;
@@ -270,7 +340,6 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Media Queries */
         @media (max-width: 600px) {
             body {
                 padding: 1rem;
@@ -294,7 +363,7 @@
                 gap: 1rem;
             }
 
-            input, button {
+            input[type="text"], input[type="number"], button {
                 padding: 0.8rem;
                 font-size: 1rem;
             }
@@ -311,6 +380,16 @@
             .select2-container--default .select2-selection--single .select2-selection__arrow {
                 height: 38px;
                 right: 8px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
 
@@ -338,14 +417,14 @@
 
             <div class="time-inputs">
                 <div class="form-group">
-                    <label for="hours">Hours:*</label>
+                    <label for="hours">Hours<span class="required-asterisk">*</span>:</label>
                     <input type="number" id="hours" min="0" value="1" required placeholder="Enter hours">
                 </div>
                 <div class="form-group">
-                    <label for="minutes">Minutes:*</label>
+                    <label for="minutes">Minutes<span class="required-asterisk">*</span>:</label>
                     <input type="number" id="minutes" min="0" max="59" value="0" required placeholder="Enter minutes">
                 </div>
-                <div class="required-note">* Required fields</div>
+                <div class="required-note">Required fields</div>
                 <div class="expandable-section">
                     <div class="preset-toggle" id="presetToggle">or choose from IB exam presets...</div>
                     <div class="expand-content" id="presets">
@@ -356,7 +435,23 @@
                 </div>
             </div>
 
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="disableReading" name="disableReading">
+                    Disable Reading Time
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="disableInstructions" name="disableInstructions">
+                    Disable Invigilator's Instructions
+                </label>
+            </div>
+
             <button type="submit">Start Exam</button>
+            <div class="button-group">
+                <button type="button" class="secondary-button" onclick="window.location.href='/'">Return to CiteCount</button>
+                <button type="button" class="secondary-button" onclick="window.location.href='/contact.html?source=exam-timer'">Contact Us</button>
+                <button type="button" class="secondary-button" onclick="window.location.href='https://buymeacoffee.com/cite'">Donate</button>
+            </div>
         </form>
     </div>
 
@@ -381,7 +476,6 @@
                 toggle.textContent = 'Clear Preset';
                 toggle.classList.add('active');
             } else {
-                toggle.textContent = 'or choose from presets';
                 toggle.classList.remove('active');
             }
         }
@@ -412,14 +506,12 @@
                     );
                 });
 
-                // Initialize Select2
                 select.select2({
                     placeholder: "Select an exam preset",
                     allowClear: false,
                     width: '100%'
                 });
 
-                // Handle preset selection
                 select.on('select2:select', function(e) {
                     const selectedOption = e.params.data.element;
                     const name = selectedOption.value;
@@ -434,7 +526,6 @@
                     }
                 });
 
-                // Handle manual input changes
                 document.getElementById('subject').addEventListener('input', function() {
                     select.val('').trigger('change');
                     updateToggleButton('');
@@ -462,8 +553,10 @@
             const hours = parseInt(document.getElementById('hours').value) || 0;
             const minutes = parseInt(document.getElementById('minutes').value) || 0;
             const totalDuration = hours + (minutes / 60);
+            const disableReading = document.getElementById('disableReading').checked;
+            const disableInstructions = document.getElementById('disableInstructions').checked;
 
-            const url = `start.html?subject=${subject}&duration=${totalDuration}`;
+            const url = `start.html?subject=${subject}&duration=${totalDuration}&disableReading=${disableReading}&disableInstructions=${disableInstructions}`;
             window.open(url, '_blank', 'fullscreen=yes');
         });
 

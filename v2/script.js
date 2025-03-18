@@ -45,6 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
     state.includedCitations = new Map(JSON.parse(savedCitationStates));
   }
 
+  const isPremium = localStorage.getItem('isPremium');
+  if (isPremium === 'true') {
+    document.getElementById('isPremiumDisplay').style.display = 'block';
+  }
+
   editor.addEventListener('focus', function () {
     if (!editor.innerText.trim()) {
       editor.innerHTML = "";
@@ -298,7 +303,7 @@ function updateLayout() {
     split.style.flexDirection = 'row';
     editorContainer.style.flex = '';
     citationsPanel.classList.remove('hidden');
-    setupResizablePanels(); 
+    setupResizablePanels();
   }
   updateWordCountWithSelection();
   updateStatsMargin();
@@ -716,6 +721,11 @@ Do NOT copy and paste something here if you do not understand it.
 You can learn more at:
 https://en.wikipedia.org/wiki/Self-XSS`,
     'font-size:1.5em')
+  const params = new URLSearchParams(window.location.search);
+  const devMode = decodeURIComponent(params.get('dev'));
+  if (devMode === 'true') {
+    document.getElementById('devToolsWindow').style.display = 'flex';
+  }
   const currentDomain = window.location.host;
   const isDomainAllowed =
     allowedDomains.includes(currentDomain) ||
@@ -899,8 +909,10 @@ function handleDonate() {
   localStorage.removeItem('donationAlertDismissedTimestamp');
 }
 
+const isPremium = localStorage.getItem('isPremium');
 document.getElementById('editor').addEventListener('click', function () {
   if (!hasInteracted && !hasUserDismissedAlert()) {
+    if (isPremium == "true") return;
     hasInteracted = true;
     alertTimeout = setTimeout(showDonationAlert, 10000);
   }
@@ -922,10 +934,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearAllStorageBtn = document.getElementById('clearAllStorage');
   const clearAllCookiesBtn = document.getElementById('clearAllCookies');
   const disableAnalyticsCheckbox = document.getElementById('disableAnalytics');
+  const grantPro = document.getElementById('grantPro');
   const disableDevModeCheckbox = document.getElementById('disableDevMode');
   const opacitySlider = document.getElementById('opacitySlider');
   const forceLightThemeBtn = document.getElementById('forceLightTheme');
   const forceDarkThemeBtn = document.getElementById('forceDarkTheme');
+  const restartApp = document.getElementById('restartApp');
+  const restartDebug = document.getElementById('restartDebug');
 
   let isDragging = false;
   let isResizing = false;
@@ -1040,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Console override
   const originalConsole = console.log;
   console.log = function (...args) {
-    const output = args.map(arg => 
+    const output = args.map(arg =>
       typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg
     ).join(' ');
     consoleOutput.textContent += output + '\n';
@@ -1061,10 +1076,10 @@ document.addEventListener('DOMContentLoaded', () => {
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
       const tabId = button.dataset.tab;
-      
+
       tabButtons.forEach(btn => btn.classList.remove('active'));
       tabContents.forEach(content => content.classList.remove('active'));
-      
+
       button.classList.add('active');
       document.getElementById(tabId).classList.add('active');
 
@@ -1079,23 +1094,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const thead = document.createElement('thead');
     thead.innerHTML = '<tr><th>Key</th><th>Value</th></tr>';
     const tbody = document.createElement('tbody');
-    
+
     for (let [key, value] of Object.entries(obj)) {
       const row = document.createElement('tr');
       let valueCell;
-      
+
       if (typeof value === 'object' && value !== null) {
         valueCell = createJsonTable(value);
       } else {
         valueCell = document.createElement('td');
         valueCell.textContent = String(value);
       }
-      
+
       row.innerHTML = `<td>${key}</td>`;
       row.appendChild(valueCell);
       tbody.appendChild(row);
     }
-    
+
     table.appendChild(thead);
     table.appendChild(tbody);
     return table;
@@ -1121,6 +1136,11 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('lta_do_not_track', disableAnalyticsCheckbox.checked ? 'true' : 'false');
   });
   disableAnalyticsCheckbox.checked = localStorage.getItem('lta_do_not_track') === 'true';
+
+  grantPro.addEventListener('change', () => {
+    localStorage.setItem('isPremium', disableAnalyticsCheckbox.checked ? 'false' : 'true');
+  });
+  grantPro.checked = localStorage.getItem('isPremium') === 'true';
 
   // Dev Tools Settings
   disableDevModeCheckbox.addEventListener('change', () => {
@@ -1181,6 +1201,14 @@ document.addEventListener('DOMContentLoaded', () => {
     devTools.style.setProperty('--resize-handle-bg', `rgba(68, 68, 68, 0.7)`);
   });
 
+  restartApp.addEventListener('click', () => {
+    window.location.href = '/';
+  });
+
+  restartDebug.addEventListener('click', () => {
+    window.location.href = window.location.href.split('?')[0] + '?dev=true';
+  });
+
   // Update tab content
   function updateTabContent(tabId) {
     if (tabId === 'localstorage') {
@@ -1192,7 +1220,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const valueCell = document.createElement('td');
           const actionCell = document.createElement('td');
           let value = localStorage[key];
-          
+
           try {
             const parsed = JSON.parse(value);
             if (typeof parsed === 'object' && parsed !== null) {
@@ -1203,7 +1231,7 @@ document.addEventListener('DOMContentLoaded', () => {
           } catch (e) {
             valueCell.textContent = value;
           }
-          
+
           const clearBtn = document.createElement('button');
           clearBtn.className = 'clear-storage-btn';
           clearBtn.textContent = 'Clear';
@@ -1211,7 +1239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem(key);
             updateTabContent('localstorage');
           });
-          
+
           row.innerHTML = `<td>${key}</td>`;
           row.appendChild(valueCell);
           actionCell.appendChild(clearBtn);
@@ -1255,7 +1283,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const row = document.createElement('tr');
           const valueCell = document.createElement('td');
           const actionCell = document.createElement('td');
-          
+
           try {
             const parsed = JSON.parse(decodeURIComponent(value));
             if (typeof parsed === 'object' && parsed !== null) {
@@ -1266,7 +1294,7 @@ document.addEventListener('DOMContentLoaded', () => {
           } catch (e) {
             valueCell.textContent = decodeURIComponent(value);
           }
-          
+
           const clearBtn = document.createElement('button');
           clearBtn.className = 'clear-storage-btn';
           clearBtn.textContent = 'Clear';
@@ -1274,7 +1302,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
             updateTabContent('cookies');
           });
-          
+
           row.innerHTML = `<td>${name}</td>`;
           row.appendChild(valueCell);
           actionCell.appendChild(clearBtn);

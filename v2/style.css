@@ -1379,7 +1379,7 @@ pre {
 }
 
 #forceLightTheme,
-#forceDarkTheme {
+#forceDarkTheme,#restartApp,#restartDebug {
   padding: 5px 10px;
   background: var(--tab-button-bg);
   border: none;
@@ -1390,12 +1390,13 @@ pre {
 }
 
 #forceLightTheme:hover,
-#forceDarkTheme:hover {
+#forceDarkTheme:hover,#restartApp:hover,#restartDebug:hover {
   background: rgba(0, 122, 204, 0.2);
 }
 
 #forceLightTheme.active,
-#forceDarkTheme.active {
+#forceDarkTheme.active,#restartApp.active,#restartDebug.active {
   background: var(--tab-button-active);
 }
 }
+
