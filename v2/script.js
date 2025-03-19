@@ -836,15 +836,21 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service.js')
       .then(registration => {
         registration.update();
-      });
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
 
-    let refreshing = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (refreshing) return;
-      refreshing = true;
-      window.location.reload();
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              
+              notify('A new version of CiteCount is available. Refresh to update.');
+            }
+          });
+        });
+      })
+      .catch(err => {
+        console.error('Service worker registration failed:', err);
+      });
     });
-  });
 }
 
 window.onerror = function (message, source, lineno, colno, error) {

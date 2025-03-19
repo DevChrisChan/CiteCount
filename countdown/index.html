@@ -52,9 +52,9 @@
         <div class="main-content">
             <p style="text-align: center; font-size: 30px; font-weight: 900;">IB May 2025 Examinations Countdown</p>
             <h1 class="countdown-title" id="examTitle"></h1>
-            
+
             <div class="select-wrapper">
-                <select id="examSelect" style="width: 100%">
+                <select id="examSelect" style="width: 100%" data-lta-event="countdown-exam-select">
                     <option></option>
                 </select>
             </div>
@@ -101,10 +101,10 @@
                 </div>
             </div>
             <span style="opacity: 50%; text-align: center; display: inline-flex; align-items: center;">Click countdown to toggle between Days countdown and Months countdown.</span>
-            <div style="padding-bottom: 20px; text-align: center;"><a class="button" href="/countdown/schedule.html" style="text-decoration: none;">Exam Schedule</a>
-                <button id="shareButton" class="button" onclick="copyUrl()">Share Countdown</button>
+            <div style="padding-bottom: 20px; text-align: center;"><a class="button" href="/countdown/schedule.html" style="text-decoration: none;" data-lta-event="countdown-exam-schedule">Exam Schedule</a>
+                <button id="shareButton" class="button" onclick="copyUrl()" data-lta-event="countdown-share">Share Countdown</button>
                 <br><br>
-                <a class="button" href="https://buymeacoffee.com/cite" style="text-decoration: none;" target="_blank" rel="noopener">Donate</a>
+                <a class="button" href="https://buymeacoffee.com/cite" style="text-decoration: none;" target="_blank" rel="noopener" data-lta-event="countdown-donate">Donate</a>
                 <a class="button" href="/" style="text-decoration: none;" target="_blank" rel="noopener">Visit CiteCount</a>         
         </div>
 
