@@ -841,8 +841,7 @@ if ('serviceWorker' in navigator) {
 
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              
-              notify('A new version of CiteCount is available. Refresh to update.');
+              console.log('A new version of CiteCount is available. Refresh to update.');
             }
           });
         });
@@ -969,6 +968,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const forceDarkThemeBtn = document.getElementById('forceDarkTheme');
   const restartApp = document.getElementById('restartApp');
   const restartDebug = document.getElementById('restartDebug');
+  const currentLocation = document.getElementById('currentLocation')
+
+currentLocation.textContent = window.location.href;
 
   let isDragging = false;
   let isResizing = false;
