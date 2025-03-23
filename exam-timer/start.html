@@ -330,12 +330,37 @@
         let currentPhase = 0;
         let isReadingTime = false;
         let remainingTime;
+        let isPaused = false;
 
         function updateProgressBar() {
             if (!startTime || !endTime) return;
             const total = endTime - startTime;
             const progress = Math.max((remainingTime / total) * 100, 0);
             document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        function togglePause() {
+            if (!examTimer) return;
+            
+            if (isPaused) {
+                isPaused = false;
+                document.getElementById('pauseButton').textContent = 'Pause';
+                endTime = new Date(new Date().getTime() + remainingTime);
+                examTimer = setInterval(updateExamTimer, 1000);
+            } else {
+                isPaused = true;
+                document.getElementById('pauseButton').textContent = 'Resume';
+                clearInterval(examTimer);
+            }
+            updateTimer();
+        }
+
+        function createPauseButton() {
+            const pauseButton = document.createElement('button');
+            pauseButton.id = 'pauseButton';
+            pauseButton.textContent = 'Pause';
+            pauseButton.addEventListener('click', togglePause);
+            document.getElementById('buttonContainer').appendChild(pauseButton);
         }
 
         function startExam() {
@@ -415,6 +440,8 @@
             skipReading.textContent = 'Skip Reading Time';
             document.getElementById('buttonContainer').appendChild(skipReading);
             
+            createPauseButton();
+            
             skipReading.addEventListener('click', () => {
                 clearInterval(examTimer);
                 isReadingTime = false;
@@ -422,14 +449,10 @@
             });
 
             updateTimer();
-            examTimer = setInterval(() => {
-                remainingTime -= 1000;
-                updateTimer();
-                updateProgressBar();
-            }, 1000);
+            examTimer = setInterval(updateExamTimer, 1000);
             
             setTimeout(() => {
-                if (isReadingTime) {
+                if (isReadingTime && !isPaused) {
                     clearInterval(examTimer);
                     isReadingTime = false;
                     startMainExam();
@@ -449,30 +472,45 @@
             currentPhase = 0;
             
             playAudio('3.mp3');
+            createPauseButton();
 
             updateTimer();
-            examTimer = setInterval(() => {
+            examTimer = setInterval(updateExamTimer, 1000);
+
+            setTimeout(() => {
+                if (!isPaused) {
+                    clearInterval(examTimer);
+                    finishExam();
+                }
+            }, mainDuration);
+        }
+
+        function updateExamTimer() {
+            if (!isPaused) {
                 remainingTime -= 1000;
                 updateTimer();
                 updateProgressBar();
-                if (remainingTime <= 30*60*1000 && currentPhase < 3) {
-                    playAudio('5.mp3');
-                    currentPhase = 3;
+                
+                if (!isReadingTime) {
+                    if (remainingTime <= 30*60*1000 && currentPhase < 3) {
+                        playAudio('5.mp3');
+                        currentPhase = 3;
+                    }
+                    if (remainingTime <= 5*60*1000 && currentPhase < 4) {
+                        playAudio('6.mp3');
+                        currentPhase = 4;
+                    }
                 }
-                if (remainingTime <= 5*60*1000 && currentPhase < 4) {
-                    playAudio('6.mp3');
-                    currentPhase = 4;
-                }
-            }, 1000);
+            }
+        }
 
-            setTimeout(() => {
-                clearInterval(examTimer);
-                playAudio('4.mp3');
-                document.getElementById('timer').textContent = "Time's up!";
-                document.querySelector('.time-info-container').style.display = 'none';
-                document.getElementById('progressBar').style.width = '0%';
-                document.title = `${subject} - Time's Up! - CiteCount`;
-            }, mainDuration);
+        function finishExam() {
+            playAudio('4.mp3');
+            document.getElementById('timer').textContent = "Time's up!";
+            document.querySelector('.time-info-container').style.display = 'none';
+            document.getElementById('progressBar').style.width = '0%';
+            document.title = `${subject} - Time's Up! - CiteCount`;
+            document.getElementById('buttonContainer').innerHTML = "";
         }
 
         function updateTimer() {
@@ -487,8 +525,8 @@
             const seconds = Math.floor((remainingTime % 60000) / 1000);
             
             const timerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            document.getElementById('timer').textContent = timerText;
-            document.title = `${subject} - ${timerText} - CiteCount`;
+            document.getElementById('timer').textContent = isPaused ? `Paused: ${timerText}` : timerText;
+            document.title = `${subject} - ${isPaused ? 'Paused: ' : ''}${timerText} - CiteCount`;
             
             document.getElementById('startTime').textContent = `Start Time: ${formatTime(startTime)}`;
             document.getElementById('endTime').textContent = `Scheduled End: ${formatTime(endTime)}`;
