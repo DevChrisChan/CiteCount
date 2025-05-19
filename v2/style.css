@@ -210,6 +210,9 @@
     .logo {
       filter: invert(1);
     }
+    #editor {
+      caret-color: white!important;
+    }
   }
 
   @media (prefers-color-scheme: light) {
@@ -304,7 +307,7 @@
     white-space: pre-wrap;
     word-break: break-word;
     position: relative;
-    caret-color: #000;
+    caret-color: black;
     transition: background-color 0.2s ease;
   }
 

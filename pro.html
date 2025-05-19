@@ -1,4 +1,3 @@
-<!--Pro features coming soon...-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -197,6 +196,13 @@
         button.hidden {
             display: none;
         }
+        #buyProButton {
+            background: #ff5733;
+            margin-left: 10px;
+        }
+        #buyProButton:hover {
+            background: #ff8c66;
+        }
 
         #status {
             margin-top: 1rem;
@@ -241,7 +247,6 @@
             vertical-align: middle;
         }
 
-        /* Loading animation styles */
         .loading::after {
             content: '';
             display: inline-block;
@@ -265,8 +270,11 @@
         <h1 id="title">Unlock Pro</h1>
         <p id="subtitle">Enter your code to unlock CiteCount Pro to get access to premium features.</p>
         <input type="text" id="codeInput" placeholder="Enter Pro Code">
-        <button id="unlockButton" onclick="enablePremium()">Unlock Now</button>
-        <a href="/"><button id="experienceButton" class="hidden">Experience Pro</button></a>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <button id="unlockButton" onclick="enablePremium()">Unlock Now</button>
+            <a href="https://buymeacoffee.com/cite"><button id="buyProButton">Buy Pro</button></a>
+            <a href="/"><button id="experienceButton" class="hidden">Experience Pro</button></a>
+        </div>
         <p id="status"></p>
         <div id="premiumFeatures">
             <h2 style="color: #ffd700; font-size: 1.5rem; display: inline;">Your Pro Features</h2>
@@ -314,7 +322,6 @@
         animateParticles();
 
         const CODE = 'PR0'; 
-        // This is for testing purposes.
         let confettiInterval;
 
         function showPremiumUnlocked() {
@@ -357,13 +364,11 @@
             const statusElement = document.getElementById('status');
             const unlockButton = document.getElementById('unlockButton');
 
-            // Disable button and show loading
             unlockButton.disabled = true;
             statusElement.textContent = 'Verifying';
             statusElement.classList.add('loading');
 
             setTimeout(() => {
-                // Remove loading state
                 statusElement.classList.remove('loading');
                 unlockButton.disabled = false;
 

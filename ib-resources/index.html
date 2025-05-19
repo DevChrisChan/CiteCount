@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB Resources</title>
+    <meta property="og:title" content="IB Resources - CiteCount" />
+    <meta property="og:description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
+    <meta property="og:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+    <meta property="og:url" content="https://cite.js.org/ib-resources" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+    <meta name="twitter:description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IB Resources - CiteCount" />
+    <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+    <meta name="description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!">
+    <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+    <meta name="theme-color" content="#242F89" />
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CiteCount",
+        "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.",
+        "applicationCategory": "Reference",
+        "operatingSystem": "All"
+    }
+    </script>
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="CiteCount" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-LHVN622J29');
+    </script>
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json" />
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(90deg, #000428 0%, #004e92 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .app-name {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #search {
+            width: 100%;
+            max-width: 600px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: #ffffff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        #search:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        #search::placeholder {
+            color: #bdc3c7;
+        }
+
+        .content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            margin-top: 70px; /* Added to prevent content overlap with fixed navbar */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        .category-header {
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: 10px;
+            font-weight: bold;
+            padding: 15px 0;
+        }
+
+        .link-list {
+            list-style: none;
+            padding: 0;
+            display: block;
+        }
+
+        .link-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin: 15px 0;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .link-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .starred:hover {
+            background: rgba(255, 245, 157, 0.3);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .link-item a {
+            text-decoration: none;
+            color: #ecf0f1;
+            font-size: 18px;
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        .description {
+            color: #dfe6e9;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .site-url {
+            color: #bdc3c7;
+            font-size: 12px;
+            margin-top: 8px;
+            word-break: break-all;
+        }
+
+        .no-results {
+            color: #ffffff;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .suggest-button {
+            display: block;
+            margin: 30px auto;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .suggest-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .disclaimer {
+            color: #bdc3c7;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .star-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #ffd700;
+            font-size: 20px;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+
+        .starred {
+            border: 2px solid #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .search-container { padding: 10px 15px; }
+            .content { padding: 15px; margin-top: 60px; }
+            .container { padding: 0 5px; }
+            #search { padding: 10px 15px; font-size: 14px; }
+            .category-header { font-size: 18px; padding: 10px 0; }
+            .link-item { padding: 15px; margin: 10px 0; }
+            .link-item a { font-size: 16px; }
+            .description { font-size: 13px; }
+            .site-url { font-size: 11px; }
+            .suggest-button { padding: 8px 16px; font-size: 14px; }
+            .disclaimer { font-size: 11px; }
+            .star-indicator { font-size: 18px; }
+            .app-name { font-size: 18px; }
+        }
+
+        @media (max-width: 480px) {
+            .search-container { 
+                padding: 10px; 
+                flex-direction: column; 
+                align-items: center;
+                gap: 10px;
+            }
+            #search { padding: 8px 12px; margin-top: 0; }
+            .content { margin-top: 80px; }
+            .category-header { font-size: 16px; }
+            .link-item { padding: 12px; }
+            .link-item a { font-size: 14px; }
+            .description { font-size: 12px; }
+            .site-url { font-size: 10px; }
+            .star-indicator { font-size: 16px; top: 8px; right: 8px; }
+            .app-name { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <div class="app-name">CiteCount</div>
+        <input type="text" id="search" placeholder="Search resources...">
+    </div>
+    
+    <div class="content">
+        <div class="container">
+            <div id="categories"></div>
+            <a href="/contact.html?source=ib-resources" style="text-decoration: none!important;"><button class="suggest-button">Suggest a Resource</button></a>
+            <div class="disclaimer">
+                If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html" style="color: #bdc3c7; text-decoration: underline;">here</a> for further details and instructions.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const categoriesContainer = document.getElementById('categories');
+        const searchInput = document.getElementById('search');
+
+        function createCategory(name, links) {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'category';
+            
+            const header = document.createElement('div');
+            header.className = 'category-header';
+            header.textContent = name;
+            header.onclick = () => header.nextElementSibling.classList.toggle('active');
+            
+            const list = document.createElement('ul');
+            list.className = 'link-list';
+            
+            categoryDiv.appendChild(header);
+            categoryDiv.appendChild(list);
+            displayLinks(list, links);
+            
+            return categoryDiv;
+        }
+
+        function displayLinks(listElement, links) {
+            listElement.innerHTML = '';
+            links.forEach(link => {
+                const li = document.createElement('li');
+                li.className = 'link-item';
+                if (link.star) {
+                    li.classList.add('starred');
+                    li.innerHTML = `
+                        <a href="${link.url}">${link.title}</a>
+                        <div class="description">${link.desc}</div>
+                        <div class="site-url">${link.url}</div>
+                        <span class="star-indicator">★</span>
+                    `;
+                } else {
+                    li.innerHTML = `
+                        <a href="${link.url}">${link.title}</a>
+                        <div class="description">${link.desc}</div>
+                        <div class="site-url">${link.url}</div>
+                    `;
+                }
+                li.onclick = () => window.open(link.url, '_blank', 'noopener,noreferrer');
+                listElement.appendChild(li);
+            });
+        }
+
+        function updateCategories(resources, searchTerm = '') {
+            categoriesContainer.innerHTML = '';
+            let hasResults = false;
+            
+            Object.entries(resources).forEach(([name, links]) => {
+                const filteredLinks = links.filter(link => 
+                    link.title.toLowerCase().includes(searchTerm) || 
+                    link.desc.toLowerCase().includes(searchTerm)
+                );
+                if (filteredLinks.length > 0) {
+                    categoriesContainer.appendChild(createCategory(name, filteredLinks));
+                    hasResults = true;
+                }
+            });
+            
+            if (!hasResults) {
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.textContent = 'No results found';
+                categoriesContainer.appendChild(noResults);
+            }
+        }
+
+        fetch('/ib-resources/resources.json')
+            .then(response => response.json())
+            .then(resources => {
+                updateCategories(resources);
+                
+                searchInput.addEventListener('input', () => {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    updateCategories(resources, searchTerm);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading resources:', error);
+                categoriesContainer.innerHTML = '<div class="no-results">Error loading resources</div>';
+            });
+    </script>
+</body>
+</html>

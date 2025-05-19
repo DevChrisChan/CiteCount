@@ -909,25 +909,30 @@ window.onerror = function (message, source, lineno, colno, error) {
 };
 
 const donationMessages = [
-  {
+  /*{
     text: "Saved you time? A donation helps us keep saving yours.",
     url: "https://buymeacoffee.com/cite",
     buttonText: "Donate"
-  },
+  },*/
   {
-    text: "Keep CiteCount ad-free — support us!",
+    text: "Keep CiteCount ad free — support us!",
     url: "https://buymeacoffee.com/cite",
     buttonText: "Support"
   },
   {
-    text: "Join our Discord server for beta access!",
+    text: "Join our Discord to participate a paid feedback session!",
     url: "https://discord.gg/twnz2957sK",
     buttonText: "Join"
   },
   {
     text: "Any feedback or suggestions? Drop a message!",
-    url: "/contact?source=/",
+    url: "/contact?source=",
     buttonText: "Contact"
+  },
+  {
+    text: "Fill a 1-minute survey for a chance to win $50!",
+    url: "https://forms.gle/75BvyudP82DxZkfAA",
+    buttonText: "Go to Survey"
   }
 ];
 
@@ -993,3 +998,23 @@ document.addEventListener('DOMContentLoaded', function () {
   hideDonationAlert();
 });
 
+/*function dismissAd() {
+  const adBanner = document.getElementById('ad-banner');
+  const adContent = adBanner.querySelector('span').textContent;
+  
+  localStorage.setItem('lastAdContent', adContent);
+  
+  adBanner.style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const adBanner = document.getElementById('ad-banner');
+  const currentAdContent = adBanner.querySelector('span').textContent;
+  const lastAdContent = localStorage.getItem('lastAdContent');
+
+  if (!lastAdContent || lastAdContent !== currentAdContent) {
+      adBanner.style.display = 'block';
+  } else {
+      adBanner.style.display = 'none';
+  }
+});*/

@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="IB May 2024 Statistics Visualization<" />
+    <meta property="og:description"
+        content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
+    <meta property="og:image"
+        content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+    <meta property="og:url" content="https://cite.js.org/privacy-policy/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:image"
+        content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+    <meta name="twitter:description"
+        content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IB May 2024 Statistics Visualization<" />
+    <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+    <meta name="description"
+        content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!">
+    <meta name="keywords"
+        content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+    <meta name="theme-color" content="#242F89" />
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CiteCount",
+        "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.",
+        "applicationCategory": "Reference",
+        "operatingSystem": "All"
+    }></script>
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="CiteCount" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <script defer async data-host="citecount.netlify.app" data-events="true"
+        src="https://liteanalytics.com/lite.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LHVN622J29');
+    </script>
+    <title>IB May 2024 Statistics Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 250px;
+            }
+        }
+        
+        .stat-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Dark mode support */
+        .dark {
+            @apply bg-gray-900 text-white;
+        }
+        
+        .dark .stat-card {
+            @apply bg-gray-800 text-white border-gray-700;
+        }
+        
+        .dark .bg-white {
+            @apply bg-gray-800;
+        }
+        
+        .dark .border-gray-200 {
+            @apply border-gray-700;
+        }
+        
+        .dark .text-gray-700 {
+            @apply text-gray-300;
+        }
+        
+        .dark .text-gray-600 {
+            @apply text-gray-400;
+        }
+        
+        .dark .shadow {
+            box-shadow: 0 1px 3px 0 rgba(255, 255, 255, 0.1), 0 1px 2px 0 rgba(255, 255, 255, 0.06);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">IB Diploma and Career-Related Programmes</h1>
+            <h2 class="text-xl text-gray-600">May 2024 Assessment Session - Statistical Bulletin</h2>
+        </header>
+
+        <div class="mb-8">
+            <div class="flex flex-wrap -mx-2">
+                <div class="w-full md:w-1/4 px-2 mb-4">
+                    <button id="overviewBtn" class="w-full py-2 px-4 bg-purple-600 text-white rounded-md shadow hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50">
+                        Overview
+                    </button>
+                </div>
+                <div class="w-full md:w-1/4 px-2 mb-4">
+                    <button id="diplomaBtn" class="w-full py-2 px-4 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        Diploma Programme
+                    </button>
+                </div>
+                <div class="w-full md:w-1/4 px-2 mb-4">
+                    <button id="cpBtn" class="w-full py-2 px-4 bg-green-600 text-white rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                        Career-Related Programme
+                    </button>
+                </div>
+                <div class="w-full md:w-1/4 px-2 mb-4">
+                    <button id="subjectsBtn" class="w-full py-2 px-4 bg-yellow-600 text-white rounded-md shadow hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50">
+                        Subject Performance
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <section id="overviewSection" class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Session Overview</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Students</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-purple-600">192,866</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Schools</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-blue-600">3,323</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Countries</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-green-600">152</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Subjects</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-yellow-600">225</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-700 font-semibold mb-4">Distribution of Students by Qualification</h3>
+                    <div class="chart-container">
+                        <canvas id="qualificationChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-700 font-semibold mb-4">Distribution of Students by Gender</h3>
+                    <div class="chart-container">
+                        <canvas id="genderChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border border-gray-200 mb-8">
+                <h3 class="text-gray-700 font-semibold mb-4">Distribution of Schools and Students by Region</h3>
+                <div class="chart-container">
+                    <canvas id="regionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                <h3 class="text-gray-700 font-semibold mb-4">Year-on-Year Growth</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
+                                <th class="px-4 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Schools</th>
+                                <th class="px-4 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Schools % Change</th>
+                                <th class="px-4 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
+                                <th class="px-4 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Students % Change</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">2020</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">3,043</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">-</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">174,339</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">-</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">2021</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">3,115</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">2.4%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">170,637</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">-2.1%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">2022</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">3,090</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">-0.8%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">173,880</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">1.9%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">2023</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">3,189</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">3.2%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">179,922</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">3.5%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">2024</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">3,323</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">4.2%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">192,866</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">7.2%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diploma Programme Section -->
+        <section id="diplomaSection" class="mb-10 hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Diploma Programme Results</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">DP Students</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-blue-600">121,945</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Pass Rate</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-blue-600">80.5%</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Mean Grade</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-blue-600">4.9</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Mean Total Points</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-blue-600">30.3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-700 font-semibold mb-4">Number of Students and Pass Rate</h3>
+                    <div class="chart-container">
+                        <canvas id="dpPassRateChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-700 font-semibold mb-4">Percentage of Diplomas Awarded</h3>
+                    <div class="chart-container">
+                        <canvas id="diplomasAwardedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-700 font-semibold mb-4">Mean Grade</h3>
+                    <div class="chart-container">
+                        <canvas id="meanGradeChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-700 font-semibold mb-4">Mean Total Points</h3>
+                    <div class="chart-container">
+                        <canvas id="totalPointsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border border-gray-200 mb-8">
+                <h3 class="text-gray-700 font-semibold mb-4">Total Points Distribution</h3>
+                <div class="chart-container h-64">
+                    <canvas id="pointsDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                <h3 class="text-gray-700 font-semibold mb-4">Grouped Total Points Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="groupedPointsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Career-Related Programme Section -->
+        <section id="cpSection" class="mb-10 hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Career-Related Programme Results</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">CP Students</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-green-600">8,075</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Pass Rate</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-green-600">74.9%</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Mean Grade</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-green-600">3.7</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-500 text-sm font-medium mb-1">Schools</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-bold text-green-600">282</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-700 font-semibold mb-4">Number of Students and Pass Rate</h3>
+                    <div class="chart-container">
+                        <canvas id="cpPassRateChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                    <h3 class="text-gray-700 font-semibold mb-4">Percentage of Certificates Awarded</h3>
+                    <div class="chart-container">
+                        <canvas id="certificatesAwardedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border border-gray-200 mb-8">
+                <h3 class="text-gray-700 font-semibold mb-4">Mean Grade Trend</h3>
+                <div class="chart-container">
+                    <canvas id="cpMeanGradeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+                <h3 class="text-gray-700 font-semibold mb-4">Reflective Project Grade Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="reflectiveProjectChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subject Performance Section -->
+        <section id="subjectsSection" class="mb-10 hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Subject Performance</h2>
+            
+            <div class="bg-white rounded-lg shadow p-6 border border-gray-200 mb-8">
+                <div class="mb-4">
+                    <label for="subjectGroup" class="block text-sm font-medium text-gray-700 mb-1">Select Subject Group</label>
+                    <select id="subjectGroup" class="block w-full md:w-1/2 lg:w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 text-base">
+                        <option value="all">All Subject Groups</option>
+                        <option value="lang-lit">Studies in Language and Literature</option>
+                        <option value="lang-acq">Language Acquisition</option>
+                        <option value="ind-soc">Individuals and Societies</option>
+                        <option value="sciences">Sciences</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="arts">The Arts</option>
+                        <option value="interdisciplinary">Interdisciplinary</option>
+                    </select>
+                </div>
+                
+                <h3 class="text-gray-700 font-semibold mb-4">Grade Distribution by Subject Group</h3>
+                <div class="chart-container h-80 mb-6">
+                    <canvas id="subjectGroupChart"></canvas>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table id="subjectTable" class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject Group</th>
+                                <th class="px-4 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
+                                <th class="px-4 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Mean Grade</th>
+                                <th class="px-4 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Grade 7</th>
+                                <th class="px-4 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Grade 6</th>
+                                <th class="px-4 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Grade 5</th>
+                                <th class="px-4 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Grade 4</th>
+                                <th class="px-4 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Grade 3</th>
+                                <th class="px-4 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Grade 2</th>
+                                <th class="px-4 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Grade 1</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">STUDIES IN LANGUAGE AND LITERATURE</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">142,480</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">4.8</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">3.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">21.4%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">36.2%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">28.1%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">7.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">1.1%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">0.1%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">LANGUAGE ACQUISITION</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">107,262</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">5.2</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">13.8%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">31.0%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">27.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">17.7%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">7.0%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">1.4%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">0.1%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">INDIVIDUALS AND SOCIETIES</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">169,058</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">4.8</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">7.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">21.4%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">29.0%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">24.2%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">11.0%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">3.8%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">0.4%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">SCIENCES</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">139,132</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">4.4</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">9.6%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">15.6%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">20.3%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">23.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">19.2%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">8.3%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">1.3%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">MATHEMATICS</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">112,532</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">4.4</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">8.2%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">16.2%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">22.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">22.8%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">16.1%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">9.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">2.6%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">THE ARTS</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">28,985</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">4.3</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">3.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">12.6%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">23.0%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">31.5%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">20.1%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">4.4%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">0.3%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 text-sm text-gray-500">INTERDISCIPLINARY</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">21,612</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-right">4.2</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">4.8%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">11.7%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">23.6%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">25.2%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">21.8%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">8.1%</td>
+                                <td class="px-4 py-3 text-sm text-gray-500 text-center">1.5%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Section navigation
+        document.getElementById('overviewBtn').addEventListener('click', function() {
+            showSection('overviewSection');
+        });
+        
+        document.getElementById('diplomaBtn').addEventListener('click', function() {
+            showSection('diplomaSection');
+        });
+        
+        document.getElementById('cpBtn').addEventListener('click', function() {
+            showSection('cpSection');
+        });
+        
+        document.getElementById('subjectsBtn').addEventListener('click', function() {
+            showSection('subjectsSection');
+        });
+        
+        function showSection(sectionId) {
+            // Hide all sections
+            document.getElementById('overviewSection').classList.add('hidden');
+            document.getElementById('diplomaSection').classList.add('hidden');
+            document.getElementById('cpSection').classList.add('hidden');
+            document.getElementById('subjectsSection').classList.add('hidden');
+            
+            // Show the selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Chart colors
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        const textColor = isDarkMode ? '#e5e7eb' : '#374151';
+        const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+        const chartColors = [
+            '#5D5CDE', '#38B2AC', '#F59E0B', '#EC4899', '#8B5CF6', 
+            '#6366F1', '#10B981', '#F97316', '#DB2777', '#7C3AED'
+        ];
+
+        // Create charts
+        createQualificationChart();
+        createGenderChart();
+        createRegionChart();
+        createDPPassRateChart();
+        createDiplomasAwardedChart();
+        createMeanGradeChart();
+        createTotalPointsChart();
+        createPointsDistributionChart();
+        createGroupedPointsChart();
+        createCPPassRateChart();
+        createCertificatesAwardedChart();
+        createCPMeanGradeChart();
+        createReflectiveProjectChart();
+        createSubjectGroupChart();
+
+        // Chart creation functions
+        function createQualificationChart() {
+            const ctx = document.getElementById('qualificationChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['DP Diploma', 'CP Certificate', 'Course'],
+                    datasets: [{
+                        data: [63.2, 4.2, 32.6],
+                        backgroundColor: [chartColors[0], chartColors[1], chartColors[2]],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: textColor,
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createGenderChart() {
+            const ctx = document.getElementById('genderChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Female', 'Male', 'Other'],
+                    datasets: [{
+                        data: [55.0, 44.4, 0.6],
+                        backgroundColor: [chartColors[3], chartColors[4], chartColors[5]],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: textColor,
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createRegionChart() {
+            const ctx = document.getElementById('regionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['IB Africa, Europe and Middle East', 'IB Americas', 'IB Asia-Pacific'],
+                    datasets: [
+                        {
+                            label: 'Schools',
+                            data: [37.0, 44.4, 18.5],
+                            backgroundColor: chartColors[0],
+                            borderColor: chartColors[0],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Students',
+                            data: [24.6, 63.2, 12.2],
+                            backgroundColor: chartColors[1],
+                            borderColor: chartColors[1],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createDPPassRateChart() {
+            const ctx = document.getElementById('dpPassRateChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [
+                        {
+                            label: 'Number of Students',
+                            data: [88246, 88541, 88766, 91442, 96726],
+                            backgroundColor: chartColors[2],
+                            borderColor: chartColors[2],
+                            borderWidth: 1,
+                            yAxisID: 'y',
+                            order: 2
+                        },
+                        {
+                            label: 'Pass Rate',
+                            data: [85.2, 89.0, 86.1, 80.0, 80.5],
+                            backgroundColor: 'rgba(0, 0, 0, 0)',
+                            borderColor: chartColors[0],
+                            borderWidth: 3,
+                            type: 'line',
+                            yAxisID: 'y1',
+                            order: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            max: 100,
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.dataset.label === 'Pass Rate') {
+                                        return `${context.dataset.label}: ${context.formattedValue}%`;
+                                    }
+                                    return `${context.dataset.label}: ${context.formattedValue}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createDiplomasAwardedChart() {
+            const ctx = document.getElementById('diplomasAwardedChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [
+                        {
+                            label: 'Diploma Awarded',
+                            data: [59.3, 62.1, 58.5, 53.2, 53.4],
+                            backgroundColor: chartColors[0],
+                            borderColor: chartColors[0],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Bilingual Diploma Awarded',
+                            data: [25.9, 26.9, 27.6, 26.8, 27.1],
+                            backgroundColor: chartColors[3],
+                            borderColor: chartColors[3],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stacked: true,
+                            max: 100,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            stacked: true,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createMeanGradeChart() {
+            const ctx = document.getElementById('meanGradeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'Mean Grade',
+                        data: [5.1, 5.3, 5.1, 4.8, 4.9],
+                        backgroundColor: chartColors[0],
+                        borderColor: chartColors[0],
+                        borderWidth: 3,
+                        pointBackgroundColor: chartColors[0],
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 2,
+                            max: 6,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createTotalPointsChart() {
+            const ctx = document.getElementById('totalPointsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'Mean Total Points',
+                        data: [31.3, 33.0, 32.0, 30.2, 30.3],
+                        backgroundColor: chartColors[1],
+                        borderColor: chartColors[1],
+                        borderWidth: 3,
+                        pointBackgroundColor: chartColors[1],
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 40,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createPointsDistributionChart() {
+            // Generate synthetic data for the point distribution curve
+            const points = Array.from({length: 46}, (_, i) => i);
+            const data2020 = generateCurveData([0, 0, 0, 0, 0, 0, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.4, 0.6, 0.8, 1.0, 1.3, 1.6, 2.0, 2.5, 3.0, 3.5, 4.0, 4.4, 4.6, 4.8, 5.0, 5.0, 4.8, 4.5, 4.2, 3.8, 3.5, 3.2, 2.9, 2.5, 2.1, 1.8, 1.5, 1.2, 0.9, 0.7, 0.5, 0.3, 0.1]);
+            const data2021 = generateCurveData([0, 0, 0, 0, 0, 0, 0, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.2, 1.6, 2.0, 2.4, 2.9, 3.5, 4.0, 4.5, 4.8, 5.0, 5.1, 5.0, 4.8, 4.5, 4.2, 3.8, 3.5, 3.2, 2.9, 2.6, 2.3, 2.0, 1.7, 1.4, 1.0, 0.7, 0.4, 0.2]);
+            const data2022 = generateCurveData([0, 0, 0, 0, 0, 0, 0.1, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.4, 0.6, 0.8, 1.1, 1.4, 1.7, 2.1, 2.6, 3.1, 3.6, 4.0, 4.3, 4.5, 4.7, 4.8, 4.7, 4.5, 4.2, 3.9, 3.5, 3.2, 2.9, 2.6, 2.3, 2.0, 1.7, 1.4, 1.1, 0.8, 0.6, 0.4, 0.2, 0.1]);
+            const data2023 = generateCurveData([0, 0, 0, 0, 0, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.4, 0.6, 0.8, 1.1, 1.5, 1.9, 2.3, 2.7, 3.1, 3.4, 3.7, 4.0, 4.2, 4.3, 4.3, 4.2, 4.0, 3.7, 3.4, 3.1, 2.8, 2.5, 2.2, 1.9, 1.7, 1.5, 1.2, 1.0, 0.8, 0.6, 0.4, 0.3, 0.2, 0.1, 0.1]);
+            const data2024 = generateCurveData([0, 0, 0, 0, 0, 0.1, 0.1, 0.1, 0.2, 0.2, 0.3, 0.4, 0.6, 0.8, 1.1, 1.5, 1.9, 2.4, 2.8, 3.2, 3.5, 3.8, 4.0, 4.1, 4.2, 4.2, 4.1, 3.9, 3.6, 3.3, 3.0, 2.7, 2.4, 2.1, 1.9, 1.7, 1.4, 1.2, 1.0, 0.8, 0.6, 0.4, 0.3, 0.2, 0.1, 0.1]);
+            
+            const ctx = document.getElementById('pointsDistributionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: points,
+                    datasets: [
+                        {
+                            label: '2020',
+                            data: data2020,
+                            backgroundColor: 'rgba(93, 92, 222, 0.1)',
+                            borderColor: chartColors[0],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: true
+                        },
+                        {
+                            label: '2021',
+                            data: data2021,
+                            backgroundColor: 'rgba(56, 178, 172, 0.1)',
+                            borderColor: chartColors[1],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: true
+                        },
+                        {
+                            label: '2022',
+                            data: data2022,
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            borderColor: chartColors[2],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: true
+                        },
+                        {
+                            label: '2023',
+                            data: data2023,
+                            backgroundColor: 'rgba(236, 72, 153, 0.1)',
+                            borderColor: chartColors[3],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: true
+                        },
+                        {
+                            label: '2024',
+                            data: data2024,
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderColor: chartColors[4],
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 6,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor,
+                                stepSize: 5
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            function generateCurveData(baseValues) {
+                return baseValues.map(v => v * 6); // Scale up to realistic percentages
+            }
+        }
+        
+        function createGroupedPointsChart() {
+            const ctx = document.getElementById('groupedPointsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['0 - 23', '24 - 29', '30 - 34', '35 - 39', '40 - 45'],
+                    datasets: [
+                        {
+                            label: '2020',
+                            data: [11.5, 26.6, 28.1, 22.9, 11.0],
+                            backgroundColor: chartColors[0]
+                        },
+                        {
+                            label: '2021',
+                            data: [8.4, 20.6, 26.9, 25.7, 18.4],
+                            backgroundColor: chartColors[1]
+                        },
+                        {
+                            label: '2022',
+                            data: [10.9, 23.1, 27.8, 23.5, 14.7],
+                            backgroundColor: chartColors[2]
+                        },
+                        {
+                            label: '2023',
+                            data: [16.1, 28.3, 26.9, 19.8, 8.9],
+                            backgroundColor: chartColors[3]
+                        },
+                        {
+                            label: '2024',
+                            data: [15.5, 28.8, 26.9, 19.5, 9.3],
+                            backgroundColor: chartColors[4]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 30,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createCPPassRateChart() {
+            const ctx = document.getElementById('cpPassRateChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [
+                        {
+                            label: 'Number of Students',
+                            data: [3001, 3559, 4894, 4786, 6429],
+                            backgroundColor: chartColors[2],
+                            borderColor: chartColors[2],
+                            borderWidth: 1,
+                            yAxisID: 'y',
+                            order: 2
+                        },
+                        {
+                            label: 'Pass Rate',
+                            data: [80.0, 83.9, 81.4, 75.2, 74.9],
+                            backgroundColor: 'rgba(0, 0, 0, 0)',
+                            borderColor: chartColors[1],
+                            borderWidth: 3,
+                            type: 'line',
+                            yAxisID: 'y1',
+                            order: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        y1: {
+                            beginAtZero: true,
+                            max: 100,
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.dataset.label === 'Pass Rate') {
+                                        return `${context.dataset.label}: ${context.formattedValue}%`;
+                                    }
+                                    return `${context.dataset.label}: ${context.formattedValue}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createCertificatesAwardedChart() {
+            const ctx = document.getElementById('certificatesAwardedChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [
+                        {
+                            label: 'Certificate Awarded',
+                            data: [78.2, 65.2, 79.7, 66.7, 70.8],
+                            backgroundColor: chartColors[1],
+                            borderColor: chartColors[1],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Bilingual Certificate Awarded',
+                            data: [1.8, 10.6, 8.5, 9.8, 4.2],
+                            backgroundColor: chartColors[4],
+                            borderColor: chartColors[4],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stacked: true,
+                            max: 100,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            stacked: true,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createCPMeanGradeChart() {
+            const ctx = document.getElementById('cpMeanGradeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'Mean Grade',
+                        data: [4.2, 4.5, 4.1, 3.8, 3.7],
+                        backgroundColor: chartColors[1],
+                        borderColor: chartColors[1],
+                        borderWidth: 3,
+                        pointBackgroundColor: chartColors[1],
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 2,
+                            max: 6,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createReflectiveProjectChart() {
+            const ctx = document.getElementById('reflectiveProjectChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['A', 'B', 'C', 'D', 'E'],
+                    datasets: [{
+                        label: 'Number of Students',
+                        data: [514, 1618, 2727, 1034, 214],
+                        backgroundColor: [
+                            '#10B981', // A - Good green
+                            '#6EE7B7', // B - Light green
+                            '#FBBF24', // C - Yellow
+                            '#F87171', // D - Light red
+                            '#EF4444'  // E - Dark red
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        function createSubjectGroupChart() {
+            const ctx = document.getElementById('subjectGroupChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Studies in Language and Literature', 'Language Acquisition', 'Individuals and Societies', 'Sciences', 'Mathematics', 'The Arts', 'Interdisciplinary'],
+                    datasets: [
+                        {
+                            label: 'Grade 7',
+                            data: [3.5, 13.8, 7.5, 9.6, 8.2, 3.5, 4.8],
+                            backgroundColor: '#10B981',
+                            borderWidth: 1,
+                            stack: 'Stack 0'
+                        },
+                        {
+                            label: 'Grade 6',
+                            data: [21.4, 31.0, 21.4, 15.6, 16.2, 12.6, 11.7],
+                            backgroundColor: '#34D399',
+                            borderWidth: 1,
+                            stack: 'Stack 0'
+                        },
+                        {
+                            label: 'Grade 5',
+                            data: [36.2, 27.5, 29.0, 20.3, 22.5, 23.0, 23.6],
+                            backgroundColor: '#6EE7B7',
+                            borderWidth: 1,
+                            stack: 'Stack 0'
+                        },
+                        {
+                            label: 'Grade 4',
+                            data: [28.1, 17.7, 24.2, 23.5, 22.8, 31.5, 25.2],
+                            backgroundColor: '#FBBF24',
+                            borderWidth: 1,
+                            stack: 'Stack 0'
+                        },
+                        {
+                            label: 'Grade 3',
+                            data: [7.5, 7.0, 11.0, 19.2, 16.1, 20.1, 21.8],
+                            backgroundColor: '#F59E0B',
+                            borderWidth: 1,
+                            stack: 'Stack 0'
+                        },
+                        {
+                            label: 'Grade 2',
+                            data: [1.1, 1.4, 3.8, 8.3, 9.5, 4.4, 8.1],
+                            backgroundColor: '#F87171',
+                            borderWidth: 1,
+                            stack: 'Stack 0'
+                        },
+                        {
+                            label: 'Grade 1',
+                            data: [0.1, 0.1, 0.4, 1.3, 2.6, 0.3, 1.5],
+                            backgroundColor: '#EF4444',
+                            borderWidth: 1,
+                            stack: 'Stack 0'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            stacked: true,
+                            max: 100,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            stacked: true,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Add subject group filter event listener
+            document.getElementById('subjectGroup').addEventListener('change', function() {
+                const selectedGroup = this.value;
+                let filteredLabels;
+                let filteredData;
+                
+                if (selectedGroup === 'all') {
+                    // Show all subject groups
+                    filteredLabels = ['Studies in Language and Literature', 'Language Acquisition', 'Individuals and Societies', 'Sciences', 'Mathematics', 'The Arts', 'Interdisciplinary'];
+                    filteredData = [
+                        [3.5, 13.8, 7.5, 9.6, 8.2, 3.5, 4.8], // Grade 7
+                        [21.4, 31.0, 21.4, 15.6, 16.2, 12.6, 11.7], // Grade 6
+                        [36.2, 27.5, 29.0, 20.3, 22.5, 23.0, 23.6], // Grade 5
+                        [28.1, 17.7, 24.2, 23.5, 22.8, 31.5, 25.2], // Grade 4
+                        [7.5, 7.0, 11.0, 19.2, 16.1, 20.1, 21.8], // Grade 3
+                        [1.1, 1.4, 3.8, 8.3, 9.5, 4.4, 8.1], // Grade 2
+                        [0.1, 0.1, 0.4, 1.3, 2.6, 0.3, 1.5]  // Grade 1
+                    ];
+                } else if (selectedGroup === 'lang-lit') {
+                    // Show language and literature subjects
+                    filteredLabels = ['ENGLISH A: LANGUAGE AND LITERATURE HL', 'ENGLISH A: LANGUAGE AND LITERATURE SL', 'ENGLISH A: LITERATURE HL', 'ENGLISH A: LITERATURE SL', 'SPANISH A: LANGUAGE AND LITERATURE HL'];
+                    filteredData = [
+                        [3.2, 3.9, 1.0, 5.0, 3.6], // Grade 7
+                        [19.5, 23.9, 13.7, 26.2, 22.1], // Grade 6
+                        [34.4, 38.1, 36.9, 35.6, 35.8], // Grade 5
+                        [29.5, 23.8, 35.5, 24.7, 29.7], // Grade 4
+                        [9.2, 6.1, 8.9, 5.7, 7.2], // Grade 3
+                        [1.3, 1.1, 1.6, 0.6, 0.6], // Grade 2
+                        [0.1, 0.1, 0.0, 0.0, 0.0]  // Grade 1
+                    ];
+                } else if (selectedGroup === 'lang-acq') {
+                    // Show language acquisition subjects
+                    filteredLabels = ['ENGLISH B HL', 'FRENCH B HL', 'SPANISH B HL', 'FRENCH B SL', 'SPANISH B SL'];
+                    filteredData = [
+                        [13.3, 19.4, 15.9, 13.5, 9.3], // Grade 7
+                        [51.2, 33.9, 28.4, 25.6, 19.1], // Grade 6
+                        [25.1, 20.0, 26.0, 28.6, 34.7], // Grade 5
+                        [7.5, 13.1, 17.7, 21.3, 25.0], // Grade 4
+                        [1.9, 9.4, 7.6, 8.3, 8.0], // Grade 3
+                        [0.1, 3.2, 1.6, 1.5, 1.3], // Grade 2
+                        [0.0, 0.2, 0.2, 0.1, 0.1]  // Grade 1
+                    ];
+                } else if (selectedGroup === 'ind-soc') {
+                    // Show individuals and societies subjects
+                    filteredLabels = ['ECONOMICS HL', 'HISTORY HL', 'PSYCHOLOGY HL', 'BUSINESS MANAGEMENT HL', 'GEOGRAPHY HL'];
+                    filteredData = [
+                        [15.0, 2.9, 5.7, 7.7, 14.3], // Grade 7
+                        [27.6, 14.8, 24.2, 24.8, 28.6], // Grade 6
+                        [26.7, 27.6, 29.5, 32.2, 32.9], // Grade 5
+                        [19.3, 31.7, 23.6, 23.3, 18.0], // Grade 4
+                        [8.2, 13.9, 11.2, 8.4, 5.0], // Grade 3
+                        [2.3, 5.3, 3.2, 2.2, 0.5], // Grade 2
+                        [0.2, 0.6, 0.5, 0.2, 0.1]  // Grade 1
+                    ];
+                } else if (selectedGroup === 'sciences') {
+                    // Show sciences subjects
+                    filteredLabels = ['BIOLOGY HL', 'CHEMISTRY HL', 'PHYSICS HL', 'BIOLOGY SL', 'CHEMISTRY SL'];
+                    filteredData = [
+                        [7.1, 13.8, 19.6, 5.6, 8.6], // Grade 7
+                        [16.7, 20.3, 16.7, 12.9, 14.9], // Grade 6
+                        [19.9, 20.5, 21.3, 21.0, 19.3], // Grade 5
+                        [29.5, 19.7, 18.7, 24.6, 21.0], // Grade 4
+                        [17.0, 17.1, 17.4, 22.4, 18.6], // Grade 3
+                        [7.2, 6.4, 4.7, 9.0, 12.6], // Grade 2
+                        [0.7, 1.1, 0.6, 1.5, 2.7]  // Grade 1
+                    ];
+                } else if (selectedGroup === 'mathematics') {
+                    // Show mathematics subjects
+                    filteredLabels = ['MATH ANALYSIS HL', 'MATH ANALYSIS SL', 'MATH APPS HL', 'MATH APPS SL'];
+                    filteredData = [
+                        [14.6, 9.0, 8.0, 4.2], // Grade 7
+                        [21.6, 17.6, 15.7, 12.0], // Grade 6
+                        [24.0, 24.6, 23.6, 19.3], // Grade 5
+                        [21.3, 23.8, 25.1, 22.2], // Grade 4
+                        [11.3, 15.2, 15.7, 19.5], // Grade 3
+                        [5.3, 7.3, 8.3, 14.1], // Grade 2
+                        [0.9, 1.1, 2.1, 5.1]  // Grade 1
+                    ];
+                } else if (selectedGroup === 'arts') {
+                    // Show arts subjects
+                    filteredLabels = ['VISUAL ARTS HL', 'VISUAL ARTS SL', 'THEATRE HL', 'MUSIC HL', 'FILM HL'];
+                    filteredData = [
+                        [2.0, 0.7, 12.5, 6.2, 3.6], // Grade 7
+                        [12.2, 5.8, 24.1, 20.9, 15.3], // Grade 6
+                        [24.7, 16.3, 27.4, 34.2, 25.4], // Grade 5
+                        [31.5, 41.1, 19.4, 24.5, 30.7], // Grade 4
+                        [23.6, 23.8, 9.9, 9.4, 14.2], // Grade 3
+                        [3.2, 7.3, 2.5, 1.7, 3.8], // Grade 2
+                        [0.2, 0.4, 0.3, 0.1, 0.4]  // Grade 1
+                    ];
+                } else if (selectedGroup === 'interdisciplinary') {
+                    // Show interdisciplinary subjects
+                    filteredLabels = ['ENVIRONMENTAL SYSTEMS AND SOCIETIES SL', 'LITERATURE AND PERFORMANCE SL'];
+                    filteredData = [
+                        [4.8, 5.2], // Grade 7
+                        [11.5, 19.8], // Grade 6
+                        [23.4, 34.1], // Grade 5
+                        [25.3, 22.4], // Grade 4
+                        [22.1, 12.9], // Grade 3
+                        [8.2, 2.4], // Grade 2
+                        [1.5, 0.2]  // Grade 1
+                    ];
+                }
+                
+                chart.data.labels = filteredLabels;
+                
+                for (let i = 0; i < 7; i++) {
+                    chart.data.datasets[i].data = filteredData[i];
+                }
+                
+                chart.update();
+            });
+        }
+    </script>
+</body>
+</html>

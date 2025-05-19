@@ -1,0 +1,72 @@
+{
+    "Grind Papers": [
+      {
+        "title": "IB Docs",
+        "url": "https://dl.ibdocs.re/",
+        "desc": "Repository for IB past papers, mark schemes, books, and more",
+        "star": true
+      },
+      {
+        "title": "Revision Village Archive",
+        "url": "https://revisionvillage.pages.dev/homepage",
+        "desc": "An archive for Revision Village.",
+        "star": true
+      },
+      {
+        "title": "Revision Town",
+        "url": "https://revision-town.pages.dev/",
+        "desc": "Another archive for Revision Village (supports mobile)",
+        "star": false
+      },
+      {
+        "title": "exam-mate",
+        "url": "https://www.exam-mate.com/",
+        "desc": "By topic revision",
+        "star": false
+      }
+    ],
+    "Study Notes": [
+      {
+        "title": "Save My Exams Archive",
+        "url": "https://smearchive.pages.dev/dp/",
+        "desc": "An archive for notes from Save My Exams.",
+        "star": false
+      }
+    ],
+    "IAs": [
+      {
+        "title": "Clastify",
+        "url": "https://clastify.com/ia",
+        "desc": "IA examples for all subjects",
+        "star": true
+      }
+    ],
+    "Research": [
+      {
+        "title": "Sci-hub",
+        "url": "https://sci-hub.se/",
+        "desc": "Unlocks paywall for all research papers",
+        "star": true
+      },
+      {
+        "title": "CiteCount",
+        "url": "https://cite.js.org/",
+        "desc": "Counts number of words without citations for your IB coursework",
+        "star": true
+      }
+    ],
+    "Forums": [
+      {
+        "title": "r/IBO Subreddit",
+        "url": "https://www.reddit.com/r/IBO/",
+        "desc": "A subreddit for IB students to discuss and share resources",
+        "star": true
+      },
+      {
+        "title": "r/IBO Discord",
+        "url": "https://discord.com/invite/ibo",
+        "desc": "A Discord server for IB students to discuss and share resources",
+        "star": true
+      }
+    ]
+  }
