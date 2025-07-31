@@ -619,7 +619,6 @@ function createCitationRow(tableBody, group, citationText) {
   checkbox.addEventListener('change', function () {
     state.includedCitations.set(citationText, this.checked);
     updateFilteredWordCount();
-    handleEditorInput();
     saveCitationStates();
   });
   const slider = document.createElement('div');
