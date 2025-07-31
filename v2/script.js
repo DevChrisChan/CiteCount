@@ -271,7 +271,7 @@ function setupResizablePanels() {
     const containerWidth = container.offsetWidth;
     const movementX = currentX - startX;
     const newEditorWidth = (startWidthEditor + movementX) / containerWidth * 100;
-    const newCitationsWidth = (startWidthCitations - movementX) / containerWidth * 100;
+    const newCitationsWidth = 100 - newEditorWidth;
     const minWidth = 30;
     const maxWidth = 70;
 

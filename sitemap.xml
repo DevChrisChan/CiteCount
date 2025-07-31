@@ -145,12 +145,32 @@
   <priority>0.70</priority>
 </url>
 <url>
+  <loc>https://cite.js.org/blogs/economics-ia-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
   <loc>https://cite.js.org/blogs/effective-reading-strategies.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
+  <loc>https://cite.js.org/blogs/ess-ia-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
   <loc>https://cite.js.org/blogs/extended-essay-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/geography-ia-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/history-ia-word-count.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
@@ -185,6 +205,16 @@
   <priority>0.70</priority>
 </url>
 <url>
+  <loc>https://cite.js.org/blogs/physics-ia-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/psychology-ia-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
   <loc>https://cite.js.org/blogs/research-skills-source-evaluation.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
@@ -196,6 +226,11 @@
 </url>
 <url>
   <loc>https://cite.js.org/blogs/tok-essay-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/tok-exhibition-word-count.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>

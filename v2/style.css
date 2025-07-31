@@ -147,6 +147,10 @@
       border-color: var(--border-dark);
     }
 
+    #citations-panel {
+      border-color: var(--border-dark) !important;
+    }
+
     .toolbar button,
     .manage-btn {
       background: #2a2a2a;
@@ -457,15 +461,14 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    margin-top: 1rem;
-    border-radius: 1rem;
+    margin-top: 0;
+    border-radius: 0.5rem;
     overflow: hidden;
     transition: all 0.2s ease;
-    height: calc(100% - 3rem);
   }
 
   .quote-table-container {
-    max-height: calc(100% - 3rem);
+    max-height: 100%;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #888 #F0F0F0;
@@ -490,7 +493,7 @@
 
   .quote-table th,
   .quote-table td {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     text-align: left;
     border-width: 1px;
   }
@@ -508,19 +511,19 @@
   }
 
   .quote-table tr:first-child th:first-child {
-    border-top-left-radius: 1rem;
+    border-top-left-radius: 0.5rem;
   }
 
   .quote-table tr:first-child th:last-child {
-    border-top-right-radius: 1rem;
+    border-top-right-radius: 0.5rem;
   }
 
   .quote-table tr:last-child td:first-child {
-    border-bottom-left-radius: 1rem;
+    border-bottom-left-radius: 0.5rem;
   }
 
   .quote-table tr:last-child td:last-child {
-    border-bottom-right-radius: 1rem;
+    border-bottom-right-radius: 0.5rem;
   }
 
   .quote-table .citation-clickable {
@@ -648,7 +651,6 @@
     border-radius: 0.5rem;
     overflow: hidden;
     position: relative;
-    height: calc(100% - 3rem);
   }
 
   .editor-container.dragover {
