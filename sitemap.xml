@@ -5,74 +5,203 @@
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
+<!-- Main Pages -->
 <url>
   <loc>https://cite.js.org/</loc>
-<changefreq>weekly</changefreq>
+  <changefreq>weekly</changefreq>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://cite.js.org/countdown/index.html</loc>
-<changefreq>daily</changefreq>
-  <priority>0.90</priority>
-</url>
-<url>
-  <loc>https://cite.js.org/exam-timer/index.html</loc>
-<changefreq>weekly</changefreq>
-  <priority>0.90</priority>
-</url>
-<url>
-  <loc>https://cite.js.org/blogs/index.html</loc>
-<changefreq>weekly</changefreq>
+  <loc>https://cite.js.org/product.html</loc>
+  <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
+  <loc>https://cite.js.org/pro.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/download.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/contact.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/advertise.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/privacy-policy.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/terms-of-service.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
+</url>
+
+<!-- Tools and Features -->
+<url>
+  <loc>https://cite.js.org/countdown/</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/countdown/schedule.html</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/exam-timer/</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/exam-timer/start.html</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.85</priority>
+</url>
+
+<!-- IB Resources -->
+<url>
+  <loc>https://cite.js.org/ib-resources/</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/ib-resources/correspondence.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+
+<!-- Statistical Analysis -->
+<url>
+  <loc>https://cite.js.org/bulletin-analysis/</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/bulletin-analysis/m24.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/bulletin-analysis/n24.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.60</priority>
+</url>
+
+<!-- Blog Section -->
+<url>
+  <loc>https://cite.js.org/blogs/</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/all-new-citecount.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/analytics.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/avoiding-plagiarism-ib-coursework.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
   <loc>https://cite.js.org/blogs/biology-ia-word-count.html</loc>
-<changefreq>monthly</changefreq>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/business-management-ia-word-count.html</loc>
+  <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
   <loc>https://cite.js.org/blogs/chemistry-ia-word-count.html</loc>
-<changefreq>monthly</changefreq>
+  <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://cite.js.org/blogs/extended-essay-word-count.html/</loc>
-<changefreq>monthly</changefreq>
+  <loc>https://cite.js.org/blogs/critical-thinking-skills.html</loc>
+  <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://cite.js.org/blogs/integration-with-apple-intelligence.html/</loc>
-<changefreq>monthly</changefreq>
+  <loc>https://cite.js.org/blogs/draft-to-final-ib-revision-checklist.html</loc>
+  <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://cite.js.org/blogs/introducing-ib-exam-countdowns.html/</loc>
-<changefreq>monthly</changefreq>
+  <loc>https://cite.js.org/blogs/effective-reading-strategies.html</loc>
+  <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://cite.js.org/blogs/our-promise-for-safety/</loc>
-<changefreq>monthly</changefreq>
+  <loc>https://cite.js.org/blogs/extended-essay-word-count.html</loc>
+  <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://cite.js.org/privacy-policy.html/</loc>
-<changefreq>yearly</changefreq>
-  <priority>0.50</priority>
-</url>
-<url>
-  <loc>https://cite.js.org/terms-of-service.html/</loc>
-<changefreq>yearly</changefreq>
-  <priority>0.50</priority>
-</url>
-<url>
-  <loc>https://cite.js.org/contact.html/</loc>
-<changefreq>monthly</changefreq>
+  <loc>https://cite.js.org/blogs/ib-math-internal-assessment-guide.html</loc>
+  <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://cite.js.org/advertise.html/</loc>
-<changefreq>monthly</changefreq>
-  <priority>0.50</priority>
+  <loc>https://cite.js.org/blogs/integration-with-apple-intelligence.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/introducing-ib-exam-countdowns.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/managing-multiple-deadlines.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/note-taking-strategies.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/our-promise-for-safety.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/research-skills-source-evaluation.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/time-management-for-ib-students.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/tok-essay-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/understanding-academic-referencing-styles.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
 </url>
 </urlset>
