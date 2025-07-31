@@ -234,6 +234,14 @@ Coming soon:
                     <path d="M4 20h16"></path>
                   </svg>
                 </button>
+                <button id="copy-btn" data-tooltip="Copy Text" onclick="copyText()"
+                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-copy-action">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </button>
                 <button data-tooltip="Clear Text" onclick="clearText()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-clear-text-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -285,13 +293,25 @@ Coming soon:
 
         <div id="gutter" class="gutter hidden lg:block" data-lta-event="v2-gutter-resize"></div>
 
-        <div id="citations-panel" class="split-panel hidden lg:block shadow-sm overflow-hidden" style="border-width: 1px; border-color: var(--border-light); border-radius: 0.5rem; position: relative;">
+        <div id="citations-panel" class="split-panel hidden lg:block shadow-sm" style="border-width: 1px; border-color: var(--border-light); border-radius: 0.5rem; position: relative; display: flex; flex-direction: column;">
           <div id="detectSubject" style="display: none;"></div>
-          <div id="citations-table-container" class="quote-table-container" style="max-height: 100%; overflow-y: auto;">
+          <div id="citations-table-container" class="quote-table-container" style="flex: 1; overflow-y: auto;">
             <table class="quote-table" style="user-select: none;">
               <thead>
                 <tr>
-                  <th class="w-5/8">Citation</th>
+                  <th class="w-5/8">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                      <span>Citation</span>
+                      <button onclick="toggleSort('citation')" class="sort-btn" title="Sort citations" style="display: flex; align-items: center; gap: 0.25rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M3 6h18"/>
+                          <path d="M6 12h12"/>
+                          <path d="M9 18h6"/>
+                        </svg>
+                        <span class="sort-text" style="font-size: 0.75rem; font-weight: normal;">Sort</span>
+                      </button>
+                    </div>
+                  </th>
                   <th class="w-1/8">Words</th>
                   <th class="w-1/8">Occurrences</th>
                   <th class="w-1/8">Include in Total</th>
@@ -300,6 +320,17 @@ Coming soon:
               <tbody id="quotes-table-body">
               </tbody>
             </table>
+          </div>
+          <div id="citations-search-container" class="citations-search-container" style="border-top: 1px solid var(--border-light); padding: 0.75rem; background: var(--background-light);">
+            <div class="search-input-wrapper" style="position: relative;">
+              <input type="text" id="citations-search-input" placeholder="Search citations..." 
+                     style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
+                     oninput="filterCitations(this.value)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
+                   style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
           </div>
         </div>
       </div>
@@ -316,11 +347,23 @@ Coming soon:
         </button>
       </div>
       <span style="opacity: 75%;">Click on a citation to jump to the respective citation in text.</span>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto" style="flex: 1; overflow-y: auto;">
         <table class="quote-table">
           <thead>
             <tr>
-              <th class="w-2/5">Citation</th>
+              <th class="w-2/5">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <span>Citation</span>
+                  <button onclick="toggleSort('citation')" class="sort-btn" title="Sort citations" style="display: flex; align-items: center; gap: 0.25rem;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M3 6h18"/>
+                      <path d="M6 12h12"/>
+                      <path d="M9 18h6"/>
+                    </svg>
+                    <span class="sort-text" style="font-size: 0.75rem; font-weight: normal;">Sort</span>
+                  </button>
+                </div>
+              </th>
               <th class="w-1/5">Words</th>
               <th class="w-1/5">Occurrences</th>
               <th class="w-1/5">Count in Total</th>
@@ -329,6 +372,17 @@ Coming soon:
           <tbody id="quotes-table-body-mobile">
           </tbody>
         </table>
+      </div>
+      <div id="citations-search-container-mobile" class="citations-search-container" style="border-top: 1px solid var(--border-light); padding: 0.75rem; margin-top: 1rem;">
+        <div class="search-input-wrapper" style="position: relative;">
+          <input type="text" id="citations-search-input-mobile" placeholder="Search citations..." 
+                 style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
+                 oninput="filterCitations(this.value, true)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
+               style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
       </div>
     </div>
 

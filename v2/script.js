@@ -17,7 +17,11 @@ const state = {
     charsWithCitations: true,
     citations: true
   },
-  currentOccurrenceIndex: new Map()
+  currentOccurrenceIndex: new Map(),
+  sortState: {
+    field: 'none', // 'none', 'citation'
+    direction: 'asc' // 'asc', 'desc'
+  }
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -43,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const savedCitationStates = localStorage.getItem('citationStates');
   if (savedCitationStates) {
     state.includedCitations = new Map(JSON.parse(savedCitationStates));
+  }
+
+  const savedSortState = localStorage.getItem('sortState');
+  if (savedSortState) {
+    state.sortState = JSON.parse(savedSortState);
   }
 
   const isPremium = localStorage.getItem('isPremium');
@@ -72,12 +81,29 @@ document.addEventListener('DOMContentLoaded', function () {
   setupResizablePanels();
   setupDragAndDrop();
   updateWordCount();
+  updateSortButtonStates();
   // setupAnnouncementBanner();
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeOverlays();
     }
+  });
+
+  // Handle clicks outside the dropdown to close it
+  document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('other-apps-dropdown');
+    const button = document.getElementById('other-apps-btn');
+    
+    // If clicking outside both the dropdown and the button, close the dropdown
+    if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+
+  // Prevent dropdown from closing when clicking inside it
+  document.getElementById('other-apps-dropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
   });
 });
 
@@ -128,6 +154,10 @@ function saverawData() {
 function saveCitationStates() {
   const citationStatesArray = Array.from(state.includedCitations.entries());
   localStorage.setItem('citationStates', JSON.stringify(citationStatesArray));
+}
+
+function saveSortState() {
+  localStorage.setItem('sortState', JSON.stringify(state.sortState));
 }
 
 function saveSettings() {
@@ -434,21 +464,21 @@ function pasteFromClipboard() {
 function toggleCitationsOverlay(show) {
   const overlay = document.getElementById('citations-overlay');
   const background = document.getElementById('overlay-background');
-  overlay.style.display = show ? 'block' : 'none';
+  overlay.style.display = show ? 'flex' : 'none';
   background.style.display = show ? 'block' : 'none';
 }
 
 function toggleSettingsOverlay(show) {
   const overlay = document.getElementById('settings-overlay');
   const background = document.getElementById('overlay-background');
-  overlay.style.display = show ? 'block' : 'none';
+  overlay.style.display = show ? 'flex' : 'none';
   background.style.display = show ? 'block' : 'none';
 }
 
 function toggleHelpOverlay(show) {
   const overlay = document.getElementById('help-overlay');
   const background = document.getElementById('overlay-background');
-  overlay.style.display = show ? 'block' : 'none';
+  overlay.style.display = show ? 'flex' : 'none';
   background.style.display = show ? 'block' : 'none';
 }
 
@@ -456,6 +486,50 @@ function formatText(command) {
   document.execCommand(command, false, null);
   document.getElementById('editor').focus();
   handleEditorInput();
+}
+
+function copyText() {
+  const editor = document.getElementById('editor');
+  const copyBtn = document.getElementById('copy-btn');
+  const text = editor.innerText;
+  
+  if (text.trim() === '') {
+    showNotification('No text to copy!', false, null, 'warning');
+    return;
+  }
+  
+  navigator.clipboard.writeText(text).then(() => {
+    // Change tooltip to "Copied!"
+    copyBtn.setAttribute('data-tooltip', 'Copied!');
+    showNotification('Text copied to clipboard!', false, null, 'success');
+    
+    // Reset tooltip back to "Copy Text" after 2 seconds
+    setTimeout(() => {
+      copyBtn.setAttribute('data-tooltip', 'Copy Text');
+    }, 2000);
+  }).catch(err => {
+    // Fallback for older browsers
+    try {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(editor);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      document.execCommand('copy');
+      selection.removeAllRanges();
+      
+      // Change tooltip to "Copied!"
+      copyBtn.setAttribute('data-tooltip', 'Copied!');
+      showNotification('Text copied to clipboard!', false, null, 'success');
+      
+      // Reset tooltip back to "Copy Text" after 2 seconds
+      setTimeout(() => {
+        copyBtn.setAttribute('data-tooltip', 'Copy Text');
+      }, 2000);
+    } catch (fallbackErr) {
+      showNotification('Failed to copy text. Please try selecting and copying manually.', false, null, 'error');
+    }
+  });
 }
 
 function clearText() {
@@ -566,11 +640,116 @@ function findCitations(text) {
   return citations;
 }
 
+function toggleSort(field) {
+  // If already sorting by this field, toggle direction
+  if (state.sortState.field === field) {
+    if (state.sortState.direction === 'asc') {
+      state.sortState.direction = 'desc';
+    } else if (state.sortState.direction === 'desc') {
+      // Reset to no sorting
+      state.sortState.field = 'none';
+      state.sortState.direction = 'asc';
+    }
+  } else {
+    // Start sorting by this field in ascending order
+    state.sortState.field = field;
+    state.sortState.direction = 'asc';
+  }
+  
+  saveSortState();
+  updateSortButtonStates();
+  updateCitationsTables();
+}
+
+function updateSortButtonStates() {
+  const sortButtons = document.querySelectorAll('.sort-btn');
+  
+  // Define different SVG icons and text for different states
+  const sortStates = {
+    none: {
+      icon: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+               <path d="M3 6h18"/>
+               <path d="M6 12h12"/>
+               <path d="M9 18h6"/>
+             </svg>`,
+      text: 'Sort'
+    },
+    asc: {
+      icon: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+               <path d="M3 6h18"/>
+               <path d="M7 14l5-5 5 5"/>
+             </svg>`,
+      text: 'A-Z'
+    },
+    desc: {
+      icon: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18"/>
+                <path d="M17 10l-5 5-5-5"/>
+              </svg>`,
+      text: 'Z-A'
+    }
+  };
+  
+  sortButtons.forEach(btn => {
+    btn.classList.remove('active', 'asc', 'desc');
+    
+    let currentState = sortStates.none;
+    let titleText = 'Sort A-Z';
+    
+    if (state.sortState.field === 'citation') {
+      btn.classList.add('active');
+      if (state.sortState.direction === 'asc') {
+        btn.classList.add('asc');
+        currentState = sortStates.asc;
+        titleText = 'Sort Z-A';
+      } else {
+        btn.classList.add('desc');
+        currentState = sortStates.desc;
+        titleText = 'Sort chronological order';
+      }
+    }
+    
+    btn.innerHTML = `${currentState.icon}<span class="sort-text" style="font-size: 0.75rem; font-weight: normal;">${currentState.text}</span>`;
+    btn.title = titleText;
+  });
+}
+
+function sortCitationGroups(citationGroups) {
+  if (state.sortState.field === 'none') {
+    // Return in original (chronological) order
+    return new Map(citationGroups);
+  }
+  
+  if (state.sortState.field === 'citation') {
+    // Convert to array, sort, then back to Map
+    const sortedEntries = Array.from(citationGroups.entries()).sort((a, b) => {
+      const textA = a[0].toLowerCase(); // citation text
+      const textB = b[0].toLowerCase();
+      
+      if (state.sortState.direction === 'asc') {
+        return textA.localeCompare(textB);
+      } else {
+        return textB.localeCompare(textA);
+      }
+    });
+    
+    return new Map(sortedEntries);
+  }
+  
+  return citationGroups;
+}
+
 function updateCitationsTables() {
   const desktopTableBody = document.getElementById('quotes-table-body');
   const mobileTableBody = document.getElementById('quotes-table-body-mobile');
   desktopTableBody.innerHTML = '';
   mobileTableBody.innerHTML = '';
+
+  // Clear search inputs when table is updated
+  const desktopSearchInput = document.getElementById('citations-search-input');
+  const mobileSearchInput = document.getElementById('citations-search-input-mobile');
+  if (desktopSearchInput) desktopSearchInput.value = '';
+  if (mobileSearchInput) mobileSearchInput.value = '';
 
   const rawData = document.getElementById('editor').innerText.trim();
   const selection = window.getSelection();
@@ -587,7 +766,8 @@ function updateCitationsTables() {
     desktopTableBody.appendChild(noCitationsRow);
     mobileTableBody.appendChild(noCitationsRow.cloneNode(true));
   } else {
-    state.citationGroups.forEach((group, citationText) => {
+    const sortedCitationGroups = sortCitationGroups(state.citationGroups);
+    sortedCitationGroups.forEach((group, citationText) => {
       createCitationRow(desktopTableBody, group, citationText);
       createCitationRow(mobileTableBody, group, citationText);
     });
@@ -631,6 +811,75 @@ function createCitationRow(tableBody, group, citationText) {
   row.appendChild(occurrencesCell);
   row.appendChild(toggleCell);
   tableBody.appendChild(row);
+}
+
+function filterCitations(searchTerm, isMobile = false) {
+  const tableBodyId = isMobile ? 'quotes-table-body-mobile' : 'quotes-table-body';
+  const tableBody = document.getElementById(tableBodyId);
+  const rows = tableBody.querySelectorAll('tr');
+  
+  // Remove any existing "no search results" row
+  const existingNoResultsRow = tableBody.querySelector('tr[data-no-results]');
+  if (existingNoResultsRow) {
+    existingNoResultsRow.remove();
+  }
+  
+  // If there's no search term, show all rows
+  if (!searchTerm.trim()) {
+    rows.forEach(row => {
+      row.style.display = '';
+    });
+    return;
+  }
+  
+  // Convert search term to lowercase for case-insensitive search
+  const searchLower = searchTerm.toLowerCase();
+  let visibleRowsCount = 0;
+  
+  rows.forEach(row => {
+    // Skip the "no citations" or empty state rows (these have colspan="4")
+    if (row.querySelector('td[colspan="4"]')) {
+      return;
+    }
+    
+    // Get the citation text from the first cell
+    const citationCell = row.querySelector('td:first-child');
+    if (citationCell) {
+      const citationText = citationCell.textContent.toLowerCase();
+      const fullCitationText = (citationCell.title || citationCell.textContent).toLowerCase();
+      
+      // Show row if search term is found in citation text
+      if (citationText.includes(searchLower) || fullCitationText.includes(searchLower)) {
+        row.style.display = '';
+        visibleRowsCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  });
+  
+  // Add "no search results" row if no citations match the search
+  if (visibleRowsCount === 0 && searchTerm.trim()) {
+    const noResultsRow = document.createElement('tr');
+    noResultsRow.setAttribute('data-no-results', 'true');
+    noResultsRow.innerHTML = `<td colspan="4" class="text-center" style="opacity: 0.7; font-style: italic;">No citations found matching "${searchTerm}"</td>`;
+    tableBody.appendChild(noResultsRow);
+  }
+  
+  // Sync search between desktop and mobile if needed
+  if (!isMobile) {
+    const mobileSearchInput = document.getElementById('citations-search-input-mobile');
+    if (mobileSearchInput && mobileSearchInput.value !== searchTerm) {
+      mobileSearchInput.value = searchTerm;
+      filterCitations(searchTerm, true);
+    }
+  } else {
+    const desktopSearchInput = document.getElementById('citations-search-input');
+    if (desktopSearchInput && desktopSearchInput.value !== searchTerm) {
+      desktopSearchInput.value = searchTerm;
+      filterCitations(searchTerm, false);
+    }
+  }
 }
 
 function jumpToCitation(citationText) {
