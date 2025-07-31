@@ -239,4 +239,54 @@
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
+<url>
+  <loc>https://cite.js.org/blogs/academic-writing-skills-ib.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/building-academic-portfolio-ib.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/cas-reflection-writing-guide.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/ib-exam-techniques-strategies.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/stress-management-ib-diploma.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/studying-abroad-ib-students.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/transitioning-from-ib-to-university.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/ucas-personal-statement-guide-ib-students.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/understanding-ib-predicted-grades.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://cite.js.org/blogs/university-application-timeline-ib-students.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
 </urlset>
