@@ -259,13 +259,101 @@
 </head>
 <body>
     <div class="search-container">
-        <div class="app-name">CiteCount</div>
+        <a href="/" class="app-name" style="text-decoration:none;">CiteCount</a>
         <input type="text" id="search" placeholder="Search resources...">
     </div>
     
     <div class="content">
         <div class="container">
-            <div id="categories"></div>
+            <div id="categories">
+                <!-- Grind Papers -->
+                <div class="category">
+                    <div class="category-header">Grind Papers</div>
+                    <ul class="link-list">
+                        <li class="link-item starred" onclick="window.open('https://dl.ibdocs.re/', '_blank', 'noopener,noreferrer')">
+                            <a href="https://dl.ibdocs.re/">IB Docs</a>
+                            <div class="description">Repository for IB past papers, mark schemes, books, and more</div>
+                            <div class="site-url">https://dl.ibdocs.re/</div>
+                            <span class="star-indicator">★</span>
+                        </li>
+                        <li class="link-item starred" onclick="window.open('https://revisionvillage.pages.dev/homepage', '_blank', 'noopener,noreferrer')">
+                            <a href="https://revisionvillage.pages.dev/homepage">Revision Village Archive</a>
+                            <div class="description">An archive for Revision Village.</div>
+                            <div class="site-url">https://revisionvillage.pages.dev/homepage</div>
+                            <span class="star-indicator">★</span>
+                        </li>
+                        <li class="link-item" onclick="window.open('https://revision-town.pages.dev/', '_blank', 'noopener,noreferrer')">
+                            <a href="https://revision-town.pages.dev/">Revision Town</a>
+                            <div class="description">Another archive for Revision Village (supports mobile)</div>
+                            <div class="site-url">https://revision-town.pages.dev/</div>
+                        </li>
+                        <li class="link-item" onclick="window.open('https://www.exam-mate.com/', '_blank', 'noopener,noreferrer')">
+                            <a href="https://www.exam-mate.com/">exam-mate</a>
+                            <div class="description">By topic revision</div>
+                            <div class="site-url">https://www.exam-mate.com/</div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Study Notes -->
+                <div class="category">
+                    <div class="category-header">Study Notes</div>
+                    <ul class="link-list">
+                        <li class="link-item" onclick="window.open('https://smearchive.pages.dev/dp/', '_blank', 'noopener,noreferrer')">
+                            <a href="https://smearchive.pages.dev/dp/">Save My Exams Archive</a>
+                            <div class="description">An archive for notes from Save My Exams.</div>
+                            <div class="site-url">https://smearchive.pages.dev/dp/</div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- IAs -->
+                <div class="category">
+                    <div class="category-header">IAs</div>
+                    <ul class="link-list">
+                        <li class="link-item starred" onclick="window.open('https://clastify.com/ia', '_blank', 'noopener,noreferrer')">
+                            <a href="https://clastify.com/ia">Clastify</a>
+                            <div class="description">IA examples for all subjects</div>
+                            <div class="site-url">https://clastify.com/ia</div>
+                            <span class="star-indicator">★</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Research -->
+                <div class="category">
+                    <div class="category-header">Research</div>
+                    <ul class="link-list">
+                        <li class="link-item starred" onclick="window.open('https://sci-hub.se/', '_blank', 'noopener,noreferrer')">
+                            <a href="https://sci-hub.se/">Sci-hub</a>
+                            <div class="description">Unlocks paywall for all research papers</div>
+                            <div class="site-url">https://sci-hub.se/</div>
+                            <span class="star-indicator">★</span>
+                        </li>
+                        <li class="link-item starred" onclick="window.open('https://cite.js.org/', '_blank', 'noopener,noreferrer')">
+                            <a href="https://cite.js.org/">CiteCount</a>
+                            <div class="description">Counts number of words without citations for your IB coursework</div>
+                            <div class="site-url">https://cite.js.org/</div>
+                            <span class="star-indicator">★</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Forums -->
+                <div class="category">
+                    <div class="category-header">Forums</div>
+                    <ul class="link-list">
+                        <li class="link-item starred" onclick="window.open('https://www.reddit.com/r/IBO/', '_blank', 'noopener,noreferrer')">
+                            <a href="https://www.reddit.com/r/IBO/">r/IBO Subreddit</a>
+                            <div class="description">A subreddit for IB students to discuss and share resources</div>
+                            <div class="site-url">https://www.reddit.com/r/IBO/</div>
+                            <span class="star-indicator">★</span>
+                        </li>
+                        <li class="link-item starred" onclick="window.open('https://discord.com/invite/ibo', '_blank', 'noopener,noreferrer')">
+                            <a href="https://discord.com/invite/ibo">r/IBO Discord</a>
+                            <div class="description">A Discord server for IB students to discuss and share resources</div>
+                            <div class="site-url">https://discord.com/invite/ibo</div>
+                            <span class="star-indicator">★</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <a href="/contact.html?source=ib-resources" style="text-decoration: none!important;"><button class="suggest-button">Suggest a Resource</button></a>
             <div class="disclaimer">
                 If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html" style="color: #bdc3c7; text-decoration: underline;">here</a> for further details and instructions.
@@ -273,7 +361,7 @@
         </div>
     </div>
 
-    <script>
+    <!--<script>
         const categoriesContainer = document.getElementById('categories');
         const searchInput = document.getElementById('search');
 
@@ -358,6 +446,6 @@
                 console.error('Error loading resources:', error);
                 categoriesContainer.innerHTML = '<div class="no-results">Error loading resources</div>';
             });
-    </script>
+    </script>-->
 </body>
 </html>
