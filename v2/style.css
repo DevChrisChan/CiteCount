@@ -8,6 +8,7 @@
     --border-dark: #374151;
     --header-light: #F0F0F0;
     --header-dark: #1F1F1F;
+    --accent-color: #1E40AF;
     --highlight-included: rgba(0, 207, 0, 0.3);
     --highlight-excluded: rgba(255, 0, 0, 0.3);
   }
@@ -198,6 +199,14 @@
       color: #fff!important;
     }
 
+    .confirmation-overlay button:first-child:hover {
+      background: #B91C1C;
+    }
+
+    .confirmation-overlay button:last-child:hover {
+      background: #4B5563;
+    }
+
     .announcement-banner {
       background: #2e6f40;
       color: #fff;
@@ -237,6 +246,20 @@
 
     .citations-search-container input::placeholder {
       color: #6B7280 !important;
+    }
+
+    /* Dark mode info button tooltips */
+    .info-dialogue {
+      background: rgba(36, 36, 36, 0.95);
+      border: 1px solid var(--border-dark);
+    }
+
+    .info-dialogue h3 {
+      color: #fff;
+    }
+
+    .info-dialogue p {
+      color: #D1D5DB;
     }
   }
 
@@ -306,6 +329,15 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    .confirmation-overlay button:first-child:hover {
+      background: #B91C1C;
+    }
+
+    .confirmation-overlay button:last-child:hover {
+      background: #D1D5DB;
+    }
+
     #notification {
       background-color: rgba(255, 255, 255, 0.1);
       color: #fff;
@@ -676,8 +708,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
-    max-height: 80vh;
+    width: min(90%, 700px);
+    max-height: 85vh;
     z-index: 60;
     padding: 1.5rem;
     overflow-y: auto;
@@ -685,6 +717,18 @@
     flex-direction: column;
     border-radius: 1rem;
     border: 1px solid #E5E7EB;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .citations-overlay,
+    .settings-overlay,
+    .help-overlay {
+      background: rgba(17, 24, 39, 0.95);
+      border-color: #374151;
+    }
   }
 
   .citations-overlay h2,
@@ -693,15 +737,25 @@
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
-
   }
 
   .citations-overlay button,
-  .settings-overlay button,
   .help-overlay button {
     background: none;
     border: none;
     cursor: pointer;
+  }
+
+  /* Ensure settings action buttons keep their background */
+  .settings-overlay #resetSettings {
+    background: #ef4444 !important;
+    color: #fff !important;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .settings-overlay #resetSettings:hover {
+    background: #dc2626 !important;
   }
 
   .overlay-background {
@@ -709,6 +763,9 @@
     inset: 0;
     z-index: 50;
     display: none;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   .split {
@@ -831,11 +888,93 @@
     background: #DC2626;
     color: #FFF;
     margin-right: 1rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .confirmation-overlay button:first-child:hover {
+    background: #B91C1C;
   }
 
   .confirmation-overlay button:last-child {
     background: #E5E7EB;
     color: #333;
+    transition: background-color 0.2s ease;
+  }
+
+  .confirmation-overlay button:last-child:hover {
+    background: #D1D5DB;
+  }
+
+  /* Info button styles */
+  .info-button {
+    position: relative;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .info-button:hover {
+    opacity: 1 !important;
+  }
+
+  /* Info dialogue modal */
+  .info-dialogue {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    z-index: 70;
+    padding: 1.5rem;
+    display: none;
+    border-radius: 1rem;
+    border: 1px solid #E5E7EB;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .info-dialogue h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .info-dialogue p {
+    margin-bottom: 1.5rem;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .info-dialogue button {
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    background: #1E40AF;
+    color: #FFF;
+    transition: background-color 0.2s ease;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .info-dialogue button:hover {
+    background: #1D4ED8;
+  }
+
+  /* Tab underline animation */
+  .panel-tab .tab-underline {
+    transition: opacity 0.2s ease;
+  }
+
+  .panel-tab.active .tab-underline {
+    opacity: 1 !important;
   }
 
   .manage-btn {
@@ -1494,5 +1633,129 @@ pre {
 #forceDarkTheme.active,#restartApp.active,#restartDebug.active {
   background: var(--tab-button-active);
 }
+}
+
+/* Format dropdown styles */
+#format-dropdown {
+  z-index: 60;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+#format-dropdown button {
+  color: var(--text-primary);
+  transition: background-color 0.2s ease;
+}
+
+#format-dropdown button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.dark #format-dropdown {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark #format-dropdown button {
+  color: var(--text-primary);
+}
+
+.dark #format-dropdown button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+/* Font size slider styles */
+#fontSizeSlider {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+#fontSizeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#fontSizeSlider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#fontSizeSlider::-webkit-slider-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+
+#fontSizeSlider::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: #e5e7eb;
+  border-radius: 4px;
+  border: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  #fontSizeSlider::-webkit-slider-track {
+    background: #374151;
+  }
+  
+  #fontSizeSlider::-moz-range-track {
+    background: #374151;
+  }
+}
+
+/* Font family dropdown styles */
+#fontFamilyDropdown {
+  z-index: 1000;
+}
+
+#fontFamilyDropdown .font-option {
+  color: var(--text-primary);
+  transition: background-color 0.2s ease;
+}
+
+#fontFamilyButton {
+  transition: border-color 0.2s ease;
+}
+
+#fontFamilyButton:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  #fontFamilyDropdown {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+  
+  #fontFamilyDropdown .font-option {
+    color: var(--text-dark);
+  }
+  
+  #fontFamilyDropdown .font-option:hover {
+    background: #374151;
+  }
+  
+  #fontFamilyButton {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+  }
 }
 

@@ -137,7 +137,7 @@ Coming soon:
               d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7.92 9.234v.102a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-1.29.998-1.979 2.34-1.979 1.308 0 2.168.689 2.168 1.67 0 .928-.482 1.359-1.686 1.91l-.344.154C11.379 11.54 11 12.21 11 13.381v.119a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-.516.138-.723.55-.912l.345-.155c1.445-.654 2.529-1.514 2.529-3.39v-.103c0-1.978-1.72-3.441-4.164-3.441-2.478 0-4.336 1.428-4.336 3.734zm2.58 7.757c0 .867.659 1.509 1.491 1.509.85 0 1.509-.642 1.509-1.509 0-.867-.659-1.491-1.509-1.491-.832 0-1.491.624-1.491 1.491z" />
           </svg>
         </button>
-        <button id="settings-btn" class="p-2 rounded-md" data-tooltip="Settings" onclick="toggleSettingsOverlay(true)" data-lta-event="v2-settings-click">
+        <button id="settings-btn" class="p-2 rounded-md" data-tooltip="Settings [⌘,]" onclick="toggleSettingsOverlay(true)" data-lta-event="v2-settings-click">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
             <path d="M0 0h48v48h-48z" fill="none" />
             <path
@@ -209,32 +209,88 @@ Coming soon:
             <div class="toolbar flex gap-2" style="justify-content: space-between; align-items: center;">
               <!-- Left-aligned buttons -->
               <div style="display: flex; gap: 0.5rem;">
-                <button data-tooltip="Bold" onclick="formatText('bold')"
-                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-bold-action">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                    <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
-                    <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
-                  </svg>
-                </button>
-                <button data-tooltip="Italic" onclick="formatText('italic')"
-                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-italic-action">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                    <path d="M16 4l-8 16"></path>
-                    <path d="M12 4h4"></path>
-                    <path d="M8 20h4"></path>
-                  </svg>
-                </button>
-                <button data-tooltip="Underline" onclick="formatText('underline')"
-                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-underline-action">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                    <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
-                    <path d="M4 20h16"></path>
-                  </svg>
-                </button>
-                <button id="copy-btn" data-tooltip="Copy Text" onclick="copyText()"
+                <!-- Desktop formatting buttons -->
+                <div class="hidden md:flex gap-2">
+                  <button data-tooltip="Bold (Cmd + B)" onclick="formatText('bold')"
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-bold-action">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                      <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
+                      <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
+                    </svg>
+                  </button>
+                  <button data-tooltip="Italic (Cmd + I)" onclick="formatText('italic')"
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-italic-action">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                      <path d="M16 4l-8 16"></path>
+                      <path d="M12 4h4"></path>
+                      <path d="M8 20h4"></path>
+                    </svg>
+                  </button>
+                  <button data-tooltip="Underline (Cmd + U)" onclick="formatText('underline')"
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-underline-action">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                      <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
+                      <path d="M4 20h16"></path>
+                    </svg>
+                  </button>
+                  <button data-tooltip="Strikethrough (Cmd + Shift + X)" onclick="formatText('strikethrough')"
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-strikethrough-action">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                      <path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
+                      <path d="M14 12a4 4 0 0 1 0 8H6"></path>
+                      <line x1="4" y1="12" x2="20" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+                
+                <!-- Mobile formatting dropdown -->
+                <div class="relative md:hidden">
+                  <button id="format-dropdown-btn" data-tooltip="Text Formatting" onclick="toggleFormatDropdown()"
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-format-dropdown">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                      <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
+                      <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
+                    </svg>
+                  </button>
+                  <div id="format-dropdown" class="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 hidden min-w-32">
+                    <button onclick="formatText('bold'); toggleFormatDropdown()" class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                        <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
+                        <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
+                      </svg>
+                      Bold
+                    </button>
+                    <button onclick="formatText('italic'); toggleFormatDropdown()" class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                        <path d="M16 4l-8 16"></path>
+                        <path d="M12 4h4"></path>
+                        <path d="M8 20h4"></path>
+                      </svg>
+                      Italic
+                    </button>
+                    <button onclick="formatText('underline'); toggleFormatDropdown()" class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                        <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
+                        <path d="M4 20h16"></path>
+                      </svg>
+                      Underline
+                    </button>
+                    <button onclick="formatText('strikethrough'); toggleFormatDropdown()" class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                        <path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
+                        <path d="M14 12a4 4 0 0 1 0 8H6"></path>
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                      </svg>
+                      Strikethrough
+                    </button>
+                  </div>
+                </div>
+                <button id="copy-btn" data-tooltip="Copy Text (Cmd + C)" onclick="copyText()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-copy-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -242,7 +298,7 @@ Coming soon:
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
                 </button>
-                <button data-tooltip="Clear Text" onclick="clearText()"
+                <button data-tooltip="Clear Text (Cmd + A, Delete)" onclick="clearText()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-clear-text-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -295,13 +351,19 @@ Coming soon:
 
         <div id="citations-panel" class="split-panel hidden lg:block shadow-sm" style="border-width: 1px; border-color: var(--border-light); border-radius: 0.5rem; position: relative; display: flex; flex-direction: column;">
           <div id="detectSubject" style="display: none;"></div>
-          <div id="citations-table-container" class="quote-table-container" style="flex: 1; overflow-y: auto;">
+          
+          <!-- Panel Header with Title (only for Word Count Details) -->
+          <div id="panel-header" style="padding: 1rem; border-bottom: 1px solid var(--border-light); background: var(--background-light); display: none;">
+            <h3 id="panel-title" style="margin: 0; font-size: 1rem; font-weight: 600; color: var(--text-primary);">Word Count Details</h3>
+          </div>
+          
+          <div id="citations-table-container" class="quote-table-container" style="flex: 1; overflow-y: auto; display: block;">
             <table class="quote-table" style="user-select: none;">
               <thead>
                 <tr>
                   <th class="w-5/8">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
-                      <span>Citation</span>
+                      <span>In-text Citation</span>
                       <button onclick="toggleSort('citation')" class="sort-btn" title="Sort citations" style="display: flex; align-items: center; gap: 0.25rem;">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                           <path d="M3 6h18"/>
@@ -314,23 +376,162 @@ Coming soon:
                   </th>
                   <th class="w-1/8">Words</th>
                   <th class="w-1/8">Occurrences</th>
-                  <th class="w-1/8">Include in Total</th>
+                  <th class="w-1/8">Exclude Citation</th>
+                </tr>
+                <!-- Search row pinned below header -->
+                <tr id="citations-search-row" style="display: none;">
+                  <td colspan="4" style="padding: 0.75rem; background: var(--background-light); border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 10;">
+                    <div class="search-input-wrapper" style="position: relative;">
+                      <input type="text" id="citations-search-input" placeholder="Search citations..." 
+                             style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
+                             oninput="filterCitations(this.value)">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
+                           style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                  </td>
                 </tr>
               </thead>
               <tbody id="quotes-table-body">
               </tbody>
             </table>
           </div>
-          <div id="citations-search-container" class="citations-search-container" style="border-top: 1px solid var(--border-light); padding: 0.75rem; background: var(--background-light);">
-            <div class="search-input-wrapper" style="position: relative;">
-              <input type="text" id="citations-search-input" placeholder="Search citations..." 
-                     style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
-                     oninput="filterCitations(this.value)">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
-                   style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+          
+          <!-- More Word Count Details Content -->
+          <div id="word-count-details-container" style="flex: 1; padding: 1rem; background: var(--background-primary); display: none; overflow-y: auto;">
+            <div class="space-y-4">
+              
+              <!-- Main counters with descriptions -->
+              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-weight: 500; color: var(--text-primary);">Words without Citations</span>
+                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('wordsNoCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <span id="details-words-no-citations" style="font-weight: 600; color: var(--accent-color);">0</span>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                  Word count excluding all citations and references
+                </div>
+              </div>
+
+              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-weight: 500; color: var(--text-primary);">Total Words</span>
+                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('wordsWithCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <span id="details-words-with-citations" style="font-weight: 600; color: var(--accent-color);">0</span>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                  Total word count including all citations
+                </div>
+              </div>
+
+              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-weight: 500; color: var(--text-primary);">Characters without Citations</span>
+                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('charsNoCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <span id="details-chars-no-citations" style="font-weight: 600; color: var(--accent-color);">0</span>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                  Character count excluding all citations and references
+                </div>
+              </div>
+
+              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-weight: 500; color: var(--text-primary);">Total Characters</span>
+                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('charsWithCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <span id="details-chars-with-citations" style="font-weight: 600; color: var(--accent-color);">0</span>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                  Total character count including all citations
+                </div>
+              </div>
+
+              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-weight: 500; color: var(--text-primary);">Citations</span>
+                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('citations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <span id="details-citations" style="font-weight: 600; color: var(--accent-color);">0</span>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                  Number of unique citations detected
+                </div>
+              </div>
+            
+              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-weight: 500; color: var(--text-primary);">Speaking Time</span>
+                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('speaking')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <span id="speaking-time" style="font-weight: 600; color: var(--accent-color);">0 min</span>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                  Based on 150 words per minute average speaking rate
+                </div>
+              </div>
+              
+              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-weight: 500; color: var(--text-primary);">Reading Time</span>
+                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('reading')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <span id="reading-time" style="font-weight: 600; color: var(--accent-color);">0 min</span>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                  Based on 200 words per minute average reading speed
+                </div>
+              </div>
             </div>
+          </div>
+          
+          <!-- Tab Selector at Bottom -->
+          <div id="panel-tab-selector" style="border-top: 1px solid var(--border-light); display: flex; background: var(--background-light);">
+            <button id="citations-tab" class="panel-tab active" onclick="switchPanelTab('citations')" style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
+              Citations
+            </button>
+            <button id="details-tab" class="panel-tab" onclick="switchPanelTab('details')" style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
+              Word Count Details
+            </button>
           </div>
         </div>
       </div>
@@ -338,7 +539,7 @@ Coming soon:
 
     <div id="citations-overlay" class="citations-overlay">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold">Citations</h2>
+        <h2 id="mobile-panel-title" class="text-lg font-semibold">Citations</h2>
         <button onclick="toggleCitationsOverlay(false)"
           class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -353,7 +554,7 @@ Coming soon:
             <tr>
               <th class="w-2/5">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
-                  <span>Citation</span>
+                  <span>In-text Citation</span>
                   <button onclick="toggleSort('citation')" class="sort-btn" title="Sort citations" style="display: flex; align-items: center; gap: 0.25rem;">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M3 6h18"/>
@@ -366,29 +567,172 @@ Coming soon:
               </th>
               <th class="w-1/5">Words</th>
               <th class="w-1/5">Occurrences</th>
-              <th class="w-1/5">Count in Total</th>
+              <th class="w-1/5">Exclude Citation</th>
+            </tr>
+            <!-- Search row pinned below header -->
+            <tr id="citations-search-row-mobile" style="display: none;">
+              <td colspan="4" style="padding: 0.75rem; background: var(--background-light); border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 10;">
+                <div class="search-input-wrapper" style="position: relative;">
+                  <input type="text" id="citations-search-input-mobile" placeholder="Search citations..." 
+                         style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
+                         oninput="filterCitations(this.value, true)">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
+                       style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </td>
             </tr>
           </thead>
           <tbody id="quotes-table-body-mobile">
           </tbody>
         </table>
       </div>
-      <div id="citations-search-container-mobile" class="citations-search-container" style="border-top: 1px solid var(--border-light); padding: 0.75rem; margin-top: 1rem;">
-        <div class="search-input-wrapper" style="position: relative;">
-          <input type="text" id="citations-search-input-mobile" placeholder="Search citations..." 
-                 style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
-                 oninput="filterCitations(this.value, true)">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
-               style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+      
+      <!-- Mobile More Word Count Details Content -->
+      <div id="word-count-details-container-mobile" style="padding: 1rem; background: var(--background-primary); display: none; overflow-y: auto; flex: 1;">
+        <!-- Words without Citations -->
+        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-weight: 500; color: var(--text-primary);">Words (no citations)</span>
+              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('wordsNoCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+              </button>
+            </div>
+            <span id="details-words-no-citations-mobile" style="font-weight: 600; color: var(--accent-color);">0</span>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary);">
+            Word count excluding in-text citations and references
+          </div>
         </div>
+
+        <!-- Total Words -->
+        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-weight: 500; color: var(--text-primary);">Total Words</span>
+              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('wordsWithCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+              </button>
+            </div>
+            <span id="details-words-with-citations-mobile" style="font-weight: 600; color: var(--accent-color);">0</span>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary);">
+            Complete word count including all citations and references
+          </div>
+        </div>
+
+        <!-- Characters without Citations -->
+        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-weight: 500; color: var(--text-primary);">Characters (no citations)</span>
+              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('charsNoCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+              </button>
+            </div>
+            <span id="details-chars-no-citations-mobile" style="font-weight: 600; color: var(--accent-color);">0</span>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary);">
+            Character count excluding in-text citations and references
+          </div>
+        </div>
+
+        <!-- Total Characters -->
+        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-weight: 500; color: var(--text-primary);">Total Characters</span>
+              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('charsWithCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+              </button>
+            </div>
+            <span id="details-chars-with-citations-mobile" style="font-weight: 600; color: var(--accent-color);">0</span>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary);">
+            Complete character count including all citations and references
+          </div>
+        </div>
+
+        <!-- Citations -->
+        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-weight: 500; color: var(--text-primary);">Citations</span>
+              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('citations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+              </button>
+            </div>
+            <span id="details-citations-mobile" style="font-weight: 600; color: var(--accent-color);">0</span>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary);">
+            Total number of detected in-text citations and references
+          </div>
+        </div>
+
+        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-weight: 500; color: var(--text-primary);">Speaking Time</span>
+              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('speaking')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+              </button>
+            </div>
+            <span id="speaking-time-mobile" style="font-weight: 600; color: var(--accent-color);">0 min</span>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary);">
+            Based on 150 words per minute average speaking rate
+          </div>
+        </div>
+        
+        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-weight: 500; color: var(--text-primary);">Reading Time</span>
+              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('reading')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+              </button>
+            </div>
+            <span id="reading-time-mobile" style="font-weight: 600; color: var(--accent-color);">0 min</span>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary);">
+            Based on 200 words per minute average reading speed
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mobile Tab Selector at Bottom -->
+      <div id="panel-tab-selector-mobile" style="border-top: 1px solid var(--border-light); display: flex; background: var(--background-light); margin-top: auto;">
+        <button id="citations-tab-mobile" class="panel-tab active" onclick="switchPanelTabMobile('citations')" style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
+          Citations
+        </button>
+        <button id="details-tab-mobile" class="panel-tab" onclick="switchPanelTabMobile('details')" style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
+          Word Count Details
+        </button>
       </div>
     </div>
 
     <div id="settings-overlay" class="settings-overlay">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold">Settings</h2>
+        <div class="flex items-center gap-3">
+          <h2 class="text-lg font-semibold">Settings</h2>
+          <span class="text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 rounded font-mono">⌘,</span>
+        </div>
         <button onclick="toggleSettingsOverlay(false)"
           class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -397,114 +741,181 @@ Coming soon:
         </button>
       </div>
       <div class="p-4">
-        <div class="space-y-4">
+        <div class="space-y-6">
           <div>
-            <h3 class="text-lg font-medium mb-2">Editing</h3>
-            <div class="flex items-center justify-between p-2 rounded-md">
-              <span>AutoSave</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="autoSave" class="sr-only peer" checked
-                  onchange="toggleSetting('autoSave', this.checked)">
-                <div
-                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+            <h3 class="text-lg font-medium mb-4">Editing & Interface</h3>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-3 rounded-md" style="background: #f3f4f6;">
+                <div>
+                  <span class="font-medium">AutoSave</span>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Automatically save your work with every change</p>
                 </div>
-              </label>
-            </div>
-            <p class="text-sm text-gray-500 mt-1">When enabled, your work will be saved on every edit.</p>
-            <div class="flex items-center justify-between p-2 rounded-md mt-2">
-              <span>Warn on leave</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="warnLeave" class="sr-only peer" checked
-                  onchange="toggleSetting('warnLeave', this.checked)">
-                <div
-                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="autoSave" class="sr-only peer" checked
+                    onchange="toggleSetting('autoSave', this.checked)">
+                  <div
+                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                  </div>
+                </label>
+              </div>
+
+              <div class="flex items-center justify-between p-3 rounded-md" style="background: #f3f4f6;">
+                <div>
+                  <span class="font-medium">Warn on leave</span>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Show warning when leaving the page if AutoSave is disabled</p>
                 </div>
-              </label>
-            </div>
-            <p class="text-sm text-gray-500 mt-1">When enabled, CiteCount will warn when you leave or reload the page,
-              if AutoSave is disabled.</p>
-            <div class="flex items-center justify-between p-2 rounded-md mt-2">
-              <span>Spell check</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="spellCheck" class="sr-only peer" checked
-                  onchange="toggleSetting('spellCheck', this.checked)">
-                <div
-                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="warnLeave" class="sr-only peer" checked
+                    onchange="toggleSetting('warnLeave', this.checked)">
+                  <div
+                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                  </div>
+                </label>
+              </div>
+
+              <div class="flex items-center justify-between p-3 rounded-md" style="background: #f3f4f6;">
+                <div>
+                  <span class="font-medium">Spell check</span>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Enable native browser spell checking</p>
                 </div>
-              </label>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="spellCheck" class="sr-only peer" checked
+                    onchange="toggleSetting('spellCheck', this.checked)">
+                  <div
+                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                  </div>
+                </label>
+              </div>
+
+              <div class="flex items-center justify-between p-3 rounded-md" style="background: #f3f4f6;">
+                <div>
+                  <span class="font-medium">Focus</span>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Hide all content beyond the main app for distraction-free writing</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="focus" class="sr-only peer"
+                    onchange="toggleSetting('focus', this.checked)">
+                  <div
+                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                  </div>
+                </label>
+              </div>
+
+              <div class="p-3 rounded-md" style="background: #f3f4f6;">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <span class="font-medium">Font Size</span>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Adjust the text size in the editor</p>
+                  </div>
+                  <span id="fontSizeDisplay" class="text-sm text-gray-600 dark:text-gray-300 font-mono">16px</span>
+                </div>
+                <input type="range" id="fontSizeSlider" min="12" max="24" value="16" 
+                  class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                  oninput="updateFontSize(this.value); document.getElementById('fontSizeDisplay').textContent = this.value + 'px'">
+              </div>
+
+              <div class="p-3 rounded-md" style="background: #f3f4f6;">
+                <div class="mb-3">
+                  <span class="font-medium">Font Family</span>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Choose the typeface for the editor</p>
+                </div>
+                <div class="relative">
+                  <button type="button" id="fontFamilyButton" 
+                    class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-left flex items-center justify-between"
+                    onclick="toggleFontFamilyDropdown()">
+                    <span id="fontFamilyButtonText" style="font-family: system-ui;">System UI</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div id="fontFamilyDropdown" class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg hidden">
+                    <div class="max-h-48 overflow-y-auto">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="system-ui" style="font-family: system-ui;" onclick="selectFontFamily('system-ui', 'System UI')">
+                        System UI
+                      </div>
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="serif" style="font-family: serif;" onclick="selectFontFamily('serif', 'Serif')">
+                        Serif
+                      </div>
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="monospace" style="font-family: monospace;" onclick="selectFontFamily('monospace', 'Monospace')">
+                        Monospace
+                      </div>
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Times New Roman', serif" style="font-family: 'Times New Roman', serif;" onclick="selectFontFamily('\'Times New Roman\', serif', 'Times New Roman')">
+                        Times New Roman
+                      </div>
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Arial', sans-serif" style="font-family: 'Arial', sans-serif;" onclick="selectFontFamily('\'Arial\', sans-serif', 'Arial')">
+                        Arial
+                      </div>
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Helvetica', sans-serif" style="font-family: 'Helvetica', sans-serif;" onclick="selectFontFamily('\'Helvetica\', sans-serif', 'Helvetica')">
+                        Helvetica
+                      </div>
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Georgia', serif" style="font-family: 'Georgia', serif;" onclick="selectFontFamily('\'Georgia\', serif', 'Georgia')">
+                        Georgia
+                      </div>
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Courier New', monospace" style="font-family: 'Courier New', monospace;" onclick="selectFontFamily('\'Courier New\', monospace', 'Courier New')">
+                        Courier New
+                      </div>
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Verdana', sans-serif" style="font-family: 'Verdana', sans-serif;" onclick="selectFontFamily('\'Verdana\', sans-serif', 'Verdana')">
+                        Verdana
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p class="text-sm text-gray-500 mt-1">When enabled, native spell checking will be used.</p>
           </div>
+
           <div>
-            <!--<h3 class="text-lg font-medium mb-2">Counters</h3>
-            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md">
-              <span>Words without citations counter</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="wordsNoCitations" class="sr-only peer" checked
-                  onchange="toggleSetting('wordsNoCitations', this.checked)">
-                <div
-                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                </div>
-              </label>
+            <h3 class="text-lg font-medium mb-4">Counter Display</h3>
+            <div class="space-y-3">
+              <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                Customize which counters appear in the top bar and their order. Use the arrow buttons to reorder.
+              </p>
+              <div id="counter-settings-container" class="space-y-3">
+                <!-- Counter settings will be dynamically populated here -->
+              </div>
             </div>
-            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
-              <span>Characters without citations counter</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="charsNoCitations" class="sr-only peer" checked
-                  onchange="toggleSetting('charsNoCitations', this.checked)">
-                <div
-                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                </div>
-              </label>
-            </div>
-            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
-              <span>Words with citations counter</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="wordsWithCitations" class="sr-only peer" checked
-                  onchange="toggleSetting('wordsWithCitations', this.checked)">
-                <div
-                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                </div>
-              </label>
-            </div>
-            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
-              <span>Characters with citations counter</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="charsWithCitations" class="sr-only peer" checked
-                  onchange="toggleSetting('charsWithCitations', this.checked)">
-                <div
-                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                </div>
-              </label>
-            </div>
-            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-md mt-2">
-              <span>Citations counter</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="citations" class="sr-only peer" checked
-                  onchange="toggleSetting('citations', this.checked)">
-                <div
-                  class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                </div>
-              </label>
-            </div>-->
           </div>
-          <h3 class="text-lg font-medium mb-2">General</h3>
-          <button id="resetSettings" class="mt-4 px-4 py-2 text-white rounded-md"
-            onclick="showNotification('Are you sure you want to reset all settings? This action cannot be undone. Please save your text before reloading to avoid losing work.', true, () => { resetSettings(); }, 'confirmation')"
-            style="background-color: red;">Reset
-            All Settings</button>
-          <p class="text-sm text-gray-500 mt-2">Requires app restart to take effect. Customised settings and AutoSave
-            data will be lost. Recommended if CiteCount is not working as expected.</p>
-          <p class="text-sm text-gray-500 mt-2">Settings from the old CiteCount will soon be ported to the new version.
-          </p>
-          <p class="text-sm text-gray-500 mt-2">CiteCount version 3.0 (3A69c)</p>
-          <p class="text-sm text-gray-500 mt-2">What's new</p>
-          <ul class="list-disc pl-5 text-sm text-gray-500">
-            <li>CiteCount has been completely rewritten, adding an array of new features on user interface you are
-              familiar with.</li>
-            <li>Visit the <a href="/blogs/all-new-citecount.html" style="text-decoration: underline;">update blog</a> to
-              read more about the new update.</li>
-          </ul>
+
+          <div>
+            <h3 class="text-lg font-medium mb-4">General</h3>
+            <div class="text-center p-3 rounded-md" style="background: #f3f4f6;">
+              <button id="resetSettings" class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-md font-medium transition-colors"
+                onclick="showNotification('Are you sure you want to reset all settings? This action cannot be undone. Please save your text before reloading to avoid losing work.', true, () => { resetSettings(); }, 'confirmation')">
+                Reset All Settings
+              </button>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 max-w-md mx-auto">
+                This will reset all customized settings and AutoSave data. Requires app restart to take effect. 
+                Recommended if CiteCount is not working as expected.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-medium mb-4">About CiteCount</h3>
+            <div class="space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-md">
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Version</div>
+                  <div class="font-medium">3.1 (3A45b)</div>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-md">
+                  <div class="text-sm text-gray-500 dark:text-gray-400">Status</div>
+                  <div class="font-medium text-green-600 dark:text-green-400">Active</div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-medium mb-2">What's new</h4>
+                <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                  <li>Added citation search</li>
+                  <li>More word count details</li>
+                  <li>Better blogs navigation</li>
+                  <li>More IB resources</li>
+                  <li>Added customisation of font styles</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1248,6 +1659,19 @@ Coming soon:
       </section>
     </footer>
   </div>
+  
+  <!-- Info Dialogue Modal -->
+  <div id="info-dialogue" class="info-dialogue">
+    <h3 id="info-dialogue-title">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+      </svg>
+      <span id="info-dialogue-title-text">Information</span>
+    </h3>
+    <p id="info-dialogue-content"></p>
+    <button onclick="closeInfoDialogue()">Got it</button>
+  </div>
+  
   <script src="/v2/script.js"></script>
   <script src="/v2/notify.js"></script>
   <script src="/v2/dev.js"></script>

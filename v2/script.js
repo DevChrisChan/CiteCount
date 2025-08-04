@@ -15,7 +15,19 @@ const state = {
     charsNoCitations: true,
     wordsWithCitations: true,
     charsWithCitations: true,
-    citations: true
+    citations: true,
+    fontSize: 16,
+    fontFamily: 'system-ui',
+    // Counter display settings
+    counters: {
+      wordsNoCitations: { enabled: true, order: 0, shortName: 'Words without Citations', tooltip: 'Words without Citations' },
+      wordsWithCitations: { enabled: true, order: 1, shortName: 'Total Words', tooltip: 'Total Words' },
+      charsNoCitations: { enabled: true, order: 2, shortName: 'Characters without Citations', tooltip: 'Characters without Citations' },
+      charsWithCitations: { enabled: true, order: 3, shortName: 'Total Characters', tooltip: 'Total Characters' },
+      citations: { enabled: true, order: 4, shortName: 'Citations', tooltip: 'Citations' },
+      speakingTime: { enabled: false, order: 5, shortName: 'Speaking Time', tooltip: 'Speaking Time' },
+      readingTime: { enabled: false, order: 6, shortName: 'Reading Time', tooltip: 'Reading Time' }
+    }
   },
   currentOccurrenceIndex: new Map(),
   sortState: {
@@ -40,7 +52,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const savedSettings = localStorage.getItem('settings');
   if (savedSettings) {
-    state.settings = JSON.parse(savedSettings);
+    const parsed = JSON.parse(savedSettings);
+    // Migrate old settings to new counter structure
+    if (parsed && !parsed.counters) {
+      state.settings = { ...state.settings, ...parsed };
+      // Initialize counters based on old settings
+      if (parsed.wordsNoCitations !== undefined) {
+        state.settings.counters.wordsNoCitations.enabled = parsed.wordsNoCitations;
+      }
+      if (parsed.wordsWithCitations !== undefined) {
+        state.settings.counters.wordsWithCitations.enabled = parsed.wordsWithCitations;
+      }
+      if (parsed.charsNoCitations !== undefined) {
+        state.settings.counters.charsNoCitations.enabled = parsed.charsNoCitations;
+      }
+      if (parsed.charsWithCitations !== undefined) {
+        state.settings.counters.charsWithCitations.enabled = parsed.charsWithCitations;
+      }
+      if (parsed.citations !== undefined) {
+        state.settings.counters.citations.enabled = parsed.citations;
+      }
+    } else {
+      state.settings = { ...state.settings, ...parsed };
+    }
+    updateSettingsUI();
+  } else {
+    // Initialize settings UI even when no saved settings exist
     updateSettingsUI();
   }
 
@@ -81,12 +118,43 @@ document.addEventListener('DOMContentLoaded', function () {
   setupResizablePanels();
   setupDragAndDrop();
   updateWordCount();
+  updateCounterDisplay(); // Initialize counter display
+  updateCounterSettings(); // Initialize counter settings display
   updateSortButtonStates();
   // setupAnnouncementBanner();
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeOverlays();
+    }
+    
+    // Handle shortcuts that require modifier keys
+    if (e.metaKey || e.ctrlKey) {
+      switch (e.key.toLowerCase()) {
+        case ',':
+          // Command/Ctrl + , opens settings (standard macOS/Windows shortcut)
+          e.preventDefault();
+          toggleSettingsOverlay(true);
+          break;
+        case 'b':
+          e.preventDefault();
+          formatText('bold');
+          break;
+        case 'i':
+          e.preventDefault();
+          formatText('italic');
+          break;
+        case 'u':
+          e.preventDefault();
+          formatText('underline');
+          break;
+        case 'x':
+          if (e.shiftKey) {
+            e.preventDefault();
+            formatText('strikethrough');
+          }
+          break;
+      }
     }
   });
 
@@ -98,6 +166,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // If clicking outside both the dropdown and the button, close the dropdown
     if (!dropdown.contains(e.target) && !button.contains(e.target)) {
       dropdown.classList.add('hidden');
+    }
+
+    // Handle format dropdown
+    const formatDropdown = document.getElementById('format-dropdown');
+    const formatButton = document.getElementById('format-dropdown-btn');
+    
+    if (formatDropdown && formatButton && !formatDropdown.contains(e.target) && !formatButton.contains(e.target)) {
+      formatDropdown.classList.add('hidden');
+    }
+
+    // Handle font family dropdown
+    const fontFamilyDropdown = document.getElementById('fontFamilyDropdown');
+    const fontFamilyButton = document.getElementById('fontFamilyButton');
+    
+    if (fontFamilyDropdown && fontFamilyButton && !fontFamilyDropdown.contains(e.target) && !fontFamilyButton.contains(e.target)) {
+      fontFamilyDropdown.classList.add('hidden');
     }
   });
 
@@ -112,8 +196,17 @@ function closeOverlays() {
   toggleSettingsOverlay(false);
   toggleHelpOverlay(false);
   document.getElementById('confirmation-overlay').style.display = 'none';
+  document.getElementById('info-dialogue').style.display = 'none';
   document.getElementById('overlay-background').style.display = 'none';
   document.getElementById('other-apps-dropdown').classList.add('hidden');
+  const formatDropdown = document.getElementById('format-dropdown');
+  if (formatDropdown) {
+    formatDropdown.classList.add('hidden');
+  }
+  const fontFamilyDropdown = document.getElementById('fontFamilyDropdown');
+  if (fontFamilyDropdown) {
+    fontFamilyDropdown.classList.add('hidden');
+  }
 }
 
 function toggleDropdown() {
@@ -176,7 +269,10 @@ function toggleSetting(setting, value) {
     document.getElementById('editor').spellcheck = value;
   }
   if (setting === 'focus') {
-    document.body.style.overflow = value ? 'hidden' : 'auto';
+    const afterAppContent = document.getElementById('after-app-placeholder');
+    if (afterAppContent) {
+      afterAppContent.style.display = value ? 'none' : 'block';
+    }
   }
   if (setting === 'warnLeave') {
     window.onbeforeunload = value ? (e => {
@@ -188,13 +284,96 @@ function toggleSetting(setting, value) {
   }
 }
 
+function updateFontSize(size) {
+  state.settings.fontSize = parseInt(size);
+  saveSettings();
+  updateSettingsUI();
+}
+
+function updateFontFamily(family) {
+  state.settings.fontFamily = family;
+  saveSettings();
+  updateSettingsUI();
+}
+
+function toggleFontFamilyDropdown() {
+  const dropdown = document.getElementById('fontFamilyDropdown');
+  dropdown.classList.toggle('hidden');
+}
+
+function selectFontFamily(value, displayName) {
+  updateFontFamily(value);
+  
+  // Update button text and style
+  const buttonText = document.getElementById('fontFamilyButtonText');
+  buttonText.textContent = displayName;
+  buttonText.style.fontFamily = value;
+  
+  // Close dropdown
+  document.getElementById('fontFamilyDropdown').classList.add('hidden');
+}
+
 function updateSettingsUI() {
   for (let [key, value] of Object.entries(state.settings)) {
     const checkbox = document.getElementById(key);
     if (checkbox) checkbox.checked = value;
+    
+    // Handle range sliders
+    const slider = document.getElementById(key + 'Slider');
+    if (slider) slider.value = value;
+    
+    // Handle select dropdowns
+    const select = document.getElementById(key + 'Select');
+    if (select) select.value = value;
   }
-  document.getElementById('editor').spellcheck = state.settings.spellCheck;
-  document.body.style.overflow = state.settings.focus ? 'hidden' : 'auto';
+  
+  // Update font size display
+  const fontSizeDisplay = document.getElementById('fontSizeDisplay');
+  if (fontSizeDisplay) {
+    fontSizeDisplay.textContent = state.settings.fontSize + 'px';
+  }
+  
+  // Update custom font family dropdown
+  const fontFamilyButtonText = document.getElementById('fontFamilyButtonText');
+  if (fontFamilyButtonText) {
+    const fontDisplayNames = {
+      'system-ui': 'System UI',
+      'serif': 'Serif',
+      'monospace': 'Monospace',
+      "'Times New Roman', serif": 'Times New Roman',
+      "'Arial', sans-serif": 'Arial',
+      "'Helvetica', sans-serif": 'Helvetica',
+      "'Georgia', serif": 'Georgia',
+      "'Courier New', monospace": 'Courier New',
+      "'Verdana', sans-serif": 'Verdana'
+    };
+    
+    fontFamilyButtonText.textContent = fontDisplayNames[state.settings.fontFamily] || 'System UI';
+    fontFamilyButtonText.style.fontFamily = state.settings.fontFamily;
+  }
+  
+  const editor = document.getElementById('editor');
+  const highlightLayer = document.getElementById('highlight-layer');
+  
+  editor.spellcheck = state.settings.spellCheck;
+  
+  // Apply font settings
+  editor.style.fontSize = state.settings.fontSize + 'px';
+  editor.style.fontFamily = state.settings.fontFamily;
+  
+  if (highlightLayer) {
+    highlightLayer.style.fontSize = state.settings.fontSize + 'px';
+    highlightLayer.style.fontFamily = state.settings.fontFamily;
+  }
+  
+  const afterAppContent = document.getElementById('after-app-placeholder');
+  if (afterAppContent) {
+    afterAppContent.style.display = state.settings.focus ? 'none' : 'block';
+  }
+  
+  // Update counter settings display
+  updateCounterSettings();
+  
   window.onbeforeunload = state.settings.warnLeave && !state.settings.autoSave && document.getElementById('editor').innerText.trim() ? (e => {
     e.preventDefault();
     e.returnValue = '';
@@ -211,7 +390,9 @@ function resetSettings() {
     charsNoCitations: true,
     wordsWithCitations: true,
     charsWithCitations: true,
-    citations: true
+    citations: true,
+    fontSize: 16,
+    fontFamily: 'system-ui'
   };
   saveSettings();
   showNotification('Settings have been reset. Please reload the page for changes to take effect.');
@@ -488,6 +669,11 @@ function formatText(command) {
   handleEditorInput();
 }
 
+function toggleFormatDropdown() {
+  const dropdown = document.getElementById('format-dropdown');
+  dropdown.classList.toggle('hidden');
+}
+
 function copyText() {
   const editor = document.getElementById('editor');
   const copyBtn = document.getElementById('copy-btn');
@@ -558,19 +744,45 @@ function updateWordCountWithSelection() {
   }
 
   state.totalWords = countWords(text);
-  state.totalChars = countChars(text);  // Added
+  state.totalChars = countChars(text);
   state.citations = findCitations(text);
   groupCitations();
   calculateCitationWords();
-  calculateCitationChars();  // Added
+  calculateCitationChars();
 
-  document.getElementById('total-word-count').textContent = state.settings.wordsWithCitations ? state.totalWords : (state.settings.wordsNoCitations ? (state.totalWords - state.citationWords) : '0');
-  document.getElementById('filtered-word-count').textContent = state.settings.wordsNoCitations ? (state.totalWords - state.citationWords) : '0';
-  document.getElementById('total-char-count').textContent = state.settings.charsWithCitations ? state.totalChars : (state.settings.charsNoCitations ? (state.totalChars - state.citationChars) : '0');  // Added
-  document.getElementById('filtered-char-count').textContent = state.settings.charsNoCitations ? (state.totalChars - state.citationChars) : '0';  // Added
-  document.getElementById('quote-count').textContent = state.settings.citations ? state.citationGroups.size : '0';
+  // Update state variables for counters
+  state.wordsWithCitations = state.totalWords;
+  state.wordsNoCitations = state.totalWords - state.citationWords;
+  state.charsWithCitations = state.totalChars;
+  state.charsNoCitations = state.totalChars - state.citationChars;
 
-  updateCitationsTables();
+  // Update traditional individual counters for backward compatibility
+  const totalWordCountEl = document.getElementById('total-word-count');
+  const filteredWordCountEl = document.getElementById('filtered-word-count');
+  const totalCharCountEl = document.getElementById('total-char-count');
+  const filteredCharCountEl = document.getElementById('filtered-char-count');
+  const quoteCountEl = document.getElementById('quote-count');
+  
+  if (totalWordCountEl) {
+    totalWordCountEl.textContent = state.settings.wordsWithCitations ? state.totalWords : (state.settings.wordsNoCitations ? (state.totalWords - state.citationWords) : '0');
+  }
+  if (filteredWordCountEl) {
+    filteredWordCountEl.textContent = state.settings.wordsNoCitations ? (state.totalWords - state.citationWords) : '0';
+  }
+  if (totalCharCountEl) {
+    totalCharCountEl.textContent = state.settings.charsWithCitations ? state.totalChars : (state.settings.charsNoCitations ? (state.totalChars - state.citationChars) : '0');
+  }
+  if (filteredCharCountEl) {
+    filteredCharCountEl.textContent = state.settings.charsNoCitations ? (state.totalChars - state.citationChars) : '0';
+  }
+  if (quoteCountEl) {
+    quoteCountEl.textContent = state.settings.citations ? state.citationGroups.size : '0';
+  }
+
+  // Update dynamic counter display
+  updateCounterDisplay();
+  updateCitationsTables();  
+  updateTimeDetails();
 }
 
 function updateWordCount() {
@@ -751,6 +963,10 @@ function updateCitationsTables() {
   if (desktopSearchInput) desktopSearchInput.value = '';
   if (mobileSearchInput) mobileSearchInput.value = '';
 
+  // Get search row elements
+  const desktopSearchRow = document.getElementById('citations-search-row');
+  const mobileSearchRow = document.getElementById('citations-search-row-mobile');
+
   const rawData = document.getElementById('editor').innerText.trim();
   const selection = window.getSelection();
   const hasSelection = selection.rangeCount > 0 && selection.toString().length > 0;
@@ -760,17 +976,29 @@ function updateCitationsTables() {
     emptyRow.innerHTML = '<td colspan="4" class="text-center">Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount to begin.</td>';
     desktopTableBody.appendChild(emptyRow);
     mobileTableBody.appendChild(emptyRow.cloneNode(true));
+    // Hide search rows when no data
+    if (desktopSearchRow) desktopSearchRow.style.display = 'none';
+    if (mobileSearchRow) mobileSearchRow.style.display = 'none';
   } else if (state.citationGroups.size === 0) {
     const noCitationsRow = document.createElement('tr');
     noCitationsRow.innerHTML = '<td colspan="4" class="text-center">No citations detected' + (hasSelection ? ' in selection' : '') + '</td>';
     desktopTableBody.appendChild(noCitationsRow);
     mobileTableBody.appendChild(noCitationsRow.cloneNode(true));
+    // Hide search rows when no citations
+    if (desktopSearchRow) desktopSearchRow.style.display = 'none';
+    if (mobileSearchRow) mobileSearchRow.style.display = 'none';
   } else {
     const sortedCitationGroups = sortCitationGroups(state.citationGroups);
     sortedCitationGroups.forEach((group, citationText) => {
       createCitationRow(desktopTableBody, group, citationText);
       createCitationRow(mobileTableBody, group, citationText);
     });
+    // Show search rows when citations are present and on the Citations tab
+    const isOnCitationsTab = document.getElementById('citations-tab').classList.contains('active');
+    const isOnCitationsTabMobile = document.getElementById('citations-tab-mobile').classList.contains('active');
+    
+    if (desktopSearchRow && isOnCitationsTab) desktopSearchRow.style.display = 'table-row';
+    if (mobileSearchRow && isOnCitationsTabMobile) mobileSearchRow.style.display = 'table-row';
   }
 }
 
@@ -800,6 +1028,11 @@ function createCitationRow(tableBody, group, citationText) {
     state.includedCitations.set(citationText, this.checked);
     updateFilteredWordCount();
     saveCitationStates();
+    // Update highlight colors immediately
+    const editor = document.getElementById('editor');
+    const highlightLayer = document.getElementById('highlight-layer');
+    highlightLayer.innerHTML = highlightCitations(editor.innerHTML);
+    syncScroll();
   });
   const slider = document.createElement('div');
   slider.className = 'w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600';
@@ -1266,3 +1499,514 @@ document.addEventListener('DOMContentLoaded', () => {
       adBanner.style.display = 'none';
   }
 });*/
+
+// Tab switching functionality
+function switchPanelTab(tabName) {
+  const citationsTab = document.getElementById('citations-tab');
+  const detailsTab = document.getElementById('details-tab');
+  const citationsContainer = document.getElementById('citations-table-container');
+  const detailsContainer = document.getElementById('word-count-details-container');
+  const panelHeader = document.getElementById('panel-header');
+  const searchRow = document.getElementById('citations-search-row');
+
+  if (tabName === 'citations') {
+    // Show citations tab
+    citationsTab.classList.add('active');
+    detailsTab.classList.remove('active');
+    citationsTab.style.color = 'var(--text-primary)';
+    citationsTab.style.borderBottomColor = 'var(--accent-color)';
+    detailsTab.style.color = 'var(--text-secondary)';
+    detailsTab.style.borderBottomColor = 'transparent';
+    
+    // Handle underline visibility
+    const citationsUnderline = citationsTab.querySelector('.tab-underline');
+    const detailsUnderline = detailsTab.querySelector('.tab-underline');
+    if (citationsUnderline) citationsUnderline.style.opacity = '1';
+    if (detailsUnderline) detailsUnderline.style.opacity = '0';
+    
+    citationsContainer.style.display = 'block';
+    detailsContainer.style.display = 'none';
+    
+    // Hide header for citations
+    if (panelHeader) {
+      panelHeader.style.display = 'none';
+    }
+    
+    // Show search row only if there are citations
+    if (searchRow && state.citationGroups.size > 0) {
+      searchRow.style.display = 'table-row';
+    }
+  } else if (tabName === 'details') {
+    // Show details tab
+    detailsTab.classList.add('active');
+    citationsTab.classList.remove('active');
+    detailsTab.style.color = 'var(--text-primary)';
+    detailsTab.style.borderBottomColor = 'var(--accent-color)';
+    citationsTab.style.color = 'var(--text-secondary)';
+    citationsTab.style.borderBottomColor = 'transparent';
+    
+    // Handle underline visibility
+    const citationsUnderline = citationsTab.querySelector('.tab-underline');
+    const detailsUnderline = detailsTab.querySelector('.tab-underline');
+    if (citationsUnderline) citationsUnderline.style.opacity = '0';
+    if (detailsUnderline) detailsUnderline.style.opacity = '1';
+    
+    citationsContainer.style.display = 'none';
+    detailsContainer.style.display = 'block';
+    
+    // Show header for word count details
+    if (panelHeader) {
+      panelHeader.style.display = 'block';
+    }
+    
+    // Hide search row when in details tab
+    if (searchRow) {
+      searchRow.style.display = 'none';
+    }
+    
+    // Update the time calculations when switching to details tab
+    updateTimeDetails();
+  }
+}
+
+// Mobile tab switching functionality
+function switchPanelTabMobile(tabName) {
+  const citationsTab = document.getElementById('citations-tab-mobile');
+  const detailsTab = document.getElementById('details-tab-mobile');
+  const citationsContainer = document.querySelector('#citations-overlay .overflow-x-auto');
+  const detailsContainer = document.getElementById('word-count-details-container-mobile');
+  const mobileHeader = document.getElementById('mobile-panel-header');
+  const mobilePanelTitle = document.getElementById('mobile-panel-title');
+  const searchRow = document.getElementById('citations-search-row-mobile');
+
+  if (tabName === 'citations') {
+    // Show citations tab
+    citationsTab.classList.add('active');
+    detailsTab.classList.remove('active');
+    citationsTab.style.color = 'var(--text-primary)';
+    citationsTab.style.borderBottomColor = 'var(--accent-color)';
+    detailsTab.style.color = 'var(--text-secondary)';
+    detailsTab.style.borderBottomColor = 'transparent';
+    
+    // Handle underline visibility
+    const citationsUnderline = citationsTab.querySelector('.tab-underline');
+    const detailsUnderline = detailsTab.querySelector('.tab-underline');
+    if (citationsUnderline) citationsUnderline.style.opacity = '1';
+    if (detailsUnderline) detailsUnderline.style.opacity = '0';
+    
+    citationsContainer.style.display = 'block';
+    detailsContainer.style.display = 'none';
+    
+    // Hide header for citations
+    if (mobileHeader) {
+      mobileHeader.style.display = 'none';
+    }
+    
+    // Show search row only if there are citations
+    if (searchRow && state.citationGroups.size > 0) {
+      searchRow.style.display = 'table-row';
+    }
+  } else if (tabName === 'details') {
+    // Show details tab
+    detailsTab.classList.add('active');
+    citationsTab.classList.remove('active');
+    detailsTab.style.color = 'var(--text-primary)';
+    detailsTab.style.borderBottomColor = 'var(--accent-color)';
+    citationsTab.style.color = 'var(--text-secondary)';
+    citationsTab.style.borderBottomColor = 'transparent';
+    
+    // Handle underline visibility
+    const citationsUnderline = citationsTab.querySelector('.tab-underline');
+    const detailsUnderline = detailsTab.querySelector('.tab-underline');
+    if (citationsUnderline) citationsUnderline.style.opacity = '0';
+    if (detailsUnderline) detailsUnderline.style.opacity = '1';
+    
+    citationsContainer.style.display = 'none';
+    detailsContainer.style.display = 'block';
+    
+    // Show header for word count details
+    if (mobileHeader) {
+      mobileHeader.style.display = 'block';
+    }
+    
+    // Hide search row when in details tab
+    if (searchRow) {
+      searchRow.style.display = 'none';
+    }
+    
+    // Update mobile title
+    if (mobilePanelTitle) {
+      mobilePanelTitle.textContent = 'Word Count Details';
+    }
+    
+    // Update the time calculations when switching to details tab
+    updateTimeDetails();
+  }
+}
+
+function updateTimeDetails() {
+  const wordsWithoutCitations = state.totalWords - state.citationWords;
+  
+  // Calculate speaking time (150 words per minute)
+  const speakingMinutesTotal = wordsWithoutCitations / 150;
+  const speakingMinutes = Math.floor(speakingMinutesTotal);
+  const speakingSeconds = Math.round((speakingMinutesTotal - speakingMinutes) * 60);
+  
+  let speakingTime;
+  if (speakingMinutesTotal < 1/60) {
+    speakingTime = '0 sec';
+  } else if (speakingMinutes === 0) {
+    speakingTime = speakingSeconds === 1 ? '1 sec' : `${speakingSeconds} secs`;
+  } else if (speakingSeconds === 0) {
+    speakingTime = speakingMinutes === 1 ? '1 min' : `${speakingMinutes} mins`;
+  } else {
+    const minText = speakingMinutes === 1 ? 'min' : 'mins';
+    const secText = speakingSeconds === 1 ? 'sec' : 'secs';
+    speakingTime = `${speakingMinutes} ${minText} ${speakingSeconds} ${secText}`;
+  }
+  
+  // Calculate reading time (200 words per minute)
+  const readingMinutesTotal = wordsWithoutCitations / 200;
+  const readingMinutes = Math.floor(readingMinutesTotal);
+  const readingSeconds = Math.round((readingMinutesTotal - readingMinutes) * 60);
+  
+  let readingTime;
+  if (readingMinutesTotal < 1/60) {
+    readingTime = '0 sec';
+  } else if (readingMinutes === 0) {
+    readingTime = readingSeconds === 1 ? '1 sec' : `${readingSeconds} secs`;
+  } else if (readingSeconds === 0) {
+    readingTime = readingMinutes === 1 ? '1 min' : `${readingMinutes} mins`;
+  } else {
+    const minText = readingMinutes === 1 ? 'min' : 'mins';
+    const secText = readingSeconds === 1 ? 'sec' : 'secs';
+    readingTime = `${readingMinutes} ${minText} ${readingSeconds} ${secText}`;
+  }
+  
+  // Update the desktop display
+  const speakingTimeElement = document.getElementById('speaking-time');
+  const readingTimeElement = document.getElementById('reading-time');
+  
+  if (speakingTimeElement) {
+    speakingTimeElement.textContent = speakingTime;
+  }
+  
+  if (readingTimeElement) {
+    readingTimeElement.textContent = readingTime;
+  }
+  
+  // Update the mobile display
+  const speakingTimeMobileElement = document.getElementById('speaking-time-mobile');
+  const readingTimeMobileElement = document.getElementById('reading-time-mobile');
+  
+  if (speakingTimeMobileElement) {
+    speakingTimeMobileElement.textContent = speakingTime;
+  }
+  
+  if (readingTimeMobileElement) {
+    readingTimeMobileElement.textContent = readingTime;
+  }
+
+  // Store times for counter display
+  state.speakingTime = speakingTime;
+  state.readingTime = readingTime;
+  
+  // Update detail tab counters
+  updateDetailTabCounters();
+}
+
+// Update detail tab counters with current values
+function updateDetailTabCounters() {
+  // Desktop detail tab elements
+  const desktopElements = {
+    'details-words-no-citations': state.wordsNoCitations,
+    'details-words-with-citations': state.wordsWithCitations, 
+    'details-chars-no-citations': state.charsNoCitations,
+    'details-chars-with-citations': state.charsWithCitations,
+    'details-citations': state.citationGroups?.size || 0
+  };
+  
+  // Mobile detail tab elements
+  const mobileElements = {
+    'details-words-no-citations-mobile': state.wordsNoCitations,
+    'details-words-with-citations-mobile': state.wordsWithCitations,
+    'details-chars-no-citations-mobile': state.charsNoCitations, 
+    'details-chars-with-citations-mobile': state.charsWithCitations,
+    'details-citations-mobile': state.citationGroups?.size || 0
+  };
+  
+  // Update desktop elements
+  Object.entries(desktopElements).forEach(([id, value]) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = value?.toLocaleString() || '0';
+    }
+  });
+  
+  // Update mobile elements  
+  Object.entries(mobileElements).forEach(([id, value]) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = value?.toLocaleString() || '0';
+    }
+  });
+}
+
+// Counter management functions
+function updateCounterDisplay() {
+  const statsRow = document.querySelector('.stats-row');
+  if (!statsRow) return;
+
+  // Get enabled counters sorted by order
+  const enabledCounters = Object.entries(state.settings.counters)
+    .filter(([key, config]) => config.enabled)
+    .sort(([, a], [, b]) => a.order - b.order);
+
+  // Clear existing counter cards (but preserve the class and structure)
+  statsRow.innerHTML = '';
+
+  // Add each enabled counter
+  enabledCounters.forEach(([key, config]) => {
+    const counterCard = document.createElement('div');
+    counterCard.className = 'counter-card rounded-lg shadow-sm text-center';
+    counterCard.setAttribute('data-tooltip', config.tooltip);
+    counterCard.setAttribute('data-counter-type', key);
+
+    const title = document.createElement('h3');
+    title.className = 'text-xs font-medium opacity-75 mb-1';
+    title.textContent = config.shortName;
+
+    const value = document.createElement('p');
+    value.className = 'text-2xl font-black';
+    value.id = `counter-${key}`;
+
+    // Set initial value
+    switch(key) {
+      case 'wordsNoCitations':
+        value.textContent = state.totalWords - state.citationWords;
+        break;
+      case 'wordsWithCitations':
+        value.textContent = state.totalWords;
+        break;
+      case 'charsNoCitations':
+        value.textContent = state.totalChars - state.citationChars;
+        break;
+      case 'charsWithCitations':
+        value.textContent = state.totalChars;
+        break;
+      case 'citations':
+        value.textContent = state.citationGroups.size;
+        break;
+      case 'speakingTime':
+        value.textContent = state.speakingTime || '0 sec';
+        break;
+      case 'readingTime':
+        value.textContent = state.readingTime || '0 sec';
+        break;
+      default:
+        value.textContent = '0';
+    }
+
+    counterCard.appendChild(title);
+    counterCard.appendChild(value);
+    statsRow.appendChild(counterCard);
+  });
+}
+
+function toggleCounter(counterKey, enabled) {
+  if (state.settings.counters[counterKey]) {
+    state.settings.counters[counterKey].enabled = enabled;
+    
+    // Save settings without triggering full word count update
+    localStorage.setItem('settings', JSON.stringify(state.settings));
+    updateCounterDisplay();
+  }
+}
+
+function reorderCounter(counterKey, newOrder) {
+  if (state.settings.counters[counterKey]) {
+    state.settings.counters[counterKey].order = newOrder;
+    
+    // Save settings without triggering full word count update
+    localStorage.setItem('settings', JSON.stringify(state.settings));
+    updateCounterDisplay();
+  }
+}
+
+function moveCounterUp(counterKey) {
+  const currentOrder = state.settings.counters[counterKey].order;
+  if (currentOrder > 0) {
+    // Find the counter that has order = currentOrder - 1
+    const targetCounter = Object.entries(state.settings.counters)
+      .find(([key, config]) => config.order === currentOrder - 1);
+    
+    if (targetCounter) {
+      // Swap orders
+      state.settings.counters[counterKey].order = currentOrder - 1;
+      state.settings.counters[targetCounter[0]].order = currentOrder;
+      
+      // Save settings without triggering full word count update
+      localStorage.setItem('settings', JSON.stringify(state.settings));
+      updateCounterDisplay();
+      updateCounterSettings();
+    }
+  }
+}
+
+function moveCounterDown(counterKey) {
+  const maxOrder = Math.max(...Object.values(state.settings.counters).map(c => c.order));
+  const currentOrder = state.settings.counters[counterKey].order;
+  
+  if (currentOrder < maxOrder) {
+    // Find the counter that has order = currentOrder + 1
+    const targetCounter = Object.entries(state.settings.counters)
+      .find(([key, config]) => config.order === currentOrder + 1);
+    
+    if (targetCounter) {
+      // Swap orders
+      state.settings.counters[counterKey].order = currentOrder + 1;
+      state.settings.counters[targetCounter[0]].order = currentOrder;
+      
+      // Save settings without triggering full word count update
+      localStorage.setItem('settings', JSON.stringify(state.settings));
+      updateCounterDisplay();
+      updateCounterSettings();
+    }
+  }
+}
+
+function updateCounterSettings() {
+  const counterSettingsContainer = document.getElementById('counter-settings-container');
+  if (!counterSettingsContainer) return;
+
+  // Get all counters sorted by order
+  const sortedCounters = Object.entries(state.settings.counters)
+    .sort(([, a], [, b]) => a.order - b.order);
+
+  counterSettingsContainer.innerHTML = '';
+
+  sortedCounters.forEach(([key, config]) => {
+    const counterDiv = document.createElement('div');
+    counterDiv.className = 'flex items-center justify-between p-3 rounded-md';
+    counterDiv.style.background = '#f3f4f6';
+
+    const leftSection = document.createElement('div');
+    leftSection.className = 'flex-1';
+
+    const label = document.createElement('span');
+    label.className = 'font-medium';
+    label.textContent = config.shortName;
+
+    const description = document.createElement('p');
+    description.className = 'text-sm text-gray-500 dark:text-gray-400 mt-1';
+    description.textContent = getCounterDescription(key);
+
+    leftSection.appendChild(label);
+    leftSection.appendChild(description);
+
+    const rightSection = document.createElement('div');
+    rightSection.className = 'flex items-center gap-2';
+
+    // Toggle switch
+    const toggleLabel = document.createElement('label');
+    toggleLabel.className = 'relative inline-flex items-center cursor-pointer';
+
+    const toggleInput = document.createElement('input');
+    toggleInput.type = 'checkbox';
+    toggleInput.className = 'sr-only peer';
+    toggleInput.checked = config.enabled;
+    toggleInput.addEventListener('change', function() {
+      toggleCounter(key, this.checked);
+      updateCounterSettings();
+    });
+
+    const toggleDiv = document.createElement('div');
+    toggleDiv.className = 'w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600';
+
+    toggleLabel.appendChild(toggleInput);
+    toggleLabel.appendChild(toggleDiv);
+
+    // Reorder buttons
+    const reorderDiv = document.createElement('div');
+    reorderDiv.className = 'flex flex-col gap-1';
+
+    const upButton = document.createElement('button');
+    upButton.className = 'p-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed';
+    upButton.disabled = config.order === 0;
+    upButton.innerHTML = '▲';
+    upButton.addEventListener('click', () => moveCounterUp(key));
+
+    const downButton = document.createElement('button');
+    downButton.className = 'p-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed';
+    const maxOrder = Math.max(...Object.values(state.settings.counters).map(c => c.order));
+    downButton.disabled = config.order === maxOrder;
+    downButton.innerHTML = '▼';
+    downButton.addEventListener('click', () => moveCounterDown(key));
+
+    reorderDiv.appendChild(upButton);
+    reorderDiv.appendChild(downButton);
+
+    rightSection.appendChild(toggleLabel);
+    rightSection.appendChild(reorderDiv);
+
+    counterDiv.appendChild(leftSection);
+    counterDiv.appendChild(rightSection);
+
+    counterSettingsContainer.appendChild(counterDiv);
+  });
+}
+
+function getCounterDescription(counterKey) {
+  const descriptions = {
+    wordsNoCitations: 'Word count excluding all citations and references',
+    wordsWithCitations: 'Total word count including citations',
+    charsNoCitations: 'Character count excluding all citations and references',
+    charsWithCitations: 'Total character count including citations',
+    citations: 'Number of unique citations detected',
+    speakingTime: 'Estimated time to speak the text (150 words/min)',
+    readingTime: 'Estimated time to read the text (200 words/min)'
+  };
+  return descriptions[counterKey] || 'Counter description';
+}
+
+// Info dialogue functions
+function showInfoDialogue(type) {
+  const dialogue = document.getElementById('info-dialogue');
+  const titleText = document.getElementById('info-dialogue-title-text');
+  const content = document.getElementById('info-dialogue-content');
+  const overlay = document.getElementById('overlay-background');
+  
+  if (type === 'speaking') {
+    titleText.textContent = 'Speaking Time Calculation';
+    content.textContent = 'This calculation is based on an average speaking rate of 150 words per minute. This represents the time needed to read the text aloud at a normal pace. Speaking rates can vary significantly between individuals and contexts, but 150 words per minute is widely accepted as the standard for comfortable speech delivery.';
+  } else if (type === 'reading') {
+    titleText.textContent = 'Reading Time Calculation';
+    content.textContent = 'This calculation is based on an average reading speed of 200 words per minute. This represents typical silent reading speed for adults. Reading speeds vary based on factors like text complexity, familiarity with the subject, and individual reading ability, but 200 words per minute is considered the average for general comprehension reading.';
+  } else if (type === 'wordsNoCitations') {
+    titleText.textContent = 'Words without Citations';
+    content.textContent = 'This count includes only the main body text, excluding all in-text citations, reference entries, and bibliography. This measurement is particularly useful for academic assignments where word limits typically apply to content only, not citations. CiteCount automatically detects and removes various citation formats including APA, MLA, Chicago, Harvard, and other academic styles.';
+  } else if (type === 'wordsWithCitations') {
+    titleText.textContent = 'Total Words';
+    content.textContent = 'This is the complete word count including all text: your main content, in-text citations, references, bibliography, and any other textual elements in your document. This gives you the full scope of your document\'s length and is useful for understanding the total amount of text you\'ve written.';
+  } else if (type === 'charsNoCitations') {
+    titleText.textContent = 'Characters without Citations';
+    content.textContent = 'This count includes all characters (letters, numbers, punctuation, and spaces) in your main content, excluding citations and references. Character counts are sometimes used for strict length requirements in applications, abstracts, or social media posts. This measurement ensures you\'re only counting your actual content, not the supporting citations.';
+  } else if (type === 'charsWithCitations') {
+    titleText.textContent = 'Total Characters';
+    content.textContent = 'This is the complete character count including all text elements in your document: main content, citations, references, spaces, punctuation, and special characters. This comprehensive count gives you the absolute length of your document and can be useful for file size estimation or platform limitations that consider all characters.';
+  } else if (type === 'citations') {
+    titleText.textContent = 'Citations Count';
+    content.textContent = 'CiteCount automatically detects and counts in-text citations and reference entries across multiple academic formats including APA, MLA, Chicago, Harvard, and others. This includes parenthetical citations like (Smith, 2023), author-date citations, numbered references, and footnote citations. The detection uses advanced pattern recognition to identify various citation styles and formats used in academic writing.';
+  }
+  
+  dialogue.style.display = 'block';
+  overlay.style.display = 'block';
+}
+
+function closeInfoDialogue() {
+  const dialogue = document.getElementById('info-dialogue');
+  const overlay = document.getElementById('overlay-background');
+  
+  dialogue.style.display = 'none';
+  overlay.style.display = 'none';
+}
