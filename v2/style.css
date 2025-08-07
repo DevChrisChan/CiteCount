@@ -11,6 +11,25 @@
     --accent-color: #1E40AF;
     --highlight-included: rgba(0, 207, 0, 0.3);
     --highlight-excluded: rgba(255, 0, 0, 0.3);
+
+    /* Dynamic variables that change based on theme */
+    --text-primary: var(--text-light);
+    --text-secondary: #6B7280;
+    --background-primary: var(--background-light);
+    --background-secondary: #F9FAFB;
+    --border-primary: var(--border-light);
+    --surface-color: #FFF;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text-primary: var(--text-dark);
+      --text-secondary: #9CA3AF;
+      --background-primary: var(--background-dark);
+      --background-secondary: #1F1F1F;
+      --border-primary: var(--border-dark);
+      --surface-color: #242424;
+    }
   }
 
   html,
@@ -117,6 +136,114 @@
       background: rgba(31, 31, 31, 0.8); /* Slightly transparent dark background */
       border-bottom: 1px solid rgba(55, 65, 81, 0.5); /* Adjusted for dark theme */
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow in dark mode */
+    }
+
+    /* Citations table header dark mode */
+    .quote-table th {
+      background: #1F1F1F !important;
+      color: var(--text-dark) !important;
+      border-color: var(--border-dark) !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Citations search row dark mode */
+    #citations-search-row td {
+      background: #1F1F1F !important;
+      border-color: var(--border-dark) !important;
+    }
+
+    /* Search input dark mode */
+    #citations-search-input {
+      background: #242424 !important;
+      color: var(--text-dark) !important;
+      border-color: var(--border-dark) !important;
+    }
+
+    #citations-search-input::placeholder {
+      color: #6B7280 !important;
+    }
+
+    #citations-search-input:focus {
+      border-color: #3B82F6 !important;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+    }
+
+    /* Panel header dark mode */
+    #panel-header {
+      background: #1F1F1F !important;
+      border-color: var(--border-dark) !important;
+    }
+
+    /* Panel tab selector dark mode */
+    #panel-tab-selector {
+      background: #1F1F1F !important;
+      border-color: var(--border-dark) !important;
+    }
+
+    /* Word count details container dark mode */
+    #word-count-details-container,
+    #word-count-details-container-mobile {
+      background: #242424 !important;
+    }
+
+    /* Detail items dark mode */
+    .detail-item {
+      background: #1F1F1F !important;
+      border-color: var(--border-dark) !important;
+    }
+
+    /* Settings overlay background items dark mode */
+    .settings-overlay .space-y-3 > div,
+    .settings-overlay [style*="background: #f3f4f6"] {
+      background: #1F1F1F !important;
+    }
+
+    /* Settings overlay additional items */
+    .settings-overlay .p-3.rounded-md {
+      background: #1F1F1F !important;
+    }
+
+    /* Sort button dark mode */
+    .sort-btn {
+      color: var(--text-dark) !important;
+    }
+
+    .sort-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .sort-btn.active {
+      background-color: rgba(59, 130, 246, 0.2) !important;
+    }
+
+    /* Mobile tab selector dark mode */
+    #panel-tab-selector-mobile {
+      background: #1F1F1F !important;
+      border-color: var(--border-dark) !important;
+    }
+
+    /* Manage citations button dark mode */
+    #manage-citations-btn {
+      background: #1F3A8A !important;
+      color: var(--text-dark) !important;
+    }
+
+    #manage-citations-btn:hover {
+      background: #1E40AF !important;
+    }
+
+    /* Additional specific elements that use inline styles */
+    #citations-panel {
+      border-color: var(--border-dark) !important;
+    }
+
+    .counter-card {
+      background: #242424;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .counter-card:hover {
+      background: #2a2a2a;
     }
 
     .counter-card {
