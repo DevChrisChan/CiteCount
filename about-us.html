@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - CiteCount</title>
+    <meta name="description" content="Learn about CiteCount's mission to help students and researchers with precise word counting. Discover our story, values, and commitment to privacy-first solutions.">
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
+    <style>
+        .about-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--background-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        .about-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .about-title {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .about-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .about-section {
+            margin-bottom: 3rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+        .subsection-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+        .about-text {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .stat-card {
+            background: var(--background-secondary);
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            border: 1px solid var(--border-primary);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            display: block;
+        }
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .feature-card {
+            background: var(--background-secondary);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border-primary);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        .feature-description {
+            opacity: 0.9;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 4px solid var(--accent-color);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 1rem 1rem 0;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent-color);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--accent-color);
+            border-radius: 50%;
+        }
+        .timeline-year {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+        .timeline-description {
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .team-card {
+            background: var(--background-secondary);
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            border: 1px solid var(--border-primary);
+        }
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: 900;
+        }
+        .team-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .team-role {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .cta-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="about-container">
+        <a href="/" class="back-link">← Back to CiteCount</a>
+        
+        <div class="about-header">
+            <h1 class="about-title">About CiteCount</h1>
+            <p class="about-subtitle">Empowering students and researchers worldwide with precise, privacy-first word counting solutions since our founding.</p>
+        </div>
+
+        <div class="highlight-box">
+            <p style="font-size: 1.2rem; font-weight: 500; margin: 0;"><strong>Our Mission:</strong> To provide the most accurate and privacy-focused word counting tools for academic work, helping students achieve their best without compromising their data security.</p>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Our Story</h2>
+            <p class="about-text">CiteCount was born from a simple frustration experienced by countless students: existing word counters weren't accurate for academic work. Traditional tools counted everything, including citations and references, leading to inaccurate word counts that could affect grades and compliance with assignment requirements.</p>
+            
+            <p class="about-text">As IB students ourselves, we understood the critical importance of precise word counts. The International Baccalaureate programme has strict word limits for Extended Essays, Internal Assessments, and other coursework. A few words over the limit could mean the difference between acceptance and rejection of your work.</p>
+            
+            <p class="about-text">What started as a personal tool quickly grew into something much larger. We realized that our solution could help millions of students worldwide who faced the same challenges. Today, CiteCount serves over 100,000 students across 50+ countries, processing millions of words while maintaining our commitment to privacy and accuracy.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">100K+</span>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">50+</span>
+                <div class="stat-label">Countries Served</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">10M+</span>
+                <div class="stat-label">Words Processed</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">99.9%</span>
+                <div class="stat-label">Uptime</div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Our Values</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Privacy First</h3>
+                    <p class="feature-description">Your documents never leave your device. All processing happens locally, ensuring your academic work remains completely private and secure.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Academic Precision</h3>
+                    <p class="feature-description">Built specifically for academic work with understanding of citation formats, referencing styles, and educational requirements.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3 class="feature-title">Student-Centric</h3>
+                    <p class="feature-description">Every feature is designed with students in mind, from IB requirements to university standards, ensuring relevance and usefulness.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Continuous Innovation</h3>
+                    <p class="feature-description">We constantly evolve based on user feedback, adding new features and improving existing ones to serve our community better.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title">Global Accessibility</h3>
+                    <p class="feature-description">Free, fast, and accessible to students worldwide, regardless of their economic background or technical expertise.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3 class="feature-title">Educational Support</h3>
+                    <p class="feature-description">Beyond word counting, we provide comprehensive guides and resources to help students excel in their academic journey.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2021</div>
+                    <div class="timeline-description">Initial concept developed by IB students frustrated with inaccurate word counting tools for academic assignments.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-description">First public release of CiteCount with basic citation filtering capabilities. Gained initial traction within IB student communities.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <div class="timeline-description">Major expansion with advanced citation detection, support for multiple referencing styles, and introduction of analytics features.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2024</div>
+                    <div class="timeline-description">Launch of companion applications including IB Exam Countdown, Mock Exam Timer, and comprehensive IB Resources platform.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-description">Complete platform rewrite with enhanced privacy features, improved accuracy, and expanded educational content. Reached 100,000+ active users.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Our Team</h2>
+            <p class="about-text">CiteCount is built by a passionate team of former students who understand the challenges of academic life. Our diverse backgrounds in education, technology, and design unite around a common goal: making academic work easier and more accurate for students worldwide.</p>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">CC</div>
+                    <div class="team-name">CiteCount Team</div>
+                    <div class="team-role">Founders & Developers</div>
+                    <p>Former IB students turned developers, committed to solving real educational challenges through technology and innovation.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">📚</div>
+                    <div class="team-name">Academic Advisors</div>
+                    <div class="team-role">Educational Consultants</div>
+                    <p>IB educators and university professors who guide our understanding of academic requirements and best practices.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">🌟</div>
+                    <div class="team-name">Student Community</div>
+                    <div class="team-role">Beta Testers & Advocates</div>
+                    <p>Thousands of students worldwide who provide feedback, test new features, and help us stay connected to real needs.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Why We're Different</h2>
+            
+            <h3 class="subsection-title">Built by Students, for Students</h3>
+            <p class="about-text">Unlike generic word processors or corporate tools, CiteCount was created by people who have lived through the academic challenges our users face. We understand the stress of word limits, the frustration of inaccurate counts, and the importance of privacy in academic work.</p>
+            
+            <h3 class="subsection-title">Privacy by Design</h3>
+            <p class="about-text">From day one, we've built CiteCount with privacy as a fundamental principle, not an afterthought. Your documents are processed entirely on your device, ensuring that your academic work, ideas, and research remain completely private.</p>
+            
+            <h3 class="subsection-title">Academic Focus</h3>
+            <p class="about-text">While other tools try to be everything to everyone, we focus specifically on academic needs. This specialization allows us to provide features and accuracy that generic tools simply can't match.</p>
+            
+            <h3 class="subsection-title">Community-Driven Development</h3>
+            <p class="about-text">Every major feature in CiteCount has been suggested, tested, or refined by our user community. We listen to feedback and continuously evolve based on real user needs and experiences.</p>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Our Ecosystem</h2>
+            <p class="about-text">CiteCount has grown beyond just word counting to become a comprehensive platform supporting student success:</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">CiteCount Core</h3>
+                    <p class="feature-description">Our flagship word counting application with advanced citation filtering and academic writing tools.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3 class="feature-title">IB Exam Countdown</h3>
+                    <p class="feature-description">Customizable countdown timers for IB examination sessions, helping students track important deadlines.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Mock Exam Timer</h3>
+                    <p class="feature-description">Professional exam simulation tools with voice guidance and authentic IB exam timing.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3 class="feature-title">IB Resources</h3>
+                    <p class="feature-description">Curated collection of study materials, guides, and resources specifically for IB students.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Bulletin Analysis</h3>
+                    <p class="feature-description">Interactive analysis tools for IB statistical bulletins and examination data.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">✍️</div>
+                    <h3 class="feature-title">Academic Guides</h3>
+                    <p class="feature-description">Comprehensive guides covering everything from citation styles to academic writing techniques.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Our Commitment</h2>
+            <p class="about-text">We're committed to keeping CiteCount free, accessible, and focused on student needs. As we grow, we maintain our core principles:</p>
+            
+            <ul style="font-size: 1.1rem; margin: 1.5rem 0; padding-left: 2rem;">
+                <li style="margin-bottom: 1rem;"><strong>Always Free:</strong> Core functionality will always be available at no cost to students worldwide.</li>
+                <li style="margin-bottom: 1rem;"><strong>Privacy First:</strong> We will never compromise on user privacy or data security.</li>
+                <li style="margin-bottom: 1rem;"><strong>Student-Focused:</strong> Every decision is made with student success and wellbeing in mind.</li>
+                <li style="margin-bottom: 1rem;"><strong>Continuous Improvement:</strong> We constantly evolve based on user feedback and educational needs.</li>
+                <li style="margin-bottom: 1rem;"><strong>Global Accessibility:</strong> Our tools work for students regardless of location, device, or technical expertise.</li>
+            </ul>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Join Our Community</h2>
+            <p class="cta-description">Be part of a growing community of students, educators, and researchers who believe in better academic tools. Whether you're providing feedback, sharing your experience, or simply using our tools, you're helping make education better for everyone.</p>
+            <a href="/contact.html" class="cta-button">Get in Touch</a>
+        </div>
+
+        <div class="about-section">
+            <h2 class="section-title">Looking Forward</h2>
+            <p class="about-text">As we continue to grow, our vision remains clear: to be the most trusted and accurate academic writing companion for students worldwide. We're working on exciting new features including enhanced accessibility options, support for more citation styles, collaborative tools, and expanded educational resources.</p>
+            
+            <p class="about-text">Our success is measured not in profits or downloads, but in the success of the students who use our tools. Every assignment completed, every deadline met, and every academic goal achieved using CiteCount is a testament to the impact we strive to make.</p>
+            
+            <p class="about-text">Thank you for being part of our journey. Together, we're making academic work more precise, more private, and more accessible for students everywhere.</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-primary);">
+            <a href="/" style="color: var(--accent-color); text-decoration: none; font-weight: 500; font-size: 1.1rem;">← Return to CiteCount</a>
+        </div>
+    </div>
+
+    <script>
+        // Apply theme
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+</body>
+</html>

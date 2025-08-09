@@ -2010,3 +2010,242 @@ function closeInfoDialogue() {
   dialogue.style.display = 'none';
   overlay.style.display = 'none';
 }
+
+// Cookie Consent Management
+class CookieConsent {
+  constructor() {
+    this.STORAGE_KEY = 'cookieConsent';
+    this.banner = document.getElementById('cookie-consent-banner');
+    this.settingsModal = document.getElementById('cookie-settings-modal');
+    this.init();
+  }
+
+  init() {
+    // Check if user has already made a choice
+    const consent = this.getConsent();
+    if (!consent) {
+      this.showBanner();
+    } else {
+      this.applyConsent(consent);
+    }
+
+    this.bindEvents();
+  }
+
+  bindEvents() {
+    // Banner buttons
+    document.getElementById('cookie-accept-all')?.addEventListener('click', () => {
+      this.acceptAll();
+    });
+
+    document.getElementById('cookie-reject')?.addEventListener('click', () => {
+      this.rejectNonEssential();
+    });
+
+    document.getElementById('cookie-settings')?.addEventListener('click', () => {
+      this.showSettings();
+    });
+
+    // Settings modal buttons
+    document.getElementById('close-cookie-settings')?.addEventListener('click', () => {
+      this.hideSettings();
+    });
+
+    document.getElementById('save-cookie-preferences')?.addEventListener('click', () => {
+      this.savePreferences();
+    });
+
+    document.getElementById('accept-all-settings')?.addEventListener('click', () => {
+      this.acceptAllFromSettings();
+    });
+
+    // Close modal when clicking outside
+    this.settingsModal?.addEventListener('click', (e) => {
+      if (e.target === this.settingsModal) {
+        this.hideSettings();
+      }
+    });
+  }
+
+  showBanner() {
+    if (this.banner) {
+      this.banner.style.display = 'block';
+    }
+  }
+
+  hideBanner() {
+    if (this.banner) {
+      this.banner.style.display = 'none';
+    }
+  }
+
+  showSettings() {
+    if (this.settingsModal) {
+      this.settingsModal.style.display = 'flex';
+      this.loadCurrentPreferences();
+    }
+  }
+
+  hideSettings() {
+    if (this.settingsModal) {
+      this.settingsModal.style.display = 'none';
+    }
+  }
+
+  loadCurrentPreferences() {
+    const consent = this.getConsent();
+    const analyticsCheckbox = document.getElementById('analytics-cookies');
+    const advertisingCheckbox = document.getElementById('advertising-cookies');
+
+    if (consent) {
+      if (analyticsCheckbox) analyticsCheckbox.checked = consent.analytics;
+      if (advertisingCheckbox) advertisingCheckbox.checked = consent.advertising;
+    } else {
+      // Default to checked if no preference set
+      if (analyticsCheckbox) analyticsCheckbox.checked = true;
+      if (advertisingCheckbox) advertisingCheckbox.checked = true;
+    }
+  }
+
+  acceptAll() {
+    const consent = {
+      essential: true,
+      analytics: true,
+      advertising: true,
+      timestamp: Date.now()
+    };
+    this.saveConsent(consent);
+    this.applyConsent(consent);
+    this.hideBanner();
+  }
+
+  rejectNonEssential() {
+    const consent = {
+      essential: true,
+      analytics: false,
+      advertising: false,
+      timestamp: Date.now()
+    };
+    this.saveConsent(consent);
+    this.applyConsent(consent);
+    this.hideBanner();
+  }
+
+  savePreferences() {
+    const analyticsCheckbox = document.getElementById('analytics-cookies');
+    const advertisingCheckbox = document.getElementById('advertising-cookies');
+
+    const consent = {
+      essential: true,
+      analytics: analyticsCheckbox ? analyticsCheckbox.checked : false,
+      advertising: advertisingCheckbox ? advertisingCheckbox.checked : false,
+      timestamp: Date.now()
+    };
+
+    this.saveConsent(consent);
+    this.applyConsent(consent);
+    this.hideBanner();
+    this.hideSettings();
+  }
+
+  acceptAllFromSettings() {
+    document.getElementById('analytics-cookies').checked = true;
+    document.getElementById('advertising-cookies').checked = true;
+    this.savePreferences();
+  }
+
+  saveConsent(consent) {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(consent));
+  }
+
+  getConsent() {
+    try {
+      const stored = localStorage.getItem(this.STORAGE_KEY);
+      return stored ? JSON.parse(stored) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  applyConsent(consent) {
+    // Handle analytics
+    if (consent.analytics) {
+      this.enableAnalytics();
+    } else {
+      this.disableAnalytics();
+    }
+
+    // Handle advertising
+    if (consent.advertising) {
+      this.enableAdvertising();
+    } else {
+      this.disableAdvertising();
+    }
+  }
+
+  enableAnalytics() {
+    // Enable Google Analytics
+    if (typeof gtag !== 'undefined') {
+      gtag('consent', 'update', {
+        analytics_storage: 'granted'
+      });
+    }
+
+    // Enable other analytics if needed
+    console.log('Analytics enabled');
+  }
+
+  disableAnalytics() {
+    // Disable Google Analytics
+    if (typeof gtag !== 'undefined') {
+      gtag('consent', 'update', {
+        analytics_storage: 'denied'
+      });
+    }
+
+    console.log('Analytics disabled');
+  }
+
+  enableAdvertising() {
+    // Enable advertising cookies
+    if (typeof gtag !== 'undefined') {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted'
+      });
+    }
+
+    console.log('Advertising enabled');
+  }
+
+  disableAdvertising() {
+    // Disable advertising cookies
+    if (typeof gtag !== 'undefined') {
+      gtag('consent', 'update', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+    }
+
+    console.log('Advertising disabled');
+  }
+
+  // Method to check if a specific consent type is granted
+  hasConsent(type) {
+    const consent = this.getConsent();
+    return consent ? consent[type] : false;
+  }
+
+  // Method to revoke consent (for testing or user request)
+  revokeConsent() {
+    localStorage.removeItem(this.STORAGE_KEY);
+    this.showBanner();
+  }
+}
+
+// Initialize cookie consent when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  window.cookieConsent = new CookieConsent();
+});
