@@ -1,11 +1,53 @@
 [[redirects]]
   from = "https://citecount.netlify.app/*"
-  to = "https://cite.js.org/:splat"
+  to = "https://citecount.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://citecount.netlify.app/*"
+  to = "https://citecount.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://cite.js.org/*"
+  to = "https://citecount.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://cite.js.org/*"
+  to = "https://citecount.com/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "https://www.cite.js.org/*"
-  to = "https://cite.js.org/:splat"
+  to = "https://citecount.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.cite.js.org/*"
+  to = "https://citecount.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.citecount.com/*"
+  to = "https://citecount.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.citecount.com/*"
+  to = "https://citecount.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://citecount.com/*"
+  to = "https://citecount.com/:splat"
   status = 301
   force = true

@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateCounterDisplay(); // Initialize counter display
   updateCounterSettings(); // Initialize counter settings display
   updateSortButtonStates();
-  // setupAnnouncementBanner();
+  setupAnnouncementBanner();
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -1297,33 +1297,128 @@ https://en.wikipedia.org/wiki/Self-XSS`,
   }
 });
 
-/*function setupAnnouncementBanner() {
+// Announcement Configuration
+// 
+// How to use this announcement system:
+// 
+// 1. Enable/Disable Announcements:
+//    Set ANNOUNCEMENT_CONFIG.enabled = true/false
+//
+// 2. Create a new announcement:
+//    Update ANNOUNCEMENT_CONFIG.current with:
+//    - id: Unique identifier (change this to show announcement again)
+//    - message: The text to display
+//    - type: 'info', 'warning', 'success', 'update' (for future styling)
+//    - link: Optional { url: 'https://...', text: 'Learn more' }
+//    - priority: 'low', 'normal', 'high' (for future features)
+//
+// 3. Examples:
+//    // Simple text announcement
+//    updateAnnouncement({
+//      id: 'new-feature-2025',
+//      message: 'New feature: AI-powered citation detection!',
+//      type: 'info',
+//      link: null,
+//      priority: 'normal'
+//    });
+//
+//    // Announcement with link
+//    updateAnnouncement({
+//      id: 'maintenance-notice',
+//      message: 'Scheduled maintenance on Sunday 2PM-4PM EST.',
+//      type: 'warning', 
+//      link: { url: '/status', text: 'View details' },
+//      priority: 'high'
+//    });
+//
+// 4. Management functions:
+//    - enableAnnouncements() - Turn on announcement system
+//    - disableAnnouncements() - Turn off announcement system  
+//    - clearDismissedAnnouncements() - Force show current announcement again
+//    - updateAnnouncement(newConfig) - Update current announcement
+//
+const ANNOUNCEMENT_CONFIG = {
+  enabled: true, // Set to false to disable all announcements
+  current: {
+    id: 'domain-migration-2025', // Unique ID for this announcement
+    message: 'We have migrated our domain from cite.js.org into citecount.com!',
+    type: 'info', // 'info', 'warning', 'success', 'update'
+    link: null, // Optional link object: { url: 'https://...', text: 'Learn more' }
+    priority: 'normal' // 'low', 'normal', 'high'
+  }
+};
+
+function setupAnnouncementBanner() {
   const banner = document.getElementById('announcement-banner');
-  if (!banner) return;
+  if (!banner || !ANNOUNCEMENT_CONFIG.enabled) {
+    // If announcements are disabled, ensure banner is hidden
+    if (banner) {
+      banner.style.display = 'none';
+      const header = document.querySelector('header');
+      if (header) header.style.top = '0';
+      updateStatsMargin();
+    }
+    return;
+  }
   
   const header = document.querySelector('header');
-  const statsRow = document.querySelector('.stats-row');
-  const bannerContent = banner.querySelector('span').textContent;
-  const storedBanner = localStorage.getItem('dismissedBanner');
+  const textElement = document.getElementById('announcement-text');
+  const currentAnnouncement = ANNOUNCEMENT_CONFIG.current;
+  const storedDismissedId = localStorage.getItem('dismissedAnnouncementId');
 
-  if (storedBanner !== bannerContent) {
+  // Update the announcement text
+  if (textElement) {
+    if (currentAnnouncement.link) {
+      textElement.innerHTML = `${currentAnnouncement.message} <a href="${currentAnnouncement.link.url}" target="_blank" style="text-decoration: underline;">${currentAnnouncement.link.text}</a>`;
+    } else {
+      textElement.textContent = currentAnnouncement.message;
+    }
+  }
+
+  // Show banner if this announcement hasn't been dismissed
+  if (storedDismissedId !== currentAnnouncement.id) {
     banner.style.display = 'flex';
-    header.style.top = `${banner.offsetHeight}px`;
+    if (header) header.style.top = `${banner.offsetHeight}px`;
     updateStatsMargin();
   } else {
-    header.style.top = '0';
+    banner.style.display = 'none';
+    if (header) header.style.top = '0';
     updateStatsMargin();
   }
-}*/
+}
 
 function dismissBanner() {
   const banner = document.getElementById('announcement-banner');
   const header = document.querySelector('header');
-  const bannerContent = banner.querySelector('span').textContent;
-  localStorage.setItem('dismissedBanner', bannerContent);
+  const currentAnnouncement = ANNOUNCEMENT_CONFIG.current;
+  
+  // Store the dismissed announcement ID
+  localStorage.setItem('dismissedAnnouncementId', currentAnnouncement.id);
+  
   banner.style.display = 'none';
-  header.style.top = '0';
+  if (header) header.style.top = '0';
   updateStatsMargin();
+}
+
+// Utility functions for managing announcements
+function updateAnnouncement(newAnnouncement) {
+  ANNOUNCEMENT_CONFIG.current = newAnnouncement;
+  setupAnnouncementBanner();
+}
+
+function enableAnnouncements() {
+  ANNOUNCEMENT_CONFIG.enabled = true;
+  setupAnnouncementBanner();
+}
+
+function disableAnnouncements() {
+  ANNOUNCEMENT_CONFIG.enabled = false;
+  setupAnnouncementBanner();
+}
+
+function clearDismissedAnnouncements() {
+  localStorage.removeItem('dismissedAnnouncementId');
+  setupAnnouncementBanner();
 }
 
 function updateStatsMargin() {
@@ -1390,6 +1485,9 @@ window.onerror = function (message, source, lineno, colno, error) {
   }
 };
 
+// Flag to enable/disable donation messages
+const DONATION_MESSAGES_ENABLED = false;
+
 const donationMessages = [
   /*{
     text: "Saved you time? A donation helps us keep saving yours.",
@@ -1435,7 +1533,7 @@ function markAlertAsDismissed() {
 }
 
 function showDonationAlert() {
-  if (hasUserDismissedAlert()) return;
+  if (!DONATION_MESSAGES_ENABLED || hasUserDismissedAlert()) return;
   const alert = document.getElementById('donation-alert');
   const messageElement = document.getElementById('donation-message');
   const donateButton = document.getElementById('donate-btn');
@@ -1470,7 +1568,7 @@ function handleDonate() {
 const isPremium = localStorage.getItem('isPremium');
 document.getElementById('editor').addEventListener('click', function () {
   if (!hasInteracted && !hasUserDismissedAlert()) {
-    if (isPremium == "true") return;
+    if (isPremium == "true" || !DONATION_MESSAGES_ENABLED) return;
     hasInteracted = true;
     alertTimeout = setTimeout(showDonationAlert, 8000);
   }
