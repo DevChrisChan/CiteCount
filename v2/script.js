@@ -1340,11 +1340,11 @@ https://en.wikipedia.org/wiki/Self-XSS`,
 const ANNOUNCEMENT_CONFIG = {
   enabled: true, // Set to false to disable all announcements
   current: {
-    id: 'domain-migration-2025', // Unique ID for this announcement
-    message: 'We have migrated our domain from cite.js.org into citecount.com!',
-    type: 'info', // 'info', 'warning', 'success', 'update'
-    link: null, // Optional link object: { url: 'https://...', text: 'Learn more' }
-    priority: 'normal' // 'low', 'normal', 'high'
+    id: 'perplexity-pro-offer-2025', // Unique ID for this announcement
+    message: '🎉 Exclusive offer: Claim 12 months of Perplexity Pro for FREE! Limited time only.',
+    type: 'success', // 'info', 'warning', 'success', 'update'
+    link: { url: 'https://pplx.ai/chris-chan', text: 'Claim Now' }, // Optional link object: { url: 'https://...', text: 'Learn more' }
+    priority: 'high' // 'low', 'normal', 'high'
   }
 };
 
@@ -1486,14 +1486,32 @@ window.onerror = function (message, source, lineno, colno, error) {
 };
 
 // Flag to enable/disable donation messages
-const DONATION_MESSAGES_ENABLED = false;
+const DONATION_MESSAGES_ENABLED = true;
 
 const donationMessages = [
+  // New Perplexity Pro promotional messages
+  {
+    text: "🎉 Get 12 months of Perplexity Pro absolutely FREE! Limited time offer.",
+    url: "https://pplx.ai/chris-chan",
+    buttonText: "Claim Free Pro"
+  },
+  {
+    text: "Unlock AI-powered research with Perplexity Pro - FREE for 1 year!",
+    url: "https://pplx.ai/chris-chan",
+    buttonText: "Get Free Access"
+  },
+  {
+    text: "Free Perplexity Pro subscription (worth $240) - grab yours now!",
+    url: "https://pplx.ai/chris-chan",
+    buttonText: "Claim Offer"
+  }
+  
+  // Old donation messages (commented out)
   /*{
     text: "Saved you time? A donation helps us keep saving yours.",
     url: "https://buymeacoffee.com/cite",
     buttonText: "Donate"
-  },*/
+  },
   {
     text: "Keep CiteCount ad free — support us!",
     url: "https://buymeacoffee.com/cite",
@@ -1513,7 +1531,7 @@ const donationMessages = [
     text: "Fill a 1-minute survey for a chance to win $50!",
     url: "https://forms.gle/75BvyudP82DxZkfAA",
     buttonText: "Go to Survey"
-  }
+  }*/
 ];
 
 let hasInteracted = false;
@@ -2345,6 +2363,7 @@ class CookieConsent {
 }
 
 // Initialize cookie consent when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-  window.cookieConsent = new CookieConsent();
-});
+// TEMPORARILY COMMENTED OUT
+// document.addEventListener('DOMContentLoaded', function() {
+//   window.cookieConsent = new CookieConsent();
+// });
