@@ -1340,9 +1340,9 @@ https://en.wikipedia.org/wiki/Self-XSS`,
 const ANNOUNCEMENT_CONFIG = {
   enabled: true, // Set to false to disable all announcements
   current: {
-    id: 'perplexity-pro-offer-2025', // Unique ID for this announcement
-    message: '🎉 Exclusive offer: Claim 12 months of Perplexity Pro for FREE! Limited time only.',
-    type: 'success', // 'info', 'warning', 'success', 'update'
+    id: 'perplexity-pro-offer-2025-v2', // Unique ID for this announcement
+    message: '🎉 Limited CiteCount students offer: Claim 12 months of Perplexity Pro free — no card required!',
+    type: 'success',
     link: { url: 'https://pplx.ai/chris-chan', text: 'Claim Now' }, // Optional link object: { url: 'https://...', text: 'Learn more' }
     priority: 'high' // 'low', 'normal', 'high'
   }
@@ -1488,10 +1488,13 @@ window.onerror = function (message, source, lineno, colno, error) {
 // Flag to enable/disable donation messages
 const DONATION_MESSAGES_ENABLED = true;
 
+// Flag to enable/disable "No thanks" button opening the donation link
+const NO_THANKS_OPENS_LINK = true;
+
 const donationMessages = [
   // New Perplexity Pro promotional messages
   {
-    text: "🎉 Get 12 months of Perplexity Pro absolutely FREE! Limited time offer.",
+    text: "Students get 12 months of Perplexity Pro for FREE! Limited time offer.",
     url: "https://pplx.ai/chris-chan",
     buttonText: "Claim Free Pro"
   },
@@ -1575,6 +1578,10 @@ function hideDonationAlert() {
 function handleNoThanks() {
   hideDonationAlert();
   markAlertAsDismissed();
+  // Navigate to the same link as the donation button only if the flag is enabled
+  if (NO_THANKS_OPENS_LINK) {
+    window.open(currentDonationUrl, '_blank');
+  }
 }
 
 function handleDonate() {
