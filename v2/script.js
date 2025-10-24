@@ -1343,7 +1343,7 @@ const ANNOUNCEMENT_CONFIG = {
     id: 'perplexity-pro-offer-2025-v2', // Unique ID for this announcement
     message: '🎉 Limited CiteCount students offer: Claim 12 months of Perplexity Pro free — no card required!',
     type: 'success',
-    link: { url: 'https://pplx.ai/chris-chan', text: 'Claim Now' }, // Optional link object: { url: 'https://...', text: 'Learn more' }
+    link: { url: 'https://pplx.ai/cite', text: 'Claim Now' }, // Optional link object: { url: 'https://...', text: 'Learn more' }
     priority: 'high' // 'low', 'normal', 'high'
   }
 };
@@ -1489,23 +1489,23 @@ window.onerror = function (message, source, lineno, colno, error) {
 const DONATION_MESSAGES_ENABLED = true;
 
 // Flag to enable/disable "No thanks" button opening the donation link
-const NO_THANKS_OPENS_LINK = true;
+const NO_THANKS_OPENS_LINK = false;
 
 const donationMessages = [
   // New Perplexity Pro promotional messages
   {
     text: "Students get 12 months of Perplexity Pro for FREE! Limited time offer.",
-    url: "https://pplx.ai/chris-chan",
+    url: "https://pplx.ai/cite",
     buttonText: "Claim Free Pro"
   },
   {
     text: "Unlock AI-powered research with Perplexity Pro - FREE for 1 year!",
-    url: "https://pplx.ai/chris-chan",
+    url: "https://pplx.ai/cite",
     buttonText: "Get Free Access"
   },
   {
     text: "Free Perplexity Pro subscription (worth $240) - grab yours now!",
-    url: "https://pplx.ai/chris-chan",
+    url: "https://pplx.ai/cite",
     buttonText: "Claim Offer"
   }
   
