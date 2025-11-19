@@ -1277,7 +1277,7 @@ https://en.wikipedia.org/wiki/Self-XSS`,
     const contentDiv = document.createElement('div');
     contentDiv.style.textAlign = 'center';
     warningDiv.appendChild(contentDiv);
-    contentDiv.innerHTML = 'Heads Up!<h2>Accessing CiteCount from third-party hosts compromises your data\'s safety.</h2>Please visit the official CiteCount application at <a href="https://cite.js.org" style="text-decoration: underline;">cite.js.org</a>.<br><br>If you are aware of what you are doing, you can proceed by clicking the close button on the top left.';
+    contentDiv.innerHTML = 'Heads Up!<h2>Accessing CiteCount from third-party hosts compromises your data\'s safety.</h2>Please visit the official CiteCount application at <a href="https://citecount.com" style="text-decoration: underline;">citecount.com</a>.<br><br>If you are aware of what you are doing, you can proceed by clicking the close button on the top left.';
     const closeButton = document.createElement('button');
     closeButton.innerHTML = '✕';
     closeButton.style.position = 'absolute';
