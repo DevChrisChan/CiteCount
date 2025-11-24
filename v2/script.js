@@ -1340,13 +1340,51 @@ https://en.wikipedia.org/wiki/Self-XSS`,
 const ANNOUNCEMENT_CONFIG = {
   enabled: true, // Set to false to disable all announcements
   current: {
-    id: 'perplexity-pro-offer-2025-v2', // Unique ID for this announcement
-    message: '🎉 Limited CiteCount students offer: Claim 12 months of Perplexity Pro free — no card required!',
+    id: 'perplexity-pro-offer-2025-v3', // Unique ID for this announcement
+    message: '🎉 Exclusive Perplexity offer: 12 months of Perplexity Pro free for all students in ',
     type: 'success',
     link: { url: 'https://pplx.ai/cite', text: 'Claim Now' }, // Optional link object: { url: 'https://...', text: 'Learn more' }
     priority: 'high' // 'low', 'normal', 'high'
   }
 };
+
+// Remove following if disabling country-specific messages
+// Country detection state
+let userCountry = 'your country';
+
+// Function to detect user's country by IP
+async function detectUserCountry() {
+  try {
+    const response = await fetch('https://ipapi.co/json/');
+    const data = await response.json();
+    if (data.country_name) {
+      userCountry = data.country_name;
+      // Update announcement if it's currently displayed
+      const textElement = document.getElementById('announcement-text');
+      if (textElement && ANNOUNCEMENT_CONFIG.enabled) {
+        updateAnnouncementText();
+      }
+    }
+  } catch (error) {
+    console.log('Could not detect country, using default message');
+  }
+}
+
+// Function to update announcement text with detected country
+function updateAnnouncementText() {
+  const textElement = document.getElementById('announcement-text');
+  const currentAnnouncement = ANNOUNCEMENT_CONFIG.current;
+  
+  if (textElement) {
+    const messageWithCountry = currentAnnouncement.message + userCountry;
+    if (currentAnnouncement.link) {
+      textElement.innerHTML = `${messageWithCountry}! <a href="${currentAnnouncement.link.url}" target="_blank" style="text-decoration: underline;">${currentAnnouncement.link.text}</a>`;
+    } else {
+      textElement.textContent = messageWithCountry;
+    }
+  }
+}
+// Ends here for country specific message
 
 function setupAnnouncementBanner() {
   const banner = document.getElementById('announcement-banner');
@@ -1366,14 +1404,11 @@ function setupAnnouncementBanner() {
   const currentAnnouncement = ANNOUNCEMENT_CONFIG.current;
   const storedDismissedId = localStorage.getItem('dismissedAnnouncementId');
 
-  // Update the announcement text
-  if (textElement) {
-    if (currentAnnouncement.link) {
-      textElement.innerHTML = `${currentAnnouncement.message} <a href="${currentAnnouncement.link.url}" target="_blank" style="text-decoration: underline;">${currentAnnouncement.link.text}</a>`;
-    } else {
-      textElement.textContent = currentAnnouncement.message;
-    }
-  }
+  // Update the announcement text with country
+  updateAnnouncementText();
+  
+  // Start country detection
+  detectUserCountry();
 
   // Show banner if this announcement hasn't been dismissed
   if (storedDismissedId !== currentAnnouncement.id) {
@@ -1494,17 +1529,17 @@ const NO_THANKS_OPENS_LINK = false;
 const donationMessages = [
   // New Perplexity Pro promotional messages
   {
-    text: "Students get 12 months of Perplexity Pro for FREE! Limited time offer.",
+    text: `Students in ${userCountry} get 12 months of Perplexity Pro for FREE! Limited time offer.`,
     url: "https://pplx.ai/cite",
     buttonText: "Claim Free Pro"
   },
   {
-    text: "Unlock AI-powered research with Perplexity Pro - FREE for 1 year!",
+    text: `Unlock AI-powered research with Perplexity Pro - FREE for 1 year for ${userCountry} students!`,
     url: "https://pplx.ai/cite",
     buttonText: "Get Free Access"
   },
   {
-    text: "Free Perplexity Pro subscription (worth $240) - grab yours now!",
+    text: `Free Perplexity Pro subscription (worth $240) for students in ${userCountry} - grab yours now!`,
     url: "https://pplx.ai/cite",
     buttonText: "Claim Offer"
   }
@@ -1558,8 +1593,28 @@ function showDonationAlert() {
   const alert = document.getElementById('donation-alert');
   const messageElement = document.getElementById('donation-message');
   const donateButton = document.getElementById('donate-btn');
-  const randomIndex = Math.floor(Math.random() * donationMessages.length);
-  const randomMessage = donationMessages[randomIndex];
+  
+  // Create dynamic messages with current country
+  const dynamicMessages = [
+    {
+      text: `Students in ${userCountry} get 12 months of Perplexity Pro for FREE! Limited time offer.`,
+      url: "https://pplx.ai/cite",
+      buttonText: "Claim Free Pro"
+    },
+    {
+      text: `Unlock AI-powered research with Perplexity Pro - FREE for 1 year for ${userCountry} students!`,
+      url: "https://pplx.ai/cite",
+      buttonText: "Get Free Access"
+    },
+    {
+      text: `Free Perplexity Pro subscription (worth $240) for students in ${userCountry} - grab yours now!`,
+      url: "https://pplx.ai/cite",
+      buttonText: "Claim Offer"
+    }
+  ];
+  
+  const randomIndex = Math.floor(Math.random() * dynamicMessages.length);
+  const randomMessage = dynamicMessages[randomIndex];
   
   messageElement.textContent = randomMessage.text;
   currentDonationUrl = randomMessage.url;
