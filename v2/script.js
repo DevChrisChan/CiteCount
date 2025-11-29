@@ -1340,8 +1340,8 @@ https://en.wikipedia.org/wiki/Self-XSS`,
 const ANNOUNCEMENT_CONFIG = {
   enabled: true, // Set to false to disable all announcements
   current: {
-    id: 'perplexity-pro-offer-2025-v3', // Unique ID for this announcement
-    message: '🎉 Exclusive Perplexity offer: 12 months of Perplexity Pro free for all students in ',
+    id: 'perplexity-pro-offer-2025-v4', // Unique ID for this announcement
+    message: '<b>Are you a Student?</b> Claim 12 months of Perplexity Pro, FREE for all students in ',
     type: 'success',
     link: { url: 'https://pplx.ai/cite', text: 'Claim Now' }, // Optional link object: { url: 'https://...', text: 'Learn more' }
     priority: 'high' // 'low', 'normal', 'high'
