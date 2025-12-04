@@ -1754,6 +1754,24 @@
   </div>
   -->
   
+  <!-- Perplexity Overlay -->
+  <div id="perplexity-overlay" class="perplexity-overlay">
+    <div class="perplexity-dialog" style="background-color: #091717; color: white;">
+      <img src="/assets/pplx.svg" alt="Perplexity" style="width: 100%; display: block;">
+      <div class="perplexity-content">
+        <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: white;">12 Months Free Perplexity Pro for CiteCount users!</h2>
+        <p style="margin-bottom: 20px; opacity: 0.9; color: #e2e8f0; line-height: 1.5;">
+          We've partnered with Perplexity to offer students 12 months of Perplexity Pro for free. 
+          It's an AI-powered research assistant that helps you find credible sources and answers faster.
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button id="perplexity-dismiss-btn" onclick="dismissPerplexityOverlay()" data-lta-event="perplexity-overlay-dismiss" style="padding: 8px 16px; border-radius: 6px; background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; opacity: 0.5; pointer-events: none;">Maybe Later (5)</button>
+          <button onclick="claimPerplexityOffer()" data-lta-event="perplexity-overlay-claim" style="padding: 8px 16px; border-radius: 6px; background: #22d3ee; color: #091717; font-weight: bold; border: none; cursor: pointer;">Get Free Access</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="/v2/script.js"></script>
   <script src="/v2/notify.js"></script>
   <script src="/v2/dev.js"></script>

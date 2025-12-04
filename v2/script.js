@@ -1521,7 +1521,7 @@ window.onerror = function (message, source, lineno, colno, error) {
 };
 
 // Flag to enable/disable donation messages
-const DONATION_MESSAGES_ENABLED = true;
+const DONATION_MESSAGES_ENABLED = false;
 
 // Flag to enable/disable "No thanks" button opening the donation link
 const NO_THANKS_OPENS_LINK = false;
@@ -2429,3 +2429,51 @@ class CookieConsent {
 // document.addEventListener('DOMContentLoaded', function() {
 //   window.cookieConsent = new CookieConsent();
 // });
+// Perplexity Overlay Logic
+function showPerplexityOverlay() {
+  const overlay = document.getElementById('perplexity-overlay');
+  // Check if already dismissed
+  if (overlay && !localStorage.getItem('perplexityOverlayDismissed')) {
+    // Small delay to ensure smooth entrance
+    setTimeout(() => {
+      overlay.classList.add('show');
+      
+      // Countdown logic
+      const dismissBtn = document.getElementById('perplexity-dismiss-btn');
+      if (dismissBtn) {
+        let timeLeft = 5;
+        dismissBtn.textContent = `Maybe Later (${timeLeft})`;
+        dismissBtn.style.opacity = '0.5';
+        dismissBtn.style.pointerEvents = 'none';
+        
+        const timer = setInterval(() => {
+          timeLeft--;
+          if (timeLeft > 0) {
+            dismissBtn.textContent = `Maybe Later (${timeLeft})`;
+          } else {
+            clearInterval(timer);
+            dismissBtn.textContent = 'Maybe Later';
+            dismissBtn.style.opacity = '1';
+            dismissBtn.style.pointerEvents = 'auto';
+          }
+        }, 1000);
+      }
+    }, 1000);
+  }
+}
+
+function dismissPerplexityOverlay() {
+  const overlay = document.getElementById('perplexity-overlay');
+  if (overlay) {
+    overlay.classList.remove('show');
+    localStorage.setItem('perplexityOverlayDismissed', 'true');
+  }
+}
+
+function claimPerplexityOffer() {
+  window.open('https://pplx.ai/cite', '_blank');
+  dismissPerplexityOverlay();
+}
+
+// Initialize overlay
+document.addEventListener('DOMContentLoaded', showPerplexityOverlay);
