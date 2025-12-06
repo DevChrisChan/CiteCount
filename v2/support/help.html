@@ -1,107 +1,395 @@
-<link href="/v2/style.css" rel="stylesheet">
-<link href="/v2/flowbite.css" rel="stylesheet">
-<style>
-    * {
-        background-color: #F7F7F8;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CiteCount Help Center</title>
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
+    <style>
+        /* Custom styles for help page */
+        body {
+            background-color: var(--background-primary, #F7F7F8);
+            color: var(--text-primary, #111827);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .help-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-primary, #e5e7eb);
+            background-color: var(--background-secondary, #ffffff);
+            color: var(--text-primary, #111827);
+            font-size: 1rem;
+        }
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary, #6b7280);
+        }
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: none; /* Firefox */
+        }
+        .category-tabs::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+        .category-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            background-color: var(--background-secondary, #ffffff);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            font-weight: 500;
+            color: var(--text-secondary, #4b5563);
+        }
+        .category-tab:hover {
+            background-color: var(--background-light, #f3f4f6);
+        }
+        .category-tab.active {
+            background-color: var(--accent-color, #3b82f6);
+            color: white;
+            border-color: var(--accent-color, #3b82f6);
+        }
+        .accordion-item {
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: var(--background-secondary, #ffffff);
+            overflow: hidden;
+        }
+        .accordion-header {
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            user-select: none;
+        }
+        .accordion-header:hover {
+            background-color: var(--background-light, #f3f4f6);
+        }
+        .accordion-content {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+        .accordion-content.open {
+            padding: 1rem;
+            max-height: 1000px;
+            border-top: 1px solid var(--border-primary, #e5e7eb);
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+        .feature-card {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            background-color: var(--background-secondary, #ffffff);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            transition: transform 0.2s;
+        }
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .icon-wrapper {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-light, #eff6ff);
+            color: var(--accent-color, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                --background-primary: #0f0f0f;
+                --background-secondary: #1c1c1c;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --border-primary: #333333;
+                --background-light: #2a2a2a;
+                --accent-light: #1a2e4c;
+            }
+            .search-input {
+                background-color: var(--background-secondary);
+                border-color: var(--border-primary);
+                color: var(--text-primary);
+            }
+            .category-tab {
+                background-color: var(--background-secondary);
+                border-color: var(--border-primary);
+                color: var(--text-secondary);
+            }
+            .category-tab:hover {
+                background-color: var(--background-light);
+                color: var(--text-primary);
+            }
+            .accordion-item, .feature-card {
+                background-color: var(--background-secondary);
+                border-color: var(--border-primary);
+            }
+            .accordion-header:hover {
+                background-color: var(--background-light);
+            }
+            .help-footer {
+                background-color: var(--background-secondary);
+            }
+            .btn-secondary {
+                background-color: var(--background-light);
+                border-color: var(--border-primary);
+                color: var(--text-primary);
+            }
+            .btn-secondary:hover {
+                background-color: var(--border-primary);
+            }
+        }
+        
+        .help-footer {
+            background-color: #eff6ff;
+            color: var(--text-primary);
+        }
+        .btn-secondary {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body>
+    <div class="help-container">
+        <h1 class="text-3xl font-bold mb-6 text-center">How can we help you?</h1>
+        
+        <div class="search-box">
+            <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input type="text" class="search-input" placeholder="Search for help topics..." id="searchInput">
+        </div>
 
-@media (prefers-color-scheme: dark) {
-    * {
-        background-color: #232323;
-    }
-}
-</style>
-<div class="p-4">
-    Quick help:
-    Join our <a href="https://discord.gg/twnz2957sK" target="_blank" class="text-blue-500 hover:underline">Discord
-      server</a>, or <a
-      href="/contact.html?source=" class="text-blue-500 hover:underline" target="_blank">contact us</a> for support.<br>
-    <p>CiteCount is a web application that provides an accurate word count of your text, excluding in-text
-      citations. It
-      supports MLA, APA, and Chicago style in-text citation formats.</p>
-    <br>
-    <h3 style="font-size: large; font-weight: 700;">Key Features</h3>
-    <ul>
-      <li><b>Accurate Word Count:</b> Get a precise word count of your document, excluding citations.</li>
-      <li><b>Citation Detection:</b> Automatically identifies and excludes citations in MLA, APA, and Chicago
-        formats.
-      </li>
-      <li><b>Real-time Counting:</b> Word counts are updated as you type or paste text.</li>
-      <li><b>File Upload:</b> Upload .docx and .pdf files to automatically extract text and count words.</li>
-      <li><b>Manual Input:</b> Type or paste text directly into the editor.</li>
-      <li><b>Citations Management:</b> Manage citations and choose whether to include them in the total word count.
-      </li>
-      <li><b>Text Formatting:</b> Basic text formatting options (bold, italic, underline) are available.</li>
-      <li><b>Data Privacy:</b> All processing is done on your device, ensuring your data stays private.</li>
-      <li><b>AutoSave:</b> Your content is automatically saved as you type.</li>
-      <li><b>Offline Access:</b> CiteCount can be used even without an internet connection.</li>
-    </ul>
-    <br>
-    <h3 style="font-size: large; font-weight: 700;">How to Use</h3>
-    <ol>
-      <li><b>Input Text:</b>
-        <ul>
-          <li>Type directly into the editor.</li>
-          <li>Paste text from your document.</li>
-          <li>Drag and drop a .docx or .pdf file into the editor.</li>
-          <li>Click the " Paste from Clipboard" button to paste content from your clipboard.</li>
-      <li>Click "Try Example" to load sample text.</li>
-      </ul>
-      </li>
-      <li><b>View Word Counts:</b> The "Total Words" counter displays the total word count of the text. The "Words
-        without
-        Citations" counter shows the word count excluding citations. The "Citations" counter shows the total number
-        of
-        citations found.</li>
-      <li><b>Manage Citations:</b>
-        <ul>
-          <li>Click the "Manage Citations" button (on smaller screens) or use the citations panel (on larger
-            screens) to
-            view a list of detected citations.</li>
-          <li>Toggle the "Include in Total" option for each citation to include or exclude it from the word count.
-          </li>
-          <li>Clicking on a citation in the citation table will highlight its location in the text editor.</li>
-        </ul>
-      </li>
-      <li><b>Format Text:</b> Use the toolbar buttons to apply basic formatting (bold, italic, underline) to your
-        text.
-      </li>
-      <li><b>Settings:</b>
-        <ul>
-          <li>Click the "Settings" button (gear icon) to access settings.</li>
-          <li>Enable or disable AutoSave to automatically save your work.</li>
-          <li>Enable or disable "Warn on leave" to receive a warning if you attempt to leave the page without
-            saving.
-          </li>
-          <li>Toggle Spell Check to use native spell checking.</li>
-          <li>Use "Reset All Settings" to reset all settings to default.</li>
-        </ul>
-      </li>
-      <li><b>Other Apps:</b>
-        <ul>
-          <li>Click the "More Apps" button (three horizontal lines icon) to access other useful IB apps.</li>
-        </ul>
-      </li>
-      </ol>
-      <br>
-      <h3 style="font-size: large; font-weight: 700">Additional Information</h3>
-      <ul>
-        <li>CiteCount uses smart citation detection to identify and exclude in-text citations.</li>
-        <li>The application is designed to be privacy-focused, with all processing done on your device.</li>
-      </ul>
-      <br>
-      <h3 style="font-size: large; font-weight: 700;">Troubleshooting</h3>
-      <ul>
-        <li>If CiteCount is not working as expected, try resetting all settings by clicking the "Reset All Settings"
-          button in the settings menu.</li>
-      </ul>
-      <br>
-      <p style="font-size: large; font-weight: 700;">Need more help? Feel free to contact us <a
-          href="/contact.html?source=" class="text-blue-500 hover:underline">here</a>.</p>
-  </div>
-  <!--<div id="iframe-container">
-    <iframe id="forms"
-      src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true"
-      allowfullscreen onload="iframeLoaded()"></iframe>
-  </div>-->
-</div>
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="filterCategory('all')">All</button>
+            <button class="category-tab" onclick="filterCategory('getting-started')">Getting Started</button>
+            <button class="category-tab" onclick="filterCategory('features')">Features</button>
+            <button class="category-tab" onclick="filterCategory('troubleshooting')">Troubleshooting</button>
+        </div>
+
+        <div id="help-content">
+            <!-- Getting Started Section -->
+            <div class="section mb-8" data-category="getting-started">
+                <h2 class="text-xl font-bold mb-4">Getting Started</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        </div>
+                        <h3 class="font-bold mb-2">Input Text</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Type directly, paste from clipboard, or drag & drop .docx/.pdf files.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <h3 class="font-bold mb-2">View Counts</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">See real-time stats for words, characters, and citations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+                        <h3 class="font-bold mb-2">Privacy Focused</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">All processing happens in your browser. Your text never leaves your device.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features FAQ -->
+            <div class="section mb-8" data-category="features">
+                <h2 class="text-xl font-bold mb-4">Features & Usage</h2>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>How does citation detection work?</span>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="mb-2">CiteCount automatically identifies in-text citations (MLA, APA, Chicago) and brackets.</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><b>Words without Citations:</b> The core metric for IB students.</li>
+                            <li><b>Citations Panel:</b> Click "Manage Citations" or view the side panel to see all detected citations.</li>
+                            <li><b>Interactive:</b> Click a citation in the list to highlight it in your text.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>What file formats are supported?</span>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p>You can upload <b>.docx</b> (Word) and <b>.pdf</b> files. Simply drag and drop them into the editor or use the upload option. Text is extracted locally on your device.</p>
+                    </div>
+                </div>
+                 <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Word Count Details</span>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Switch to the <b>Word Count Details</b> tab in the side panel to see a granular breakdown:</p>
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>Total Words & Characters</li>
+                            <li>Words & Characters excluding citations</li>
+                            <li>Citation count</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Settings & Customization</span>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Click the gear icon to access settings:</p>
+                        <ul class="list-disc pl-5 mt-2">
+                            <li><b>AutoSave:</b> Automatically save your work locally.</li>
+                            <li><b>Warn on Leave:</b> Prevent accidental data loss.</li>
+                            <li><b>Spell Check:</b> Enable browser-native spell checking.</li>
+                            <li><b>Theme:</b> Toggle between Light and Dark modes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div class="section mb-8" data-category="troubleshooting">
+                <h2 class="text-xl font-bold mb-4">Troubleshooting</h2>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>The word count seems incorrect</span>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p>Check the <b>Citations</b> panel to see what is being excluded. You can manually toggle specific citations to include/exclude them from the count if the auto-detection is too aggressive or missed something.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Resetting the App</span>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div class="accordion-content">
+                        <p>If you encounter issues, go to <b>Settings</b> (gear icon) and click "Reset All Settings". This clears local storage and restores defaults.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 p-6 rounded-lg text-center help-footer">
+            <h3 class="font-bold text-lg mb-2">Still need help?</h3>
+            <p class="mb-4 text-sm">Join our community or contact support directly.</p>
+            <div class="flex justify-center gap-4">
+                <a href="https://discord.gg/twnz2957sK" target="_blank" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition no-underline">Join Discord</a>
+                <a href="/contact.html" target="_blank" class="px-4 py-2 rounded-md transition no-underline btn-secondary">Contact Us</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Accordion functionality
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('svg');
+            const isOpen = content.classList.contains('open');
+            
+            if (isOpen) {
+                content.classList.remove('open');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Category filtering
+        function filterCategory(category) {
+            // Update tabs
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                const tabCat = tab.textContent.toLowerCase().replace(' ', '-');
+                if (tabCat === category || (category === 'all' && tabCat === 'all')) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Filter content
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                if (category === 'all' || section.dataset.category === category) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.accordion-item, .feature-card');
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(term)) {
+                    item.style.display = 'block';
+                    // Ensure parent section is visible
+                    item.closest('.section').style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Hide empty sections
+            document.querySelectorAll('.section').forEach(section => {
+                const visibleItems = Array.from(section.querySelectorAll('.accordion-item, .feature-card')).filter(i => i.style.display !== 'none');
+                if (visibleItems.length === 0 && term !== '') {
+                    section.style.display = 'none';
+                } else if (term === '') {
+                    // Reset to current category view if search is cleared
+                    const activeTab = document.querySelector('.category-tab.active');
+                    let activeCategory = activeTab.textContent.toLowerCase().replace(' ', '-');
+                    filterCategory(activeCategory);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

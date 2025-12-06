@@ -5,7 +5,7 @@
      crossorigin="anonymous"></script>-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IB Resources</title>
+    <title>IB Resources - CiteCount</title>
     <meta property="og:title" content="IB Resources - CiteCount" />
     <meta property="og:description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
     <meta property="og:image" content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
@@ -18,7 +18,7 @@
     <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
     <meta name="description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!">
     <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
-    <meta name="theme-color" content="#242F89" />
+    <meta name="theme-color" content="#0f172a" />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -48,21 +48,37 @@
     <link href="/v2/flowbite.css" rel="stylesheet">
     <link rel="manifest" href="manifest.json" />
     <style>
+        :root {
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --card-hover: rgba(51, 65, 85, 0.8);
+            --card-border: rgba(148, 163, 184, 0.1);
+            --accent-color: #38bdf8;
+            --gold: #fbbf24;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            background: linear-gradient(90deg, #000428 0%, #004e92 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
             display: flex;
             flex-direction: column;
+            overflow-y: scroll; /* Always show scrollbar to prevent layout shift */
         }
 
         .search-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 24px;
+            /* border-bottom: 1px solid var(--card-border); Removed to merge with nav */
             position: fixed;
             top: 0;
             left: 0;
@@ -71,310 +87,574 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-name-container {
+            position: absolute;
+            left: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            z-index: 10;
+        }
+
+        .logo {
+            height: 32px;
+            width: 32px;
+            filter: brightness(0) invert(1);
         }
 
         .app-name {
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: bold;
+            color: var(--text-primary);
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
         }
 
         #search {
             width: 100%;
-            max-width: 600px;
-            padding: 12px 20px;
-            border: none;
+            padding: 14px 20px;
+            padding-left: 48px; /* Space for icon */
+            border: 1px solid var(--card-border);
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
             font-size: 16px;
             box-sizing: border-box;
+            transition: all 0.2s ease;
         }
 
         #search:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
 
         #search::placeholder {
-            color: #bdc3c7;
+            color: var(--text-secondary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
         }
 
         .content {
-            padding: 20px;
+            padding: 32px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             flex-grow: 1;
-            margin-top: 70px; /* Added to prevent content overlap with fixed navbar */
+            margin-top: 80px;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
-            padding: 0 10px;
+            max-width: 800px;
             box-sizing: border-box;
         }
 
+        .category {
+            margin-bottom: 32px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
         .category-header {
-            color: #ffffff;
-            font-size: 20px;
-            cursor: pointer;
-            user-select: none;
-            margin-bottom: 10px;
-            font-weight: bold;
-            padding: 15px 0;
+            color: var(--accent-color);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-left: 4px;
+            opacity: 0.9;
         }
 
         .link-list {
             list-style: none;
             padding: 0;
-            display: block;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
         }
 
         .link-item {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            margin: 15px 0;
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid var(--card-border);
             cursor: pointer;
             position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
         }
 
         .link-item:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: var(--card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(148, 163, 184, 0.3);
         }
 
-        .starred:hover {
-            background: rgba(255, 245, 157, 0.3);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        .link-item.starred {
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            background: linear-gradient(to bottom right, rgba(251, 191, 36, 0.05), rgba(30, 41, 59, 0.6));
+        }
+
+        .link-item.starred:hover {
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(251, 191, 36, 0.15);
         }
 
         .link-item a {
             text-decoration: none;
-            color: #ecf0f1;
+            color: var(--text-primary);
             font-size: 18px;
-            font-weight: 500;
+            font-weight: 600;
+            margin-bottom: 8px;
             pointer-events: none;
+            display: block;
         }
 
         .description {
-            color: #dfe6e9;
+            color: var(--text-secondary);
             font-size: 14px;
-            margin-top: 8px;
+            line-height: 1.5;
+            flex-grow: 1;
         }
 
         .site-url {
-            color: #bdc3c7;
+            color: var(--text-secondary);
             font-size: 12px;
-            margin-top: 8px;
-            word-break: break-all;
-        }
-
-        .no-results {
-            color: #ffffff;
-            text-align: center;
-            margin: 20px 0;
-            font-size: 18px;
-        }
-
-        .suggest-button {
-            display: block;
-            margin: 30px auto;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: none;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .suggest-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .disclaimer {
-            color: #bdc3c7;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 12px;
+            opacity: 0.6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: monospace;
         }
 
         .star-indicator {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            color: #ffd700;
-            font-size: 20px;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            top: 16px;
+            right: 16px;
+            color: var(--gold);
+            font-size: 18px;
+            filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.4));
         }
 
-        .starred {
-            border: 2px solid #ffd700;
-            background: rgba(255, 215, 0, 0.1);
+        .no-results {
+            color: var(--text-secondary);
+            text-align: center;
+            margin: 40px 0;
+            font-size: 18px;
+            background: rgba(255,255,255,0.05);
+            padding: 40px;
+            border-radius: 16px;
+        }
+
+        .suggest-button {
+            display: block;
+            margin: 40px auto;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .suggest-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .disclaimer {
+            color: var(--text-secondary);
+            font-size: 12px;
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            opacity: 0.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 768px) {
-            .search-container { padding: 10px 15px; }
-            .content { padding: 15px; margin-top: 60px; }
-            .container { padding: 0 5px; }
-            #search { padding: 10px 15px; font-size: 14px; }
-            .category-header { font-size: 18px; padding: 10px 0; }
-            .link-item { padding: 15px; margin: 10px 0; }
-            .link-item a { font-size: 16px; }
-            .description { font-size: 13px; }
-            .site-url { font-size: 11px; }
-            .suggest-button { padding: 8px 16px; font-size: 14px; }
-            .disclaimer { font-size: 11px; }
-            .star-indicator { font-size: 18px; }
-            .app-name { font-size: 18px; }
+            .search-container { padding: 12px 16px; gap: 16px; flex-direction: column; }
+            .app-name-container { position: static; margin-bottom: 4px; }
+            .content { padding: 16px; margin-top: 130px; }
+            .app-name { font-size: 20px; }
+            .link-list { grid-template-columns: 1fr; }
+            .category-header { text-align: center; }
         }
 
         @media (max-width: 480px) {
-            .search-container { 
-                padding: 10px; 
-                flex-direction: column; 
-                align-items: center;
-                gap: 10px;
+            .search-container { padding-bottom: 16px; }
+            .content { margin-top: 140px; }
+            #search { font-size: 16px; } /* Prevent zoom on iOS */
+        }
+
+        /* New styles for category nav */
+        .category-nav {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 12px 24px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: fixed;
+            top: 88px;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            border-bottom: 1px solid var(--card-border);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .nav-pill {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-pill:hover, .nav-pill.active {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .content {
+            margin-top: 160px;
+        }
+        
+        .category-header {
+            color: var(--accent-color);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-left: 4px;
+            opacity: 0.9;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0f172a;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+            border: none;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .category-nav { top: 130px; }
+            .content { margin-top: 200px; }
+            .category-header { top: 170px; }
+        }
+
+        /* Mini Browser Styles */
+        .mini-browser-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .mini-browser-container {
+            width: 90%;
+            height: 90%;
+            background: #1e293b;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .browser-header {
+            padding: 12px 16px;
+            background: #0f172a;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .browser-controls, .browser-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .browser-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+            align-items: center;
+        }
+
+        .browser-header button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 16px;
+        }
+
+        .browser-header button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .browser-url {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-family: monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .browser-hint {
+            font-size: 10px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        #mini-browser-frame {
+            flex-grow: 1;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .mini-browser-container {
+                width: 100%;
+                height: 100%;
+                border-radius: 0;
             }
-            #search { padding: 8px 12px; margin-top: 0; }
-            .content { margin-top: 80px; }
-            .category-header { font-size: 16px; }
-            .link-item { padding: 12px; }
-            .link-item a { font-size: 14px; }
-            .description { font-size: 12px; }
-            .site-url { font-size: 10px; }
-            .star-indicator { font-size: 16px; top: 8px; right: 8px; }
-            .app-name { font-size: 16px; }
+            .browser-url {
+                display: none;
+            }
+            .browser-hint {
+                display: none;
+            }
+            .browser-info {
+                display: none;
+            }
+            .browser-header {
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
 <body>
     <div class="search-container">
-        <a href="/" class="app-name" style="text-decoration:none;">CiteCount</a>
-        <input type="text" id="search" placeholder="Search resources...">
+        <a href="/" class="app-name-container">
+            <img src="/assets/logo.svg" alt="CiteCount Logo" class="logo">
+            <span class="app-name">CiteCount</span>
+        </a>
+        <div class="search-wrapper">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="search" placeholder="Search resources, papers, notes...">
+        </div>
+    </div>
+
+    <div class="category-nav" id="categoryNav">
+        <!-- Populated by JS -->
     </div>
     
     <div class="content">
         <div class="container">
             <div id="categories">
-                <!-- Grind Papers -->
-                <div class="category">
-                    <div class="category-header">Grind Papers</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="window.open('https://dl.ibdocs.re/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://dl.ibdocs.re/">IB Docs</a>
-                            <div class="description">Repository for IB past papers, mark schemes, books, and more</div>
-                            <div class="site-url">https://dl.ibdocs.re/</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="window.open('https://revisionvillage.pages.dev/homepage', '_blank', 'noopener,noreferrer')">
-                            <a href="https://revisionvillage.pages.dev/homepage">Revision Village Archive</a>
-                            <div class="description">An archive for Revision Village.</div>
-                            <div class="site-url">https://revisionvillage.pages.dev/homepage</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item" onclick="window.open('https://revision-town.pages.dev/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://revision-town.pages.dev/">Revision Town</a>
-                            <div class="description">Another archive for Revision Village (supports mobile)</div>
-                            <div class="site-url">https://revision-town.pages.dev/</div>
-                        </li>
-                        <li class="link-item" onclick="window.open('https://www.exam-mate.com/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://www.exam-mate.com/">exam-mate</a>
-                            <div class="description">By topic revision</div>
-                            <div class="site-url">https://www.exam-mate.com/</div>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Study Notes -->
-                <div class="category">
-                    <div class="category-header">Study Notes</div>
-                    <ul class="link-list">
-                        <li class="link-item" onclick="window.open('https://smearchive.pages.dev/dp/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://smearchive.pages.dev/dp/">Save My Exams Archive</a>
-                            <div class="description">An archive for notes from Save My Exams.</div>
-                            <div class="site-url">https://smearchive.pages.dev/dp/</div>
-                        </li>
-                    </ul>
-                </div>
-                <!-- IAs -->
-                <div class="category">
-                    <div class="category-header">IAs</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="window.open('https://clastify.com/ia', '_blank', 'noopener,noreferrer')">
-                            <a href="https://clastify.com/ia">Clastify</a>
-                            <div class="description">IA examples for all subjects</div>
-                            <div class="site-url">https://clastify.com/ia</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Research -->
-                <div class="category">
-                    <div class="category-header">Research</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="window.open('https://sci-hub.se/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://sci-hub.se/">Sci-hub</a>
-                            <div class="description">Unlocks paywall for all research papers</div>
-                            <div class="site-url">https://sci-hub.se/</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="window.open('https://citecount.com/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://citecount.com/">CiteCount</a>
-                            <div class="description">Counts number of words without citations for your IB coursework</div>
-                            <div class="site-url">https://citecount.com/</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Forums -->
-                <div class="category">
-                    <div class="category-header">Forums</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="window.open('https://www.reddit.com/r/IBO/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://www.reddit.com/r/IBO/">r/IBO Subreddit</a>
-                            <div class="description">A subreddit for IB students to discuss and share resources</div>
-                            <div class="site-url">https://www.reddit.com/r/IBO/</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="window.open('https://discord.com/invite/ibo', '_blank', 'noopener,noreferrer')">
-                            <a href="https://discord.com/invite/ibo">r/IBO Discord</a>
-                            <div class="description">A Discord server for IB students to discuss and share resources</div>
-                            <div class="site-url">https://discord.com/invite/ibo</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                    </ul>
-                </div>
+                <!-- Categories will be populated by JavaScript -->
+                <div class="no-results" style="display: none;">Loading resources...</div>
             </div>
-            <a href="/contact.html?source=ib-resources" style="text-decoration: none!important;"><button class="suggest-button">Suggest a Resource</button></a>
+            
+            <a href="/contact.html?source=ib-resources" style="text-decoration: none!important;">
+                <button class="suggest-button">Suggest a Resource</button>
+            </a>
+            
             <div class="disclaimer">
-                If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html" style="color: #bdc3c7; text-decoration: underline;">here</a> for further details and instructions.
+                If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html" style="color: var(--accent-color); text-decoration: none;">here</a> for further details and instructions.
             </div>
         </div>
     </div>
 
-    <!--<script>
+    <div id="mini-browser-overlay" class="mini-browser-overlay">
+        <div class="mini-browser-container">
+            <div class="browser-header">
+                <div class="browser-controls">
+                    <button id="browser-reload" title="Reload">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                    </button>
+                </div>
+                <div class="browser-info">
+                    <div class="browser-url" id="browser-url-display"></div>
+                    <div class="browser-hint">If the page is blank or refuses to connect, please open in a new tab.</div>
+                </div>
+                <div class="browser-actions">
+                    <button id="browser-open-new" title="Open in New Tab">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </button>
+                    <button id="browser-close" title="Close">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
+            <iframe id="mini-browser-frame" src="" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-presentation"></iframe>
+        </div>
+    </div>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <script>
         const categoriesContainer = document.getElementById('categories');
         const searchInput = document.getElementById('search');
+        const categoryNav = document.getElementById('categoryNav');
+        const backToTopBtn = document.getElementById('backToTop');
+        let allResources = {};
+
+        // Mini Browser Logic
+        const browserOverlay = document.getElementById('mini-browser-overlay');
+        const browserFrame = document.getElementById('mini-browser-frame');
+        const urlDisplay = document.getElementById('browser-url-display');
+        let currentBrowserUrl = '';
+
+        function openMiniBrowser(url) {
+            currentBrowserUrl = url;
+            browserFrame.src = url;
+            urlDisplay.textContent = url;
+            browserOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMiniBrowser() {
+            browserOverlay.style.display = 'none';
+            browserFrame.src = '';
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('browser-close').onclick = closeMiniBrowser;
+        document.getElementById('browser-open-new').onclick = () => window.open(currentBrowserUrl, '_blank');
+        document.getElementById('browser-reload').onclick = () => {
+            browserFrame.src = browserFrame.src;
+        };
+        
+        browserOverlay.onclick = (e) => {
+            if (e.target === browserOverlay) closeMiniBrowser();
+        };
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && browserOverlay.style.display === 'flex') {
+                closeMiniBrowser();
+            }
+        });
 
         function createCategory(name, links) {
             const categoryDiv = document.createElement('div');
             categoryDiv.className = 'category';
+            categoryDiv.id = 'cat-' + name.replace(/\s+/g, '-');
             
             const header = document.createElement('div');
             header.className = 'category-header';
             header.textContent = name;
-            header.onclick = () => header.nextElementSibling.classList.toggle('active');
             
             const list = document.createElement('ul');
             list.className = 'link-list';
@@ -396,17 +676,29 @@
                     li.innerHTML = `
                         <a href="${link.url}">${link.title}</a>
                         <div class="description">${link.desc}</div>
-                        <div class="site-url">${link.url}</div>
+                        <div class="site-url">${new URL(link.url).hostname}</div>
                         <span class="star-indicator">★</span>
                     `;
                 } else {
                     li.innerHTML = `
                         <a href="${link.url}">${link.title}</a>
                         <div class="description">${link.desc}</div>
-                        <div class="site-url">${link.url}</div>
+                        <div class="site-url">${new URL(link.url).hostname}</div>
                     `;
                 }
-                li.onclick = () => window.open(link.url, '_blank', 'noopener,noreferrer');
+
+                // Check for sites that refuse to connect in iframe
+                const forceNewTab = [
+                    'ibdocs', 'shagun', 'christosnikolaidis', 'gradegorilla', 
+                    'pplx', 'sci-hub', 'scihub', 'scholar.google', 'reddit', 'discord'
+                ].some(keyword => link.url.toLowerCase().includes(keyword));
+
+                if (forceNewTab) {
+                    li.onclick = () => window.open(link.url, '_blank', 'noopener,noreferrer');
+                } else {
+                    li.onclick = () => openMiniBrowser(link.url);
+                }
+                
                 listElement.appendChild(li);
             });
         }
@@ -418,8 +710,10 @@
             Object.entries(resources).forEach(([name, links]) => {
                 const filteredLinks = links.filter(link => 
                     link.title.toLowerCase().includes(searchTerm) || 
-                    link.desc.toLowerCase().includes(searchTerm)
+                    link.desc.toLowerCase().includes(searchTerm) ||
+                    name.toLowerCase().includes(searchTerm)
                 );
+                
                 if (filteredLinks.length > 0) {
                     categoriesContainer.appendChild(createCategory(name, filteredLinks));
                     hasResults = true;
@@ -429,25 +723,79 @@
             if (!hasResults) {
                 const noResults = document.createElement('div');
                 noResults.className = 'no-results';
-                noResults.textContent = 'No results found';
+                noResults.textContent = searchTerm ? 'No resources found matching your search.' : 'No resources available.';
                 categoriesContainer.appendChild(noResults);
+            }
+
+            // Update Nav
+            if (!searchTerm) {
+                categoryNav.style.display = 'flex';
+                categoryNav.innerHTML = '';
+                Object.keys(resources).forEach(name => {
+                    const pill = document.createElement('button');
+                    pill.className = 'nav-pill';
+                    pill.textContent = name;
+                    pill.onclick = () => {
+                        const el = document.getElementById('cat-' + name.replace(/\s+/g, '-'));
+                        if (el) {
+                            const offset = 140; // Header height
+                            const bodyRect = document.body.getBoundingClientRect().top;
+                            const elementRect = el.getBoundingClientRect().top;
+                            const elementPosition = elementRect - bodyRect;
+                            const offsetPosition = elementPosition - offset;
+
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: "smooth"
+                            });
+                        }
+                    };
+                    categoryNav.appendChild(pill);
+                });
+            } else {
+                categoryNav.style.display = 'none';
             }
         }
 
+        // Show loading state
+        categoriesContainer.innerHTML = '<div class="no-results">Loading resources...</div>';
+
         fetch('/ib-resources/resources.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
             .then(resources => {
+                allResources = resources;
                 updateCategories(resources);
                 
-                searchInput.addEventListener('input', () => {
-                    const searchTerm = searchInput.value.toLowerCase();
-                    updateCategories(resources, searchTerm);
+                searchInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+                    updateCategories(allResources, searchTerm);
                 });
             })
             .catch(error => {
                 console.error('Error loading resources:', error);
-                categoriesContainer.innerHTML = '<div class="no-results">Error loading resources</div>';
+                categoriesContainer.innerHTML = `
+                    <div class="no-results">
+                        Unable to load resources.<br>
+                        <small style="opacity: 0.7; margin-top: 10px; display: block;">Please try refreshing the page.</small>
+                    </div>
+                `;
             });
-    </script>-->
+
+        // Back to top logic
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.onclick = () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
 </body>
 </html>

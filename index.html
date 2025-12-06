@@ -44,7 +44,7 @@
       }
   }
   </script>
-  
+
   <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
   <link rel="shortcut icon" href="/favicon/favicon.ico" />
@@ -60,7 +60,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    
+
     // Initialize with consent mode - deny all by default
     gtag('consent', 'default', {
       analytics_storage: 'denied',
@@ -69,7 +69,7 @@
       ad_personalization: 'denied',
       wait_for_update: 500
     });
-    
+
     gtag('config', 'G-LHVN622J29');
   </script>
   <link href="/v2/style.css" rel="stylesheet">
@@ -97,24 +97,31 @@
     <p id="donation-message"></p>
     <div class="btn-container">
       <!--<button id="donate-btn" class="donate-btn" onclick="handleDonate()" data-lta-event="v2-cta-donate-button-click"></button>-->
-      <button id="donate-btn" class="donate-btn" onclick="handleDonate()" data-lta-event="perplexity-offer-popup-claim"></button>
+      <button id="donate-btn" class="donate-btn" onclick="handleDonate()"
+        data-lta-event="perplexity-offer-popup-claim"></button>
       <!--<button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="v2-cta-donate-no-thanks-button-click">No Thanks</button>-->
-      <button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="perplexity-offer-popup-no-thanks-button-click">No Thanks</button>
+      <button class="no-thanks-btn" onclick="handleNoThanks()"
+        data-lta-event="perplexity-offer-popup-no-thanks-button-click">No Thanks</button>
     </div>
-</div>
+  </div>
   <div class="app-container">
     <div id="announcement-banner" class="announcement-banner" style="display: none;">
       <div class="announcement-content">
-        <svg class="announcement-icon" width="20" height="20" viewBox="0 -0.2 50.963 50.963" xmlns="http://www.w3.org/2000/svg">
-          <path d="M997.7,276.689c4.562,1.118,11.424,3.839,19.778,10.381v-36.3c-8.354,6.54-15.216,9.262-19.778,10.381ZM990.676,293l-.057-.067-.068-.111c-.633-1.078-1.445-3.321-1.715-7.894l0-.026V279.7h-4.608l-2.611,0v16.36h7.32c.023,0,.049-.007.077-.008l.09-.01.13.008c.03,0,.057.005.079.009a1.869,1.869,0,0,0,1.822-1.862,1.833,1.833,0,0,0-.25-.906A1.891,1.891,0,0,0,990.676,293Zm-17.6-28.3v8.448a4.244,4.244,0,0,0,4.231,4.227h18.065v-16.9H977.309A4.242,4.242,0,0,0,973.078,264.7Zm49.969-19.193H1020.8a1.011,1.011,0,0,0-.995.995v44.844a1,1,0,0,0,.995.991h2.245a.994.994,0,0,0,.992-.993V246.495A1,1,0,0,0,1023.047,245.5Z" transform="translate(-973.078 -245.502)"/>
+        <svg class="announcement-icon" width="20" height="20" viewBox="0 -0.2 50.963 50.963"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M997.7,276.689c4.562,1.118,11.424,3.839,19.778,10.381v-36.3c-8.354,6.54-15.216,9.262-19.778,10.381ZM990.676,293l-.057-.067-.068-.111c-.633-1.078-1.445-3.321-1.715-7.894l0-.026V279.7h-4.608l-2.611,0v16.36h7.32c.023,0,.049-.007.077-.008l.09-.01.13.008c.03,0,.057.005.079.009a1.869,1.869,0,0,0,1.822-1.862,1.833,1.833,0,0,0-.25-.906A1.891,1.891,0,0,0,990.676,293Zm-17.6-28.3v8.448a4.244,4.244,0,0,0,4.231,4.227h18.065v-16.9H977.309A4.242,4.242,0,0,0,973.078,264.7Zm49.969-19.193H1020.8a1.011,1.011,0,0,0-.995.995v44.844a1,1,0,0,0,.995.991h2.245a.994.994,0,0,0,.992-.993V246.495A1,1,0,0,0,1023.047,245.5Z"
+            transform="translate(-973.078 -245.502)" />
         </svg>
         <span id="announcement-text"></span>
       </div>
-      <button onclick="dismissBanner()" style="cursor: pointer;" data-lta-event="perplexity-announcement-dismiss">✕</button>
-          </div>
+      <button onclick="dismissBanner()" style="cursor: pointer;"
+        data-lta-event="perplexity-announcement-dismiss">✕</button>
+    </div>
 
     <header class="flex justify-between items-center">
-      <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload();" style="user-select: none;" data-lta-event="v2-logo-click">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload();" style="user-select: none;"
+        data-lta-event="v2-logo-click">
         <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
         <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900;">CiteCount</h1><span style="font-size: small; font-weight: 900; background-color: #003366; color: white;
         padding: 2px 5px;
@@ -129,14 +136,16 @@
                 d="M12,0C6.486,0,2,4.486,2,10s4.486,10,10,10,10-4.486,10-10S17.514,0,12,0Zm-1.356,8.761l3.041,.506c1.342,.224,2.315,1.374,2.315,2.733,0,1.654-1.346,3-3,3v1h-2v-1c-1.654,0-3-1.346-3-3h2c0,.552,.449,1,1,1h2c.551,0,1-.448,1-1,0-.379-.271-.698-.644-.761l-3.041-.506c-1.342-.224-2.315-1.374-2.315-2.733,0-1.654,1.346-3,3-3v-1h2v1c1.654,0,3,1.346,3,3h-2c0-.552-.449-1-1-1h-2c-.551,0-1,.448-1,1,0,.379,.271,.698,.644,.761Zm13.356,11.739c0,1.933-1.567,3.5-3.5,3.5H3.5c-1.933,0-3.5-1.567-3.5-3.5,0-1.55,1.014-2.849,2.409-3.309,2.189,2.915,5.664,4.809,9.591,4.809s7.401-1.894,9.591-4.809c1.396,.46,2.409,1.76,2.409,3.309Z" />
             </svg>
           </button></a>
-        <button id="help-btn" class="p-2 rounded-md" data-tooltip="Help" onclick="toggleHelpOverlay(true)" data-lta-event="v2-header-help-click">
+        <button id="help-btn" class="p-2 rounded-md" data-tooltip="Help" onclick="toggleHelpOverlay(true)"
+          data-lta-event="v2-header-help-click">
           <?xml version="1.0" encoding="utf-8"?>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7.92 9.234v.102a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-1.29.998-1.979 2.34-1.979 1.308 0 2.168.689 2.168 1.67 0 .928-.482 1.359-1.686 1.91l-.344.154C11.379 11.54 11 12.21 11 13.381v.119a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-.516.138-.723.55-.912l.345-.155c1.445-.654 2.529-1.514 2.529-3.39v-.103c0-1.978-1.72-3.441-4.164-3.441-2.478 0-4.336 1.428-4.336 3.734zm2.58 7.757c0 .867.659 1.509 1.491 1.509.85 0 1.509-.642 1.509-1.509 0-.867-.659-1.491-1.509-1.491-.832 0-1.491.624-1.491 1.491z" />
           </svg>
         </button>
-        <button id="settings-btn" class="p-2 rounded-md" data-tooltip="Settings [⌘,]" onclick="toggleSettingsOverlay(true)" data-lta-event="v2-settings-click">
+        <button id="settings-btn" class="p-2 rounded-md" data-tooltip="Settings [⌘,]"
+          onclick="toggleSettingsOverlay(true)" data-lta-event="v2-settings-click">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
             <path d="M0 0h48v48h-48z" fill="none" />
             <path
@@ -146,7 +155,8 @@
         </button>
 
         <div class="relative">
-          <button id="other-apps-btn" class="p-2 rounded-md" data-tooltip="More Apps" onclick="toggleDropdown()" data-lta-event="v2-more-apps-click">
+          <button id="other-apps-btn" class="p-2 rounded-md" data-tooltip="More Apps" onclick="toggleDropdown()"
+            data-lta-event="v2-more-apps-click">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
               class="h-5 w-5">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -155,19 +165,20 @@
           <div id="other-apps-dropdown"
             class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 hidden">
             <a href="/countdown/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-countdown-click">IB
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              data-lta-event="v2-more-apps-countdown-click">IB
               Exams Countdown</a>
             <a href="/exam-timer/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-mocks-click">IB
-              Mock Exams</a>
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              data-lta-event="v2-more-apps-mocks-click">IB
+               Exams Timer</a>
             <a href="/ib-resources/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-ib-resources-click">IB
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              data-lta-event="v2-more-apps-ib-resources-click">IB
               Resources</a>
             <a href="/blogs/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-blogs-click">Blogs</a>
-            <!--<a href="https://github.com/DevChrisChan/CiteCount"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" data-lta-event="v2-more-apps-source-click">View
-              source</a>-->
+              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              data-lta-event="v2-more-apps-blogs-click">Blogs</a>
           </div>
         </div>
       </div>
@@ -228,7 +239,8 @@
                     </svg>
                   </button>
                   <button data-tooltip="Underline (Cmd + U)" onclick="formatText('underline')"
-                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-underline-action">
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+                    data-lta-event="v2-underline-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
                       <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
@@ -236,7 +248,8 @@
                     </svg>
                   </button>
                   <button data-tooltip="Strikethrough (Cmd + Shift + X)" onclick="formatText('strikethrough')"
-                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-strikethrough-action">
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+                    data-lta-event="v2-strikethrough-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
                       <path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
@@ -245,7 +258,7 @@
                     </svg>
                   </button>
                 </div>
-                
+
                 <!-- Mobile formatting dropdown -->
                 <div class="relative md:hidden">
                   <button id="format-dropdown-btn" data-tooltip="Text Formatting" onclick="toggleFormatDropdown()"
@@ -256,31 +269,40 @@
                       <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
                     </svg>
                   </button>
-                  <div id="format-dropdown" class="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 hidden min-w-32">
-                    <button onclick="formatText('bold'); toggleFormatDropdown()" class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                  <div id="format-dropdown"
+                    class="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 hidden min-w-32">
+                    <button onclick="formatText('bold'); toggleFormatDropdown()"
+                      class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                         <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
                         <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
                       </svg>
                       Bold
                     </button>
-                    <button onclick="formatText('italic'); toggleFormatDropdown()" class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                    <button onclick="formatText('italic'); toggleFormatDropdown()"
+                      class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                         <path d="M16 4l-8 16"></path>
                         <path d="M12 4h4"></path>
                         <path d="M8 20h4"></path>
                       </svg>
                       Italic
                     </button>
-                    <button onclick="formatText('underline'); toggleFormatDropdown()" class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                    <button onclick="formatText('underline'); toggleFormatDropdown()"
+                      class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                         <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
                         <path d="M4 20h16"></path>
                       </svg>
                       Underline
                     </button>
-                    <button onclick="formatText('strikethrough'); toggleFormatDropdown()" class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
+                    <button onclick="formatText('strikethrough'); toggleFormatDropdown()"
+                      class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                         <path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
                         <path d="M14 12a4 4 0 0 1 0 8H6"></path>
                         <line x1="4" y1="12" x2="20" y2="12"></line>
@@ -326,15 +348,18 @@
                 </p>
                 <div class="welcome-buttons">
                   <button onclick="pasteFromClipboard()"
-                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600" data-lta-event="v2-paste-action">Paste
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+                    data-lta-event="v2-paste-action">Paste
                     Text</button>
                   <label
-                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer" data-lta-event="v2-choose-file-action">
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
+                    data-lta-event="v2-choose-file-action">
                     Choose File
                     <input type="file" accept=".docx,.pdf" onchange="handleFileUpload(event)" class="hidden">
                   </label>
                   <button onclick="initiateExample()"
-                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600" data-lta-event="v2-try-example-action">Try
+                    class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+                    data-lta-event="v2-try-example-action">Try
                     Example</button>
                 </div>
                 <p class="text-sm text-gray-500 mt-2">CiteCount prioritizes data integrity. Your content stays secure on
@@ -348,26 +373,32 @@
 
         <div id="gutter" class="gutter hidden lg:block" data-lta-event="v2-gutter-resize"></div>
 
-        <div id="citations-panel" class="split-panel hidden lg:block shadow-sm" style="border-width: 1px; border-color: var(--border-primary); border-radius: 0.5rem; position: relative; display: flex; flex-direction: column;">
+        <div id="citations-panel" class="split-panel hidden lg:block shadow-sm"
+          style="border-width: 1px; border-color: var(--border-primary); border-radius: 0.5rem; position: relative; display: flex; flex-direction: column;">
           <div id="detectSubject" style="display: none;"></div>
-          
+
           <!-- Panel Header with Title (only for Word Count Details) -->
-          <div id="panel-header" style="padding: 1rem; border-bottom: 1px solid var(--border-primary); background: var(--background-secondary); display: none;">
-            <h3 id="panel-title" style="margin: 0; font-size: 1rem; font-weight: 600; color: var(--text-primary);">Word Count Details</h3>
+          <div id="panel-header"
+            style="padding: 1rem; border-bottom: 1px solid var(--border-primary); background: var(--background-secondary); display: none;">
+            <h3 id="panel-title" style="margin: 0; font-size: 1rem; font-weight: 600; color: var(--text-primary);">Word
+              Count Details</h3>
           </div>
-          
-          <div id="citations-table-container" class="quote-table-container" style="flex: 1; overflow-y: auto; display: block;">
+
+          <div id="citations-table-container" class="quote-table-container"
+            style="flex: 1; overflow-y: auto; display: block;">
             <table class="quote-table" style="user-select: none;">
               <thead>
                 <tr>
                   <th class="w-5/8">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                       <span>In-text Citation</span>
-                      <button onclick="toggleSort('citation')" class="sort-btn" title="Sort citations" style="display: flex; align-items: center; gap: 0.25rem;">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M3 6h18"/>
-                          <path d="M6 12h12"/>
-                          <path d="M9 18h6"/>
+                      <button onclick="toggleSort('citation')" class="sort-btn" title="Sort citations"
+                        style="display: flex; align-items: center; gap: 0.25rem;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                          stroke-width="2">
+                          <path d="M3 6h18" />
+                          <path d="M6 12h12" />
+                          <path d="M9 18h6" />
                         </svg>
                         <span class="sort-text" style="font-size: 0.75rem; font-weight: normal;">Sort</span>
                       </button>
@@ -379,14 +410,16 @@
                 </tr>
                 <!-- Search row pinned below header -->
                 <tr id="citations-search-row" style="display: none;">
-                  <td colspan="4" style="padding: 0.75rem; background: var(--background-secondary); border-bottom: 1px solid var(--border-primary); position: sticky; top: 0; z-index: 10;">
+                  <td colspan="4"
+                    style="padding: 0.75rem; background: var(--background-secondary); border-bottom: 1px solid var(--border-primary); position: sticky; top: 0; z-index: 10;">
                     <div class="search-input-wrapper" style="position: relative;">
-                      <input type="text" id="citations-search-input" placeholder="Search citations..." 
-                             style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
-                             oninput="filterCitations(this.value)">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
-                           style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      <input type="text" id="citations-search-input" placeholder="Search citations..."
+                        style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
+                        oninput="filterCitations(this.value)">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                       </svg>
                     </div>
                   </td>
@@ -396,19 +429,26 @@
               </tbody>
             </table>
           </div>
-          
+
           <!-- More Word Count Details Content -->
-          <div id="word-count-details-container" style="flex: 1; padding: 1rem; background: var(--background-primary); display: none; overflow-y: auto;">
+          <div id="word-count-details-container"
+            style="flex: 1; padding: 1rem; background: var(--background-primary); display: none; overflow-y: auto;">
             <div class="space-y-4">
-              
+
               <!-- Main counters with descriptions -->
-              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <div class="detail-item"
+                style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
                   <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-weight: 500; color: var(--text-primary);">Words without Citations</span>
-                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('wordsNoCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                    <button class="info-button"
+                      style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                      onclick="showInfoDialogue('wordsNoCitations')" onmouseover="this.style.opacity='1'"
+                      onmouseout="this.style.opacity='0.6'">
                       <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                       </svg>
                     </button>
                   </div>
@@ -419,13 +459,19 @@
                 </div>
               </div>
 
-              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <div class="detail-item"
+                style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
                   <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-weight: 500; color: var(--text-primary);">Total Words</span>
-                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('wordsWithCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                    <button class="info-button"
+                      style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                      onclick="showInfoDialogue('wordsWithCitations')" onmouseover="this.style.opacity='1'"
+                      onmouseout="this.style.opacity='0.6'">
                       <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                       </svg>
                     </button>
                   </div>
@@ -436,13 +482,19 @@
                 </div>
               </div>
 
-              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <div class="detail-item"
+                style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
                   <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-weight: 500; color: var(--text-primary);">Characters without Citations</span>
-                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('charsNoCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                    <button class="info-button"
+                      style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                      onclick="showInfoDialogue('charsNoCitations')" onmouseover="this.style.opacity='1'"
+                      onmouseout="this.style.opacity='0.6'">
                       <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                       </svg>
                     </button>
                   </div>
@@ -453,13 +505,19 @@
                 </div>
               </div>
 
-              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <div class="detail-item"
+                style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
                   <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-weight: 500; color: var(--text-primary);">Total Characters</span>
-                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('charsWithCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                    <button class="info-button"
+                      style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                      onclick="showInfoDialogue('charsWithCitations')" onmouseover="this.style.opacity='1'"
+                      onmouseout="this.style.opacity='0.6'">
                       <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                       </svg>
                     </button>
                   </div>
@@ -470,13 +528,19 @@
                 </div>
               </div>
 
-              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+              <div class="detail-item"
+                style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
                   <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-weight: 500; color: var(--text-primary);">Citations</span>
-                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('citations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                    <button class="info-button"
+                      style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                      onclick="showInfoDialogue('citations')" onmouseover="this.style.opacity='1'"
+                      onmouseout="this.style.opacity='0.6'">
                       <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                       </svg>
                     </button>
                   </div>
@@ -486,14 +550,20 @@
                   Number of unique citations detected
                 </div>
               </div>
-            
-              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+
+              <div class="detail-item"
+                style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
                   <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-weight: 500; color: var(--text-primary);">Speaking Time</span>
-                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('speaking')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                    <button class="info-button"
+                      style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                      onclick="showInfoDialogue('speaking')" onmouseover="this.style.opacity='1'"
+                      onmouseout="this.style.opacity='0.6'">
                       <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                       </svg>
                     </button>
                   </div>
@@ -503,14 +573,20 @@
                   Based on 150 words per minute average speaking rate
                 </div>
               </div>
-              
-              <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+
+              <div class="detail-item"
+                style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+                <div
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
                   <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-weight: 500; color: var(--text-primary);">Reading Time</span>
-                    <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('reading')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+                    <button class="info-button"
+                      style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                      onclick="showInfoDialogue('reading')" onmouseover="this.style.opacity='1'"
+                      onmouseout="this.style.opacity='0.6'">
                       <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                       </svg>
                     </button>
                   </div>
@@ -522,13 +598,16 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Tab Selector at Bottom -->
-          <div id="panel-tab-selector" style="border-top: 1px solid var(--border-primary); display: flex; background: var(--background-secondary);">
-            <button id="citations-tab" class="panel-tab active" onclick="switchPanelTab('citations')" style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
+          <div id="panel-tab-selector"
+            style="border-top: 1px solid var(--border-primary); display: flex; background: var(--background-secondary);">
+            <button id="citations-tab" class="panel-tab active" onclick="switchPanelTab('citations')"
+              style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
               Citations
             </button>
-            <button id="details-tab" class="panel-tab" onclick="switchPanelTab('details')" style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
+            <button id="details-tab" class="panel-tab" onclick="switchPanelTab('details')"
+              style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
               Word Count Details
             </button>
           </div>
@@ -554,11 +633,12 @@
               <th class="w-2/5">
                 <div style="display: flex; align-items: center; justify-content: space-between;">
                   <span>In-text Citation</span>
-                  <button onclick="toggleSort('citation')" class="sort-btn" title="Sort citations" style="display: flex; align-items: center; gap: 0.25rem;">
+                  <button onclick="toggleSort('citation')" class="sort-btn" title="Sort citations"
+                    style="display: flex; align-items: center; gap: 0.25rem;">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M3 6h18"/>
-                      <path d="M6 12h12"/>
-                      <path d="M9 18h6"/>
+                      <path d="M3 6h18" />
+                      <path d="M6 12h12" />
+                      <path d="M9 18h6" />
                     </svg>
                     <span class="sort-text" style="font-size: 0.75rem; font-weight: normal;">Sort</span>
                   </button>
@@ -570,14 +650,16 @@
             </tr>
             <!-- Search row pinned below header -->
             <tr id="citations-search-row-mobile" style="display: none;">
-              <td colspan="4" style="padding: 0.75rem; background: var(--background-light); border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 10;">
+              <td colspan="4"
+                style="padding: 0.75rem; background: var(--background-light); border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 10;">
                 <div class="search-input-wrapper" style="position: relative;">
-                  <input type="text" id="citations-search-input-mobile" placeholder="Search citations..." 
-                         style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
-                         oninput="filterCitations(this.value, true)">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" 
-                       style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <input type="text" id="citations-search-input-mobile" placeholder="Search citations..."
+                    style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
+                    oninput="filterCitations(this.value, true)">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
               </td>
@@ -587,17 +669,23 @@
           </tbody>
         </table>
       </div>
-      
+
       <!-- Mobile More Word Count Details Content -->
-      <div id="word-count-details-container-mobile" style="padding: 1rem; background: var(--background-primary); display: none; overflow-y: auto; flex: 1;">
+      <div id="word-count-details-container-mobile"
+        style="padding: 1rem; background: var(--background-primary); display: none; overflow-y: auto; flex: 1;">
         <!-- Words without Citations -->
-        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+        <div class="detail-item"
+          style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-weight: 500; color: var(--text-primary);">Words (no citations)</span>
-              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('wordsNoCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+              <button class="info-button"
+                style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                onclick="showInfoDialogue('wordsNoCitations')" onmouseover="this.style.opacity='1'"
+                onmouseout="this.style.opacity='0.6'">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                 </svg>
               </button>
             </div>
@@ -609,17 +697,23 @@
         </div>
 
         <!-- Total Words -->
-        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+        <div class="detail-item"
+          style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-weight: 500; color: var(--text-primary);">Total Words</span>
-              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('wordsWithCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+              <button class="info-button"
+                style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                onclick="showInfoDialogue('wordsWithCitations')" onmouseover="this.style.opacity='1'"
+                onmouseout="this.style.opacity='0.6'">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                 </svg>
               </button>
             </div>
-            <span id="details-words-with-citations-mobile" style="font-weight: 600; color: var(--accent-color);">0</span>
+            <span id="details-words-with-citations-mobile"
+              style="font-weight: 600; color: var(--accent-color);">0</span>
           </div>
           <div style="font-size: 0.75rem; color: var(--text-secondary);">
             Complete word count including all citations and references
@@ -627,13 +721,18 @@
         </div>
 
         <!-- Characters without Citations -->
-        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+        <div class="detail-item"
+          style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-weight: 500; color: var(--text-primary);">Characters (no citations)</span>
-              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('charsNoCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+              <button class="info-button"
+                style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                onclick="showInfoDialogue('charsNoCitations')" onmouseover="this.style.opacity='1'"
+                onmouseout="this.style.opacity='0.6'">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                 </svg>
               </button>
             </div>
@@ -645,17 +744,23 @@
         </div>
 
         <!-- Total Characters -->
-        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+        <div class="detail-item"
+          style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-weight: 500; color: var(--text-primary);">Total Characters</span>
-              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('charsWithCitations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+              <button class="info-button"
+                style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                onclick="showInfoDialogue('charsWithCitations')" onmouseover="this.style.opacity='1'"
+                onmouseout="this.style.opacity='0.6'">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                 </svg>
               </button>
             </div>
-            <span id="details-chars-with-citations-mobile" style="font-weight: 600; color: var(--accent-color);">0</span>
+            <span id="details-chars-with-citations-mobile"
+              style="font-weight: 600; color: var(--accent-color);">0</span>
           </div>
           <div style="font-size: 0.75rem; color: var(--text-secondary);">
             Complete character count including all citations and references
@@ -663,13 +768,18 @@
         </div>
 
         <!-- Citations -->
-        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+        <div class="detail-item"
+          style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-weight: 500; color: var(--text-primary);">Citations</span>
-              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('citations')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+              <button class="info-button"
+                style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                onclick="showInfoDialogue('citations')" onmouseover="this.style.opacity='1'"
+                onmouseout="this.style.opacity='0.6'">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                 </svg>
               </button>
             </div>
@@ -680,13 +790,18 @@
           </div>
         </div>
 
-        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+        <div class="detail-item"
+          style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-weight: 500; color: var(--text-primary);">Speaking Time</span>
-              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('speaking')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+              <button class="info-button"
+                style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                onclick="showInfoDialogue('speaking')" onmouseover="this.style.opacity='1'"
+                onmouseout="this.style.opacity='0.6'">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                 </svg>
               </button>
             </div>
@@ -696,14 +811,19 @@
             Based on 150 words per minute average speaking rate
           </div>
         </div>
-        
-        <div class="detail-item" style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
+
+        <div class="detail-item"
+          style="margin-bottom: 1rem; padding: 0.75rem; background: var(--background-light); border-radius: 0.375rem; border: 1px solid var(--border-light);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span style="font-weight: 500; color: var(--text-primary);">Reading Time</span>
-              <button class="info-button" style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;" onclick="showInfoDialogue('reading')" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+              <button class="info-button"
+                style="width: 16px; height: 16px; border: none; background: none; cursor: help; opacity: 0.6; transition: opacity 0.2s;"
+                onclick="showInfoDialogue('reading')" onmouseover="this.style.opacity='1'"
+                onmouseout="this.style.opacity='0.6'">
                 <svg viewBox="0 0 24 24" fill="currentColor" style="width: 100%; height: 100%;">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
                 </svg>
               </button>
             </div>
@@ -714,13 +834,16 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Mobile Tab Selector at Bottom -->
-      <div id="panel-tab-selector-mobile" style="border-top: 1px solid var(--border-primary); display: flex; background: var(--background-secondary); margin-top: auto;">
-        <button id="citations-tab-mobile" class="panel-tab active" onclick="switchPanelTabMobile('citations')" style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
+      <div id="panel-tab-selector-mobile"
+        style="border-top: 1px solid var(--border-primary); display: flex; background: var(--background-secondary); margin-top: auto;">
+        <button id="citations-tab-mobile" class="panel-tab active" onclick="switchPanelTabMobile('citations')"
+          style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
           Citations
         </button>
-        <button id="details-tab-mobile" class="panel-tab" onclick="switchPanelTabMobile('details')" style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
+        <button id="details-tab-mobile" class="panel-tab" onclick="switchPanelTabMobile('details')"
+          style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
           Word Count Details
         </button>
       </div>
@@ -730,7 +853,8 @@
       <div class="flex justify-between items-center mb-4">
         <div class="flex items-center gap-3">
           <h2 class="text-lg font-semibold">Settings</h2>
-          <span class="text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 rounded font-mono">⌘,</span>
+          <span
+            class="text-sm text-gray-500 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 rounded font-mono">⌘,</span>
         </div>
         <button onclick="toggleSettingsOverlay(false)"
           class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
@@ -747,7 +871,8 @@
               <div class="flex items-center justify-between p-3 rounded-md" style="background: #f3f4f6;">
                 <div>
                   <span class="font-medium">AutoSave</span>
-                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Automatically save your work with every change</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Automatically save your work with every
+                    change</p>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" id="autoSave" class="sr-only peer" checked
@@ -761,7 +886,8 @@
               <div class="flex items-center justify-between p-3 rounded-md" style="background: #f3f4f6;">
                 <div>
                   <span class="font-medium">Warn on leave</span>
-                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Show warning when leaving the page if AutoSave is disabled</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Show warning when leaving the page if
+                    AutoSave is disabled</p>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" id="warnLeave" class="sr-only peer" checked
@@ -789,7 +915,8 @@
               <div class="flex items-center justify-between p-3 rounded-md" style="background: #f3f4f6;">
                 <div>
                   <span class="font-medium">Focus</span>
-                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Hide all content beyond the main app for distraction-free writing</p>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Hide all content beyond the main app for
+                    distraction-free writing</p>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" id="focus" class="sr-only peer"
@@ -808,7 +935,7 @@
                   </div>
                   <span id="fontSizeDisplay" class="text-sm text-gray-600 dark:text-gray-300 font-mono">16px</span>
                 </div>
-                <input type="range" id="fontSizeSlider" min="12" max="24" value="16" 
+                <input type="range" id="fontSizeSlider" min="12" max="24" value="16"
                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
                   oninput="updateFontSize(this.value); document.getElementById('fontSizeDisplay').textContent = this.value + 'px'">
               </div>
@@ -819,7 +946,7 @@
                   <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Choose the typeface for the editor</p>
                 </div>
                 <div class="relative">
-                  <button type="button" id="fontFamilyButton" 
+                  <button type="button" id="fontFamilyButton"
                     class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-left flex items-center justify-between"
                     onclick="toggleFontFamilyDropdown()">
                     <span id="fontFamilyButtonText" style="font-family: system-ui;">System UI</span>
@@ -827,33 +954,51 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                   </button>
-                  <div id="fontFamilyDropdown" class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg hidden">
+                  <div id="fontFamilyDropdown"
+                    class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg hidden">
                     <div class="max-h-48 overflow-y-auto">
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="system-ui" style="font-family: system-ui;" onclick="selectFontFamily('system-ui', 'System UI')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="system-ui" style="font-family: system-ui;"
+                        onclick="selectFontFamily('system-ui', 'System UI')">
                         System UI
                       </div>
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="serif" style="font-family: serif;" onclick="selectFontFamily('serif', 'Serif')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="serif" style="font-family: serif;" onclick="selectFontFamily('serif', 'Serif')">
                         Serif
                       </div>
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="monospace" style="font-family: monospace;" onclick="selectFontFamily('monospace', 'Monospace')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="monospace" style="font-family: monospace;"
+                        onclick="selectFontFamily('monospace', 'Monospace')">
                         Monospace
                       </div>
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Times New Roman', serif" style="font-family: 'Times New Roman', serif;" onclick="selectFontFamily('\'Times New Roman\', serif', 'Times New Roman')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="'Times New Roman', serif" style="font-family: 'Times New Roman', serif;"
+                        onclick="selectFontFamily('\'Times New Roman\', serif', 'Times New Roman')">
                         Times New Roman
                       </div>
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Arial', sans-serif" style="font-family: 'Arial', sans-serif;" onclick="selectFontFamily('\'Arial\', sans-serif', 'Arial')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="'Arial', sans-serif" style="font-family: 'Arial', sans-serif;"
+                        onclick="selectFontFamily('\'Arial\', sans-serif', 'Arial')">
                         Arial
                       </div>
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Helvetica', sans-serif" style="font-family: 'Helvetica', sans-serif;" onclick="selectFontFamily('\'Helvetica\', sans-serif', 'Helvetica')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="'Helvetica', sans-serif" style="font-family: 'Helvetica', sans-serif;"
+                        onclick="selectFontFamily('\'Helvetica\', sans-serif', 'Helvetica')">
                         Helvetica
                       </div>
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Georgia', serif" style="font-family: 'Georgia', serif;" onclick="selectFontFamily('\'Georgia\', serif', 'Georgia')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="'Georgia', serif" style="font-family: 'Georgia', serif;"
+                        onclick="selectFontFamily('\'Georgia\', serif', 'Georgia')">
                         Georgia
                       </div>
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Courier New', monospace" style="font-family: 'Courier New', monospace;" onclick="selectFontFamily('\'Courier New\', monospace', 'Courier New')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="'Courier New', monospace" style="font-family: 'Courier New', monospace;"
+                        onclick="selectFontFamily('\'Courier New\', monospace', 'Courier New')">
                         Courier New
                       </div>
-                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" data-value="'Verdana', sans-serif" style="font-family: 'Verdana', sans-serif;" onclick="selectFontFamily('\'Verdana\', sans-serif', 'Verdana')">
+                      <div class="font-option p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                        data-value="'Verdana', sans-serif" style="font-family: 'Verdana', sans-serif;"
+                        onclick="selectFontFamily('\'Verdana\', sans-serif', 'Verdana')">
                         Verdana
                       </div>
                     </div>
@@ -878,12 +1023,13 @@
           <div>
             <h3 class="text-lg font-medium mb-4">General</h3>
             <div class="text-center p-3 rounded-md" style="background: #f3f4f6;">
-              <button id="resetSettings" class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-md font-medium transition-colors"
+              <button id="resetSettings"
+                class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-md font-medium transition-colors"
                 onclick="showNotification('Are you sure you want to reset all settings? This action cannot be undone. Please save your text before reloading to avoid losing work.', true, () => { resetSettings(); }, 'confirmation')">
                 Reset All Settings
               </button>
               <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 max-w-md mx-auto">
-                This will reset all customized settings and AutoSave data. Requires app restart to take effect. 
+                This will reset all customized settings and AutoSave data. Requires app restart to take effect.
                 Recommended if CiteCount is not working as expected.
               </p>
             </div>
@@ -939,14 +1085,16 @@
     <span style="padding-top:10px;"></span>
     <div id="overlay-background" class="overlay-background" onclick="closeOverlays()"></div>
     <div id="confirmation-overlay" class="confirmation-overlay"></div>
-<div id="ad-banner" class="ad-banner" style="display: none;">
-      <span>Join our <a href="https://discord.gg/twnz2957sK" target="_blank" class="underline">Discord server</a> for paid feedback!</span>
+    <div id="ad-banner" class="ad-banner" style="display: none;">
+      <span>Join our <a href="https://discord.gg/twnz2957sK" target="_blank" class="underline">Discord server</a> for
+        paid feedback!</span>
       <button onclick="dismissAd()">✕</button>
     </div>
   </div>
   <div id="devToolsWindow" style="display: none; user-select: none;">
     <div id="devToolsHeader">
-      <span>Dev Tools</span> <span id="currentLocation" style="margin-left: 8px; padding: 2px 6px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 3px; font-family: monospace; font-size: 12px; color: #666;"></span>
+      <span>Dev Tools</span> <span id="currentLocation"
+        style="margin-left: 8px; padding: 2px 6px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 3px; font-family: monospace; font-size: 12px; color: #666;"></span>
       <button id="devToolsClose">×</button>
     </div>
     <div id="devToolsTabs">
@@ -1087,14 +1235,16 @@
             <h2 style="text-align: left; margin-bottom: 20px;" class="text-2xl font-bold">
               CiteCount Applications
             </h2>
-            <a target="_blank" rel="noopener noreferrer" data-lta-event="countdown app outbound click" href="/countdown">
+            <a target="_blank" rel="noopener noreferrer" data-lta-event="countdown app outbound click"
+              href="/countdown">
               <div class="blog" style="text-align: left;">
                 <h2>May 2025 Exams Countdown App</h2>
                 <p>Customisable exam countdowns application for IB May 2025 Examination Session.</p>
               </div>
             </a>
             <br>
-            <a target="_blank" rel="noopener noreferrer" data-lta-event="ib exam timer app outbound click" href="/exam-timer/">
+            <a target="_blank" rel="noopener noreferrer" data-lta-event="ib exam timer app outbound click"
+              href="/exam-timer/">
               <div class="blog" style="text-align: left;">
                 <h2>IB Exam Timer App</h2>
                 <p>Setup and display an IB exam timer along with separate reading time with voice guidance for
@@ -1102,14 +1252,16 @@
               </div>
             </a>
             <br>
-            <a target="_blank" rel="noopener noreferrer" data-lta-event="ib resources app outbound click" href="/ib-resources/">
+            <a target="_blank" rel="noopener noreferrer" data-lta-event="ib resources app outbound click"
+              href="/ib-resources/">
               <div class="blog" style="text-align: left;">
                 <h2>IB Resources</h2>
                 <p>A hand-picked list of useful resources for IB students.</p>
               </div>
             </a>
             <br>
-            <a target="_blank" rel="noopener noreferrer" data-lta-event="ib bulletin analysis app outbound click" href="/bulletin-analysis/">
+            <a target="_blank" rel="noopener noreferrer" data-lta-event="ib bulletin analysis app outbound click"
+              href="/bulletin-analysis/">
               <div class="blog" style="text-align: left;">
                 <h2>IB Bulletin Analysis</h2>
                 <p>Interactive analysis for IB Bulletin reports.</p>
@@ -1121,148 +1273,227 @@
               <h2 style="text-align: left; margin-bottom: 20px;" class="text-2xl font-bold">
                 📚 IB Academic Guides
               </h2>
-              <p style="text-align: left; margin-bottom: 20px; opacity: 85%;">Our guides are written by IB top scorers who have just graduated.</p>
+              <p style="text-align: left; margin-bottom: 20px; opacity: 85%;">Our guides are written by IB top scorers
+                who have just graduated.</p>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
-                <a data-lta-event="ee blog outbound click" href="/blogs/extended-essay-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="ee blog outbound click" href="/blogs/extended-essay-word-count.html" target="_blank"
+                  style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📝 Extended Essay Word Count Guide</h3>
-                      <i class="fas fa-graduation-cap" style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📝
+                        Extended Essay Word Count Guide</h3>
+                      <i class="fas fa-graduation-cap"
+                        style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of what's included in IB Extended Essay word counts, with official guidelines and practical tips.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of what's included in
+                      IB Extended Essay word counts, with official guidelines and practical tips.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="bio ia blog outbound click" href="/blogs/biology-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="bio ia blog outbound click" href="/blogs/biology-ia-word-count.html" target="_blank"
+                  style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🔬 Biology IA Word Count Guide</h3>
-                      <i class="fas fa-dna" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🔬
+                        Biology IA Word Count Guide</h3>
+                      <i class="fas fa-dna"
+                        style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your Biology Internal Assessment with structure tips and word count requirements.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your Biology Internal Assessment
+                      with structure tips and word count requirements.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="chem ia blog outbound click" href="/blogs/chemistry-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="chem ia blog outbound click" href="/blogs/chemistry-ia-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">⚗️ Chemistry IA Word Count Guide</h3>
-                      <i class="fas fa-flask" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">⚗️
+                        Chemistry IA Word Count Guide</h3>
+                      <i class="fas fa-flask"
+                        style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Explore the framework and word restrictions for an effective Chemistry Internal Assessment.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Explore the framework and word
+                      restrictions for an effective Chemistry Internal Assessment.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="ib math ia blog outbound click" href="/blogs/ib-math-internal-assessment-guide.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="ib math ia blog outbound click" href="/blogs/ib-math-internal-assessment-guide.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📊 Math IA Complete Guide</h3>
-                      <i class="fas fa-calculator" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📊
+                        Math IA Complete Guide</h3>
+                      <i class="fas fa-calculator"
+                        style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Comprehensive planning, structure, and word count guidelines for your Math Internal Assessment.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Comprehensive planning, structure, and
+                      word count guidelines for your Math Internal Assessment.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="tok essay blog outbound click" href="/blogs/tok-essay-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="tok essay blog outbound click" href="/blogs/tok-essay-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🌍 Theory of Knowledge Essay Guide</h3>
-                      <i class="fas fa-lightbulb" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🌍
+                        Theory of Knowledge Essay Guide</h3>
+                      <i class="fas fa-lightbulb"
+                        style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK essay requirements, structure, and what counts toward the word limit.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK essay
+                      requirements, structure, and what counts toward the word limit.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="business ia blog outbound click" href="/blogs/business-management-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="business ia blog outbound click" href="/blogs/business-management-ia-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">💼 Business Management IA Guide</h3>
-                      <i class="fas fa-chart-bar" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">💼
+                        Business Management IA Guide</h3>
+                      <i class="fas fa-chart-bar"
+                        style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Step-by-step approach to Business Management Internal Assessments with real-world applications.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Step-by-step approach to Business
+                      Management Internal Assessments with real-world applications.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="physics ia blog outbound click" href="/blogs/physics-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="physics ia blog outbound click" href="/blogs/physics-ia-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">⚡ Physics IA Word Count Guide</h3>
-                      <i class="fas fa-atom" style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">⚡
+                        Physics IA Word Count Guide</h3>
+                      <i class="fas fa-atom"
+                        style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your Physics Internal Assessment with experimental design tips and word count requirements.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your Physics Internal Assessment
+                      with experimental design tips and word count requirements.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="economics ia blog outbound click" href="/blogs/economics-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="economics ia blog outbound click" href="/blogs/economics-ia-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📈 Economics IA Word Count Guide</h3>
-                      <i class="fas fa-coins" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📈
+                        Economics IA Word Count Guide</h3>
+                      <i class="fas fa-coins"
+                        style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to Economics Internal Assessments with analysis techniques and word count guidelines.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to Economics Internal
+                      Assessments with analysis techniques and word count guidelines.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="psychology ia blog outbound click" href="/blogs/psychology-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="psychology ia blog outbound click" href="/blogs/psychology-ia-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🧠 Psychology IA Word Count Guide</h3>
-                      <i class="fas fa-brain" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🧠
+                        Psychology IA Word Count Guide</h3>
+                      <i class="fas fa-brain"
+                        style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Comprehensive guide to Psychology Internal Assessments with research methodology and word limits.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Comprehensive guide to Psychology
+                      Internal Assessments with research methodology and word limits.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="ess ia blog outbound click" href="/blogs/ess-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="ess ia blog outbound click" href="/blogs/ess-ia-word-count.html" target="_blank"
+                  style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🌱 ESS IA Word Count Guide</h3>
-                      <i class="fas fa-leaf" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🌱
+                        ESS IA Word Count Guide</h3>
+                      <i class="fas fa-leaf"
+                        style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Environmental Systems & Societies Internal Assessment guide with sustainability focus and word requirements.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Environmental Systems & Societies
+                      Internal Assessment guide with sustainability focus and word requirements.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="history ia blog outbound click" href="/blogs/history-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="history ia blog outbound click" href="/blogs/history-ia-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📜 History IA Word Count Guide</h3>
-                      <i class="fas fa-landmark" style="color: #dc2626; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📜
+                        History IA Word Count Guide</h3>
+                      <i class="fas fa-landmark"
+                        style="color: #dc2626; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your History Internal Assessment with source analysis techniques and word count guidelines.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your History Internal Assessment
+                      with source analysis techniques and word count guidelines.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="geography ia blog outbound click" href="/blogs/geography-ia-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="geography ia blog outbound click" href="/blogs/geography-ia-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🗺️ Geography IA Word Count Guide</h3>
-                      <i class="fas fa-globe-americas" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🗺️
+                        Geography IA Word Count Guide</h3>
+                      <i class="fas fa-globe-americas"
+                        style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to Geography Internal Assessments with fieldwork analysis and word count requirements.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to Geography Internal
+                      Assessments with fieldwork analysis and word count requirements.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="tok exhibition blog outbound click" href="/blogs/tok-exhibition-word-count.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="tok exhibition blog outbound click" href="/blogs/tok-exhibition-word-count.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎨 TOK Exhibition Guide</h3>
-                      <i class="fas fa-palette" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎨
+                        TOK Exhibition Guide</h3>
+                      <i class="fas fa-palette"
+                        style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK Exhibition requirements, object selection, and commentary word limits.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK Exhibition
+                      requirements, object selection, and commentary word limits.</p>
                   </div>
                 </a>
               </div>
@@ -1273,214 +1504,333 @@
               <h2 style="text-align: left; margin-bottom: 20px;" class="text-2xl font-bold">
                 🎯 Academic Skills & Tips
               </h2>
-              <p style="text-align: left; margin-bottom: 20px; opacity: 85%;">Our tips are written by students of the Ivy League universities.</p>
+              <p style="text-align: left; margin-bottom: 20px; opacity: 85%;">Our tips are written by students of the
+                Ivy League universities.</p>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
-                <a data-lta-event="avoiding plagiarism blog outbound click" href="/blogs/avoiding-plagiarism-ib-coursework.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="avoiding plagiarism blog outbound click"
+                  href="/blogs/avoiding-plagiarism-ib-coursework.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🛡️ Avoiding Plagiarism Guide</h3>
-                      <i class="fas fa-shield-alt" style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🛡️
+                        Avoiding Plagiarism Guide</h3>
+                      <i class="fas fa-shield-alt"
+                        style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Essential strategies for proper citation, paraphrasing, and maintaining academic integrity in IB coursework.</p>
-                  </div>
-                </a>
-                
-                <a data-lta-event="academic referencing blog outbound click" href="/blogs/understanding-academic-referencing-styles.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📚 Academic Referencing Styles</h3>
-                      <i class="fas fa-quote-right" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-                    </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate APA, MLA, Chicago, and other citation styles with practical examples and clear explanations.</p>
-                  </div>
-                </a>
-                
-                <a data-lta-event="draft to final blog outbound click" href="/blogs/draft-to-final-ib-revision-checklist.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✏️ Draft to Final Revision Checklist</h3>
-                      <i class="fas fa-tasks" style="color: #84cc16; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-                    </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Transform drafts into polished submissions with our step-by-step revision guide covering content and formatting.</p>
-                  </div>
-                </a>
-                
-                <a data-lta-event="time management blog outbound click" href="/blogs/time-management-for-ib-students.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">⏰ Time Management for IB Students</h3>
-                      <i class="fas fa-clock" style="color: #f97316; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-                    </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master juggling multiple IB assignments with proven productivity tips and organizational strategies.</p>
-                  </div>
-                </a>
-                
-                <a data-lta-event="effective reading blog outbound click" href="/blogs/effective-reading-strategies.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📖 Effective Reading Strategies</h3>
-                      <i class="fas fa-book-open" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-                    </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master academic reading techniques for faster comprehension and better note-taking across all subjects.</p>
-                  </div>
-                </a>
-                
-                <a data-lta-event="managing deadlines blog outbound click" href="/blogs/managing-multiple-deadlines.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎯 Managing Multiple IB Deadlines</h3>
-                      <i class="fas fa-calendar-check" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-                    </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Proven systems for tracking and prioritizing Extended Essay, IAs, and coursework deadlines.</p>
-                  </div>
-                </a>
-                
-                <a data-lta-event="critical thinking blog outbound click" href="/blogs/critical-thinking-skills.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">💡 Critical Thinking Skills for IB</h3>
-                      <i class="fas fa-brain" style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-                    </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop analytical thinking patterns essential for IB assessments and university preparation.</p>
-                  </div>
-                </a>
-                
-                <a data-lta-event="note taking blog outbound click" href="/blogs/note-taking-strategies.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📝 Note-Taking Strategies for IB</h3>
-                      <i class="fas fa-edit" style="color: #14b8a6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-                    </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Optimize your study sessions with effective note-taking methods for lectures and textbook reading.</p>
-                  </div>
-                </a>
-                
-                <a data-lta-event="research skills blog outbound click" href="/blogs/research-skills-source-evaluation.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🔍 Research Skills & Source Evaluation</h3>
-                      <i class="fas fa-search" style="color: #6366f1; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-                    </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn to identify credible sources and conduct thorough research for all your IB assignments.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Essential strategies for proper citation,
+                      paraphrasing, and maintaining academic integrity in IB coursework.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="ucas personal statement blog outbound click" href="/blogs/ucas-personal-statement-guide-ib-students.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="academic referencing blog outbound click"
+                  href="/blogs/understanding-academic-referencing-styles.html" target="_blank"
+                  style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📝 UCAS Personal Statement for IB Students</h3>
-                      <i class="fas fa-university" style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📚
+                        Academic Referencing Styles</h3>
+                      <i class="fas fa-quote-right"
+                        style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to writing compelling personal statements that highlight your IB experience for UK university applications.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate APA, MLA, Chicago, and other
+                      citation styles with practical examples and clear explanations.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="cas reflection blog outbound click" href="/blogs/cas-reflection-writing-guide.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="draft to final blog outbound click"
+                  href="/blogs/draft-to-final-ib-revision-checklist.html" target="_blank"
+                  style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🌟 CAS Reflection Writing Guide</h3>
-                      <i class="fas fa-heart" style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✏️
+                        Draft to Final Revision Checklist</h3>
+                      <i class="fas fa-tasks"
+                        style="color: #84cc16; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master meaningful CAS reflections that demonstrate growth and connect activities to IB learner profile attributes.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Transform drafts into polished
+                      submissions with our step-by-step revision guide covering content and formatting.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="university application blog outbound click" href="/blogs/university-application-timeline-ib-students.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="time management blog outbound click"
+                  href="/blogs/time-management-for-ib-students.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎓 University Application Timeline for IB</h3>
-                      <i class="fas fa-calendar-alt" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">⏰
+                        Time Management for IB Students</h3>
+                      <i class="fas fa-clock"
+                        style="color: #f97316; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate university applications across different systems (UCAS, Common App, local) with IB-specific deadlines and requirements.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master juggling multiple IB assignments
+                      with proven productivity tips and organizational strategies.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="exam techniques blog outbound click" href="/blogs/ib-exam-techniques-strategies.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="effective reading blog outbound click"
+                  href="/blogs/effective-reading-strategies.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📋 IB Exam Techniques & Strategies</h3>
-                      <i class="fas fa-clipboard-check" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📖
+                        Effective Reading Strategies</h3>
+                      <i class="fas fa-book-open"
+                        style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master time management, question analysis, and answer structuring for all IB examination formats and question types.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master academic reading techniques for
+                      faster comprehension and better note-taking across all subjects.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="stress management blog outbound click" href="/blogs/stress-management-ib-diploma.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="managing deadlines blog outbound click"
+                  href="/blogs/managing-multiple-deadlines.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">😌 Stress Management for IB Diploma</h3>
-                      <i class="fas fa-spa" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎯
+                        Managing Multiple IB Deadlines</h3>
+                      <i class="fas fa-calendar-check"
+                        style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop healthy coping strategies and mental wellness techniques to thrive during the demanding IB programme.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Proven systems for tracking and
+                      prioritizing Extended Essay, IAs, and coursework deadlines.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="study abroad blog outbound click" href="/blogs/studying-abroad-ib-students.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="critical thinking blog outbound click" href="/blogs/critical-thinking-skills.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✈️ Studying Abroad Guide for IB Students</h3>
-                      <i class="fas fa-globe" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">💡
+                        Critical Thinking Skills for IB</h3>
+                      <i class="fas fa-brain"
+                        style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate international university applications, scholarships, and visa requirements with your IB qualification.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop analytical thinking patterns
+                      essential for IB assessments and university preparation.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="academic writing blog outbound click" href="/blogs/academic-writing-skills-ib.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="note taking blog outbound click" href="/blogs/note-taking-strategies.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✍️ Academic Writing Skills for IB</h3>
-                      <i class="fas fa-pen-fancy" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📝
+                        Note-Taking Strategies for IB</h3>
+                      <i class="fas fa-edit"
+                        style="color: #14b8a6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop sophisticated writing techniques for essays, IAs, and the Extended Essay with university-level standards.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Optimize your study sessions with
+                      effective note-taking methods for lectures and textbook reading.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="predicted grades blog outbound click" href="/blogs/understanding-ib-predicted-grades.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="research skills blog outbound click"
+                  href="/blogs/research-skills-source-evaluation.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📊 Understanding IB Predicted Grades</h3>
-                      <i class="fas fa-chart-bar" style="color: #dc2626; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🔍
+                        Research Skills & Source Evaluation</h3>
+                      <i class="fas fa-search"
+                        style="color: #6366f1; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn how predicted grades work, their impact on university offers, and strategies to maximize your predictions.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn to identify credible sources and
+                      conduct thorough research for all your IB assignments.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="portfolio development blog outbound click" href="/blogs/building-academic-portfolio-ib.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="ucas personal statement blog outbound click"
+                  href="/blogs/ucas-personal-statement-guide-ib-students.html" target="_blank"
+                  style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">💼 Building Your Academic Portfolio</h3>
-                      <i class="fas fa-briefcase" style="color: #059669; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📝
+                        UCAS Personal Statement for IB Students</h3>
+                      <i class="fas fa-university"
+                        style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Showcase your IB achievements, research projects, and extracurriculars for competitive university and scholarship applications.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to writing compelling
+                      personal statements that highlight your IB experience for UK university applications.</p>
                   </div>
                 </a>
 
-                <a data-lta-event="transition to university blog outbound click" href="/blogs/transitioning-from-ib-to-university.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="cas reflection blog outbound click" href="/blogs/cas-reflection-writing-guide.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎯 Transitioning from IB to University</h3>
-                      <i class="fas fa-arrow-right" style="color: #7c3aed; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🌟
+                        CAS Reflection Writing Guide</h3>
+                      <i class="fas fa-heart"
+                        style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Leverage your IB skills and mindset for academic success in higher education and beyond.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master meaningful CAS reflections that
+                      demonstrate growth and connect activities to IB learner profile attributes.</p>
+                  </div>
+                </a>
+
+                <a data-lta-event="university application blog outbound click"
+                  href="/blogs/university-application-timeline-ib-students.html" target="_blank"
+                  style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎓
+                        University Application Timeline for IB</h3>
+                      <i class="fas fa-calendar-alt"
+                        style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                    </div>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate university applications across
+                      different systems (UCAS, Common App, local) with IB-specific deadlines and requirements.</p>
+                  </div>
+                </a>
+
+                <a data-lta-event="exam techniques blog outbound click" href="/blogs/ib-exam-techniques-strategies.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📋
+                        IB Exam Techniques & Strategies</h3>
+                      <i class="fas fa-clipboard-check"
+                        style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                    </div>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master time management, question
+                      analysis, and answer structuring for all IB examination formats and question types.</p>
+                  </div>
+                </a>
+
+                <a data-lta-event="stress management blog outbound click"
+                  href="/blogs/stress-management-ib-diploma.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">😌
+                        Stress Management for IB Diploma</h3>
+                      <i class="fas fa-spa"
+                        style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                    </div>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop healthy coping strategies and
+                      mental wellness techniques to thrive during the demanding IB programme.</p>
+                  </div>
+                </a>
+
+                <a data-lta-event="study abroad blog outbound click" href="/blogs/studying-abroad-ib-students.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✈️
+                        Studying Abroad Guide for IB Students</h3>
+                      <i class="fas fa-globe"
+                        style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                    </div>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate international university
+                      applications, scholarships, and visa requirements with your IB qualification.</p>
+                  </div>
+                </a>
+
+                <a data-lta-event="academic writing blog outbound click" href="/blogs/academic-writing-skills-ib.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✍️
+                        Academic Writing Skills for IB</h3>
+                      <i class="fas fa-pen-fancy"
+                        style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                    </div>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop sophisticated writing techniques
+                      for essays, IAs, and the Extended Essay with university-level standards.</p>
+                  </div>
+                </a>
+
+                <a data-lta-event="predicted grades blog outbound click"
+                  href="/blogs/understanding-ib-predicted-grades.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📊
+                        Understanding IB Predicted Grades</h3>
+                      <i class="fas fa-chart-bar"
+                        style="color: #dc2626; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                    </div>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn how predicted grades work, their
+                      impact on university offers, and strategies to maximize your predictions.</p>
+                  </div>
+                </a>
+
+                <a data-lta-event="portfolio development blog outbound click"
+                  href="/blogs/building-academic-portfolio-ib.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">💼
+                        Building Your Academic Portfolio</h3>
+                      <i class="fas fa-briefcase"
+                        style="color: #059669; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                    </div>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Showcase your IB achievements, research
+                      projects, and extracurriculars for competitive university and scholarship applications.</p>
+                  </div>
+                </a>
+
+                <a data-lta-event="transition to university blog outbound click"
+                  href="/blogs/transitioning-from-ib-to-university.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎯
+                        Transitioning from IB to University</h3>
+                      <i class="fas fa-arrow-right"
+                        style="color: #7c3aed; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                    </div>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Leverage your IB skills and mindset for
+                      academic success in higher education and beyond.</p>
                   </div>
                 </a>
               </div>
@@ -1492,74 +1842,107 @@
                 🚀 Product Updates & Technical
               </h2>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
-                <a data-lta-event="all new citecount blog outbound click" href="/blogs/all-new-citecount.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                <a data-lta-event="all new citecount blog outbound click" href="/blogs/all-new-citecount.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎉 All New CiteCount</h3>
-                      <i class="fas fa-rocket" style="color: #ec4899; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎉
+                        All New CiteCount</h3>
+                      <i class="fas fa-rocket"
+                        style="color: #ec4899; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Discover the completely rewritten CiteCount with enhanced features and improved user experience.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Discover the completely rewritten
+                      CiteCount with enhanced features and improved user experience.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="introducing countdown blog outbound click" href="/blogs/introducing-ib-exam-countdowns.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="introducing countdown blog outbound click"
+                  href="/blogs/introducing-ib-exam-countdowns.html" target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">⏱️ IB Examination Countdown App</h3>
-                      <i class="fas fa-stopwatch" style="color: #14b8a6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">⏱️
+                        IB Examination Countdown App</h3>
+                      <i class="fas fa-stopwatch"
+                        style="color: #14b8a6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn about our new countdown app designed specifically for IB examination sessions.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn about our new countdown app
+                      designed specifically for IB examination sessions.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="ai blog outbound click" href="/blogs/integration-with-apple-intelligence.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="ai blog outbound click" href="/blogs/integration-with-apple-intelligence.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🤖 Apple Intelligence Integration</h3>
-                      <i class="fab fa-apple" style="color: #6366f1; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🤖
+                        Apple Intelligence Integration</h3>
+                      <i class="fab fa-apple"
+                        style="color: #6366f1; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Discover how CiteCount integrates with Apple Intelligence on iOS 18.2 and macOS 15.2.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Discover how CiteCount integrates with
+                      Apple Intelligence on iOS 18.2 and macOS 15.2.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="promise for safety blog outbound click" href="/blogs/our-promise-for-safety.html" target="_blank" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="promise for safety blog outbound click" href="/blogs/our-promise-for-safety.html"
+                  target="_blank" style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🔒 Our Promise for Safety</h3>
-                      <i class="fas fa-lock" style="color: #22c55e; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🔒
+                        Our Promise for Safety</h3>
+                      <i class="fas fa-lock"
+                        style="color: #22c55e; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn about CiteCount's privacy-first approach and how we protect your content and data.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn about CiteCount's privacy-first
+                      approach and how we protect your content and data.</p>
                   </div>
                 </a>
-                
-                <a data-lta-event="analytics blog outbound click" href="/blogs/analytics.html" style="text-decoration: none;">
-                  <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                       onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+
+                <a data-lta-event="analytics blog outbound click" href="/blogs/analytics.html"
+                  style="text-decoration: none;">
+                  <div class="blog"
+                    style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
+                    onmouseover="this.style.transform='translateY(-3px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📈 Web Analytics & Improvements</h3>
-                      <i class="fas fa-chart-line" style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                      <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📈
+                        Web Analytics & Improvements</h3>
+                      <i class="fas fa-chart-line"
+                        style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
                     </div>
-                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Behind the scenes: how we use analytics responsibly to make CiteCount better for everyone.</p>
+                    <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Behind the scenes: how we use analytics
+                      responsibly to make CiteCount better for everyone.</p>
                   </div>
                 </a>
               </div>
             </div>
 
             <!-- View All Blogs CTA -->
-            <div style="text-align: center; margin: 50px 0; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px;">
-              <h3 style="color: white; margin-bottom: 15px; font-size: 1.5rem; font-weight: 700;">Want to read more?</h3>
-              <p style="color: white; opacity: 90%; margin-bottom: 20px; font-size: 1.1rem;">Explore our comprehensive collection of guides, tips, and resources for IB students.</p>
+            <div
+              style="text-align: center; margin: 50px 0; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px;">
+              <h3 style="color: white; margin-bottom: 15px; font-size: 1.5rem; font-weight: 700;">Want to read more?
+              </h3>
+              <p style="color: white; opacity: 90%; margin-bottom: 20px; font-size: 1.1rem;">Explore our comprehensive
+                collection of guides, tips, and resources for IB students.</p>
               <a href="/blogs/" style="display: inline-block; padding: 12px 24px; background: white; color: #764ba2; 
                  text-decoration: none; border-radius: 8px; font-weight: 600; transition: transform 0.2s ease;"
-                 onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                 View All Blogs & Resources
               </a>
             </div>
-<!--
+            <!--
             // [CiteCount Features Section]
 
             <section class="alt-landing-section" id="landing-section" style="margin-top: 50px;">
@@ -1643,20 +2026,27 @@
 
             <p style="text-align: center; padding-top: 30px;"><a id="links" target="_blank" rel="noopener noreferrer"
                 data-lta-event="contact form outbound click" href="/contact.html" style="color: white;">Contact the
-                developers</a><br> <a id="links" data-lta-event="about us outbound click"
-                href="/about-us.html" style="color: white;">About Us</a> • <a id="links" data-lta-event="sitemap outbound click"
-                href="/sitemap.html" style="color: white;">Sitemap</a> • <a id="links" data-lta-event="privacy policy outbound click"
-                href="/privacy-policy.html" style="color: white;">Privacy
+                developers</a><br> <a id="links" data-lta-event="about us outbound click" href="/about-us.html"
+                style="color: white;">About Us</a> • <a id="links" data-lta-event="sitemap outbound click"
+                href="/sitemap.html" style="color: white;">Sitemap</a> • <a id="links"
+                data-lta-event="privacy policy outbound click" href="/privacy-policy.html" style="color: white;">Privacy
                 Policy</a> • <a id="links" data-lta-event="tos outbound click" href="/terms-of-service.html"
                 style="color: white;">Terms
                 of Service</a> • <a id="links" data-lta-event="gdpr policy outbound click" href="/gdpr-policy.html"
                 style="color: white;">GDPR Policy</a> • <a id="links" data-lta-event="cookies policy outbound click"
                 href="/cookies-policy.html" style="color: white;">Cookies Policy</a></p>
-            <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks
+<br>           
+                <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks
               owned
               by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is
               not
-              endorsed by the International Baccalaureate Organization.</p>
+              endorsed by the IBO.</p><br>
+            <p style="text-align: center; opacity: 50%;">
+              Some links in CiteCount are affiliate links. Clicking them may earn us a small commission at no extra cost
+              to you, helping us maintain and improve the service.
+            </p>
+            </p>
+
             <p style="padding-top: 5px;" class="text-center">
               &copy;
               <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
@@ -1666,12 +2056,12 @@
       </section>
     </footer>
   </div>
-  
+
   <!-- Info Dialogue Modal -->
   <div id="info-dialogue" class="info-dialogue">
     <h3 id="info-dialogue-title">
       <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
       </svg>
       <span id="info-dialogue-title-text">Information</span>
     </h3>
@@ -1753,20 +2143,26 @@
     </div>
   </div>
   -->
-  
+
   <!-- Perplexity Overlay -->
   <div id="perplexity-overlay" class="perplexity-overlay">
     <div class="perplexity-dialog" style="background-color: #091717; color: white;">
       <img src="/assets/pplx.svg" alt="Perplexity" style="width: 100%; display: block;">
       <div class="perplexity-content">
-        <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: white;">12 Months Free Perplexity Pro for CiteCount users!</h2>
+        <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: white;">12 Months Free Perplexity
+          Pro for CiteCount users!</h2>
         <p style="margin-bottom: 20px; opacity: 0.9; color: #e2e8f0; line-height: 1.5;">
-          We've partnered with Perplexity to offer students 12 months of Perplexity Pro for free. 
+          We've partnered with Perplexity to offer students 12 months of Perplexity Pro for free.
           It's an AI-powered research assistant that helps you find credible sources and answers faster.
         </p>
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
-          <button id="perplexity-dismiss-btn" onclick="dismissPerplexityOverlay()" data-lta-event="perplexity-overlay-dismiss" style="padding: 8px 16px; border-radius: 6px; background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; opacity: 0.5; pointer-events: none;">Maybe Later (5)</button>
-          <button onclick="claimPerplexityOffer()" data-lta-event="perplexity-overlay-claim" style="padding: 8px 16px; border-radius: 6px; background: #22d3ee; color: #091717; font-weight: bold; border: none; cursor: pointer;">Get Free Access</button>
+          <button id="perplexity-dismiss-btn" onclick="dismissPerplexityOverlay()"
+            data-lta-event="perplexity-overlay-dismiss"
+            style="padding: 8px 16px; border-radius: 6px; background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; opacity: 0.5; pointer-events: none;">Maybe
+            Later (5)</button>
+          <button onclick="claimPerplexityOffer()" data-lta-event="perplexity-overlay-claim"
+            style="padding: 8px 16px; border-radius: 6px; background: #22d3ee; color: #091717; font-weight: bold; border: none; cursor: pointer;">Get
+            Free Access</button>
         </div>
       </div>
     </div>
