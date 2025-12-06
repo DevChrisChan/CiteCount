@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB Grade Calculator - CiteCount</title>
+    <meta name="description" content="Calculate your IB Diploma Programme predicted scores with grade boundaries from past examination sessions.">
+    
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    
+    <style>
+        :root {
+            --primary-color: #F0F0F0;
+            --background-light: #FFF;
+            --background-dark: #181818;
+            --text-light: #333;
+            --text-dark: #F5F5F5;
+            --border-light: #E5E7EB;
+            --border-dark: #374151;
+            --header-light: #F0F0F0;
+            --header-dark: #1F1F1F;
+            --accent-color: #1E40AF;
+            
+            --text-primary: var(--text-light);
+            --text-secondary: #6B7280;
+            --background-primary: var(--background-light);
+            --background-secondary: #F9FAFB;
+            --border-primary: var(--border-light);
+            --surface-color: #FFF;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-primary: var(--text-dark);
+                --text-secondary: #9CA3AF;
+                --background-primary: var(--background-dark);
+                --background-secondary: #1F1F1F;
+                --border-primary: var(--border-dark);
+                --surface-color: #242424;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--background-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(240, 240, 240, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            margin-bottom: 2rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            header {
+                background: rgba(31, 31, 31, 0.8);
+            }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-section h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--background-secondary);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .intro {
+            background: var(--surface-color);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .intro p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .boundary-selector {
+            background: var(--surface-color);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .boundary-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .boundary-option {
+            background: var(--background-secondary);
+            border: 2px solid var(--border-primary);
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .boundary-option:hover {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .boundary-option.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+            box-shadow: 0 2px 4px rgba(30, 64, 175, 0.3);
+        }
+
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .calculator-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .groups-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .group-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .group-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .toggle-btn.collapsed {
+            transform: rotate(180deg);
+        }
+
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-primary);
+            border-radius: 0.5rem;
+            background: var(--background-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+
+        select:hover {
+            background: var(--accent-color);
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .assessment-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .assessment-item {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-primary);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .assessment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .assessment-name {
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 10px;
+            border-radius: 5px;
+            background: var(--accent-color);
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="number"] {
+            width: 4rem;
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--border-primary);
+            border-radius: 0.375rem;
+            background: var(--background-primary);
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .results-panel {
+            position: sticky;
+            top: 120px;
+        }
+
+        .results-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .results-table th {
+            background: var(--background-secondary);
+            font-weight: 600;
+        }
+
+        .grade-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .grade-1 { background: hsl(0, 100%, 68%); color: white; }
+        .grade-2 { background: hsl(24, 100%, 68%); color: white; }
+        .grade-3 { background: hsl(48, 100%, 68%); color: #333; }
+        .grade-4 { background: hsl(72, 100%, 68%); color: #333; }
+        .grade-5 { background: hsl(96, 100%, 68%); color: #333; }
+        .grade-6 { background: hsl(120, 100%, 68%); color: white; }
+        .grade-7 { background: hsl(120, 100%, 50%); color: white; }
+
+        .total-points {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--background-secondary);
+            border-radius: 0.5rem;
+        }
+
+        .diploma-status {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .diploma-yes {
+            background: hsl(120, 100%, 68%);
+            color: white;
+        }
+
+        .diploma-no {
+            background: hsl(0, 100%, 68%);
+            color: white;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--background-secondary);
+            border: 2px solid var(--border-primary);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .grade-results {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--background-secondary);
+            border-radius: 0.5rem;
+        }
+
+        .predicted-grade-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .grade-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .intro h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="/assets/logo.svg" alt="CiteCount Logo" style="height: 1.5rem;">
+                <h1>IB Grade Calculator</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="/">CiteCount</a>
+                <a href="/countdown/">Exam Countdown</a>
+                <a href="/blogs/">Blogs</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <h2>IB Diploma Programme Grade Calculator</h2>
+            <p>Calculate your predicted IB scores using official grade boundaries from past examination sessions. This calculator helps you understand what marks you need to achieve your target grades across all six subject groups, TOK, and EE.</p>
+            <p><strong>Last updated:</strong> December 2024 with May 2024 grade boundaries</p>
+        </div>
+
+        <div class="boundary-selector">
+            <h2>Select Grade Boundary</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Choose which examination session's grade boundaries to use for predictions.</p>
+            <div class="boundary-options">
+                <div class="boundary-option active" data-boundary="M24">May 2024</div>
+                <div class="boundary-option" data-boundary="N23">November 2023</div>
+                <div class="boundary-option" data-boundary="M23">May 2023</div>
+                <div class="boundary-option" data-boundary="N22">November 2022</div>
+                <div class="boundary-option" data-boundary="M22">May 2022</div>
+                <div class="boundary-option" data-boundary="M19">May 2019</div>
+            </div>
+        </div>
+
+        <div class="calculator-layout">
+            <div class="groups-section">
+                <!-- Group 1 -->
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Group 1: Studies in Language and Literature</h3>
+                        <button class="toggle-btn" onclick="toggleGroup(this)">▼</button>
+                    </div>
+                    <div class="group-content">
+                        <select id="group1-subject">
+                            <option value="">Select subject...</option>
+                            <option value="english-a">English A: Language and Literature</option>
+                            <option value="english-lit">English A: Literature</option>
+                            <option value="spanish-a">Spanish A: Language and Literature</option>
+                            <option value="french-a">French A: Language and Literature</option>
+                        </select>
+                        <select id="group1-level">
+                            <option value="">Select level...</option>
+                            <option value="HL">Higher Level (HL)</option>
+                            <option value="SL">Standard Level (SL)</option>
+                        </select>
+                        <div class="assessment-inputs" id="group1-assessments" style="display: none;">
+                            <!-- Assessments will be populated dynamically -->
+                        </div>
+                        <div class="grade-results" id="group1-results" style="display: none;">
+                            <div class="predicted-grade-display">
+                                <div class="grade-label">Predicted Grade</div>
+                                <div class="grade-circle grade-4" id="group1-grade">-</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div>Total Mark: <strong id="group1-mark">0</strong>/100</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 2 -->
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Group 2: Language Acquisition</h3>
+                        <button class="toggle-btn" onclick="toggleGroup(this)">▼</button>
+                    </div>
+                    <div class="group-content">
+                        <select id="group2-subject">
+                            <option value="">Select subject...</option>
+                            <option value="spanish-b">Spanish B</option>
+                            <option value="french-b">French B</option>
+                            <option value="german-b">German B</option>
+                            <option value="mandarin-b">Mandarin B</option>
+                        </select>
+                        <select id="group2-level">
+                            <option value="">Select level...</option>
+                            <option value="HL">Higher Level (HL)</option>
+                            <option value="SL">Standard Level (SL)</option>
+                        </select>
+                        <div class="assessment-inputs" id="group2-assessments" style="display: none;">
+                        </div>
+                        <div class="grade-results" id="group2-results" style="display: none;">
+                            <div class="predicted-grade-display">
+                                <div class="grade-label">Predicted Grade</div>
+                                <div class="grade-circle grade-4" id="group2-grade">-</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div>Total Mark: <strong id="group2-mark">0</strong>/100</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 3 -->
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Group 3: Individuals and Societies</h3>
+                        <button class="toggle-btn" onclick="toggleGroup(this)">▼</button>
+                    </div>
+                    <div class="group-content">
+                        <select id="group3-subject">
+                            <option value="">Select subject...</option>
+                            <option value="economics">Economics</option>
+                            <option value="business">Business Management</option>
+                            <option value="psychology">Psychology</option>
+                            <option value="history">History</option>
+                            <option value="geography">Geography</option>
+                        </select>
+                        <select id="group3-level">
+                            <option value="">Select level...</option>
+                            <option value="HL">Higher Level (HL)</option>
+                            <option value="SL">Standard Level (SL)</option>
+                        </select>
+                        <div class="assessment-inputs" id="group3-assessments" style="display: none;">
+                        </div>
+                        <div class="grade-results" id="group3-results" style="display: none;">
+                            <div class="predicted-grade-display">
+                                <div class="grade-label">Predicted Grade</div>
+                                <div class="grade-circle grade-4" id="group3-grade">-</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div>Total Mark: <strong id="group3-mark">0</strong>/100</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 4 -->
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Group 4: Sciences</h3>
+                        <button class="toggle-btn" onclick="toggleGroup(this)">▼</button>
+                    </div>
+                    <div class="group-content">
+                        <select id="group4-subject">
+                            <option value="">Select subject...</option>
+                            <option value="biology">Biology</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="physics">Physics</option>
+                            <option value="ess">Environmental Systems and Societies</option>
+                        </select>
+                        <select id="group4-level">
+                            <option value="">Select level...</option>
+                            <option value="HL">Higher Level (HL)</option>
+                            <option value="SL">Standard Level (SL)</option>
+                        </select>
+                        <div class="assessment-inputs" id="group4-assessments" style="display: none;">
+                        </div>
+                        <div class="grade-results" id="group4-results" style="display: none;">
+                            <div class="predicted-grade-display">
+                                <div class="grade-label">Predicted Grade</div>
+                                <div class="grade-circle grade-4" id="group4-grade">-</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div>Total Mark: <strong id="group4-mark">0</strong>/100</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 5 -->
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Group 5: Mathematics</h3>
+                        <button class="toggle-btn" onclick="toggleGroup(this)">▼</button>
+                    </div>
+                    <div class="group-content">
+                        <select id="group5-subject">
+                            <option value="">Select subject...</option>
+                            <option value="math-aa">Mathematics: Analysis and Approaches</option>
+                            <option value="math-ai">Mathematics: Applications and Interpretation</option>
+                        </select>
+                        <select id="group5-level">
+                            <option value="">Select level...</option>
+                            <option value="HL">Higher Level (HL)</option>
+                            <option value="SL">Standard Level (SL)</option>
+                        </select>
+                        <div class="assessment-inputs" id="group5-assessments" style="display: none;">
+                        </div>
+                        <div class="grade-results" id="group5-results" style="display: none;">
+                            <div class="predicted-grade-display">
+                                <div class="grade-label">Predicted Grade</div>
+                                <div class="grade-circle grade-4" id="group5-grade">-</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div>Total Mark: <strong id="group5-mark">0</strong>/100</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 6 -->
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Group 6: The Arts</h3>
+                        <button class="toggle-btn" onclick="toggleGroup(this)">▼</button>
+                    </div>
+                    <div class="group-content">
+                        <select id="group6-subject">
+                            <option value="">Select subject...</option>
+                            <option value="visual-arts">Visual Arts</option>
+                            <option value="music">Music</option>
+                            <option value="theatre">Theatre</option>
+                            <option value="">Or choose another subject from Groups 1-4</option>
+                        </select>
+                        <select id="group6-level">
+                            <option value="">Select level...</option>
+                            <option value="HL">Higher Level (HL)</option>
+                            <option value="SL">Standard Level (SL)</option>
+                        </select>
+                        <div class="assessment-inputs" id="group6-assessments" style="display: none;">
+                        </div>
+                        <div class="grade-results" id="group6-results" style="display: none;">
+                            <div class="predicted-grade-display">
+                                <div class="grade-label">Predicted Grade</div>
+                                <div class="grade-circle grade-4" id="group6-grade">-</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div>Total Mark: <strong id="group6-mark">0</strong>/100</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core: TOK & EE -->
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Core: Theory of Knowledge</h3>
+                        <button class="toggle-btn" onclick="toggleGroup(this)">▼</button>
+                    </div>
+                    <div class="group-content">
+                        <div class="assessment-inputs">
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <span class="assessment-name">TOK Essay</span>
+                                    <span>Weight: 67%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="0" max="20" value="10" id="tok-essay">
+                                    <input type="number" min="0" max="20" value="10" id="tok-essay-num">
+                                    <span>/ 20</span>
+                                </div>
+                            </div>
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <span class="assessment-name">TOK Exhibition</span>
+                                    <span>Weight: 33%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="0" max="10" value="5" id="tok-exhibition">
+                                    <input type="number" min="0" max="10" value="5" id="tok-exhibition-num">
+                                    <span>/ 10</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grade-results">
+                            <div class="predicted-grade-display">
+                                <div class="grade-label">TOK Grade</div>
+                                <div style="font-size: 1.5rem; font-weight: 700;" id="tok-grade">C</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div>Total Mark: <strong id="tok-mark">0</strong>/30</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-header">
+                        <h3 class="group-title">Core: Extended Essay</h3>
+                        <button class="toggle-btn" onclick="toggleGroup(this)">▼</button>
+                    </div>
+                    <div class="group-content">
+                        <div class="assessment-inputs">
+                            <div class="assessment-item">
+                                <div class="assessment-header">
+                                    <span class="assessment-name">Extended Essay</span>
+                                    <span>Weight: 100%</span>
+                                </div>
+                                <div class="slider-container">
+                                    <input type="range" min="0" max="34" value="17" id="ee-mark">
+                                    <input type="number" min="0" max="34" value="17" id="ee-mark-num">
+                                    <span>/ 34</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grade-results">
+                            <div class="predicted-grade-display">
+                                <div class="grade-label">EE Grade</div>
+                                <div style="font-size: 1.5rem; font-weight: 700;" id="ee-grade">C</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div>Total Mark: <strong id="ee-mark">0</strong>/34</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-panel">
+                <div class="results-card">
+                    <h2>Predicted Results</h2>
+                    
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Total Points</td>
+                                <td><strong id="total-points">0</strong> / 45</td>
+                            </tr>
+                            <tr>
+                                <td>Group 1</td>
+                                <td id="result-group1">-</td>
+                            </tr>
+                            <tr>
+                                <td>Group 2</td>
+                                <td id="result-group2">-</td>
+                            </tr>
+                            <tr>
+                                <td>Group 3</td>
+                                <td id="result-group3">-</td>
+                            </tr>
+                            <tr>
+                                <td>Group 4</td>
+                                <td id="result-group4">-</td>
+                            </tr>
+                            <tr>
+                                <td>Group 5</td>
+                                <td id="result-group5">-</td>
+                            </tr>
+                            <tr>
+                                <td>Group 6</td>
+                                <td id="result-group6">-</td>
+                            </tr>
+                            <tr>
+                                <td>TOK</td>
+                                <td id="result-tok">-</td>
+                            </tr>
+                            <tr>
+                                <td>EE</td>
+                                <td id="result-ee">-</td>
+                            </tr>
+                            <tr>
+                                <td>Core Points</td>
+                                <td id="result-core">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="diploma-status diploma-no" id="diploma-status">
+                        <div>DIPLOMA NOT AWARDED</div>
+                        <div style="font-size: 0.875rem; margin-top: 0.5rem;" id="diploma-message">Complete all subjects to calculate</div>
+                    </div>
+
+                    <button class="reset-btn" onclick="resetCalculator()">Reset All Selections</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="calculator.js"></script>
+</body>
+</html>
