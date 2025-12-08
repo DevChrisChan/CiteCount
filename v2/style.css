@@ -613,14 +613,13 @@
   .toolbar button,
   header button {
     transition: all 0.2s ease;
-    border-width: 1px;
+    border-width: 0px;
     padding: 0.25rem 0.5rem;
     position: relative;
     z-index: 21;
   }
 
-  .toolbar button:hover::after,
-  header button:hover::after {
+  .toolbar button:hover::after {
     content: attr(data-tooltip);
     position: absolute;
     top: 120%;
@@ -634,6 +633,25 @@
     white-space: nowrap;
     z-index: 100;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Show tooltip on mobile only (when text labels are hidden) */
+  @media (max-width: 767px) {
+    header button:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(51, 51, 51, 0.9);
+      color: #FFF;
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
   }
 
   .counter-card {
@@ -903,6 +921,113 @@
     background: none;
     border: none;
     cursor: pointer;
+  }
+
+  /* Apps Modal Styles */
+  .apps-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90%, 800px);
+    max-height: 85vh;
+    z-index: 60;
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex-direction: column;
+    border-radius: 1rem;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .apps-modal {
+      background: rgba(17, 24, 39, 0.95);
+      border-color: #374151;
+    }
+  }
+
+  .apps-modal h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .apps-modal button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .app-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid #E5E7EB;
+    background: #FFFFFF;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #3B82F6;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .app-card {
+      background: rgba(31, 41, 55, 0.6);
+      border-color: #374151;
+    }
+
+    .app-card:hover {
+      background: rgba(31, 41, 55, 0.8);
+      border-color: #3B82F6;
+    }
+  }
+
+  .app-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .app-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #111827;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .app-title {
+      color: #F9FAFB;
+    }
+  }
+
+  .app-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #6B7280;
+    margin: 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .app-description {
+      color: #9CA3AF;
+    }
   }
 
   /* Ensure settings action buttons keep their background */
@@ -1428,53 +1553,117 @@
 
 #donation-alert {
   visibility: hidden;
-  min-width: 250px;
-  background-color: rgba(50, 50, 50, 0.6);
+  min-width: 320px;
+  max-width: 380px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(37, 99, 235, 0.95) 100%);
   color: #fff;
   text-align: center;
-  border-radius: 10px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 24px 20px;
   position: fixed;
   z-index: 10000;
-  right: 20px;
-  bottom: 20px;
+  right: 24px;
+  bottom: 24px;
   font-size: 1em;
   opacity: 0;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 10px 40px rgba(37, 99, 235, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 #donation-alert.show {
   visibility: visible;
   opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 #donation-alert:hover {
-  background-color: rgba(50, 50, 50, 0.8);
-  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 14px 50px rgba(37, 99, 235, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+  transform: translateY(-2px) scale(1);
 }
 
 #donation-alert p {
-  margin: 0 0 12px;
-  font-size: 0.9em;
+  margin: 0 0 20px;
+  font-size: 1.05em;
+  font-weight: 600;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 #donation-alert .btn-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   gap: 10px;
 }
 
 #donation-alert button {
-  padding: 6px 12px;
-  border-radius: 5px;
+  padding: 12px 20px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-  font-size: 0.9em;
-  transition: all 0.2s ease;
+  font-size: 0.95em;
+  font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
+#donation-alert button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+#donation-alert button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Survey button styles */
+#donation-alert .survey-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1E40AF;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#donation-alert .survey-btn:hover {
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+#donation-alert .survey-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#donation-alert .no-thanks-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+#donation-alert .no-thanks-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Legacy donate button styles (commented out but kept for reference) */
+/*
 #donation-alert .donate-btn {
   background: #16A34A; 
   color: #fff;
@@ -1483,34 +1672,57 @@
 #donation-alert .donate-btn:hover {
   background: #15803D; 
 }
-
-#donation-alert .no-thanks-btn {
-  background: #E5E7EB; 
-  color: #333;
-}
-
-#donation-alert .no-thanks-btn:hover {
-  background: #D1D5DB; 
-}
+*/
 @media (prefers-color-scheme: dark) {
   #donation-alert {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #F5F5F5;
-    backdrop-filter: blur(10px);
-    box-shadow: none;
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(29, 78, 216, 0.95) 100%);
+    box-shadow: 0 10px 40px rgba(29, 78, 216, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
   }
 
   #donation-alert:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 14px 50px rgba(29, 78, 216, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+  }
+
+  #donation-alert .survey-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1E3A8A;
+  }
+
+  #donation-alert .survey-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
   }
 
   #donation-alert .no-thanks-btn {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
     color: #F5F5F5;
+    border: 1px solid rgba(255, 255, 255, 0.25);
   }
 
   #donation-alert .no-thanks-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  #donation-alert {
+    min-width: 280px;
+    max-width: calc(100vw - 32px);
+    right: 16px;
+    bottom: 16px;
+    padding: 20px 16px;
+  }
+
+  #donation-alert p {
+    font-size: 0.95em;
+    margin-bottom: 16px;
+  }
+
+  #donation-alert button {
+    padding: 11px 18px;
+    font-size: 0.9em;
   }
 }
 

@@ -94,14 +94,12 @@
     <div id="progress-bar"></div>
   </div>
   <div id="donation-alert">
-    <p id="donation-message"></p>
-    <div class="btn-container">
-      <!--<button id="donate-btn" class="donate-btn" onclick="handleDonate()" data-lta-event="v2-cta-donate-button-click"></button>-->
-      <button id="donate-btn" class="donate-btn" onclick="handleDonate()"
-        data-lta-event="perplexity-offer-popup-claim"></button>
-      <!--<button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="v2-cta-donate-no-thanks-button-click">No Thanks</button>-->
-      <button class="no-thanks-btn" onclick="handleNoThanks()"
-        data-lta-event="perplexity-offer-popup-no-thanks-button-click">No Thanks</button>
+    <p id="donation-message">Help us improve CiteCount! What best describes you?</p>
+    <div class="btn-container" style="flex-direction: column; gap: 8px;">
+      <button class="survey-btn" onclick="handleSurveyClick('ib')" data-lta-event="survey-ib-student-click">IB Student</button>
+      <button class="survey-btn" onclick="handleSurveyClick('university')" data-lta-event="survey-university-student-click">University Student</button>
+      <button class="survey-btn" onclick="handleSurveyClick('other')" data-lta-event="survey-other-click">Other</button>
+      <button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="survey-dismiss-click">Maybe Later</button>
     </div>
   </div>
   <div class="app-container">
@@ -128,23 +126,16 @@
         border-radius: 15px; display: none;" id="isPremiumDisplay">PRO</span>
       </div>
       <div class="flex items-center gap-2">
-        <a href="https://buymeacoffee.com/cite" target="_blank" data-lta-event="v2-header-donate-click">
-          <button id="help-btn" class="p-2 rounded-md" data-tooltip="Support CiteCount">
-            <?xml version="1.0" encoding="UTF-8"?>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20" height="20">
-              <path
-                d="M12,0C6.486,0,2,4.486,2,10s4.486,10,10,10,10-4.486,10-10S17.514,0,12,0Zm-1.356,8.761l3.041,.506c1.342,.224,2.315,1.374,2.315,2.733,0,1.654-1.346,3-3,3v1h-2v-1c-1.654,0-3-1.346-3-3h2c0,.552,.449,1,1,1h2c.551,0,1-.448,1-1,0-.379-.271-.698-.644-.761l-3.041-.506c-1.342-.224-2.315-1.374-2.315-2.733,0-1.654,1.346-3,3-3v-1h2v1c1.654,0,3,1.346,3,3h-2c0-.552-.449-1-1-1h-2c-.551,0-1,.448-1,1,0,.379,.271,.698,.644,.761Zm13.356,11.739c0,1.933-1.567,3.5-3.5,3.5H3.5c-1.933,0-3.5-1.567-3.5-3.5,0-1.55,1.014-2.849,2.409-3.309,2.189,2.915,5.664,4.809,9.591,4.809s7.401-1.894,9.591-4.809c1.396,.46,2.409,1.76,2.409,3.309Z" />
-            </svg>
-          </button></a>
-        <button id="help-btn" class="p-2 rounded-md" data-tooltip="Help" onclick="toggleHelpOverlay(true)"
+        <button id="help-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="Help" onclick="toggleHelpOverlay(true)"
           data-lta-event="v2-header-help-click">
           <?xml version="1.0" encoding="utf-8"?>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7.92 9.234v.102a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-1.29.998-1.979 2.34-1.979 1.308 0 2.168.689 2.168 1.67 0 .928-.482 1.359-1.686 1.91l-.344.154C11.379 11.54 11 12.21 11 13.381v.119a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-.516.138-.723.55-.912l.345-.155c1.445-.654 2.529-1.514 2.529-3.39v-.103c0-1.978-1.72-3.441-4.164-3.441-2.478 0-4.336 1.428-4.336 3.734zm2.58 7.757c0 .867.659 1.509 1.491 1.509.85 0 1.509-.642 1.509-1.509 0-.867-.659-1.491-1.509-1.491-.832 0-1.491.624-1.491 1.491z" />
           </svg>
+          <span class="hidden md:inline text-sm font-medium">Help</span>
         </button>
-        <button id="settings-btn" class="p-2 rounded-md" data-tooltip="Settings [⌘,]"
+        <button id="settings-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="Settings [⌘,]"
           onclick="toggleSettingsOverlay(true)" data-lta-event="v2-settings-click">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
             <path d="M0 0h48v48h-48z" fill="none" />
@@ -152,35 +143,17 @@
               d="M38.86 25.95c.08-.64.14-1.29.14-1.95s-.06-1.31-.14-1.95l4.23-3.31c.38-.3.49-.84.24-1.28l-4-6.93c-.25-.43-.77-.61-1.22-.43l-4.98 2.01c-1.03-.79-2.16-1.46-3.38-1.97l-.75-5.3c-.09-.47-.5-.84-1-.84h-8c-.5 0-.91.37-.99.84l-.75 5.3c-1.22.51-2.35 1.17-3.38 1.97l-4.98-2.01c-.45-.17-.97 0-1.22.43l-4 6.93c-.25.43-.14.97.24 1.28l4.22 3.31c-.08.64-.14 1.29-.14 1.95s.06 1.31.14 1.95l-4.22 3.31c-.38.3-.49.84-.24 1.28l4 6.93c.25.43.77.61 1.22.43l4.98-2.01c1.03.79 2.16 1.46 3.38 1.97l.75 5.3c.08.47.49.84.99.84h8c.5 0 .91-.37.99-.84l.75-5.3c1.22-.51 2.35-1.17 3.38-1.97l4.98 2.01c.45.17.97 0 1.22-.43l4-6.93c.25-.43.14-.97-.24-1.28l-4.22-3.31zm-14.86 5.05c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"
               fill="currentColor" class="dark:fill-white" />
           </svg>
+          <span class="hidden md:inline text-sm font-medium">Settings</span>
         </button>
 
-        <div class="relative">
-          <button id="other-apps-btn" class="p-2 rounded-md" data-tooltip="More Apps" onclick="toggleDropdown()"
-            data-lta-event="v2-more-apps-click">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              class="h-5 w-5">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <div id="other-apps-dropdown"
-            class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-10 hidden">
-            <a href="/countdown/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              data-lta-event="v2-more-apps-countdown-click">IB
-              Exams Countdown</a>
-            <a href="/exam-timer/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              data-lta-event="v2-more-apps-mocks-click">IB
-               Exams Timer</a>
-            <a href="/ib-resources/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              data-lta-event="v2-more-apps-ib-resources-click">IB
-              Resources</a>
-            <a href="/blogs/"
-              class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              data-lta-event="v2-more-apps-blogs-click">Blogs</a>
-          </div>
-        </div>
+        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal(true)"
+          data-lta-event="v2-more-apps-click">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            class="h-5 w-5">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <span class="hidden md:inline text-sm font-medium">More Apps</span>
+        </button>
       </div>
     </header>
 
@@ -1081,6 +1054,44 @@
           src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true"
           allowfullscreen onload="iframeLoaded()"></iframe>
       </div>-->
+    </div>
+
+    <div id="apps-modal" class="apps-modal" style="display: none;">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">More Apps</h2>
+        <button onclick="toggleAppsModal(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="apps-grid">
+        <a href="/countdown/" class="app-card" data-lta-event="v2-more-apps-countdown-click">
+          <div class="app-icon">⏱️</div>
+          <h3 class="app-title">IB Exams Countdown</h3>
+          <p class="app-description">Track time until your IB exams with customizable countdowns for the May 2025 examination session.</p>
+        </a>
+        <a href="/exam-timer/" class="app-card" data-lta-event="v2-more-apps-mocks-click">
+          <div class="app-icon">⏲️</div>
+          <h3 class="app-title">IB Exams Timer</h3>
+          <p class="app-description">Simulate real IB exam conditions with reading time, exam timer, and voice guidance for invigilators.</p>
+        </a>
+        <a href="/ib-resources/" class="app-card" data-lta-event="v2-more-apps-ib-resources-click">
+          <div class="app-icon">📚</div>
+          <h3 class="app-title">IB Resources</h3>
+          <p class="app-description">A hand-picked collection of useful resources, guides, and tools specifically for IB students.</p>
+        </a>
+        <a href="/bulletin-analysis/" class="app-card" data-lta-event="v2-more-apps-bulletin-click">
+          <div class="app-icon">📊</div>
+          <h3 class="app-title">IB Bulletin Analysis</h3>
+          <p class="app-description">Interactive analysis and visualization of IB examination statistical bulletins and grade distributions.</p>
+        </a>
+        <a href="/blogs/" class="app-card" data-lta-event="v2-more-apps-blogs-click">
+          <div class="app-icon">📝</div>
+          <h3 class="app-title">Blogs & Guides</h3>
+          <p class="app-description">Academic guides, tips, and resources for IB coursework, written by IB top scorers and graduates.</p>
+        </a>
+      </div>
     </div>
     <span style="padding-top:10px;"></span>
     <div id="overlay-background" class="overlay-background" onclick="closeOverlays()"></div>

@@ -112,6 +112,22 @@
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
+        input.invalid {
+            border-color: rgba(255, 100, 100, 0.6);
+            background: rgba(255, 100, 100, 0.1);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
         .time-inputs {
             display: flex;
             flex-wrap: wrap;
@@ -145,17 +161,31 @@
             color: #80c0ff;
             font-size: 1rem;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             display: inline-block;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+        }
+
+        .preset-toggle::before {
+            content: '▼';
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .preset-toggle.expanded::before {
+            transform: rotate(180deg);
         }
 
         .preset-toggle:hover {
             color: #a0d0ff;
             background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .preset-toggle.active {
@@ -163,8 +193,20 @@
             color: white;
         }
 
+        .preset-toggle.active::before {
+            content: '✕';
+            transform: none;
+        }
+
         .preset-toggle.active:hover {
             background: rgba(167, 40, 40, 1);
+        }
+
+        .keyboard-hint {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            margin-top: 0.5rem;
         }
 
         .expand-content {
@@ -183,17 +225,42 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            font-weight: 500;
+            position: relative;
         }
 
-        button:hover {
+        button:hover:not(:disabled) {
             background: rgba(40, 167, 69, 1);
             transform: translateY(-3px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
         }
 
-        button:active {
+        button:active:not(:disabled) {
             transform: translateY(0);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        button.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            right: 1rem;
+            margin-top: -8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spinner 0.6s linear infinite;
+        }
+
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
         }
 
         .button-group {
@@ -420,19 +487,22 @@
             <div class="time-inputs">
                 <div class="form-group">
                     <label for="hours">Hours<span class="required-asterisk">*</span>:</label>
-                    <input type="number" id="hours" min="0" value="1" required placeholder="Enter hours">
+                    <input type="number" id="hours" min="0" max="12" value="1" required placeholder="Enter hours" aria-describedby="hours-error">
+                    <div class="error-message" id="hours-error">Please enter a valid duration (0-12 hours)</div>
                 </div>
                 <div class="form-group">
                     <label for="minutes">Minutes<span class="required-asterisk">*</span>:</label>
-                    <input type="number" id="minutes" min="0" max="59" value="0" required placeholder="Enter minutes">
+                    <input type="number" id="minutes" min="0" max="59" value="0" required placeholder="Enter minutes" aria-describedby="minutes-error">
+                    <div class="error-message" id="minutes-error">Please enter valid minutes (0-59)</div>
                 </div>
-                <div class="required-note">Required fields</div>
+                <div class="required-note">Required fields • At least 1 minute total required</div>
                 <div class="expandable-section">
-                    <div class="preset-toggle" id="presetToggle">or choose from IB exam presets...</div>
+                    <div class="preset-toggle" id="presetToggle" role="button" tabindex="0" aria-expanded="false">or choose from IB exam presets...</div>
                     <div class="expand-content" id="presets">
-                        <select class="preset-select" id="examPreset">
+                        <select class="preset-select" id="examPreset" aria-label="Select exam preset">
                             <option value="">Select an exam preset</option>
                         </select>
+                        <div class="keyboard-hint">💡 Tip: Type to search presets</div>
                     </div>
                 </div>
             </div>
@@ -464,22 +534,66 @@
             const content = document.getElementById('presets');
             const toggle = document.getElementById('presetToggle');
             const select = $('#examPreset');
+            const isExpanded = content.style.display === 'block';
             
-            if (content.style.display === 'block' && !select.val()) {
+            if (isExpanded && !select.val()) {
                 content.style.display = 'none';
+                toggle.classList.remove('expanded');
+                toggle.setAttribute('aria-expanded', 'false');
             } else {
                 content.style.display = 'block';
+                toggle.classList.add('expanded');
+                toggle.setAttribute('aria-expanded', 'true');
+                select.select2('open');
             }
         }
 
         function updateToggleButton(value) {
             const toggle = document.getElementById('presetToggle');
             if (value && value !== '') {
-                toggle.textContent = 'Clear Preset';
                 toggle.classList.add('active');
+                toggle.classList.remove('expanded');
             } else {
                 toggle.classList.remove('active');
             }
+        }
+
+        function validateDuration() {
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const hoursInput = document.getElementById('hours');
+            const minutesInput = document.getElementById('minutes');
+            const hoursError = document.getElementById('hours-error');
+            const minutesError = document.getElementById('minutes-error');
+            
+            let isValid = true;
+            
+            if (hours < 0 || hours > 12) {
+                hoursInput.classList.add('invalid');
+                hoursError.classList.add('show');
+                isValid = false;
+            } else {
+                hoursInput.classList.remove('invalid');
+                hoursError.classList.remove('show');
+            }
+            
+            if (minutes < 0 || minutes > 59) {
+                minutesInput.classList.add('invalid');
+                minutesError.classList.add('show');
+                isValid = false;
+            } else {
+                minutesInput.classList.remove('invalid');
+                minutesError.classList.remove('show');
+            }
+            
+            if (hours === 0 && minutes === 0) {
+                minutesInput.classList.add('invalid');
+                minutesError.textContent = 'Total duration must be at least 1 minute';
+                minutesError.classList.add('show');
+                isValid = false;
+            }
+            
+            return isValid;
         }
 
         document.getElementById('presetToggle').addEventListener('click', function(e) {
@@ -490,9 +604,19 @@
                 document.getElementById('hours').value = '1';
                 document.getElementById('minutes').value = '0';
                 document.getElementById('presets').style.display = 'none';
+                this.classList.remove('expanded');
+                this.setAttribute('aria-expanded', 'false');
                 updateToggleButton('');
+                validateDuration();
             } else {
                 togglePresets();
+            }
+        });
+
+        document.getElementById('presetToggle').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
             }
         });
 
@@ -535,16 +659,31 @@
                 document.getElementById('hours').addEventListener('input', function() {
                     select.val('').trigger('change');
                     updateToggleButton('');
+                    validateDuration();
                 });
                 document.getElementById('minutes').addEventListener('input', function() {
                     select.val('').trigger('change');
                     updateToggleButton('');
+                    validateDuration();
                 });
             })
-            .catch(error => console.error('Error loading exams:', error));
+            .catch(error => {
+                console.error('Error loading exams:', error);
+                document.getElementById('presetToggle').style.display = 'none';
+            });
 
         document.getElementById('setupForm').addEventListener('submit', function (e) {
             e.preventDefault();
+
+            if (!validateDuration()) {
+                return;
+            }
+
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.classList.add('loading');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Starting Exam...';
 
             const subjectInput = document.getElementById('subject').value;
             let subjectValue = subjectInput.trim();
@@ -559,12 +698,38 @@
             const disableInstructions = document.getElementById('disableInstructions').checked;
 
             const url = `start.html?subject=${subject}&duration=${totalDuration}&disableReading=${disableReading}&disableInstructions=${disableInstructions}`;
-            window.open(url, '_blank', 'fullscreen=yes');
+            
+            setTimeout(() => {
+                try {
+                    window.open(url, '_blank', 'fullscreen=yes');
+                    submitButton.textContent = '✓ Exam Started!';
+                    submitButton.style.background = 'rgba(40, 167, 69, 1)';
+                    
+                    setTimeout(() => {
+                        submitButton.textContent = originalText;
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('loading');
+                        submitButton.style.background = '';
+                    }, 2000);
+                } catch (error) {
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('loading');
+                    alert('Please allow popups to start the exam timer.');
+                }
+            }, 300);
         });
 
         document.getElementById('minutes').addEventListener('change', function () {
             if (this.value > 59) this.value = 59;
             if (this.value < 0) this.value = 0;
+            validateDuration();
+        });
+
+        document.getElementById('hours').addEventListener('change', function () {
+            if (this.value > 12) this.value = 12;
+            if (this.value < 0) this.value = 0;
+            validateDuration();
         });
     </script>
 </body>

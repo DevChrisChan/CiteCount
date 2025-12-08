@@ -160,14 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Handle clicks outside the dropdown to close it
   document.addEventListener('click', (e) => {
-    const dropdown = document.getElementById('other-apps-dropdown');
-    const button = document.getElementById('other-apps-btn');
-    
-    // If clicking outside both the dropdown and the button, close the dropdown
-    if (!dropdown.contains(e.target) && !button.contains(e.target)) {
-      dropdown.classList.add('hidden');
-    }
-
     // Handle format dropdown
     const formatDropdown = document.getElementById('format-dropdown');
     const formatButton = document.getElementById('format-dropdown-btn');
@@ -184,21 +176,16 @@ document.addEventListener('DOMContentLoaded', function () {
       fontFamilyDropdown.classList.add('hidden');
     }
   });
-
-  // Prevent dropdown from closing when clicking inside it
-  document.getElementById('other-apps-dropdown').addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
 });
 
 function closeOverlays() {
   toggleCitationsOverlay(false);
   toggleSettingsOverlay(false);
   toggleHelpOverlay(false);
+  toggleAppsModal(false);
   document.getElementById('confirmation-overlay').style.display = 'none';
   document.getElementById('info-dialogue').style.display = 'none';
   document.getElementById('overlay-background').style.display = 'none';
-  document.getElementById('other-apps-dropdown').classList.add('hidden');
   const formatDropdown = document.getElementById('format-dropdown');
   if (formatDropdown) {
     formatDropdown.classList.add('hidden');
@@ -209,9 +196,19 @@ function closeOverlays() {
   }
 }
 
-function toggleDropdown() {
-  const dropdown = document.getElementById('other-apps-dropdown');
-  dropdown.classList.toggle('hidden');
+function toggleAppsModal(show) {
+  const modal = document.getElementById('apps-modal');
+  const overlay = document.getElementById('overlay-background');
+  
+  if (show) {
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  } else {
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
 }
 
 function handlePaste(e) {
@@ -1520,12 +1517,24 @@ window.onerror = function (message, source, lineno, colno, error) {
   }
 };
 
+// Flag to enable/disable survey popup (changed from donation messages)
+const SURVEY_ENABLED = true;
+
+// Survey Google Forms URLs
+const surveyUrls = {
+  ib: 'https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url&entry.631942244=IB+Student',
+  university: 'https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url&entry.631942244=University+Student',
+  other: 'https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url'
+};
+
+// ============ COMMENTED OUT DONATION MESSAGES ============
 // Flag to enable/disable donation messages
-const DONATION_MESSAGES_ENABLED = false;
+// const DONATION_MESSAGES_ENABLED = false;
 
 // Flag to enable/disable "No thanks" button opening the donation link
-const NO_THANKS_OPENS_LINK = false;
+// const NO_THANKS_OPENS_LINK = false;
 
+/*
 const donationMessages = [
   // New Perplexity Pro promotional messages
   {
@@ -1569,25 +1578,43 @@ const donationMessages = [
     text: "Fill a 1-minute survey for a chance to win $50!",
     url: "https://forms.gle/75BvyudP82DxZkfAA",
     buttonText: "Go to Survey"
-  }*/
+  }*\/
 ];
+*/
+// ============ END COMMENTED DONATION MESSAGES ============
 
 let hasInteracted = false;
 let alertTimeout;
-let currentDonationUrl = '';
-let currentButtonText = '';
 
 function hasUserDismissedAlert() {
+  // Check if survey was completed
+  const surveyCompleted = localStorage.getItem('surveyCompleted');
+  if (surveyCompleted === 'true') return true;
+  
+  // Check if temporarily dismissed (24 hour cooldown)
   const lastDismissed = localStorage.getItem('donationAlertDismissedTimestamp');
   if (!lastDismissed) return false;
   const hoursSinceDismissal = (Date.now() - parseInt(lastDismissed)) / (1000 * 60 * 60);
   return hoursSinceDismissal < 24;
 }
 
+// ============ COMMENTED OUT OLD VARIABLES ============
+// let currentDonationUrl = '';
+// let currentButtonText = '';
+// ============ END COMMENTED OLD VARIABLES ============
+
 function markAlertAsDismissed() {
   localStorage.setItem('donationAlertDismissedTimestamp', Date.now());
 }
 
+function showDonationAlert() {
+  if (!SURVEY_ENABLED || hasUserDismissedAlert()) return;
+  const alert = document.getElementById('donation-alert');
+  alert.classList.add('show');
+}
+
+// ============ COMMENTED OUT OLD DONATION ALERT FUNCTION ============
+/*
 function showDonationAlert() {
   if (!DONATION_MESSAGES_ENABLED || hasUserDismissedAlert()) return;
   const alert = document.getElementById('donation-alert');
@@ -1623,6 +1650,8 @@ function showDonationAlert() {
   
   alert.classList.add('show');
 }
+*/
+// ============ END COMMENTED OLD FUNCTION ============
 
 function hideDonationAlert() {
   const alert = document.getElementById('donation-alert');
@@ -1630,6 +1659,23 @@ function hideDonationAlert() {
   clearTimeout(alertTimeout);
 }
 
+function handleNoThanks() {
+  hideDonationAlert();
+  markAlertAsDismissed();
+}
+
+function handleSurveyClick(type) {
+  const url = surveyUrls[type];
+  if (url) {
+    window.open(url, '_blank');
+    hideDonationAlert();
+    // Don't show survey again after they've clicked
+    localStorage.setItem('surveyCompleted', 'true');
+  }
+}
+
+// ============ COMMENTED OUT OLD DONATION FUNCTIONS ============
+/*
 function handleNoThanks() {
   hideDonationAlert();
   markAlertAsDismissed();
@@ -1644,11 +1690,13 @@ function handleDonate() {
   hideDonationAlert();
   localStorage.removeItem('donationAlertDismissedTimestamp');
 }
+*/
+// ============ END COMMENTED OLD FUNCTIONS ============
 
 const isPremium = localStorage.getItem('isPremium');
 document.getElementById('editor').addEventListener('click', function () {
   if (!hasInteracted && !hasUserDismissedAlert()) {
-    if (isPremium == "true" || !DONATION_MESSAGES_ENABLED) return;
+    if (isPremium == "true" || !SURVEY_ENABLED) return;
     hasInteracted = true;
     alertTimeout = setTimeout(showDonationAlert, 8000);
   }

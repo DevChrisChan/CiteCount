@@ -129,6 +129,23 @@
             margin: auto 0;
             text-align: center;
             line-height: 1.2;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        #timer.warning {
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        #timer.critical {
+            color: #ff4444;
+            text-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
 
         .time-info-container {
@@ -153,12 +170,27 @@
             padding: 12px 25px;
             font-size: 1rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
             margin: 5px;
             width: 90%;
             max-width: 300px;
+            background: rgba(40, 167, 69, 0.9);
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(40, 167, 69, 1);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         #instructions {
@@ -271,7 +303,7 @@
     <div class="config-buttons">
         <a href="/exam-timer/index.html" class="config-button" onclick="return confirm('Are you sure you want to configure the examination? This will end the current exam timer.');">Configure Exam</a>
         <a href="#" class="config-button" onclick="if(confirm('Are you sure you want to restart the examination?')) { window.location.reload() } return false;">Restart Exam</a>
-        <a onclick="alert('Copy URL to Share Examination with others!')" class="config-button">Share Exam</a>
+        <a href="#" class="config-button" id="shareExamButton">Share Exam</a>
     </div>
     
     <h1 id="subjectTitle"></h1>
@@ -346,12 +378,16 @@
             
             if (isPaused) {
                 isPaused = false;
-                document.getElementById('pauseButton').textContent = 'Pause';
+                const pauseButton = document.getElementById('pauseButton');
+                pauseButton.textContent = 'Pause (Space)';
+                pauseButton.style.background = 'rgba(40, 167, 69, 0.9)';
                 endTime = new Date(new Date().getTime() + remainingTime);
                 examTimer = setInterval(updateExamTimer, 1000);
             } else {
                 isPaused = true;
-                document.getElementById('pauseButton').textContent = 'Resume';
+                const pauseButton = document.getElementById('pauseButton');
+                pauseButton.textContent = 'Resume (Space)';
+                pauseButton.style.background = 'rgba(255, 193, 7, 0.9)';
                 clearInterval(examTimer);
             }
             updateTimer();
@@ -360,7 +396,8 @@
         function createPauseButton() {
             const pauseButton = document.createElement('button');
             pauseButton.id = 'pauseButton';
-            pauseButton.textContent = 'Pause';
+            pauseButton.textContent = 'Pause (Space)';
+            pauseButton.title = 'Press Space to toggle pause';
             pauseButton.addEventListener('click', togglePause);
             document.getElementById('buttonContainer').appendChild(pauseButton);
         }
@@ -494,12 +531,16 @@
                 updateProgressBar();
                 
                 if (!isReadingTime) {
+                    const timerElement = document.getElementById('timer');
                     if (remainingTime <= 30*60*1000 && currentPhase < 3) {
                         playAudio('5.mp3');
+                        timerElement.classList.add('warning');
                         currentPhase = 3;
                     }
                     if (remainingTime <= 5*60*1000 && currentPhase < 4) {
                         playAudio('6.mp3');
+                        timerElement.classList.remove('warning');
+                        timerElement.classList.add('critical');
                         currentPhase = 4;
                     }
                 }
@@ -542,9 +583,61 @@
             });
         }
 
+        document.getElementById('shareExamButton').addEventListener('click', async function(e) {
+            e.preventDefault();
+            const url = window.location.href;
+            
+            try {
+                await navigator.clipboard.writeText(url);
+                const originalText = this.textContent;
+                this.textContent = '✓ Copied!';
+                this.style.background = 'rgba(40, 167, 69, 0.9)';
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = '';
+                }, 2000);
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    const originalText = this.textContent;
+                    this.textContent = '✓ Copied!';
+                    this.style.background = 'rgba(40, 167, 69, 0.9)';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.background = '';
+                    }, 2000);
+                } catch (err) {
+                    alert('Failed to copy. Please copy this URL manually:\n' + url);
+                }
+                
+                document.body.removeChild(textArea);
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+                const pauseButton = document.getElementById('pauseButton');
+                if (pauseButton && !pauseButton.disabled) {
+                    pauseButton.click();
+                }
+            }
+        });
+
         window.addEventListener("beforeunload", function(e) {
             e.preventDefault();
-            alert("Are you sure you want to leave the examination?");
+            e.returnValue = '';
+            return '';
         });
 
         if (!subject || !durationHours) {
