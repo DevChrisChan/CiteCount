@@ -131,6 +131,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle shortcuts that require modifier keys
     if (e.metaKey || e.ctrlKey) {
       switch (e.key.toLowerCase()) {
+        case 'f':
+          // Command/Ctrl + F focuses search citations bar
+          e.preventDefault();
+          const desktopSearch = document.getElementById('citations-search-input');
+          const mobileSearch = document.getElementById('citations-search-input-mobile');
+          // Focus on whichever search input is visible
+          if (desktopSearch && window.getComputedStyle(desktopSearch.closest('tr')).display !== 'none') {
+            desktopSearch.focus();
+          } else if (mobileSearch && window.getComputedStyle(mobileSearch.closest('tr')).display !== 'none') {
+            mobileSearch.focus();
+          }
+          break;
         case ',':
           // Command/Ctrl + , opens settings (standard macOS/Windows shortcut)
           e.preventDefault();
@@ -1520,12 +1532,8 @@ window.onerror = function (message, source, lineno, colno, error) {
 // Flag to enable/disable survey popup (changed from donation messages)
 const SURVEY_ENABLED = true;
 
-// Survey Google Forms URLs
-const surveyUrls = {
-  ib: 'https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url&entry.631942244=IB+Student',
-  university: 'https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url&entry.631942244=University+Student',
-  other: 'https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url'
-};
+// Survey Google Form base URL
+const SURVEY_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf8-ik9UKnNLxUcn2ST79r4kYwdyDpekI_YwVmNWDrv2ADfuA/viewform?usp=pp_url&entry.1057215659=';
 
 // ============ COMMENTED OUT DONATION MESSAGES ============
 // Flag to enable/disable donation messages
@@ -1588,7 +1596,7 @@ let alertTimeout;
 
 function hasUserDismissedAlert() {
   // Check if survey was completed
-  const surveyCompleted = localStorage.getItem('surveyCompleted');
+  const surveyCompleted = localStorage.getItem('survey2Completed');
   if (surveyCompleted === 'true') return true;
   
   // Check if temporarily dismissed (24 hour cooldown)
@@ -1664,14 +1672,30 @@ function handleNoThanks() {
   markAlertAsDismissed();
 }
 
-function handleSurveyClick(type) {
-  const url = surveyUrls[type];
-  if (url) {
-    window.open(url, '_blank');
-    hideDonationAlert();
-    // Don't show survey again after they've clicked
-    localStorage.setItem('surveyCompleted', 'true');
+function handleSurveySubmit() {
+  const input = document.getElementById('survey-input');
+  const text = input ? input.value.trim() : '';
+  
+  if (!text) {
+    // Show a subtle shake animation or notification if empty
+    if (input) {
+      input.style.border = '2px solid #EF4444';
+      setTimeout(() => {
+        input.style.border = '1px solid rgba(255,255,255,0.3)';
+      }, 1000);
+    }
+    return;
   }
+  
+  // Encode the text for URL
+  const encodedText = encodeURIComponent(text);
+  const url = SURVEY_FORM_URL + encodedText;
+  
+  window.open(url, '_blank');
+  hideDonationAlert();
+  
+  // Don't show survey again after they've submitted
+  localStorage.setItem('survey2Completed', 'true');
 }
 
 // ============ COMMENTED OUT OLD DONATION FUNCTIONS ============

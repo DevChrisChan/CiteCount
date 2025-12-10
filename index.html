@@ -6,9 +6,9 @@
      crossorigin="anonymous"></script>-->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CiteCount - Precise Word Counter without Citations</title>
+  <title>CiteCount - Precise Word Counter without Citations & Reference Generator</title>
 
-  <meta property="og:title" content="CiteCount - Precise Word Counter without Citations" />
+  <meta property="og:title" content="CiteCount - Precise Word Counter without Citations & Reference Generator" />
   <meta property="og:description"
     content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
   <meta property="og:image"
@@ -20,7 +20,7 @@
   <meta name="twitter:description"
     content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="CiteCount - Precise Word Counter without Citations" />
+  <meta name="twitter:title" content="CiteCount - Precise Word Counter without Citations & Reference Generator" />
   <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
   <meta name="description"
     content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!">
@@ -94,11 +94,11 @@
     <div id="progress-bar"></div>
   </div>
   <div id="donation-alert">
-    <p id="donation-message">Help us improve CiteCount! What best describes you?</p>
-    <div class="btn-container" style="flex-direction: column; gap: 8px;">
-      <button class="survey-btn" onclick="handleSurveyClick('ib')" data-lta-event="survey-ib-student-click">IB Student</button>
-      <button class="survey-btn" onclick="handleSurveyClick('university')" data-lta-event="survey-university-student-click">University Student</button>
-      <button class="survey-btn" onclick="handleSurveyClick('other')" data-lta-event="survey-other-click">Other</button>
+    <p id="donation-message">Any suggestions to improve CiteCount?</p>
+    <p style="font-size: 0.8em; opacity: 0.8;">In the past, we have implemented every single suggestions. Your suggestion will directly influence future updates.</p>
+    <div class="btn-container" style="flex-direction: column; gap: 12px;">
+      <textarea id="survey-input" placeholder="Share your suggestions or feedback..." rows="3" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.9); color: #1E40AF; font-size: 0.9em; resize: vertical; font-family: inherit;"></textarea>
+      <button class="survey-btn" onclick="handleSurveySubmit()" data-lta-event="survey-submit-click">Submit Feedback</button>
       <button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="survey-dismiss-click">Maybe Later</button>
     </div>
   </div>
@@ -303,6 +303,18 @@
                     <path d="M14 11v6"></path>
                   </svg>
                 </button>
+                <button data-tooltip="Generate Citation" onclick="openCitationModal()"
+                  class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center gap-2" data-lta-event="v2-generate-citation-action">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                  <span class="hidden md:inline text-sm font-medium flex items-center gap-1.5">Generate Citation <span style="font-size: 0.65rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">BETA</span></span>
+                </button>
               </div>
               <button id="manage-citations-btn"
                 style="background: #004e92; color: #fff; border-radius: 0.5rem; border: none; transition: background 0.2s ease; display: inline-flex; align-items: center; justify-content: center; display: none;"
@@ -388,7 +400,8 @@
                     <div class="search-input-wrapper" style="position: relative;">
                       <input type="text" id="citations-search-input" placeholder="Search citations..."
                         style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
-                        oninput="filterCitations(this.value)">
+                        oninput="filterCitations(this.value)"
+                        onkeydown="if(event.key === 'Escape') this.blur()">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -628,7 +641,8 @@
                 <div class="search-input-wrapper" style="position: relative;">
                   <input type="text" id="citations-search-input-mobile" placeholder="Search citations..."
                     style="width: 100%; padding: 0.5rem 2.5rem 0.5rem 0.75rem; border: 1px solid var(--border-light); border-radius: 0.375rem; background: transparent; font-size: 0.875rem;"
-                    oninput="filterCitations(this.value, true)">
+                    oninput="filterCitations(this.value, true)"
+                    onkeydown="if(event.key === 'Escape') this.blur()">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 1rem; height: 1rem; opacity: 0.5; pointer-events: none;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -2179,9 +2193,129 @@
     </div>
   </div>
 
+  <!-- Citation Generator Modal -->
+  <div id="citation-modal" class="citation-modal" style="display: none;">
+    <div class="citation-modal-content">
+      <div class="citation-modal-header">
+        <h2>Generate Citation <span data-tooltip="Experimental feature - may have errors" style="font-size: 0.7rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px; cursor: help;">BETA</span></h2>
+        <button onclick="closeCitationModal()" class="close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="citation-modal-body">
+        <!-- Citation Style Selector -->
+        <div class="citation-style-selector">
+          <label>Citation Style:</label>
+          <div class="style-buttons">
+            <button class="style-btn active" data-style="mla" onclick="selectCitationStyle('mla')">MLA</button>
+            <button class="style-btn" data-style="apa" onclick="selectCitationStyle('apa')">APA</button>
+            <button class="style-btn" data-style="harvard" onclick="selectCitationStyle('harvard')">Harvard</button>
+          </div>
+        </div>
+
+        <!-- Source Type Selector -->
+        <div class="source-type-selector">
+          <label>Source Type:</label>
+          <select id="source-type" onchange="updateCitationForm()">
+            <option value="book">Book</option>
+            <option value="journal">Journal Article</option>
+            <option value="website" selected>Website</option>
+            <option value="newspaper">Newspaper Article</option>
+          </select>
+        </div>
+
+        <!-- Error Message Display -->
+        <div id="citation-error" class="citation-error" style="display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+          </svg>
+          <span id="citation-error-text"></span>
+        </div>
+
+        <!-- Citation Form -->
+        <div id="citation-form" class="citation-form">
+          <div class="form-group" id="url-group" style="display: none;">
+            <label>URL</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="text" id="url" placeholder="https://example.com" style="flex: 1;" />
+              <button type="button" class="fetch-btn" onclick="fetchTitleFromURL()" title="Fetch title and set access date" style="color: white !important;">
+                Fetch Info
+              </button>
+            </div>
+            <span class="help-text" id="fetch-status" style="display: none; margin-top: 0.25rem;"></span>
+          </div>
+          <div class="form-group" id="access-date-group" style="display: none;">
+            <label>Access Date</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <input type="date" id="access-date" style="flex: 1;" />
+              <button type="button" class="today-btn" onclick="setTodayDate()" title="Set to today" style="color: white !important;">
+                Today
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Author(s) <span class="help-text">(Last name, First name)</span></label>
+            <input type="text" id="author" placeholder="e.g., Smith, John" />
+          </div>
+          <div class="form-group">
+            <label>Year</label>
+            <input type="text" id="year" placeholder="e.g., 2023" />
+          </div>
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="title" placeholder="Enter title" />
+          </div>
+          <div class="form-group" id="publisher-group">
+            <label>Publisher</label>
+            <input type="text" id="publisher" placeholder="Enter publisher" />
+          </div>
+          <div class="form-group" id="journal-group" style="display: none;">
+            <label>Journal Name</label>
+            <input type="text" id="journal-name" placeholder="Enter journal name" />
+          </div>
+          <div class="form-group" id="volume-group" style="display: none;">
+            <label>Volume</label>
+            <input type="text" id="volume" placeholder="e.g., 12" />
+          </div>
+          <div class="form-group" id="issue-group" style="display: none;">
+            <label>Issue</label>
+            <input type="text" id="issue" placeholder="e.g., 3" />
+          </div>
+          <div class="form-group" id="pages-group" style="display: none;">
+            <label>Pages</label>
+            <input type="text" id="pages" placeholder="e.g., 45-67" />
+          </div>
+        </div>
+
+        <!-- Generated Citation Output -->
+        <div id="citation-output" class="citation-output" style="display: none;">
+          <div style="margin-bottom: 1rem;">
+            <label>In-Text Citation:</label>
+            <div id="intext-citation-result" class="citation-result"></div>
+            <button class="copy-citation-btn" onclick="copyInTextCitation()">Copy In-Text Citation</button>
+          </div>
+          <div>
+            <label>Bibliography Entry:</label>
+            <div id="bibliography-citation-result" class="citation-result"></div>
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+              <button class="copy-citation-btn" onclick="copyBibliographyCitation()" style="flex: 1;">Copy Bibliography</button>
+              <button class="append-citation-btn" onclick="appendToCiteCount()" style="flex: 1;">Append to CiteCount</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="citation-modal-footer">
+        <button class="generate-btn" onclick="generateCitation()">Generate Citation</button>
+      </div>
+    </div>
+  </div>
+
   <script src="/v2/script.js"></script>
   <script src="/v2/notify.js"></script>
   <script src="/v2/dev.js"></script>
+  <script src="/v2/citation.js"></script>
 </body>
 
 </html>
