@@ -421,11 +421,10 @@ function highlightCitations(content) {
 }
 
 const allowedDomains = [
+  'citecount.com',
   'citecount.netlify.app',
   '127.0.0.1:5500',
-  'citecount-priv.netlify.app',
-  'cite.js.org',
-  'citecount.com'
+  'cite.js.org'
 ];
 
 function syncScroll() {

@@ -6,33 +6,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Developers - CiteCount</title>
+    <meta name="description" content="Contact the CiteCount team. We're here to help with any questions, feedback, or suggestions.">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
+    
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="CiteCount" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
+    
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            scroll-behavior: smooth;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
         }
 
-        header {
-            padding: 10px 0;
+        .contact-header {
             text-align: center;
+            margin-bottom: 2rem;
         }
 
-        main {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .contact-header h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-header p {
+            opacity: 0.75;
+            font-size: 1rem;
+        }
+
+        .form-container {
+            background: var(--background-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         #iframe-container {
             position: relative;
-            height: 600px; /* Adjust height as needed */
+            min-height: 600px;
         }
 
         #loading-text {
@@ -41,93 +62,106 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 18px;
-            color: black;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        #loading-text a {
+            color: var(--accent-color);
+            text-decoration: underline;
         }
 
         iframe {
             width: 100%;
             height: 100%;
+            min-height: 600px;
             border: none;
-            display: none; /* Hide the iframe initially */
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px 0;
-            color: black;
+            display: none;
         }
 
         .back-button {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #000; 
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent-color);
             color: white;
-            text-decoration: none; 
-            border-radius: 5px; 
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: opacity 0.2s;
         }
 
         .back-button:hover {
-            background-color: #999; 
-        }
-        @media (prefers-color-scheme: dark) {
-            body {
-                color: #fff; /* Dark mode text color */
-                background-color: #575757; /* Dark mode background */
-            }
-
-            main {
-                background-color: #282828; /* Dark mode main background */
-                box-shadow: none; /* No shadow in dark mode */
-            }
-
-            h1, h2 {
-                color: #fff; /* Dark mode heading color */
-            }
-
-            footer {
-                color: #fff; /* Dark mode footer text color */
-            }
-
-            .back-button {
-                background-color: #000; /* Dark mode button background */
-            }
-
-            .back-button:hover {
-                background-color: #999; /* Dark mode button hover */
-            }
-
-            ul {
-                color: #fff; /* Dark mode list text color */
-            }
-            #loading-text {
-            color: white;
-        }
+            opacity: 0.8;
         }
     </style>
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="CiteCount" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
+    
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
     data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
 </head>
 <body>
-    <header>
-        <h1>Contact the Developers</h1>
-    </header>
-    <main>
-        <div id="iframe-container">
-            <div id="loading-text">Loading form... If the contact form does not load, click <a id="links" target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform" style="color: black;">here</a>.</div>
-            <iframe id="forms" src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true" allowfullscreen onload="iframeLoaded()"></iframe>
+    <div class="app-container">
+        <header class="flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
+                <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+                <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900;">CiteCount</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="window.location.href='/countdown/';" class="p-2 rounded-md flex items-center gap-2">
+                    <span class="hidden md:inline text-sm font-medium">IB Exams Countdown</span>
+                </button>
+                <button onclick="window.location.href='/exam-timer/';" class="p-2 rounded-md flex items-center gap-2">
+                    <span class="hidden md:inline text-sm font-medium">IB Exams Timer</span>
+                </button>
+                <button onclick="window.location.href='/blogs/';" class="p-2 rounded-md flex items-center gap-2">
+                    <span class="hidden md:inline text-sm font-medium">Blogs</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="contact-container">
+            <div class="contact-header" style="padding-top: 5%;">
+                <h1>Contact the Developers</h1>
+                <p>We'd love to hear from you. Send us your questions, feedback, or suggestions.</p>
+            </div>
+
+            <div class="form-container">
+                <div id="iframe-container">
+                    <div id="loading-text">Loading form... If the contact form does not load, click <a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform">here</a>.</div>
+                    <iframe id="forms" src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true" allowfullscreen onload="iframeLoaded()"></iframe>
+                </div>
+                <div style="text-align: center;">
+                    <a href="/" class="back-button" id="backButton">Return to previous page</a>
+                </div>
+            </div>
         </div>
-        <a href="/" class="back-button" id="backButton">Return to previous page</a>
-    </main>
-    <footer>
-        <p>&copy; 2025 CiteCount. All rights reserved.</p>
-    </footer>
+
+        <footer style="margin-top: 3rem;">
+            <div style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
+                <p style="text-align: center; padding-top: 30px;">
+                    <a href="/contact.html" style="color: var(--text-primary);">Contact the developers</a><br>
+                    <a href="/about-us.html" style="color: var(--text-primary);">About Us</a> • 
+                    <a href="/sitemap.html" style="color: var(--text-primary);">Sitemap</a> • 
+                    <a href="/privacy-policy.html" style="color: var(--text-primary);">Privacy Policy</a> • 
+                    <a href="/terms-of-service.html" style="color: var(--text-primary);">Terms of Service</a> • 
+                    <a href="/gdpr-policy.html" style="color: var(--text-primary);">GDPR Policy</a> • 
+                    <a href="/cookies-policy.html" style="color: var(--text-primary);">Cookies Policy</a>
+                </p>
+                <br>
+                <p style="text-align: center; opacity: 50%;">
+                    International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>
+                    CiteCount has been developed independently from and is not endorsed by the IBO.
+                </p>
+                <br>
+                <p style="text-align: center; opacity: 50%;">
+                    Some links in CiteCount are affiliate links. Clicking them may earn us a small commission at no extra cost to you, helping us maintain and improve the service.
+                </p>
+                <p style="padding-top: 5px; text-align: center;">
+                    &copy; <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
     <script>
         function iframeLoaded() {
             document.getElementById('loading-text').style.display = 'none';

@@ -198,17 +198,17 @@
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-bold-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                      <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
-                      <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
+                      <path d="M6 5h8a3.5 3.5 0 0 1 0 7H6z" />
+                      <path d="M6 12h9a3.5 3.5 0 0 1 0 7H6z" />
                     </svg>
                   </button>
                   <button data-tooltip="Italic (Cmd + I)" onclick="formatText('italic')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-italic-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                      <path d="M16 4l-8 16"></path>
-                      <path d="M12 4h4"></path>
-                      <path d="M8 20h4"></path>
+                      <line x1="19" y1="5" x2="10" y2="5"></line>
+                      <line x1="14" y1="19" x2="5" y2="19"></line>
+                      <line x1="15" y1="5" x2="9" y2="19"></line>
                     </svg>
                   </button>
                   <button data-tooltip="Underline (Cmd + U)" onclick="formatText('underline')"
@@ -216,8 +216,8 @@
                     data-lta-event="v2-underline-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                      <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
-                      <path d="M4 20h16"></path>
+                      <path d="M6 5v6a6 6 0 0 0 12 0V5"></path>
+                      <line x1="4" y1="19" x2="20" y2="19"></line>
                     </svg>
                   </button>
                   <button data-tooltip="Strikethrough (Cmd + Shift + X)" onclick="formatText('strikethrough')"
@@ -248,8 +248,8 @@
                       class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-                        <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
-                        <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
+                        <path d="M6 5h8a3.5 3.5 0 0 1 0 7H6z" />
+                        <path d="M6 12h9a3.5 3.5 0 0 1 0 7H6z" />
                       </svg>
                       Bold
                     </button>
@@ -257,9 +257,9 @@
                       class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-                        <path d="M16 4l-8 16"></path>
-                        <path d="M12 4h4"></path>
-                        <path d="M8 20h4"></path>
+                        <line x1="19" y1="5" x2="10" y2="5"></line>
+                        <line x1="14" y1="19" x2="5" y2="19"></line>
+                        <line x1="15" y1="5" x2="9" y2="19"></line>
                       </svg>
                       Italic
                     </button>
@@ -267,8 +267,8 @@
                       class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-                        <path d="M6 4v8a6 6 0 0 0 12 0V4"></path>
-                        <path d="M4 20h16"></path>
+                        <path d="M6 5v6a6 6 0 0 0 12 0V5"></path>
+                        <line x1="4" y1="19" x2="20" y2="19"></line>
                       </svg>
                       Underline
                     </button>
@@ -276,9 +276,8 @@
                       class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
-                        <path d="M16 4H9a3 3 0 0 0-2.83 4"></path>
-                        <path d="M14 12a4 4 0 0 1 0 8H6"></path>
-                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <path d="M16 5H9a2.5 2.5 0 0 0 0 5h6a2.5 2.5 0 0 1 0 5H8"></path>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
                       </svg>
                       Strikethrough
                     </button>
@@ -2177,7 +2176,7 @@
         <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: white;">12 Months Free Perplexity
           Pro for CiteCount users!</h2>
         <p style="margin-bottom: 20px; opacity: 0.9; color: #e2e8f0; line-height: 1.5;">
-          We've partnered with Perplexity to offer students 12 months of Perplexity Pro for free.
+          Perplexity is offering students 12 months of Perplexity Pro for free.
           It's an AI-powered research assistant that helps you find credible sources and answers faster.
         </p>
         <div style="display: flex; gap: 10px; justify-content: flex-end;">

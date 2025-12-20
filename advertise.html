@@ -5,89 +5,340 @@
      crossorigin="anonymous"></script>-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advertising Opportunities- CiteCount</title>
+    <title>Advertising Opportunities - CiteCount</title>
+    <meta name="description" content="Reach over 100,000 university and IB students monthly through CiteCount's advertising platform. Proven results with campaigns like Perplexity.">
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             scroll-behavior: smooth;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: var(--background-primary, #f4f4f4);
+            color: var(--text-primary, #1f2937);
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         header {
-            color: white;
-            padding: 10px 0;
-            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .logo {
+            height: 32px;
+            width: 32px;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-primary, #000);
         }
 
         main {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
 
-        h1,
-        h2 {
-            color: #333;
-        }
-
-        ul {
-            margin-left: 20px;
-        }
-
-        footer {
+        .hero-section {
             text-align: center;
-            padding: 10px 0;
-            color: black;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .hero-section h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            opacity: 0.95;
+            margin-bottom: 32px;
+            color: white;
+        }
+
+        .stats-highlight {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: var(--text-primary, #1f2937);
+        }
+
+        .content-card {
+            background: var(--background-secondary, white);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .feature-item {
+            padding: 24px;
+            background: var(--background-secondary, #f9fafb);
+            border-radius: 12px;
+            border: 1px solid var(--border-primary, #e5e7eb);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary, #1f2937);
+        }
+
+        .feature-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary, #6b7280);
+        }
+
+        .case-study {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            margin: 40px 0;
+        }
+
+        .case-study h3 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .case-study-content {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .case-study-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            max-width: none;
+        }
+
+        .case-study-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .metric-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: var(--background-secondary, white);
+            border-radius: 16px;
+            margin: 60px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 24px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
         .back-button {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #000; 
+            padding: 12px 24px;
+            background-color: var(--text-primary, #000);
             color: white;
-            text-decoration: none; 
-            border-radius: 5px; 
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+            margin-top: 40px;
         }
 
         .back-button:hover {
-            background-color: #999; 
+            background-color: var(--text-secondary, #666);
         }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary, #6b7280);
+            border-top: 1px solid var(--border-primary, #e5e7eb);
+            margin-top: 80px;
+        }
+
+        .mockup-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 32px 0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 12px 0;
+            padding-left: 32px;
+            position: relative;
+        }
+
+        ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.75rem;
+            }
+
+            .hero-section h2 {
+                font-size: 1rem;
+            }
+
+            .case-study-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-highlight {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (prefers-color-scheme: dark) {
             body {
-                color: #fff; /* Dark mode text color */
-                background-color: #575757; /* Dark mode background */
+                --background-primary: #0f0f0f;
+                --background-secondary: #1a1a1a;
+                --text-primary: #ffffff;
+                --text-secondary: #9ca3af;
+                --border-primary: #374151;
             }
 
-            main {
-                background-color: #282828; /* Dark mode main background */
-                box-shadow: none; /* No shadow in dark mode */
+            .brand-name {
+                color: white;
             }
 
-            h1, h2 {
-                color: #fff; /* Dark mode heading color */
+            .content-card {
+                background: #1a1a1a;
             }
 
-            footer {
-                color: #fff; /* Dark mode footer text color */
-            }
-
-            .back-button {
-                background-color: #000; /* Dark mode button background */
-            }
-
-            .back-button:hover {
-                background-color: #999; /* Dark mode button hover */
-            }
-
-            ul {
-                color: #fff; /* Dark mode list text color */
+            .feature-item {
+                background: #1f1f1f;
+                border-color: #374151;
             }
         }
     </style>
@@ -97,55 +348,164 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="CiteCount" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-LHVN622J29');
+    </script>
 </head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
-<script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-    data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-LHVN622J29');
-</script>
+
 <body>
-    <header>
-        <h1>CiteCount Advertising Opportunities</h1>
-        <h2>Reach a Global Audience of IB Students and Teachers</h2>
-    </header>
-    <main>
-        <h2>Why Advertise with Us?</h2>
-        <p>Despite being a newly emerging tool in the field, CiteCount is already attracting over 10,000 monthly users, mainly being International Baccalaureate (IB) students and educators from around the world. By advertising on our platform, you can:</p>
-        <ul>
-            <li>Connect with a highly engaged audience interested in IB academic resources.</li>
-            <li>Increase brand visibility among a niche demographic.</li>
-            <li>Drive traffic to your website or offerings related to IB education products.</li>
-        </ul>
+    <div class="app-container">
+        <header>
+            <div class="header-flex">
+                <div class="logo-section" onclick="window.location.href='/';" data-lta-event="advertise-logo-click">
+                    <img src="/assets/logo.svg" alt="CiteCount Logo" class="logo">
+                    <h1 class="brand-name">CiteCount</h1>
+                </div>
+            </div>
+        </header>
 
-        <h2>Advertising Options</h2>
-        <h3>1. Banner Ads</h3>
-        <p>Display banner ads on our homepage and key content pages.</p>
-        
-        <h3>2. Sponsored Content</h3>
-        <p>Collaborate with us to create sponsored articles that resonate with our audience.</p>
-        <img src="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/ad.jpg" style="width: 100%;
-        height: auto;
-        display: block;">
-        <h2>Audience Insights</h2>
-        <p>Please <a id="links" target="_blank"
-            rel="noopener noreferrer" data-lta-event="contact form outbound click"
-            href="/contact.html?source=advertise.html">contact us</a> for in-depth audience insights.</p>
+        <main>
+            <div class="hero-section">
+                <h1>Advertising Opportunities</h1>
+                <h2>Reach Over 100,000 University & IB Students Monthly</h2>
+                
+                <div class="stats-highlight">
+                    <div class="stat-card">
+                        <div class="stat-number">100K+</div>
+                        <div class="stat-label">Monthly Active Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">Global</div>
+                        <div class="stat-label">Audience Reach</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">High</div>
+                        <div class="stat-label">Engagement Rate</div>
+                    </div>
+                </div>
+            </div>
 
-        <h2>Get Started</h2>
-        <p>If you're interested in advertising with CiteCount, please <a id="links" target="_blank"
-            rel="noopener noreferrer" data-lta-event="contact form outbound click"
-            href="/contact.html?source=advertise.html">reach out</a> to us for pricing and options.</p>
+            <div class="section">
+                <h2 class="section-title">Why Advertise with CiteCount?</h2>
+                <div class="content-card">
+                    <p>CiteCount has rapidly grown to become the go-to platform for university students and International Baccalaureate (IB) students worldwide. With over <strong>100,000 monthly users</strong>, we provide direct access to a highly engaged, education-focused demographic.</p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">🎯</div>
+                            <h3 class="feature-title">Targeted Audience</h3>
+                            <p class="feature-description">Connect with university and IB students actively seeking academic resources and educational tools.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🌍</div>
+                            <h3 class="feature-title">Global Reach</h3>
+                            <p class="feature-description">Access students from diverse regions and educational systems worldwide.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📈</div>
+                            <h3 class="feature-title">Proven Results</h3>
+                            <p class="feature-description">Our platform has delivered successful campaigns for leading education-focused brands.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <a href="/" class="back-button">Back to Home</a>
+            <div class="case-study">
+                <h3>🚀 Success Story: Perplexity Campaign</h3>
+                <div class="case-study-content">
+                    <div>
+                        <p>Our partnership with Perplexity AI demonstrated the power of targeted advertising on CiteCount. Through strategically placed banners and announcements, we drove thousands of engaged students to download and activate Perplexity, resulting in significant user acquisition for their platform.</p>
+                        <p style="margin-top: 16px;">This campaign showcased how CiteCount can effectively convert our highly engaged student audience into active users for educational technology products.</p>
+                        <div class="case-study-metrics" style="margin-top: 24px;">
+                            <div class="metric-box">
+                                <div class="metric-value">1000s</div>
+                                <div class="metric-label">Downloads & Activations</div>
+                            </div>
+                            <div class="metric-box">
+                                <div class="metric-value">High</div>
+                                <div class="metric-label">Conversion Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="/assets/ad.png" alt="Perplexity Campaign Example" class="case-study-image">
+                    </div>
+                </div>
+            </div>
 
-    </main>
+            <div class="section">
+                <h2 class="section-title">Advertising Options</h2>
+                
+                <div class="content-card">
+                    <h3 class="feature-title">📱 Banner Advertisements</h3>
+                    <p>Display banner ads on our homepage and key content pages with maximum visibility. Our banner placements are strategically positioned for optimal user engagement.</p>
+                    <ul>
+                        <li>Homepage banner placement</li>
+                        <li>In-app announcement banners</li>
+                        <li>Blog and resource page placements</li>
+                        <li>Custom targeting options available</li>
+                    </ul>
+                </div>
 
-    <footer>
-        <p>&copy; 2025 CiteCount. All rights reserved.</p>
-    </footer>
+                <div class="content-card">
+                    <h3 class="feature-title">📝 Sponsored Content</h3>
+                    <p>Collaborate with our content team to create sponsored articles, guides, and resources that naturally integrate with our educational content and resonate with our student audience.</p>
+                    <ul>
+                        <li>Featured blog posts and guides</li>
+                        <li>Product reviews and comparisons</li>
+                        <li>Educational resource showcases</li>
+                        <li>Native advertising that adds value</li>
+                    </ul>
+                </div>
+
+                <div class="content-card">
+                    <h3 class="feature-title">🎯 Custom Campaigns</h3>
+                    <p>Work with us to design custom advertising campaigns tailored to your specific goals and target audience within our user base.</p>
+                    <ul>
+                        <li>Multi-channel integration</li>
+                        <li>Time-limited promotional campaigns</li>
+                        <li>A/B testing and optimization</li>
+                        <li>Detailed performance analytics</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Our Audience</h2>
+                <div class="content-card">
+                    <p><strong>100,000+ monthly users</strong> including:</p>
+                    <ul>
+                        <li>University students across all disciplines</li>
+                        <li>International Baccalaureate (IB) students worldwide</li>
+                        <li>Academic researchers and writers</li>
+                        <li>Educators and teaching professionals</li>
+                        <li>Graduate students and PhD candidates</li>
+                    </ul>
+                    
+                    <p style="margin-top: 24px;">Our users are highly engaged with educational content and actively seek tools and resources to enhance their academic performance. They represent a premium demographic with strong purchasing intent for education-related products and services.</p>
+                    
+                    <p style="margin-top: 16px;">For detailed audience insights, demographics, and performance metrics, please <a href="/contact.html?source=advertise.html" style="color: #667eea; font-weight: 600; text-decoration: none;" data-lta-event="contact-audience-insights-click">contact us</a>.</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <h2 class="section-title">Ready to Get Started?</h2>
+                <p>Join successful brands like Perplexity in reaching thousands of engaged students. Contact us today to discuss pricing, placement options, and how we can help you achieve your advertising goals.</p>
+                <a href="/contact.html?source=advertise.html" class="cta-button" data-lta-event="advertise-cta-click">Start Your Campaign</a>
+                <br>
+                <a href="/" class="back-button">Back to Home</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 CiteCount. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>
