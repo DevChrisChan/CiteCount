@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citation Management Guide - CiteCount Help Center</title>
+    <link href="/v2/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --background-primary: #F7F7F8;
+            --background-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-primary: #e5e7eb;
+        }
+        
+        body {
+            background: var(--background-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button:hover {
+            text-decoration: underline;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-primary);
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .content-section {
+            background: var(--background-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-primary);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+        }
+        
+        .hero-section h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .citation-example {
+            background: var(--background-primary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .citation-highlight-green {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
+        .citation-highlight-red {
+            color: #ef4444;
+            font-weight: 600;
+        }
+        
+        .format-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .format-table th,
+        .format-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .format-table th {
+            font-weight: 600;
+            background: var(--background-primary);
+        }
+        
+        .format-table code {
+            background: var(--background-secondary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tip-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .success-box {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin: 1.5rem 0;
+            padding-left: 3rem;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        code {
+            background: var(--background-primary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        kbd {
+            background: var(--background-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.25rem;
+            padding: 0.125rem 0.375rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875em;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .visual-guide {
+            background: var(--background-primary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .visual-guide-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--background-secondary);
+            border-radius: 0.375rem;
+        }
+        
+        .visual-guide-icon {
+            font-size: 2rem;
+            min-width: 3rem;
+            text-align: center;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-primary: #0f0f0f;
+                --background-secondary: #1c1c1c;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --border-primary: #333333;
+            }
+            
+            .info-box {
+                background: #1e3a5f;
+                border-left-color: #60a5fa;
+                color: #e0e0e0;
+            }
+            
+            .warning-box {
+                background: #4a3f2a;
+                border-left-color: #fbbf24;
+                color: #e0e0e0;
+            }
+            
+            .success-box {
+                background: #1a4d2e;
+                border-left-color: #34d399;
+                color: #e0e0e0;
+            }
+            
+            .citation-example {
+                background: #1c1c1c;
+                color: #e0e0e0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .article-container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .content-section {
+                padding: 1.25rem;
+            }
+            
+            .format-table {
+                font-size: 0.875rem;
+            }
+            
+            .visual-guide-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <a href="../help-new.html" class="back-button">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Help Center
+        </a>
+        
+        <h1>📚 Citation Management Guide</h1>
+        <div class="article-meta">
+            Last updated: December 30, 2024 • 12 min read
+        </div>
+        
+        <div class="hero-section">
+            <h3>🎯 Master Citation Counting</h3>
+            <p>Learn how CiteCount automatically detects and manages citations in your academic writing. This comprehensive guide covers citation formats, detection methods, troubleshooting, and best practices for accurate word counts.</p>
+        </div>
+        
+        <!-- Understanding Citations -->
+        <div class="content-section">
+            <h2>🔍 Understanding Citation Detection</h2>
+            
+            <h3>What Are In-Text Citations?</h3>
+            <p>In-text citations are references to sources within the body of your text. For academic word counts (especially IB), these citations are typically excluded from the official word count.</p>
+            
+            <div class="citation-example">
+                <p>Example text: According to recent studies <span class="citation-highlight-green">(Smith, 2020)</span>, climate change is accelerating faster than previously predicted <span class="citation-highlight-green">(Jones & Davis, 2019, p. 45)</span>.</p>
+            </div>
+            
+            <p><strong>Why exclude citations?</strong></p>
+            <ul>
+                <li><strong>IB Standard:</strong> IB explicitly excludes in-text citations from word counts</li>
+                <li><strong>Academic Fairness:</strong> Citations are required but not original content</li>
+                <li><strong>Consistency:</strong> Ensures fair comparison across different citation styles</li>
+                <li><strong>Focus on Content:</strong> Word limits should measure your analysis, not references</li>
+            </ul>
+            
+            <div class="info-box">
+                <strong>📖 CiteCount Philosophy:</strong> We follow IB and most academic standards by automatically excluding in-text citations but INCLUDING the text content around them. Only the parenthetical/bracketed references are excluded.
+            </div>
+        </div>
+        
+        <!-- Supported Formats -->
+        <div class="content-section">
+            <h2>📝 Supported Citation Formats</h2>
+            
+            <p>CiteCount automatically detects citations in multiple academic formats:</p>
+            
+            <h3>Author-Date Formats (APA, Harvard, Chicago)</h3>
+            
+            <table class="format-table">
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>Example</th>
+                        <th>Detection</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Single Author</td>
+                        <td><code>(Smith, 2020)</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Two Authors</td>
+                        <td><code>(Smith & Jones, 2020)</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Three+ Authors</td>
+                        <td><code>(Smith et al., 2020)</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>With Page Number</td>
+                        <td><code>(Smith, 2020, p. 45)</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Page Range</td>
+                        <td><code>(Smith, 2020, pp. 45-50)</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Multiple Citations</td>
+                        <td><code>(Smith, 2020; Jones, 2019)</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Author in Text</td>
+                        <td><code>(2020)</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Numeric Formats (IEEE, Vancouver)</h3>
+            
+            <table class="format-table">
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>Example</th>
+                        <th>Detection</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Single Number</td>
+                        <td><code>[1]</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Multiple Numbers</td>
+                        <td><code>[1, 2, 3]</code> or <code>[1,2,3]</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Number Range</td>
+                        <td><code>[1-5]</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Mixed Format</td>
+                        <td><code>[1, 3-5, 7]</code></td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Superscript/Footnote Formats</h3>
+            
+            <table class="format-table">
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>Example</th>
+                        <th>Detection</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Superscript Number</td>
+                        <td>Example text¹ continues here²</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td>Multiple Superscripts</td>
+                        <td>Text¹'² or Text¹⁻³</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="warning-box">
+                <strong>⚠️ Format Limitations:</strong>
+                <ul style="margin: 0.5rem 0 0 1.5rem;">
+                    <li>Footnotes at bottom of page are NOT excluded (they're references, not in-text citations)</li>
+                    <li>Bibliography/Works Cited sections are NOT automatically excluded</li>
+                    <li>Non-standard or custom citation formats may not be detected</li>
+                    <li>Citations with unusual spacing or special characters may be missed</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- How Detection Works -->
+        <div class="content-section">
+            <h2>⚙️ How Citation Detection Works</h2>
+            
+            <h3>Automatic Detection Process</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Pattern Recognition:</strong> CiteCount scans your text using sophisticated regex patterns that match common citation formats.
+                </li>
+                <li>
+                    <strong>Context Analysis:</strong> The system analyzes surrounding text to confirm detected patterns are actually citations, not regular parenthetical statements.
+                </li>
+                <li>
+                    <strong>Real-Time Highlighting:</strong> Detected citations are immediately highlighted in the editor—<span class="citation-highlight-green">green</span> for excluded, <span class="citation-highlight-red">red</span> for included.
+                </li>
+                <li>
+                    <strong>Word Count Calculation:</strong> The counter automatically excludes green-highlighted citations from your word count.
+                </li>
+            </ol>
+            
+            <h3>Visual Indicators</h3>
+            
+            <div class="visual-guide">
+                <div class="visual-guide-item">
+                    <div class="visual-guide-icon">🟢</div>
+                    <div>
+                        <strong>Green Highlighting</strong>
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.875rem;">Citation is EXCLUDED from word count (default for most citations)</p>
+                    </div>
+                </div>
+                <div class="visual-guide-item">
+                    <div class="visual-guide-icon">🔴</div>
+                    <div>
+                        <strong>Red Highlighting</strong>
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.875rem;">Citation is INCLUDED in word count (manually toggled by you)</p>
+                    </div>
+                </div>
+                <div class="visual-guide-item">
+                    <div class="visual-guide-icon">⚪</div>
+                    <div>
+                        <strong>No Highlighting</strong>
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.875rem;">Text is not recognized as a citation</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>💡 Detection Timing:</strong> Citations are detected in real-time as you type. If you paste large amounts of text, detection may take 1-2 seconds to complete.
+            </div>
+        </div>
+        
+        <!-- Managing Citations -->
+        <div class="content-section">
+            <h2>🎛️ Managing Citations</h2>
+            
+            <h3>Accessing the Citations Panel</h3>
+            <p><strong>Desktop:</strong> The Citations panel appears on the right side of the screen automatically.</p>
+            <p><strong>Mobile:</strong> Tap the "Citations" button in the toolbar to open a full-screen panel.</p>
+            
+            <h3>Citations Panel Features</h3>
+            
+            <h4>1. Citation List</h4>
+            <ul>
+                <li><strong>View All Citations:</strong> See every citation detected in your document</li>
+                <li><strong>Citation Preview:</strong> Each citation shows its full text</li>
+                <li><strong>Occurrence Count:</strong> See how many times each citation appears</li>
+                <li><strong>Word Count:</strong> View words per citation</li>
+                <li><strong>Click to Jump:</strong> Click any citation to scroll to its location in the text</li>
+            </ul>
+            
+            <h4>2. Toggle Inclusion/Exclusion</h4>
+            <p>Click on any citation in the panel to toggle whether it's included in the word count:</p>
+            <ul>
+                <li><strong>Default State:</strong> Citations are excluded (green)</li>
+                <li><strong>Click Once:</strong> Include in count (turns red)</li>
+                <li><strong>Click Again:</strong> Exclude from count (turns green)</li>
+            </ul>
+            
+            <div class="success-box">
+                <strong>✨ Use Case:</strong> If CiteCount incorrectly detects something as a citation (like a year in parentheses), click it in the Citations panel to include it back in your word count.
+            </div>
+            
+            <h4>3. Search Citations</h4>
+            <ul>
+                <li>Use the search box at the top of the Citations panel</li>
+                <li>Search by author name, year, or citation text</li>
+                <li>Results filter in real-time as you type</li>
+            </ul>
+            
+            <h4>4. Sort Citations</h4>
+            <ul>
+                <li><strong>Alphabetical:</strong> Sort by author name (A-Z)</li>
+                <li><strong>Chronological:</strong> Sort by year of publication</li>
+                <li><strong>Appearance:</strong> Sort by order in document (default)</li>
+                <li><strong>Frequency:</strong> Sort by number of occurrences</li>
+            </ul>
+        </div>
+        
+        <!-- Common Scenarios -->
+        <div class="content-section">
+            <h2>📋 Common Citation Scenarios</h2>
+            
+            <h3>Scenario 1: Citation Not Detected</h3>
+            <p><strong>Problem:</strong> You have a citation that should be excluded, but it's not highlighted.</p>
+            
+            <p><strong>Solutions:</strong></p>
+            <ol>
+                <li><strong>Check Format:</strong> Ensure your citation follows a standard format</li>
+                <li><strong>Fix Spacing:</strong> Remove extra spaces within parentheses</li>
+                <li><strong>Verify Punctuation:</strong> Use standard punctuation (commas, periods)</li>
+                <li><strong>Manual Exclusion:</strong> If it still doesn't detect, count it manually</li>
+            </ol>
+            
+            <div class="citation-example">
+                ❌ Bad: <code>( Smith , 2020 )</code> (extra spaces)<br>
+                ✅ Good: <code>(Smith, 2020)</code>
+            </div>
+            
+            <h3>Scenario 2: False Positive Detection</h3>
+            <p><strong>Problem:</strong> CiteCount marks something as a citation that isn't one (e.g., "(2020 was a difficult year)").</p>
+            
+            <p><strong>Solution:</strong></p>
+            <ol>
+                <li>Open the Citations panel</li>
+                <li>Find the false positive in the list</li>
+                <li>Click it to toggle it red (included in count)</li>
+                <li>The text will remain in your word count</li>
+            </ol>
+            
+            <h3>Scenario 3: Multiple Authors Citation</h3>
+            <p><strong>Formats:</strong></p>
+            <ul>
+                <li>Two authors: <code>(Smith & Jones, 2020)</code> or <code>(Smith and Jones, 2020)</code></li>
+                <li>Three+ authors: <code>(Smith et al., 2020)</code></li>
+                <li>All authors: <code>(Smith, Jones, & Davis, 2020)</code></li>
+            </ul>
+            
+            <div class="info-box">
+                <strong>✅ All Detected:</strong> CiteCount recognizes all standard multiple-author formats automatically.
+            </div>
+            
+            <h3>Scenario 4: Citations with Page Numbers</h3>
+            <p><strong>Formats Detected:</strong></p>
+            <ul>
+                <li><code>(Smith, 2020, p. 45)</code></li>
+                <li><code>(Smith, 2020, pp. 45-50)</code></li>
+                <li><code>(Smith, 2020: 45)</code></li>
+                <li><code>(Smith, 2020, page 45)</code></li>
+            </ul>
+            
+            <h3>Scenario 5: Narrative Citations</h3>
+            <p><strong>What are narrative citations?</strong> Author name in your text, year in parentheses.</p>
+            
+            <div class="citation-example">
+                <p>According to Smith <span class="citation-highlight-green">(2020)</span>, climate change is accelerating.</p>
+            </div>
+            
+            <p><strong>How CiteCount handles them:</strong></p>
+            <ul>
+                <li>The year <code>(2020)</code> is excluded from count</li>
+                <li>The author name "Smith" is INCLUDED (it's part of your sentence)</li>
+                <li>This follows IB guidelines</li>
+            </ul>
+        </div>
+        
+        <!-- Advanced Features -->
+        <div class="content-section">
+            <h2>🚀 Advanced Citation Features</h2>
+            
+            <h3>Citation Settings</h3>
+            <p>Customize citation detection in Settings (<kbd>Cmd/Ctrl + ,</kbd>):</p>
+            
+            <h4>Detection Sensitivity</h4>
+            <ul>
+                <li><strong>High:</strong> Detects more patterns (may have false positives)</li>
+                <li><strong>Medium (Default):</strong> Balanced detection</li>
+                <li><strong>Low:</strong> Only obvious citations (may miss some)</li>
+            </ul>
+            
+            <h4>Default Citation State</h4>
+            <ul>
+                <li><strong>Excluded (Default):</strong> New citations are automatically excluded</li>
+                <li><strong>Included:</strong> New citations count toward total (manual exclusion required)</li>
+            </ul>
+            
+            <h4>Citation Highlighting</h4>
+            <ul>
+                <li>Toggle citation highlighting on/off</li>
+                <li>Customize highlight colors</li>
+                <li>Adjust highlight opacity</li>
+            </ul>
+            
+            <h3>Batch Operations</h3>
+            
+            <h4>Select All Citations</h4>
+            <p>In the Citations panel, use the "Select All" option to:</p>
+            <ul>
+                <li>Include all citations in word count</li>
+                <li>Exclude all citations from word count</li>
+                <li>Export citation list</li>
+            </ul>
+            
+            <h4>Filter by Citation Type</h4>
+            <ul>
+                <li><strong>Author-Date:</strong> Show only (Author, Year) citations</li>
+                <li><strong>Numeric:</strong> Show only [1], [2] citations</li>
+                <li><strong>Superscript:</strong> Show only ¹, ² citations</li>
+                <li><strong>All:</strong> Show all detected citations</li>
+            </ul>
+        </div>
+        
+        <!-- Citation Generator -->
+        <div class="content-section">
+            <h2>🔗 Built-in Citation Generator</h2>
+            
+            <h3>Generate Properly Formatted Citations</h3>
+            <p>CiteCount includes a citation generator to help you create correctly formatted in-text and bibliography citations.</p>
+            
+            <h3>How to Use</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Open Generator:</strong> Click the "Citation Generator" button or press <kbd>Cmd/Ctrl + Shift + C</kbd>
+                </li>
+                <li>
+                    <strong>Select Style:</strong> Choose APA, MLA, Chicago, or Harvard
+                </li>
+                <li>
+                    <strong>Choose Source Type:</strong> Book, Article, Website, etc.
+                </li>
+                <li>
+                    <strong>Fill Details:</strong> Enter author, title, year, etc.
+                </li>
+                <li>
+                    <strong>Generate:</strong> Get both in-text and reference list citations
+                </li>
+                <li>
+                    <strong>Insert:</strong> Copy or insert directly into your document
+                </li>
+            </ol>
+            
+            <h3>Supported Citation Styles</h3>
+            <ul>
+                <li><strong>APA 7th Edition:</strong> Psychology, Education, Social Sciences</li>
+                <li><strong>MLA 9th Edition:</strong> Literature, Arts, Humanities</li>
+                <li><strong>Chicago 17th Edition:</strong> History, Arts</li>
+                <li><strong>Harvard:</strong> UK Universities</li>
+            </ul>
+            
+            <div class="tip-box">
+                <div class="tip-title">💡 Pro Tip</div>
+                <p>Generated citations are automatically detected by CiteCount when inserted into your document. No need to manually mark them!</p>
+            </div>
+        </div>
+        
+        <!-- IB-Specific Guidelines -->
+        <div class="content-section">
+            <h2>🎓 IB-Specific Citation Guidelines</h2>
+            
+            <h3>What IB Excludes from Word Count</h3>
+            <p>According to IB guidelines, the following are EXCLUDED:</p>
+            <ul>
+                <li>✅ In-text citations (parenthetical references)</li>
+                <li>✅ Footnotes/endnotes that are citations only</li>
+            </ul>
+            
+            <h3>What IB INCLUDES in Word Count</h3>
+            <ul>
+                <li>❌ Author names when part of your sentence (narrative citations)</li>
+                <li>❌ Bibliography/Works Cited/References section</li>
+                <li>❌ Footnotes with substantive content (not just citations)</li>
+                <li>❌ Quotations (the quoted text itself counts)</li>
+            </ul>
+            
+            <h3>IB Extended Essay Example</h3>
+            
+            <div class="citation-example">
+                <p>According to Smith <span class="citation-highlight-green">(2020)</span>, "climate change is accelerating" <span class="citation-highlight-green">(p. 45)</span>.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                    Word Count: <strong>According to Smith climate change is accelerating</strong> = 7 words<br>
+                    Excluded: <strong>(2020)</strong> and <strong>(p. 45)</strong>
+                </p>
+            </div>
+            
+            <div class="info-box">
+                <strong>📚 IB Resources:</strong> CiteCount automatically follows IB standards. For subject-specific word count requirements, check our <a href="/blogs/" style="color: #3b82f6;">IB word count guides</a> for Extended Essays, TOK Essays, and Internal Assessments.
+            </div>
+        </div>
+        
+        <!-- Troubleshooting -->
+        <div class="content-section">
+            <h2>🔧 Troubleshooting Citation Issues</h2>
+            
+            <h3>Problem: No Citations Detected</h3>
+            <p><strong>Possible Causes:</strong></p>
+            <ul>
+                <li>Citation detection is disabled in Settings</li>
+                <li>Citations use non-standard formatting</li>
+                <li>Text was imported from a source with encoding issues</li>
+            </ul>
+            
+            <p><strong>Solutions:</strong></p>
+            <ol>
+                <li>Go to Settings → Citations → Enable "Automatic Detection"</li>
+                <li>Check citation formatting matches standard formats</li>
+                <li>Try retyping a citation to see if detection works</li>
+                <li>Adjust Detection Sensitivity to "High"</li>
+            </ol>
+            
+            <h3>Problem: Wrong Word Count</h3>
+            <p><strong>Possible Causes:</strong></p>
+            <ul>
+                <li>Some citations are marked red (included) instead of green</li>
+                <li>False positives detected as citations</li>
+                <li>Citations contain substantive content</li>
+            </ul>
+            
+            <p><strong>Solutions:</strong></p>
+            <ol>
+                <li>Open Citations panel and review all detected citations</li>
+                <li>Toggle any false positives to red (included)</li>
+                <li>Toggle any missed citations to green (excluded)</li>
+                <li>Check "Words without Citations" counter for accurate count</li>
+            </ol>
+            
+            <h3>Problem: Citations Not Highlighting</h3>
+            <p><strong>Solutions:</strong></p>
+            <ol>
+                <li>Check Settings → Citations → "Enable Citation Highlighting"</li>
+                <li>Ensure you're looking at the editor (not Citations panel)</li>
+                <li>Try refreshing the page</li>
+                <li>Clear browser cache and reload</li>
+            </ol>
+            
+            <div class="warning-box">
+                <strong>Still Having Issues?</strong> Visit our <a href="./troubleshooting.html" style="color: #92400e;">complete troubleshooting guide</a> or contact support for help.
+            </div>
+        </div>
+        
+        <!-- Best Practices -->
+        <div class="content-section">
+            <h2>✨ Best Practices</h2>
+            
+            <h3>For Accurate Word Counts</h3>
+            <ol>
+                <li><strong>Use Standard Formats:</strong> Stick to APA, MLA, Chicago, or Harvard citation styles</li>
+                <li><strong>Consistent Formatting:</strong> Use the same citation style throughout your document</li>
+                <li><strong>Review Detection:</strong> Always check the Citations panel after importing or pasting text</li>
+                <li><strong>Manual Verification:</strong> For critical assignments, manually verify a few citations</li>
+                <li><strong>Early Detection:</strong> Add citations as you write (easier to catch errors)</li>
+            </ol>
+            
+            <h3>For Better Citation Management</h3>
+            <ol>
+                <li><strong>Use Citation Generator:</strong> Generate correctly formatted citations from the start</li>
+                <li><strong>Name Your Sources:</strong> Keep track of which citations belong to which sources</li>
+                <li><strong>Check Before Submitting:</strong> Review Citations panel one final time before submission</li>
+                <li><strong>Export Citation List:</strong> Save your citation list for reference</li>
+                <li><strong>Keep Bibliography Separate:</strong> Don't include references section in the main text</li>
+            </ol>
+            
+            <div class="tip-box">
+                <div class="tip-title">🎯 Pro Workflow</div>
+                <p>Write your draft → Use Citation Generator for sources → Check Citations panel → Toggle any errors → Export with accurate word count → Submit with confidence!</p>
+            </div>
+        </div>
+        
+        <!-- Related Resources -->
+        <div class="content-section">
+            <h2>📚 Related Resources</h2>
+            
+            <h3>Help Articles</h3>
+            <ul>
+                <li><a href="./getting-started.html" style="color: var(--primary-color);">→ Getting Started Guide</a></li>
+                <li><a href="./features.html" style="color: var(--primary-color);">→ Complete Features Guide</a></li>
+                <li><a href="./troubleshooting.html" style="color: var(--primary-color);">→ Troubleshooting Guide</a></li>
+            </ul>
+            
+            <h3>IB Word Count Guides</h3>
+            <ul>
+                <li><a href="/blogs/extended-essay-word-count.html" style="color: var(--primary-color);">→ Extended Essay Word Count Guide</a></li>
+                <li><a href="/blogs/tok-essay-word-count.html" style="color: var(--primary-color);">→ TOK Essay Word Count Guide</a></li>
+                <li><a href="/blogs/understanding-academic-referencing-styles.html" style="color: var(--primary-color);">→ Academic Referencing Styles</a></li>
+            </ul>
+            
+            <div class="tip-box">
+                <div class="tip-title">💬 Need More Help?</div>
+                <p>Join our community or contact support with citation-specific questions!</p>
+                <div style="margin-top: 1rem;">
+                    <a href="https://discord.gg/twnz2957sK" target="_blank" style="color: white; text-decoration: underline;">Join Discord</a> • 
+                    <a href="/contact.html" target="_blank" style="color: white; text-decoration: underline;">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

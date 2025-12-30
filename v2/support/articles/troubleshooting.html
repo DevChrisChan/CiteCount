@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - CiteCount Help Center</title>
+    <link href="/v2/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --background-primary: #F7F7F8;
+            --background-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-primary: #e5e7eb;
+            --error-bg: #fee2e2;
+            --error-border: #ef4444;
+            --success-bg: #dcfce7;
+            --success-border: #22c55e;
+        }
+        
+        body {
+            background: var(--background-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        h2 { font-size: 1.75rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-primary); }
+        h3 { font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+        
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .content-section {
+            background: var(--background-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-primary);
+        }
+        
+        .problem-box {
+            background: var(--error-bg);
+            border-left: 4px solid var(--error-border);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .solution-box {
+            background: var(--success-bg);
+            border-left: 4px solid var(--success-border);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        code {
+            background: var(--background-primary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin: 1rem 0;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            width: 1.75rem;
+            height: 1.75rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-primary: #0f0f0f;
+                --background-secondary: #1c1c1c;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --border-primary: #333333;
+                --error-bg: #4c1515;
+                --error-border: #ef4444;
+                --success-bg: #14532d;
+                --success-border: #22c55e;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <a href="../help-new.html" class="back-button">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Help Center
+        </a>
+        
+        <h1>🔧 Troubleshooting Guide</h1>
+        <div class="article-meta">
+            Last updated: December 30, 2024 • 9 articles • 12 min read
+        </div>
+        
+        <div class="content-section">
+            <h2>Citations Not Being Detected</h2>
+            
+            <div class="problem-box">
+                <strong>❌ Problem:</strong> My citations are showing up in the word count / aren't highlighted in red
+            </div>
+            
+            <div class="solution-box">
+                <strong>✅ Solutions:</strong>
+                
+                <h3>1. Check Citation Format</h3>
+                <p>CiteCount detects these parenthetical citation formats:</p>
+                <ul>
+                    <li><strong>APA:</strong> <code>(Author, 2023)</code>, <code>(Author et al., 2023)</code></li>
+                    <li><strong>MLA:</strong> <code>(Author 123)</code>, <code>(Author and Author 45)</code></li>
+                    <li><strong>Harvard:</strong> <code>(Author 2023)</code>, <code>(Author, et al. 2023)</code></li>
+                    <li><strong>Chicago:</strong> <code>(Author 2023, 45)</code></li>
+                </ul>
+                
+                <div class="warning-box">
+                    <strong>⚠️ CiteCount does NOT detect:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <li>Footnotes or endnotes (e.g., <code>¹</code>)</li>
+                        <li>Numbered citations (e.g., <code>[1]</code>, <code>[23]</code>)</li>
+                        <li>URLs or hyperlinks</li>
+                        <li>Bibliography/references section</li>
+                    </ul>
+                </div>
+                
+                <h3>2. Verify Parentheses</h3>
+                <p>Citations must be enclosed in proper parentheses <code>()</code>. Check for:</p>
+                <ul>
+                    <li>Missing opening or closing parenthesis</li>
+                    <li>Incorrect bracket types: <code>[Author 2023]</code> won't work</li>
+                    <li>Extra spaces: <code>( Author 2023)</code> may not detect</li>
+                </ul>
+                
+                <h3>3. Check Citation Toggle</h3>
+                <ol class="step-list">
+                    <li>Open the Citations panel (right side on desktop, toolbar on mobile)</li>
+                    <li>Find your citation in the list</li>
+                    <li>Make sure the toggle switch is <strong>green (ON)</strong></li>
+                    <li>If it's red (OFF), click to enable exclusion</li>
+                </ol>
+                
+                <h3>4. Refresh Citation Detection</h3>
+                <ul>
+                    <li>Make a small edit to your text (add/remove a space)</li>
+                    <li>This triggers re-analysis of citations</li>
+                    <li>Wait 1-2 seconds for processing</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>My Work Disappeared / Lost Text</h2>
+            
+            <div class="problem-box">
+                <strong>❌ Problem:</strong> I opened CiteCount and my text is gone!
+            </div>
+            
+            <div class="solution-box">
+                <strong>✅ Solutions:</strong>
+                
+                <h3>1. Check if AutoSave is Enabled</h3>
+                <ol class="step-list">
+                    <li>Press <code>⌘,</code> (Mac) or <code>Ctrl,</code> (Windows) to open Settings</li>
+                    <li>Look for "Enable AutoSave" in General Settings</li>
+                    <li>If it's OFF, your work wasn't being saved automatically</li>
+                    <li>Turn it ON to prevent future data loss</li>
+                </ol>
+                
+                <h3>2. Check Different Browsers</h3>
+                <p>Data is saved per-browser. If you used CiteCount in:</p>
+                <ul>
+                    <li>Safari, Chrome, Firefox, etc. - each has separate storage</li>
+                    <li>Private/Incognito mode - data is cleared when window closes</li>
+                </ul>
+                <p><strong>Solution:</strong> Open the same browser you originally used</p>
+                
+                <h3>3. Check Browser Data Settings</h3>
+                <p>Your text may have been cleared if you:</p>
+                <ul>
+                    <li>Cleared browser history/cookies/cache</li>
+                    <li>Ran a "Clear Data" or "Reset" command</li>
+                    <li>Used browser cleaning tools (CCleaner, etc.)</li>
+                </ul>
+                
+                <h3>4. Check Projects/Folders</h3>
+                <p>Your text might be in a different project:</p>
+                <ol class="step-list">
+                    <li>Click "Docs" in the top navigation</li>
+                    <li>Browse through your projects and folders</li>
+                    <li>Click each to check if your text is there</li>
+                </ol>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Prevention Tips:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <li>Always enable AutoSave in Settings</li>
+                        <li>Regularly copy important text to a Word document as backup</li>
+                        <li>Avoid using Private/Incognito mode for long-term work</li>
+                        <li>Don't clear browser data unless necessary</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>File Import Issues</h2>
+            
+            <div class="problem-box">
+                <strong>❌ Problem:</strong> Can't upload my .docx or .pdf file / File shows error
+            </div>
+            
+            <div class="solution-box">
+                <strong>✅ Solutions:</strong>
+                
+                <h3>1. Check File Type</h3>
+                <p>CiteCount only supports:</p>
+                <ul>
+                    <li>✅ Microsoft Word (.docx)</li>
+                    <li>✅ PDF (.pdf)</li>
+                    <li>❌ NOT supported: .doc (older Word), .pages, .odt, .rtf</li>
+                </ul>
+                <p><strong>Solution:</strong> Convert to .docx using Microsoft Word or Google Docs</p>
+                
+                <h3>2. Check File Size</h3>
+                <p>Very large files (>50MB) may fail to process. Try:</p>
+                <ul>
+                    <li>Splitting your document into smaller sections</li>
+                    <li>Removing large images or embedded objects</li>
+                    <li>Compressing the PDF before uploading</li>
+                </ul>
+                
+                <h3>3. Check File Corruption</h3>
+                <p>If file consistently fails to import:</p>
+                <ol class="step-list">
+                    <li>Open the file in Microsoft Word or a PDF reader</li>
+                    <li>Verify it opens correctly without errors</li>
+                    <li>If corrupted, try recovering from a backup</li>
+                    <li>Copy-paste the text instead of importing the file</li>
+                </ol>
+                
+                <h3>4. PDF-Specific Issues</h3>
+                <p>PDFs may have problems if:</p>
+                <ul>
+                    <li><strong>Scanned documents:</strong> Text is actually an image (use OCR first)</li>
+                    <li><strong>Password-protected:</strong> Remove password before importing</li>
+                    <li><strong>Complex formatting:</strong> Tables, images, equations won't extract</li>
+                </ul>
+                <p><strong>Best practice:</strong> Use .docx files for most reliable imports</p>
+                
+                <h3>5. Try Alternative Import Method</h3>
+                <p>If drag-and-drop fails:</p>
+                <ol class="step-list">
+                    <li>Open your document in Word/PDF reader</li>
+                    <li>Select all text (Cmd/Ctrl + A)</li>
+                    <li>Copy (Cmd/Ctrl + C)</li>
+                    <li>Paste into CiteCount editor (Cmd/Ctrl + V)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Word Count Seems Wrong / Inaccurate</h2>
+            
+            <div class="problem-box">
+                <strong>❌ Problem:</strong> CiteCount shows different word count than Word/Google Docs
+            </div>
+            
+            <div class="solution-box">
+                <strong>✅ Understanding Word Count Differences:</strong>
+                
+                <h3>1. Citation Exclusion</h3>
+                <p>CiteCount's primary feature is excluding citations from word count. Check:</p>
+                <ul>
+                    <li><strong>"Words without Citations"</strong> - This is your IB/academic count</li>
+                    <li><strong>"Total Words"</strong> - This should match Word/Google Docs</li>
+                </ul>
+                
+                <h3>2. Counting Method Differences</h3>
+                <p>Different tools count words differently:</p>
+                <ul>
+                    <li><strong>Hyphenated words:</strong> "twenty-five" = 1 or 2 words?</li>
+                    <li><strong>Numbers:</strong> "123" or "2023" = 1 word</li>
+                    <li><strong>Contractions:</strong> "don't" = 1 word</li>
+                    <li><strong>Symbols:</strong> "@", "&", "$" usually not counted</li>
+                </ul>
+                
+                <h3>3. Hidden Formatting</h3>
+                <p>When importing from Word/PDF:</p>
+                <ul>
+                    <li>Hidden text, comments, and tracked changes are removed</li>
+                    <li>Headers, footers, and footnotes are excluded</li>
+                    <li>Tables may count differently</li>
+                </ul>
+                
+                <h3>4. Asian Language Text</h3>
+                <p>CiteCount has special support for Chinese, Japanese, Korean:</p>
+                <ul>
+                    <li>Each CJK character counts as one word (IB standard)</li>
+                    <li>Word may count CJK text differently</li>
+                    <li>This is normal and follows IB guidelines</li>
+                </ul>
+                
+                <h3>5. Verify Citation Detection</h3>
+                <ol class="step-list">
+                    <li>Open Citations panel</li>
+                    <li>Check "Words from Citations" count</li>
+                    <li>Add this to "Words without Citations"</li>
+                    <li>Compare to your other tool's total</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Storage Quota Exceeded Error</h2>
+            
+            <div class="problem-box">
+                <strong>❌ Problem:</strong> Getting "Storage quota exceeded" or "Out of space" error
+            </div>
+            
+            <div class="solution-box">
+                <strong>✅ Solutions:</strong>
+                
+                <h3>Understanding Storage Limits</h3>
+                <p>CiteCount uses your browser's localStorage with a typical limit of ~5-10MB. This stores:</p>
+                <ul>
+                    <li>Current editor text</li>
+                    <li>Projects and folders</li>
+                    <li>Citation generator history</li>
+                    <li>Settings and preferences</li>
+                </ul>
+                
+                <h3>1. Clear Citation History</h3>
+                <ol class="step-list">
+                    <li>Click the "Generate Citations" button in toolbar</li>
+                    <li>Go to the "History" tab</li>
+                    <li>Click "Clear All History"</li>
+                    <li>This can free up significant space</li>
+                </ol>
+                
+                <h3>2. Delete Old Projects/Folders</h3>
+                <ol class="step-list">
+                    <li>Click "Docs" in top navigation</li>
+                    <li>Select old projects/folders you don't need</li>
+                    <li>Use multi-select (Cmd/Ctrl + Click) for bulk deletion</li>
+                    <li>Click the delete button</li>
+                </ol>
+                
+                <h3>3. Export and Clear Current Text</h3>
+                <ol class="step-list">
+                    <li>Copy your current text to Word/Google Docs</li>
+                    <li>Save as external backup</li>
+                    <li>Clear the CiteCount editor</li>
+                    <li>Work on one document at a time</li>
+                </ol>
+                
+                <h3>4. Check Storage Usage</h3>
+                <ol class="step-list">
+                    <li>Click "Docs" → Storage icon (bottom of sidebar)</li>
+                    <li>View "Storage Used" breakdown</li>
+                    <li>Identify what's taking most space</li>
+                    <li>Clean up accordingly</li>
+                </ol>
+                
+                <div class="warning-box">
+                    <strong>💡 Best Practices:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        <li>Don't use CiteCount for long-term document storage</li>
+                        <li>Keep external backups of important work</li>
+                        <li>Regularly clean up citation history</li>
+                        <li>Delete completed projects</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Browser Compatibility Issues</h2>
+            
+            <div class="problem-box">
+                <strong>❌ Problem:</strong> CiteCount not working properly in my browser
+            </div>
+            
+            <div class="solution-box">
+                <strong>✅ Recommended Browsers:</strong>
+                
+                <h3>Best Experience:</h3>
+                <ul>
+                    <li>✅ <strong>Chrome/Chromium</strong> (latest version)</li>
+                    <li>✅ <strong>Safari</strong> (latest version, macOS/iOS)</li>
+                    <li>✅ <strong>Firefox</strong> (latest version)</li>
+                    <li>✅ <strong>Edge</strong> (latest version)</li>
+                </ul>
+                
+                <h3>If Having Issues:</h3>
+                <ol class="step-list">
+                    <li><strong>Update Your Browser:</strong> Make sure you're using the latest version</li>
+                    <li><strong>Clear Cache:</strong> Hard refresh with Cmd/Ctrl + Shift + R</li>
+                    <li><strong>Disable Extensions:</strong> Some browser extensions interfere with CiteCount</li>
+                    <li><strong>Try Incognito/Private:</strong> Test if the issue persists without extensions</li>
+                    <li><strong>Check JavaScript:</strong> Ensure JavaScript is enabled in browser settings</li>
+                </ol>
+                
+                <h3>Mobile Browsers:</h3>
+                <ul>
+                    <li><strong>iOS:</strong> Safari works best</li>
+                    <li><strong>Android:</strong> Chrome or Firefox</li>
+                    <li>Some features limited on mobile (smaller screen, different UI)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Keyboard Shortcuts Not Working</h2>
+            
+            <div class="problem-box">
+                <strong>❌ Problem:</strong> Shortcuts like Cmd+B or Ctrl+, don't work
+            </div>
+            
+            <div class="solution-box">
+                <strong>✅ Solutions:</strong>
+                
+                <h3>1. Check Browser Conflicts</h3>
+                <p>Some browsers override shortcuts:</p>
+                <ul>
+                    <li><code>Cmd/Ctrl + B</code> may open bookmarks instead of bold</li>
+                    <li><code>Cmd/Ctrl + ,</code> may not work in some browsers</li>
+                    <li>Try using toolbar buttons instead</li>
+                </ul>
+                
+                <h3>2. Ensure Editor Has Focus</h3>
+                <p>Shortcuts only work when:</p>
+                <ul>
+                    <li>Your cursor is in the text editor</li>
+                    <li>You're not typing in a search box or modal</li>
+                    <li>No other input field is selected</li>
+                </ul>
+                
+                <h3>3. Mac vs Windows</h3>
+                <p>Make sure you're using the correct modifier:</p>
+                <ul>
+                    <li><strong>Mac:</strong> Use <code>Cmd</code> (⌘) key</li>
+                    <li><strong>Windows/Linux:</strong> Use <code>Ctrl</code> key</li>
+                </ul>
+                
+                <h3>4. Full Shortcut List</h3>
+                <p>See <a href="./shortcuts.html" style="color: var(--primary-color);">Complete Keyboard Shortcuts Guide</a></p>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Performance Issues / Slow Loading</h2>
+            
+            <div class="problem-box">
+                <strong>❌ Problem:</strong> CiteCount is slow, laggy, or freezing
+            </div>
+            
+            <div class="solution-box">
+                <strong>✅ Solutions:</strong>
+                
+                <h3>1. Reduce Text Length</h3>
+                <ul>
+                    <li>Very long documents (50,000+ words) may slow down</li>
+                    <li>Split into smaller sections if possible</li>
+                    <li>Work on one chapter/section at a time</li>
+                </ul>
+                
+                <h3>2. Close Other Tabs/Apps</h3>
+                <ul>
+                    <li>Free up browser memory by closing unused tabs</li>
+                    <li>Close other memory-intensive applications</li>
+                    <li>Restart your browser periodically</li>
+                </ul>
+                
+                <h3>3. Disable Focus Mode Features</h3>
+                <p>If using Focus Mode, temporarily disable it to improve performance</p>
+                
+                <h3>4. Clear Browser Cache</h3>
+                <ol class="step-list">
+                    <li>Go to browser settings</li>
+                    <li>Clear cache and cookies (keep localStorage if possible)</li>
+                    <li>Restart browser</li>
+                    <li>Reload CiteCount</li>
+                </ol>
+                
+                <h3>5. Check Internet Connection</h3>
+                <ul>
+                    <li>Initial load requires internet connection</li>
+                    <li>Citation generator URL fetching needs internet</li>
+                    <li>Everything else works offline</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Still Having Issues?</h2>
+            
+            <p>If none of these solutions work, we're here to help!</p>
+            
+            <h3>Contact Support</h3>
+            <ul>
+                <li><strong>Discord Community:</strong> <a href="https://discord.gg/twnz2957sK" target="_blank" style="color: var(--primary-color);">Join our Discord</a> for quick community help</li>
+                <li><strong>Email Support:</strong> Visit our <a href="/contact.html" target="_blank" style="color: var(--primary-color);">contact page</a></li>
+                <li><strong>Bug Reports:</strong> Include browser version, OS, and steps to reproduce</li>
+            </ul>
+            
+            <h3>When Contacting Support, Include:</h3>
+            <ol>
+                <li>What you were trying to do</li>
+                <li>What happened instead</li>
+                <li>Your browser and OS version</li>
+                <li>Screenshots if possible</li>
+                <li>Steps to reproduce the issue</li>
+            </ol>
+            
+            <div class="warning-box">
+                <strong>📸 Screenshots Help!</strong><br>
+                Taking a screenshot of the issue makes it much easier for us to help you quickly.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

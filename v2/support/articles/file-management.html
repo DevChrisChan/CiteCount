@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Management Guide - CiteCount Help Center</title>
+    <link href="/v2/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --background-primary: #F7F7F8;
+            --background-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-primary: #e5e7eb;
+        }
+        
+        body {
+            background: var(--background-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button:hover {
+            text-decoration: underline;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-primary);
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .content-section {
+            background: var(--background-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-primary);
+        }
+        
+        .beta-banner {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .beta-icon {
+            font-size: 3rem;
+            min-width: 3rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+        }
+        
+        .hero-section h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background: var(--background-primary);
+            border: 1px solid var(--border-primary);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .workflow-diagram {
+            background: var(--background-primary);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .workflow-number {
+            width: 3rem;
+            height: 3rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .workflow-arrow {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            margin: 0.5rem 0;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin: 1.5rem 0;
+            padding-left: 3rem;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tip-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .success-box {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .comparison-table th {
+            font-weight: 600;
+            background: var(--background-primary);
+        }
+        
+        code {
+            background: var(--background-primary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        kbd {
+            background: var(--background-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.25rem;
+            padding: 0.125rem 0.375rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875em;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .use-case-card {
+            background: var(--background-primary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+            margin: 1rem 0;
+        }
+        
+        .use-case-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-primary: #0f0f0f;
+                --background-secondary: #1c1c1c;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --border-primary: #333333;
+            }
+            
+            .info-box {
+                background: #1e3a5f;
+                border-left-color: #60a5fa;
+                color: #e0e0e0;
+            }
+            
+            .warning-box {
+                background: #4a3f2a;
+                border-left-color: #fbbf24;
+                color: #e0e0e0;
+            }
+            
+            .success-box {
+                background: #1a4d2e;
+                border-left-color: #34d399;
+                color: #e0e0e0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .article-container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .content-section {
+                padding: 1.25rem;
+            }
+            
+            .beta-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .workflow-step {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <a href="../help-new.html" class="back-button">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Help Center
+        </a>
+        
+        <h1>📂 File Management Guide</h1>
+        <div class="article-meta">
+            Last updated: December 30, 2024 • 10 min read
+        </div>
+        
+        <div class="beta-banner">
+            <div class="beta-icon">🧪</div>
+            <div>
+                <h3 style="margin: 0 0 0.5rem 0;">Beta Feature</h3>
+                <p style="margin: 0;">Projects & Folders is currently in beta. We're actively developing and improving this feature based on your feedback. Some functionality may change in future updates.</p>
+            </div>
+        </div>
+        
+        <div class="hero-section">
+            <h3>🎯 Organize Your Academic Work</h3>
+            <p>Keep all your assignments, essays, and projects organized with CiteCount's file management system. Create projects for individual documents, organize them into folders by subject or semester, and never lose track of your work again.</p>
+        </div>
+        
+        <!-- Understanding the System -->
+        <div class="content-section">
+            <h2>📚 Understanding Projects & Folders</h2>
+            
+            <h3>What Are Projects?</h3>
+            <p>A <strong>Project</strong> is a single document or assignment in CiteCount. Each project contains:</p>
+            <ul>
+                <li><strong>Document Text:</strong> Your actual writing content</li>
+                <li><strong>Metadata:</strong> Name, description, creation date</li>
+                <li><strong>Statistics:</strong> Word count, character count, citations</li>
+                <li><strong>History:</strong> Version tracking and autosave states</li>
+            </ul>
+            
+            <h3>What Are Folders?</h3>
+            <p>A <strong>Folder</strong> is a collection of related projects. Folders help you organize:</p>
+            <ul>
+                <li><strong>By Subject:</strong> Biology IA, History Essay, Math IA</li>
+                <li><strong>By Semester:</strong> Fall 2024, Spring 2025</li>
+                <li><strong>By Type:</strong> IB Work, University Applications, Personal Projects</li>
+                <li><strong>By Status:</strong> In Progress, Completed, Archived</li>
+            </ul>
+            
+            <div class="workflow-diagram">
+                <h4>File Structure Example</h4>
+                <div style="font-family: monospace; line-height: 2;">
+                    📁 IB Diploma<br>
+                    &nbsp;&nbsp;├─ 📄 Extended Essay (Draft 1)<br>
+                    &nbsp;&nbsp;├─ 📄 Extended Essay (Final)<br>
+                    &nbsp;&nbsp;└─ 📄 TOK Essay<br>
+                    <br>
+                    📁 Internal Assessments<br>
+                    &nbsp;&nbsp;├─ 📄 Biology IA<br>
+                    &nbsp;&nbsp;├─ 📄 Chemistry IA<br>
+                    &nbsp;&nbsp;└─ 📄 Physics IA<br>
+                    <br>
+                    📁 CAS Reflections<br>
+                    &nbsp;&nbsp;├─ 📄 Activity Reflection 1<br>
+                    &nbsp;&nbsp;└─ 📄 Activity Reflection 2
+                </div>
+            </div>
+        </div>
+        
+        <!-- Getting Started -->
+        <div class="content-section">
+            <h2>🚀 Getting Started with File Management</h2>
+            
+            <h3>Accessing the File Manager</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Click "Docs" Button:</strong> Find the "Docs" or "📁" button in the top navigation bar
+                </li>
+                <li>
+                    <strong>File Manager Opens:</strong> A panel or overlay displays your projects and folders
+                </li>
+                <li>
+                    <strong>View Your Files:</strong> See all your saved work organized in one place
+                </li>
+            </ol>
+            
+            <h3>File Manager Interface</h3>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <div class="feature-title">Project List</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">View all your documents with names, dates, and word counts</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <div class="feature-title">Folder Navigation</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Browse and organize projects into folders</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <div class="feature-title">Search</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Quickly find projects by name or content</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <div class="feature-title">Actions Menu</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Rename, move, duplicate, or delete projects</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Working with Projects -->
+        <div class="content-section">
+            <h2>📄 Working with Projects</h2>
+            
+            <h3>Creating a New Project</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Open File Manager:</strong> Click the "Docs" button
+                </li>
+                <li>
+                    <strong>Click "New Project":</strong> Find the button at the top of the File Manager
+                </li>
+                <li>
+                    <strong>Name Your Project:</strong> Enter a descriptive name (e.g., "Biology IA - Photosynthesis")
+                </li>
+                <li>
+                    <strong>Add Description (Optional):</strong> Add notes about the assignment
+                </li>
+                <li>
+                    <strong>Choose Folder (Optional):</strong> Select a folder to organize the project
+                </li>
+                <li>
+                    <strong>Start Writing:</strong> The editor opens with your new blank project
+                </li>
+            </ol>
+            
+            <h3>Saving Your Current Work as a Project</h3>
+            <p>If you have text in the editor that isn't saved as a project yet:</p>
+            <ol>
+                <li>Click "Save as Project" or press <kbd>Cmd/Ctrl + S</kbd></li>
+                <li>Enter a project name</li>
+                <li>Choose a folder (optional)</li>
+                <li>Click "Save"</li>
+            </ol>
+            
+            <div class="success-box">
+                <strong>✨ AutoSave Tip:</strong> With AutoSave enabled, your changes are automatically saved to the current project. No need to manually save after every edit!
+            </div>
+            
+            <h3>Opening an Existing Project</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Open File Manager:</strong> Click "Docs"
+                </li>
+                <li>
+                    <strong>Find Your Project:</strong> Browse folders or use search
+                </li>
+                <li>
+                    <strong>Click to Open:</strong> Click the project name
+                </li>
+                <li>
+                    <strong>Start Editing:</strong> Your document loads in the editor
+                </li>
+            </ol>
+            
+            <h3>Renaming a Project</h3>
+            <ol>
+                <li>Right-click (or long-press on mobile) the project</li>
+                <li>Select "Rename"</li>
+                <li>Enter the new name</li>
+                <li>Press Enter or click "Save"</li>
+            </ol>
+            
+            <h3>Duplicating a Project</h3>
+            <p><strong>Use Case:</strong> Create multiple drafts or versions of your work</p>
+            <ol>
+                <li>Right-click the project</li>
+                <li>Select "Duplicate"</li>
+                <li>A copy is created with "(Copy)" appended to the name</li>
+                <li>Rename the copy to something like "Extended Essay - Draft 2"</li>
+            </ol>
+            
+            <h3>Deleting a Project</h3>
+            <ol>
+                <li>Right-click the project</li>
+                <li>Select "Delete"</li>
+                <li>Confirm deletion in the popup</li>
+                <li>Project is permanently removed</li>
+            </ol>
+            
+            <div class="warning-box">
+                <strong>⚠️ Warning:</strong> Deleted projects cannot be recovered. Make sure you have a backup before deleting important work!
+            </div>
+        </div>
+        
+        <!-- Working with Folders -->
+        <div class="content-section">
+            <h2>📁 Working with Folders</h2>
+            
+            <h3>Creating a New Folder</h3>
+            <ol class="step-list">
+                <li>
+                    <strong>Open File Manager:</strong> Click "Docs"
+                </li>
+                <li>
+                    <strong>Click "New Folder":</strong> Find the button in the File Manager
+                </li>
+                <li>
+                    <strong>Name Your Folder:</strong> Enter a descriptive name (e.g., "IB Internal Assessments")
+                </li>
+                <li>
+                    <strong>Choose Parent Folder (Optional):</strong> Create nested folders for deeper organization
+                </li>
+                <li>
+                    <strong>Create:</strong> Your new folder appears in the list
+                </li>
+            </ol>
+            
+            <h3>Moving Projects into Folders</h3>
+            
+            <p><strong>Method 1: Drag and Drop</strong></p>
+            <ol>
+                <li>Click and hold on a project</li>
+                <li>Drag it over the target folder</li>
+                <li>Release to drop it into the folder</li>
+            </ol>
+            
+            <p><strong>Method 2: Right-Click Menu</strong></p>
+            <ol>
+                <li>Right-click the project</li>
+                <li>Select "Move to..."</li>
+                <li>Choose the destination folder</li>
+                <li>Click "Move"</li>
+            </ol>
+            
+            <h3>Organizing Folders</h3>
+            <ul>
+                <li><strong>Nested Folders:</strong> Create folders inside folders for hierarchical organization</li>
+                <li><strong>Rename Folders:</strong> Right-click → Rename</li>
+                <li><strong>Delete Folders:</strong> Right-click → Delete (moves projects to parent folder)</li>
+                <li><strong>Collapse/Expand:</strong> Click the arrow icon to show/hide folder contents</li>
+            </ul>
+            
+            <div class="info-box">
+                <strong>💡 Organization Tip:</strong> Create a folder structure at the beginning of the school year to keep everything organized from the start!
+            </div>
+        </div>
+        
+        <!-- Use Cases -->
+        <div class="content-section">
+            <h2>💼 Common Use Cases</h2>
+            
+            <div class="use-case-card">
+                <div class="use-case-title">📘 IB Diploma Student</div>
+                <p><strong>Folder Structure:</strong></p>
+                <ul style="margin: 0;">
+                    <li>📁 Extended Essay → 📄 Draft 1, 📄 Draft 2, 📄 Final</li>
+                    <li>📁 TOK → 📄 TOK Essay, 📄 Exhibition Notes</li>
+                    <li>📁 Internal Assessments → 📄 Biology IA, 📄 Math IA, etc.</li>
+                    <li>📁 CAS → 📄 Reflections, 📄 Project Descriptions</li>
+                </ul>
+            </div>
+            
+            <div class="use-case-card">
+                <div class="use-case-title">🎓 University Student</div>
+                <p><strong>Folder Structure:</strong></p>
+                <ul style="margin: 0;">
+                    <li>📁 Fall 2024 → 📁 PSYCH101, 📁 HIST203, 📁 ENG105</li>
+                    <li>📁 Spring 2025 → 📁 BIOL201, 📁 CHEM150</li>
+                    <li>📁 Thesis → 📄 Proposal, 📄 Chapter 1, 📄 Chapter 2</li>
+                </ul>
+            </div>
+            
+            <div class="use-case-card">
+                <div class="use-case-title">✍️ Multiple Drafts Workflow</div>
+                <p><strong>Process:</strong></p>
+                <ol style="margin: 0;">
+                    <li>Create project: "Extended Essay - Draft 1"</li>
+                    <li>Write and save regularly</li>
+                    <li>When ready for next version, duplicate project</li>
+                    <li>Rename to "Extended Essay - Draft 2"</li>
+                    <li>Make revisions in Draft 2</li>
+                    <li>Keep both drafts for reference</li>
+                </ol>
+            </div>
+            
+            <div class="use-case-card">
+                <div class="use-case-title">📊 Assignment Tracking</div>
+                <p><strong>Folder Organization:</strong></p>
+                <ul style="margin: 0;">
+                    <li>📁 In Progress → Currently working on</li>
+                    <li>📁 Awaiting Feedback → Submitted, waiting for grades</li>
+                    <li>📁 Completed → Finished and graded</li>
+                    <li>📁 Archive → Old work for reference</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Project Metadata -->
+        <div class="content-section">
+            <h2>📋 Project Metadata & Details</h2>
+            
+            <h3>What Information Does Each Project Store?</h3>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Metadata Field</th>
+                        <th>Description</th>
+                        <th>Editable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Project Name</strong></td>
+                        <td>Descriptive title for the document</td>
+                        <td>✅ Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Description</strong></td>
+                        <td>Optional notes about the project</td>
+                        <td>✅ Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Created Date</strong></td>
+                        <td>When the project was first created</td>
+                        <td>❌ No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Last Modified</strong></td>
+                        <td>Most recent edit timestamp</td>
+                        <td>❌ Auto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Word Count</strong></td>
+                        <td>Current word count (with/without citations)</td>
+                        <td>❌ Auto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Character Count</strong></td>
+                        <td>Character count statistics</td>
+                        <td>❌ Auto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Folder Location</strong></td>
+                        <td>Which folder contains this project</td>
+                        <td>✅ Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Viewing Project Details</h3>
+            <ol>
+                <li>Right-click the project in File Manager</li>
+                <li>Select "Details" or "Properties"</li>
+                <li>View all metadata in a panel</li>
+                <li>Edit name, description, or location</li>
+            </ol>
+        </div>
+        
+        <!-- Search & Filter -->
+        <div class="content-section">
+            <h2>🔍 Search & Filter</h2>
+            
+            <h3>Searching for Projects</h3>
+            <p>The File Manager includes a powerful search feature:</p>
+            
+            <h4>Search Options</h4>
+            <ul>
+                <li><strong>By Name:</strong> Type project name to find it instantly</li>
+                <li><strong>By Content:</strong> Search within document text (coming soon)</li>
+                <li><strong>By Date:</strong> Find projects created/modified in a date range</li>
+                <li><strong>By Folder:</strong> Search within a specific folder only</li>
+            </ul>
+            
+            <h4>How to Search</h4>
+            <ol>
+                <li>Click the search box at the top of File Manager</li>
+                <li>Type your search query</li>
+                <li>Results filter in real-time</li>
+                <li>Click a result to open that project</li>
+            </ol>
+            
+            <h3>Filtering Projects</h3>
+            <p>Organize your view with filters:</p>
+            <ul>
+                <li><strong>Sort by Name:</strong> Alphabetical A-Z or Z-A</li>
+                <li><strong>Sort by Date:</strong> Newest or oldest first</li>
+                <li><strong>Sort by Word Count:</strong> Longest or shortest documents</li>
+                <li><strong>Filter by Folder:</strong> Show only projects in selected folder</li>
+            </ul>
+            
+            <div class="tip-box">
+                <div class="tip-title">🔎 Quick Find Tip</div>
+                <p>Use keyboard shortcut <kbd>Cmd/Ctrl + P</kbd> to open Quick Open dialog and jump to any project instantly!</p>
+            </div>
+        </div>
+        
+        <!-- Import -->
+        <div class="content-section">
+            <h2>💾 Import Projects</h2>
+
+            <h3>Importing Projects</h3>
+            <p>Bring existing documents into CiteCount:</p>
+
+            <h4>Import Sources</h4>
+            <ul>
+                <li><strong>Word Documents (.docx):</strong> Full text extraction</li>
+                <li><strong>PDF Files (.pdf):</strong> Text extraction (images removed)</li>
+                <li><strong>Plain Text (.txt):</strong> Direct import</li>
+                <li><strong>CiteCount Projects (.ccproj):</strong> Restore backed-up projects</li>
+            </ul>
+
+            <h4>How to Import</h4>
+            <ol>
+                <li>Click "Import" in File Manager</li>
+                <li>Choose file from your computer</li>
+                <li>CiteCount creates a new project</li>
+                <li>Name the project and choose folder</li>
+                <li>Start editing</li>
+            </ol>
+
+            <div class="warning-box">
+                <strong>⚠️ Backup Recommendation:</strong> Regularly save important projects to your computer or another storage location. Since CiteCount stores data locally in your browser, clearing browser data will delete your projects!
+            </div>
+        </div>
+        
+        <!-- Data Management -->
+        <div class="content-section">
+            <h2>🗄️ Data Storage & Management</h2>
+            
+            <h3>Where Are Projects Stored?</h3>
+            <p>CiteCount stores all projects locally in your browser's localStorage/IndexedDB:</p>
+            
+            <h4>Advantages</h4>
+            <ul>
+                <li>✅ <strong>Privacy:</strong> Your documents never leave your device</li>
+                <li>✅ <strong>Speed:</strong> Instant loading and saving</li>
+                <li>✅ <strong>No Account Required:</strong> Use CiteCount immediately</li>
+                <li>✅ <strong>Works Offline:</strong> Access projects without internet</li>
+            </ul>
+            
+            <h4>Limitations</h4>
+            <ul>
+                <li>❌ <strong>Device-Specific:</strong> Projects only available on this browser/device</li>
+                <li>❌ <strong>No Cloud Sync:</strong> Can't access from other devices</li>
+                <li>❌ <strong>Clearing Data Deletes Projects:</strong> Browser data clear removes everything</li>
+                <li>❌ <strong>Storage Limits:</strong> Typically 5-10MB per domain (varies by browser)</li>
+            </ul>
+            
+            <h3>Storage Quota Management</h3>
+            <p>Check how much storage you're using:</p>
+            <ol>
+                <li>Go to Settings → Storage</li>
+                <li>View "Used Storage" and "Available Storage"</li>
+                <li>See breakdown by projects and folders</li>
+            </ol>
+            
+            <h3>Clearing Old Data</h3>
+            <p>Free up storage space:</p>
+            <ul>
+                <li><strong>Delete Old Projects:</strong> Remove completed or unnecessary projects</li>
+                <li><strong>Clear History:</strong> Delete autosave history (Settings → Storage)</li>
+                <li><strong>Save & Delete:</strong> Save important projects to your computer then delete from CiteCount</li>
+                <li><strong>Archive Folders:</strong> Create archive folder for old work</li>
+            </ul>
+            
+            <div class="info-box">
+                <strong>💾 Storage Best Practice:</strong> Keep only current/active projects in CiteCount. Save and delete completed work to maintain performance and avoid storage issues.
+            </div>
+        </div>
+        
+        <!-- Tips & Best Practices -->
+        <div class="content-section">
+            <h2>✨ Tips & Best Practices</h2>
+            
+            <h3>Naming Conventions</h3>
+            <p>Use clear, consistent names for easy organization:</p>
+            <ul>
+                <li><strong>Include Subject:</strong> "Biology IA - Photosynthesis"</li>
+                <li><strong>Include Version:</strong> "Extended Essay - Draft 3"</li>
+                <li><strong>Include Date:</strong> "TOK Essay - Dec 2024"</li>
+                <li><strong>Be Descriptive:</strong> "IB Math IA - Calculus Analysis" vs "Math Paper"</li>
+            </ul>
+            
+            <h3>Folder Organization</h3>
+            <ul>
+                <li><strong>Start Broad:</strong> Create main categories first (IB, University, Personal)</li>
+                <li><strong>Go Specific:</strong> Create subfolders as needed</li>
+                <li><strong>Don't Over-Organize:</strong> Too many folders can be confusing</li>
+                <li><strong>Use Archives:</strong> Create "Archive" or "Completed" folders for old work</li>
+            </ul>
+            
+            <h3>Version Control</h3>
+            <ul>
+                <li><strong>Number Your Drafts:</strong> Draft 1, Draft 2, Final</li>
+                <li><strong>Date Your Versions:</strong> "Extended Essay - 2024-12-01"</li>
+                <li><strong>Keep Major Versions:</strong> Don't save every tiny change</li>
+                <li><strong>Delete Old Drafts:</strong> Remove outdated versions after assignment submission</li>
+            </ul>
+            
+            <h3>Backup Strategy</h3>
+            <ol>
+                <li><strong>Weekly Backups:</strong> Save important projects to your computer weekly</li>
+                <li><strong>Cloud Backup:</strong> Save backups to Google Drive, Dropbox, etc.</li>
+                <li><strong>Multiple Locations:</strong> Keep backups in 2-3 places</li>
+                <li><strong>Before Major Edits:</strong> Duplicate project or save a backup before big changes</li>
+            </ol>
+            
+            <div class="tip-box">
+                <div class="tip-title">🎯 Pro Workflow</div>
+                <p>Create folder structure → Start new project → Enable AutoSave → Write draft → Duplicate for next version → Save when complete → Archive old versions</p>
+            </div>
+        </div>
+        
+        <!-- Troubleshooting -->
+        <div class="content-section">
+            <h2>🔧 Troubleshooting</h2>
+            
+            <h3>Problem: Projects Not Appearing</h3>
+            <p><strong>Possible Causes:</strong></p>
+            <ul>
+                <li>Projects were created in a different browser</li>
+                <li>Browser data was cleared</li>
+                <li>Using private/incognito mode</li>
+            </ul>
+            
+            <p><strong>Solutions:</strong></p>
+            <ol>
+                <li>Check if you're using the same browser and profile</li>
+                <li>Check if projects were accidentally deleted</li>
+                <li>Import backed-up .ccproj files if available</li>
+            </ol>
+            
+            <h3>Problem: Can't Create New Project</h3>
+            <p><strong>Possible Causes:</strong></p>
+            <ul>
+                <li>Storage quota exceeded</li>
+                <li>Browser storage disabled</li>
+            </ul>
+            
+            <p><strong>Solutions:</strong></p>
+            <ol>
+                <li>Check Settings → Storage for usage</li>
+                <li>Delete old projects to free space</li>
+                <li>Clear autosave history</li>
+                <li>Enable browser storage in browser settings</li>
+            </ol>
+            
+            <h3>Problem: Slow File Manager</h3>
+            <p><strong>Possible Causes:</strong></p>
+            <ul>
+                <li>Too many projects (100+)</li>
+                <li>Large project files</li>
+            </ul>
+            
+            <p><strong>Solutions:</strong></p>
+            <ol>
+                <li>Archive or delete old projects</li>
+                <li>Use folders to organize better</li>
+                <li>Save and delete very large projects</li>
+            </ol>
+            
+            <div class="warning-box">
+                <strong>Need More Help?</strong> Check the <a href="./troubleshooting.html" style="color: #92400e;">complete troubleshooting guide</a> or contact support.
+            </div>
+        </div>
+        
+        <!-- Future Features -->
+        <div class="content-section">
+            <h2>🚧 Coming Soon</h2>
+            
+            <p>We're actively developing new file management features:</p>
+            
+            <h3>Planned Features</h3>
+            <ul>
+                <li>☁️ <strong>Cloud Sync:</strong> Optional cloud backup and sync across devices</li>
+                <li>🤝 <strong>Sharing:</strong> Share projects with teachers or peers</li>
+                <li>📊 <strong>Project Analytics:</strong> Track writing progress over time</li>
+                <li>🏷️ <strong>Tags & Labels:</strong> More flexible organization beyond folders</li>
+                <li>🔍 <strong>Full-Text Search:</strong> Search within document content</li>
+                <li>📝 <strong>Templates:</strong> Create project templates for common assignments</li>
+                <li>⏰ <strong>Reminders:</strong> Set deadlines and get notifications</li>
+                <li>📈 <strong>Version History:</strong> Visual timeline of changes</li>
+            </ul>
+            
+            <div class="tip-box">
+                <div class="tip-title">💬 Share Your Feedback!</div>
+                <p>Since Projects & Folders is in beta, we'd love to hear your suggestions! Join our Discord or contact support to share what features you'd like to see.</p>
+                <div style="margin-top: 1rem;">
+                    <a href="https://discord.gg/twnz2957sK" target="_blank" style="color: white; text-decoration: underline;">Join Discord</a> • 
+                    <a href="/contact.html" target="_blank" style="color: white; text-decoration: underline;">Contact Support</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related Resources -->
+        <div class="content-section">
+            <h2>📚 Related Resources</h2>
+            
+            <h3>Help Articles</h3>
+            <ul>
+                <li><a href="./getting-started.html" style="color: var(--primary-color);">→ Getting Started Guide</a></li>
+                <li><a href="./features.html" style="color: var(--primary-color);">→ Complete Features Guide</a></li>
+                <li><a href="./citations.html" style="color: var(--primary-color);">→ Citation Management</a></li>
+                <li><a href="./troubleshooting.html" style="color: var(--primary-color);">→ Troubleshooting Guide</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

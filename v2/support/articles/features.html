@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features Guide - CiteCount Help Center</title>
+    <link href="/v2/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --background-primary: #F7F7F8;
+            --background-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-primary: #e5e7eb;
+        }
+        
+        body {
+            background: var(--background-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .back-button:hover {
+            text-decoration: underline;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-primary);
+        }
+        
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .content-section {
+            background: var(--background-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-primary);
+        }
+        
+        .feature-showcase {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-showcase h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-primary);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .tip-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        .success-box {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        code {
+            background: var(--background-primary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        kbd {
+            background: var(--background-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.25rem;
+            padding: 0.125rem 0.375rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875em;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .comparison-table th {
+            font-weight: 600;
+            background: var(--background-primary);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-primary: #0f0f0f;
+                --background-secondary: #1c1c1c;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --border-primary: #333333;
+            }
+            
+            .info-box {
+                background: #1e3a5f;
+                border-left-color: #60a5fa;
+                color: #e0e0e0;
+            }
+            
+            .warning-box {
+                background: #4a3f2a;
+                border-left-color: #fbbf24;
+                color: #e0e0e0;
+            }
+            
+            .success-box {
+                background: #1a4d2e;
+                border-left-color: #34d399;
+                color: #e0e0e0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .article-container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .content-section {
+                padding: 1.25rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <a href="../help-new.html" class="back-button">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Help Center
+        </a>
+        
+        <h1>✨ CiteCount Features Guide</h1>
+        <div class="article-meta">
+            Last updated: December 30, 2024 • 15 min read
+        </div>
+        
+        <div class="feature-showcase">
+            <h3>🎯 Everything You Need for Academic Writing</h3>
+            <p>CiteCount is packed with features designed to make your academic writing easier, more accurate, and more efficient. From intelligent citation detection to powerful file management, explore everything CiteCount has to offer.</p>
+        </div>
+        
+        <!-- Core Features -->
+        <div class="content-section">
+            <h2>📊 Smart Word Counting</h2>
+            
+            <h3>What Makes It Smart?</h3>
+            <p>Unlike standard word processors, CiteCount provides multiple counting methods tailored for academic standards:</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <div class="feature-title">Words without Citations</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">The key metric for IB and most academic assignments. Excludes in-text citations automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <div class="feature-title">Total Words</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Every word in your document, including citations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔤</div>
+                    <div class="feature-title">Characters (with/without citations)</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Useful for assignments with character limits.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <div class="feature-title">Citations Count</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);">See how many citations you've included.</p>
+                </div>
+            </div>
+            
+            <h3>Additional Metrics</h3>
+            <ul>
+                <li><strong>Reading Time:</strong> Estimated time to read your document (based on 238 words/min)</li>
+                <li><strong>Speaking Time:</strong> Estimated time to present orally (based on 150 words/min)</li>
+                <li><strong>Paragraphs:</strong> Total paragraph count</li>
+                <li><strong>Sentences:</strong> Total sentence count</li>
+            </ul>
+            
+            <div class="info-box">
+                <strong>💡 Pro Tip:</strong> Customize which counters appear in the top bar by going to Settings → Counter Display. You can show/hide and reorder any counter!
+            </div>
+        </div>
+        
+        <!-- Citation Detection -->
+        <div class="content-section">
+            <h2>🎯 Automatic Citation Detection</h2>
+            
+            <h3>How It Works</h3>
+            <p>CiteCount uses intelligent pattern recognition to automatically identify in-text citations in your document. Detected citations are highlighted in <span style="color: #ef4444;">red</span> (included in word count) or <span style="color: #10b981;">green</span> (excluded from word count).</p>
+            
+            <h3>Supported Citation Formats</h3>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>Example</th>
+                        <th>Detection</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Author-Date</strong></td>
+                        <td>(Smith, 2020)</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multiple Authors</strong></td>
+                        <td>(Smith & Jones, 2020)</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Et al.</strong></td>
+                        <td>(Smith et al., 2020)</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Page Numbers</strong></td>
+                        <td>(Smith, 2020, p. 45)</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multiple Citations</strong></td>
+                        <td>(Smith, 2020; Jones, 2019)</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Numeric</strong></td>
+                        <td>[1], [2,3], [4-6]</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Superscript</strong></td>
+                        <td>Example¹ text²</td>
+                        <td>✅ Automatic</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Citation Detection Features</h3>
+            <ul>
+                <li><strong>Real-time Detection:</strong> Citations are detected as you type</li>
+                <li><strong>Visual Highlighting:</strong> Red (counted) or green (excluded) highlighting</li>
+                <li><strong>Click to Jump:</strong> Click any citation in the panel to jump to its location</li>
+                <li><strong>Toggle Inclusion:</strong> Click citations to include/exclude from count</li>
+                <li><strong>Citation List:</strong> View all citations in the Citations panel</li>
+                <li><strong>Word Count per Citation:</strong> See how many words each citation contains</li>
+                <li><strong>Occurrence Count:</strong> See how many times each citation appears</li>
+            </ul>
+            
+            <div class="warning-box">
+                <strong>⚠️ Note:</strong> Citation detection works best with standard formatting. Unusual spacing, special characters, or non-standard formats may not be detected. You can manually toggle citations in the Citations panel if needed.
+            </div>
+        </div>
+        
+        <!-- Text Editor -->
+        <div class="content-section">
+            <h2>✍️ Rich Text Editor</h2>
+            
+            <h3>Formatting Options</h3>
+            <p>CiteCount's editor supports essential text formatting while keeping your document clean and focused:</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><strong>B</strong></div>
+                    <div class="feature-title">Bold Text</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);"><kbd>Cmd/Ctrl + B</kbd></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><em>I</em></div>
+                    <div class="feature-title">Italic Text</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);"><kbd>Cmd/Ctrl + I</kbd></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><u>U</u></div>
+                    <div class="feature-title">Underline Text</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);"><kbd>Cmd/Ctrl + U</kbd></p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><s>S</s></div>
+                    <div class="feature-title">Strikethrough</div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary);"><kbd>Cmd/Ctrl + Shift + X</kbd></p>
+                </div>
+            </div>
+            
+            <h3>Editor Features</h3>
+            <ul>
+                <li><strong>Spell Checking:</strong> Native browser spell check (toggle in Settings)</li>
+                <li><strong>Auto-Save:</strong> Saves your work automatically as you type</li>
+                <li><strong>Undo/Redo:</strong> Full history support with <kbd>Cmd/Ctrl + Z</kbd> and <kbd>Cmd/Ctrl + Shift + Z</kbd></li>
+                <li><strong>Find & Replace:</strong> Use <kbd>Cmd/Ctrl + F</kbd> to search text</li>
+                <li><strong>Citation Highlighting:</strong> Live color-coding of citations</li>
+                <li><strong>Focus Mode:</strong> Minimal interface for distraction-free writing</li>
+            </ul>
+            
+            <h3>Customization Options</h3>
+            <p>Make the editor comfortable for long writing sessions:</p>
+            <ul>
+                <li><strong>Font Family:</strong> Choose from Sans-serif, Serif, or Monospace</li>
+                <li><strong>Font Size:</strong> Adjust from 12px to 24px</li>
+                <li><strong>Line Height:</strong> Control spacing between lines</li>
+                <li><strong>Light/Dark Mode:</strong> Automatic theme based on system preference</li>
+            </ul>
+            
+            <div class="tip-box">
+                <div class="tip-title">🎨 Customize Your Writing Experience</div>
+                <p>Press <kbd>Cmd/Ctrl + ,</kbd> to open Settings and adjust the editor to your preferences. Changes apply instantly!</p>
+            </div>
+        </div>
+        
+        <!-- File Import -->
+        <div class="content-section">
+            <h2>📁 File Import & Export</h2>
+            
+            <h3>Import Documents</h3>
+            <p>Bring your existing documents into CiteCount with ease:</p>
+            
+            <h4>Supported Formats</h4>
+            <ul>
+                <li><strong>.docx (Microsoft Word):</strong> Full text extraction with formatting</li>
+                <li><strong>.pdf (PDF):</strong> Text extraction (images/equations removed)</li>
+                <li><strong>Plain Text:</strong> Paste from clipboard</li>
+            </ul>
+            
+            <h4>Import Methods</h4>
+            <ol>
+                <li><strong>Drag & Drop:</strong> Drag files directly onto the editor</li>
+                <li><strong>File Chooser:</strong> Click "Choose File" to browse and select</li>
+                <li><strong>Paste:</strong> Copy and paste text from any source</li>
+            </ol>
+            
+            <div class="info-box">
+                <strong>🔒 Privacy First:</strong> All file processing happens locally in your browser. Your documents never leave your device or get uploaded to any server!
+            </div>
+            
+            <h3>Export Options</h3>
+            <p>Save your work in various formats:</p>
+            
+            <ul>
+                <li><strong>Plain Text (.txt):</strong> Export as basic text file</li>
+                <li><strong>Rich Text:</strong> Preserve formatting</li>
+                <li><strong>Copy to Clipboard:</strong> Quick copy for pasting elsewhere</li>
+                <li><strong>Print:</strong> Direct printing with print preview</li>
+            </ul>
+            
+            <div class="warning-box">
+                <strong>⚠️ Import Limitations:</strong>
+                <ul style="margin: 0.5rem 0 0 1.5rem;">
+                    <li>Images, equations, and tables are removed during import</li>
+                    <li>Complex formatting may not transfer perfectly</li>
+                    <li>PDF text extraction quality depends on the source PDF</li>
+                    <li>Large files (&gt;10MB) may take longer to process</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Citation Generator -->
+        <div class="content-section">
+            <h2>🔗 Citation Generator</h2>
+            
+            <h3>Quick Citation Creation</h3>
+            <p>Generate properly formatted citations without leaving CiteCount:</p>
+            
+            <h4>Access the Generator</h4>
+            <ul>
+                <li>Click the <strong>Citation Generator</strong> button in the toolbar</li>
+                <li>Or press <kbd>Cmd/Ctrl + Shift + C</kbd></li>
+            </ul>
+            
+            <h4>Supported Citation Styles</h4>
+            <ul>
+                <li><strong>APA (7th Edition):</strong> Most common for social sciences</li>
+                <li><strong>MLA (9th Edition):</strong> Humanities and liberal arts</li>
+                <li><strong>Chicago:</strong> Author-date and notes styles</li>
+                <li><strong>Harvard:</strong> UK universities</li>
+            </ul>
+            
+            <h4>Source Types</h4>
+            <ul>
+                <li>Books</li>
+                <li>Journal Articles</li>
+                <li>Websites</li>
+                <li>Newspapers</li>
+                <li>And more...</li>
+            </ul>
+            
+            <h3>How to Use</h3>
+            <ol>
+                <li>Click Citation Generator or press <kbd>Cmd/Ctrl + Shift + C</kbd></li>
+                <li>Select citation style (APA, MLA, etc.)</li>
+                <li>Choose source type (Book, Article, Website)</li>
+                <li>Fill in the required fields (author, title, year, etc.)</li>
+                <li>Click "Generate" to create the citation</li>
+                <li>Copy to clipboard or insert directly into your document</li>
+            </ol>
+            
+            <div class="success-box">
+                <strong>✨ Pro Tip:</strong> The citation generator creates both in-text citations and full references for your bibliography!
+            </div>
+        </div>
+        
+        <!-- Projects & Organization -->
+        <div class="content-section">
+            <h2>📂 Projects & File Management (Beta)</h2>
+            
+            <h3>Organize Your Work</h3>
+            <p>Keep multiple assignments organized with Projects and Folders:</p>
+            
+            <h4>Projects</h4>
+            <ul>
+                <li><strong>What:</strong> Individual documents (essays, assignments, papers)</li>
+                <li><strong>Features:</strong>
+                    <ul>
+                        <li>Save multiple versions</li>
+                        <li>Track word count history</li>
+                        <li>Add custom names and descriptions</li>
+                        <li>Archive completed work</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h4>Folders</h4>
+            <ul>
+                <li><strong>What:</strong> Collections of related projects</li>
+                <li><strong>Use Cases:</strong>
+                    <ul>
+                        <li>Organize by subject (Biology IA, History Essay, etc.)</li>
+                        <li>Group by semester or term</li>
+                        <li>Separate IB work from other assignments</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Accessing File Manager</h3>
+            <p>Click the <strong>Docs</strong> button in the top navigation to open the File Manager.</p>
+            
+            <div class="info-box">
+                <strong>📌 Beta Feature:</strong> Projects & Folders is currently in beta. Features and functionality may change based on user feedback. <a href="./file-management.html" style="color: #3b82f6;">Learn more →</a>
+            </div>
+        </div>
+        
+        <!-- Settings -->
+        <div class="content-section">
+            <h2>⚙️ Settings & Customization</h2>
+            
+            <h3>Access Settings</h3>
+            <p>Press <kbd>Cmd/Ctrl + ,</kbd> or click the Settings icon (⚙️) in the top navigation.</p>
+            
+            <h3>Settings Categories</h3>
+            
+            <h4>📝 Editor Settings</h4>
+            <ul>
+                <li>Font family (Sans-serif, Serif, Monospace)</li>
+                <li>Font size (12px - 24px)</li>
+                <li>Line height</li>
+                <li>Spell checking (on/off)</li>
+                <li>Welcome message (show/hide)</li>
+            </ul>
+            
+            <h4>📊 Counter Display</h4>
+            <ul>
+                <li>Show/hide individual counters</li>
+                <li>Reorder counters</li>
+                <li>Enable reading/speaking time</li>
+                <li>Customize counter visibility</li>
+            </ul>
+            
+            <h4>💾 Data & Storage</h4>
+            <ul>
+                <li>AutoSave (on/off)</li>
+                <li>Warn on leave (prevent accidental closing)</li>
+                <li>Clear history</li>
+                <li>Export/import settings</li>
+                <li>Reset to defaults</li>
+            </ul>
+            
+            <h4>🎯 Citation Settings</h4>
+            <ul>
+                <li>Citation detection sensitivity</li>
+                <li>Default citation inclusion (exclude/include)</li>
+                <li>Citation highlight colors</li>
+                <li>Enable/disable automatic detection</li>
+            </ul>
+            
+            <div class="tip-box">
+                <div class="tip-title">💡 Recommended Settings</div>
+                <ul style="margin: 0.5rem 0 0 0;">
+                    <li>✅ Enable AutoSave - Never lose your work</li>
+                    <li>✅ Enable Warn on Leave - Prevents accidental closing</li>
+                    <li>✅ Show all counters - Complete visibility</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Mobile Features -->
+        <div class="content-section">
+            <h2>📱 Mobile Features</h2>
+            
+            <h3>Optimized for Mobile</h3>
+            <p>CiteCount works seamlessly on phones and tablets:</p>
+            
+            <h4>Mobile Interface</h4>
+            <ul>
+                <li><strong>Responsive Design:</strong> Adapts to any screen size</li>
+                <li><strong>Touch Optimized:</strong> Large tap targets and gestures</li>
+                <li><strong>Compact Counters:</strong> Efficient display of statistics</li>
+                <li><strong>Full-Screen Editor:</strong> Maximize writing space</li>
+            </ul>
+            
+            <h4>Mobile-Specific Features</h4>
+            <ul>
+                <li><strong>Citations Overlay:</strong> Full-screen citations panel on mobile</li>
+                <li><strong>Simplified Toolbar:</strong> Essential tools only</li>
+                <li><strong>Swipe Gestures:</strong> Navigate between panels</li>
+                <li><strong>Voice Typing:</strong> Use device's voice input</li>
+            </ul>
+            
+            <h3>Tablet Experience</h3>
+            <p>Tablets get the best of both worlds:</p>
+            <ul>
+                <li>Side-by-side editor and citations panel</li>
+                <li>Full toolbar with all features</li>
+                <li>Keyboard shortcuts (with external keyboard)</li>
+                <li>Apple Pencil support for iPad</li>
+            </ul>
+            
+            <div class="success-box">
+                <strong>📱 Mobile Tip:</strong> Add CiteCount to your home screen for quick access! Tap the share button and select "Add to Home Screen" (Safari) or "Install app" (Chrome).
+            </div>
+        </div>
+        
+        <!-- Privacy & Security -->
+        <div class="content-section">
+            <h2>🔒 Privacy & Security Features</h2>
+            
+            <h3>Your Data, Your Device</h3>
+            <p>CiteCount is built with privacy as a core principle:</p>
+            
+            <h4>How We Protect Your Privacy</h4>
+            <ul>
+                <li><strong>No Account Required:</strong> Use CiteCount without signing up</li>
+                <li><strong>Local Storage Only:</strong> Everything saved in your browser</li>
+                <li><strong>No Server Uploads:</strong> Files never leave your device</li>
+                <li><strong>No Tracking:</strong> We don't track what you write</li>
+                <li><strong>Open Source:</strong> Code is transparent and auditable</li>
+            </ul>
+            
+            <h3>Data Management</h3>
+            <ul>
+                <li><strong>Export Your Data:</strong> Download all your work anytime</li>
+                <li><strong>Clear Data:</strong> Delete history with one click</li>
+                <li><strong>Browser Storage:</strong> Data persists across sessions</li>
+                <li><strong>No Cloud Sync:</strong> Your data stays on your device</li>
+            </ul>
+            
+            <div class="info-box">
+                <strong>🔒 Privacy Guarantee:</strong> CiteCount processes everything locally. We cannot see, access, or recover your documents. This means ultimate privacy but also means you're responsible for backing up important work!
+            </div>
+        </div>
+        
+        <!-- Advanced Features -->
+        <div class="content-section">
+            <h2>🚀 Advanced Features</h2>
+            
+            <h3>Power User Tools</h3>
+            
+            <h4>Keyboard Shortcuts</h4>
+            <p>Master CiteCount with keyboard shortcuts. <a href="./shortcuts.html" style="color: var(--primary-color);">View complete shortcut reference →</a></p>
+            
+            <h4>Citation Exclusion Patterns</h4>
+            <p>Fine-tune what counts as a citation:</p>
+            <ul>
+                <li>Customize detection patterns in Settings</li>
+                <li>Add custom citation formats</li>
+                <li>Exclude specific patterns from detection</li>
+            </ul>
+            
+            <h4>Word Count Algorithms</h4>
+            <p>CiteCount uses multiple counting methods:</p>
+            <ul>
+                <li><strong>Standard:</strong> Spaces delimit words</li>
+                <li><strong>Citation-Aware:</strong> Excludes detected citations</li>
+                <li><strong>Character-Based:</strong> For languages without spaces</li>
+            </ul>
+            
+            <h4>Browser Extensions</h4>
+            <p>Enhance CiteCount with browser capabilities:</p>
+            <ul>
+                <li>Right-click to open selected text in CiteCount</li>
+                <li>Quick word count from any webpage</li>
+                <li>Save web articles directly to CiteCount</li>
+            </ul>
+            
+            <div class="tip-box">
+                <div class="tip-title">🎓 For IB Students</div>
+                <p>CiteCount follows IB word count guidelines automatically, excluding in-text citations from your word count for Extended Essays, TOK Essays, IAs, and more. <a href="/blogs/extended-essay-word-count.html" style="color: white; text-decoration: underline;">Learn more about IB word counts →</a></p>
+            </div>
+        </div>
+        
+        <!-- Feature Comparison -->
+        <div class="content-section">
+            <h2>📊 CiteCount vs Traditional Tools</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>CiteCount</th>
+                        <th>Word/Google Docs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Citation Exclusion</td>
+                        <td>✅ Automatic</td>
+                        <td>❌ Manual</td>
+                    </tr>
+                    <tr>
+                        <td>Privacy</td>
+                        <td>✅ Local only</td>
+                        <td>⚠️ Cloud-based</td>
+                    </tr>
+                    <tr>
+                        <td>No Account Needed</td>
+                        <td>✅ Yes</td>
+                        <td>❌ Account required</td>
+                    </tr>
+                    <tr>
+                        <td>Citation Generator</td>
+                        <td>✅ Built-in</td>
+                        <td>❌ External tool needed</td>
+                    </tr>
+                    <tr>
+                        <td>Mobile Optimized</td>
+                        <td>✅ Yes</td>
+                        <td>⚠️ Limited</td>
+                    </tr>
+                    <tr>
+                        <td>Free</td>
+                        <td>✅ Completely free</td>
+                        <td>⚠️ Subscription/License</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Related Articles -->
+        <div class="content-section">
+            <h2>📚 Learn More</h2>
+            <p>Explore related help articles:</p>
+            <ul>
+                <li><a href="./getting-started.html" style="color: var(--primary-color);">→ Getting Started Guide</a></li>
+                <li><a href="./citations.html" style="color: var(--primary-color);">→ Citation Management Guide</a></li>
+                <li><a href="./file-management.html" style="color: var(--primary-color);">→ Projects & File Organization</a></li>
+                <li><a href="./shortcuts.html" style="color: var(--primary-color);">→ Keyboard Shortcuts Reference</a></li>
+                <li><a href="./troubleshooting.html" style="color: var(--primary-color);">→ Troubleshooting Guide</a></li>
+            </ul>
+            
+            <div class="tip-box">
+                <div class="tip-title">💬 Have Questions?</div>
+                <p>Can't find what you're looking for? Join our community or contact support!</p>
+                <div style="margin-top: 1rem;">
+                    <a href="https://discord.gg/twnz2957sK" target="_blank" style="color: white; text-decoration: underline;">Join Discord</a> • 
+                    <a href="/contact.html" target="_blank" style="color: white; text-decoration: underline;">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

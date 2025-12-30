@@ -7,13 +7,34 @@
     <link href="/v2/style.css" rel="stylesheet">
     <link href="/v2/flowbite.css" rel="stylesheet">
     <style>
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+        }
         /* Custom styles for help page */
+        :root {
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --background-primary: #F7F7F8;
+            --background-secondary: #ffffff;
+            --background-light: #f3f4f6;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-primary: #e5e7eb;
+            --accent-color: #3b82f6;
+            --accent-light: #eff6ff;
+        }
+        
         body {
-            background-color: var(--background-primary, #F7F7F8);
-            color: var(--text-primary, #111827);
-            font-family: 'Inter', sans-serif;
+            background-color: var(--background-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
         .help-container {
             max-width: 800px;

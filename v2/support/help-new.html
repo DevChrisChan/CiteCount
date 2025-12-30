@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CiteCount Help Center</title>
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --background-primary: #F7F7F8;
+            --background-secondary: #ffffff;
+            --background-light: #f3f4f6;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-primary: #e5e7eb;
+        }
+        
+        body {
+            background-color: var(--background-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .help-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .help-container {
+                padding: 1rem;
+            }
+        }
+        
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.875rem;
+            }
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 0.75rem;
+            border: 2px solid var(--border-primary);
+            background-color: var(--background-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+        
+        .category-card {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .category-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .category-articles-count {
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            margin-top: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .faq-item {
+            background: var(--background-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        
+        .faq-item:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .faq-question {
+            padding: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            user-select: none;
+            color: var(--text-primary);
+        }
+        
+        @media (max-width: 768px) {
+            .faq-question {
+                padding: 1rem;
+                font-size: 0.938rem;
+            }
+        }
+        
+        .faq-question:hover {
+            background: var(--background-light);
+        }
+        
+        .faq-icon {
+            transition: transform 0.3s ease;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+        
+        .faq-icon.open {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-answer.open {
+            max-height: 1000px;
+        }
+        
+        .faq-content {
+            padding: 0 1.25rem 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        @media (max-width: 768px) {
+            .faq-content {
+                padding: 0 1rem 1rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        .faq-content ul, .faq-content ol {
+            margin: 0.75rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .faq-content li {
+            margin: 0.5rem 0;
+        }
+        
+        .faq-content code {
+            background: var(--background-light);
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875em;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .badge-new {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .badge-beta {
+            background: var(--warning-color);
+            color: white;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 20%, #667eea 100%);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+            color: white;
+        }
+        
+        .tip-box-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .help-footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .help-footer {
+                padding: 1.5rem;
+                margin-top: 3rem;
+            }
+        }
+        
+        .help-footer h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .help-footer p {
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+        
+        .help-footer-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .help-footer-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-size: 0.938rem;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .search-results-info {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .keyboard-shortcut {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            background: var(--background-light);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.375rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            margin: 0 0.25rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-primary: #0f0f0f;
+                --background-secondary: #1c1c1c;
+                --background-light: #2a2a2a;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --border-primary: #333333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="help-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">👋 Welcome to CiteCount Help</h1>
+            <p class="hero-subtitle">Find answers, learn tips, and master CiteCount</p>
+            
+            <div class="search-box">
+                <svg class="search-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" class="search-input" placeholder="Search help articles..." id="searchInput" autocomplete="off">
+            </div>
+        </div>
+
+        <!-- Category Grid -->
+        <div class="category-grid" id="categoryGrid">
+            <a href="./articles/getting-started.html" class="category-card" data-category="getting-started">
+                <span class="category-icon">🚀</span>
+                <h3 class="category-title">Getting Started</h3>
+                <p class="category-description">Learn the basics of CiteCount and start counting words accurately</p>
+                <span class="category-articles-count">8 articles</span>
+            </a>
+            
+            <a href="./articles/features.html" class="category-card" data-category="features">
+                <span class="category-icon">✨</span>
+                <h3 class="category-title">Features & Tools</h3>
+                <p class="category-description">Explore all features including citations, file management, and more</p>
+                <span class="category-articles-count">12 articles</span>
+            </a>
+            
+            <a href="./articles/citations.html" class="category-card" data-category="citations">
+                <span class="category-icon">📚</span>
+                <h3 class="category-title">Citations & Formatting</h3>
+                <p class="category-description">Master citation detection, management, and generation</p>
+                <span class="category-articles-count">10 articles</span>
+            </a>
+            
+            <a href="./articles/file-management.html" class="category-card" data-category="files">
+                <span class="category-icon">📁</span>
+                <h3 class="category-title">File Management<span class="badge badge-beta">BETA</span></h3>
+                <p class="category-description">Organize projects, folders, and manage your documents</p>
+                <span class="category-articles-count">6 articles</span>
+            </a>
+            
+            <a href="./articles/troubleshooting.html" class="category-card" data-category="troubleshooting">
+                <span class="category-icon">🔧</span>
+                <h3 class="category-title">Troubleshooting</h3>
+                <p class="category-description">Solutions to common issues and error messages</p>
+                <span class="category-articles-count">9 articles</span>
+            </a>
+            
+            <a href="./articles/shortcuts.html" class="category-card" data-category="shortcuts">
+                <span class="category-icon">⌨️</span>
+                <h3 class="category-title">Keyboard Shortcuts</h3>
+                <p class="category-description">Work faster with keyboard shortcuts and productivity tips</p>
+                <span class="category-articles-count">7 articles</span>
+            </a>
+        </div>
+
+        <!-- Popular Questions Section -->
+        <div style="margin-top: 4rem;">
+            <h2 class="section-title">💡 Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item" data-searchable="How does citation detection work? What citations are detected?">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How does citation detection work?</span>
+                        <svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-content">
+                            <p><strong>CiteCount automatically detects in-text citations</strong> in parentheses and brackets, including:</p>
+                            <ul>
+                                <li><strong>APA style:</strong> (Author, Year) or (Author, Year, p. 123)</li>
+                                <li><strong>MLA style:</strong> (Author Page) or (Author)</li>
+                                <li><strong>Harvard style:</strong> (Author Year) or (Author et al., Year)</li>
+                                <li><strong>Chicago style:</strong> (Author Year) or (Author Year, 123)</li>
+                                <li><strong>Custom citations:</strong> Any text in parentheses () or brackets []</li>
+                            </ul>
+                            <p>Citations are highlighted in red by default and excluded from your word count. You can toggle any citation to include or exclude it from the count using the Citations panel.</p>
+                            <p><a href="./articles/citations.html" style="color: var(--primary-color);">Learn more about citation management →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-searchable="Why is my word count different from Microsoft Word Google Docs?">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Why is my word count different from Word/Google Docs?</span>
+                        <svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-content">
+                            <p>CiteCount's word count may differ from other tools because:</p>
+                            <ol>
+                                <li><strong>Citation exclusion:</strong> CiteCount excludes in-text citations by default, which Word/Google Docs include.</li>
+                                <li><strong>Hyphenated words:</strong> Different tools count hyphenated words differently (1 word vs 2 words).</li>
+                                <li><strong>Numbers and symbols:</strong> CiteCount follows IB standards for counting special characters.</li>
+                                <li><strong>Asian languages:</strong> CiteCount counts each character as one word for Chinese, Japanese, and Korean.</li>
+                            </ol>
+                            <p><strong>For IB coursework:</strong> CiteCount follows IB guidelines and provides an accurate "Words without Citations" count that matches IB standards.</p>
+                            <div class="tip-box">
+                                <div class="tip-box-title">💡 Pro Tip</div>
+                                <div>Check the "Word Count Details" tab to see a complete breakdown of your counts with and without citations.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-searchable="How do I upload import Word PDF files documents?">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I upload Word or PDF files?</span>
+                        <svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-content">
+                            <p>There are <strong>three ways</strong> to import files:</p>
+                            <ol>
+                                <li><strong>Drag & Drop:</strong> Drag your .docx or .pdf file directly into the editor</li>
+                                <li><strong>Choose File button:</strong> Click "Choose File" on the welcome screen</li>
+                                <li><strong>File toolbar:</strong> Use the file upload icon in the toolbar</li>
+                            </ol>
+                            <p><strong>Supported formats:</strong></p>
+                            <ul>
+                                <li><strong>Microsoft Word:</strong> .docx files</li>
+                                <li><strong>PDF:</strong> .pdf files (text will be extracted)</li>
+                            </ul>
+                            <p><strong>Important notes:</strong></p>
+                            <ul>
+                                <li>Images, equations, and formatting are automatically removed</li>
+                                <li>All processing happens locally in your browser</li>
+                                <li>Your files never leave your device</li>
+                                <li>Multiple files can be imported at once</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-searchable="Is my data safe secure privacy? Does CiteCount store my text?">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is my data safe? Does CiteCount store my text?</span>
+                        <svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-content">
+                            <p><strong>Your data is completely safe and private.</strong> Here's how:</p>
+                            <ul>
+                                <li>✅ <strong>All processing is local:</strong> Everything runs in your browser</li>
+                                <li>✅ <strong>No server uploads:</strong> Your text never leaves your device</li>
+                                <li>✅ <strong>No cloud storage:</strong> Files are stored only on your device</li>
+                                <li>✅ <strong>No tracking:</strong> We don't track your documents or content</li>
+                                <li>✅ <strong>Open source:</strong> Code can be inspected for transparency</li>
+                            </ul>
+                            <p><strong>Where is data stored?</strong></p>
+                            <p>Your text and projects are saved in your browser's localStorage (on your device only). You can clear this data anytime from Settings → Reset All Settings.</p>
+                            <p><a href="/blogs/our-promise-for-safety.html" target="_blank" style="color: var(--primary-color);">Read our full safety promise →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-searchable="How to generate citations? APA MLA Harvard Chicago citation generator">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I generate citations?<span class="badge badge-new">NEW</span></span>
+                        <svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-content">
+                            <p>CiteCount includes a built-in citation generator for <strong>APA, MLA, and Harvard</strong> styles:</p>
+                            <ol>
+                                <li>Click the <strong>"Generate Citation"</strong> button in the toolbar</li>
+                                <li>Select your citation style (APA, MLA, or Harvard)</li>
+                                <li>Choose source type (Book, Journal, Website, or Newspaper)</li>
+                                <li>Fill in the required fields (Author, Year, Title, etc.)</li>
+                                <li>Click "Generate Citation"</li>
+                                <li>Copy the in-text citation or bibliography entry</li>
+                            </ol>
+                            <p><strong>Features:</strong></p>
+                            <ul>
+                                <li>Auto-fetch title from URLs (for websites)</li>
+                                <li>Citation history - access previously generated citations</li>
+                                <li>One-click copy to clipboard</li>
+                                <li>Append citations directly to your document</li>
+                            </ul>
+                            <p><a href="./articles/citations.html#generator" style="color: var(--primary-color);">Learn more about citation generation →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-searchable="Project management file organization folders documents saved work">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I manage multiple projects?<span class="badge badge-beta">BETA</span></span>
+                        <svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-content">
+                            <p>CiteCount includes a <strong>file management system</strong> (Beta) to organize your work:</p>
+                            <p><strong>Creating projects:</strong></p>
+                            <ul>
+                                <li>Click the <strong>"+"</strong> button in the Documents sidebar</li>
+                                <li>Give your project a name and choose an emoji icon</li>
+                                <li>Your project is created and ready to use</li>
+                            </ul>
+                            <p><strong>Organizing with folders:</strong></p>
+                            <ul>
+                                <li>Click <strong>"New Folder"</strong> to create a folder</li>
+                                <li>Drag and drop projects into folders</li>
+                                <li>Organize by subject, assignment type, or any system you prefer</li>
+                            </ul>
+                            <p><strong>Features:</strong></p>
+                            <ul>
+                                <li>Automatic saving with every edit</li>
+                                <li>Drag and drop reordering</li>
+                                <li>Multi-select delete (Cmd/Ctrl + Click)</li>
+                                <li>Project icons and emojis</li>
+                                <li>Search and filter projects</li>
+                            </ul>
+                            <p><strong>Note:</strong> This is a beta feature. Your projects are saved locally in your browser.</p>
+                            <p><a href="./articles/file-management.html" style="color: var(--primary-color);">Complete file management guide →</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-searchable="Storage quota full exceeded limit localStorage out of space">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What if I run out of storage space?</span>
+                        <svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-content">
+                            <p>CiteCount uses your browser's localStorage, which has a limit of approximately <strong>4-10 MB</strong> depending on your browser.</p>
+                            <p><strong>If you're running low on space:</strong></p>
+                            <ol>
+                                <li>Go to <strong>Settings → Manage Storage</strong></li>
+                                <li>View storage usage and see which projects use the most space</li>
+                                <li>Delete old or unused projects</li>
+                                <li>Export important projects to .txt files before deleting</li>
+                            </ol>
+                            <p><strong>Prevention tips:</strong></p>
+                            <ul>
+                                <li>Regularly delete completed projects you no longer need</li>
+                                <li>Keep only active projects in CiteCount</li>
+                                <li>Save copies of important work to your computer</li>
+                                <li>Use CiteCount primarily as a working tool, not long-term storage</li>
+                            </ul>
+                            <div class="tip-box">
+                                <div class="tip-box-title">💡 Storage Warning</div>
+                                <div>If storage is full, CiteCount will show a modal allowing you to select and delete projects to free up space.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-searchable="Keyboard shortcuts hotkeys quick actions productivity">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What keyboard shortcuts are available?</span>
+                        <svg class="faq-icon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-content">
+                            <p><strong>Essential shortcuts:</strong></p>
+                            <ul>
+                                <li><span class="keyboard-shortcut">⌘ ,</span> or <span class="keyboard-shortcut">Ctrl ,</span> - Open Settings</li>
+                                <li><span class="keyboard-shortcut">⌘ B</span> or <span class="keyboard-shortcut">Ctrl B</span> - Bold</li>
+                                <li><span class="keyboard-shortcut">⌘ I</span> or <span class="keyboard-shortcut">Ctrl I</span> - Italic</li>
+                                <li><span class="keyboard-shortcut">⌘ U</span> or <span class="keyboard-shortcut">Ctrl U</span> - Underline</li>
+                                <li><span class="keyboard-shortcut">⌘ ⇧ X</span> or <span class="keyboard-shortcut">Ctrl Shift X</span> - Strikethrough</li>
+                                <li><span class="keyboard-shortcut">Esc</span> - Close modals and overlays</li>
+                            </ul>
+                            <p><a href="./articles/shortcuts.html" style="color: var(--primary-color);">View all keyboard shortcuts →</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Footer -->
+        <div class="help-footer">
+            <h3>Still need help?</h3>
+            <p>Can't find what you're looking for? We're here to help!</p>
+            <div class="help-footer-buttons">
+                <a href="https://discord.gg/twnz2957sK" target="_blank" class="btn btn-primary">Join Discord Community</a>
+                <a href="/contact.html" target="_blank" class="btn btn-secondary">Contact Support</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FAQ Toggle
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('.faq-icon');
+            const isOpen = answer.classList.contains('open');
+
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(a => {
+                if (a !== answer) {
+                    a.classList.remove('open');
+                }
+            });
+            document.querySelectorAll('.faq-icon').forEach(i => {
+                if (i !== icon) {
+                    i.classList.remove('open');
+                }
+            });
+
+            // Toggle current FAQ
+            if (isOpen) {
+                answer.classList.remove('open');
+                icon.classList.remove('open');
+            } else {
+                answer.classList.add('open');
+                icon.classList.add('open');
+            }
+        }
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const categoryGrid = document.getElementById('categoryGrid');
+        const faqList = document.querySelector('.faq-list');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+
+            if (searchTerm === '') {
+                // Show all
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.style.display = 'block';
+                });
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.style.display = 'block';
+                });
+                removeSearchResults();
+                return;
+            }
+
+            let hasResults = false;
+
+            // Search categories
+            document.querySelectorAll('.category-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Search FAQs
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const text = (item.textContent + ' ' + (item.dataset.searchable || '')).toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show "no results" message
+            if (!hasResults) {
+                showNoResults(searchTerm);
+            } else {
+                removeSearchResults();
+            }
+        });
+
+        function showNoResults(searchTerm) {
+            removeSearchResults();
+            const noResults = document.createElement('div');
+            noResults.id = 'no-results';
+            noResults.className = 'search-results-info';
+            noResults.innerHTML = `
+                <svg style="width: 64px; height: 64px; margin: 0 auto 1rem; opacity: 0.3;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <p>No results found for "${searchTerm}"</p>
+                <p style="font-size: 0.875rem; margin-top: 0.5rem;">Try different keywords or contact support below.</p>
+            `;
+            faqList.parentNode.appendChild(noResults);
+        }
+
+        function removeSearchResults() {
+            const existing = document.getElementById('no-results');
+            if (existing) {
+                existing.remove();
+            }
+        }
+
+        // Auto-focus search on page load (desktop only)
+        if (window.innerWidth > 768) {
+            searchInput.focus();
+        }
+    </script>
+</body>
+</html>

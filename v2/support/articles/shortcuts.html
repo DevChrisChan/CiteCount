@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Shortcuts - CiteCount Help Center</title>
+    <link href="/v2/style.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --background-primary: #F7F7F8;
+            --background-secondary: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-primary: #e5e7eb;
+            --key-bg: #f3f4f6;
+            --key-border: #d1d5db;
+        }
+        
+        body {
+            background: var(--background-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        h2 { font-size: 1.75rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-primary); }
+        h3 { font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+        
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .content-section {
+            background: var(--background-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border-primary);
+        }
+        
+        .shortcut-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .shortcut-table thead {
+            background: var(--background-primary);
+        }
+        
+        .shortcut-table th {
+            padding: 0.875rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-primary);
+        }
+        
+        .shortcut-table td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        
+        .shortcut-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .key {
+            display: inline-block;
+            background: var(--key-bg);
+            border: 1px solid var(--key-border);
+            border-radius: 0.25rem;
+            padding: 0.125rem 0.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin: 0 0.125rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .key-combo {
+            white-space: nowrap;
+        }
+        
+        .platform-toggle {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            padding: 0.25rem;
+            background: var(--background-primary);
+            border-radius: 0.5rem;
+            width: fit-content;
+        }
+        
+        .platform-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        
+        .platform-btn.active {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.375rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-primary: #0f0f0f;
+                --background-secondary: #1c1c1c;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --border-primary: #333333;
+                --key-bg: #2a2a2a;
+                --key-border: #444444;
+            }
+            
+            .platform-btn.active {
+                background: #2a2a2a;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .shortcut-table {
+                font-size: 0.875rem;
+            }
+            
+            .shortcut-table th,
+            .shortcut-table td {
+                padding: 0.625rem 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="article-container">
+        <a href="../help-new.html" class="back-button">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Help Center
+        </a>
+        
+        <h1>⌨️ Keyboard Shortcuts</h1>
+        <div class="article-meta">
+            Last updated: December 30, 2024 • 7 categories • 5 min read
+        </div>
+        
+        <div class="content-section">
+            <h2>Choose Your Platform</h2>
+            <div class="platform-toggle">
+                <button class="platform-btn active" onclick="showPlatform('mac')">Mac</button>
+                <button class="platform-btn" onclick="showPlatform('windows')">Windows/Linux</button>
+            </div>
+            
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Learning keyboard shortcuts can dramatically speed up your workflow. Start with the most common ones (Bold, Settings, Save) and gradually add more to your muscle memory!
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Text Formatting</h2>
+            <p>Apply formatting to selected text in the editor:</p>
+            
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th class="mac-col">Mac Shortcut</th>
+                        <th class="windows-col" style="display:none;">Windows/Linux Shortcut</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Bold</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">B</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">B</span></span>
+                        </td>
+                        <td>Make selected text bold</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Italic</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">I</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">I</span></span>
+                        </td>
+                        <td>Italicize selected text</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Underline</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">U</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">U</span></span>
+                        </td>
+                        <td>Underline selected text</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Strikethrough</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">X</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">X</span></span>
+                        </td>
+                        <td>Strike through selected text</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="warning-box">
+                <strong>⚠️ Note:</strong> Some browsers may override these shortcuts for their own functions. If they don't work, use the formatting buttons in the toolbar instead.
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Application Controls</h2>
+            <p>Quick access to CiteCount features and settings:</p>
+            
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th class="mac-col">Mac Shortcut</th>
+                        <th class="windows-col" style="display:none;">Windows/Linux Shortcut</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Open Settings</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">,</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">,</span></span>
+                        </td>
+                        <td>Open Settings modal</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Close Modal</strong></td>
+                        <td class="mac-col">
+                            <span class="key">Esc</span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key">Esc</span>
+                        </td>
+                        <td>Close any open modal/overlay</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Save (AutoSave)</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">S</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">S</span></span>
+                        </td>
+                        <td>Manually trigger save (if AutoSave is enabled)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="content-section">
+            <h2>Text Editing Basics</h2>
+            <p>Standard text editing shortcuts that work in the CiteCount editor:</p>
+            
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th class="mac-col">Mac Shortcut</th>
+                        <th class="windows-col" style="display:none;">Windows/Linux Shortcut</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Select All</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">A</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">A</span></span>
+                        </td>
+                        <td>Select all text in editor</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Copy</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">C</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">C</span></span>
+                        </td>
+                        <td>Copy selected text</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cut</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">X</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">X</span></span>
+                        </td>
+                        <td>Cut selected text</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Paste</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">V</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">V</span></span>
+                        </td>
+                        <td>Paste from clipboard</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Undo</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">Z</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Z</span></span>
+                        </td>
+                        <td>Undo last action</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Redo</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">Z</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Y</span></span>
+                        </td>
+                        <td>Redo last undone action</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Find in Page</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">F</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">F</span></span>
+                        </td>
+                        <td>Open browser's find dialog</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="content-section">
+            <h2>Navigation</h2>
+            <p>Move around text quickly without using the mouse:</p>
+            
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th class="mac-col">Mac Shortcut</th>
+                        <th class="windows-col" style="display:none;">Windows/Linux Shortcut</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Start of Line</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">←</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key">Home</span>
+                        </td>
+                        <td>Jump to beginning of line</td>
+                    </tr>
+                    <tr>
+                        <td><strong>End of Line</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">→</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key">End</span>
+                        </td>
+                        <td>Jump to end of line</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Start of Document</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">↑</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Home</span></span>
+                        </td>
+                        <td>Jump to beginning of document</td>
+                    </tr>
+                    <tr>
+                        <td><strong>End of Document</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">↓</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">End</span></span>
+                        </td>
+                        <td>Jump to end of document</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Next Word</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">Option</span> + <span class="key">→</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">→</span></span>
+                        </td>
+                        <td>Move cursor to next word</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Previous Word</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">Option</span> + <span class="key">←</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">←</span></span>
+                        </td>
+                        <td>Move cursor to previous word</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="content-section">
+            <h2>Selection</h2>
+            <p>Combine navigation shortcuts with Shift to select text:</p>
+            
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th class="mac-col">Mac Shortcut</th>
+                        <th class="windows-col" style="display:none;">Windows/Linux Shortcut</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Select to Line Start</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">←</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Shift</span> + <span class="key">Home</span></span>
+                        </td>
+                        <td>Select from cursor to start of line</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Select to Line End</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">→</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Shift</span> + <span class="key">End</span></span>
+                        </td>
+                        <td>Select from cursor to end of line</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Select to Document Start</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">↑</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">Home</span></span>
+                        </td>
+                        <td>Select from cursor to document start</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Select to Document End</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">↓</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">End</span></span>
+                        </td>
+                        <td>Select from cursor to document end</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Select Next Word</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">Option</span> + <span class="key">Shift</span> + <span class="key">→</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">→</span></span>
+                        </td>
+                        <td>Select next word</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Select Previous Word</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">Option</span> + <span class="key">Shift</span> + <span class="key">←</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">←</span></span>
+                        </td>
+                        <td>Select previous word</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> You can also click and drag to select text, or double-click to select a word, triple-click to select a paragraph!
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Browser Shortcuts</h2>
+            <p>Standard browser shortcuts that also work in CiteCount:</p>
+            
+            <table class="shortcut-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th class="mac-col">Mac Shortcut</th>
+                        <th class="windows-col" style="display:none;">Windows/Linux Shortcut</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Refresh Page</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">R</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">R</span></span> or <span class="key">F5</span>
+                        </td>
+                        <td>Reload CiteCount (saves first if AutoSave enabled)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hard Refresh</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">Shift</span> + <span class="key">R</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Shift</span> + <span class="key">R</span></span>
+                        </td>
+                        <td>Clear cache and reload</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zoom In</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">+</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">+</span></span>
+                        </td>
+                        <td>Increase browser zoom level</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zoom Out</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">-</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">-</span></span>
+                        </td>
+                        <td>Decrease browser zoom level</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reset Zoom</strong></td>
+                        <td class="mac-col">
+                            <span class="key-combo"><span class="key">⌘</span> + <span class="key">0</span></span>
+                        </td>
+                        <td class="windows-col" style="display:none;">
+                            <span class="key-combo"><span class="key">Ctrl</span> + <span class="key">0</span></span>
+                        </td>
+                        <td>Reset zoom to 100%</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="warning-box">
+                <strong>⚠️ Note:</strong> Browser zoom affects the entire page. For just changing the text size in the editor, use Settings → Font Size instead.
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h2>Special Features</h2>
+            
+            <h3>Multi-Select in File Manager (Beta)</h3>
+            <p>When managing projects/folders in the Docs sidebar:</p>
+            <ul>
+                <li class="mac-col"><span class="key-combo"><span class="key">⌘</span> + <span class="key">Click</span></span> - Select multiple items</li>
+                <li class="windows-col" style="display:none;"><span class="key-combo"><span class="key">Ctrl</span> + <span class="key">Click</span></span> - Select multiple items</li>
+                <li><span class="key-combo"><span class="key">Shift</span> + <span class="key">Click</span></span> - Select range of items</li>
+            </ul>
+            
+            <h3>Citation Generator</h3>
+            <p>Inside the citation generator modal:</p>
+            <ul>
+                <li><span class="key">Tab</span> - Move to next field</li>
+                <li><span class="key-combo"><span class="key">Shift</span> + <span class="key">Tab</span></span> - Move to previous field</li>
+                <li><span class="key">Enter</span> - Generate citation (when in last field)</li>
+            </ul>
+        </div>
+        
+        <div class="content-section">
+            <h2>Printable Cheat Sheet</h2>
+            
+            <div class="tip-box">
+                <strong>📄 Want a printable reference?</strong><br>
+                Press <span class="mac-col"><span class="key">⌘</span> + <span class="key">P</span></span><span class="windows-col" style="display:none;"><span class="key">Ctrl</span> + <span class="key">P</span></span> to print this page as a quick reference guide!
+            </div>
+            
+            <h3>Most Important Shortcuts to Remember:</h3>
+            <ol>
+                <li class="mac-col"><span class="key-combo"><span class="key">⌘</span> + <span class="key">,</span></span> - Open Settings</li>
+                <li class="windows-col" style="display:none;"><span class="key-combo"><span class="key">Ctrl</span> + <span class="key">,</span></span> - Open Settings</li>
+                <li class="mac-col"><span class="key-combo"><span class="key">⌘</span> + <span class="key">B</span></span> - Bold</li>
+                <li class="windows-col" style="display:none;"><span class="key-combo"><span class="key">Ctrl</span> + <span class="key">B</span></span> - Bold</li>
+                <li class="mac-col"><span class="key-combo"><span class="key">⌘</span> + <span class="key">S</span></span> - Save</li>
+                <li class="windows-col" style="display:none;"><span class="key-combo"><span class="key">Ctrl</span> + <span class="key">S</span></span> - Save</li>
+                <li><span class="key">Esc</span> - Close modals</li>
+                <li class="mac-col"><span class="key-combo"><span class="key">⌘</span> + <span class="key">A</span></span> - Select All</li>
+                <li class="windows-col" style="display:none;"><span class="key-combo"><span class="key">Ctrl</span> + <span class="key">A</span></span> - Select All</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        function showPlatform(platform) {
+            const buttons = document.querySelectorAll('.platform-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (platform === 'mac') {
+                document.querySelectorAll('.mac-col').forEach(el => el.style.display = '');
+                document.querySelectorAll('.windows-col').forEach(el => el.style.display = 'none');
+            } else {
+                document.querySelectorAll('.mac-col').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.windows-col').forEach(el => el.style.display = '');
+            }
+        }
+        
+        // Auto-detect platform
+        if (navigator.platform.indexOf('Win') !== -1 || navigator.platform.indexOf('Linux') !== -1) {
+            showPlatform('windows');
+            document.querySelector('.platform-btn:last-child').classList.add('active');
+            document.querySelector('.platform-btn:first-child').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
