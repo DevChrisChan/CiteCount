@@ -620,7 +620,7 @@
     padding: 0.5rem;
     background: inherit;
     border-bottom: 1px solid var(--border-light);
-    z-index: 20;
+    z-index: 1;
   }
 
   .dark .toolbar {
