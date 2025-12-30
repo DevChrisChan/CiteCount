@@ -1104,6 +1104,28 @@ function toggleSettingsOverlay(show) {
   }
 }
 
+function switchSettingsCategory(category) {
+  // Remove active class from all buttons
+  const buttons = document.querySelectorAll('.settings-category-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  
+  // Add active class to clicked button
+  const activeButton = document.querySelector(`[data-category="${category}"]`);
+  if (activeButton) {
+    activeButton.classList.add('active');
+  }
+  
+  // Hide all category contents
+  const contents = document.querySelectorAll('.settings-category-content');
+  contents.forEach(content => content.classList.remove('active'));
+  
+  // Show selected category content
+  const activeContent = document.querySelector(`.settings-category-content[data-category="${category}"]`);
+  if (activeContent) {
+    activeContent.classList.add('active');
+  }
+}
+
 function toggleHelpOverlay(show) {
   const overlay = document.getElementById('help-overlay');
   const background = document.getElementById('overlay-background');
