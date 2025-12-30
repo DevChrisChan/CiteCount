@@ -4,6 +4,22 @@
 let currentCitationStyle = 'mla';
 
 /**
+ * Check if the citation form has any content
+ */
+function hasCitationFormContent() {
+    const form = document.getElementById('citation-form');
+    if (!form) return false;
+    
+    const inputs = form.querySelectorAll('input[type="text"], input[type="date"]');
+    for (const input of inputs) {
+        if (input.value.trim()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Open the citation generator modal
  */
 function openCitationModal() {
@@ -12,30 +28,58 @@ function openCitationModal() {
         modal.style.display = 'flex';
         // Reset form
         resetCitationForm();
-        // Add escape key listener
-        document.addEventListener('keydown', handleCitationModalEscape);
+        
+        // Add keyboard support for Escape key
+        setupCitationModalKeyboard();
     }
 }
 
 /**
  * Close the citation generator modal
  */
-function closeCitationModal() {
+function closeCitationModal(force = false) {
     const modal = document.getElementById('citation-modal');
-    if (modal) {
-        modal.style.display = 'none';
-        // Remove escape key listener
-        document.removeEventListener('keydown', handleCitationModalEscape);
+    if (!modal) return;
+    
+    // Check if there's content and we're not forcing close
+    if (!force && hasCitationFormContent()) {
+        if (!confirm('You have unsaved content in the form. Are you sure you want to close?')) {
+            return;
+        }
+    }
+    
+    modal.style.display = 'none';
+    // Remove keyboard listener
+    if (window.citationModalKeyHandler) {
+        document.removeEventListener('keydown', window.citationModalKeyHandler);
+        window.citationModalKeyHandler = null;
     }
 }
 
 /**
- * Handle escape key press to close modal
+ * Setup keyboard support for citation modal
  */
-function handleCitationModalEscape(event) {
-    if (event.key === 'Escape') {
-        closeCitationModal();
+function setupCitationModalKeyboard() {
+    // Remove existing listener if any
+    if (window.citationModalKeyHandler) {
+        document.removeEventListener('keydown', window.citationModalKeyHandler);
     }
+    
+    window.citationModalKeyHandler = (e) => {
+        const modal = document.getElementById('citation-modal');
+        if (!modal || modal.style.display === 'none') return;
+        
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            closeCitationModal();
+        } else if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+            // Ctrl/Cmd + Enter to generate citation
+            e.preventDefault();
+            generateCitation();
+        }
+    };
+    
+    document.addEventListener('keydown', window.citationModalKeyHandler);
 }
 
 /**
@@ -140,6 +184,38 @@ function updateCitationForm() {
 }
 
 /**
+ * Save citation to history
+ */
+function saveCitationToHistory(citationData) {
+    try {
+        // Get existing history
+        let history = JSON.parse(localStorage.getItem('citationHistory') || '[]');
+        
+        // Add new citation with timestamp
+        const citation = {
+            ...citationData,
+            timestamp: new Date().toISOString(),
+            id: Date.now() + Math.random() // Unique ID
+        };
+        
+        // Add to beginning of array (most recent first)
+        history.unshift(citation);
+        
+        // Keep only last 50 citations
+        if (history.length > 50) {
+            history = history.slice(0, 50);
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('citationHistory', JSON.stringify(history));
+        
+        console.log('[Citation] Saved to history:', citation);
+    } catch (error) {
+        console.error('[Citation] Error saving to history:', error);
+    }
+}
+
+/**
  * Generate citation based on selected style and source type
  */
 function generateCitation() {
@@ -213,6 +289,35 @@ function generateCitation() {
         inTextResult.innerHTML = inTextCitation;
         bibliographyResult.innerHTML = bibliographyCitation;
         output.style.display = 'block';
+        
+        // Save to history
+        const citationData = {
+            style: currentCitationStyle,
+            sourceType: sourceType,
+            author: author,
+            year: year,
+            title: title,
+            inText: inTextCitation,
+            bibliography: bibliographyCitation
+        };
+        
+        // Add additional fields based on source type
+        if (sourceType === 'book') {
+            citationData.publisher = document.getElementById('publisher').value.trim();
+        } else if (sourceType === 'journal') {
+            citationData.journalName = document.getElementById('journal-name').value.trim();
+            citationData.volume = document.getElementById('volume').value.trim();
+            citationData.issue = document.getElementById('issue').value.trim();
+            citationData.pages = document.getElementById('pages').value.trim();
+        } else if (sourceType === 'website') {
+            citationData.url = document.getElementById('url').value.trim();
+            citationData.accessDate = document.getElementById('access-date').value;
+        } else if (sourceType === 'newspaper') {
+            citationData.publisher = document.getElementById('publisher').value.trim();
+            citationData.pages = document.getElementById('pages').value.trim();
+        }
+        
+        saveCitationToHistory(citationData);
         
         // Scroll modal to bottom to reveal the output
         setTimeout(() => {
@@ -641,15 +746,194 @@ async function fetchTitleFromURL() {
     }
 }
 
+/**
+ * Open citation history modal
+ */
+function openCitationHistory() {
+    const modal = document.getElementById('citation-history-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        loadCitationHistory();
+    }
+}
+
+/**
+ * Close citation history modal
+ */
+function closeCitationHistory() {
+    const modal = document.getElementById('citation-history-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+/**
+ * Load and display citation history
+ */
+function loadCitationHistory() {
+    try {
+        const history = JSON.parse(localStorage.getItem('citationHistory') || '[]');
+        const contentDiv = document.getElementById('citation-history-content');
+        const emptyDiv = document.getElementById('citation-history-empty');
+        const countSpan = document.getElementById('history-count');
+        
+        if (!contentDiv || !emptyDiv) return;
+        
+        // Update count
+        if (countSpan) {
+            countSpan.textContent = history.length;
+        }
+        
+        if (history.length === 0) {
+            contentDiv.innerHTML = '';
+            emptyDiv.style.display = 'block';
+            return;
+        }
+        
+        emptyDiv.style.display = 'none';
+        
+        // Generate HTML for history items
+        let html = '';
+        history.forEach((citation, index) => {
+            const date = new Date(citation.timestamp);
+            const dateStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            html += `
+                <div class="history-item" style="border: 1px solid var(--border-primary); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; background: var(--background-secondary);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                        <div style="flex: 1;">
+                            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.75rem; font-weight: 600; padding: 0.125rem 0.5rem; background: #667eea; color: white; border-radius: 0.25rem; text-transform: uppercase;">${citation.style}</span>
+                                <span style="font-size: 0.75rem; color: var(--text-secondary);">${citation.sourceType}</span>
+                            </div>
+                            <div style="font-weight: 600; margin-bottom: 0.25rem;">${escapeHtml(citation.title)}</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);">${escapeHtml(citation.author)} (${citation.year})</div>
+                        </div>
+                        <button onclick="deleteCitationFromHistory(${citation.id})" title="Delete" style="padding: 0.25rem 0.5rem; background: transparent; border: 1px solid var(--border-primary); border-radius: 0.25rem; cursor: pointer; color: #ef4444;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='transparent'">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div style="font-size: 0.8rem; margin-bottom: 0.5rem;">
+                        <div style="font-weight: 500; margin-bottom: 0.25rem; color: var(--text-secondary);">In-text:</div>
+                        <div style="padding: 0.5rem; background: var(--background-primary); border-radius: 0.25rem; font-family: monospace; word-break: break-word;">${citation.inText}</div>
+                    </div>
+                    <div style="font-size: 0.8rem; margin-bottom: 0.75rem;">
+                        <div style="font-weight: 500; margin-bottom: 0.25rem; color: var(--text-secondary);">Bibliography:</div>
+                        <div style="padding: 0.5rem; background: var(--background-primary); border-radius: 0.25rem; font-family: monospace; word-break: break-word;">${citation.bibliography}</div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.75rem; color: var(--text-secondary);">${dateStr}</span>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button onclick="copyHistoryCitation(${index}, 'inText')" style="padding: 0.375rem 0.75rem; background: #3b82f6; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">Copy In-text</button>
+                            <button onclick="copyHistoryCitation(${index}, 'bibliography')" style="padding: 0.375rem 0.75rem; background: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">Copy Bibliography</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        contentDiv.innerHTML = html;
+    } catch (error) {
+        console.error('[Citation] Error loading history:', error);
+    }
+}
+
+/**
+ * Escape HTML to prevent XSS
+ */
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+/**
+ * Copy citation from history
+ */
+function copyHistoryCitation(index, type) {
+    try {
+        const history = JSON.parse(localStorage.getItem('citationHistory') || '[]');
+        if (index >= 0 && index < history.length) {
+            const citation = history[index];
+            
+            // Create a temporary div to strip HTML tags
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = type === 'inText' ? citation.inText : citation.bibliography;
+            const text = tempDiv.textContent || tempDiv.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                if (typeof notify === 'function') {
+                    notify(`${type === 'inText' ? 'In-text citation' : 'Bibliography'} copied!`);
+                }
+            }).catch(err => {
+                console.error('[Citation] Copy failed:', err);
+            });
+        }
+    } catch (error) {
+        console.error('[Citation] Error copying from history:', error);
+    }
+}
+
+/**
+ * Delete citation from history
+ */
+function deleteCitationFromHistory(id) {
+    try {
+        let history = JSON.parse(localStorage.getItem('citationHistory') || '[]');
+        history = history.filter(citation => citation.id !== id);
+        localStorage.setItem('citationHistory', JSON.stringify(history));
+        loadCitationHistory();
+        
+        if (typeof notify === 'function') {
+            notify('Citation deleted from history');
+        }
+    } catch (error) {
+        console.error('[Citation] Error deleting from history:', error);
+    }
+}
+
+/**
+ * Clear all citation history
+ */
+function clearCitationHistory() {
+    if (confirm('Are you sure you want to clear all citation history? This action cannot be undone.')) {
+        try {
+            localStorage.removeItem('citationHistory');
+            loadCitationHistory();
+            
+            if (typeof notify === 'function') {
+                notify('Citation history cleared');
+            }
+        } catch (error) {
+            console.error('[Citation] Error clearing history:', error);
+        }
+    }
+}
+
 // Close modal when clicking outside
 document.addEventListener('click', function(event) {
     const modal = document.getElementById('citation-modal');
+    const historyModal = document.getElementById('citation-history-modal');
+    
     if (modal && event.target === modal) {
         closeCitationModal();
+    }
+    
+    if (historyModal && event.target === historyModal) {
+        closeCitationHistory();
     }
 });
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateCitationForm();
+    
+    // Add warning to local storage
+    try {
+        localStorage.setItem('warning', '⚠️ WARNING: If you don\'t know what you\'re doing, exit this or else you risk losing all your files!');
+    } catch (error) {
+        console.error('[Citation] Error setting warning in localStorage:', error);
+    }
 });

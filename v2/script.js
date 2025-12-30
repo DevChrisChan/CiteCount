@@ -131,18 +131,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle shortcuts that require modifier keys
     if (e.metaKey || e.ctrlKey) {
       switch (e.key.toLowerCase()) {
-        case 'f':
-          // Command/Ctrl + F focuses search citations bar
-          e.preventDefault();
-          const desktopSearch = document.getElementById('citations-search-input');
-          const mobileSearch = document.getElementById('citations-search-input-mobile');
-          // Focus on whichever search input is visible
-          if (desktopSearch && window.getComputedStyle(desktopSearch.closest('tr')).display !== 'none') {
-            desktopSearch.focus();
-          } else if (mobileSearch && window.getComputedStyle(mobileSearch.closest('tr')).display !== 'none') {
-            mobileSearch.focus();
-          }
-          break;
         case ',':
           // Command/Ctrl + , opens settings (standard macOS/Windows shortcut)
           e.preventDefault();
@@ -284,12 +272,10 @@ function toggleSetting(setting, value) {
     }
   }
   if (setting === 'warnLeave') {
-    window.onbeforeunload = value ? (e => {
-      if (!state.settings.autoSave && document.getElementById('editor').innerText.trim()) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    }) : null;
+    updateBeforeUnloadHandler();
+  }
+  if (setting === 'autoSave') {
+    updateBeforeUnloadHandler();
   }
 }
 
@@ -297,6 +283,19 @@ function updateFontSize(size) {
   state.settings.fontSize = parseInt(size);
   saveSettings();
   updateSettingsUI();
+}
+
+function updateBeforeUnloadHandler() {
+  if (state.settings.warnLeave && !state.settings.autoSave) {
+    window.onbeforeunload = (e) => {
+      if (document.getElementById('editor').innerText.trim()) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+  } else {
+    window.onbeforeunload = null;
+  }
 }
 
 function updateFontFamily(family) {
@@ -383,30 +382,19 @@ function updateSettingsUI() {
   // Update counter settings display
   updateCounterSettings();
   
-  window.onbeforeunload = state.settings.warnLeave && !state.settings.autoSave && document.getElementById('editor').innerText.trim() ? (e => {
-    e.preventDefault();
-    e.returnValue = '';
-  }) : null;
+  updateBeforeUnloadHandler();
 }
 
 function resetSettings() {
-  state.settings = {
-    autoSave: true,
-    warnLeave: true,
-    spellCheck: true,
-    focus: false,
-    wordsNoCitations: true,
-    charsNoCitations: true,
-    wordsWithCitations: true,
-    charsWithCitations: true,
-    citations: true,
-    fontSize: 16,
-    fontFamily: 'system-ui'
-  };
-  saveSettings();
-  showNotification('Settings have been reset. Please reload the page for changes to take effect.');
-  localStorage.removeItem('rawData');
-  localStorage.removeItem('citationStates');
+  // Clear all localStorage data including fileManager
+  localStorage.clear();
+  
+  showNotification('All settings and data have been cleared. Reloading in 3 seconds...');
+  
+  // Auto-refresh after 3 seconds
+  setTimeout(() => {
+    window.location.reload();
+  }, 3000);
 }
 
 let citationCounter = 0;
@@ -421,10 +409,11 @@ function highlightCitations(content) {
 }
 
 const allowedDomains = [
-  'citecount.com',
   'citecount.netlify.app',
   '127.0.0.1:5500',
-  'cite.js.org'
+  'citecount-priv.netlify.app',
+  'cite.js.org',
+  'citecount.com'
 ];
 
 function syncScroll() {
@@ -544,19 +533,26 @@ function updateLayout() {
 function setupDragAndDrop() {
   const editorContainer = document.querySelector('.editor-container');
   const editor = document.getElementById('editor');
+  const dropOverlay = document.getElementById('drop-overlay');
 
   editorContainer.addEventListener('dragover', (e) => {
     e.preventDefault();
     editorContainer.classList.add('dragover');
+    if (dropOverlay) dropOverlay.style.display = 'flex';
   });
 
-  editorContainer.addEventListener('dragleave', () => {
-    editorContainer.classList.remove('dragover');
+  editorContainer.addEventListener('dragleave', (e) => {
+    // Only remove if we're actually leaving the container
+    if (!editorContainer.contains(e.relatedTarget)) {
+      editorContainer.classList.remove('dragover');
+      if (dropOverlay) dropOverlay.style.display = 'none';
+    }
   });
 
   editorContainer.addEventListener('drop', (e) => {
     e.preventDefault();
     editorContainer.classList.remove('dragover');
+    if (dropOverlay) dropOverlay.style.display = 'none';
     const files = e.dataTransfer.files;
     if (files.length > 0) {
       handleFileDrop(files[0]);
@@ -597,6 +593,10 @@ function handleFileDrop(file) {
 }
 
 function processFile(file, editor, welcomeText) {
+  // Check if current project has content
+  const hasExistingContent = editor.innerText.trim().length > 0;
+  const fileNameWithoutExt = file.name.replace(/\.(pdf|docx)$/i, '');
+  
   if (file.type === 'application/pdf') {
       const reader = new FileReader();
       reader.onload = async function (e) {
@@ -608,9 +608,23 @@ function processFile(file, editor, welcomeText) {
               const content = await page.getTextContent();
               text += content.items.map(item => item.str).join(' ') + '\n';
           }
-          editor.innerText = text;
+          
+          // If project has content, create new project; otherwise use current
+          if (hasExistingContent && typeof fileManager !== 'undefined') {
+            const newProjectId = fileManager.createProject(fileNameWithoutExt, true);
+            // The createProject with autoSwitch will handle loading the new project
+            editor.innerText = text;
+          } else {
+            editor.innerText = text;
+            // Update current project name to match filename
+            if (typeof fileManager !== 'undefined' && fileManager.currentProject) {
+              fileManager.renameProject(fileManager.currentProject, fileNameWithoutExt);
+            }
+          }
+          
           welcomeText.style.display = 'none';
           handleEditorInput();
+          notify(`${file.name} has been imported successfully!`);
       };
       reader.readAsArrayBuffer(file);
   } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
@@ -618,17 +632,30 @@ function processFile(file, editor, welcomeText) {
       reader.onload = function (e) {
           mammoth.extractRawText({ arrayBuffer: e.target.result })
               .then(result => {
-                  editor.innerText = result.value;
+                  // If project has content, create new project; otherwise use current
+                  if (hasExistingContent && typeof fileManager !== 'undefined') {
+                    const newProjectId = fileManager.createProject(fileNameWithoutExt, true);
+                    // The createProject with autoSwitch will handle loading the new project
+                    editor.innerText = result.value;
+                  } else {
+                    editor.innerText = result.value;
+                    // Update current project name to match filename
+                    if (typeof fileManager !== 'undefined' && fileManager.currentProject) {
+                      fileManager.renameProject(fileManager.currentProject, fileNameWithoutExt);
+                    }
+                  }
+                  
                   welcomeText.style.display = 'none';
                   handleEditorInput();
+                  notify(`${file.name} has been imported successfully!`);
               })
               .catch(err => {
-                  showNotification('Error reading DOCX file: ' + err.message);
+                  notify('Error reading DOCX file: ' + err.message);
               });
       };
       reader.readAsArrayBuffer(file);
   } else {
-      showNotification('Unsupported file type. Please use .docx or .pdf files.');
+      notify('Unsupported file type. Please use .docx or .pdf files.');
   }
 }
 
@@ -1174,18 +1201,22 @@ function showNotification(message, confirm = false, onConfirm = null, type = 'no
     const yesButton = document.createElement('button');
     yesButton.textContent = 'Yes, Clear';
     yesButton.className = 'px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600';
-    yesButton.addEventListener('click', () => {
+    const confirmAction = () => {
       target.style.display = 'none';
       document.getElementById('overlay-background').style.display = 'none';
+      document.removeEventListener('keydown', keyHandler);
       if (onConfirm) onConfirm();
-    });
+    };
+    const cancelAction = () => {
+      target.style.display = 'none';
+      document.getElementById('overlay-background').style.display = 'none';
+      document.removeEventListener('keydown', keyHandler);
+    };
+    yesButton.addEventListener('click', confirmAction);
     const cancelButton = document.createElement('button');
     cancelButton.textContent = 'Cancel';
     cancelButton.className = 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 ml-2';
-    cancelButton.addEventListener('click', () => {
-      target.style.display = 'none';
-      document.getElementById('overlay-background').style.display = 'none';
-    });
+    cancelButton.addEventListener('click', cancelAction);
     div.appendChild(yesButton);
     div.appendChild(cancelButton);
     target.appendChild(h2);
@@ -1193,6 +1224,21 @@ function showNotification(message, confirm = false, onConfirm = null, type = 'no
     target.appendChild(div);
     target.style.display = 'block';
     document.getElementById('overlay-background').style.display = 'block';
+    
+    // Add keyboard support: Enter to confirm, Escape to cancel
+    const keyHandler = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        confirmAction();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        cancelAction();
+      }
+    };
+    document.addEventListener('keydown', keyHandler);
+    
+    // Focus the yes button
+    setTimeout(() => yesButton.focus(), 100);
   } else {
     target.innerHTML = `<div class="notification-content">${message}</div><div class="countdown"><div class="countdown-bar"></div></div>`;
     target.style.display = 'flex';
@@ -1346,7 +1392,7 @@ https://en.wikipedia.org/wiki/Self-XSS`,
 //    - updateAnnouncement(newConfig) - Update current announcement
 //
 const ANNOUNCEMENT_CONFIG = {
-  enabled: true, // Set to false to disable all announcements
+  enabled: false, // Set to false to disable all announcements
   current: {
     id: 'perplexity-pro-offer-2025-v4', // Unique ID for this announcement
     message: '<b>Are you a Student?</b> Claim 12 months of Perplexity Pro, FREE for all students in ',
@@ -1528,137 +1574,110 @@ window.onerror = function (message, source, lineno, colno, error) {
   }
 };
 
-// Flag to enable/disable survey popup (changed from donation messages)
+// Flag to enable/disable survey messages
 const SURVEY_ENABLED = true;
 
-// Survey Google Form base URL
-const SURVEY_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf8-ik9UKnNLxUcn2ST79r4kYwdyDpekI_YwVmNWDrv2ADfuA/viewform?usp=pp_url&entry.1057215659=';
-
-// ============ COMMENTED OUT DONATION MESSAGES ============
-// Flag to enable/disable donation messages
-// const DONATION_MESSAGES_ENABLED = false;
-
-// Flag to enable/disable "No thanks" button opening the donation link
-// const NO_THANKS_OPENS_LINK = false;
-
-/*
-const donationMessages = [
-  // New Perplexity Pro promotional messages
-  {
-    text: `Students in ${userCountry} get 12 months of Perplexity Pro for FREE! Limited time offer.`,
-    url: "https://pplx.ai/cite",
-    buttonText: "Claim Free Pro"
-  },
-  {
-    text: `Unlock AI-powered research with Perplexity Pro - FREE for 1 year for ${userCountry} students!`,
-    url: "https://pplx.ai/cite",
-    buttonText: "Get Free Access"
-  },
-  {
-    text: `Free Perplexity Pro subscription (worth $240) for students in ${userCountry} - grab yours now!`,
-    url: "https://pplx.ai/cite",
-    buttonText: "Claim Offer"
-  }
-  
-  // Old donation messages (commented out)
-  /*{
-    text: "Saved you time? A donation helps us keep saving yours.",
-    url: "https://buymeacoffee.com/cite",
-    buttonText: "Donate"
-  },
-  {
-    text: "Keep CiteCount ad free — support us!",
-    url: "https://buymeacoffee.com/cite",
-    buttonText: "Support"
-  },
-  {
-    text: "Join our Discord to participate a paid feedback session!",
-    url: "https://discord.gg/twnz2957sK",
-    buttonText: "Join"
-  },
-  {
-    text: "Any feedback or suggestions? Drop a message!",
-    url: "/contact?source=",
-    buttonText: "Contact"
-  },
-  {
-    text: "Fill a 1-minute survey for a chance to win $50!",
-    url: "https://forms.gle/75BvyudP82DxZkfAA",
-    buttonText: "Go to Survey"
-  }*\/
-];
-*/
-// ============ END COMMENTED DONATION MESSAGES ============
+// Survey configuration
+const SURVEY_CONFIG = {
+  message: "Help us understand our audience better! Are you:",
+  options: [
+    {
+      text: "IB Student",
+      url: "https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url&entry.631942244=IB+Student"
+    },
+    {
+      text: "University Student",
+      url: "https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url&entry.631942244=University+Student"
+    },
+    {
+      text: "Other",
+      url: "https://docs.google.com/forms/d/e/1FAIpQLSfSg-AztPu7xyH9kIvLnFdyHTdoX4xR6Z4sRh6RXd90jovCxQ/viewform?usp=pp_url"
+    }
+  ]
+};
 
 let hasInteracted = false;
 let alertTimeout;
+let currentDonationUrl = '';
+let currentButtonText = '';
 
 function hasUserDismissedAlert() {
-  // Check if survey was completed
-  const surveyCompleted = localStorage.getItem('survey2Completed');
-  if (surveyCompleted === 'true') return true;
-  
-  // Check if temporarily dismissed (24 hour cooldown)
-  const lastDismissed = localStorage.getItem('donationAlertDismissedTimestamp');
+  const lastDismissed = localStorage.getItem('surveyAlertDismissedTimestamp');
   if (!lastDismissed) return false;
   const hoursSinceDismissal = (Date.now() - parseInt(lastDismissed)) / (1000 * 60 * 60);
   return hoursSinceDismissal < 24;
 }
 
-// ============ COMMENTED OUT OLD VARIABLES ============
-// let currentDonationUrl = '';
-// let currentButtonText = '';
-// ============ END COMMENTED OLD VARIABLES ============
-
 function markAlertAsDismissed() {
-  localStorage.setItem('donationAlertDismissedTimestamp', Date.now());
+  localStorage.setItem('surveyAlertDismissedTimestamp', Date.now());
 }
 
 function showDonationAlert() {
   if (!SURVEY_ENABLED || hasUserDismissedAlert()) return;
   const alert = document.getElementById('donation-alert');
-  alert.classList.add('show');
-}
-
-// ============ COMMENTED OUT OLD DONATION ALERT FUNCTION ============
-/*
-function showDonationAlert() {
-  if (!DONATION_MESSAGES_ENABLED || hasUserDismissedAlert()) return;
-  const alert = document.getElementById('donation-alert');
   const messageElement = document.getElementById('donation-message');
   const donateButton = document.getElementById('donate-btn');
   
-  // Create dynamic messages with current country
-  const dynamicMessages = [
-    {
-      text: `Students in ${userCountry} get 12 months of Perplexity Pro for FREE! Limited time offer.`,
-      url: "https://pplx.ai/cite",
-      buttonText: "Claim Free Pro"
-    },
-    {
-      text: `Unlock AI-powered research with Perplexity Pro - FREE for 1 year for ${userCountry} students!`,
-      url: "https://pplx.ai/cite",
-      buttonText: "Get Free Access"
-    },
-    {
-      text: `Free Perplexity Pro subscription (worth $240) for students in ${userCountry} - grab yours now!`,
-      url: "https://pplx.ai/cite",
-      buttonText: "Claim Offer"
-    }
-  ];
+  // Set the survey message
+  messageElement.textContent = SURVEY_CONFIG.message;
   
-  const randomIndex = Math.floor(Math.random() * dynamicMessages.length);
-  const randomMessage = dynamicMessages[randomIndex];
+  // Hide the original donate button
+  donateButton.style.display = 'none';
   
-  messageElement.textContent = randomMessage.text;
-  currentDonationUrl = randomMessage.url;
-  currentButtonText = randomMessage.buttonText;
-  donateButton.textContent = currentButtonText;
+  // Create survey option buttons
+  const buttonContainer = document.createElement('div');
+  buttonContainer.style.display = 'flex';
+  buttonContainer.style.gap = '10px';
+  buttonContainer.style.marginTop = '10px';
+  buttonContainer.style.flexWrap = 'wrap';
+  buttonContainer.style.justifyContent = 'center';
+  buttonContainer.id = 'survey-button-container';
+  
+  SURVEY_CONFIG.options.forEach(option => {
+    const button = document.createElement('button');
+    button.textContent = option.text;
+    button.className = 'survey-option-btn';
+    button.style.padding = '8px 16px';
+    button.style.backgroundColor = 'var(--accent-color)';
+    button.style.color = 'white';
+    button.style.border = 'none';
+    button.style.borderRadius = '6px';
+    button.style.cursor = 'pointer';
+    button.style.fontSize = '14px';
+    button.style.fontWeight = '600';
+    button.style.transition = 'all 0.2s ease';
+    
+    button.addEventListener('mouseover', () => {
+      button.style.opacity = '0.9';
+      button.style.transform = 'translateY(-1px)';
+    });
+    
+    button.addEventListener('mouseout', () => {
+      button.style.opacity = '1';
+      button.style.transform = 'translateY(0)';
+    });
+    
+    button.addEventListener('click', () => {
+      window.open(option.url, '_blank');
+      hideDonationAlert();
+      localStorage.removeItem('surveyAlertDismissedTimestamp');
+    });
+    
+    buttonContainer.appendChild(button);
+  });
+  
+  // Remove existing button container if it exists
+  const existingContainer = alert.querySelector('#survey-button-container');
+  if (existingContainer) {
+    existingContainer.remove();
+  }
+  
+  // Insert button container before the no thanks button
+  const noThanksBtn = document.getElementById('no-thanks-btn');
+  noThanksBtn.parentNode.insertBefore(buttonContainer, noThanksBtn);
   
   alert.classList.add('show');
 }
-*/
-// ============ END COMMENTED OLD FUNCTION ============
 
 function hideDonationAlert() {
   const alert = document.getElementById('donation-alert');
@@ -1671,62 +1690,28 @@ function handleNoThanks() {
   markAlertAsDismissed();
 }
 
-function handleSurveySubmit() {
-  const input = document.getElementById('survey-input');
-  const text = input ? input.value.trim() : '';
-  
-  if (!text) {
-    // Show a subtle shake animation or notification if empty
-    if (input) {
-      input.style.border = '2px solid #EF4444';
-      setTimeout(() => {
-        input.style.border = '1px solid rgba(255,255,255,0.3)';
-      }, 1000);
-    }
-    return;
-  }
-  
-  // Encode the text for URL
-  const encodedText = encodeURIComponent(text);
-  const url = SURVEY_FORM_URL + encodedText;
-  
-  window.open(url, '_blank');
-  hideDonationAlert();
-  
-  // Don't show survey again after they've submitted
-  localStorage.setItem('survey2Completed', 'true');
-}
-
-// ============ COMMENTED OUT OLD DONATION FUNCTIONS ============
-/*
-function handleNoThanks() {
-  hideDonationAlert();
-  markAlertAsDismissed();
-  // Navigate to the same link as the donation button only if the flag is enabled
-  if (NO_THANKS_OPENS_LINK) {
-    window.open(currentDonationUrl, '_blank');
-  }
-}
-
 function handleDonate() {
-  window.open(currentDonationUrl, '_blank');
+  // This function is kept for backward compatibility but not used
   hideDonationAlert();
-  localStorage.removeItem('donationAlertDismissedTimestamp');
+  localStorage.removeItem('surveyAlertDismissedTimestamp');
 }
-*/
-// ============ END COMMENTED OLD FUNCTIONS ============
-
-const isPremium = localStorage.getItem('isPremium');
-document.getElementById('editor').addEventListener('click', function () {
-  if (!hasInteracted && !hasUserDismissedAlert()) {
-    if (isPremium == "true" || !SURVEY_ENABLED) return;
-    hasInteracted = true;
-    alertTimeout = setTimeout(showDonationAlert, 8000);
-  }
-});
 
 document.addEventListener('DOMContentLoaded', function () {
   hideDonationAlert();
+  
+  // Setup survey alert on editor click
+  const isPremium = localStorage.getItem('isPremium');
+  const editor = document.getElementById('editor');
+  
+  if (editor) {
+    editor.addEventListener('click', function () {
+      if (!hasInteracted && !hasUserDismissedAlert()) {
+        if (isPremium == "true" || !SURVEY_ENABLED) return;
+        hasInteracted = true;
+        alertTimeout = setTimeout(showDonationAlert, 8000);
+      }
+    });
+  }
 });
 
 /*function dismissAd() {
@@ -2541,10 +2526,18 @@ function dismissPerplexityOverlay() {
   }
 }
 
+function dismissSidebarAd() {
+  const adBox = document.getElementById('sidebar-ad-box');
+  if (adBox) {
+    adBox.style.display = 'none';
+    // Only dismiss for current session, will show again on page reload
+  }
+}
+
 function claimPerplexityOffer() {
   window.open('https://pplx.ai/cite', '_blank');
   dismissPerplexityOverlay();
 }
 
-// Initialize overlay
+// Initialize overlay and sidebar ad
 document.addEventListener('DOMContentLoaded', showPerplexityOverlay);

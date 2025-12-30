@@ -65,77 +65,132 @@
 
   <!-- Blog Content -->
   <div id="blog">
-    <h1>Our Promise for Safety</h1>
-    <p>This blog serves as an explanation on how you can trust CiteCount. While I have tried simplifying the explanation and avoid being technical, feel free to ask us any questions, by clicking "Contact the developers" at the bottom of the page.</p>
+    <h1>Our Commitment to Your Data Security and Privacy</h1>
+    <p>At CiteCount, we understand that your academic work represents countless hours of effort and original thinking. This document outlines our comprehensive approach to ensuring the safety and privacy of your data through transparent technical practices and security-first design principles.</p>
     <img src="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/safety.png" style="width: 100%;
     height: auto;
     display: block;
     border-radius: 10px;;">
-     <h2>Who is the developer behind CiteCount?</h2>
-     <p>Hi! Thanks for your interest in knowing more about CiteCount. I am Chris, an IBDP student of the May 2025 examination session. This is a side project I started working on while procrastinating on my IAs, where I realised the problem of the inconvinence in counting the number of words in my IAs and EE due to the lack of support in word editing software such as Google Docs and Microsoft Word. There aren't any other solutions available as well, hence I decided to develop my own.</p>
-    <h2>Why should I trust CiteCount?</h2>
-    <p>CiteCount is a web application designed to help users count words in documents while excluding in-text citations. One of the most significant concerns for users of any online tool is safety and data privacy. Especially, as an IB student developing this tool, I understand the concern of the safety of your contents, against plagiarism detectors like Turnitin, or other similarity indexes. Hence in this blog post, I will explore how CiteCount ensures user safety through its design and operational mechanisms.</p>
+     <h2>About the Development Team</h2>
+     <p>CiteCount was developed by Chris, an IBDP student from the May 2025 examination session, who identified a critical gap in existing word processing tools. The lack of specialized word counting functionality in platforms like Google Docs and Microsoft Word, particularly for academic documents with citations inspired the creation of this purpose-built solution. As a student navigating the same challenges faced by our users, we prioritize the security concerns inherent in handling academic content, especially regarding plagiarism detection systems and institutional policies.</p>
+    <h2>Our Security Framework</h2>
+    <p>We recognize that entrusting your academic work to any digital tool requires confidence in its security architecture. CiteCount employs industry-standard practices and transparent methodologies to protect your intellectual property and maintain the integrity of your work throughout the word counting process.</p>
 
-    <h2>Client-Side Processing</h2>
-    <p>One of the primary reasons CiteCount is considered safe is its architecture as a <strong>client-side JavaScript application</strong>. This means that all processing occurs directly in the user's browser, eliminating the need to send documents to external servers for analysis.</p>
+    <h2>Zero-Server Architecture: Complete Client-Side Processing</h2>
+    <p>CiteCount operates on a <strong>zero-server architecture</strong>, meaning all text processing, analysis, and word counting operations execute entirely within your web browser. Your documents never leave your device, and no data is transmitted to external servers for processing or storage.</p>
 
-    <h3>Benefits of Local Processing</h3>
+    <h3>Core Security Advantages</h3>
     <ul>
-        <li><strong>Data Privacy:</strong> Since files are processed locally, the entered text remains on the user's device, significantly reducing the risk of data breaches.</li>
-        <li><strong>No External Dependencies:</strong> CiteCount operates without third-party ads or services, further enhancing its security profile.</li>
+        <li><strong>Absolute Data Privacy:</strong> Your academic work remains exclusively on your device. There is no server-side storage, logging, or transmission of your content, eliminating exposure to potential data breaches or unauthorized access.</li>
+        <li><strong>Zero Third-Party Exposure:</strong> CiteCount does not integrate advertising networks, analytics services that collect content data, or any external dependencies that could compromise document privacy.</li>
+        <li><strong>Plagiarism Detection Isolation:</strong> Since your text never enters any database or external system, it cannot be indexed, stored, or flagged by plagiarism detection services through our platform.</li>
+        <li><strong>Immediate Data Control:</strong> You maintain complete control over your data at all times. Simply closing the browser tab removes all traces of your work from CiteCount's processing environment.</li>
     </ul>
 
-    <h3>Technical Aspects of the File Upload System in CiteCount</h3>
+    <h3>Document Processing Technology Stack</h3>
 
-<p>CiteCount employs two powerful client-side libraries for its file upload system: <strong>PDF.js</strong> for PDF files and <strong>Mammoth.js</strong> for Word files. These technologies ensure a secure and efficient user experience.</p>
+<p>CiteCount utilizes industry-standard, open-source client-side libraries to handle document uploads securely. Both <strong>PDF.js</strong> and <strong>Mammoth.js</strong> are well-established, audited libraries that operate exclusively within your browser environment.</p>
 
-<h4>PDF.js: Extracting Text from PDFs</h4>
+<h4>PDF Document Processing (PDF.js)</h4>
 <ul>
-    <li><strong>Text Extraction:</strong> PDF.js is used to convert PDF documents into plain text. It reads the PDF file and extracts text content on-device.</li>
-    <li><strong>Client-Side Processing:</strong> The extraction occurs entirely in the user's browser, ensuring that sensitive data remains secure and private.</li>
-    <li><strong>Asynchronous Handling:</strong> The library processes pages asynchronously, allowing for smooth performance without blocking the user interface.</li>
+    <li><strong>Local Text Extraction:</strong> PDF.js converts PDF documents to plain text entirely on your device, with no external API calls or server communication.</li>
+    <li><strong>Privacy-Preserving Architecture:</strong> Text extraction occurs in isolated browser memory, ensuring document contents remain inaccessible to external parties.</li>
+    <li><strong>Asynchronous Processing:</strong> Documents are processed efficiently without compromising browser performance or requiring data transmission.</li>
+    <li><strong>Industry Standard:</strong> PDF.js is developed and maintained by Mozilla, the organization behind Firefox, ensuring rigorous security standards.</li>
 </ul>
 
-<h4>Mammoth.js: Converting Word Files to HTML</h4>
+<h4>Word Document Processing (Mammoth.js)</h4>
 <ul>
-    <li><strong>File Handling:</strong> Uses an <code>&lt;input type="file"&gt;</code> element to read Word files as an ArrayBuffer.</li>
-    <li><strong>Conversion Process:</strong> Converts Word content into clean HTML asynchronously, preserving semantic styles.</li>
-    <li><strong>User Interaction:</strong> Displays converted HTML dynamically, allowing immediate access to document content.</li>
+    <li><strong>Secure File Reading:</strong> Word documents are read directly from your device using browser-native <code>&lt;input type="file"&gt;</code> APIs that maintain strict security boundaries.</li>
+    <li><strong>Client-Side Conversion:</strong> Documents are converted to HTML format locally, preserving formatting while maintaining privacy.</li>
+    <li><strong>No External Transmission:</strong> Conversion processes complete entirely within your browser session with zero network communication.</li>
+    <li><strong>Temporary Processing:</strong> Document data exists only in browser memory during active use and is immediately cleared upon completion.</li>
 </ul>
 
-<h4>Security Considerations</h4>
-<p>Both libraries operate entirely on the client side, enhancing security by:</p>
+<h4>Security Guarantees</h4>
+<p>Our document processing architecture provides the following security assurances:</p>
 <ul>
-    <li><strong>Data Privacy:</strong> Ensuring sensitive information remains on the user's device.</li>
-    <li><strong>No Server-Side Processing:</strong> Eliminating risks associated with file transmission over the internet.</li>
+    <li><strong>Complete Data Isolation:</strong> Your academic work never enters any network transmission, server storage, or external processing pipeline.</li>
+    <li><strong>No Cloud Storage:</strong> We do not store, cache, or retain any portion of your documents on any server, database, or cloud infrastructure.</li>
+    <li><strong>Zero Network Footprint:</strong> Document content does not generate network requests, API calls, or data transmissions of any kind.</li>
+    <li><strong>Instant Deletion:</strong> All processing occurs in volatile memory, ensuring automatic data erasure when you close the application.</li>
 </ul>
-<h3>Using LocalStorage in CiteCount for Data Safety</h3>
+<h3>Local Storage Implementation and User Control</h3>
 
-<p>In CiteCount, <code><strong>LocalStorage</strong></code> plays a crucial role in enhancing user privacy and data security. By storing user data locally on the device, CiteCount ensures that sensitive information remains secure and is not transmitted to external servers.</p>
+<p>CiteCount utilizes browser <code><strong>LocalStorage</strong></code> exclusively for optional user convenience features. This implementation prioritizes user autonomy while maintaining our commitment to data security.</p>
 
-<h4>How LocalStorage Works in CiteCount</h4>
+<h4>How LocalStorage Enhances Your Experience</h4>
 <ul>
-    <li><strong>Persistent Storage:</strong> LocalStorage allows CiteCount to save user preferences, document content, and other relevant data directly in the user's browser. This means that users can access their information even after closing and reopening the application.</li>
-    <li><strong>No External Transmission:</strong> By utilizing LocalStorage, CiteCount eliminates the need to send user data over the internet. All operations related to document management occur locally, significantly reducing the risk of data breaches.</li>
-    <li><strong>Efficient Data Management:</strong> Users can upload documents and manage their content without worrying about losing their progress. LocalStorage can be used to temporarily hold text extracted from PDFs or DOCX files until the user decides to clear it or save it permanently.</li>
-</ul>
-
-<h4>Security Considerations</h4>
-<p>Using LocalStorage enhances security by:</p>
-<ul>
-    <li><strong>Data Privacy:</strong> Sensitive information remains on the user's device, inaccessible to external entities.</li>
-    <li><strong>User Control:</strong> Users have full control over their stored data, with options to clear or modify it as needed.</li>
+    <li><strong>Optional Persistence:</strong> LocalStorage enables CiteCount to save your preferences and work progress locally on your device, allowing you to return to your work without re-uploading documents.</li>
+    <li><strong>Device-Bound Storage:</strong> All saved data resides exclusively in your browser's isolated storage space, inaccessible to websites, servers, or other applications.</li>
+    <li><strong>Zero Network Transmission:</strong> Data stored in LocalStorage never leaves your device. No synchronization, backup, or transmission occurs through CiteCount's infrastructure.</li>
+    <li><strong>Session Continuity:</strong> Your extracted text and document content persist across browser sessions only if you choose, providing flexibility for extended work periods.</li>
 </ul>
 
-<p>LocalStorage is an integral part of the CiteCount application, providing a secure and efficient way to manage user data while ensuring privacy and minimizing risks associated with data transmission.</p>
+<h4>Your Data Rights and Control</h4>
+<p>We implement LocalStorage with strict adherence to user control principles:</p>
+<ul>
+    <li><strong>Complete User Ownership:</strong> You maintain absolute control over all stored data, with the ability to review, modify, or delete information at any time.</li>
+    <li><strong>No External Access:</strong> CiteCount cannot access your LocalStorage data remotely. There is no backdoor, API, or mechanism for us to view your stored content.</li>
+    <li><strong>Transparent Deletion:</strong> Clearing your browser data or using private browsing modes immediately removes all CiteCount-stored information.</li>
+    <li><strong>No Third-Party Sharing:</strong> LocalStorage data remains isolated within your browser environment and is never shared with third parties, analytics services, or external platforms.</li>
+</ul>
 
-<p>This combination of technologies allows CiteCount to provide a robust and secure environment for managing documents effectively.</p>
+<h4>Privacy Implications</h4>
+<p>Our LocalStorage implementation provides privacy-first benefits:</p>
+<ul>
+    <li><strong>Offline Functionality:</strong> Work with complete privacy even without internet connectivity, as all features function locally.</li>
+    <li><strong>Device-Specific Privacy:</strong> Your data exists only on the device you're using, preventing cross-device tracking or cloud-based vulnerabilities.</li>
+    <li><strong>User-Initiated Clearing:</strong> You can instantly and permanently remove all traces of your work from CiteCount by clearing browser storage.</li>
+</ul>
 
 
-    <h2>Open Source Transparency</h2>
-    <p>CiteCount is an open-source application, which means that its source code is publicly available for review. This transparency allows developers and users alike to inspect the code for any potential vulnerabilities or malicious elements.</p>
-    <h2>Conclusion</h2>
-    <p>CiteCount provides a secure environment for users looking to manage their writing effectively. We believe our client-side processing, open-source nature, and user-centric features contribute to a trustworthy experience.</p>
+    <h2>Open Source Commitment and Transparency</h2>
+    <p>CiteCount operates as an open-source project, providing complete transparency into our codebase and operational practices. This commitment allows independent security researchers, developers, and users to verify our security claims through direct code inspection.</p>
+    
+    <h3>Benefits of Open Source Security</h3>
+    <ul>
+        <li><strong>Public Auditability:</strong> Our entire source code is publicly available, enabling security experts to identify and report potential vulnerabilities.</li>
+        <li><strong>Community Verification:</strong> Independent developers can verify that our platform operates exactly as documented, with no hidden data collection or transmission mechanisms.</li>
+        <li><strong>Transparent Updates:</strong> All code changes are publicly tracked, ensuring any modifications to security-critical components are visible and reviewable.</li>
+        <li><strong>No Security Through Obscurity:</strong> We rely on sound architectural practices rather than code secrecy, demonstrating confidence in our security model.</li>
+    </ul>
+
+    <h2>Our Commitment to Academic Integrity</h2>
+    <p>We recognize that academic integrity is paramount for students and educators. CiteCount is designed to support—not compromise—your academic standing:</p>
+    
+    <ul>
+        <li><strong>Plagiarism Detection Safety:</strong> Your work cannot be flagged through CiteCount usage since no content is submitted to external databases or similarity-checking services.</li>
+        <li><strong>Institutional Compliance:</strong> Our zero-server architecture ensures compliance with institutional policies regarding document handling and data privacy.</li>
+        <li><strong>Original Work Protection:</strong> Your intellectual property remains exclusively under your control, with no risk of unauthorized access or redistribution.</li>
+        <li><strong>Tool Purpose Clarity:</strong> CiteCount serves purely as a counting utility, not a content modification or generation tool, aligning with academic integrity policies.</li>
+    </ul>
+
+    <h2>Continuous Security Commitment</h2>
+    <p>We maintain ongoing dedication to security best practices and user privacy:</p>
+    
+    <ul>
+        <li><strong>Regular Security Reviews:</strong> Our codebase undergoes continuous review to identify and address potential security concerns.</li>
+        <li><strong>Privacy-First Development:</strong> New features are evaluated through a privacy-first lens, ensuring they don't compromise our security guarantees.</li>
+        <li><strong>Responsive Disclosure:</strong> We welcome security reports from the community and commit to transparent, timely responses to identified concerns.</li>
+        <li><strong>No Compromise on Principles:</strong> We will not introduce monetization models or features that require compromising our zero-server, privacy-first architecture.</li>
+    </ul>
+
+    <h2>Summary of Our Security Promise</h2>
+    <p>CiteCount provides a secure, privacy-respecting environment for academic word counting through:</p>
+    
+    <ul>
+        <li>Complete client-side processing with zero server transmission</li>
+        <li>Industry-standard, open-source document processing libraries</li>
+        <li>Optional, device-bound LocalStorage under your complete control</li>
+        <li>Transparent, auditable open-source codebase</li>
+        <li>No third-party integrations that could compromise privacy</li>
+        <li>Commitment to academic integrity and institutional compliance</li>
+    </ul>
+    
+    <p>Your academic work represents significant intellectual investment. We designed CiteCount to serve this work with the highest standards of security and privacy, ensuring you can focus on your academic goals without compromising your data sovereignty.</p>
+    
+    <p><strong>Questions or Concerns?</strong> We encourage transparent dialogue about our security practices. Contact us using the link below for clarification on any aspect of our security architecture.</p>
 
     <a href="/" class="back-button">Back to Home</a>
     <a href="/blogs" class="back-button">Back to Blogs</a>

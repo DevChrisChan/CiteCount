@@ -1,0 +1,1286 @@
+// ============================================
+// FILE MANAGEMENT SYSTEM
+// ============================================
+
+const fileManager = {
+  projects: [],
+  currentProject: null,
+  folders: [],
+  selectedProjects: new Set(), // Track selected projects for multi-delete
+
+  init() {
+    this.loadFromStorage();
+    this.renderFileTree();
+    this.updateMultiSelectToolbar();
+    
+    // Restore sidebar collapsed state
+    const sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+    if (sidebarCollapsed) {
+      document.getElementById('file-sidebar').classList.add('collapsed');
+    }
+    
+    // Setup sidebar resize
+    this.setupSidebarResize();
+    
+    // If no projects exist, create a default one
+    if (this.projects.length === 0) {
+      this.createProject('Untitled Project', true);
+    } else if (!this.currentProject) {
+      // Set the first project as current if none is selected
+      this.currentProject = this.projects[0].id;
+      this.loadProject(this.currentProject);
+    }
+
+    // Setup context menu handler
+    document.addEventListener('click', () => this.hideContextMenu());
+    document.addEventListener('contextmenu', (e) => {
+      if (!e.target.closest('.file-tree-item')) {
+        this.hideContextMenu();
+      }
+    });
+  },
+
+  generateId() {
+    return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  },
+
+  getUniqueProjectName(baseName) {
+    const existingNames = this.projects.map(p => p.name);
+    if (!existingNames.includes(baseName)) {
+      return baseName;
+    }
+    
+    let counter = 2;
+    while (existingNames.includes(`${baseName} (${counter})`)) {
+      counter++;
+    }
+    return `${baseName} (${counter})`;
+  },
+
+  getRandomEmoji() {
+    const emojis = ['📄', '📝', '📚', '📖', '📕', '📗', '📘', '📙', '📓', '📔', '📒', '📃', '📜', '📋', '📰', '🗂️', '📁', '📂', '🗃️', '🗄️', '✏️', '✒️', '🖊️', '🖋️', '💼', '🎓', '🎯', '🎨', '🔬', '💡'];
+    return emojis[Math.floor(Math.random() * emojis.length)];
+  },
+
+  createProject(name = 'Untitled Project', autoSwitch = false, icon = null) {
+    const maxOrder = Math.max(0, ...this.projects.map(p => p.order || 0));
+    const uniqueName = this.getUniqueProjectName(name);
+    const project = {
+      id: this.generateId(),
+      name: uniqueName,
+      content: '',
+      citations: [],
+      folderId: null,
+      order: maxOrder + 1,
+      icon: icon || this.getRandomEmoji(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    this.projects.push(project);
+    this.saveToStorage();
+    this.renderFileTree();
+
+    if (autoSwitch) {
+      this.switchProject(project.id);
+    }
+
+    return project.id;
+  },
+
+  createFolder(name = 'New Folder', parentId = null) {
+    const maxOrder = Math.max(0, ...this.folders.map(f => f.order || 0));
+    const folder = {
+      id: this.generateId(),
+      name: name,
+      parentId: parentId,
+      collapsed: false,
+      order: maxOrder + 1,
+      createdAt: new Date().toISOString()
+    };
+
+    this.folders.push(folder);
+    this.saveToStorage();
+    this.renderFileTree();
+
+    return folder.id;
+  },
+
+  switchProject(projectId) {
+    // Save current project before switching
+    if (this.currentProject) {
+      this.saveCurrentProject();
+    }
+
+    this.currentProject = projectId;
+    this.loadProject(projectId);
+    this.renderFileTree();
+  },
+
+  saveCurrentProject() {
+    if (!this.currentProject) return;
+
+    const project = this.projects.find(p => p.id === this.currentProject);
+    if (project) {
+      const editor = document.getElementById('editor');
+      project.content = editor.innerHTML;
+      project.updatedAt = new Date().toISOString();
+      
+      // Save citation states
+      project.citations = Array.from(state.includedCitations.entries());
+      
+      this.saveToStorage();
+    }
+  },
+
+  loadProject(projectId) {
+    const project = this.projects.find(p => p.id === projectId);
+    if (!project) return;
+
+    const editor = document.getElementById('editor');
+    const welcomeText = document.getElementById('welcome-text');
+
+    editor.innerHTML = project.content || '';
+    
+    // Restore citation states
+    if (project.citations && project.citations.length > 0) {
+      state.includedCitations = new Map(project.citations);
+    } else {
+      state.includedCitations = new Map();
+    }
+
+    // Update welcome text visibility
+    welcomeText.style.display = editor.innerText.trim() ? 'none' : 'block';
+
+    // Trigger update
+    handleEditorInput();
+  },
+
+  renameProject(projectId, newName) {
+    const project = this.projects.find(p => p.id === projectId);
+    if (project) {
+      project.name = newName.trim() || 'Untitled Project';
+      project.updatedAt = new Date().toISOString();
+      this.saveToStorage();
+      this.renderFileTree();
+    }
+  },
+
+  renameFolder(folderId, newName) {
+    const folder = this.folders.find(f => f.id === folderId);
+    if (folder) {
+      folder.name = newName.trim() || 'Untitled Folder';
+      this.saveToStorage();
+      this.renderFileTree();
+    }
+  },
+
+  deleteProject(projectId) {
+    const projectIndex = this.projects.findIndex(p => p.id === projectId);
+    if (projectIndex === -1) return;
+
+    const wasCurrentProject = this.currentProject === projectId;
+    
+    this.projects.splice(projectIndex, 1);
+    this.saveToStorage();
+
+    if (wasCurrentProject) {
+      // Switch to another project or create a new one
+      if (this.projects.length > 0) {
+        this.switchProject(this.projects[0].id);
+      } else {
+        this.currentProject = null;
+        document.getElementById('editor').innerHTML = '';
+        this.createProject('Untitled Project', true);
+      }
+    }
+
+    this.renderFileTree();
+  },
+
+  deleteFolder(folderId) {
+    // Move all projects in this folder to root
+    this.projects.forEach(project => {
+      if (project.folderId === folderId) {
+        project.folderId = null;
+      }
+    });
+
+    // Move all child folders to root
+    this.folders.forEach(folder => {
+      if (folder.parentId === folderId) {
+        folder.parentId = null;
+      }
+    });
+
+    // Delete the folder
+    const folderIndex = this.folders.findIndex(f => f.id === folderId);
+    if (folderIndex !== -1) {
+      this.folders.splice(folderIndex, 1);
+    }
+
+    this.saveToStorage();
+    this.renderFileTree();
+  },
+
+  moveToFolder(projectId, folderId) {
+    const project = this.projects.find(p => p.id === projectId);
+    if (project) {
+      project.folderId = folderId;
+      project.updatedAt = new Date().toISOString();
+      this.saveToStorage();
+      this.renderFileTree();
+    }
+  },
+
+  toggleFolder(folderId) {
+    const folder = this.folders.find(f => f.id === folderId);
+    if (folder) {
+      folder.collapsed = !folder.collapsed;
+      this.saveToStorage();
+      this.renderFileTree();
+    }
+  },
+
+  saveToStorage() {
+    localStorage.setItem('fileManager_projects', JSON.stringify(this.projects));
+    localStorage.setItem('fileManager_folders', JSON.stringify(this.folders));
+    localStorage.setItem('fileManager_currentProject', this.currentProject);
+  },
+
+  loadFromStorage() {
+    const projectsData = localStorage.getItem('fileManager_projects');
+    const foldersData = localStorage.getItem('fileManager_folders');
+    const currentProjectData = localStorage.getItem('fileManager_currentProject');
+
+    if (projectsData) {
+      this.projects = JSON.parse(projectsData);
+      // Ensure all projects have order values
+      this.projects.forEach((project, index) => {
+        if (project.order === undefined) {
+          project.order = index;
+        }
+        // Ensure all projects have an icon
+        if (!project.icon) {
+          project.icon = '📄';
+        }
+      });
+    }
+
+    if (foldersData) {
+      this.folders = JSON.parse(foldersData);
+      // Ensure all folders have order values
+      this.folders.forEach((folder, index) => {
+        if (folder.order === undefined) {
+          folder.order = index;
+        }
+      });
+    }
+
+    if (currentProjectData) {
+      this.currentProject = currentProjectData;
+    }
+  },
+
+  renderFileTree() {
+    const container = document.getElementById('file-tree');
+    if (!container) return;
+
+    if (this.projects.length === 0 && this.folders.length === 0) {
+      container.innerHTML = `
+        <div class="sidebar-empty">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+          <p>No projects yet</p>
+          <button class="sidebar-btn-full" onclick="createNewProject()">Create Your First Project</button>
+        </div>
+      `;
+      return;
+    }
+
+    const html = this.buildFileTreeHTML(null);
+    container.innerHTML = html;
+  },
+
+  startDrag(type, id, event) {
+    this.draggedItem = { type, id };
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', JSON.stringify({ type, id }));
+    event.target.classList.add('dragging');
+  },
+
+  handleDragEnd(event) {
+    event.target.classList.remove('dragging');
+    document.querySelectorAll('.drag-over-top, .drag-over-bottom, .drag-over-folder').forEach(el => {
+      el.classList.remove('drag-over-top', 'drag-over-bottom', 'drag-over-folder');
+    });
+    this.draggedItem = null;
+  },
+
+  handleDragOver(event, targetType, targetId) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+    
+    if (!this.draggedItem) return;
+    
+    const targetElement = event.currentTarget;
+    const rect = targetElement.getBoundingClientRect();
+    const mouseY = event.clientY;
+    const elementMiddle = rect.top + rect.height / 2;
+    
+    // Remove all drag-over classes first
+    document.querySelectorAll('.drag-over-top, .drag-over-bottom, .drag-over-folder').forEach(el => {
+      el.classList.remove('drag-over-top', 'drag-over-bottom', 'drag-over-folder');
+    });
+    
+    // If dragging over a folder and it's a different type or different folder
+    if (targetType === 'folder' && this.draggedItem.type === 'project') {
+      targetElement.classList.add('drag-over-folder');
+    } else if (this.draggedItem.id !== targetId) {
+      // Show drop position indicator
+      if (mouseY < elementMiddle) {
+        targetElement.classList.add('drag-over-top');
+      } else {
+        targetElement.classList.add('drag-over-bottom');
+      }
+    }
+  },
+
+  handleDrop(targetType, targetId, event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (!this.draggedItem || this.draggedItem.id === targetId) {
+      this.handleDragEnd(event);
+      return;
+    }
+    
+    const data = this.draggedItem;
+    const targetElement = event.currentTarget;
+    const rect = targetElement.getBoundingClientRect();
+    const mouseY = event.clientY;
+    const elementMiddle = rect.top + rect.height / 2;
+    const dropPosition = mouseY < elementMiddle ? 'before' : 'after';
+    
+    // Handle moving project to folder
+    if (data.type === 'project' && targetType === 'folder' && targetElement.classList.contains('drag-over-folder')) {
+      this.moveToFolder(data.id, targetId);
+      notify('Project moved to folder');
+    }
+    // Handle reordering
+    else if (data.type === targetType) {
+      this.reorderItems(data.type, data.id, targetId, dropPosition);
+    }
+    
+    this.handleDragEnd(event);
+  },
+
+  reorderItems(type, draggedId, targetId, position) {
+    const items = type === 'project' ? this.projects : this.folders;
+    const draggedItem = items.find(item => item.id === draggedId);
+    const targetItem = items.find(item => item.id === targetId);
+    
+    if (!draggedItem || !targetItem) return;
+    
+    // For projects, allow moving between different folders (including from folder to root)
+    if (type === 'project') {
+      // Update the folderId to match the target's folder context
+      draggedItem.folderId = targetItem.folderId;
+    } else {
+      // For folders, only allow reordering in the same parent context
+      if (draggedItem.parentId !== targetItem.parentId) return;
+    }
+    
+    // Get all items in the target's context and sort by order
+    const contextItems = items.filter(item => {
+      if (type === 'project') {
+        return item.folderId === targetItem.folderId;
+      } else {
+        return item.parentId === targetItem.parentId;
+      }
+    }).sort((a, b) => (a.order || 0) - (b.order || 0));
+    
+    // Remove dragged item from array if it's already there
+    const draggedIndex = contextItems.findIndex(item => item.id === draggedId);
+    if (draggedIndex !== -1) {
+      contextItems.splice(draggedIndex, 1);
+    }
+    
+    // Find target index and insert
+    let targetIndex = contextItems.findIndex(item => item.id === targetId);
+    if (position === 'after') {
+      targetIndex++;
+    }
+    contextItems.splice(targetIndex, 0, draggedItem);
+    
+    // Reassign order values
+    contextItems.forEach((item, index) => {
+      item.order = index;
+    });
+    
+    this.saveToStorage();
+    this.renderFileTree();
+  },
+
+  buildFileTreeHTML(parentId) {
+    let html = '';
+
+    // Render folders first, sorted by order
+    const folders = this.folders
+      .filter(f => f.parentId === parentId)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+    folders.forEach(folder => {
+      const isCollapsed = folder.collapsed;
+      const toggleIcon = isCollapsed ? '▶' : '▼';
+
+      html += `
+        <div class="file-tree-item folder" 
+             data-folder-id="${folder.id}"
+             draggable="true"
+             title="${this.escapeHtml(folder.name)}"
+             ondragstart="fileManager.startDrag('folder', '${folder.id}', event)"
+             ondragend="fileManager.handleDragEnd(event)"
+             ondragover="fileManager.handleDragOver(event, 'folder', '${folder.id}')"
+             ondrop="fileManager.handleDrop('folder', '${folder.id}', event)"
+             oncontextmenu="showFolderContextMenu(event, '${folder.id}')">
+          <span class="folder-toggle ${isCollapsed ? 'collapsed' : ''}" 
+                onclick="event.stopPropagation(); fileManager.toggleFolder('${folder.id}')">${toggleIcon}</span>
+          <span class="icon" onclick="event.stopPropagation(); fileManager.toggleFolder('${folder.id}')">📁</span>
+          <span class="name" onclick="event.stopPropagation(); fileManager.toggleFolder('${folder.id}')" ondblclick="event.stopPropagation(); startRenamingFolder('${folder.id}')">${this.escapeHtml(folder.name)}</span>
+          <div class="actions">
+            <button class="file-action-btn" onclick="event.stopPropagation(); startRenamingFolder('${folder.id}')" title="Rename">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+            <button class="file-action-btn" onclick="event.stopPropagation(); deleteFolder('${folder.id}')" title="Delete">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `;
+
+      if (!isCollapsed) {
+        const childrenHTML = this.buildFileTreeHTML(folder.id);
+        if (childrenHTML) {
+          html += `<div class="folder-children">${childrenHTML}</div>`;
+        }
+      }
+    });
+
+    // Render projects in this level, sorted by order
+    const projects = this.projects
+      .filter(p => p.folderId === parentId)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+    projects.forEach(project => {
+      const isActive = project.id === this.currentProject;
+      const activeClass = isActive ? 'active' : '';
+
+      const isSelected = this.selectedProjects.has(project.id);
+      const selectedClass = isSelected ? 'selected' : '';
+
+      html += `
+        <div class="file-tree-item ${activeClass} ${selectedClass}" 
+             data-project-id="${project.id}"
+             draggable="true"
+             title="${this.escapeHtml(project.name)}"
+             ondragstart="fileManager.startDrag('project', '${project.id}', event)"
+             ondragend="fileManager.handleDragEnd(event)"
+             ondragover="fileManager.handleDragOver(event, 'project', '${project.id}')"
+             ondrop="fileManager.handleDrop('project', '${project.id}', event)"
+             onclick="handleProjectClick(event, '${project.id}')"
+             ondblclick="startRenamingProject('${project.id}')"
+             oncontextmenu="showProjectContextMenu(event, '${project.id}')">
+          <span class="icon project-icon-with-tooltip" data-tooltip="${this.escapeHtml(project.name)}" onclick="handleProjectIconClick(event, '${project.id}')">${project.icon || '📄'}</span>
+          <span class="name">${this.escapeHtml(project.name)}</span>
+          <div class="actions">
+            <button class="file-action-btn" onclick="event.stopPropagation(); startRenamingProject('${project.id}')" title="Rename">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+            <button class="file-action-btn" onclick="event.stopPropagation(); deleteProjectWithConfirmation('${project.id}')" title="Delete">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    return html;
+  },
+
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  },
+
+  showContextMenu(x, y, items) {
+    this.hideContextMenu();
+
+    const menu = document.createElement('div');
+    menu.className = 'file-context-menu';
+    menu.id = 'file-context-menu';
+    menu.style.left = x + 'px';
+    menu.style.top = y + 'px';
+
+    items.forEach(item => {
+      if (item.separator) {
+        menu.innerHTML += '<hr style="margin: 0.25rem 0; border: none; border-top: 1px solid var(--border-primary);">';
+        return;
+      }
+
+      const menuItem = document.createElement('div');
+      menuItem.className = 'file-context-menu-item' + (item.danger ? ' danger' : '');
+      menuItem.innerHTML = `
+        ${item.icon ? `<span>${item.icon}</span>` : ''}
+        <span>${item.label}</span>
+      `;
+      menuItem.onclick = () => {
+        item.action();
+        this.hideContextMenu();
+      };
+      menu.appendChild(menuItem);
+    });
+
+    document.body.appendChild(menu);
+
+    // Adjust position if menu goes off screen
+    const rect = menu.getBoundingClientRect();
+    if (rect.right > window.innerWidth) {
+      menu.style.left = (x - rect.width) + 'px';
+    }
+    if (rect.bottom > window.innerHeight) {
+      menu.style.top = (y - rect.height) + 'px';
+    }
+  },
+
+  hideContextMenu() {
+    const menu = document.getElementById('file-context-menu');
+    if (menu) {
+      menu.remove();
+    }
+  },
+
+  // ============================================
+  // MULTI-SELECT FUNCTIONALITY
+  // ============================================
+
+  toggleProjectSelection(projectId, event) {
+    // Prevent switching project when selecting
+    if (event) {
+      event.stopPropagation();
+    }
+
+    if (this.selectedProjects.has(projectId)) {
+      this.selectedProjects.delete(projectId);
+    } else {
+      this.selectedProjects.add(projectId);
+    }
+
+    this.renderFileTree();
+    this.updateMultiSelectToolbar();
+  },
+
+  selectAllProjects() {
+    this.selectedProjects.clear();
+    this.projects.forEach(project => {
+      this.selectedProjects.add(project.id);
+    });
+    this.renderFileTree();
+    this.updateMultiSelectToolbar();
+  },
+
+  clearSelection() {
+    this.selectedProjects.clear();
+    this.renderFileTree();
+    this.updateMultiSelectToolbar();
+  },
+
+  updateMultiSelectToolbar() {
+    const toolbar = document.getElementById('multi-select-toolbar');
+    if (!toolbar) return;
+
+    const count = this.selectedProjects.size;
+    const countDisplay = toolbar.querySelector('.selection-count');
+
+    if (count > 0) {
+      toolbar.style.display = 'flex';
+      countDisplay.textContent = `${count} selected`;
+    } else {
+      toolbar.style.display = 'none';
+    }
+  },
+
+  deleteSelectedProjects() {
+    if (this.selectedProjects.size === 0) return;
+
+    const count = this.selectedProjects.size;
+    const names = Array.from(this.selectedProjects)
+      .map(id => this.projects.find(p => p.id === id)?.name)
+      .filter(Boolean)
+      .slice(0, 3);
+    
+    const displayNames = names.join(', ') + (count > 3 ? ` and ${count - 3} more` : '');
+
+    showNotification(
+      `Are you sure you want to delete ${count} project${count > 1 ? 's' : ''}? (${displayNames})\n\nThis action cannot be undone.`,
+      true,
+      () => {
+        const selectedIds = Array.from(this.selectedProjects);
+        const deletedNames = [];
+
+        selectedIds.forEach(projectId => {
+          const project = this.projects.find(p => p.id === projectId);
+          if (project) {
+            deletedNames.push(project.name);
+          }
+          
+          const projectIndex = this.projects.findIndex(p => p.id === projectId);
+          if (projectIndex !== -1) {
+            this.projects.splice(projectIndex, 1);
+          }
+        });
+
+        // If current project was deleted, switch to another one
+        if (this.selectedProjects.has(this.currentProject)) {
+          if (this.projects.length > 0) {
+            this.switchProject(this.projects[0].id);
+          } else {
+            this.currentProject = null;
+            document.getElementById('editor').innerHTML = '';
+            this.createProject('Untitled Project', true);
+          }
+        }
+
+        this.selectedProjects.clear();
+        this.saveToStorage();
+        this.renderFileTree();
+        this.updateMultiSelectToolbar();
+
+        notify(`Deleted ${count} project${count > 1 ? 's' : ''}: ${deletedNames.join(', ')}`);
+      },
+      'confirmation'
+    );
+  }
+};
+
+// ============================================
+// GLOBAL FUNCTIONS FOR UI INTERACTIONS
+// ============================================
+
+function handleProjectClick(event, projectId) {
+  // Cmd/Ctrl + Click toggles selection
+  if (event.metaKey || event.ctrlKey) {
+    fileManager.toggleProjectSelection(projectId, event);
+  } else if (fileManager.selectedProjects.size > 0) {
+    // If items are selected, clicking switches to the project and clears selection
+    fileManager.clearSelection();
+    fileManager.switchProject(projectId);
+  } else {
+    // Normal click switches to the project
+    fileManager.switchProject(projectId);
+  }
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('file-sidebar');
+  sidebar.classList.add('transitioning');
+  const isCollapsed = sidebar.classList.toggle('collapsed');
+  
+  if (isCollapsed) {
+    // When collapsing, reset to collapsed width (48px)
+    sidebar.style.width = '48px';
+    sidebar.style.minWidth = '48px';
+  } else {
+    // When expanding, restore saved width or use default
+    const savedWidth = localStorage.getItem('sidebar_width');
+    const width = savedWidth ? Math.max(180, Math.min(500, parseInt(savedWidth))) : 260;
+    sidebar.style.width = width + 'px';
+    sidebar.style.minWidth = width + 'px';
+  }
+  
+  // Save state to localStorage
+  localStorage.setItem('sidebar_collapsed', isCollapsed);
+  
+  setTimeout(() => {
+    sidebar.classList.remove('transitioning');
+  }, 300);
+}
+
+// Setup sidebar resizing functionality
+fileManager.setupSidebarResize = function() {
+  const sidebar = document.getElementById('file-sidebar');
+  if (!sidebar) return;
+  
+  // Create resize handle
+  const resizeHandle = document.createElement('div');
+  resizeHandle.className = 'sidebar-resize-handle';
+  sidebar.appendChild(resizeHandle);
+  
+  let isResizing = false;
+  let startX = 0;
+  let startWidth = 0;
+  const minWidth = 180;
+  const maxWidth = 500;
+  
+  function startResize(e) {
+    // Don't allow resizing if sidebar is collapsed
+    if (sidebar.classList.contains('collapsed')) return;
+    
+    isResizing = true;
+    startX = e.clientX;
+    startWidth = sidebar.offsetWidth;
+    resizeHandle.classList.add('resizing');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    e.preventDefault();
+  }
+  
+  function handleResize(e) {
+    if (!isResizing) return;
+    
+    const delta = e.clientX - startX;
+    const newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + delta));
+    
+    sidebar.style.width = newWidth + 'px';
+    sidebar.style.minWidth = newWidth + 'px';
+    
+    // Save to localStorage
+    localStorage.setItem('sidebar_width', newWidth);
+  }
+  
+  function stopResize() {
+    if (!isResizing) return;
+    
+    isResizing = false;
+    resizeHandle.classList.remove('resizing');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  }
+  
+  // Restore saved width
+  const savedWidth = localStorage.getItem('sidebar_width');
+  if (savedWidth && !sidebar.classList.contains('collapsed')) {
+    const width = parseInt(savedWidth);
+    if (width >= minWidth && width <= maxWidth) {
+      sidebar.style.width = width + 'px';
+      sidebar.style.minWidth = width + 'px';
+    }
+  }
+  
+  // Event listeners
+  resizeHandle.addEventListener('mousedown', startResize);
+  document.addEventListener('mousemove', handleResize);
+  document.addEventListener('mouseup', stopResize);
+};
+
+let fileInputModalCallback = null;
+let fileInputModalType = 'project';
+let selectedEmoji = null;
+
+function toggleEmojiPicker() {
+  const picker = document.getElementById('emoji-picker-container');
+  const isVisible = picker.style.display === 'block';
+  picker.style.display = isVisible ? 'none' : 'block';
+}
+
+function selectEmoji(emoji) {
+  selectedEmoji = emoji;
+  // Update visual selection
+  document.querySelectorAll('.emoji-option').forEach(btn => {
+    btn.classList.remove('selected');
+  });
+  const selectedBtn = document.querySelector(`[data-emoji="${emoji}"]`);
+  if (selectedBtn) {
+    selectedBtn.classList.add('selected');
+  }
+  // Update the display button
+  document.getElementById('selected-emoji-display').textContent = emoji;
+  // Close the picker
+  document.getElementById('emoji-picker-container').style.display = 'none';
+}
+
+function showFileInputModal(title, placeholder, type, callback) {
+  const modal = document.getElementById('file-input-modal');
+  const titleEl = document.getElementById('file-input-modal-title');
+  const input = document.getElementById('file-input-modal-input');
+  const emojiToggle = document.getElementById('emoji-picker-toggle');
+  const emojiPicker = document.getElementById('emoji-picker-container');
+  
+  titleEl.textContent = title;
+  input.placeholder = placeholder;
+  input.value = '';
+  fileInputModalType = type;
+  fileInputModalCallback = callback;
+  
+  // Show emoji picker only for projects
+  if (type === 'project') {
+    emojiToggle.style.display = 'flex';
+    selectedEmoji = fileManager.getRandomEmoji();
+    // Update display and selection
+    document.getElementById('selected-emoji-display').textContent = selectedEmoji;
+    document.querySelectorAll('.emoji-option').forEach(btn => {
+      btn.classList.remove('selected');
+    });
+    const randomEmojiBtn = document.querySelector(`[data-emoji="${selectedEmoji}"]`);
+    if (randomEmojiBtn) {
+      randomEmojiBtn.classList.add('selected');
+    }
+  } else {
+    emojiToggle.style.display = 'none';
+    selectedEmoji = null;
+  }
+  
+  // Hide picker popup initially
+  emojiPicker.style.display = 'none';
+  
+  modal.style.display = 'flex';
+  setTimeout(() => input.focus(), 100);
+  
+  // Handle Enter key
+  input.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+      confirmFileInput();
+    } else if (e.key === 'Escape') {
+      closeFileInputModal();
+    }
+  };
+}
+
+function closeFileInputModal() {
+  const modal = document.getElementById('file-input-modal');
+  modal.style.display = 'none';
+  fileInputModalCallback = null;
+}
+
+function confirmFileInput() {
+  const input = document.getElementById('file-input-modal-input');
+  const value = input.value.trim();
+  
+  // For projects, allow empty value (will default to "Untitled Project")
+  // For folders, require a name
+  if (!value && fileInputModalType !== 'project') {
+    input.style.borderColor = '#ef4444';
+    input.placeholder = 'Please enter a name...';
+    setTimeout(() => {
+      input.style.borderColor = '';
+    }, 2000);
+    return;
+  }
+  
+  if (fileInputModalCallback) {
+    if (fileInputModalType === 'project') {
+      fileInputModalCallback(value || 'Untitled Project', selectedEmoji);
+    } else {
+      fileInputModalCallback(value);
+    }
+  }
+  
+  // Clear input and close modal
+  input.value = '';
+  selectedEmoji = null;
+  closeFileInputModal();
+}
+
+function createNewProject() {
+  showFileInputModal('Create New Project', 'Enter project name (optional)...', 'project', (name, emoji) => {
+    const projectId = fileManager.createProject(name, true, emoji);
+    const project = fileManager.projects.find(p => p.id === projectId);
+    notify('Project created: ' + project.name);
+  });
+}
+
+function createNewFolder() {
+  showFileInputModal('Create New Folder', 'Enter folder name...', 'folder', (name) => {
+    fileManager.createFolder(name);
+    notify('Folder created: ' + name);
+  });
+}
+
+function startRenamingProject(projectId) {
+  const project = fileManager.projects.find(p => p.id === projectId);
+  if (!project) return;
+
+  const item = document.querySelector(`[data-project-id="${projectId}"]`);
+  if (!item) return;
+
+  const nameSpan = item.querySelector('.name');
+  const currentName = project.name;
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = currentName;
+  input.className = 'file-rename-input';
+
+  const finishRename = () => {
+    const newName = input.value.trim();
+    if (newName && newName !== currentName) {
+      fileManager.renameProject(projectId, newName);
+    } else {
+      fileManager.renderFileTree();
+    }
+  };
+
+  input.onblur = finishRename;
+  input.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+      finishRename();
+    } else if (e.key === 'Escape') {
+      fileManager.renderFileTree();
+    }
+  };
+
+  nameSpan.replaceWith(input);
+  input.focus();
+  input.select();
+}
+
+function startRenamingFolder(folderId) {
+  const folder = fileManager.folders.find(f => f.id === folderId);
+  if (!folder) return;
+
+  const item = document.querySelector(`[data-folder-id="${folderId}"]`);
+  if (!item) return;
+
+  const nameSpan = item.querySelector('.name');
+  const currentName = folder.name;
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.value = currentName;
+  input.className = 'file-rename-input';
+
+  const finishRename = () => {
+    const newName = input.value.trim();
+    if (newName && newName !== currentName) {
+      fileManager.renameFolder(folderId, newName);
+    } else {
+      fileManager.renderFileTree();
+    }
+  };
+
+  input.onblur = finishRename;
+  input.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+      finishRename();
+    } else if (e.key === 'Escape') {
+      fileManager.renderFileTree();
+    }
+  };
+
+  nameSpan.replaceWith(input);
+  input.focus();
+  input.select();
+}
+
+function deleteProjectWithConfirmation(projectId) {
+  const project = fileManager.projects.find(p => p.id === projectId);
+  if (!project) return;
+
+  showNotification(
+    `Are you sure you want to delete "${project.name}"? This action cannot be undone.`,
+    true,
+    () => {
+      fileManager.deleteProject(projectId);
+      notify('Project deleted: ' + project.name);
+    },
+    'confirmation'
+  );
+}
+
+function deleteFolder(folderId) {
+  const folder = fileManager.folders.find(f => f.id === folderId);
+  if (!folder) return;
+
+  showNotification(
+    `Delete folder "${folder.name}"? Projects inside will be moved to root.`,
+    true,
+    () => {
+      fileManager.deleteFolder(folderId);
+      notify('Folder deleted: ' + folder.name);
+    },
+    'confirmation'
+  );
+}
+
+function showProjectContextMenu(event, projectId) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const project = fileManager.projects.find(p => p.id === projectId);
+  if (!project) return;
+
+  const folders = fileManager.folders.filter(f => f.id !== project.folderId);
+
+  const menuItems = [
+    {
+      icon: '✏️',
+      label: 'Rename',
+      action: () => startRenamingProject(projectId)
+    },
+    {
+      icon: '📁',
+      label: 'Move to Folder',
+      action: () => {
+        if (folders.length === 0) {
+          notify('No folders available. Create a folder first.');
+          return;
+        }
+        showMoveToFolderMenu(projectId, folders);
+      }
+    }
+  ];
+
+  if (project.folderId) {
+    menuItems.push({
+      icon: '↩️',
+      label: 'Move to Root',
+      action: () => fileManager.moveToFolder(projectId, null)
+    });
+  }
+
+  menuItems.push({ separator: true });
+  menuItems.push({
+    icon: '🗑️',
+    label: 'Delete',
+    danger: true,
+    action: () => deleteProjectWithConfirmation(projectId)
+  });
+
+  fileManager.showContextMenu(event.pageX, event.pageY, menuItems);
+}
+
+function showFolderContextMenu(event, folderId) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const menuItems = [
+    {
+      icon: '✏️',
+      label: 'Rename',
+      action: () => startRenamingFolder(folderId)
+    },
+    { separator: true },
+    {
+      icon: '🗑️',
+      label: 'Delete',
+      danger: true,
+      action: () => deleteFolder(folderId)
+    }
+  ];
+
+  fileManager.showContextMenu(event.pageX, event.pageY, menuItems);
+}
+
+function showMoveToFolderMenu(projectId, folders) {
+  // Create a custom modal for folder selection
+  const modal = document.createElement('div');
+  modal.className = 'file-select-modal';
+  modal.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--background-primary); border: 1px solid var(--border-primary); border-radius: 0.5rem; padding: 1.5rem; z-index: 1001; min-width: 300px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);';
+  
+  modal.innerHTML = `
+    <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--text-primary);">Move to Folder</h3>
+    <div style="max-height: 300px; overflow-y: auto;">
+      ${folders.map(folder => `
+        <div class="folder-option" data-folder-id="${folder.id}" style="padding: 0.75rem; margin: 0.25rem 0; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s;" onmouseover="this.style.background='var(--background-secondary)'" onmouseout="this.style.background='transparent'">
+          <span>📁</span>
+          <span style="color: var(--text-primary);">${fileManager.escapeHtml(folder.name)}</span>
+        </div>
+      `).join('')}
+    </div>
+    <div style="margin-top: 1rem; display: flex; gap: 0.5rem; justify-content: flex-end;">
+      <button class="file-input-modal-btn cancel" style="padding: 0.5rem 1rem; border: 1px solid var(--border-primary); background: transparent; color: var(--text-primary); border-radius: 0.375rem; cursor: pointer;">Cancel</button>
+    </div>
+  `;
+  
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000;';
+  
+  document.body.appendChild(overlay);
+  document.body.appendChild(modal);
+  
+  modal.querySelectorAll('.folder-option').forEach(option => {
+    option.onclick = () => {
+      const folderId = option.dataset.folderId;
+      const folder = folders.find(f => f.id === folderId);
+      fileManager.moveToFolder(projectId, folderId);
+      notify('Project moved to ' + folder.name);
+      modal.remove();
+      overlay.remove();
+    };
+  });
+  
+  modal.querySelector('.cancel').onclick = () => {
+    modal.remove();
+    overlay.remove();
+  };
+  
+  overlay.onclick = () => {
+    modal.remove();
+    overlay.remove();
+  };
+}
+
+// ============================================
+// PROJECT ICON CLICK HANDLER
+// ============================================
+
+function handleProjectIconClick(event, projectId) {
+  event.stopPropagation();
+  
+  const sidebar = document.getElementById('file-sidebar');
+  const isCollapsed = sidebar.classList.contains('collapsed');
+  
+  if (isCollapsed) {
+    // When collapsed, clicking icon switches to the project
+    fileManager.switchProject(projectId);
+  } else {
+    // When expanded, clicking icon opens the icon picker
+    showIconPicker(projectId, event);
+  }
+}
+
+// ============================================
+// ICON PICKER FUNCTIONALITY
+// ============================================
+
+const projectIcons = [
+  // General
+  '📄', '📝', '📚', '📖', '📋', '✏️',
+  // Science
+  '🔬', '🧪', '🧬', '⚗️', '🦠', '🔭',
+  // Math & Physics
+  '📐', '📏', '🧮', '⚛️', '🔢',
+  // Technology & CS
+  '💻', '🖥️', '⌨️', '🖱️', '💾',
+  // Chemistry & Biology
+  '⚗️', '🧫', '🌱',
+  // Geography & Environment
+  '🌍', '🗺️', '🏔️',
+  // History & Social
+  '🏛️', '📜', '⏳', '🏺',
+  // Economics & Business
+  '💰', '📊', '📈', '💼', '🏦',
+  // Languages & Literature
+  '📕', '📗', '📘', '📙', '✍️', '🗣️',
+  // Arts & Music
+  '🎨', '🎭', '🎵', '🎼', '🖼️',
+  // Sports & PE
+  '⚽', '🏀', '🏃', '🤸',
+  // Other
+  '⭐', '✨', '💡', '🎯', '🔥'
+];
+
+function showIconPicker(projectId, event) {
+  event.stopPropagation();
+  
+  // Remove any existing picker
+  const existingPicker = document.getElementById('icon-picker-modal');
+  if (existingPicker) {
+    existingPicker.remove();
+  }
+  
+  const project = fileManager.projects.find(p => p.id === projectId);
+  if (!project) return;
+  
+  const modal = document.createElement('div');
+  modal.id = 'icon-picker-modal';
+  modal.className = 'icon-picker-modal';
+  
+  // Position near the clicked icon
+  const rect = event.target.getBoundingClientRect();
+  modal.style.left = (rect.right + 10) + 'px';
+  modal.style.top = rect.top + 'px';
+  
+  modal.innerHTML = `
+    <div class="icon-picker-header">Choose an icon</div>
+    <div class="icon-picker-grid">
+      ${projectIcons.map(icon => `
+        <div class="icon-picker-item ${icon === project.icon ? 'selected' : ''}" 
+             data-icon="${icon}"
+             onclick="selectProjectIcon('${projectId}', '${icon}')">
+          ${icon}
+        </div>
+      `).join('')}
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Close when clicking outside
+  setTimeout(() => {
+    document.addEventListener('click', function closeIconPicker(e) {
+      if (!modal.contains(e.target)) {
+        modal.remove();
+        document.removeEventListener('click', closeIconPicker);
+      }
+    });
+  }, 0);
+  
+  // Adjust position if it goes off screen
+  const modalRect = modal.getBoundingClientRect();
+  if (modalRect.right > window.innerWidth) {
+    modal.style.left = (rect.left - modalRect.width - 10) + 'px';
+  }
+  if (modalRect.bottom > window.innerHeight) {
+    modal.style.top = (window.innerHeight - modalRect.height - 10) + 'px';
+  }
+}
+
+function selectProjectIcon(projectId, icon) {
+  const project = fileManager.projects.find(p => p.id === projectId);
+  if (project) {
+    project.icon = icon;
+    project.updatedAt = new Date().toISOString();
+    fileManager.saveToStorage();
+    fileManager.renderFileTree();
+  }
+  
+  // Close the picker
+  const modal = document.getElementById('icon-picker-modal');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+// ============================================
+// AUTO-SAVE INTEGRATION
+// ============================================
+
+// Save current project on editor changes
+const originalHandleEditorInput = typeof handleEditorInput === 'function' ? handleEditorInput : function() {};
+
+if (typeof handleEditorInput === 'function') {
+  const originalFunc = handleEditorInput;
+  handleEditorInput = function() {
+    originalFunc.apply(this, arguments);
+    if (fileManager.currentProject && state.settings.autoSave) {
+      fileManager.saveCurrentProject();
+    }
+  };
+}
+
+// Save before page unload
+window.addEventListener('beforeunload', () => {
+  if (fileManager.currentProject) {
+    fileManager.saveCurrentProject();
+  }
+});
+
+// Initialize file manager when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    fileManager.init();
+  });
+} else {
+  fileManager.init();
+}

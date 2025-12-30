@@ -157,36 +157,116 @@
       </div>
     </header>
 
-    <div class="stats-row select-none">
-      <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Words without Citations">
-        <h3 class="text-xs font-medium opacity-75 mb-1">Words without Citations</h3>
-        <p id="filtered-word-count" class="text-2xl font-black">0</p>
-      </div>
-      <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Total Words">
-        <h3 class="text-xs font-medium opacity-75 mb-1">Total Words</h3>
-        <p id="total-word-count" class="text-2xl font-black">0</p>
-      </div>
-      <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Characters without Citations">
-        <h3 class="text-xs font-medium opacity-75 mb-1">Characters without Citations</h3>
-        <p id="filtered-char-count" class="text-2xl font-black">0</p>
-      </div>
-      <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Total Characters">
-        <h3 class="text-xs font-medium opacity-75 mb-1">Total Characters</h3>
-        <p id="total-char-count" class="text-2xl font-black">0</p>
-      </div>
-      <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Citations">
-        <h3 class="text-xs font-medium opacity-75 mb-1">Citations</h3>
-        <p id="quote-count" class="text-2xl font-black">0</p>
-      </div>
-    </div>
+    <div class="app-main-wrapper">
+      <!-- File Management Sidebar (hidden on small screens) -->
+      <div id="file-sidebar" class="file-sidebar">
+        <div class="sidebar-header">
+          <h3 class="sidebar-title">Documents</h3>
+          <div class="sidebar-header-actions">
+            <button class="sidebar-action-btn" onclick="createNewProject()" title="New Project" data-lta-event="sidebar-new-project">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Multi-Select Toolbar -->
+        <div id="multi-select-toolbar" class="multi-select-toolbar" style="display: none;">
+          <span class="selection-count">0 selected</span>
+          <div class="multi-select-actions">
+            <button class="multi-select-btn" onclick="fileManager.selectAllProjects()" data-tooltip="Select All" data-lta-event="sidebar-select-all">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 11l3 3L22 4"/>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+            </button>
+            <button class="multi-select-btn" onclick="fileManager.clearSelection()" data-tooltip="Clear Selection" data-lta-event="sidebar-clear-selection">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
+            <button class="multi-select-btn delete" onclick="fileManager.deleteSelectedProjects()" data-tooltip="Delete Selected" data-lta-event="sidebar-delete-selected">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="sidebar-content" id="file-tree">
+          <!-- File tree will be rendered here dynamically -->
+        </div>
 
-    <!--<button id="manage-citations-btn" class="manage-btn lg:hidden md:hidden mb-3"
-      onclick="toggleCitationsOverlay(true)">
-      Manage Citations
-    </button>-->
+        <!-- Sidebar Ad Box -->
+        <div id="sidebar-ad-box" class="sidebar-ad-box" style="margin: 0.75rem; border-radius: 8px; overflow: hidden; background-color: #091717; color: white; position: relative;">
+          <button onclick="dismissSidebarAd()" data-lta-event="sidebar-ad-dismiss"
+            style="position: absolute; top: 0.5rem; right: 0.5rem; width: 20px; height: 20px; padding: 0; border-radius: 4px; background: rgba(0, 0, 0, 0.3); color: rgba(255, 255, 255, 0.6); border: none; cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; z-index: 10; transition: all 0.2s ease;"
+            onmouseover="this.style.background='rgba(0, 0, 0, 0.5)'; this.style.color='rgba(255, 255, 255, 0.9)'"
+            onmouseout="this.style.background='rgba(0, 0, 0, 0.3)'; this.style.color='rgba(255, 255, 255, 0.6)'">✕</button>
+          <img src="/assets/pplx.svg" alt="Perplexity" style="width: 100%; display: block;">
+          <div style="padding: 0.75rem;">
+            <h3 style="font-size: 0.875rem; font-weight: bold; margin-bottom: 0.5rem; color: white;">12 Months Free Perplexity Pro!</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 0.75rem; opacity: 0.9; color: #e2e8f0; line-height: 1.4;">
+              Exclusive offer for students. Get Perplexity Pro for free now, your AI-powered research assistant.
+            </p>
+            <div style="display: flex; gap: 0.5rem;">
+              <button onclick="claimPerplexityOffer()" data-lta-event="sidebar-ad-claim"
+                style="width: 100%; padding: 6px 12px; border-radius: 6px; background: #22d3ee; color: #091717; font-weight: bold; border: none; cursor: pointer; font-size: 0.75rem;">
+                Get Free
+              </button>
+            </div>
+          </div>
+        </div>
 
-    <div class="main-content">
-      <div class="split">
+        <div class="sidebar-footer">
+          <button class="sidebar-btn-full" onclick="createNewFolder()" title="New Folder" data-lta-event="sidebar-new-folder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>New Folder</span>
+          </button>
+          <button class="sidebar-collapse-btn" onclick="toggleSidebar()" title="Collapse Sidebar" data-lta-event="sidebar-collapse">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
+            <span class="collapse-text">Collapse</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="stats-row select-none">
+          <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Words without Citations">
+            <h3 class="text-xs font-medium opacity-75 mb-1">Words without Citations</h3>
+            <p id="filtered-word-count" class="text-2xl font-black">0</p>
+          </div>
+          <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Total Words">
+            <h3 class="text-xs font-medium opacity-75 mb-1">Total Words</h3>
+            <p id="total-word-count" class="text-2xl font-black">0</p>
+          </div>
+          <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Characters without Citations">
+            <h3 class="text-xs font-medium opacity-75 mb-1">Characters without Citations</h3>
+            <p id="filtered-char-count" class="text-2xl font-black">0</p>
+          </div>
+          <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Total Characters">
+            <h3 class="text-xs font-medium opacity-75 mb-1">Total Characters</h3>
+            <p id="total-char-count" class="text-2xl font-black">0</p>
+          </div>
+          <div class="counter-card rounded-lg shadow-sm text-center" data-tooltip="Citations">
+            <h3 class="text-xs font-medium opacity-75 mb-1">Citations</h3>
+            <p id="quote-count" class="text-2xl font-black">0</p>
+          </div>
+        </div>
+
+        <!--<button id="manage-citations-btn" class="manage-btn lg:hidden md:hidden mb-3"
+          onclick="toggleCitationsOverlay(true)">
+          Manage Citations
+        </button>-->
+
+        <div class="main-content">
+          <div class="editor-and-citations-wrapper">
+            <div class="split">
         <div id="editor-panel" class="split-panel">
           <div class="editor-container shadow-sm">
             <div class="toolbar flex gap-2" style="justify-content: space-between; align-items: center;">
@@ -327,6 +407,17 @@
             <div class="editor-wrapper">
               <div id="editor" contenteditable="true" spellcheck="true" data-lta-event="v2-input-focus"></div>
               <div id="highlight-layer"></div>
+              <div id="drop-overlay" class="drop-overlay" style="display: none;">
+                <div class="drop-overlay-content">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="drop-overlay-icon" fill="none" viewBox="0 0 24 24" stroke="black">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                  </svg>
+                  <h2>Drop to import into CiteCount</h2>
+                  <p>Release your Word or PDF file here.</p>
+                  <br>
+                  <p>Images and equations are automatically removed. Your content stays secure in your browser and never leaves your device.</p>
+                </div>
+              </div>
               <div id="welcome-text" class="welcome-text" style="user-select: none; display: none;">
                 <p>Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount.
                 </p>
@@ -346,8 +437,7 @@
                     data-lta-event="v2-try-example-action">Try
                     Example</button>
                 </div>
-                <p class="text-sm text-gray-500 mt-2">CiteCount prioritizes data integrity. Your content stays secure on
-                  your device. <a href="/blogs/our-promise-for-safety.html" target="_blank"
+                <p class="text-sm text-gray-500 mt-2">Your content stays secure in your browser and never leaves your device. <a href="/blogs/our-promise-for-safety.html" target="_blank"
                     class="text-blue-500 hover:underline" data-lta-event="v2-safety-click">View our
                     safety promise</a>.</p>
               </div>
@@ -598,7 +688,10 @@
           </div>
         </div>
       </div>
-    </div>
+            </div> <!-- End editor-and-citations-wrapper -->
+          </div> <!-- End main-content -->
+      </div> <!-- End content-area -->
+    </div> <!-- End app-main-wrapper -->
 
     <div id="citations-overlay" class="citations-overlay">
       <div class="flex justify-between items-center mb-4">
@@ -1011,11 +1104,11 @@
             <div class="text-center p-3 rounded-md" style="background: #f3f4f6;">
               <button id="resetSettings"
                 class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-md font-medium transition-colors"
-                onclick="showNotification('Are you sure you want to reset all settings? This action cannot be undone. Please save your text before reloading to avoid losing work.', true, () => { resetSettings(); }, 'confirmation')">
+                onclick="showNotification('Are you sure you want to reset all settings? This will permanently delete all saved projects, citation history, and customized settings. This action cannot be undone. Please save your text before proceeding.', true, () => { resetSettings(); }, 'confirmation')">
                 Reset All Settings
               </button>
               <p class="text-sm text-gray-500 dark:text-gray-400 mt-3 max-w-md mx-auto">
-                This will reset all customized settings and AutoSave data. Requires app restart to take effect.
+                This will clear all localStorage data including saved projects, citation history, and customized settings. Requires app restart to take effect.
                 Recommended if CiteCount is not working as expected.
               </p>
             </div>
@@ -2192,16 +2285,106 @@
     </div>
   </div>
 
+  <!-- New Project/Folder Modal -->
+  <div id="file-input-modal" class="file-input-modal" style="display: none;">
+    <div class="file-input-modal-content">
+      <h3 id="file-input-modal-title">Create New Project</h3>
+      <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 1rem;">
+        <div style="position: relative; flex-shrink: 0;">
+          <button type="button" id="emoji-picker-toggle" class="emoji-picker-toggle" onclick="toggleEmojiPicker()" style="display: none;">
+            <span id="selected-emoji-display">📄</span>
+          </button>
+          <div id="emoji-picker-container" class="emoji-picker-popup" style="display: none;">
+            <div class="emoji-picker-grid">
+              <button type="button" class="emoji-option" data-emoji="📄" onclick="selectEmoji('📄')">📄</button>
+              <button type="button" class="emoji-option" data-emoji="📝" onclick="selectEmoji('📝')">📝</button>
+              <button type="button" class="emoji-option" data-emoji="📚" onclick="selectEmoji('📚')">📚</button>
+              <button type="button" class="emoji-option" data-emoji="📖" onclick="selectEmoji('📖')">📖</button>
+              <button type="button" class="emoji-option" data-emoji="📕" onclick="selectEmoji('📕')">📕</button>
+              <button type="button" class="emoji-option" data-emoji="📗" onclick="selectEmoji('📗')">📗</button>
+              <button type="button" class="emoji-option" data-emoji="📘" onclick="selectEmoji('📘')">📘</button>
+              <button type="button" class="emoji-option" data-emoji="📙" onclick="selectEmoji('📙')">📙</button>
+              <button type="button" class="emoji-option" data-emoji="📓" onclick="selectEmoji('📓')">📓</button>
+              <button type="button" class="emoji-option" data-emoji="📔" onclick="selectEmoji('📔')">📔</button>
+              <button type="button" class="emoji-option" data-emoji="📒" onclick="selectEmoji('📒')">📒</button>
+              <button type="button" class="emoji-option" data-emoji="📃" onclick="selectEmoji('📃')">📃</button>
+              <button type="button" class="emoji-option" data-emoji="📜" onclick="selectEmoji('📜')">📜</button>
+              <button type="button" class="emoji-option" data-emoji="📋" onclick="selectEmoji('📋')">📋</button>
+              <button type="button" class="emoji-option" data-emoji="📰" onclick="selectEmoji('📰')">📰</button>
+              <button type="button" class="emoji-option" data-emoji="🗂️" onclick="selectEmoji('🗂️')">🗂️</button>
+              <button type="button" class="emoji-option" data-emoji="📁" onclick="selectEmoji('📁')">📁</button>
+              <button type="button" class="emoji-option" data-emoji="📂" onclick="selectEmoji('📂')">📂</button>
+              <button type="button" class="emoji-option" data-emoji="🗃️" onclick="selectEmoji('🗃️')">🗃️</button>
+              <button type="button" class="emoji-option" data-emoji="🗄️" onclick="selectEmoji('🗄️')">🗄️</button>
+              <button type="button" class="emoji-option" data-emoji="✏️" onclick="selectEmoji('✏️')">✏️</button>
+              <button type="button" class="emoji-option" data-emoji="✒️" onclick="selectEmoji('✒️')">✒️</button>
+              <button type="button" class="emoji-option" data-emoji="🖊️" onclick="selectEmoji('🖊️')">🖊️</button>
+              <button type="button" class="emoji-option" data-emoji="🖋️" onclick="selectEmoji('🖋️')">🖋️</button>
+              <button type="button" class="emoji-option" data-emoji="💼" onclick="selectEmoji('💼')">💼</button>
+              <button type="button" class="emoji-option" data-emoji="🎓" onclick="selectEmoji('🎓')">🎓</button>
+              <button type="button" class="emoji-option" data-emoji="🎯" onclick="selectEmoji('🎯')">🎯</button>
+              <button type="button" class="emoji-option" data-emoji="🎨" onclick="selectEmoji('🎨')">🎨</button>
+              <button type="button" class="emoji-option" data-emoji="🔬" onclick="selectEmoji('🔬')">🔬</button>
+              <button type="button" class="emoji-option" data-emoji="💡" onclick="selectEmoji('💡')">💡</button>
+            </div>
+          </div>
+        </div>
+        <input type="text" id="file-input-modal-input" placeholder="Enter name..." style="flex: 1;" autocomplete="off" />
+      </div>
+      <div class="file-input-modal-actions">
+        <button class="file-input-modal-btn cancel" onclick="closeFileInputModal()">Cancel</button>
+        <button class="file-input-modal-btn confirm" onclick="confirmFileInput()">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Citation History Modal -->
+  <div id="citation-history-modal" class="citation-modal" style="display: none; z-index: 10001;">
+    <div class="citation-modal-content">
+      <div class="citation-modal-header">
+        <h2>Citation History</h2>
+        <button onclick="closeCitationHistory()" class="close-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="citation-modal-body" style="max-height: 70vh; overflow-y: auto;">
+        <div id="citation-history-content">
+          <!-- History items will be dynamically loaded here -->
+        </div>
+        <div id="citation-history-empty" style="text-align: center; padding: 3rem 1rem; color: var(--text-secondary); display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 64px; height: 64px; margin: 0 auto 1rem; opacity: 0.3;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p>No citation history yet</p>
+          <p style="font-size: 0.9rem; margin-top: 0.5rem;">Citations you generate will appear here</p>
+        </div>
+      </div>
+      <div class="citation-modal-footer" style="border-top: 1px solid var(--border-primary); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.875rem; color: var(--text-secondary);">Last <span id="history-count">0</span> citations</span>
+        <button onclick="clearCitationHistory()" style="padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">Clear All History</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Citation Generator Modal -->
   <div id="citation-modal" class="citation-modal" style="display: none;">
     <div class="citation-modal-content">
       <div class="citation-modal-header">
         <h2>Generate Citation <span data-tooltip="Experimental feature - may have errors" style="font-size: 0.7rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px; cursor: help;">BETA</span></h2>
-        <button onclick="closeCitationModal()" class="close-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button onclick="openCitationHistory()" class="close-btn" title="Citation History" data-tooltip="Citation History">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
+          <button onclick="closeCitationModal()" class="close-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="citation-modal-body">
         <!-- Citation Style Selector -->
@@ -2238,7 +2421,7 @@
           <div class="form-group" id="url-group" style="display: none;">
             <label>URL</label>
             <div style="display: flex; gap: 0.5rem;">
-              <input type="text" id="url" placeholder="https://example.com" style="flex: 1;" />
+              <input type="text" id="url" placeholder="https://example.com" style="flex: 1;" autocomplete="off" />
               <button type="button" class="fetch-btn" onclick="fetchTitleFromURL()" title="Fetch title and set access date" style="color: white !important;">
                 Fetch Info
               </button>
@@ -2248,7 +2431,7 @@
           <div class="form-group" id="access-date-group" style="display: none;">
             <label>Access Date</label>
             <div style="display: flex; gap: 0.5rem;">
-              <input type="date" id="access-date" style="flex: 1;" />
+              <input type="date" id="access-date" style="flex: 1;" autocomplete="off" />
               <button type="button" class="today-btn" onclick="setTodayDate()" title="Set to today" style="color: white !important;">
                 Today
               </button>
@@ -2256,35 +2439,35 @@
           </div>
           <div class="form-group">
             <label>Author(s) <span class="help-text">(Last name, First name)</span></label>
-            <input type="text" id="author" placeholder="e.g., Smith, John" />
+            <input type="text" id="author" placeholder="e.g., Smith, John" autocomplete="off" />
           </div>
           <div class="form-group">
             <label>Year</label>
-            <input type="text" id="year" placeholder="e.g., 2023" />
+            <input type="text" id="year" placeholder="e.g., 2023" autocomplete="off" />
           </div>
           <div class="form-group">
             <label>Title</label>
-            <input type="text" id="title" placeholder="Enter title" />
+            <input type="text" id="title" placeholder="Enter title" autocomplete="off" />
           </div>
           <div class="form-group" id="publisher-group">
             <label>Publisher</label>
-            <input type="text" id="publisher" placeholder="Enter publisher" />
+            <input type="text" id="publisher" placeholder="Enter publisher" autocomplete="off" />
           </div>
           <div class="form-group" id="journal-group" style="display: none;">
             <label>Journal Name</label>
-            <input type="text" id="journal-name" placeholder="Enter journal name" />
+            <input type="text" id="journal-name" placeholder="Enter journal name" autocomplete="off" />
           </div>
           <div class="form-group" id="volume-group" style="display: none;">
             <label>Volume</label>
-            <input type="text" id="volume" placeholder="e.g., 12" />
+            <input type="text" id="volume" placeholder="e.g., 12" autocomplete="off" />
           </div>
           <div class="form-group" id="issue-group" style="display: none;">
             <label>Issue</label>
-            <input type="text" id="issue" placeholder="e.g., 3" />
+            <input type="text" id="issue" placeholder="e.g., 3" autocomplete="off" />
           </div>
           <div class="form-group" id="pages-group" style="display: none;">
             <label>Pages</label>
-            <input type="text" id="pages" placeholder="e.g., 45-67" />
+            <input type="text" id="pages" placeholder="e.g., 45-67" autocomplete="off" />
           </div>
         </div>
 
@@ -2315,6 +2498,7 @@
   <script src="/v2/notify.js"></script>
   <script src="/v2/dev.js"></script>
   <script src="/v2/citation.js"></script>
+  <script src="/v2/filemanager.js"></script>
 </body>
 
 </html>
