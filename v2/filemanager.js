@@ -1050,8 +1050,9 @@ fileManager.setupSidebarResize = function() {
   const maxWidth = 500;
   
   function startResize(e) {
-    // Don't allow resizing if sidebar is collapsed
+    // Don't allow resizing if sidebar is collapsed or on mobile
     if (sidebar.classList.contains('collapsed')) return;
+    if (window.innerWidth <= 1024) return;
     
     isResizing = true;
     startX = e.clientX;

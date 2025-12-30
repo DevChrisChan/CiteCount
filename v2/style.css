@@ -3351,6 +3351,11 @@ pre {
     left: 0;
   }
   
+  /* Hide resize handle on mobile */
+  .sidebar-resize-handle {
+    display: none !important;
+  }
+  
   .content-area {
     padding: 0.5rem 1rem;
   }
