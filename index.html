@@ -173,7 +173,14 @@
         <div class="sidebar-header">
           <h3 class="sidebar-title">Documents <span data-tooltip="Experimental feature" style="font-size: 0.65rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px; cursor: help;">BETA</span></h3>
           <div class="sidebar-header-actions">
-            <button class="sidebar-action-btn" onclick="createNewProject()" title="New Project" data-lta-event="sidebar-new-project">
+            <button class="sidebar-action-btn" onclick="toggleMultiSelectMode()" title="Multi-select files" data-lta-event="sidebar-multi-select-toggle">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="1"/>
+                <circle cx="12" cy="5" r="1"/>
+                <circle cx="12" cy="19" r="1"/>
+              </svg>
+            </button>
+            <button class="sidebar-action-btn" onclick="showAddDocumentMenu(event)" title="Add Document" data-lta-event="sidebar-add-document">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 5v14M5 12h14"/>
               </svg>
@@ -230,12 +237,6 @@
         </div>
 
         <div class="sidebar-footer">
-          <button class="sidebar-btn-full" onclick="createNewFolder()" title="New Folder" data-lta-event="sidebar-new-folder">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-            <span>New Folder</span>
-          </button>
           <button class="sidebar-collapse-btn" onclick="toggleSidebar()" title="Collapse Sidebar" data-lta-event="sidebar-collapse">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M15 18l-6-6 6-6"/>
@@ -2409,7 +2410,7 @@
   <div id="citation-modal" class="citation-modal" style="display: none;">
     <div class="citation-modal-content">
       <div class="citation-modal-header">
-        <h2>Generate Citation <span data-tooltip="Experimental feature - may have errors" style="font-size: 0.7rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px; cursor: help;">BETA</span></h2>
+        <h2>Generate Citation</h2>
         <div style="display: flex; gap: 0.5rem; align-items: center;">
           <button onclick="openCitationHistory()" class="close-btn" title="Citation History" data-tooltip="Citation History">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
@@ -2424,12 +2425,63 @@
         </div>
       </div>
       <div class="citation-modal-body">
+        <!-- Auto-Lookup Section -->
+        <div class="auto-lookup-section">
+          <label>Quick Add - Auto-fill from identifier:</label>
+          <div class="auto-lookup-input-group">
+            <div class="auto-lookup-type-selector">
+              <button class="lookup-type-btn active" data-type="url" onclick="selectLookupType('url')" title="Website URL">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                URL
+              </button>
+              <button class="lookup-type-btn" data-type="doi" onclick="selectLookupType('doi')" title="Digital Object Identifier">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                DOI
+              </button>
+              <button class="lookup-type-btn" data-type="isbn" onclick="selectLookupType('isbn')" title="Book ISBN">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                ISBN
+              </button>
+            </div>
+            <div class="auto-lookup-input-wrapper">
+              <input type="text" id="auto-lookup-input" placeholder="Enter URL, DOI (10.xxxx/xxxxx), or ISBN" autocomplete="off" />
+              <button type="button" class="auto-lookup-btn" onclick="autoLookup()" id="auto-lookup-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lookup-icon">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="loading-icon" style="display: none;">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+                <span>Lookup</span>
+              </button>
+            </div>
+            <span class="help-text" id="lookup-status" style="display: none; margin-top: 0.25rem;"></span>
+          </div>
+        </div>
+
+        <div class="citation-divider">
+          <span>or fill in manually</span>
+        </div>
+
         <!-- Citation Style Selector -->
         <div class="citation-style-selector">
           <label>Citation Style:</label>
           <div class="style-buttons">
-            <button class="style-btn active" data-style="mla" onclick="selectCitationStyle('mla')">MLA</button>
-            <button class="style-btn" data-style="apa" onclick="selectCitationStyle('apa')">APA</button>
+            <button class="style-btn active" data-style="mla" onclick="selectCitationStyle('mla')">MLA 9th</button>
+            <button class="style-btn" data-style="apa" onclick="selectCitationStyle('apa')">APA 7th</button>
             <button class="style-btn" data-style="harvard" onclick="selectCitationStyle('harvard')">Harvard</button>
           </div>
         </div>
@@ -2438,9 +2490,9 @@
         <div class="source-type-selector">
           <label>Source Type:</label>
           <select id="source-type" onchange="updateCitationForm()">
+            <option value="website" selected>Website</option>
             <option value="book">Book</option>
             <option value="journal">Journal Article</option>
-            <option value="website" selected>Website</option>
             <option value="newspaper">Newspaper Article</option>
           </select>
         </div>
@@ -2453,19 +2505,22 @@
           <span id="citation-error-text"></span>
         </div>
 
+        <!-- Success Message Display -->
+        <div id="citation-success" class="citation-success" style="display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+          </svg>
+          <span id="citation-success-text"></span>
+        </div>
+
         <!-- Citation Form -->
         <div id="citation-form" class="citation-form">
-          <div class="form-group" id="url-group" style="display: none;">
+          <!-- URL Fields (for websites) -->
+          <div class="form-group" id="url-group" style="display: block;">
             <label>URL</label>
-            <div style="display: flex; gap: 0.5rem;">
-              <input type="text" id="url" placeholder="https://example.com" style="flex: 1;" autocomplete="off" />
-              <button type="button" class="fetch-btn" onclick="fetchTitleFromURL()" title="Fetch title and set access date" style="color: white !important;">
-                Fetch Info
-              </button>
-            </div>
-            <span class="help-text" id="fetch-status" style="display: none; margin-top: 0.25rem;"></span>
+            <input type="text" id="url" placeholder="https://example.com" autocomplete="off" />
           </div>
-          <div class="form-group" id="access-date-group" style="display: none;">
+          <div class="form-group" id="access-date-group" style="display: block;">
             <label>Access Date</label>
             <div style="display: flex; gap: 0.5rem;">
               <input type="date" id="access-date" style="flex: 1;" autocomplete="off" />
@@ -2474,9 +2529,11 @@
               </button>
             </div>
           </div>
+          
+          <!-- Common Fields -->
           <div class="form-group">
             <label>Author(s) <span class="help-text">(Last name, First name)</span></label>
-            <input type="text" id="author" placeholder="e.g., Smith, John" autocomplete="off" />
+            <input type="text" id="author" placeholder="e.g., Smith, John or Smith, John; Doe, Jane" autocomplete="off" />
           </div>
           <div class="form-group">
             <label>Year</label>
@@ -2486,10 +2543,32 @@
             <label>Title</label>
             <input type="text" id="title" placeholder="Enter title" autocomplete="off" />
           </div>
-          <div class="form-group" id="publisher-group">
+          
+          <!-- Publisher (for books and newspapers) -->
+          <div class="form-group" id="publisher-group" style="display: none;">
             <label>Publisher</label>
             <input type="text" id="publisher" placeholder="Enter publisher" autocomplete="off" />
           </div>
+          
+          <!-- Publisher Location (for books) -->
+          <div class="form-group" id="publisher-location-group" style="display: none;">
+            <label>Publisher Location <span class="help-text">(optional)</span></label>
+            <input type="text" id="publisher-location" placeholder="e.g., New York" autocomplete="off" />
+          </div>
+          
+          <!-- Edition (for books) -->
+          <div class="form-group" id="edition-group" style="display: none;">
+            <label>Edition <span class="help-text">(optional)</span></label>
+            <input type="text" id="edition" placeholder="e.g., 2nd" autocomplete="off" />
+          </div>
+          
+          <!-- ISBN (for books) -->
+          <div class="form-group" id="isbn-group" style="display: none;">
+            <label>ISBN <span class="help-text">(optional)</span></label>
+            <input type="text" id="isbn" placeholder="e.g., 978-0-123456-78-9" autocomplete="off" />
+          </div>
+          
+          <!-- Journal Fields -->
           <div class="form-group" id="journal-group" style="display: none;">
             <label>Journal Name</label>
             <input type="text" id="journal-name" placeholder="Enter journal name" autocomplete="off" />
@@ -2499,12 +2578,24 @@
             <input type="text" id="volume" placeholder="e.g., 12" autocomplete="off" />
           </div>
           <div class="form-group" id="issue-group" style="display: none;">
-            <label>Issue</label>
+            <label>Issue <span class="help-text">(optional)</span></label>
             <input type="text" id="issue" placeholder="e.g., 3" autocomplete="off" />
           </div>
           <div class="form-group" id="pages-group" style="display: none;">
             <label>Pages</label>
             <input type="text" id="pages" placeholder="e.g., 45-67" autocomplete="off" />
+          </div>
+          
+          <!-- DOI (for journals) -->
+          <div class="form-group" id="doi-group" style="display: none;">
+            <label>DOI <span class="help-text">(optional)</span></label>
+            <input type="text" id="doi" placeholder="e.g., 10.1000/xyz123" autocomplete="off" />
+          </div>
+          
+          <!-- Website Name/Publisher -->
+          <div class="form-group" id="website-name-group" style="display: block;">
+            <label>Website Name <span class="help-text">(optional)</span></label>
+            <input type="text" id="website-name" placeholder="e.g., BBC News, Wikipedia" autocomplete="off" />
           </div>
         </div>
 
@@ -2526,7 +2617,10 @@
         </div>
       </div>
       <div class="citation-modal-footer">
-        <button class="generate-btn" onclick="generateCitation()">Generate Citation</button>
+        <div style="display: flex; gap: 0.5rem; width: 100%;">
+          <button class="clear-form-btn" onclick="resetCitationForm()" style="flex: 0 0 auto;">Clear</button>
+          <button class="generate-btn" onclick="generateCitation()" style="flex: 1;">Generate Citation</button>
+        </div>
       </div>
     </div>
   </div>

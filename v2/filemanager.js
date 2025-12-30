@@ -32,7 +32,14 @@ const fileManager = {
     }
 
     // Setup context menu handler
-    document.addEventListener('click', () => this.hideContextMenu());
+    document.addEventListener('click', (e) => {
+      // Don't hide if clicking on the context menu or any of its children
+      const contextMenu = document.getElementById('file-context-menu');
+      if (contextMenu && contextMenu.contains(e.target)) {
+        return;
+      }
+      this.hideContextMenu();
+    }, true); // Use capture phase
     document.addEventListener('contextmenu', (e) => {
       if (!e.target.closest('.file-tree-item')) {
         this.hideContextMenu();
@@ -833,20 +840,38 @@ const fileManager = {
 
     items.forEach(item => {
       if (item.separator) {
-        menu.innerHTML += '<hr style="margin: 0.25rem 0; border: none; border-top: 1px solid var(--border-primary);">';
+        const separator = document.createElement('hr');
+        separator.style.cssText = 'margin: 0.25rem 0; border: none; border-top: 1px solid var(--border-primary);';
+        menu.appendChild(separator);
         return;
       }
 
       const menuItem = document.createElement('div');
       menuItem.className = 'file-context-menu-item' + (item.danger ? ' danger' : '');
-      menuItem.innerHTML = `
-        ${item.icon ? `<span>${item.icon}</span>` : ''}
-        <span>${item.label}</span>
-      `;
-      menuItem.onclick = () => {
-        item.action();
+      
+      const iconSpan = document.createElement('span');
+      if (item.icon) {
+        iconSpan.textContent = item.icon;
+        menuItem.appendChild(iconSpan);
+      }
+      
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = item.label;
+      menuItem.appendChild(labelSpan);
+      
+      // Use addEventListener for more reliable event handling
+      menuItem.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.log('Menu item clicked:', item.label);
+        try {
+          item.action();
+        } catch (error) {
+          console.error('Error executing menu action:', error);
+        }
         this.hideContextMenu();
-      };
+      }, true); // Use capture phase to ensure handler fires first
+      
       menu.appendChild(menuItem);
     });
 
@@ -860,12 +885,25 @@ const fileManager = {
     if (rect.bottom > window.innerHeight) {
       menu.style.top = (y - rect.height) + 'px';
     }
+
+    // Add keyboard listener for Escape key
+    this.contextMenuKeyHandler = (e) => {
+      if (e.key === 'Escape') {
+        this.hideContextMenu();
+      }
+    };
+    document.addEventListener('keydown', this.contextMenuKeyHandler);
   },
 
   hideContextMenu() {
     const menu = document.getElementById('file-context-menu');
     if (menu) {
       menu.remove();
+    }
+    // Remove the keyboard event listener
+    if (this.contextMenuKeyHandler) {
+      document.removeEventListener('keydown', this.contextMenuKeyHandler);
+      this.contextMenuKeyHandler = null;
     }
   },
 
@@ -1226,12 +1264,26 @@ function createNewFolder() {
 
 function startRenamingProject(projectId) {
   const project = fileManager.projects.find(p => p.id === projectId);
-  if (!project) return;
+  if (!project) {
+    console.warn('Project not found:', projectId);
+    return;
+  }
+
+  // Hide context menu if open
+  fileManager.hideContextMenu();
 
   const item = document.querySelector(`[data-project-id="${projectId}"]`);
-  if (!item) return;
+  if (!item) {
+    console.warn('Project item element not found:', projectId);
+    return;
+  }
 
   const nameSpan = item.querySelector('.name');
+  if (!nameSpan) {
+    console.warn('Name span not found in project item');
+    return;
+  }
+
   const currentName = project.name;
 
   const input = document.createElement('input');
@@ -1264,12 +1316,26 @@ function startRenamingProject(projectId) {
 
 function startRenamingFolder(folderId) {
   const folder = fileManager.folders.find(f => f.id === folderId);
-  if (!folder) return;
+  if (!folder) {
+    console.warn('Folder not found:', folderId);
+    return;
+  }
+
+  // Hide context menu if open
+  fileManager.hideContextMenu();
 
   const item = document.querySelector(`[data-folder-id="${folderId}"]`);
-  if (!item) return;
+  if (!item) {
+    console.warn('Folder item element not found:', folderId);
+    return;
+  }
 
   const nameSpan = item.querySelector('.name');
+  if (!nameSpan) {
+    console.warn('Name span not found in folder item');
+    return;
+  }
+
   const currentName = folder.name;
 
   const input = document.createElement('input');
@@ -1341,6 +1407,11 @@ function showProjectContextMenu(event, projectId) {
 
   const menuItems = [
     {
+      icon: 'ℹ️',
+      label: 'Get Info',
+      action: () => showProjectInfoModal(projectId)
+    },
+    {
       icon: '✏️',
       label: 'Rename',
       action: () => startRenamingProject(projectId)
@@ -1399,7 +1470,166 @@ function showFolderContextMenu(event, folderId) {
   fileManager.showContextMenu(event.pageX, event.pageY, menuItems);
 }
 
+// ============================================
+// PROJECT INFO MODAL
+// ============================================
+
+function showProjectInfoModal(projectId) {
+  const project = fileManager.projects.find(p => p.id === projectId);
+  if (!project) return;
+
+  // Calculate metadata
+  const contentLength = project.content ? project.content.length : 0;
+  
+  // Count words (basic word count without citation filtering)
+  let wordCount = 0;
+  if (project.content) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = project.content;
+    const text = tempDiv.innerText || tempDiv.textContent || '';
+    wordCount = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+  }
+  
+  // Count citations
+  const citationCount = project.citations ? project.citations.length : 0;
+  
+  // Format dates
+  const createdDate = new Date(project.createdAt);
+  const modifiedDate = new Date(project.updatedAt);
+  
+  const formatDate = (date) => {
+    return date.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  // Create modal
+  const modal = document.createElement('div');
+  modal.className = 'file-info-modal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--background-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    z-index: 1001;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  `;
+  
+  modal.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+      <h2 style="margin: 0; font-size: 1.5rem; color: var(--text-primary);">Document Info</h2>
+      <button class="close-info-modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">✕</button>
+    </div>
+    
+    <div style="space-y: 1rem;">
+      <!-- File Name -->
+      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Document Name</div>
+        <div style="color: var(--text-primary); font-weight: 600; word-break: break-word;">${fileManager.escapeHtml(project.name)}</div>
+      </div>
+
+      <!-- File Size -->
+      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">File Size</div>
+        <div style="color: var(--text-primary); font-weight: 600;">
+          ${contentLength} bytes (${(contentLength / 1024).toFixed(2)} KB)
+        </div>
+      </div>
+
+      <!-- Word Count -->
+      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Word Count</div>
+        <div style="color: var(--text-primary); font-weight: 600;">${wordCount.toLocaleString()} words</div>
+      </div>
+
+      <!-- Character Count -->
+      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Character Count</div>
+        <div style="color: var(--text-primary); font-weight: 600;">${contentLength.toLocaleString()} characters</div>
+      </div>
+
+      <!-- Citation Count -->
+      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Citation Count</div>
+        <div style="color: var(--text-primary); font-weight: 600;">${citationCount} citations</div>
+      </div>
+
+      <!-- Created Date -->
+      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Created Date</div>
+        <div style="color: var(--text-primary); font-weight: 600;">${formatDate(createdDate)}</div>
+      </div>
+
+      <!-- Last Modified Date -->
+      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Last Modified</div>
+        <div style="color: var(--text-primary); font-weight: 600;">${formatDate(modifiedDate)}</div>
+      </div>
+
+      <!-- Document ID (for reference) -->
+      <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Document ID</div>
+        <div style="color: var(--text-primary); font-family: monospace; font-size: 0.875rem; word-break: break-all;">${project.id}</div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+      <button class="close-info-modal" style="padding: 0.625rem 1.25rem; border: 1px solid var(--border-primary); background: transparent; color: var(--text-primary); border-radius: 0.375rem; cursor: pointer; font-weight: 500; transition: background 0.2s;">Close</button>
+    </div>
+  `;
+  
+  const overlay = document.createElement('div');
+  overlay.className = 'file-info-overlay';
+  overlay.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000;';
+  
+  document.body.appendChild(overlay);
+  document.body.appendChild(modal);
+  
+  // Close button handlers
+  const closeButtons = modal.querySelectorAll('.close-info-modal');
+  const closeModal = () => {
+    modal.remove();
+    overlay.remove();
+  };
+  
+  closeButtons.forEach(btn => {
+    btn.onclick = closeModal;
+  });
+  
+  overlay.onclick = closeModal;
+
+  // Close on Escape key
+  const escapeHandler = (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+      document.removeEventListener('keydown', escapeHandler);
+    }
+  };
+  document.addEventListener('keydown', escapeHandler);
+}
+
 function showMoveToFolderMenu(projectId, folders) {
+  // Hide context menu if open
+  fileManager.hideContextMenu();
+
+  if (!folders || folders.length === 0) {
+    console.warn('No folders available to move to');
+    notify('No folders available. Create a folder first.');
+    return;
+  }
+
   // Create a custom modal for folder selection
   const modal = document.createElement('div');
   modal.className = 'file-select-modal';
@@ -1409,7 +1639,7 @@ function showMoveToFolderMenu(projectId, folders) {
     <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--text-primary);">Move to Folder</h3>
     <div style="max-height: 300px; overflow-y: auto;">
       ${folders.map(folder => `
-        <div class="folder-option" data-folder-id="${folder.id}" style="padding: 0.75rem; margin: 0.25rem 0; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s;" onmouseover="this.style.background='var(--background-secondary)'" onmouseout="this.style.background='transparent'">
+        <div class="folder-option" data-folder-id="${folder.id}" style="padding: 0.75rem; margin: 0.25rem 0; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s; user-select: none;" onmouseover="this.style.background='var(--background-secondary)'" onmouseout="this.style.background='transparent'">
           <span>📁</span>
           <span style="color: var(--text-primary);">${fileManager.escapeHtml(folder.name)}</span>
         </div>
@@ -1426,26 +1656,51 @@ function showMoveToFolderMenu(projectId, folders) {
   document.body.appendChild(overlay);
   document.body.appendChild(modal);
   
-  modal.querySelectorAll('.folder-option').forEach(option => {
-    option.onclick = () => {
+  // Set up folder option click handlers
+  const folderOptions = modal.querySelectorAll('.folder-option');
+  folderOptions.forEach(option => {
+    option.addEventListener('click', (e) => {
+      e.stopPropagation();
       const folderId = option.dataset.folderId;
       const folder = folders.find(f => f.id === folderId);
-      fileManager.moveToFolder(projectId, folderId);
-      notify('Project moved to ' + folder.name);
+      if (folder) {
+        fileManager.moveToFolder(projectId, folderId);
+        notify('Project moved to ' + folder.name);
+      } else {
+        console.warn('Folder not found:', folderId);
+      }
       modal.remove();
       overlay.remove();
-    };
+    });
   });
   
-  modal.querySelector('.cancel').onclick = () => {
-    modal.remove();
-    overlay.remove();
-  };
+  // Set up cancel button
+  const cancelBtn = modal.querySelector('.cancel');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      modal.remove();
+      overlay.remove();
+    });
+  }
   
-  overlay.onclick = () => {
-    modal.remove();
-    overlay.remove();
+  // Close on overlay click
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      modal.remove();
+      overlay.remove();
+    }
+  });
+
+  // Close on Escape
+  const escapeHandler = (e) => {
+    if (e.key === 'Escape') {
+      modal.remove();
+      overlay.remove();
+      document.removeEventListener('keydown', escapeHandler);
+    }
   };
+  document.addEventListener('keydown', escapeHandler);
 }
 
 // ============================================
@@ -1601,6 +1856,84 @@ if (document.readyState === 'loading') {
   });
 } else {
   fileManager.init();
+}
+
+// Show add document context menu
+function showAddDocumentMenu(event) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const menuItems = [
+    {
+      icon: '📄',
+      label: 'Create New Project',
+      action: () => createNewProject()
+    },
+    {
+      icon: '📤',
+      label: 'Import File',
+      action: () => {
+        // Create a hidden file input and trigger it
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.docx,.pdf';
+        fileInput.multiple = true;
+        fileInput.style.display = 'none';
+        fileInput.onchange = (e) => {
+          handleFileUpload(e);
+          document.body.removeChild(fileInput);
+        };
+        document.body.appendChild(fileInput);
+        fileInput.click();
+      }
+    },
+    {
+      icon: '📁',
+      label: 'Create Folder',
+      action: () => createNewFolder()
+    }
+  ];
+
+  // Position the context menu near the button
+  const rect = event.target.closest('button').getBoundingClientRect();
+  const x = rect.left;
+  const y = rect.bottom + 5;
+
+  fileManager.showContextMenu(x, y, menuItems);
+}
+
+// Toggle multi-select mode
+function toggleMultiSelectMode() {
+  const toolbar = document.getElementById('multi-select-toolbar');
+  
+  if (!toolbar) return;
+  
+  // If toolbar is hidden, show it and enable multi-select mode
+  if (toolbar.style.display === 'none' || !toolbar.style.display) {
+    toolbar.style.display = 'flex';
+    const countDisplay = toolbar.querySelector('.selection-count');
+    if (countDisplay) {
+      countDisplay.textContent = fileManager.selectedProjects.size > 0 
+        ? `${fileManager.selectedProjects.size} selected` 
+        : 'Select files';
+    }
+    
+    // Add visual indication that multi-select is active
+    const sidebar = document.getElementById('file-sidebar');
+    if (sidebar) {
+      sidebar.classList.add('multi-select-active');
+    }
+  } else {
+    // If toolbar is visible, hide it and clear selection
+    fileManager.clearSelection();
+    toolbar.style.display = 'none';
+    
+    // Remove visual indication
+    const sidebar = document.getElementById('file-sidebar');
+    if (sidebar) {
+      sidebar.classList.remove('multi-select-active');
+    }
+  }
 }
 
 // Global functions for storage quota modal

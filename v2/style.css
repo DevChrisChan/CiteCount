@@ -1190,7 +1190,7 @@
   }
 
   .drop-overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -1201,7 +1201,7 @@
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    z-index: 1000;
+    z-index: 9999;
     animation: fadeIn 0.2s ease;
   }
 
@@ -3169,6 +3169,215 @@ pre {
   background: #93c5fd !important;
 }
 
+/* ============================================
+   AUTO-LOOKUP SECTION STYLES
+   ============================================ */
+
+.auto-lookup-section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.auto-lookup-section > label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.auto-lookup-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.auto-lookup-type-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lookup-type-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--border-primary);
+  background: var(--background-primary);
+  color: var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.lookup-type-btn:hover {
+  background: var(--background-secondary);
+  border-color: var(--accent-color);
+}
+
+.lookup-type-btn.active {
+  border-color: var(--accent-color);
+  background: var(--accent-color);
+  color: white;
+}
+
+.lookup-type-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.auto-lookup-input-wrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.auto-lookup-input-wrapper input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid var(--border-primary);
+  background: var(--background-primary);
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.auto-lookup-input-wrapper input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.auto-lookup-btn {
+  padding: 0.75rem 1rem !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  white-space: nowrap !important;
+}
+
+.auto-lookup-btn:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+  transform: translateY(-1px) !important;
+}
+
+.auto-lookup-btn:disabled {
+  opacity: 0.7 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.auto-lookup-btn.loading .loading-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Citation Divider */
+.citation-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+}
+
+.citation-divider::before,
+.citation-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.citation-divider span {
+  padding: 0 1rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Success Message */
+.citation-success {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #a7f3d0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .citation-success {
+    background: #064e3b;
+    color: #6ee7b7;
+    border-color: #065f46;
+  }
+}
+
+/* Clear Form Button */
+.clear-form-btn {
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 2px solid var(--border-primary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-form-btn:hover {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .auto-lookup-type-selector {
+    flex-wrap: wrap;
+  }
+  
+  .lookup-type-btn {
+    flex: 1 1 calc(50% - 0.25rem);
+    min-width: calc(50% - 0.25rem);
+  }
+  
+  .lookup-type-btn:nth-child(3) {
+    flex: 1 1 100%;
+  }
+  
+  .auto-lookup-input-wrapper {
+    flex-direction: column;
+  }
+  
+  .auto-lookup-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 768px) {
   .citation-modal-content {
     max-height: 95vh;
@@ -3253,6 +3462,10 @@ pre {
 
 .file-sidebar.collapsed .sidebar-header-actions {
   margin: 0;
+}
+
+.file-sidebar.collapsed .sidebar-header-actions .sidebar-action-btn:first-child {
+  display: none;
 }
 
 .file-sidebar.collapsed .file-tree-item {
@@ -3380,6 +3593,10 @@ pre {
   .mobile-sidebar-toggle {
     display: flex !important;
   }
+
+  .sidebar-header {
+    margin-top: 0!important;
+  }
 }
 
 .sidebar-header {
@@ -3463,7 +3680,6 @@ pre {
 
 .sidebar-footer {
   padding: 0.75rem;
-  border-top: 1px solid var(--border-primary);
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -3658,6 +3874,8 @@ pre {
 /* Folder children with indentation */
 .folder-children {
   padding-left: 1.25rem;
+  border-left: 1px solid var(--border-primary);
+  margin-left: 0.5rem;
   overflow: hidden;
   max-height: 5000px;
   transition: max-height 0.3s ease, opacity 0.3s ease;
@@ -3677,7 +3895,7 @@ pre {
 }
 
 .folder-toggle.collapsed {
-  transform: rotate(-90deg);
+  transform: rotate(0deg);
 }
 
 /* Input for renaming */
@@ -3736,6 +3954,7 @@ pre {
   z-index: 1000;
   min-width: 150px;
   padding: 0.25rem;
+  pointer-events: auto;
 }
 
 .file-context-menu-item {
@@ -3748,6 +3967,8 @@ pre {
   font-size: 0.85rem;
   color: var(--text-primary);
   transition: background 0.2s;
+  pointer-events: auto;
+  user-select: none;
 }
 
 .file-context-menu-item:hover {

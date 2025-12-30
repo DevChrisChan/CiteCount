@@ -532,27 +532,46 @@ function updateLayout() {
 }
 
 function setupDragAndDrop() {
-  const editorContainer = document.querySelector('.editor-container');
-  const editor = document.getElementById('editor');
   const dropOverlay = document.getElementById('drop-overlay');
+  let dragCounter = 0;
 
-  editorContainer.addEventListener('dragover', (e) => {
+  // Track dragenter/dragleave on window for full-screen detection
+  document.addEventListener('dragenter', (e) => {
     e.preventDefault();
-    editorContainer.classList.add('dragover');
-    if (dropOverlay) dropOverlay.style.display = 'flex';
-  });
-
-  editorContainer.addEventListener('dragleave', (e) => {
-    // Only remove if we're actually leaving the container
-    if (!editorContainer.contains(e.relatedTarget)) {
-      editorContainer.classList.remove('dragover');
-      if (dropOverlay) dropOverlay.style.display = 'none';
+    // Only show drop overlay for actual file drops, not sidebar item reordering
+    if (e.dataTransfer.types.includes('Files')) {
+      dragCounter++;
+      if (dropOverlay) {
+        dropOverlay.style.display = 'flex';
+      }
     }
   });
 
-  editorContainer.addEventListener('drop', (e) => {
+  document.addEventListener('dragover', (e) => {
     e.preventDefault();
-    editorContainer.classList.remove('dragover');
+    // Only show drop overlay for actual file drops, not sidebar item reordering
+    if (e.dataTransfer.types.includes('Files')) {
+      if (dropOverlay) {
+        dropOverlay.style.display = 'flex';
+      }
+    }
+  });
+
+  document.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.types.includes('Files')) {
+      dragCounter--;
+      // Only hide when all drag events have left
+      if (dragCounter <= 0) {
+        dragCounter = 0;
+        if (dropOverlay) dropOverlay.style.display = 'none';
+      }
+    }
+  });
+
+  document.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dragCounter = 0;
     if (dropOverlay) dropOverlay.style.display = 'none';
     const files = e.dataTransfer.files;
     if (files.length > 0) {
@@ -565,13 +584,7 @@ function handleMultipleFilesDrop(files) {
   const fileArray = Array.from(files);
   const totalFiles = fileArray.length;
   
-  if (totalFiles === 1) {
-    // Single file - use existing behavior
-    handleFileDrop(fileArray[0]);
-    return;
-  }
-  
-  // Multiple files - show progress UI and process one by one
+  // Show progress UI for all files (including single file)
   showFileImportProgress(totalFiles);
   processFilesSequentially(fileArray, 0, totalFiles);
 }
@@ -641,7 +654,26 @@ function closeFileImportProgress() {
   fileProcessingTimes = [];
 }
 
-function addFileToImportList(fileName, status = 'pending') {
+function goToImportedFile(fileId) {
+  // Get the project ID from the file item
+  const fileItem = document.getElementById(fileId);
+  if (!fileItem) return;
+  
+  const projectId = fileItem.dataset.projectId;
+  if (!projectId) return;
+  
+  // Close the import progress modal
+  closeFileImportProgress();
+  
+  // Load the project using fileManager
+  if (typeof fileManager !== 'undefined' && fileManager.loadProject) {
+    fileManager.loadProject(projectId);
+    fileManager.currentProject = projectId;
+    fileManager.renderFileTree();
+  }
+}
+
+function addFileToImportList(fileName, status = 'pending', projectId = null) {
   const fileList = document.getElementById('file-import-list');
   if (!fileList) return;
   
@@ -655,13 +687,30 @@ function addFileToImportList(fileName, status = 'pending') {
   
   const fileItem = document.createElement('div');
   fileItem.id = fileId;
+  fileItem.dataset.projectId = projectId || '';
   fileItem.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 6px; background: var(--background-secondary); margin-bottom: 8px;';
+  
+  const goToButtonHTML = projectId ? `
+    <button onclick="goToImportedFile('${fileId}')" 
+      style="flex-shrink: 0; padding: 4px 8px; background: #667eea; color: white; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: background 0.2s;"
+      onmouseover="this.style.background='#764ba2'" onmouseout="this.style.background='#667eea'" 
+      title="Go to this file">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="display: inline; margin-right: 4px; vertical-align: -2px;">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/>
+        <line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+      Open
+    </button>
+  ` : '';
+  
   fileItem.innerHTML = `
     <div class="file-status-icon" style="flex-shrink: 0;">${statusIcon[status]}</div>
     <div style="flex: 1; min-width: 0; overflow: hidden;">
       <div style="font-size: 0.875rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${fileName}">${fileName}</div>
       <div class="file-status-text" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 2px;">Waiting...</div>
     </div>
+    ${goToButtonHTML}
   `;
   
   fileList.appendChild(fileItem);
@@ -725,8 +774,33 @@ function processFilesSequentially(files, currentIndex, totalFiles) {
   updateFileImportStatus(fileId, 'processing', 'Processing...');
   
   // Process the file
-  processFileWithProgress(file, fileId, (success, errorMessage) => {
+  processFileWithProgress(file, fileId, (success, errorMessage, projectId) => {
     if (success) {
+      // Update file item with projectId if available
+      const fileItem = document.getElementById(fileId);
+      if (fileItem && projectId) {
+        fileItem.dataset.projectId = projectId;
+        // Re-render the button HTML
+        const button = fileItem.querySelector('button');
+        if (!button) {
+          const goToButtonHTML = `
+            <button onclick="goToImportedFile('${fileId}')" 
+              style="flex-shrink: 0; padding: 4px 8px; background: #667eea; color: white; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: background 0.2s;"
+              onmouseover="this.style.background='#764ba2'" onmouseout="this.style.background='#667eea'" 
+              title="Go to this file">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="display: inline; margin-right: 4px; vertical-align: -2px;">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              Open
+            </button>
+          `;
+          const div = document.createElement('div');
+          div.innerHTML = goToButtonHTML;
+          fileItem.appendChild(div.firstElementChild);
+        }
+      }
       updateFileImportStatus(fileId, 'success', 'Imported successfully');
     } else {
       updateFileImportStatus(fileId, 'error', errorMessage || 'Failed to import');
@@ -801,7 +875,7 @@ function processFileWithProgress(file, fileId, callback) {
                       file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
   
   if (!isValidType) {
-    callback(false, 'Unsupported file type. Only .docx and .pdf files are supported.');
+    callback(false, 'Unsupported file type. Only .docx and .pdf files are supported.', null);
     return;
   }
   
@@ -844,17 +918,20 @@ function processFileContent(file, editor, welcomeText, fileId, callback) {
           if (project) {
             project.content = text;
             fileManager.saveToStorage();
+            // Update file item with projectId
+            const fileItem = document.getElementById(fileId);
+            if (fileItem) fileItem.dataset.projectId = newProjectId;
           }
         }
         
-        callback(true);
+        callback(true, null, newProjectId);
       } catch (err) {
         console.error('PDF processing error:', err);
-        callback(false, 'Error reading PDF file: ' + err.message);
+        callback(false, 'Error reading PDF file: ' + err.message, null);
       }
     };
     reader.onerror = () => {
-      callback(false, 'Failed to read file');
+      callback(false, 'Failed to read file', null);
     };
     reader.readAsArrayBuffer(file);
     
@@ -869,17 +946,20 @@ function processFileContent(file, editor, welcomeText, fileId, callback) {
             if (project) {
               project.content = result.value;
               fileManager.saveToStorage();
+              // Update file item with projectId
+              const fileItem = document.getElementById(fileId);
+              if (fileItem) fileItem.dataset.projectId = newProjectId;
             }
           }
-          callback(true);
+          callback(true, null, newProjectId);
         })
         .catch(err => {
           console.error('DOCX processing error:', err);
-          callback(false, 'Error reading DOCX file: ' + err.message);
+          callback(false, 'Error reading DOCX file: ' + err.message, null);
         });
     };
     reader.onerror = () => {
-      callback(false, 'Failed to read file');
+      callback(false, 'Failed to read file', null);
     };
     reader.readAsArrayBuffer(file);
   }
@@ -1627,6 +1707,7 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('%cWARNING', 'font-size:8em;color:red;font-weight:900;')
   console.log(`%cThis is a browser feature intended for developers.
 Do NOT copy and paste something here if you do not understand it.
+Your documents are at risk of being compromised by attackers using Self-XSS techniques.
 
 You can learn more at:
 https://en.wikipedia.org/wiki/Self-XSS`,
