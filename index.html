@@ -161,7 +161,7 @@
       <!-- File Management Sidebar (hidden on small screens) -->
       <div id="file-sidebar" class="file-sidebar">
         <div class="sidebar-header">
-          <h3 class="sidebar-title">Documents</h3>
+          <h3 class="sidebar-title">Documents <span data-tooltip="Experimental feature" style="font-size: 0.65rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px; cursor: help;">BETA</span></h3>
           <div class="sidebar-header-actions">
             <button class="sidebar-action-btn" onclick="createNewProject()" title="New Project" data-lta-event="sidebar-new-project">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -392,7 +392,7 @@
                     <line x1="16" y1="17" x2="8" y2="17"></line>
                     <polyline points="10 9 9 9 8 9"></polyline>
                   </svg>
-                  <span class="hidden md:inline text-sm font-medium flex items-center gap-1.5">Generate Citation <span style="font-size: 0.65rem; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1px 5px; border-radius: 4px; letter-spacing: 0.5px;">BETA</span></span>
+                  <span class="hidden md:inline text-sm font-medium flex items-center gap-1.5">Generate Citation</span>
                 </button>
               </div>
               <button id="manage-citations-btn"
@@ -430,7 +430,7 @@
                     class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
                     data-lta-event="v2-choose-file-action">
                     Choose File
-                    <input type="file" accept=".docx,.pdf" onchange="handleFileUpload(event)" class="hidden">
+                    <input type="file" accept=".docx,.pdf" onchange="handleFileUpload(event)" class="hidden" multiple>
                   </label>
                   <button onclick="initiateExample()"
                     class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
@@ -1095,6 +1095,34 @@
               </p>
               <div id="counter-settings-container" class="space-y-3">
                 <!-- Counter settings will be dynamically populated here -->
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-medium mb-4">Manage Storage</h3>
+            <div class="space-y-4">
+              <div class="p-4 rounded-md" style="background: #f3f4f6;">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-medium">Storage Usage</span>
+                  <span id="storage-usage-text" class="text-sm font-mono text-gray-600 dark:text-gray-300">0 KB / 4.28 MB</span>
+                </div>
+                <div class="storage-bar-container">
+                  <div id="storage-bar-fill" class="storage-bar-fill" style="width: 0%;"></div>
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                  Projects and settings are stored locally in your browser. System files cannot be deleted. This is a hard storage limit imposed by browsers.
+                </p>
+              </div>
+
+              <div class="p-4 rounded-md" style="background: #f3f4f6;">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="font-medium">Items</span>
+                  <span id="project-count-text" class="text-sm text-gray-600 dark:text-gray-300">0 items</span>
+                </div>
+                <div id="storage-project-list" class="storage-project-list">
+                  <!-- Projects will be dynamically added here -->
+                </div>
               </div>
             </div>
           </div>
@@ -2490,6 +2518,65 @@
       </div>
       <div class="citation-modal-footer">
         <button class="generate-btn" onclick="generateCitation()">Generate Citation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Storage Quota Modal -->
+  <div id="storage-quota-modal" class="storage-quota-modal" style="display: none;">
+    <div class="storage-quota-content">
+      <div class="storage-quota-header">
+        <div>
+          <h2 style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #dc2626;">
+            <svg style="display: inline-block; vertical-align: middle; margin-right: 8px;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            Storage Quota Exceeded
+          </h2>
+          <p style="margin: 8px 0 0 0; font-size: 0.95rem; opacity: 0.8;">
+            You have too many projects stored. Delete some projects to free up space and continue using CiteCount.
+          </p>
+        </div>
+      </div>
+      
+      <div class="storage-quota-body">
+        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+          <div style="display: flex; align-items: start; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <div style="flex: 1; font-size: 0.875rem; color: #991b1b;">
+              <strong>Important:</strong> Projects are sorted by size. Deleting larger projects will free up more space. You can select multiple projects to delete.
+            </div>
+          </div>
+        </div>
+        
+        <div id="storage-quota-project-list" class="storage-quota-project-list">
+          <!-- Projects will be dynamically added here -->
+        </div>
+      </div>
+      
+      <div class="storage-quota-footer">
+        <div style="flex: 1; font-size: 0.875rem; opacity: 0.7;">
+          <span id="storage-quota-selected-count">0 projects selected</span>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button id="storage-quota-cancel-btn" 
+                  onclick="closeStorageQuotaModal()"
+                  class="storage-quota-btn-secondary">
+            Cancel
+          </button>
+          <button id="storage-quota-delete-btn" 
+                  onclick="deleteSelectedProjects()"
+                  class="storage-quota-btn-danger"
+                  disabled>
+            Delete Selected
+          </button>
+        </div>
       </div>
     </div>
   </div>

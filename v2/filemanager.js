@@ -243,9 +243,297 @@ const fileManager = {
   },
 
   saveToStorage() {
-    localStorage.setItem('fileManager_projects', JSON.stringify(this.projects));
-    localStorage.setItem('fileManager_folders', JSON.stringify(this.folders));
-    localStorage.setItem('fileManager_currentProject', this.currentProject);
+    try {
+      localStorage.setItem('fileManager_projects', JSON.stringify(this.projects));
+      localStorage.setItem('fileManager_folders', JSON.stringify(this.folders));
+      localStorage.setItem('fileManager_currentProject', this.currentProject);
+    } catch (error) {
+      if (error.name === 'QuotaExceededError' || error.message.includes('quota')) {
+        // Storage quota exceeded - show modal to let user delete projects
+        this.showStorageQuotaModal();
+      } else {
+        // Re-throw other errors
+        throw error;
+      }
+    }
+  },
+
+  showStorageQuotaModal() {
+    const modal = document.getElementById('storage-quota-modal');
+    const overlay = document.getElementById('overlay-background');
+    const projectListContainer = document.getElementById('storage-quota-project-list');
+    
+    if (!modal) return;
+    
+    // Clear and populate project list
+    projectListContainer.innerHTML = '';
+    
+    // Calculate storage size for each project
+    const projectsWithSize = this.projects.map(project => {
+      const size = new Blob([JSON.stringify(project)]).size;
+      return { ...project, size };
+    }).sort((a, b) => b.size - a.size); // Sort by size, largest first
+    
+    projectsWithSize.forEach(project => {
+      const projectItem = document.createElement('div');
+      projectItem.className = 'storage-quota-project-item';
+      projectItem.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0;">
+          <input type="checkbox" 
+                 id="delete-project-${project.id}" 
+                 class="storage-quota-checkbox"
+                 data-project-id="${project.id}"
+                 onchange="updateStorageQuotaSelection()">
+          <label for="delete-project-${project.id}" style="flex: 1; min-width: 0; cursor: pointer;">
+            <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+              <span style="font-size: 1.2em;">${project.icon || '📄'}</span>
+              <div style="flex: 1; min-width: 0; overflow: hidden;">
+                <div style="font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${project.name}">
+                  ${project.name}
+                </div>
+                <div style="font-size: 0.75rem; opacity: 0.7; margin-top: 2px;">
+                  ${this.formatBytes(project.size)} • Last updated: ${this.formatDate(project.updatedAt)}
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+      `;
+      projectListContainer.appendChild(projectItem);
+    });
+    
+    // Show modal
+    modal.style.display = 'flex';
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    
+    // Update delete button state
+    updateStorageQuotaSelection();
+  },
+
+  formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+  },
+
+  formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} min${diffMins > 1 ? 's' : ''} ago`;
+    if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    return date.toLocaleDateString();
+  },
+
+  updateStorageDisplay() {
+    const storageUsageText = document.getElementById('storage-usage-text');
+    const storageBarFill = document.getElementById('storage-bar-fill');
+    const projectCountText = document.getElementById('project-count-text');
+    const storageProjectList = document.getElementById('storage-project-list');
+    
+    if (!storageUsageText || !storageBarFill || !projectCountText || !storageProjectList) return;
+    
+    // Calculate total storage used
+    let totalSize = 0;
+    for (let key in localStorage) {
+      if (localStorage.hasOwnProperty(key)) {
+        totalSize += new Blob([localStorage[key]]).size + key.length;
+      }
+    }
+    
+    const maxSize = 4.28 * 1024 * 1024; // 4.28MB in bytes (tested localStorage limit)
+    const percentage = (totalSize / maxSize) * 100;
+    
+    // Update storage bar
+    storageBarFill.style.width = `${Math.min(percentage, 100)}%`;
+    
+    // Change color based on usage
+    storageBarFill.classList.remove('warning', 'danger');
+    if (percentage >= 90) {
+      storageBarFill.classList.add('danger');
+    } else if (percentage >= 70) {
+      storageBarFill.classList.add('warning');
+    }
+    
+    // Update text
+    storageUsageText.textContent = `${this.formatBytes(totalSize)} / 4.28 MB`;
+    
+    // Populate item list
+    storageProjectList.innerHTML = '';
+    
+    // Collect all storage items (system + projects)
+    const allItems = [];
+    
+    // Calculate grouped system items
+    const settingsKeys = ['settings', 'sortState', 'sidebar_collapsed', 'isPremium', 'cookieConsent'];
+    const appDataKeys = ['rawData', 'citationStates', 'fileManager_folders', 'fileManager_currentProject', 
+                         'surveyAlertDismissedTimestamp', 'dismissedAnnouncementId', 'perplexityOverlayDismissed'];
+    
+    let settingsSize = 0;
+    let appDataSize = 0;
+    
+    settingsKeys.forEach(key => {
+      const data = localStorage.getItem(key);
+      if (data !== null) {
+        settingsSize += new Blob([data]).size + key.length;
+      }
+    });
+    
+    appDataKeys.forEach(key => {
+      const data = localStorage.getItem(key);
+      if (data !== null) {
+        appDataSize += new Blob([data]).size + key.length;
+      }
+    });
+    
+    // Add grouped system items if they have data
+    if (settingsSize > 0) {
+      allItems.push({
+        name: 'App Settings',
+        icon: '⚙️',
+        type: 'system',
+        size: settingsSize,
+        key: 'system-settings'
+      });
+    }
+    
+    if (appDataSize > 0) {
+      allItems.push({
+        name: 'Other App Data',
+        icon: '📦',
+        type: 'system',
+        size: appDataSize,
+        key: 'system-appdata'
+      });
+    }
+    
+    // Add projects
+    this.projects.forEach(project => {
+      const size = new Blob([JSON.stringify(project)]).size;
+      allItems.push({
+        ...project,
+        size,
+        type: 'project',
+        key: project.id
+      });
+    });
+    
+    // Sort all items by size (largest first)
+    allItems.sort((a, b) => b.size - a.size);
+    
+    // Update item count
+    const itemCount = allItems.length;
+    projectCountText.textContent = itemCount === 0 ? 'No items' : 
+                                   itemCount === 1 ? '1 item' : 
+                                   `${itemCount} items`;
+    
+    if (allItems.length === 0) {
+      const emptyState = document.createElement('div');
+      emptyState.style.cssText = 'text-align: center; padding: 24px; opacity: 0.6;';
+      emptyState.innerHTML = `
+        <svg style="margin: 0 auto 8px;" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <p style="font-size: 0.875rem;">No items in storage</p>
+      `;
+      storageProjectList.appendChild(emptyState);
+      return;
+    }
+    
+    allItems.forEach(item => {
+      const itemElement = document.createElement('div');
+      itemElement.className = 'storage-project-item';
+      
+      const isSystem = item.type === 'system';
+      const isCurrent = item.type === 'project' && item.id === this.currentProject;
+      
+      if (isCurrent) {
+        itemElement.classList.add('current-project');
+      }
+      
+      let metaHtml = '';
+      
+      if (item.type === 'project' && item.createdAt) {
+        const createdDate = new Date(item.createdAt).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        });
+        const updatedLabel = this.formatDate(item.updatedAt);
+        
+        metaHtml = `
+          <div class="storage-project-meta">
+            <span class="storage-project-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              Created: ${createdDate}
+            </span>
+            <span class="storage-project-meta-item">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Updated: ${updatedLabel}
+            </span>
+          </div>
+        `;
+      } else if (isSystem) {
+        metaHtml = `
+          <div class="storage-project-meta">
+            <span class="storage-project-meta-item" style="color: #6b7280; font-style: italic;">
+              System file - Required for app functionality
+            </span>
+          </div>
+        `;
+      }
+      
+      const displayName = item.type === 'project' ? item.name : item.name;
+      const currentLabel = isCurrent ? ' <span style="font-size: 0.75em; opacity: 0.7;">(Current)</span>' : '';
+      
+      const deleteButton = isSystem ? 
+        `<button class="storage-delete-btn" disabled style="opacity: 0.5; cursor: not-allowed;" title="System files cannot be deleted">
+          <svg style="display: inline-block; vertical-align: middle; margin-right: 4px;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+          Protected
+        </button>` :
+        `<button class="storage-delete-btn" onclick="deleteProjectFromStorage('${item.key}')">
+          <svg style="display: inline-block; vertical-align: middle; margin-right: 4px;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          </svg>
+          Delete
+        </button>`;
+      
+      itemElement.innerHTML = `
+        <div class="storage-project-info">
+          <span class="storage-project-icon">${item.icon || '📄'}</span>
+          <div class="storage-project-details">
+            <div class="storage-project-name" title="${displayName}">
+              ${displayName}${currentLabel}
+            </div>
+            ${metaHtml}
+          </div>
+        </div>
+        <div class="storage-project-actions">
+          <span class="storage-project-size">${this.formatBytes(item.size)}</span>
+          ${deleteButton}
+        </div>
+      `;
+      
+      storageProjectList.appendChild(itemElement);
+    });
   },
 
   loadFromStorage() {
@@ -1283,4 +1571,159 @@ if (document.readyState === 'loading') {
   });
 } else {
   fileManager.init();
+}
+
+// Global functions for storage quota modal
+function closeStorageQuotaModal() {
+  const modal = document.getElementById('storage-quota-modal');
+  const overlay = document.getElementById('overlay-background');
+  
+  if (modal) modal.style.display = 'none';
+  if (overlay) overlay.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function updateStorageQuotaSelection() {
+  const checkboxes = document.querySelectorAll('.storage-quota-checkbox:checked');
+  const deleteBtn = document.getElementById('storage-quota-delete-btn');
+  const countLabel = document.getElementById('storage-quota-selected-count');
+  
+  const count = checkboxes.length;
+  
+  if (countLabel) {
+    countLabel.textContent = count === 0 ? '0 projects selected' : 
+                             count === 1 ? '1 project selected' : 
+                             `${count} projects selected`;
+  }
+  
+  if (deleteBtn) {
+    deleteBtn.disabled = count === 0;
+  }
+}
+
+function deleteSelectedProjects() {
+  const checkboxes = document.querySelectorAll('.storage-quota-checkbox:checked');
+  
+  if (checkboxes.length === 0) {
+    if (typeof notify !== 'undefined') {
+      notify('Please select at least one project to delete.', false, null, 'warning');
+    } else {
+      alert('Please select at least one project to delete.');
+    }
+    return;
+  }
+  
+  // Confirm deletion
+  const projectCount = checkboxes.length;
+  const confirmMessage = projectCount === 1 ? 
+    'Are you sure you want to delete this project? This action cannot be undone.' :
+    `Are you sure you want to delete ${projectCount} projects? This action cannot be undone.`;
+  
+  if (!confirm(confirmMessage)) {
+    return;
+  }
+  
+  // Collect project IDs to delete
+  const projectIdsToDelete = Array.from(checkboxes).map(cb => cb.dataset.projectId);
+  
+  // Delete projects
+  projectIdsToDelete.forEach(projectId => {
+    const projectIndex = fileManager.projects.findIndex(p => p.id === projectId);
+    if (projectIndex !== -1) {
+      fileManager.projects.splice(projectIndex, 1);
+    }
+  });
+  
+  // If current project was deleted, switch to another one or create new
+  if (projectIdsToDelete.includes(fileManager.currentProject)) {
+    if (fileManager.projects.length > 0) {
+      fileManager.currentProject = fileManager.projects[0].id;
+      fileManager.loadProject(fileManager.currentProject);
+    } else {
+      fileManager.currentProject = null;
+      const editor = document.getElementById('editor');
+      if (editor) editor.innerHTML = '';
+    }
+  }
+  
+  // Try saving again - this should succeed now with freed space
+  try {
+    localStorage.setItem('fileManager_projects', JSON.stringify(fileManager.projects));
+    localStorage.setItem('fileManager_folders', JSON.stringify(fileManager.folders));
+    localStorage.setItem('fileManager_currentProject', fileManager.currentProject);
+    
+    // Success - close modal and show notification
+    closeStorageQuotaModal();
+    fileManager.renderFileTree();
+    
+    const deletedText = projectCount === 1 ? '1 project' : `${projectCount} projects`;
+    if (typeof notify !== 'undefined') {
+      notify(`Successfully deleted ${deletedText} and freed up storage space.`, false, null, 'success');
+    } else {
+      alert(`Successfully deleted ${deletedText} and freed up storage space.`);
+    }
+    
+    // Create a new project if none exist
+    if (fileManager.projects.length === 0) {
+      fileManager.createProject('Untitled Project', true);
+    }
+  } catch (error) {
+    // Still not enough space - show error and keep modal open
+    if (typeof notify !== 'undefined') {
+      notify('Not enough space freed. Please delete more projects.', false, null, 'error');
+    } else {
+      alert('Not enough space freed. Please delete more projects.');
+    }
+    
+    // Refresh the modal to show updated list
+    fileManager.showStorageQuotaModal();
+  }
+}
+
+// Delete project from storage management settings
+function deleteProjectFromStorage(projectId) {
+  const project = fileManager.projects.find(p => p.id === projectId);
+  if (!project) return;
+  
+  // Confirm deletion
+  const confirmMessage = `Are you sure you want to delete "${project.name}"? This action cannot be undone.`;
+  
+  if (!confirm(confirmMessage)) {
+    return;
+  }
+  
+  // Delete the project
+  const projectIndex = fileManager.projects.findIndex(p => p.id === projectId);
+  if (projectIndex !== -1) {
+    fileManager.projects.splice(projectIndex, 1);
+  }
+  
+  // If current project was deleted, switch to another one or create new
+  if (projectId === fileManager.currentProject) {
+    if (fileManager.projects.length > 0) {
+      fileManager.currentProject = fileManager.projects[0].id;
+      fileManager.loadProject(fileManager.currentProject);
+    } else {
+      fileManager.currentProject = null;
+      const editor = document.getElementById('editor');
+      if (editor) editor.innerHTML = '';
+    }
+  }
+  
+  // Save changes
+  fileManager.saveToStorage();
+  fileManager.renderFileTree();
+  
+  // Update storage display
+  fileManager.updateStorageDisplay();
+  
+  // Show notification
+  if (typeof notify !== 'undefined') {
+    notify(`"${project.name}" has been deleted.`, false, null, 'success');
+  }
+  
+  // Create a new project if none exist
+  if (fileManager.projects.length === 0) {
+    fileManager.createProject('Untitled Project', true);
+  }
 }

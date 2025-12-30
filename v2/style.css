@@ -3248,6 +3248,9 @@ pre {
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
+  position: sticky;
+  bottom: 0;
+  background: var(--background-secondary);
 }
 
 .file-sidebar.collapsed .sidebar-btn-full {
@@ -3387,6 +3390,10 @@ pre {
   display: flex;
   flex-direction: column;
   gap: 0;
+  position: sticky;
+  bottom: 0;
+  background: var(--background-secondary);
+  z-index: 10;
 }
 
 .sidebar-btn-full {
@@ -4048,4 +4055,326 @@ pre {
 
 .file-tree-item:active {
   opacity: 0.6;
+}
+
+/* File import progress styles */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Storage Management Styles */
+.storage-bar-container {
+  width: 100%;
+  height: 24px;
+  background: var(--background-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.storage-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  transition: width 0.5s ease, background 0.3s ease;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+}
+
+.storage-bar-fill.warning {
+  background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+}
+
+.storage-bar-fill.danger {
+  background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+}
+
+.storage-project-list {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.storage-project-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: var(--background-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  gap: 12px;
+}
+
+.storage-project-item:hover {
+  border-color: var(--accent-color);
+  background: var(--background-secondary);
+}
+
+.storage-project-item.current-project {
+  border-color: var(--accent-color);
+  background: rgba(30, 64, 175, 0.05);
+}
+
+.storage-project-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.storage-project-icon {
+  font-size: 1.4em;
+  flex-shrink: 0;
+}
+
+.storage-project-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.storage-project-name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.storage-project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.storage-project-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.storage-project-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.storage-project-size {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 4px 8px;
+  background: var(--background-secondary);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.storage-delete-btn {
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.storage-delete-btn:hover {
+  background: #dc2626;
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .storage-project-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .storage-project-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .storage-project-size {
+    text-align: center;
+  }
+}
+
+/* Storage Quota Modal Styles */
+.storage-quota-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10003;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.storage-quota-content {
+  background: var(--background-primary);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.storage-quota-header {
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.storage-quota-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.storage-quota-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.storage-quota-project-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.storage-quota-project-item:hover {
+  background: var(--background-hover);
+  border-color: var(--accent-color);
+}
+
+.storage-quota-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.storage-quota-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--background-secondary);
+}
+
+.storage-quota-btn-secondary {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.storage-quota-btn-secondary:hover {
+  background: var(--background-secondary);
+  border-color: var(--text-secondary);
+}
+
+.storage-quota-btn-danger {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: #dc2626;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.storage-quota-btn-danger:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.storage-quota-btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .storage-quota-content {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+  
+  .storage-quota-header {
+    padding: 20px 16px 12px 16px;
+  }
+  
+  .storage-quota-header h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  .storage-quota-body {
+    padding: 16px;
+  }
+  
+  .storage-quota-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .storage-quota-footer > div:first-child {
+    text-align: center;
+  }
+  
+  .storage-quota-footer > div:last-child {
+    flex-direction: column;
+  }
+  
+  .storage-quota-btn-secondary,
+  .storage-quota-btn-danger {
+    width: 100%;
+  }
 }
