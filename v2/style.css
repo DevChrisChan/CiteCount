@@ -942,7 +942,6 @@
   .settings-overlay {
     padding: 0;
     overflow: hidden;
-    display: flex;
     flex-direction: column;
     max-height: 85vh;
   }
