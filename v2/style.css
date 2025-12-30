@@ -938,6 +938,36 @@
     background: rgba(255, 255, 255, 0.95);
   }
 
+  /* Settings overlay specific styling for sticky header */
+  .settings-overlay {
+    padding: 0;
+    overflow-y: hidden;
+  }
+
+  .settings-overlay .settings-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 1.5rem;
+    padding-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #E5E7EB;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .settings-overlay .settings-header {
+      background: rgba(17, 24, 39, 0.95);
+      border-bottom-color: #374151;
+    }
+  }
+
+  .settings-overlay .p-4 {
+    overflow-y: auto;
+    max-height: calc(85vh - 80px);
+    padding: 1.5rem !important;
+  }
+
   @media (prefers-color-scheme: dark) {
     .citations-overlay,
     .settings-overlay,
@@ -3308,11 +3338,42 @@ pre {
 
 @media (max-width: 1024px) {
   .file-sidebar {
-    display: none;
+    position: fixed;
+    top: 0;
+    left: -260px;
+    height: 100vh;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .file-sidebar.mobile-open {
+    left: 0;
   }
   
   .content-area {
     padding: 0.5rem 1rem;
+  }
+  
+  /* Overlay background when sidebar is open on mobile */
+  .mobile-sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  
+  .mobile-sidebar-overlay.active {
+    display: block;
+  }
+  
+  /* Mobile sidebar toggle button */
+  .mobile-sidebar-toggle {
+    display: flex !important;
   }
 }
 
@@ -3353,6 +3414,17 @@ pre {
 .sidebar-action-btn:hover {
   background: var(--background-secondary);
   color: var(--text-primary);
+}
+
+/* Mobile sidebar toggle button (hidden on desktop) */
+.mobile-sidebar-toggle {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .mobile-sidebar-toggle {
+    display: none !important;
+  }
 }
 
 .sidebar-content {

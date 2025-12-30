@@ -115,6 +115,17 @@ const fileManager = {
     this.currentProject = projectId;
     this.loadProject(projectId);
     this.renderFileTree();
+    
+    // Close mobile sidebar after switching project (on mobile/tablet)
+    if (window.innerWidth <= 1024) {
+      const sidebar = document.getElementById('file-sidebar');
+      const overlay = document.getElementById('mobile-sidebar-overlay');
+      if (sidebar && overlay) {
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
   },
 
   saveCurrentProject() {
@@ -1002,6 +1013,24 @@ function toggleSidebar() {
   setTimeout(() => {
     sidebar.classList.remove('transitioning');
   }, 300);
+}
+
+// Toggle mobile sidebar (drawer-style on mobile/tablet)
+function toggleMobileSidebar() {
+  const sidebar = document.getElementById('file-sidebar');
+  const overlay = document.getElementById('mobile-sidebar-overlay');
+  
+  if (!sidebar || !overlay) return;
+  
+  const isOpen = sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('active', isOpen);
+  
+  // Prevent body scroll when sidebar is open on mobile
+  if (isOpen) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
 }
 
 // Setup sidebar resizing functionality
