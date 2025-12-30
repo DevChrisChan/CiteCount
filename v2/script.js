@@ -234,7 +234,39 @@ function handleEditorInput() {
   syncScroll();
   if (state.settings.autoSave) saverawData();
   welcomeText.style.display = editor.innerText.trim() ? 'none' : 'block';
+  
+  // Auto-rename untitled projects based on first line of text
+  autoRenameUntitledProject();
+  
   debounce(updateWordCount, 300)();
+}
+
+function autoRenameUntitledProject() {
+  // Only auto-rename if we have a current project
+  if (!fileManager.currentProject) return;
+  
+  const currentProject = fileManager.projects.find(p => p.id === fileManager.currentProject);
+  if (!currentProject) return;
+  
+  // Only auto-rename if the project is still named "Untitled Project" (default untitled name)
+  if (!currentProject.name.startsWith('Untitled Project')) return;
+  
+  const editor = document.getElementById('editor');
+  const text = editor.innerText.trim();
+  
+  if (!text) return;
+  
+  // Get the first line of text (everything before the first line break)
+  const firstLine = text.split('\n')[0].trim();
+  
+  // Only rename if the first line has meaningful content (at least 3 characters)
+  if (firstLine && firstLine.length >= 3) {
+    // Limit the name to 50 characters to avoid excessively long names
+    const newName = firstLine.substring(0, 50);
+    
+    // Rename the project
+    fileManager.renameProject(fileManager.currentProject, newName);
+  }
 }
 
 function saverawData() {

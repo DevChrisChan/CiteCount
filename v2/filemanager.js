@@ -156,8 +156,10 @@ const fileManager = {
     if (!project) return;
 
     const editor = document.getElementById('editor');
+    const highlightLayer = document.getElementById('highlight-layer');
     const welcomeText = document.getElementById('welcome-text');
 
+    // Immediately set the new content
     editor.innerHTML = project.content || '';
     
     // Restore citation states
@@ -169,6 +171,18 @@ const fileManager = {
 
     // Update welcome text visibility
     welcomeText.style.display = editor.innerText.trim() ? 'none' : 'block';
+
+    // Add fade-in animation by triggering reflow and adding animation class
+    editor.classList.remove('document-switching-fade-in');
+    // Force reflow to reset animation
+    void editor.offsetWidth;
+    editor.classList.add('document-switching-fade-in');
+    
+    if (highlightLayer) {
+      highlightLayer.classList.remove('document-switching-fade-in');
+      void highlightLayer.offsetWidth;
+      highlightLayer.classList.add('document-switching-fade-in');
+    }
 
     // Trigger update
     handleEditorInput();
