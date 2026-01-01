@@ -348,8 +348,8 @@
     }
 
     .overlay-background {
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
     }
 
     .confirmation-overlay {
@@ -938,12 +938,34 @@
     background: rgba(255, 255, 255, 0.95);
   }
 
+  .citations-overlay.open,
+  .settings-overlay.open,
+  .help-overlay.open {
+    display: flex !important;
+    animation: modalSlideIn 0.3s ease-out;
+  }
+
+  @keyframes modalSlideIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
   /* Settings overlay specific styling for sticky header */
   .settings-overlay {
     padding: 0;
     overflow: hidden;
     flex-direction: column;
     max-height: 85vh;
+  }
+
+  .settings-overlay:not(.open) {
+    animation: none;
   }
 
   .settings-overlay .settings-header {
@@ -998,107 +1020,279 @@
   /* Apps Modal Styles */
   .apps-modal {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(90%, 800px);
-    max-height: 85vh;
+    top: 3.5rem;
+    right: 1rem;
+    transform: scale(0.95);
+    transform-origin: top right;
+    width: min(90%, 420px);
+    max-height: calc(100vh - 5rem);
     z-index: 60;
-    padding: 1.5rem;
+    padding: 1.25rem;
     overflow-y: auto;
-    flex-direction: column;
-    border-radius: 1rem;
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.95);
+    overflow-x: hidden;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+    background: #fff;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .apps-modal::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .apps-modal::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .apps-modal::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+
+  .apps-modal::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
   }
 
   @media (prefers-color-scheme: dark) {
     .apps-modal {
-      background: rgba(17, 24, 39, 0.95);
+      background: #292a2d;
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+      scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    }
+
+    .apps-modal::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .apps-modal::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  /* Paste Permission Modal Styles */
+  .paste-permission-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90%, 700px);
+    max-height: 85vh;
+    z-index: 60;
+    overflow-y: auto;
+    border-radius: 1rem;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.98);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .paste-permission-modal {
+      background: rgba(17, 24, 39, 0.98);
       border-color: #374151;
     }
   }
 
-  .apps-modal h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+  .paste-permission-content {
+    padding: 1.5rem;
   }
 
-  .apps-modal button {
+  .browser-tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 2px solid #E5E7EB;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .browser-tabs {
+      border-bottom-color: #374151;
+    }
+  }
+
+  .browser-tab {
+    padding: 0.75rem 1rem;
     background: none;
     border: none;
+    border-bottom: 3px solid transparent;
     cursor: pointer;
+    font-size: 0.9rem;
+    color: #6B7280;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+  }
+
+  .browser-tab:hover {
+    color: #1E40AF;
+    background: rgba(30, 64, 175, 0.05);
+  }
+
+  .browser-tab.active {
+    color: #1E40AF;
+    border-bottom-color: #1E40AF;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .browser-tab {
+      color: #9CA3AF;
+    }
+
+    .browser-tab:hover {
+      color: #60A5FA;
+      background: rgba(96, 165, 250, 0.1);
+    }
+
+    .browser-tab.active {
+      color: #60A5FA;
+      border-bottom-color: #60A5FA;
+    }
+  }
+
+  .browser-guide {
+    display: none;
+  }
+
+  .browser-guide.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .apps-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    padding: 0.5rem 0;
   }
 
   .app-card {
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    border: 1px solid #E5E7EB;
-    background: #FFFFFF;
+    align-items: center;
+    padding: 1rem 0.5rem;
+    border-radius: 0.5rem;
     text-decoration: none;
     color: inherit;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     cursor: pointer;
+    background: transparent;
+    border: none;
   }
 
   .app-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-color: #3B82F6;
+    background: rgba(0, 0, 0, 0.04);
   }
 
   @media (prefers-color-scheme: dark) {
-    .app-card {
-      background: rgba(31, 41, 55, 0.6);
-      border-color: #374151;
-    }
-
     .app-card:hover {
-      background: rgba(31, 41, 55, 0.8);
-      border-color: #3B82F6;
+      background: rgba(255, 255, 255, 0.08);
     }
+  }
+
+  .app-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .app-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: all 0.15s ease;
+  }
+
+  .app-card:hover .app-icon {
+    transform: scale(1.05);
   }
 
   .app-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #111827;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    text-align: center;
+    color: #202124;
+    margin: 0;
+    line-height: 1.2;
+    max-width: 96px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   @media (prefers-color-scheme: dark) {
     .app-title {
-      color: #F9FAFB;
+      color: #e8eaed;
     }
   }
 
   .app-description {
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: #6B7280;
-    margin: 0;
+    display: none;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .app-description {
-      color: #9CA3AF;
+  /* Mobile responsiveness for apps modal */
+  @media (max-width: 480px) {
+    .apps-modal {
+      width: min(95%, 380px);
+      padding: 1rem;
+      right: 0.5rem;
+      top: 3rem;
+    }
+
+    .apps-grid {
+      gap: 0.25rem;
+    }
+
+    .app-card {
+      padding: 0.75rem 0.25rem;
+    }
+
+    .app-icon-wrapper {
+      width: 56px;
+      height: 56px;
+    }
+
+    .app-icon {
+      width: 56px;
+      height: 56px;
+    }
+
+    .app-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .app-title {
+      font-size: 0.75rem;
+      max-width: 80px;
     }
   }
 
@@ -1335,7 +1529,7 @@
     }
 }
   .gutter {
-    cursor: col-resize;
+    cursor: ew-resize;
     width: 12px;
     margin: 0 2px;
     flex: 0 0 12px;
@@ -1467,6 +1661,9 @@
     border-radius: 1rem;
     border: 1px solid #E5E7EB;
     text-align: center;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   }
 
   .confirmation-overlay h2 {
@@ -1836,7 +2033,7 @@
   border-radius: 10px;
   padding: 16px;
   position: fixed;
-  z-index: 10000;
+  z-index: 10000000000;
   left: 50%;
   bottom: 30px;
   font-size: 1em;
@@ -1846,7 +2043,6 @@
   cursor: pointer;
   transform: translateX(-50%);
   backdrop-filter: blur(10px);
-
 }
 
 #notification:hover {
@@ -3594,7 +3790,7 @@ pre {
   right: 0;
   width: 4px;
   height: 100%;
-  cursor: col-resize;
+  cursor: ew-resize;
   background: transparent;
   z-index: 101;
   transition: background-color 0.2s ease;
@@ -3842,7 +4038,7 @@ pre {
 }
 
 .sidebar-footer {
-  padding: 0.75rem;
+  padding-bottom: 0.75rem;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -4567,7 +4763,7 @@ pre {
 }
 
 .storage-project-list {
-  max-height: 400px;
+  max-height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

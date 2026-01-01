@@ -361,6 +361,137 @@
         </div>
       </div>
 
+      <!-- Paste Permission Help Modal -->
+      <div id="paste-permission-modal" class="paste-permission-modal" style="display: none;">
+        <div class="paste-permission-content">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">📋 Enable Clipboard Access</h2>
+            <button onclick="closePastePermissionModal()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            CiteCount needs permission to access your clipboard to paste text. You've previously denied this permission.
+          </p>
+
+          <div class="browser-tabs mb-4">
+            <button class="browser-tab active" onclick="showBrowserGuide('chrome')" data-browser="chrome">
+              <svg viewBox="0 0 24 24" width="20" height="20" class="inline-block mr-1">
+                <path fill="currentColor" d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z"/>
+              </svg>
+              Chrome
+            </button>
+            <button class="browser-tab" onclick="showBrowserGuide('safari')" data-browser="safari">
+              Safari
+            </button>
+            <button class="browser-tab" onclick="showBrowserGuide('firefox')" data-browser="firefox">
+              Firefox
+            </button>
+            <button class="browser-tab" onclick="showBrowserGuide('edge')" data-browser="edge">
+              Edge
+            </button>
+          </div>
+
+          <div id="chrome-guide" class="browser-guide active">
+            <h3 class="font-semibold mb-3 text-lg">Chrome / Edge Instructions:</h3>
+            <ol class="space-y-3 list-decimal list-inside text-gray-700 dark:text-gray-300">
+              <li class="pl-2">
+                <strong>Click the lock icon</strong> (or site info icon) in the address bar
+                <div class="mt-2 p-2 bg-gray-100 dark:bg-gray-700 rounded text-sm">
+                  🔒 <span class="text-blue-600 dark:text-blue-400">citecount.com</span>
+                </div>
+              </li>
+              <li class="pl-2 mt-3">Click <strong>"Site settings"</strong> or <strong>"Permissions"</strong></li>
+              <li class="pl-2 mt-3">
+                Find <strong>"Clipboard"</strong> in the permissions list
+              </li>
+              <li class="pl-2 mt-3">
+                Change from <span class="text-red-600 dark:text-red-400 font-semibold">"Block"</span> to 
+                <span class="text-green-600 dark:text-green-400 font-semibold">"Ask"</span> or 
+                <span class="text-green-600 dark:text-green-400 font-semibold">"Allow"</span>
+              </li>
+              <li class="pl-2 mt-3">Refresh this page and try pasting again</li>
+            </ol>
+          </div>
+
+          <div id="safari-guide" class="browser-guide">
+            <h3 class="font-semibold mb-3 text-lg">Safari Instructions:</h3>
+            <ol class="space-y-3 list-decimal list-inside text-gray-700 dark:text-gray-300">
+              <li class="pl-2">Open Safari menu → <strong>Settings</strong> (or Preferences)</li>
+              <li class="pl-2 mt-3">Go to the <strong>"Websites"</strong> tab</li>
+              <li class="pl-2 mt-3">Select <strong>"Clipboard"</strong> or <strong>"Paste"</strong> in the left sidebar</li>
+              <li class="pl-2 mt-3">
+                Find <strong>citecount.com</strong> and change to <span class="text-green-600 dark:text-green-400 font-semibold">"Allow"</span> or <span class="text-green-600 dark:text-green-400 font-semibold">"Ask"</span>
+              </li>
+              <li class="pl-2 mt-3">Refresh this page and try pasting again</li>
+            </ol>
+            <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg text-sm">
+              <strong>💡 Tip:</strong> If you don't see citecount.com in the list, try pasting once more and Safari will prompt you again.
+            </div>
+          </div>
+
+          <div id="firefox-guide" class="browser-guide">
+            <h3 class="font-semibold mb-3 text-lg">Firefox Instructions:</h3>
+            <ol class="space-y-3 list-decimal list-inside text-gray-700 dark:text-gray-300">
+              <li class="pl-2">
+                <strong>Click the shield icon</strong> or lock icon in the address bar
+              </li>
+              <li class="pl-2 mt-3">Click the <strong>arrow (→)</strong> or <strong>"More information"</strong></li>
+              <li class="pl-2 mt-3">Go to the <strong>"Permissions"</strong> tab</li>
+              <li class="pl-2 mt-3">
+                Find <strong>"Use the Clipboard"</strong> and uncheck <span class="text-red-600 dark:text-red-400 font-semibold">"Block"</span>
+              </li>
+              <li class="pl-2 mt-3">Refresh this page and Firefox will ask for permission again</li>
+            </ol>
+            <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900 rounded-lg text-sm">
+              <strong>💡 Alternative:</strong> You can also use Cmd/Ctrl + V keyboard shortcut to paste, which typically bypasses clipboard API restrictions.
+            </div>
+          </div>
+
+          <div id="edge-guide" class="browser-guide">
+            <h3 class="font-semibold mb-3 text-lg">Microsoft Edge Instructions:</h3>
+            <p class="text-gray-700 dark:text-gray-300 mb-3">Edge uses the same settings as Chrome:</p>
+            <ol class="space-y-3 list-decimal list-inside text-gray-700 dark:text-gray-300">
+              <li class="pl-2">
+                <strong>Click the lock icon</strong> in the address bar
+              </li>
+              <li class="pl-2 mt-3">Click <strong>"Permissions for this site"</strong></li>
+              <li class="pl-2 mt-3">
+                Find <strong>"Clipboard"</strong> and change to <span class="text-green-600 dark:text-green-400 font-semibold">"Allow"</span>
+              </li>
+              <li class="pl-2 mt-3">Refresh this page and try pasting again</li>
+            </ol>
+          </div>
+
+          <div class="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900 rounded-lg">
+            <h4 class="font-semibold mb-2 flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+              </svg>
+              Alternative Methods
+            </h4>
+            <ul class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+              <li>• Use <strong>Cmd/Ctrl + V</strong> keyboard shortcut to paste directly</li>
+              <li>• Right-click in the editor and select "Paste"</li>
+              <li>• Drag and drop your Word or PDF file directly into CiteCount</li>
+              <li>• Use the "Choose File" button to upload documents</li>
+            </ul>
+          </div>
+
+          <div class="mt-6 flex gap-3">
+            <button onclick="tryPasteAgain()" class="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
+              Try Again
+            </button>
+            <button onclick="closePastePermissionModal()" class="flex-1 px-4 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- Storage Quota Modal -->
       <div id="storage-quota-modal" class="storage-quota-modal" style="display: none;">
         <div class="storage-quota-content">
@@ -377,6 +508,15 @@
               <p style="margin: 8px 0 0 0; font-size: 0.95rem; opacity: 0.8;">
                 You have too many projects stored. Delete some projects to free up space and continue using CiteCount.
               </p>
+            </div>
+            <div style="margin-top: 16px;">
+              <div style="display: flex; align-items: center; justify-between; margin-bottom: 8px;">
+                <span style="font-weight: 600; font-size: 0.9rem;">Storage Usage</span>
+                <span id="storage-quota-usage-text" style="font-size: 0.875rem; font-family: monospace; opacity: 0.8;">0 KB / 4.28 MB</span>
+              </div>
+              <div class="storage-bar-container">
+                <div id="storage-quota-bar-fill" class="storage-bar-fill" style="width: 0%;"></div>
+              </div>
             </div>
           </div>
           
@@ -418,6 +558,143 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Dev Tools Window -->
+      <div id="devToolsWindow" style="display: none; user-select: none;">
+        <div id="devToolsHeader">
+          <span>Dev Tools</span> <span id="currentLocation"
+            style="margin-left: 8px; padding: 2px 6px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 3px; font-family: monospace; font-size: 12px; color: #666;"></span>
+          <button id="devToolsClose">×</button>
+        </div>
+        <div id="devToolsTabs">
+          <button class="tab-button active" data-tab="localstorage">Local Storage</button>
+          <button class="tab-button" data-tab="system">System Info</button>
+          <button class="tab-button" data-tab="internalSettings">Internal Settings</button>
+          <button class="tab-button" data-tab="devToolsSettings">Dev Tools Settings</button>
+          <button class="tab-button" data-tab="console">Console</button>
+          <button class="tab-button" data-tab="errors">Errors</button>
+          <button class="tab-button" data-tab="cookies">Cookies</button>
+        </div>
+        <div id="devToolsContent">
+          <div class="tab-content active" id="localstorage">
+            <div class="storage-controls">
+              <button id="clearAllStorage">Clear All</button>
+            </div>
+            <table id="localStorageTable">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="tab-content" id="console">
+            <pre id="consoleOutput"></pre>
+          </div>
+          <div class="tab-content" id="errors">
+            <table id="errorsTable">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Error</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="tab-content" id="system">
+            <table id="systemTable">
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="tab-content" id="cookies">
+            <div class="storage-controls">
+              <button id="clearAllCookies">Clear All</button>
+            </div>
+            <table id="cookiesTable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Value</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="tab-content" id="internalSettings">
+            <table id="internalSettingsTable">
+              <thead>
+                <tr>
+                  <th>Setting</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Disable Analytics</td>
+                  <td><input type="checkbox" id="disableAnalytics"></td>
+                </tr>
+                <tr>
+                  <td>Grant Pro</td>
+                  <td><input type="checkbox" id="grantPro"></td>
+                </tr>
+                <tr>
+                  <td>Restart app as prod</td>
+                  <td>
+                    <button id="restartApp">Restart</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Restart app in debug mode</td>
+                  <td>
+                    <button id="restartDebug">Restart</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-content" id="devToolsSettings">
+            <table id="devToolsSettingsTable">
+              <thead>
+                <tr>
+                  <th>Setting</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Disable Developer Mode</td>
+                  <td><input type="checkbox" id="disableDevMode"></td>
+                </tr>
+                <tr>
+                  <td>Opacity</td>
+                  <td>
+                    <input type="range" id="opacitySlider" min="0.1" max="1" step="0.1" value="0.9">
+                  </td>
+                </tr>
+                <tr>
+                  <td>Theme</td>
+                  <td>
+                    <button id="forceLightTheme">Light</button>
+                    <button id="forceDarkTheme">Dark</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="resizeHandle"></div>
       </div>
     `;
   }

@@ -184,6 +184,7 @@ function closeOverlays() {
   toggleSettingsOverlay(false);
   toggleHelpOverlay(false);
   toggleAppsModal(false);
+  closePastePermissionModal();
   document.getElementById('confirmation-overlay').style.display = 'none';
   document.getElementById('info-dialogue').style.display = 'none';
   document.getElementById('overlay-background').style.display = 'none';
@@ -199,16 +200,39 @@ function closeOverlays() {
 
 function toggleAppsModal(show) {
   const modal = document.getElementById('apps-modal');
-  const overlay = document.getElementById('overlay-background');
+  
+  // If no argument provided, toggle based on current state
+  if (show === undefined) {
+    show = modal.style.display === 'none' || !modal.style.display;
+  }
   
   if (show) {
     modal.style.display = 'block';
-    overlay.style.display = 'block';
-    document.body.style.overflow = 'hidden';
+    // Trigger animation
+    setTimeout(() => {
+      modal.style.opacity = '1';
+      modal.style.transform = 'scale(1)';
+    }, 10);
+    // Add click outside listener
+    setTimeout(() => {
+      document.addEventListener('click', closeAppsModalOnClickOutside);
+    }, 100);
   } else {
-    modal.style.display = 'none';
-    overlay.style.display = 'none';
-    document.body.style.overflow = '';
+    modal.style.opacity = '0';
+    modal.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 150);
+    document.removeEventListener('click', closeAppsModalOnClickOutside);
+  }
+}
+
+function closeAppsModalOnClickOutside(event) {
+  const modal = document.getElementById('apps-modal');
+  const appsButton = document.getElementById('other-apps-btn');
+  
+  if (modal && !modal.contains(event.target) && !appsButton.contains(event.target)) {
+    toggleAppsModal(false);
   }
 }
 
@@ -419,15 +443,178 @@ function updateSettingsUI() {
 }
 
 function resetSettings() {
-  // Clear all localStorage data including fileManager
-  localStorage.clear();
+  // Create countdown overlay
+  const overlay = document.getElementById('overlay-background');
+  const confirmation = document.getElementById('confirmation-overlay');
   
-  showNotification('All settings and data have been cleared. Reloading in 3 seconds...');
+  let countdown = 3;
   
-  // Auto-refresh after 3 seconds
-  setTimeout(() => {
-    window.location.reload();
-  }, 3000);
+  confirmation.innerHTML = '';
+  const h2 = document.createElement('h2');
+  h2.textContent = 'Resetting...';
+  h2.style.fontSize = '1.5rem';
+  h2.style.marginBottom = '1rem';
+  
+  const countdownDisplay = document.createElement('div');
+  countdownDisplay.style.fontSize = '3rem';
+  countdownDisplay.style.fontWeight = 'bold';
+  countdownDisplay.style.margin = '1.5rem 0';
+  countdownDisplay.style.color = '#DC2626';
+  countdownDisplay.textContent = countdown;
+  
+  const message = document.createElement('p');
+  message.textContent = 'Clearing all settings and data...';
+  message.style.color = '#666';
+  message.style.fontSize = '0.9rem';
+  
+  confirmation.appendChild(h2);
+  confirmation.appendChild(countdownDisplay);
+  confirmation.appendChild(message);
+  confirmation.style.display = 'block';
+  overlay.style.display = 'block';
+  
+  // Start countdown
+  const countdownInterval = setInterval(() => {
+    countdown--;
+    countdownDisplay.textContent = countdown;
+    
+    if (countdown <= 0) {
+      clearInterval(countdownInterval);
+      countdownDisplay.textContent = '✓';
+      countdownDisplay.style.color = '#10B981';
+      message.textContent = 'Refreshing application...';
+      
+      // Clear all localStorage data including fileManager
+      localStorage.clear();
+      
+      // Refresh after a brief moment
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
+  }, 1000);
+}
+
+function exportSettings() {
+  try {
+    // Get settings from localStorage
+    const settingsData = localStorage.getItem('settings');
+    
+    if (!settingsData) {
+      notify('No settings found to export.', false);
+      return;
+    }
+
+    // Create a blob with the settings data
+    const dataStr = JSON.stringify(JSON.parse(settingsData), null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    
+    // Create download link
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    const filename = `citecount-settings-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = filename;
+    
+    // Trigger download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    notify(`Settings exported successfully! Downloaded as ${filename}`, false);
+  } catch (error) {
+    console.error('Export error:', error);
+    notify(`Failed to export settings. Error: ${error.message}`, false);
+  }
+}
+
+function importSettings(event) {
+  const file = event.target.files[0];
+  
+  if (!file) {
+    return;
+  }
+  
+  // Validate file type
+  if (!file.name.endsWith('.json')) {
+    notify('Invalid file type. Please select a JSON file.', false);
+    event.target.value = ''; // Reset input
+    return;
+  }
+  
+  const reader = new FileReader();
+  
+  reader.onload = function(e) {
+    try {
+      // Parse the imported data
+      const importedSettings = JSON.parse(e.target.result);
+      
+      // Validate the settings structure
+      if (!importedSettings || typeof importedSettings !== 'object') {
+        throw new Error('Invalid settings format');
+      }
+      
+      // Validate required fields
+      const requiredFields = ['autoSave', 'warnLeave', 'spellCheck'];
+      const hasRequiredFields = requiredFields.some(field => field in importedSettings);
+      
+      if (!hasRequiredFields) {
+        throw new Error('Settings file does not contain valid CiteCount settings');
+      }
+      
+      // Merge with default settings to ensure all fields exist
+      const mergedSettings = {
+        ...state.settings,
+        ...importedSettings
+      };
+      
+      // Validate counters object if it exists
+      if (importedSettings.counters) {
+        // Ensure counters have required structure
+        Object.keys(mergedSettings.counters).forEach(key => {
+          if (!mergedSettings.counters[key].hasOwnProperty('enabled') || 
+              !mergedSettings.counters[key].hasOwnProperty('order')) {
+            throw new Error('Invalid counter settings structure');
+          }
+        });
+      }
+      
+      // Update state and localStorage
+      state.settings = mergedSettings;
+      localStorage.setItem('settings', JSON.stringify(state.settings));
+      
+      // Update UI
+      updateSettingsUI();
+      updateWordCount();
+      
+      // Apply settings
+      document.getElementById('editor').spellcheck = state.settings.spellCheck;
+      updateBeforeUnloadHandler();
+      
+      const afterAppContent = document.getElementById('after-app-placeholder');
+      if (afterAppContent) {
+        afterAppContent.style.display = state.settings.focus ? 'none' : 'block';
+      }
+      
+      notify(`Settings imported successfully from ${file.name}!`, false);
+      
+    } catch (error) {
+      console.error('Import error:', error);
+      notify(`Import failed: ${error.message}. Please check if the file is a valid CiteCount settings export.`, false);
+    } finally {
+      // Reset file input
+      event.target.value = '';
+    }
+  };
+  
+  reader.onerror = function(error) {
+    console.error('File read error:', error);
+    notify(`Failed to read file ${file.name}. Please try again.`, false);
+    event.target.value = '';
+  };
+  
+  reader.readAsText(file);
 }
 
 let citationCounter = 0;
@@ -502,7 +689,7 @@ function setupResizablePanels() {
     startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
     startWidthEditor = editorPanel.offsetWidth;
     startWidthCitations = citationsPanel.offsetWidth;
-    document.documentElement.style.cursor = 'col-resize';
+    document.documentElement.style.cursor = 'ew-resize';
     e.preventDefault();
   }
 
@@ -521,6 +708,11 @@ function setupResizablePanels() {
         newCitationsWidth >= minWidth && newCitationsWidth <= maxWidth) {
       editorPanel.style.flex = `0 0 ${newEditorWidth}%`;
       citationsPanel.style.flex = `0 0 ${newCitationsWidth}%`;
+      document.documentElement.style.cursor = 'ew-resize';
+    } else if (newEditorWidth < minWidth) {
+      document.documentElement.style.cursor = 'e-resize';
+    } else if (newEditorWidth > maxWidth) {
+      document.documentElement.style.cursor = 'w-resize';
     }
   }
 
@@ -902,12 +1094,19 @@ function processFileWithProgress(file, fileId, callback) {
   const editor = document.getElementById('editor');
   const welcomeText = document.getElementById('welcome-text');
   
-  // Check file type first
+  // Check file type first - note: .doc (legacy Word) is not supported, only .docx
   const isValidType = file.type === 'application/pdf' || 
-                      file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                      file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+                      file.type === 'text/plain';
+  
+  // Check for .doc files specifically to provide helpful error message
+  if (file.name.toLowerCase().endsWith('.doc') && !file.name.toLowerCase().endsWith('.docx')) {
+    callback(false, 'Legacy .doc files are not supported. Please save your document as .docx (Word 2007 or later format) and try again.', null);
+    return;
+  }
   
   if (!isValidType) {
-    callback(false, 'Unsupported file type. Only .docx and .pdf files are supported.', null);
+    callback(false, 'Unsupported file type. Only .docx, .pdf, and .txt files are supported.', null);
     return;
   }
   
@@ -922,7 +1121,7 @@ function processFileWithProgress(file, fileId, callback) {
 }
 
 function processFileContent(file, editor, welcomeText, fileId, callback) {
-  const fileNameWithoutExt = file.name.replace(/\.(pdf|docx)$/i, '');
+  const fileNameWithoutExt = file.name.replace(/\.(pdf|docx|txt)$/i, '');
   
   // Always create a new project for each file in batch import
   let newProjectId;
@@ -931,7 +1130,31 @@ function processFileContent(file, editor, welcomeText, fileId, callback) {
     newProjectId = fileManager.createProject(fileNameWithoutExt, false);
   }
   
-  if (file.type === 'application/pdf') {
+  if (file.type === 'text/plain') {
+    // Handle .txt files
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const text = e.target.result;
+      
+      // Save content to the new project
+      if (newProjectId && typeof fileManager !== 'undefined') {
+        const project = fileManager.projects.find(p => p.id === newProjectId);
+        if (project) {
+          project.content = text;
+          fileManager.saveToStorage();
+          // Update file item with projectId
+          const fileItem = document.getElementById(fileId);
+          if (fileItem) fileItem.dataset.projectId = newProjectId;
+        }
+      }
+      
+      callback(true, null, newProjectId);
+    };
+    reader.onerror = () => {
+      callback(false, 'Failed to read text file', null);
+    };
+    reader.readAsText(file);
+  } else if (file.type === 'application/pdf') {
     const reader = new FileReader();
     reader.onload = async function (e) {
       try {
@@ -1032,9 +1255,42 @@ function handleFileDrop(file) {
 function processFile(file, editor, welcomeText) {
   // Check if current project has content
   const hasExistingContent = editor.innerText.trim().length > 0;
-  const fileNameWithoutExt = file.name.replace(/\.(pdf|docx)$/i, '');
+  const fileNameWithoutExt = file.name.replace(/\.(pdf|docx|txt)$/i, '');
   
-  if (file.type === 'application/pdf') {
+  // Check for .doc files specifically to provide helpful error message
+  if (file.name.toLowerCase().endsWith('.doc') && !file.name.toLowerCase().endsWith('.docx')) {
+    notify('Legacy .doc files are not supported. Please save your document as .docx (Word 2007 or later format) and try again.');
+    return;
+  }
+  
+  if (file.type === 'text/plain') {
+    // Handle .txt files
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const text = e.target.result;
+      
+      // If project has content, create new project; otherwise use current
+      if (hasExistingContent && typeof fileManager !== 'undefined') {
+        const newProjectId = fileManager.createProject(fileNameWithoutExt, true);
+        // The createProject with autoSwitch will handle loading the new project
+        editor.innerText = text;
+      } else {
+        editor.innerText = text;
+        // Update current project name to match filename
+        if (typeof fileManager !== 'undefined' && fileManager.currentProject) {
+          fileManager.renameProject(fileManager.currentProject, fileNameWithoutExt);
+        }
+      }
+      
+      welcomeText.style.display = 'none';
+      handleEditorInput();
+      notify(`${file.name} has been imported successfully!`);
+    };
+    reader.onerror = () => {
+      notify('Failed to read text file');
+    };
+    reader.readAsText(file);
+  } else if (file.type === 'application/pdf') {
       const reader = new FileReader();
       reader.onload = async function (e) {
           const typedarray = new Uint8Array(e.target.result);
@@ -1092,7 +1348,7 @@ function processFile(file, editor, welcomeText) {
       };
       reader.readAsArrayBuffer(file);
   } else {
-      notify('Unsupported file type. Please use .docx or .pdf files.');
+      notify('Unsupported file type. Please use .docx, .pdf, or .txt files.');
   }
 }
 
@@ -1113,22 +1369,106 @@ function pasteFromClipboard() {
     welcomeText.style.display = 'none';
     handleEditorInput();
   }).catch(err => {
-    notify('Please grant permission for CiteCount to access your clipboard.');
+    // Show the comprehensive help modal instead of just a notification
+    showPastePermissionModal();
   });
+}
+
+function detectBrowser() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  
+  // Check for Safari (must check before Chrome as Safari also contains "chrome" in UA)
+  if (userAgent.indexOf('safari') !== -1 && userAgent.indexOf('chrome') === -1) {
+    return 'safari';
+  }
+  // Check for Edge
+  if (userAgent.indexOf('edg') !== -1) {
+    return 'edge';
+  }
+  // Check for Chrome
+  if (userAgent.indexOf('chrome') !== -1) {
+    return 'chrome';
+  }
+  // Check for Firefox
+  if (userAgent.indexOf('firefox') !== -1) {
+    return 'firefox';
+  }
+  
+  // Default to Chrome if unable to detect
+  return 'chrome';
+}
+
+function showPastePermissionModal() {
+  const modal = document.getElementById('paste-permission-modal');
+  const background = document.getElementById('overlay-background');
+  if (modal && background) {
+    modal.style.display = 'flex';
+    background.style.display = 'block';
+    
+    // Automatically show the guide for the detected browser
+    const detectedBrowser = detectBrowser();
+    showBrowserGuide(detectedBrowser);
+  }
+}
+
+function closePastePermissionModal() {
+  const modal = document.getElementById('paste-permission-modal');
+  const background = document.getElementById('overlay-background');
+  if (modal && background) {
+    modal.style.display = 'none';
+    background.style.display = 'none';
+  }
+}
+
+function showBrowserGuide(browser) {
+  // Hide all guides
+  const guides = document.querySelectorAll('.browser-guide');
+  guides.forEach(guide => guide.classList.remove('active'));
+  
+  // Hide all tabs
+  const tabs = document.querySelectorAll('.browser-tab');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  
+  // Show selected guide and tab
+  const selectedGuide = document.getElementById(`${browser}-guide`);
+  const selectedTab = document.querySelector(`[data-browser="${browser}"]`);
+  
+  if (selectedGuide) selectedGuide.classList.add('active');
+  if (selectedTab) selectedTab.classList.add('active');
+}
+
+function tryPasteAgain() {
+  closePastePermissionModal();
+  // Try pasting again
+  pasteFromClipboard();
 }
 
 function toggleCitationsOverlay(show) {
   const overlay = document.getElementById('citations-overlay');
   const background = document.getElementById('overlay-background');
-  overlay.style.display = show ? 'flex' : 'none';
-  background.style.display = show ? 'block' : 'none';
+  
+  if (show) {
+    overlay.classList.add('open');
+    background.style.display = 'block';
+  } else {
+    overlay.classList.remove('open');
+    overlay.style.display = 'none';
+    background.style.display = 'none';
+  }
 }
 
 function toggleSettingsOverlay(show) {
   const overlay = document.getElementById('settings-overlay');
   const background = document.getElementById('overlay-background');
-  overlay.style.display = show ? 'flex' : 'none';
-  background.style.display = show ? 'block' : 'none';
+  
+  if (show) {
+    overlay.classList.add('open');
+    background.style.display = 'block';
+  } else {
+    overlay.classList.remove('open');
+    overlay.style.display = 'none';
+    background.style.display = 'none';
+  }
   
   // Update storage display when settings are opened
   if (show && typeof fileManager !== 'undefined' && fileManager.updateStorageDisplay) {
@@ -1161,8 +1501,15 @@ function switchSettingsCategory(category) {
 function toggleHelpOverlay(show) {
   const overlay = document.getElementById('help-overlay');
   const background = document.getElementById('overlay-background');
-  overlay.style.display = show ? 'flex' : 'none';
-  background.style.display = show ? 'block' : 'none';
+  
+  if (show) {
+    overlay.classList.add('open');
+    background.style.display = 'block';
+  } else {
+    overlay.classList.remove('open');
+    overlay.style.display = 'none';
+    background.style.display = 'none';
+  }
 }
 
 function formatText(command) {

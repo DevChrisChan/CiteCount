@@ -153,7 +153,7 @@
           <span class="hidden md:inline text-sm font-medium">Settings</span>
         </button>
 
-        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal(true)"
+        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
           data-lta-event="v2-more-apps-click">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
             class="h-5 w-5">
@@ -441,7 +441,7 @@
                     class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer"
                     data-lta-event="v2-choose-file-action">
                     Choose File
-                    <input type="file" accept=".docx,.pdf" onchange="handleFileUpload(event)" class="hidden" multiple>
+                    <input type="file" accept=".docx,.pdf,.txt" onchange="handleFileUpload(event)" class="hidden" multiple>
                   </label>
                   <button onclick="initiateExample()"
                     class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
@@ -1178,6 +1178,74 @@
           <!-- General Category -->
           <div class="settings-category-content" data-category="general">
             <h3 class="text-lg font-medium mb-4">General</h3>
+            
+            <!-- Export/Import Settings -->
+            <div class="space-y-3 mb-4">
+              <div class="p-3 rounded-md" style="background: #f3f4f6;">
+                <h4 class="font-medium mb-3">Backup & Restore Settings</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  Export your settings to a file or import settings from a backup.
+                </p>
+                <div class="flex gap-4 flex-wrap">
+                  <button onclick="exportSettings()"
+                    class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium transition-colors flex items-center gap-2"
+                    data-lta-event="v2-export-settings-click">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="7 10 12 15 17 10"/>
+                      <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Export Settings
+                  </button>
+                  <label
+                    class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md font-medium transition-colors cursor-pointer flex items-center gap-2"
+                    data-lta-event="v2-import-settings-click">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/>
+                      <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Import Settings
+                    <input type="file" id="import-settings-input" accept=".json" onchange="importSettings(event)" class="hidden">
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Export/Import Projects -->
+            <div class="space-y-3 mb-4">
+              <div class="p-3 rounded-md" style="background: #f3f4f6;">
+                <h4 class="font-medium mb-3">Backup & Restore Projects</h4>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  Export all your projects to a file or import projects from a backup. This includes all project content, citations, and metadata.
+                </p>
+                <div class="flex gap-4 flex-wrap">
+                  <button onclick="exportProjects()"
+                    class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium transition-colors flex items-center gap-2"
+                    data-lta-event="v2-export-projects-click">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="7 10 12 15 17 10"/>
+                      <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Export All Projects
+                  </button>
+                  <label
+                    class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md font-medium transition-colors cursor-pointer flex items-center gap-2"
+                    data-lta-event="v2-import-projects-click">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/>
+                      <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Import Projects
+                    <input type="file" id="import-projects-input" accept=".json" onchange="importProjects(event)" class="hidden">
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reset Settings -->
             <div class="text-center p-3 rounded-md" style="background: #f3f4f6;">
               <button id="resetSettings"
                 class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-md font-medium transition-colors"
@@ -1198,7 +1266,7 @@
               <div class="grid grid-cols-2 gap-4">
                 <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-md">
                   <div class="text-sm text-gray-500 dark:text-gray-400">Version</div>
-                  <div class="font-medium">3.1 (3A45b)</div>
+                  <div class="font-medium">4.0 (4A09b)</div>
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-md">
                   <div class="text-sm text-gray-500 dark:text-gray-400">Status</div>
@@ -1209,11 +1277,15 @@
               <div>
                 <h4 class="font-medium mb-2">What's new</h4>
                 <ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-300 space-y-1">
-                  <li>Added citation search</li>
-                  <li>More word count details</li>
-                  <li>Better blogs navigation</li>
-                  <li>More IB resources</li>
-                  <li>Added customisation of font styles</li>
+                    <li>Brand new document & folder management system</li>
+                    <li>Advanced citation generator with history tracking</li>
+                    <li>Storage management with quota monitoring</li>
+                    <li>Projects export/import functionality</li>
+                    <li>Settings backup and restore</li>
+                    <li>Intelligent file import queuing system</li>
+                    <li>Storage quota exceeded notifications</li>
+                    <li>Multi-file batch processing</li>
+                    <li>Enhanced project organization</li>
                 </ul>
               </div>
             </div>
@@ -1233,47 +1305,122 @@
       </div>
       <iframe id="help-iframe" src="/v2/support/help-new.html"
         style="width: 100%; height: 80vh; margin: 0 auto; display: block;"></iframe>
-      <!--<div id="iframe-container">
-        <iframe id="forms"
-          src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true"
-          allowfullscreen onload="iframeLoaded()"></iframe>
-      </div>-->
     </div>
 
     <div id="apps-modal" class="apps-modal" style="display: none;">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold">More Apps</h2>
-        <button onclick="toggleAppsModal(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
       <div class="apps-grid">
+        <a href="/" class="app-card" data-lta-event="v2-more-apps-citecount-click">
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">CiteCount</span>
+        </a>
         <a href="/countdown/" class="app-card" data-lta-event="v2-more-apps-countdown-click">
-          <div class="app-icon">⏱️</div>
-          <h3 class="app-title">IB Exams Countdown</h3>
-          <p class="app-description">Track time until your IB exams with customizable countdowns for the May 2025 examination session.</p>
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">IB Countdown</span>
         </a>
         <a href="/exam-timer/" class="app-card" data-lta-event="v2-more-apps-mocks-click">
-          <div class="app-icon">⏲️</div>
-          <h3 class="app-title">IB Exams Timer</h3>
-          <p class="app-description">Simulate real IB exam conditions with reading time, exam timer, and voice guidance for invigilators.</p>
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+                <line x1="12" y1="2" x2="12" y2="4"/>
+                <line x1="12" y1="20" x2="12" y2="22"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">Exam Timer</span>
         </a>
         <a href="/ib-resources/" class="app-card" data-lta-event="v2-more-apps-ib-resources-click">
-          <div class="app-icon">📚</div>
-          <h3 class="app-title">IB Resources</h3>
-          <p class="app-description">A hand-picked collection of useful resources, guides, and tools specifically for IB students.</p>
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">IB Resources</span>
         </a>
         <a href="/bulletin-analysis/" class="app-card" data-lta-event="v2-more-apps-bulletin-click">
-          <div class="app-icon">📊</div>
-          <h3 class="app-title">IB Bulletin Analysis</h3>
-          <p class="app-description">Interactive analysis and visualization of IB examination statistical bulletins and grade distributions.</p>
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="32" height="32">
+                <line x1="18" y1="20" x2="18" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="14"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">Bulletin Analysis</span>
         </a>
         <a href="/blogs/" class="app-card" data-lta-event="v2-more-apps-blogs-click">
-          <div class="app-icon">📝</div>
-          <h3 class="app-title">Blogs & Guides</h3>
-          <p class="app-description">Academic guides, tips, and resources for IB coursework, written by IB top scorers and graduates.</p>
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">Blogs & Guides</span>
+        </a>
+        <a href="/grade-calculator/" class="app-card" data-lta-event="v2-more-apps-calculator-click">
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" width="32" height="32">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <line x1="8" y1="6" x2="16" y2="6"/>
+                <line x1="16" y1="14" x2="16" y2="18"/>
+                <line x1="8" y1="14" x2="8" y2="18"/>
+                <line x1="12" y1="14" x2="12" y2="18"/>
+                <circle cx="8" cy="10" r="0.5" fill="white"/>
+                <circle cx="12" cy="10" r="0.5" fill="white"/>
+                <circle cx="16" cy="10" r="0.5" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">Grade Calculator</span>
+        </a>
+        <a href="/about-us.html" class="app-card" data-lta-event="v2-more-apps-about-click">
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" width="32" height="32">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <circle cx="12" cy="8" r="0.5" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">About Us</span>
+        </a>
+        <a href="/contact.html" class="app-card" data-lta-event="v2-more-apps-contact-click">
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">Contact</span>
         </a>
       </div>
     </div>
@@ -1285,141 +1432,6 @@
         paid feedback!</span>
       <button onclick="dismissAd()">✕</button>
     </div>
-  </div>
-  <div id="devToolsWindow" style="display: none; user-select: none;">
-    <div id="devToolsHeader">
-      <span>Dev Tools</span> <span id="currentLocation"
-        style="margin-left: 8px; padding: 2px 6px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 3px; font-family: monospace; font-size: 12px; color: #666;"></span>
-      <button id="devToolsClose">×</button>
-    </div>
-    <div id="devToolsTabs">
-      <button class="tab-button active" data-tab="localstorage">Local Storage</button>
-      <button class="tab-button" data-tab="system">System Info</button>
-      <button class="tab-button" data-tab="internalSettings">Internal Settings</button>
-      <button class="tab-button" data-tab="devToolsSettings">Dev Tools Settings</button>
-      <button class="tab-button" data-tab="console">Console</button>
-      <button class="tab-button" data-tab="errors">Errors</button>
-      <button class="tab-button" data-tab="cookies">Cookies</button>
-    </div>
-    <div id="devToolsContent">
-      <div class="tab-content active" id="localstorage">
-        <div class="storage-controls">
-          <button id="clearAllStorage">Clear All</button>
-        </div>
-        <table id="localStorageTable">
-          <thead>
-            <tr>
-              <th>Key</th>
-              <th>Value</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div class="tab-content" id="console">
-        <pre id="consoleOutput"></pre>
-      </div>
-      <div class="tab-content" id="errors">
-        <table id="errorsTable">
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>Error</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div class="tab-content" id="system">
-        <table id="systemTable">
-          <thead>
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div class="tab-content" id="cookies">
-        <div class="storage-controls">
-          <button id="clearAllCookies">Clear All</button>
-        </div>
-        <table id="cookiesTable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Value</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div class="tab-content" id="internalSettings">
-        <table id="internalSettingsTable">
-          <thead>
-            <tr>
-              <th>Setting</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Disable Analytics</td>
-              <td><input type="checkbox" id="disableAnalytics"></td>
-            </tr>
-            <tr>
-              <td>Grant Pro</td>
-              <td><input type="checkbox" id="grantPro"></td>
-            </tr>
-            <tr>
-              <td>Restart app as prod</td>
-              <td>
-                <button id="restartApp">Restart</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Restart app in debug mode</td>
-              <td>
-                <button id="restartDebug">Restart</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="tab-content" id="devToolsSettings">
-        <table id="devToolsSettingsTable">
-          <thead>
-            <tr>
-              <th>Setting</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Disable Developer Mode</td>
-              <td><input type="checkbox" id="disableDevMode"></td>
-            </tr>
-            <tr>
-              <td>Opacity</td>
-              <td>
-                <input type="range" id="opacitySlider" min="0.1" max="1" step="0.1" value="0.9">
-              </td>
-            </tr>
-            <tr>
-              <td>Theme</td>
-              <td>
-                <button id="forceLightTheme">Light</button>
-                <button id="forceDarkTheme">Dark</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div id="resizeHandle"></div>
   </div>
   <!--End of CiteCount application-->
   <div id="after-app-placeholder" class="after-app-placeholder">
@@ -2333,6 +2345,7 @@
   <script src="/v2/dev.js"></script>
   <script src="/v2/citation.js"></script>
   <script src="/v2/filemanager.js"></script>
+  <script src="/v2/scroll-detector.js"></script>
 </body>
 
 </html>

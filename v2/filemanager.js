@@ -297,6 +297,37 @@ const fileManager = {
     
     if (!modal) return;
     
+    // Calculate total storage used
+    let totalSize = 0;
+    for (let key in localStorage) {
+      if (localStorage.hasOwnProperty(key)) {
+        totalSize += new Blob([localStorage[key]]).size + key.length;
+      }
+    }
+    
+    const maxSize = 4.28 * 1024 * 1024; // 4.28MB in bytes (tested localStorage limit)
+    const percentage = (totalSize / maxSize) * 100;
+    
+    // Update storage bar in modal
+    const storageQuotaUsageText = document.getElementById('storage-quota-usage-text');
+    const storageQuotaBarFill = document.getElementById('storage-quota-bar-fill');
+    
+    if (storageQuotaUsageText) {
+      storageQuotaUsageText.textContent = `${this.formatBytes(totalSize)} / 4.28 MB`;
+    }
+    
+    if (storageQuotaBarFill) {
+      storageQuotaBarFill.style.width = `${Math.min(percentage, 100)}%`;
+      
+      // Change color based on usage
+      storageQuotaBarFill.classList.remove('warning', 'danger');
+      if (percentage >= 90) {
+        storageQuotaBarFill.classList.add('danger');
+      } else if (percentage >= 70) {
+        storageQuotaBarFill.classList.add('warning');
+      }
+    }
+    
     // Clear and populate project list
     projectListContainer.innerHTML = '';
     
@@ -1017,7 +1048,7 @@ const fileManager = {
         this.renderFileTree();
         this.updateMultiSelectToolbar();
 
-        notify(`Deleted ${count} project${count > 1 ? 's' : ''}: ${deletedNames.join(', ')}`);
+        notify(`Deleted ${count} project${count > 1 ? 's' : ''}.`);
       },
       'confirmation'
     );
@@ -1110,7 +1141,7 @@ fileManager.setupSidebarResize = function() {
     startX = e.clientX;
     startWidth = sidebar.offsetWidth;
     resizeHandle.classList.add('resizing');
-    document.body.style.cursor = 'col-resize';
+    document.body.style.cursor = 'ew-resize';
     document.body.style.userSelect = 'none';
     e.preventDefault();
   }
@@ -1123,6 +1154,15 @@ fileManager.setupSidebarResize = function() {
     
     sidebar.style.width = newWidth + 'px';
     sidebar.style.minWidth = newWidth + 'px';
+    
+    // Update cursor based on boundaries
+    if (newWidth <= minWidth) {
+      document.body.style.cursor = 'e-resize';
+    } else if (newWidth >= maxWidth) {
+      document.body.style.cursor = 'w-resize';
+    } else {
+      document.body.style.cursor = 'ew-resize';
+    }
     
     // Save to localStorage
     localStorage.setItem('sidebar_width', newWidth);
@@ -1948,6 +1988,198 @@ function toggleMultiSelectMode() {
       sidebar.classList.remove('multi-select-active');
     }
   }
+}
+
+// ============================================
+// EXPORT/IMPORT PROJECTS FUNCTIONALITY
+// ============================================
+
+function exportProjects() {
+  try {
+    // Get projects data from localStorage
+    const projectsData = localStorage.getItem('fileManager_projects');
+    const foldersData = localStorage.getItem('fileManager_folders');
+    
+    if (!projectsData) {
+      notify('No projects found to export.');
+      return;
+    }
+
+    // Parse the data
+    const projects = JSON.parse(projectsData);
+    const folders = foldersData ? JSON.parse(foldersData) : [];
+    
+    // Create export object with metadata
+    const exportData = {
+      version: '1.0',
+      exportDate: new Date().toISOString(),
+      projectCount: projects.length,
+      folderCount: folders.length,
+      projects: projects,
+      folders: folders
+    };
+    
+    // Create a blob with the data
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    
+    // Create download link
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    const filename = `citecount-projects-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = filename;
+    
+    // Trigger download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    notify(`Successfully exported ${projects.length} project${projects.length !== 1 ? 's' : ''} and ${folders.length} folder${folders.length !== 1 ? 's' : ''}!`);
+  } catch (error) {
+    console.error('Export error:', error);
+    notify(`Failed to export projects. Error: ${error.message}`);
+  }
+}
+
+function importProjects(event) {
+  const file = event.target.files[0];
+  
+  if (!file) {
+    return;
+  }
+  
+  // Validate file type
+  if (!file.name.endsWith('.json')) {
+    notify('Invalid file type. Please select a JSON file.');
+    event.target.value = ''; // Reset input
+    return;
+  }
+  
+  const reader = new FileReader();
+  
+  reader.onload = function(e) {
+    try {
+      // Parse the imported data
+      const importedData = JSON.parse(e.target.result);
+      
+      // Validate the data structure
+      if (!importedData || typeof importedData !== 'object') {
+        throw new Error('Invalid file format');
+      }
+      
+      // Check if it's a valid CiteCount projects export
+      if (!importedData.projects || !Array.isArray(importedData.projects)) {
+        throw new Error('Invalid projects data. File does not contain valid CiteCount projects.');
+      }
+      
+      // Validate each project has required fields
+      const requiredProjectFields = ['id', 'name', 'content'];
+      for (const project of importedData.projects) {
+        const hasRequiredFields = requiredProjectFields.every(field => field in project);
+        if (!hasRequiredFields) {
+          throw new Error('Invalid project structure. Missing required fields.');
+        }
+      }
+      
+      // Validate folders if present
+      if (importedData.folders && !Array.isArray(importedData.folders)) {
+        throw new Error('Invalid folders data');
+      }
+      
+      const projectCount = importedData.projects.length;
+      const folderCount = importedData.folders ? importedData.folders.length : 0;
+      
+      // Show confirmation dialog
+      showNotification(
+        `Import ${projectCount} project${projectCount !== 1 ? 's' : ''} and ${folderCount} folder${folderCount !== 1 ? 's' : ''}?\n\nThis will add the imported projects to your existing projects. No existing projects will be deleted.`,
+        true,
+        () => {
+          try {
+            // Generate new IDs to avoid conflicts
+            const idMapping = new Map();
+            
+            // Import folders first and create ID mapping
+            const importedFolders = [];
+            if (importedData.folders) {
+              importedData.folders.forEach(folder => {
+                const oldId = folder.id;
+                const newId = fileManager.generateId();
+                idMapping.set(oldId, newId);
+                
+                // Create new folder with new ID
+                const newFolder = {
+                  ...folder,
+                  id: newId,
+                  // Update parentId if it references another imported folder
+                  parentId: folder.parentId && idMapping.has(folder.parentId) 
+                    ? idMapping.get(folder.parentId) 
+                    : folder.parentId
+                };
+                importedFolders.push(newFolder);
+              });
+            }
+            
+            // Import projects with new IDs
+            const importedProjects = importedData.projects.map(project => {
+              const newProject = {
+                ...project,
+                id: fileManager.generateId(),
+                // Update folderId if it references an imported folder
+                folderId: project.folderId && idMapping.has(project.folderId)
+                  ? idMapping.get(project.folderId)
+                  : null,
+                // Update timestamps
+                createdAt: project.createdAt || new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+              };
+              
+              // Ensure project has an icon
+              if (!newProject.icon) {
+                newProject.icon = fileManager.getRandomEmoji();
+              }
+              
+              return newProject;
+            });
+            
+            // Add imported folders to existing folders
+            fileManager.folders.push(...importedFolders);
+            
+            // Add imported projects to existing projects
+            fileManager.projects.push(...importedProjects);
+            
+            // Save to storage
+            fileManager.saveToStorage();
+            
+            // Render the updated file tree
+            fileManager.renderFileTree();
+            
+            // Reset file input
+            event.target.value = '';
+            
+            notify(`Successfully imported ${projectCount} project${projectCount !== 1 ? 's' : ''} and ${folderCount} folder${folderCount !== 1 ? 's' : ''}!`);
+          } catch (error) {
+            console.error('Import processing error:', error);
+            notify(`Failed to process imported data. Error: ${error.message}`);
+            event.target.value = '';
+          }
+        },
+        'confirmation'
+      );
+    } catch (error) {
+      console.error('Import error:', error);
+      notify(`Failed to import projects. ${error.message}`);
+      event.target.value = ''; // Reset input
+    }
+  };
+  
+  reader.onerror = function() {
+    notify('Failed to read file. Please try again.');
+    event.target.value = ''; // Reset input
+  };
+  
+  reader.readAsText(file);
 }
 
 // Global functions for storage quota modal
