@@ -1,1 +1,647 @@
-<!--CiteCount's native citation generator-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citation Generator - CiteCount</title>
+
+  <meta property="og:title" content="Citation Generator - CiteCount" />
+  <meta property="og:description"
+    content="Generate accurate citations in MLA, APA, Chicago, and Harvard formats. Free citation generator for websites, books, journals, and more." />
+  <meta property="og:image"
+    content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+  <meta property="og:url" content="https://citecount.com/generate/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:image"
+    content="https://cdn.statically.io/gh/DevChrisChan/CiteCount/refs/heads/main/assets/mockup1.jpg" />
+  <meta name="twitter:description"
+    content="Generate accurate citations in MLA, APA, Chicago, and Harvard formats. Free citation generator for websites, books, journals, and more." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Citation Generator - CiteCount" />
+  <meta name="description"
+    content="Generate accurate citations in MLA, APA, Chicago, and Harvard formats. Free citation generator for websites, books, journals, and more.">
+  <meta name="keywords"
+    content="Citation Generator, MLA Citation, APA Citation, Chicago Citation, Harvard Citation, Bibliography, Reference Generator">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
+  <link rel="canonical" href="https://citecount.com/generate/" />
+
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CiteCount" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+
+  <link href="/v2/style.css" rel="stylesheet">
+  <link href="/v2/flowbite.css" rel="stylesheet">
+  <link href="/generate/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="app-container">
+    <header class="flex justify-between items-center">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
+        <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+        <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="help-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="Help" onclick="toggleHelpOverlay(true)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+          </svg>
+          <span class="hidden md:inline text-sm font-medium">Help</span>
+        </button>
+        <button id="settings-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="Settings" onclick="toggleSettingsOverlay(true)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
+            <path d="M0 0h48v48h-48z" fill="none" />
+            <path d="M38.86 25.95c.08-.64.14-1.29.14-1.95s-.06-1.31-.14-1.95l4.23-3.31c.38-.3.49-.84.24-1.28l-4-6.93c-.25-.43-.77-.61-1.22-.43l-4.98 2.01c-1.03-.79-2.16-1.46-3.38-1.97L29 5.84c-.09-.47-.5-.84-1-.84h-8c-.5 0-.91.37-.99.84l-.75 5.3c-1.22.51-2.35 1.17-3.38 1.97L9.9 10.1c-.45-.17-.97 0-1.22.43l-4 6.93c-.25.43-.14.97.24 1.28l4.22 3.31C9.06 22.69 9 23.34 9 24s.06 1.31.14 1.95l-4.22 3.31c-.38.3-.49.84-.24 1.28l4 6.93c.25.43.77.61 1.22.43l4.98-2.01c1.03.79 2.16 1.46 3.38 1.97l.75 5.3c.08.47.49.84.99.84h8c.5 0 .91-.37.99-.84l.75-5.3c1.22-.51 2.35-1.17 3.38-1.97l4.98 2.01c.45.17.97 0 1.22-.43l4-6.93c.25-.43.14-.97-.24-1.28l-4.22-3.31zM24 31c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+          </svg>
+          <span class="hidden md:inline text-sm font-medium">Settings</span>
+        </button>
+        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+            <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+          </svg>
+          <span class="hidden md:inline text-sm font-medium">More Apps</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="generator-main">
+      <!-- Sidebar with saved citations -->
+      <aside class="citations-sidebar" id="citations-sidebar">
+        <div class="sidebar-header">
+          <h2>My Citations</h2>
+          <div class="sidebar-actions">
+            <button class="sidebar-btn" onclick="exportAllCitations()" title="Export All">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+            <button class="sidebar-btn delete-all" onclick="clearAllCitations()" title="Clear All">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="citations-list" id="citations-list">
+          <div class="empty-state" id="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <p>No citations yet</p>
+            <span>Create your first citation to get started</span>
+          </div>
+        </div>
+        <div class="sidebar-footer">
+          <button class="sidebar-collapse-btn" onclick="toggleSidebar()" title="Toggle Sidebar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Mobile sidebar toggle -->
+      <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle" onclick="toggleMobileSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span class="citation-count" id="mobile-citation-count">0</span>
+      </button>
+
+      <!-- Main content area -->
+      <div class="generator-content">
+        <div class="generator-header">
+          <h1>Citation Generator</h1>
+          <p>Create accurate citations for your research papers, essays, and bibliographies</p>
+        </div>
+
+        <!-- Citation Style Selector -->
+        <div class="style-selector-container">
+          <label>Citation Style</label>
+          <div class="style-tabs">
+            <button class="style-tab active" data-style="mla">MLA 9</button>
+            <button class="style-tab" data-style="apa">APA 7</button>
+            <button class="style-tab" data-style="chicago">Chicago</button>
+            <button class="style-tab" data-style="harvard">Harvard</button>
+          </div>
+        </div>
+
+        <!-- Source Type Selector -->
+        <div class="source-type-container">
+          <label>Source Type</label>
+          <div class="source-type-grid">
+            <button class="source-type-btn active" data-type="website">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              <span>Website</span>
+            </button>
+            <button class="source-type-btn" data-type="book">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+              <span>Book</span>
+            </button>
+            <button class="source-type-btn" data-type="journal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+              <span>Journal</span>
+            </button>
+            <button class="source-type-btn" data-type="video">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="23 7 16 12 23 17 23 7"/>
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+              </svg>
+              <span>Video</span>
+            </button>
+            <button class="source-type-btn" data-type="newspaper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+                <path d="M18 14h-8"/>
+                <path d="M15 18h-5"/>
+                <path d="M10 6h8v4h-8V6Z"/>
+              </svg>
+              <span>Newspaper</span>
+            </button>
+            <button class="source-type-btn" data-type="image">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Image</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- URL Auto-fill Section (for website) -->
+        <div class="url-autofill-section" id="url-autofill-section">
+          <div class="autofill-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+            </svg>
+            <span>Auto-fill from URL</span>
+          </div>
+          <div class="autofill-input-group">
+            <input type="url" id="url-input" placeholder="Paste website URL here..." autocomplete="off">
+            <button class="fetch-btn" id="fetch-btn" onclick="fetchFromURL()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12a9 9 0 11-6.219-8.56"/>
+                <polyline points="21 3 21 9 15 9"/>
+              </svg>
+              Fetch
+            </button>
+          </div>
+          <p class="fetch-status" id="fetch-status"></p>
+        </div>
+
+        <!-- Citation Form -->
+        <form class="citation-form" id="citation-form">
+          <!-- Website Fields -->
+          <div class="form-fields" id="website-fields">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="author-first">Author First Name</label>
+                <input type="text" id="author-first" name="author-first" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label for="author-last">Author Last Name</label>
+                <input type="text" id="author-last" name="author-last" placeholder="Smith">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="page-title">Page/Article Title <span class="required">*</span></label>
+              <input type="text" id="page-title" name="page-title" placeholder="Title of the article or page" required>
+            </div>
+            <div class="form-group">
+              <label for="website-name">Website Name <span class="required">*</span></label>
+              <input type="text" id="website-name" name="website-name" placeholder="Name of the website" required>
+            </div>
+            <div class="form-group">
+              <label for="publisher">Publisher</label>
+              <input type="text" id="publisher" name="publisher" placeholder="Organization or publisher">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="publish-date">Publish Date</label>
+                <input type="date" id="publish-date" name="publish-date">
+              </div>
+              <div class="form-group">
+                <label for="access-date">Access Date <span class="required">*</span></label>
+                <div class="date-input-wrapper">
+                  <input type="date" id="access-date" name="access-date" required>
+                  <button type="button" class="today-btn" onclick="setToday()">Today</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="url">URL <span class="required">*</span></label>
+              <input type="url" id="url" name="url" placeholder="https://example.com/article" required>
+            </div>
+          </div>
+
+          <!-- Book Fields -->
+          <div class="form-fields" id="book-fields" style="display: none;">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="book-author-first">Author First Name <span class="required">*</span></label>
+                <input type="text" id="book-author-first" name="book-author-first" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label for="book-author-last">Author Last Name <span class="required">*</span></label>
+                <input type="text" id="book-author-last" name="book-author-last" placeholder="Smith">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="book-title">Book Title <span class="required">*</span></label>
+              <input type="text" id="book-title" name="book-title" placeholder="Title of the book">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="book-publisher">Publisher <span class="required">*</span></label>
+                <input type="text" id="book-publisher" name="book-publisher" placeholder="Publisher name">
+              </div>
+              <div class="form-group">
+                <label for="book-year">Year Published <span class="required">*</span></label>
+                <input type="number" id="book-year" name="book-year" placeholder="2024" min="1000" max="2100">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="book-city">City</label>
+                <input type="text" id="book-city" name="book-city" placeholder="New York">
+              </div>
+              <div class="form-group">
+                <label for="book-edition">Edition</label>
+                <input type="text" id="book-edition" name="book-edition" placeholder="2nd ed.">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="book-pages">Page(s)</label>
+                <input type="text" id="book-pages" name="book-pages" placeholder="45-67">
+              </div>
+              <div class="form-group">
+                <label for="book-isbn">ISBN</label>
+                <input type="text" id="book-isbn" name="book-isbn" placeholder="978-0-123456-78-9">
+              </div>
+            </div>
+          </div>
+
+          <!-- Journal Fields -->
+          <div class="form-fields" id="journal-fields" style="display: none;">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="journal-author-first">Author First Name <span class="required">*</span></label>
+                <input type="text" id="journal-author-first" name="journal-author-first" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label for="journal-author-last">Author Last Name <span class="required">*</span></label>
+                <input type="text" id="journal-author-last" name="journal-author-last" placeholder="Smith">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="article-title">Article Title <span class="required">*</span></label>
+              <input type="text" id="article-title" name="article-title" placeholder="Title of the article">
+            </div>
+            <div class="form-group">
+              <label for="journal-name">Journal Name <span class="required">*</span></label>
+              <input type="text" id="journal-name" name="journal-name" placeholder="Name of the journal">
+            </div>
+            <div class="form-row three-col">
+              <div class="form-group">
+                <label for="journal-volume">Volume</label>
+                <input type="text" id="journal-volume" name="journal-volume" placeholder="12">
+              </div>
+              <div class="form-group">
+                <label for="journal-issue">Issue</label>
+                <input type="text" id="journal-issue" name="journal-issue" placeholder="3">
+              </div>
+              <div class="form-group">
+                <label for="journal-year">Year <span class="required">*</span></label>
+                <input type="number" id="journal-year" name="journal-year" placeholder="2024" min="1000" max="2100">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="journal-pages">Page(s)</label>
+                <input type="text" id="journal-pages" name="journal-pages" placeholder="123-145">
+              </div>
+              <div class="form-group">
+                <label for="journal-doi">DOI</label>
+                <input type="text" id="journal-doi" name="journal-doi" placeholder="10.1000/xyz123">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="journal-url">URL (if online)</label>
+              <input type="url" id="journal-url" name="journal-url" placeholder="https://doi.org/...">
+            </div>
+          </div>
+
+          <!-- Video Fields -->
+          <div class="form-fields" id="video-fields" style="display: none;">
+            <div class="form-group">
+              <label for="video-title">Video Title <span class="required">*</span></label>
+              <input type="text" id="video-title" name="video-title" placeholder="Title of the video">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="video-creator">Creator/Channel Name <span class="required">*</span></label>
+                <input type="text" id="video-creator" name="video-creator" placeholder="Channel or creator name">
+              </div>
+              <div class="form-group">
+                <label for="video-platform">Platform <span class="required">*</span></label>
+                <input type="text" id="video-platform" name="video-platform" placeholder="YouTube" value="YouTube">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="video-upload-date">Upload Date</label>
+                <input type="date" id="video-upload-date" name="video-upload-date">
+              </div>
+              <div class="form-group">
+                <label for="video-access-date">Access Date <span class="required">*</span></label>
+                <div class="date-input-wrapper">
+                  <input type="date" id="video-access-date" name="video-access-date">
+                  <button type="button" class="today-btn" onclick="setVideoToday()">Today</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="video-url">URL <span class="required">*</span></label>
+              <input type="url" id="video-url" name="video-url" placeholder="https://youtube.com/watch?v=...">
+            </div>
+            <div class="form-group">
+              <label for="video-duration">Duration</label>
+              <input type="text" id="video-duration" name="video-duration" placeholder="12:34">
+            </div>
+          </div>
+
+          <!-- Newspaper Fields -->
+          <div class="form-fields" id="newspaper-fields" style="display: none;">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="news-author-first">Author First Name</label>
+                <input type="text" id="news-author-first" name="news-author-first" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label for="news-author-last">Author Last Name</label>
+                <input type="text" id="news-author-last" name="news-author-last" placeholder="Smith">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="news-article-title">Article Title <span class="required">*</span></label>
+              <input type="text" id="news-article-title" name="news-article-title" placeholder="Headline of the article">
+            </div>
+            <div class="form-group">
+              <label for="news-paper-name">Newspaper Name <span class="required">*</span></label>
+              <input type="text" id="news-paper-name" name="news-paper-name" placeholder="The New York Times">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="news-publish-date">Publish Date <span class="required">*</span></label>
+                <input type="date" id="news-publish-date" name="news-publish-date">
+              </div>
+              <div class="form-group">
+                <label for="news-pages">Page(s)</label>
+                <input type="text" id="news-pages" name="news-pages" placeholder="A1, A4">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="news-url">URL (if online)</label>
+              <input type="url" id="news-url" name="news-url" placeholder="https://nytimes.com/...">
+            </div>
+            <div class="form-group" id="news-access-date-group" style="display: none;">
+              <label for="news-access-date">Access Date</label>
+              <div class="date-input-wrapper">
+                <input type="date" id="news-access-date" name="news-access-date">
+                <button type="button" class="today-btn" onclick="setNewsToday()">Today</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image Fields -->
+          <div class="form-fields" id="image-fields" style="display: none;">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="image-creator-first">Creator First Name</label>
+                <input type="text" id="image-creator-first" name="image-creator-first" placeholder="John">
+              </div>
+              <div class="form-group">
+                <label for="image-creator-last">Creator Last Name</label>
+                <input type="text" id="image-creator-last" name="image-creator-last" placeholder="Smith">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="image-title">Image Title <span class="required">*</span></label>
+              <input type="text" id="image-title" name="image-title" placeholder="Title or description of image">
+            </div>
+            <div class="form-group">
+              <label for="image-source">Source/Website <span class="required">*</span></label>
+              <input type="text" id="image-source" name="image-source" placeholder="Getty Images, Unsplash, etc.">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="image-date">Date Created/Published</label>
+                <input type="date" id="image-date" name="image-date">
+              </div>
+              <div class="form-group">
+                <label for="image-access-date">Access Date <span class="required">*</span></label>
+                <div class="date-input-wrapper">
+                  <input type="date" id="image-access-date" name="image-access-date">
+                  <button type="button" class="today-btn" onclick="setImageToday()">Today</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="image-url">URL <span class="required">*</span></label>
+              <input type="url" id="image-url" name="image-url" placeholder="https://example.com/image.jpg">
+            </div>
+            <div class="form-group">
+              <label for="image-medium">Medium/Format</label>
+              <input type="text" id="image-medium" name="image-medium" placeholder="Photograph, Digital image, etc.">
+            </div>
+          </div>
+
+          <!-- Additional Authors Section -->
+          <div class="additional-authors-section">
+            <button type="button" class="add-author-btn" onclick="addAuthor()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Add Another Author
+            </button>
+            <div class="additional-authors" id="additional-authors"></div>
+          </div>
+
+          <!-- Generate Button -->
+          <button type="submit" class="generate-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Generate Citation
+          </button>
+        </form>
+
+        <!-- Citation Preview/Result -->
+        <div class="citation-result-section" id="citation-result-section" style="display: none;">
+          <div class="result-header">
+            <h3>Generated Citation</h3>
+            <div class="result-actions">
+              <button class="result-btn" onclick="copyCitation()" title="Copy">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                Copy
+              </button>
+              <button class="result-btn primary" onclick="saveCitation()" title="Save">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                  <polyline points="17 21 17 13 7 13 7 21"/>
+                  <polyline points="7 3 7 8 15 8"/>
+                </svg>
+                Save
+              </button>
+            </div>
+          </div>
+          <div class="citation-preview" id="citation-preview">
+            <!-- Citation will be rendered here -->
+          </div>
+          <div class="style-variants">
+            <span>Quick switch:</span>
+            <button class="variant-btn active" data-style="mla" onclick="switchStyleQuick('mla')">MLA</button>
+            <button class="variant-btn" data-style="apa" onclick="switchStyleQuick('apa')">APA</button>
+            <button class="variant-btn" data-style="chicago" onclick="switchStyleQuick('chicago')">Chicago</button>
+            <button class="variant-btn" data-style="harvard" onclick="switchStyleQuick('harvard')">Harvard</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Mobile sidebar overlay -->
+    <div class="mobile-sidebar-overlay" id="mobile-sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+  </div>
+
+  <!-- Help Overlay -->
+  <div id="help-overlay" class="help-overlay">
+    <div>
+      <div class="flex justify-between items-center">
+        <h2 class="text-lg font-semibold">Help</h2>
+        <button onclick="toggleHelpOverlay(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <iframe id="help-iframe" src="/v2/support/help-new.html"></iframe>
+  </div>
+
+  <!-- Settings Overlay -->
+  <div id="settings-overlay" class="settings-overlay">
+    <div>
+      <div class="settings-header">
+        <h2 class="text-lg font-semibold">Settings</h2>
+        <button onclick="toggleSettingsOverlay(false)" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="settings-content-wrapper">
+      <div class="settings-main-content">
+        <!-- Citation Style Settings -->
+        <div class="settings-category-content active">
+          <h3 class="text-base font-semibold mb-4">Citation Style</h3>
+          
+          <div class="settings-item">
+            <div class="setting-info">
+              <h4 class="setting-title">Default Citation Style</h4>
+              <p class="setting-description">Choose your preferred citation format that will be selected by default</p>
+            </div>
+            <select id="defaultCitationStyleSelect" onchange="updateDefaultCitationStyle(this.value)"
+              style="width: 100%; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid var(--border-primary); background: var(--background-primary); color: var(--text-primary); font-size: 0.875rem;">
+              <option value="mla">MLA 9</option>
+              <option value="apa">APA 7</option>
+              <option value="chicago">Chicago</option>
+              <option value="harvard">Harvard</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay Background -->
+  <div id="overlay-background" class="overlay-background" onclick="closeOverlays()"></div>
+
+  <!-- Notification -->
+  <div id="notification">
+    <span id="notification-text">Notification</span>
+    <div id="progress-bar"></div>
+  </div>
+
+  <!-- Experimental Preview Modal -->
+  <div id="experimental-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md mx-4">
+      <h3 class="text-lg font-semibold mb-4">Experimental Preview</h3>
+      <p class="mb-4">This is an experimental preview of CiteCount's upcoming Citation Generator app, and may not work properly. Users are encouraged to test and provide feedback.</p>
+      <div class="flex gap-2">
+        <button onclick="closeExperimentalModal()" class="bg-blue-500 text-white px-4 py-2 rounded">OK</button>
+        <button onclick="closeExperimentalModalAndRemember()" class="bg-gray-500 text-white px-4 py-2 rounded">OK, do not remind for 24 hours</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/v2/apps-modal.js"></script>
+  <script src="/generate/script.js"></script>
+
+  <script>
+    window.addEventListener('load', function() {
+      const hiddenUntil = localStorage.getItem('experimentalModalHidden');
+      if (!hiddenUntil || Date.now() > parseInt(hiddenUntil)) {
+        document.getElementById('experimental-modal').style.display = 'flex';
+      }
+    });
+
+    function closeExperimentalModal() {
+      document.getElementById('experimental-modal').style.display = 'none';
+        showNotification('Thanks for testing Citation Generator!')
+    }
+
+    function closeExperimentalModalAndRemember() {
+      const expiry = Date.now() + 24 * 60 * 60 * 1000;
+      localStorage.setItem('experimentalModalHidden', expiry);
+      closeExperimentalModal();
+        showNotification('Thanks for testing Citation Generator!')
+    }
+  </script>
+</body>
+
+</html>

@@ -1215,6 +1215,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+  }
+
+  .app-beta-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ff6b35;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
   }
 
   .app-icon {
@@ -1226,10 +1243,6 @@
     justify-content: center;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     transition: all 0.15s ease;
-  }
-
-  .app-card:hover .app-icon {
-    transform: scale(1.05);
   }
 
   .app-title {
@@ -1293,6 +1306,13 @@
     .app-title {
       font-size: 0.75rem;
       max-width: 80px;
+    }
+
+    .app-beta-badge {
+      font-size: 0.5rem;
+      padding: 1px 4px;
+      top: -2px;
+      right: -2px;
     }
   }
 
