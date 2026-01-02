@@ -962,6 +962,11 @@ const fileManager = {
       event.stopPropagation();
     }
 
+    // If this is the first selection and current project isn't selected, auto-select it too
+    if (this.selectedProjects.size === 0 && this.currentProject && this.currentProject !== projectId) {
+      this.selectedProjects.add(this.currentProject);
+    }
+
     if (this.selectedProjects.has(projectId)) {
       this.selectedProjects.delete(projectId);
     } else {
@@ -970,21 +975,34 @@ const fileManager = {
 
     this.renderFileTree();
     this.updateMultiSelectToolbar();
+    this.updateSelectAllButtonTooltip();
   },
 
   selectAllProjects() {
-    this.selectedProjects.clear();
-    this.projects.forEach(project => {
-      this.selectedProjects.add(project.id);
-    });
+    // If all projects are selected, unselect all; otherwise, select all
+    const allSelected = this.selectedProjects.size === this.projects.length;
+    
+    if (allSelected) {
+      // Unselect all
+      this.selectedProjects.clear();
+    } else {
+      // Select all
+      this.selectedProjects.clear();
+      this.projects.forEach(project => {
+        this.selectedProjects.add(project.id);
+      });
+    }
+    
     this.renderFileTree();
     this.updateMultiSelectToolbar();
+    this.updateSelectAllButtonTooltip();
   },
 
   clearSelection() {
     this.selectedProjects.clear();
     this.renderFileTree();
     this.updateMultiSelectToolbar();
+    this.updateSelectAllButtonTooltip();
   },
 
   updateMultiSelectToolbar() {
@@ -995,11 +1013,21 @@ const fileManager = {
     const countDisplay = toolbar.querySelector('.selection-count');
 
     if (count > 0) {
+      // Show toolbar only when items are selected
       toolbar.style.display = 'flex';
       countDisplay.textContent = `${count} selected`;
     } else {
+      // Hide toolbar when no items selected
       toolbar.style.display = 'none';
     }
+  },
+
+  updateSelectAllButtonTooltip() {
+    const selectAllBtn = document.querySelector('[onclick="fileManager.selectAllProjects()"]');
+    if (!selectAllBtn) return;
+
+    const allSelected = this.selectedProjects.size === this.projects.length && this.projects.length > 0;
+    selectAllBtn.setAttribute('data-tooltip', allSelected ? 'Unselect All' : 'Select All');
   },
 
   deleteSelectedProjects() {
@@ -1060,8 +1088,12 @@ const fileManager = {
 // ============================================
 
 function handleProjectClick(event, projectId) {
-  // Cmd/Ctrl + Click toggles selection
-  if (event.metaKey || event.ctrlKey) {
+  // Check if multi-select toolbar is visible
+  const toolbar = document.getElementById('multi-select-toolbar');
+  const isToolbarVisible = toolbar && toolbar.style.display === 'flex';
+  
+  // Cmd/Ctrl + Click or toolbar visible = toggle selection
+  if (event.metaKey || event.ctrlKey || isToolbarVisible) {
     fileManager.toggleProjectSelection(projectId, event);
   } else if (fileManager.selectedProjects.size > 0) {
     // If items are selected, clicking switches to the project and clears selection
@@ -1075,6 +1107,22 @@ function handleProjectClick(event, projectId) {
 
 function toggleSidebar() {
   const sidebar = document.getElementById('file-sidebar');
+  const overlay = document.getElementById('mobile-sidebar-overlay');
+  
+  // On mobile view, just toggle mobile-open state (drawer style)
+  if (window.innerWidth <= 1024) {
+    const isOpen = sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active', isOpen);
+    
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return;
+  }
+  
+  // On desktop, toggle collapsed state
   sidebar.classList.add('transitioning');
   const isCollapsed = sidebar.classList.toggle('collapsed');
   

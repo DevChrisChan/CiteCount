@@ -18,6 +18,7 @@ const state = {
     citations: true,
     fontSize: 16,
     fontFamily: 'system-ui',
+    defaultCitationStyle: 'mla',
     // Counter display settings
     counters: {
       wordsNoCitations: { enabled: true, order: 0, shortName: 'Words without Citations', tooltip: 'Words without Citations' },
@@ -75,10 +76,17 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       state.settings = { ...state.settings, ...parsed };
     }
+    
+    // Sync citation style with localStorage
+    if (state.settings.defaultCitationStyle) {
+      localStorage.setItem('defaultCitationStyle', state.settings.defaultCitationStyle);
+    }
+    
     updateSettingsUI();
   } else {
     // Initialize settings in localStorage with default values
     localStorage.setItem('settings', JSON.stringify(state.settings));
+    localStorage.setItem('defaultCitationStyle', state.settings.defaultCitationStyle);
     updateSettingsUI();
   }
 
@@ -361,6 +369,17 @@ function updateFontFamily(family) {
   updateSettingsUI();
 }
 
+function updateDefaultCitationStyle(style) {
+  state.settings.defaultCitationStyle = style;
+  localStorage.setItem('defaultCitationStyle', style);
+  saveSettings();
+  
+  // Update the citation.js variable if it exists
+  if (typeof currentCitationStyle !== 'undefined') {
+    currentCitationStyle = style;
+  }
+}
+
 function toggleFontFamilyDropdown() {
   const dropdown = document.getElementById('fontFamilyDropdown');
   dropdown.classList.toggle('hidden');
@@ -415,6 +434,12 @@ function updateSettingsUI() {
     
     fontFamilyButtonText.textContent = fontDisplayNames[state.settings.fontFamily] || 'System UI';
     fontFamilyButtonText.style.fontFamily = state.settings.fontFamily;
+  }
+  
+  // Update default citation style dropdown
+  const citationStyleSelect = document.getElementById('defaultCitationStyleSelect');
+  if (citationStyleSelect) {
+    citationStyleSelect.value = state.settings.defaultCitationStyle || 'mla';
   }
   
   const editor = document.getElementById('editor');

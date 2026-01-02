@@ -205,6 +205,22 @@
                   </button>
                 </div>
                 <span class="help-text" id="lookup-status" style="display: none; margin-top: 0.25rem;"></span>
+
+                <!-- Error Message Display -->
+                <div id="citation-error" class="citation-error" style="display: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                  </svg>
+                  <span id="citation-error-text"></span>
+                </div>
+
+                <!-- Success Message Display -->
+                <div id="citation-success" class="citation-success" style="display: none;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                  </svg>
+                  <span id="citation-success-text"></span>
+                </div>
               </div>
             </div>
 
@@ -233,21 +249,6 @@
               </select>
             </div>
 
-            <!-- Error Message Display -->
-            <div id="citation-error" class="citation-error" style="display: none;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
-              </svg>
-              <span id="citation-error-text"></span>
-            </div>
-
-            <!-- Success Message Display -->
-            <div id="citation-success" class="citation-success" style="display: none;">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" style="width: 20px; height: 20px;">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-              </svg>
-              <span id="citation-success-text"></span>
-            </div>
 
             <!-- Citation Form -->
             <div id="citation-form" class="citation-form">
@@ -334,9 +335,29 @@
                 <input type="text" id="website-name" placeholder="e.g., BBC News, Wikipedia" autocomplete="off" />
               </div>
             </div>
+          </div>
+          <div class="citation-modal-footer">
+            <div style="display: flex; gap: 0.5rem; width: 100%;">
+              <button class="clear-form-btn" onclick="resetCitationForm()" style="flex: 0 0 auto;">Clear</button>
+              <button class="generate-btn" onclick="generateCitation()" style="flex: 1;">Generate Citation</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- Generated Citation Output -->
-            <div id="citation-output" class="citation-output" style="display: none;">
+      <!-- Generated Citation Modal -->
+      <div id="citation-result-modal" class="citation-modal" style="display: none;">
+        <div class="citation-modal-content">
+          <div class="citation-modal-header">
+            <h2>Citation Generated</h2>
+            <button onclick="closeCitationResultModal()" class="close-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="citation-modal-body" style="max-height: 70vh; overflow-y: auto;">
+            <div id="citation-output" class="citation-output" style="display: block;">
               <div style="margin-bottom: 1rem;">
                 <label>In-Text Citation:</label>
                 <div id="intext-citation-result" class="citation-result"></div>
@@ -353,10 +374,7 @@
             </div>
           </div>
           <div class="citation-modal-footer">
-            <div style="display: flex; gap: 0.5rem; width: 100%;">
-              <button class="clear-form-btn" onclick="resetCitationForm()" style="flex: 0 0 auto;">Clear</button>
-              <button class="generate-btn" onclick="generateCitation()" style="flex: 1;">Generate Citation</button>
-            </div>
+            <button class="generate-btn" onclick="closeCitationResultModal()" style="width: 100%;">Close</button>
           </div>
         </div>
       </div>
@@ -695,6 +713,26 @@
           </div>
         </div>
         <div id="resizeHandle"></div>
+      </div>
+
+      <!-- Unsaved Content Confirmation Modal -->
+      <div id="unsaved-content-modal" class="confirmation-modal" style="display: none;">
+        <div class="confirmation-modal-overlay" onclick="closeUnsavedContentModal()"></div>
+        <div class="confirmation-modal-content">
+          <div class="confirmation-modal-header">
+            <h3>Unsaved Content</h3>
+            <button onclick="closeUnsavedContentModal()" class="close-btn" style="background: none; border: none; cursor: pointer; padding: 0; font-size: 1.5rem; line-height: 1;">
+              ×
+            </button>
+          </div>
+          <div class="confirmation-modal-body">
+            <p>You have unsaved content in the form. Are you sure you want to close?</p>
+          </div>
+          <div class="confirmation-modal-footer">
+            <button id="unsaved-cancel-btn" onclick="closeUnsavedContentModal()" class="btn-secondary">Keep Editing</button>
+            <button id="unsaved-confirm-btn" onclick="confirmCloseWithUnsavedContent()" class="btn-danger">Discard Changes</button>
+          </div>
+        </div>
       </div>
     `;
   }

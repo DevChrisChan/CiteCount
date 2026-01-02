@@ -2,7 +2,7 @@
 // Supports APA 7th, Harvard, and MLA 9th citation styles
 // Features: Auto-lookup from DOI, ISBN, and URLs
 
-let currentCitationStyle = 'mla';
+let currentCitationStyle = localStorage.getItem('defaultCitationStyle') || 'mla';
 let currentLookupType = 'url';
 let isLookupInProgress = false;
 
@@ -12,6 +12,7 @@ let isLookupInProgress = false;
 
 /**
  * Check if the citation form has any content
+ * Note: Ignores the auto-filled access date to avoid false positives
  */
 function hasCitationFormContent() {
     const form = document.getElementById('citation-form');
@@ -19,6 +20,10 @@ function hasCitationFormContent() {
     
     const inputs = form.querySelectorAll('input[type="text"], input[type="date"]');
     for (const input of inputs) {
+        // Skip the access-date field as it's auto-filled
+        if (input.id === 'access-date') {
+            continue;
+        }
         if (input.value.trim()) {
             return true;
         }
@@ -39,6 +44,8 @@ function openCitationModal() {
         setTodayDate();
         // Add keyboard support for Escape key
         setupCitationModalKeyboard();
+        // Set the saved citation style
+        selectCitationStyle(currentCitationStyle);
     }
 }
 
@@ -51,9 +58,19 @@ function closeCitationModal(force = false) {
     
     // Check if there's content and we're not forcing close
     if (!force && hasCitationFormContent()) {
-        if (!confirm('You have unsaved content in the form. Are you sure you want to close?')) {
-            return;
-        }
+        showUnsavedContentModal(() => {
+            // Callback when user confirms discard - actually close the modal now
+            const citationModal = document.getElementById('citation-modal');
+            if (citationModal) {
+                citationModal.style.display = 'none';
+            }
+            // Remove keyboard listener
+            if (window.citationModalKeyHandler) {
+                document.removeEventListener('keydown', window.citationModalKeyHandler);
+                window.citationModalKeyHandler = null;
+            }
+        });
+        return;
     }
     
     modal.style.display = 'none';
@@ -61,6 +78,26 @@ function closeCitationModal(force = false) {
     if (window.citationModalKeyHandler) {
         document.removeEventListener('keydown', window.citationModalKeyHandler);
         window.citationModalKeyHandler = null;
+    }
+}
+
+/**
+ * Open the citation result modal
+ */
+function openCitationResultModal() {
+    const modal = document.getElementById('citation-result-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+/**
+ * Close the citation result modal
+ */
+function closeCitationResultModal() {
+    const modal = document.getElementById('citation-result-modal');
+    if (modal) {
+        modal.style.display = 'none';
     }
 }
 
@@ -103,11 +140,6 @@ function resetCitationForm() {
     // Reset auto-lookup input
     const lookupInput = document.getElementById('auto-lookup-input');
     if (lookupInput) lookupInput.value = '';
-    
-    const output = document.getElementById('citation-output');
-    if (output) {
-        output.style.display = 'none';
-    }
     
     // Hide messages
     hideErrorMessage();
@@ -241,6 +273,9 @@ function selectLookupType(type) {
 function selectCitationStyle(style) {
     currentCitationStyle = style;
     
+    // Save to localStorage for persistence
+    localStorage.setItem('defaultCitationStyle', style);
+    
     // Update button states
     const buttons = document.querySelectorAll('.style-btn');
     buttons.forEach(btn => {
@@ -320,6 +355,22 @@ async function autoLookup() {
     if (!value) {
         showErrorMessage('Please enter a URL, DOI, or ISBN to lookup');
         return;
+    }
+    
+    // Validate URL if it looks like a URL
+    if (currentLookupType === 'url' || (value.startsWith('http') || value.includes('.'))) {
+        // Ensure URL has protocol
+        let urlToValidate = value;
+        if (!urlToValidate.startsWith('http://') && !urlToValidate.startsWith('https://')) {
+            urlToValidate = 'https://' + urlToValidate;
+        }
+        
+        try {
+            new URL(urlToValidate);
+        } catch (e) {
+            showErrorMessage('Please enter a valid URL (e.g., https://example.com or example.com)');
+            return;
+        }
     }
     
     // Auto-detect type if needed
@@ -803,7 +854,6 @@ function generateCitation() {
     if (output && inTextResult && bibliographyResult) {
         inTextResult.innerHTML = inTextCitation;
         bibliographyResult.innerHTML = bibliographyCitation;
-        output.style.display = 'block';
         
         // Save to history
         saveCitationToHistory({
@@ -816,13 +866,8 @@ function generateCitation() {
             bibliography: bibliographyCitation
         });
         
-        // Scroll modal to bottom to reveal the output
-        setTimeout(() => {
-            const modalBody = document.querySelector('.citation-modal-body');
-            if (modalBody) {
-                modalBody.scrollTop = modalBody.scrollHeight;
-            }
-        }, 100);
+        // Open the result modal
+        openCitationResultModal();
     }
 }
 
@@ -1238,7 +1283,8 @@ function appendToCiteCount() {
         notify('Citations appended to document');
     }
     
-    // Close the modal
+    // Close both modals
+    closeCitationResultModal();
     closeCitationModal(true);
 }
 
@@ -1446,20 +1492,70 @@ function clearCitationHistory() {
 }
 
 // ============================================
+// UNSAVED CONTENT CONFIRMATION MODAL
+// ============================================
+
+/**
+ * Show unsaved content confirmation modal
+ */
+function showUnsavedContentModal(onConfirmCallback) {
+    const modal = document.getElementById('unsaved-content-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        
+        // Store the callback
+        window.unsavedContentCallback = onConfirmCallback;
+    }
+}
+
+/**
+ * Close unsaved content confirmation modal
+ */
+function closeUnsavedContentModal() {
+    const modal = document.getElementById('unsaved-content-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        window.unsavedContentCallback = null;
+    }
+}
+
+/**
+ * Confirm closing with unsaved content
+ */
+function confirmCloseWithUnsavedContent() {
+    // Save the callback before closing the modal (which sets it to null)
+    const callback = window.unsavedContentCallback;
+    closeUnsavedContentModal();
+    if (callback) {
+        callback();
+    }
+}
+
+// ============================================
 // EVENT LISTENERS
 // ============================================
 
 // Close modal when clicking outside
 document.addEventListener('click', function(event) {
     const modal = document.getElementById('citation-modal');
+    const resultModal = document.getElementById('citation-result-modal');
     const historyModal = document.getElementById('citation-history-modal');
+    const unsavedModal = document.getElementById('unsaved-content-modal');
     
     if (modal && event.target === modal) {
         closeCitationModal();
     }
     
+    if (resultModal && event.target === resultModal) {
+        closeCitationResultModal();
+    }
+    
     if (historyModal && event.target === historyModal) {
         closeCitationHistory();
+    }
+    
+    if (unsavedModal && event.target.classList.contains('confirmation-modal-overlay')) {
+        closeUnsavedContentModal();
     }
 });
 

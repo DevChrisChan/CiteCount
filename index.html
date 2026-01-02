@@ -1067,6 +1067,22 @@
 
               <div class="p-3 rounded-md" style="background: #f3f4f6;">
                 <div class="mb-3">
+                  <span class="font-medium">Default Citation Style</span>
+                  <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Default citation style for the citation generator</p>
+                </div>
+                <div class="relative">
+                  <select id="defaultCitationStyleSelect"
+                    class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                    onchange="updateDefaultCitationStyle(this.value)">
+                    <option value="mla">MLA 9th Edition</option>
+                    <option value="apa">APA 7th Edition</option>
+                    <option value="harvard">Harvard</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-md" style="background: #f3f4f6;">
+                <div class="mb-3">
                   <span class="font-medium">Font Family</span>
                   <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Choose the typeface for the editor</p>
                 </div>
