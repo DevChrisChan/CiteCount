@@ -27,6 +27,16 @@
   <priority>0.70</priority>
 </url>
 <url>
+  <loc>https://citecount.com/generate/</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.com/grade-calculator/</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>https://citecount.com/contact.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
@@ -37,7 +47,27 @@
   <priority>0.50</priority>
 </url>
 <url>
+  <loc>https://citecount.com/about-us.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.40</priority>
+</url>
+<url>
+  <loc>https://citecount.com/sitemap.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.10</priority>
+</url>
+<url>
   <loc>https://citecount.com/privacy-policy.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://citecount.com/gdpr-policy.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://citecount.com/cookies-policy.html</loc>
   <changefreq>yearly</changefreq>
   <priority>0.50</priority>
 </url>
@@ -68,8 +98,6 @@
   <changefreq>weekly</changefreq>
   <priority>0.85</priority>
 </url>
-
-<!-- IB Resources -->
 <url>
   <loc>https://citecount.com/ib-resources/</loc>
   <changefreq>weekly</changefreq>
@@ -80,8 +108,6 @@
   <changefreq>monthly</changefreq>
   <priority>0.10</priority>
 </url>
-
-<!-- Statistical Analysis -->
 <url>
   <loc>https://citecount.com/bulletin-analysis/</loc>
   <changefreq>monthly</changefreq>
@@ -98,11 +124,58 @@
   <priority>0.60</priority>
 </url>
 
+<!-- Support & Help Center (v2) -->
+<url>
+  <loc>https://citecount.com/v2/support/help.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/help-new.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/getting-started.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/features.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/file-management.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/citations.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/shortcuts.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/troubleshooting.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+
 <!-- Blog Section -->
 <url>
   <loc>https://citecount.com/blogs/</loc>
   <changefreq>weekly</changefreq>
   <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://citecount.com/blogs/academic-writing-skills-ib.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
 </url>
 <url>
   <loc>https://citecount.com/blogs/all-new-citecount.html</loc>
@@ -125,7 +198,17 @@
   <priority>0.70</priority>
 </url>
 <url>
+  <loc>https://citecount.com/blogs/building-academic-portfolio-ib.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
   <loc>https://citecount.com/blogs/business-management-ia-word-count.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.com/blogs/cas-reflection-writing-guide.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
@@ -175,6 +258,11 @@
   <priority>0.70</priority>
 </url>
 <url>
+  <loc>https://citecount.com/blogs/ib-exam-techniques-strategies.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
   <loc>https://citecount.com/blogs/ib-math-internal-assessment-guide.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
@@ -220,6 +308,16 @@
   <priority>0.70</priority>
 </url>
 <url>
+  <loc>https://citecount.com/blogs/stress-management-ib-diploma.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.com/blogs/studying-abroad-ib-students.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
   <loc>https://citecount.com/blogs/time-management-for-ib-students.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
@@ -235,47 +333,17 @@
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://citecount.com/blogs/understanding-academic-referencing-styles.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/blogs/academic-writing-skills-ib.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/blogs/building-academic-portfolio-ib.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/blogs/cas-reflection-writing-guide.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/blogs/ib-exam-techniques-strategies.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/blogs/stress-management-ib-diploma.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/blogs/studying-abroad-ib-students.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
   <loc>https://citecount.com/blogs/transitioning-from-ib-to-university.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
 <url>
   <loc>https://citecount.com/blogs/ucas-personal-statement-guide-ib-students.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.com/blogs/understanding-academic-referencing-styles.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
 </url>
