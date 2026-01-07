@@ -46,6 +46,17 @@
           </div>
           <span class="app-title">IB M26 Exams Countdown</span>
         </a>
+        <a href="/countdown/n26/" class="app-card" data-lta-event="v2-more-apps-countdown-n26-click">
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #70e1f5 0%, #ffd194 100%);">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">IB N26 Exams Countdown</span>
+        </a>
         <a href="/exam-timer/" class="app-card" data-lta-event="v2-more-apps-mocks-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
@@ -94,23 +105,6 @@
             </div>
           </div>
           <span class="app-title">Blogs & Guides</span>
-        </a>
-        <a href="/grade-calculator/" class="app-card" data-lta-event="v2-more-apps-calculator-click">
-          <div class="app-icon-wrapper">
-            <div class="app-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" width="32" height="32">
-                <rect x="4" y="2" width="16" height="20" rx="2"/>
-                <line x1="8" y1="6" x2="16" y2="6"/>
-                <line x1="16" y1="14" x2="16" y2="18"/>
-                <line x1="8" y1="14" x2="8" y2="18"/>
-                <line x1="12" y1="14" x2="12" y2="18"/>
-                <circle cx="8" cy="10" r="0.5" fill="white"/>
-                <circle cx="12" cy="10" r="0.5" fill="white"/>
-                <circle cx="16" cy="10" r="0.5" fill="white"/>
-              </svg>
-            </div>
-          </div>
-          <span class="app-title">Grade Calculator</span>
         </a>
         <a href="/contact.html" class="app-card" data-lta-event="v2-more-apps-contact-click">
           <div class="app-icon-wrapper">

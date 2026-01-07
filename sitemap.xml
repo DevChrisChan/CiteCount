@@ -84,6 +84,11 @@
   <priority>0.90</priority>
 </url>
 <url>
+  <loc>https://citecount.com/countdown/n26/</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.90</priority>
+</url>
+<url>
   <loc>https://citecount.com/countdown/schedule.html</loc>
   <changefreq>weekly</changefreq>
   <priority>0.85</priority>
