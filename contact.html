@@ -101,23 +101,7 @@
 </head>
 <body>
     <div class="app-container">
-        <header class="flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
-                <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
-                <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900;">CiteCount</h1>
-            </div>
-            <div class="flex items-center gap-2">
-                <button onclick="window.location.href='/countdown/';" class="p-2 rounded-md flex items-center gap-2">
-                    <span class="hidden md:inline text-sm font-medium">IB Exams Countdown</span>
-                </button>
-                <button onclick="window.location.href='/exam-timer/';" class="p-2 rounded-md flex items-center gap-2">
-                    <span class="hidden md:inline text-sm font-medium">IB Exams Timer</span>
-                </button>
-                <button onclick="window.location.href='/blogs/';" class="p-2 rounded-md flex items-center gap-2">
-                    <span class="hidden md:inline text-sm font-medium">Blogs</span>
-                </button>
-            </div>
-        </header>
+        <div id="navbar-container"></div>
 
         <div class="contact-container">
             <div class="contact-header" style="padding-top: 5%;">
@@ -163,6 +147,23 @@
         </footer>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const navbarContainer = document.getElementById('navbar-container');
+            if (navbarContainer) {
+                try {
+                    const response = await fetch('/components/navbar-template.html');
+                    const navbarHTML = await response.text();
+                    navbarContainer.innerHTML = navbarHTML;
+                } catch (error) {
+                    console.error('Failed to load navbar template', error);
+                }
+            }
+
+            const appsModalScript = document.createElement('script');
+            appsModalScript.src = '/v2/apps-modal.js';
+            document.body.appendChild(appsModalScript);
+        });
+
         function iframeLoaded() {
             document.getElementById('loading-text').style.display = 'none';
             document.getElementById('forms').style.display = 'block';

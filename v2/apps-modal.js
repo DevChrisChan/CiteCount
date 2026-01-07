@@ -163,6 +163,7 @@
       // Add click outside listener
       setTimeout(() => {
         document.addEventListener('click', closeAppsModalOnClickOutside);
+        document.addEventListener('keydown', closeAppsModalOnEscape);
       }, 100);
     } else {
       modal.style.opacity = '0';
@@ -171,6 +172,7 @@
         modal.style.display = 'none';
       }, 150);
       document.removeEventListener('click', closeAppsModalOnClickOutside);
+      document.removeEventListener('keydown', closeAppsModalOnEscape);
     }
   };
 
@@ -179,6 +181,12 @@
     const appsButton = document.getElementById('other-apps-btn');
     
     if (modal && !modal.contains(event.target) && !appsButton.contains(event.target)) {
+      window.toggleAppsModal(false);
+    }
+  }
+
+  function closeAppsModalOnEscape(event) {
+    if (event.key === 'Escape') {
       window.toggleAppsModal(false);
     }
   }
