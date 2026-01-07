@@ -1253,12 +1253,7 @@
     margin: 0;
     line-height: 1.2;
     max-width: 96px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
+    word-wrap: break-word;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -1306,6 +1301,7 @@
     .app-title {
       font-size: 0.75rem;
       max-width: 80px;
+      word-wrap: break-word;
     }
 
     .app-beta-badge {
