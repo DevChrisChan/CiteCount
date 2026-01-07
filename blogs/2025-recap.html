@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CiteCount 2025 Recap: New Apps, 100k+ Users, What’s Next</title>
+  <meta name="description" content="A look back at 2025: a brand-new CiteCount core, four new IB apps, and 100k+ unique users. Here’s what we’re building next in 2026.">
+  <meta name="keywords" content="CiteCount 2025 recap, IB tools, word count without citations, citation generator, exam timer, grade calculator, IB resources">
+
+  <!-- Icons / Manifest -->
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CiteCount" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+
+  <!-- Theme / Styles -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#575757" />
+  <link href="/v2/style.css" rel="stylesheet">
+  <link href="/v2/flowbite.css" rel="stylesheet">
+
+  <!-- Analytics -->
+  <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-LHVN622J29');
+  </script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
+
+  <!-- Apps Modal Script (required by navbar template) -->
+  <script src="/v2/apps-modal.js"></script>
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="CiteCount 2025 Recap: New Apps, 100k+ Users, What’s Next">
+  <meta property="og:description" content="A look back at 2025: a brand-new CiteCount core, four new IB apps, and 100k+ unique users. Here’s what we’re building next in 2026.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://citecount.com/blogs/2025-recap.html">
+  <meta property="og:image" content="https://citecount.com/assets/product/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CiteCount 2025 Recap: New Apps, 100k+ Users, What’s Next">
+  <meta name="twitter:description" content="A look back at 2025: a brand-new CiteCount core, four new IB apps, and 100k+ unique users.">
+  <meta name="twitter:image" content="https://citecount.com/assets/product/og-cover.png">
+
+  <style>
+    /* Force horizontal padding for content (not the page background) */
+    .recap-container, .recap-page .new-container {
+      padding-left: 16px;
+      padding-right: 16px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @media (min-width: 768px){
+      .recap-container, .recap-page .new-container { padding-left: 24px; padding-right: 24px; }
+    }
+    @media (min-width: 1024px){
+      .recap-container, .recap-page .new-container { padding-left: 32px; padding-right: 32px; }
+    }
+    .recap-hero {
+      background: radial-gradient(1200px 500px at 10% 0%, rgba(99,102,241,0.18), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(236,72,153,0.12), transparent 60%);
+      padding: 64px 0 28px;
+    }
+    .recap-title { font-weight: 900; letter-spacing: -0.02em; }
+    .recap-subtitle { opacity: .85 }
+    .recap-pill { border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.06); }
+    .recap-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; }
+    .recap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .recap-feature { display:flex; gap:12px; align-items:flex-start; padding:10px 0; }
+    .recap-feature i { opacity: .9 }
+    .recap-section-title { font-weight: 800; letter-spacing: -0.01em; }
+    .recap-muted { opacity: .7 }
+    .recap-stat { display:flex; align-items:center; gap:12px; }
+    .recap-stat .recap-num { font-weight:900; font-size: 1.7rem; }
+    .recap-badge { font-size:.8rem; padding:4px 8px; border-radius:999px; background:#1f2937; color:#fff; border:1px solid rgba(255,255,255,.1) }
+    .recap-btn { display:inline-flex; align-items:center; gap:8px; text-decoration:none; border:1px solid rgba(255,255,255,.12); }
+    .recap-btn:hover { filter: brightness(1.05); transform: translateY(-1px); transition: all .15s ease; }
+    details.recap-details { padding:8px 10px; border-radius:10px; border:1px dashed rgba(255,255,255,.15); background: rgba(255,255,255,.03); }
+    details.recap-details[open] { background: rgba(255,255,255,.06); }
+    details.recap-details summary { cursor:pointer; list-style:none; font-weight:600; display:flex; gap:12px; align-items:flex-start; }
+    details.recap-details summary::-webkit-details-marker{ display:none; }
+    @media (prefers-color-scheme: light){
+      .recap-pill { background: rgba(0,0,0,.03); border-color: rgba(0,0,0,.06) }
+      .recap-card { background: #ffffff; border-color: rgba(0,0,0,.08) }
+      .recap-badge { background:#eef2ff; color:#3730a3; border-color: #c7d2fe }
+      details.recap-details { border-color: rgba(0,0,0,.12); background:#fafafa; }
+      details.recap-details[open] { background:#ffffff; }
+    }
+  </style>
+</head>
+<body class="recap-page">
+  <!-- Navigation bar (identical to navbar template) -->
+  <div class="recap-container">
+  <header class="flex justify-between items-center">
+    <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/'" style="user-select: none;">
+      <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+      <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()" data-lta-event="v2-more-apps-click">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+          <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+        </svg>
+        <span class="hidden md:inline text-sm font-medium">More Apps</span>
+      </button>
+    </div>
+  </header>
+  </div>
+
+  <!-- Hero -->
+  <section class="recap-hero">
+    <div class="new-container">
+      <div class="recap-pill inline-flex items-center gap-2 px-3 py-1 rounded-full mb-4">
+        <span class="recap-badge">2025</span>
+        <span class="text-sm">Year in Review</span>
+      </div>
+      <div class="flex items-center justify-between" style="gap:12px; flex-wrap: wrap;">
+        <h1 class="recap-title" style="font-size: 2.4rem; margin: 0 0 8px;">CiteCount 2025 Recap</h1>
+        <div class="flex items-center gap-2" style="margin-top:6px;">
+          <a href="#" class="recap-btn" id="share-btn" style="padding:8px 10px; border-radius:10px; background:#111827; color:#fff;">Share</a>
+          <a href="#" class="recap-btn" id="copy-link-btn" style="padding:8px 10px; border-radius:10px; background:#374151; color:#fff;">Copy Link</a>
+        </div>
+      </div>
+      <p class="recap-subtitle" style="font-size:1.1rem; max-width: 800px;">
+        2025 was our most ambitious year yet: a brand-new CiteCount core, four new IB apps, and a community of 100,000+ learners. Here’s what shipped — and what’s next.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats Strip -->
+  <section>
+    <div class="new-container" style="margin-top: 10px;">
+      <div class="recap-grid">
+        <div class="recap-card p-4 recap-stat">
+          <div class="recap-num">100k+</div>
+          <div>
+            <div class="font-semibold">Unique Users in 2025</div>
+            <div class="recap-muted">Growing global community</div>
+          </div>
+        </div>
+        <div class="recap-card p-4 recap-stat">
+          <div class="recap-num">1 in 4</div>
+          <div>
+            <div class="font-semibold">IB Students use CiteCount</div>
+            <div class="recap-muted">Est. reach across both IB years</div>
+          </div>
+        </div>
+        <div class="recap-card p-4 recap-stat">
+          <div class="recap-num">4</div>
+          <div>
+            <div class="font-semibold">New Apps Launched</div>
+            <div class="recap-muted">Citation, Resources, Grades, Exam Timer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Upgrades -->
+  <section style="margin-top: 28px;">
+    <div class="new-container">
+      <h2 class="recap-section-title" style="font-size:1.6rem; margin-bottom: 12px;">A brand‑new CiteCount core</h2>
+      <p class="recap-muted" style="margin-bottom: 10px; max-width: 860px;">
+        We rebuilt key systems to make CiteCount faster, more reliable, and ready for bigger projects.
+      </p>
+      <div class="recap-card p-5">
+        <div class="recap-grid">
+          <details class="recap-details" open>
+            <summary><i>📁</i>
+              <div><strong>Brand new document & folder management</strong><div class="recap-muted">Organize everything with clarity</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Nest folders, drag/drop, quick rename, and keyboard navigation built‑in.</div>
+          </details>
+          <details class="recap-details" open>
+            <summary><i>🧠</i>
+              <div><strong>Advanced citation generator + history</strong><div class="recap-muted">Track, edit, reuse seamlessly</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Keep iteration history, restore versions, and export citations in bulk.</div>
+          </details>
+          <details class="recap-details">
+            <summary><i>💾</i>
+              <div><strong>Storage management with quota monitoring</strong><div class="recap-muted">Know usage at a glance</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Visual usage bars, per‑project breakdowns, and one‑click cleanup.</div>
+          </details>
+          <details class="recap-details">
+            <summary><i>📦</i>
+              <div><strong>Projects export/import</strong><div class="recap-muted">Move or back up work easily</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Secure ZIP exports with selective include and quick import restore.</div>
+          </details>
+          <details class="recap-details">
+            <summary><i>⚙️</i>
+              <div><strong>Settings backup & restore</strong><div class="recap-muted">Stay in sync across devices</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Sync preferences and keyboard shortcuts between devices.</div>
+          </details>
+          <details class="recap-details">
+            <summary><i>📥</i>
+              <div><strong>Intelligent file import queue</strong><div class="recap-muted">Smooth handling of large batches</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Auto‑pauses on heavy loads and resumes without data loss.</div>
+          </details>
+          <details class="recap-details">
+            <summary><i>🔔</i>
+              <div><strong>Storage quota exceeded notifications</strong><div class="recap-muted">Act before you hit limits</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Proactive alerts with suggestions to free up space safely.</div>
+          </details>
+          <details class="recap-details">
+            <summary><i>🗂️</i>
+              <div><strong>Multi‑file batch processing</strong><div class="recap-muted">Process more, wait less</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Parallel processing and progress indicators for large jobs.</div>
+          </details>
+          <details class="recap-details">
+            <summary><i>🧭</i>
+              <div><strong>Enhanced project organization</strong><div class="recap-muted">Better structure for big work</div></div>
+            </summary>
+            <div class="recap-muted" style="padding-left:26px; padding-top:6px;">Custom tags, filters, and saved views for quick retrieval.</div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New Apps -->
+  <section style="margin-top: 28px;">
+    <div class="new-container">
+      <h2 class="recap-section-title" style="font-size:1.6rem; margin-bottom: 12px;">Four new IB apps</h2>
+      <div class="recap-grid">
+        <div class="recap-card p-5">
+          <div class="flex items-center justify-between mb-2"><strong>Citation Generator</strong><span class="recap-badge">New</span></div>
+          <p class="recap-muted">Fast, accurate citations with editable history.</p>
+          <div class="flex items-center gap-2" style="margin-top:8px;">
+            <a href="/generate/" class="recap-btn" style="padding:8px 10px; border-radius:8px; background:#111827; color:#fff;">Open App</a>
+            <a href="/blogs/understanding-academic-referencing-styles.html" class="recap-btn" style="padding:8px 10px; border-radius:8px; background:#374151; color:#fff;">Learn More</a>
+          </div>
+        </div>
+        <div class="recap-card p-5">
+          <div class="flex items-center justify-between mb-2"><strong>IB Resources</strong><span class="recap-badge">New</span></div>
+          <p class="recap-muted">Curated, high‑quality subject materials in one place.</p>
+          <div class="flex items-center gap-2" style="margin-top:8px;">
+            <a href="/ib-resources/" class="recap-btn" style="padding:8px 10px; border-radius:8px; background:#111827; color:#fff;">Open App</a>
+            <a href="/blogs/index.html#ib-guides" class="recap-btn" style="padding:8px 10px; border-radius:8px; background:#374151; color:#fff;">Explore Guides</a>
+          </div>
+        </div>
+        <div class="recap-card p-5">
+          <div class="flex items-center justify-between mb-2"><strong>Grade Calculator</strong><span class="recap-badge">New</span></div>
+          <p class="recap-muted">Predict grades and plan targets with clarity.</p>
+          <div class="flex items-center gap-2" style="margin-top:8px;">
+            <a href="/grade-calculator/" class="recap-btn" style="padding:8px 10px; border-radius:8px; background:#111827; color:#fff;">Open App</a>
+            <a href="/blogs/analytics.html" class="recap-btn" style="padding:8px 10px; border-radius:8px; background:#374151; color:#fff;">See Insights</a>
+          </div>
+        </div>
+        <div class="recap-card p-5">
+          <div class="flex items-center justify-between mb-2"><strong>Exam Timer</strong><span class="recap-badge">New</span></div>
+          <p class="recap-muted">Simulate exam conditions with precise timing.</p>
+          <div class="flex items-center gap-2" style="margin-top:8px;">
+            <a href="/exam-timer/" class="recap-btn" style="padding:8px 10px; border-radius:8px; background:#111827; color:#fff;">Open App</a>
+            <a href="/blogs/introducing-ib-exam-countdowns.html" class="recap-btn" style="padding:8px 10px; border-radius:8px; background:#374151; color:#fff;">About</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact -->
+  <section style="margin-top: 28px;">
+    <div class="new-container">
+      <h2 class="recap-section-title" style="font-size:1.6rem; margin-bottom: 12px;">100,000+ unique users</h2>
+      <div class="recap-card p-5">
+        <p class="recap-muted" style="max-width:860px;">
+          In 2025, over <strong>100,000 unique users</strong> used CiteCount. With roughly <strong>200,000 IB candidates per year</strong> and IB as a two‑year programme, we estimate our tools now help around <strong>1 in 4 IB students</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2026 Roadmap -->
+  <section style="margin-top: 28px; margin-bottom: 28px;">
+    <div class="new-container">
+      <h2 class="recap-section-title" style="font-size:1.6rem; margin-bottom: 12px;">What we’re building in 2026</h2>
+      <div class="recap-grid">
+        <div class="recap-card p-5"><strong>More IB apps</strong><p class="recap-muted">Expand and deepen the toolkit.</p></div>
+        <div class="recap-card p-5"><strong>More advanced CiteCount</strong><p class="recap-muted">Richer analysis, smarter workflows.</p></div>
+        <div class="recap-card p-5"><strong>University tools</strong><p class="recap-muted">Grow with you as you graduate from IB.</p></div>
+        <div class="recap-card p-5"><strong>Ambitious goal</strong><p class="recap-muted">Reach <strong>1 in 3 IB students</strong>.</p></div>
+      </div>
+      <div class="flex items-center gap-2" style="margin-top: 14px;">
+        <a href="/" class="recap-btn" style="padding:10px 14px; border-radius:10px; background:#111827; color:#fff; text-decoration:none;">Try CiteCount</a>
+        <a href="/blogs" class="recap-btn" style="padding:10px 14px; border-radius:10px; background:#374151; color:#fff; text-decoration:none;">Back to Blogs</a>
+      </div>
+      <hr class="bottomhr" style="margin-top: 24px;">
+      <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer" data-lta-event="contact form outbound click" href="/contact.html" style="color: white;">Contact the developers</a><br>
+        <a id="links" data-lta-event="about us outbound click" href="/about-us.html" style="color: white;">About Us</a> •
+        <a id="links" data-lta-event="privacy policy outbound click" href="/privacy-policy.html" style="color: white;">Privacy policy</a> •
+        <a id="links" data-lta-event="tos outbound click" href="/terms-of-service.html" style="color: white;">Terms of Service</a> •
+        <a id="links" data-lta-event="gdpr policy outbound click" href="/gdpr-policy.html" style="color: white;">GDPR Policy</a>
+      </p>
+      <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not endorsed by the International Baccalaureate Organization.</p>
+      <p style="padding-top: 5px;">&copy; <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.</p>
+    </div>
+  </section>
+
+  <!-- Legacy scripts used elsewhere -->
+  <script src="/archive/v1-final/scripts/notifications.js"></script>
+  <script>
+    (function(){
+      const shareBtn = document.getElementById('share-btn');
+      const copyBtn = document.getElementById('copy-link-btn');
+      const url = window.location.href;
+      function toast(msg){
+        try { if (window?.notifications?.send) { window.notifications.send(msg); return; } } catch(e){}
+        if (copyBtn){
+          const prev = copyBtn.textContent; copyBtn.textContent = msg; setTimeout(()=>{ copyBtn.textContent = prev; }, 1200);
+        }
+      }
+      shareBtn?.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        if (navigator.share){
+          try { await navigator.share({ title: document.title, url }); } catch(err){}
+        } else {
+          try { await navigator.clipboard.writeText(url); toast('Link Copied'); } catch(err){}
+        }
+      });
+      copyBtn?.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        try { await navigator.clipboard.writeText(url); toast('Link Copied'); } catch(err){}
+      });
+    })();
+  </script>
+</body>
+</html>
