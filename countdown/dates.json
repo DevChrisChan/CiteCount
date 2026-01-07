@@ -1,737 +1,149 @@
 [
-  {
-    "id": "1",
-    "name": "Language & culture SL paper 1 (Except: English, French & Spanish)",
-    "date": "2025-04-25"
-  },
-  {
-    "id": "2",
-    "name": "Language A Literature HL paper 1 (Except: English, French & Spanish)",
-    "date": "2025-04-28"
-  },
-  {
-    "id": "3",
-    "name": "Language A Literature SL paper 1 (Except: English, French & Spanish)",
-    "date": "2025-04-28"
-  },
-  {
-    "id": "4",
-    "name": "Language A Language & Literature HL paper 1 (Except: English, French & Spanish)",
-    "date": "2025-04-28"
-  },
-  {
-    "id": "5",
-    "name": "Language A Language & Literature SL paper 1 (Except: English, French & Spanish)",
-    "date": "2025-04-28"
-  },
-  {
-    "id": "6",
-    "name": "Language & culture SL paper 2 (Except: English, French & Spanish)",
-    "date": "2025-04-28"
-  },
-  {
-    "id": "7",
-    "name": "Language A Literature HL/SL paper 2 (Except: English, French & Spanish)",
-    "date": "2025-04-29"
-  },
-  {
-    "id": "8",
-    "name": "Language A Language & Literature HL/SL paper 2 (Except: English, French & Spanish)",
-    "date": "2025-04-29"
-  },
-  {
-    "id": "9",
-    "name": "Physics HL paper 1 (1a and 1b)",
-    "date": "2025-04-29"
-  },
-  {
-    "id": "10",
-    "name": "Physics SL paper 1 (1a and 1b)",
-    "date": "2025-04-29"
-  },
-  {
-    "id": "11",
-    "name": "Sports, exercise & health science HL paper 1",
-    "date": "2025-04-29"
-  },
-  {
-    "id": "12",
-    "name": "Sports, exercise & health science HL paper 3",
-    "date": "2025-04-29"
-  },
-  {
-    "id": "13",
-    "name": "Sports, exercise & health science SL paper 1",
-    "date": "2025-04-29"
-  },
-  {
-    "id": "14",
-    "name": "Sports, exercise & health science SL paper 3",
-    "date": "2025-04-29"
-  },
-  {
-    "id": "15",
-    "name": "Physics HL paper 2",
-    "date": "2025-04-30"
-  },
-  {
-    "id": "16",
-    "name": "Physics SL paper 2",
-    "date": "2025-04-30"
-  },
-  {
-    "id": "17",
-    "name": "Sports, exercise & health science HL paper 2",
-    "date": "2025-04-30"
-  },
-  {
-    "id": "18",
-    "name": "Sports, exercise & health science SL paper 2",
-    "date": "2025-04-30"
-  },
-  {
-    "id": "19",
-    "name": "Business management HL/SL paper 1",
-    "date": "2025-04-30"
-  },
-  {
-    "id": "20",
-    "name": "Business management HL paper 3",
-    "date": "2025-04-30"
-  },
-  {
-    "id": "21",
-    "name": "Business management HL paper 2",
-    "date": "2025-05-02"
-  },
-  {
-    "id": "22",
-    "name": "Business management SL paper 2",
-    "date": "2025-05-02"
-  },
-  {
-    "id": "23",
-    "name": "Computer science HL paper 1",
-    "date": "2025-05-02"
-  },
-  {
-    "id": "24",
-    "name": "Computer science SL paper 1",
-    "date": "2025-05-02"
-  },
-  {
-    "id": "25",
-    "name": "Environmental systems & societies SL paper 1",
-    "date": "2025-05-02"
-  },
-  {
-    "id": "26",
-    "name": "Computer science HL paper 2",
-    "date": "2025-05-05"
-  },
-  {
-    "id": "27",
-    "name": "Computer science HL paper 3",
-    "date": "2025-05-05"
-  },
-  {
-    "id": "28",
-    "name": "Computer science SL paper 2",
-    "date": "2025-05-05"
-  },
-  {
-    "id": "29",
-    "name": "History HL/SL paper 1",
-    "date": "2025-05-05"
-  },
-  {
-    "id": "30",
-    "name": "History HL/SL paper 2",
-    "date": "2025-05-05"
-  },
-  {
-    "id": "31",
-    "name": "Environmental systems & societies SL paper 2",
-    "date": "2025-05-05"
-  },
-  {
-    "id": "32",
-    "name": "History HL paper 3",
-    "date": "2025-05-05"
-  },
-  {
-    "id": "33",
-    "name": "Language B HL paper 1",
-    "date": "2025-05-06"
-  },
-  {
-    "id": "34",
-    "name": "Language B HL paper 2 - Reading comprehension",
-    "date": "2025-05-06"
-  },
-  {
-    "id": "35",
-    "name": "Language B SL paper 1",
-    "date": "2025-05-06"
-  },
-  {
-    "id": "36",
-    "name": "Language B SL paper 2 - Reading comprehension",
-    "date": "2025-05-06"
-  },
-  {
-    "id": "37",
-    "name": "Language ab initio SL paper 1",
-    "date": "2025-05-06"
-  },
-  {
-    "id": "38",
-    "name": "Language ab initio SL paper 2 - Reading comprehension",
-    "date": "2025-05-06"
-  },
-  {
-    "id": "39",
-    "name": "Latin HL paper 1",
-    "date": "2025-05-06"
-  },
-  {
-    "id": "40",
-    "name": "Latin SL paper 1",
-    "date": "2025-05-06"
-  },
-  {
-    "id": "41",
-    "name": "Language B HL paper 2 - Listening comprehension",
-    "date": "2025-05-07"
-  },
-  {
-    "id": "42",
-    "name": "Language B SL paper 2 - Listening comprehension",
-    "date": "2025-05-07"
-  },
-  {
-    "id": "43",
-    "name": "Language ab initio SL paper 2 - Listening comprehension",
-    "date": "2025-05-07"
-  },
-  {
-    "id": "44",
-    "name": "Latin HL paper 2",
-    "date": "2025-05-07"
-  },
-  {
-    "id": "45",
-    "name": "Latin SL paper 2",
-    "date": "2025-05-07"
-  },
-  {
-    "id": "46",
-    "name": "Psychology HL paper 1",
-    "date": "2025-05-07"
-  },
-  {
-    "id": "47",
-    "name": "Psychology SL paper 1",
-    "date": "2025-05-07"
-  },
-  {
-    "id": "48",
-    "name": "Psychology HL paper 2",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "49",
-    "name": "Psychology HL paper 3",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "50",
-    "name": "Psychology SL paper 2",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "51",
-    "name": "English A Literature HL paper 1",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "52",
-    "name": "English A Literature SL paper 1",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "53",
-    "name": "English A Language & Literature HL paper 1",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "54",
-    "name": "English A Language & Literature SL paper 1",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "55",
-    "name": "English B HL paper 1",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "56",
-    "name": "English B HL paper 2 - Reading comprehension",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "57",
-    "name": "English B SL paper 1",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "58",
-    "name": "English B SL paper 2 - Reading comprehension",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "59",
-    "name": "English ab initio SL paper 1",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "60",
-    "name": "English ab initio SL paper 2 - Reading comprehension",
-    "date": "2025-05-08"
-  },
-  {
-    "id": "61",
-    "name": "English A Literature HL/SL paper 2",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "62",
-    "name": "English A Language & Literature HL/SL paper 2",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "63",
-    "name": "English B HL paper 2 - Listening comprehension",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "64",
-    "name": "English B SL paper 2 - Listening comprehension",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "65",
-    "name": "English ab initio SL paper 2 - Listening comprehension",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "66",
-    "name": "Geography HL paper 1",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "67",
-    "name": "Geography SL paper 1",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "68",
-    "name": "Philosophy HL paper 1",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "69",
-    "name": "Philosophy SL paper 1",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "70",
-    "name": "Social & cultural anthropology HL paper 1",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "71",
-    "name": "Social & cultural anthropology SL paper 1",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "72",
-    "name": "Literature & performance SL paper 1",
-    "date": "2025-05-09"
-  },
-  {
-    "id": "73",
-    "name": "Geography HL/SL paper 2",
-    "date": "2025-05-12"
-  },
-  {
-    "id": "74",
-    "name": "Geography HL paper 3",
-    "date": "2025-05-12"
-  },
-  {
-    "id": "75",
-    "name": "Philosophy HL/SL paper 2",
-    "date": "2025-05-12"
-  },
-  {
-    "id": "76",
-    "name": "Philosophy HL paper 3",
-    "date": "2025-05-12"
-  },
-  {
-    "id": "77",
-    "name": "Social & cultural anthropology HL paper 2",
-    "date": "2025-05-12"
-  },
-  {
-    "id": "78",
-    "name": "Social & cultural anthropology SL paper 2",
-    "date": "2025-05-12"
-  },
-  {
-    "id": "79",
-    "name": "Biology HL paper 1 (1a and 1b)",
-    "date": "2025-05-12"
-  },
-  {
-    "id": "80",
-    "name": "Biology SL paper 1 (1a and 1b)",
-    "date": "2025-05-12"
-  },
-  {
-    "id": "81",
-    "name": "Biology HL paper 2",
-    "date": "2025-05-13"
-  },
-  {
-    "id": "82",
-    "name": "Biology SL paper 2",
-    "date": "2025-05-13"
-  },
-  {
-    "id": "83",
-    "name": "Economics HL/SL paper 2",
-    "date": "2025-05-13"
-  },
-  {
-    "id": "84",
-    "name": "World religions SL paper 1",
-    "date": "2025-05-13"
-  },
-  {
-    "id": "85",
-    "name": "Economics HL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "86",
-    "name": "Economics HL paper 3",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "87",
-    "name": "Economics SL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "88",
-    "name": "World religions SL paper 2",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "89",
-    "name": "Classical Greek HL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "90",
-    "name": "Classical Greek SL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "91",
-    "name": "Spanish A Literature HL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "92",
-    "name": "Spanish A Literature SL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "93",
-    "name": "Spanish A Language & Literature HL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "94",
-    "name": "Spanish A Language & Literature SL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "95",
-    "name": "Spanish B HL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "96",
-    "name": "Spanish B HL paper 2 - Reading comprehension",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "97",
-    "name": "Spanish B SL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "98",
-    "name": "Spanish B SL paper 2 - Reading comprehension",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "99",
-    "name": "Spanish ab initio SL paper 1",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "100",
-    "name": "Spanish ab initio SL paper 2 - Reading comprehension",
-    "date": "2025-05-14"
-  },
-  {
-    "id": "101",
-    "name": "Classical Greek HL paper 2",
-    "date": "2025-05-15"
-  },
-  {
-    "id": "102",
-    "name": "Classical Greek SL paper 2",
-    "date": "2025-05-15"
-  },
-  {
-    "id": "103",
-    "name": "Spanish A Literature HL/SL paper 2",
-    "date": "2025-05-15"
-  },
-  {
-    "id": "104",
-    "name": "Spanish A Language & Literature HL/SL paper 2",
-    "date": "2025-05-15"
-  },
-  {
-    "id": "105",
-    "name": "Spanish B HL paper 2 - Listening comprehension",
-    "date": "2025-05-15"
-  },
-  {
-    "id": "106",
-    "name": "Spanish B SL paper 2 - Listening comprehension",
-    "date": "2025-05-15"
-  },
-  {
-    "id": "107",
-    "name": "Spanish ab initio SL paper 2 - Listening comprehension",
-    "date": "2025-05-15"
-  },
-  {
-    "id": "108",
-    "name": "Mathematics: analysis and approaches HL paper 1",
-    "date": "2025-05-15"
-  },
-  {
-    "id": "109",
-    "name": "Mathematics: analysis and approaches SL paper 1",
-    "date": "2025-05-15"
-},
-{
-    "id": "110",
-    "name": "Mathematics: analysis and approaches HL paper 2",
-    "date": "2025-05-15"
-},
-{
-    "id": "111",
-    "name": "Mathematics: analysis and approaches SL paper 2",
-    "date": "2025-05-15"
-},
-{
-    "id": "112",
-    "name": "Mathematics: applications and interpretation HL paper 1",
-    "date": "2025-05-15"
-},
-{
-    "id": "113",
-    "name": "Mathematics: applications and interpretation SL paper 1",
-    "date": "2025-05-15"
-},
-{
-    "id": "114",
-    "name": "Mathematics: applications and interpretation HL paper 2",
-    "date": "2025-05-16"
-},
-{
-    "id": "115",
-    "name": "Mathematics: applications and interpretation SL paper 2",
-    "date": "2025-05-16"
-},
-{
-  "id": "116",
-  "name": "Chemistry HL paper 1 (1a and 1b)",
-  "date": "2025-05-16"
-  },
-  {
-  "id": "117",
-  "name": "Chemistry SL paper 1 (1a and 1b)",
-  "date": "2025-05-16"
-  },
-  {
-  "id": "118",
-  "name": "Design technology HL paper 1",
-  "date": "2025-05-16"
-  },
-  {
-  "id": "119",
-  "name": "Design technology SL paper 1",
-  "date": "2025-05-16"
-  },
-  {
-  "id": "120",
-  "name": "Design technology HL/SL paper 2",
-  "date": "2025-05-16"
-  },
-  {
-  "id": "121",
-  "name": "Chemistry HL paper 2",
-  "date": "2025-05-19"
-  },
-  {
-  "id": "122",
-  "name": "Chemistry SL paper 2",
-  "date": "2025-05-19"
-  },
-  {
-  "id": "123",
-  "name": "Design technology HL paper 3",
-  "date": "2025-05-19"
-  },
-  {
-  "id": "124",
-  "name": "Digital society HL paper 1",
-  "date": "2025-05-19"
-  },
-  {
-  "id": "125",
-  "name": "Digital society SL paper 1",
-  "date": "2025-05-19"
-  },
-  {
-  "id": "126",
-  "name": "Global politics HL/SL paper 1",
-  "date": "2025-05-19"
-  },
-  {
-  "id": "127",
-  "name": "Digital society HL/SL paper 2",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "128",
-  "name": "Digital society HL paper 3",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "129",
-  "name": "Global politics HL paper 2",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "130",
-  "name": "Global politics SL paper 2",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "131",
-  "name": "French A Literature HL paper 1",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "132",
-  "name": "French A Literature SL paper 1",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "133",
-  "name": "French A Language & Literature HL paper 1",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "134",
-  "name": "French A Language & Literature SL paper 1",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "135",
-  "name": "French B HL paper 1",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "136",
-  "name": "French B HL paper 2 - Reading comprehension",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "137",
-  "name": "French B SL paper 1",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "138",
-  "name": "French B SL paper 2 - Reading comprehension",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "139",
-  "name": "French ab initio SL paper 1",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "140",
-  "name": "French ab initio SL paper 2 - Reading comprehension",
-  "date": "2025-05-20"
-  },
-  {
-  "id": "141",
-  "name": "French A Literature HL/SL paper 2",
-  "date": "2025-05-21"
-  },
-  {
-  "id": "142",
-  "name": "French A Language & Literature HL/SL paper 2",
-  "date": "2025-05-21"
-  },
-  {
-  "id": "143",
-  "name": "French B HL paper 2 - Listening comprehension",
-  "date": "2025-05-21"
-  },
-  {
-  "id": "144",
-  "name": "French B SL paper 2 - Listening comprehension",
-  "date": "2025-05-21"
-  },
-  {
-  "id": "145",
-  "name": "French ab initio SL paper 2 - Listening comprehension",
-  "date": "2025-05-21"
-  },
-  {
-  "id": "146",
-  "name": "Mathematics: analysis and approaches HL paper 3",
-  "date": "2025-05-21"
-  },
-  {
-  "id": "147",
-  "name": "Mathematics: applications and interpretation HL paper 3",
-  "date": "2025-05-21"
-  }
+  {"id":"1","name":"Language & culture SL paper 1","date":"2026-04-24","session":"morning"},
+  {"id":"2","name":"Language A Literature HL paper 1 (Except: English, French & Spanish)","date":"2026-04-27","session":"morning"},
+  {"id":"3","name":"Language A Literature SL paper 1 (Except: English, French & Spanish)","date":"2026-04-27","session":"morning"},
+  {"id":"4","name":"Language A Language & Literature HL paper 1 (Except: English, French & Spanish)","date":"2026-04-27","session":"morning"},
+  {"id":"5","name":"Language A Language & Literature SL paper 1 (Except: English, French & Spanish)","date":"2026-04-27","session":"morning"},
+  {"id":"6","name":"Language & culture SL paper 2","date":"2026-04-27","session":"afternoon"},
+  {"id":"7","name":"Language A Literature HL/SL paper 2 (Except: English, French & Spanish)","date":"2026-04-28","session":"morning"},
+  {"id":"8","name":"Language A Language & Literature HL/SL paper 2 (Except: English, French & Spanish)","date":"2026-04-28","session":"morning"},
+  {"id":"9","name":"Physics HL paper 1","date":"2026-04-28","session":"afternoon"},
+  {"id":"10","name":"Physics SL paper 1","date":"2026-04-28","session":"afternoon"},
+  {"id":"11","name":"Sports, exercise & health science HL paper 1","date":"2026-04-28","session":"afternoon"},
+  {"id":"12","name":"Sports, exercise & health science SL paper 1","date":"2026-04-28","session":"afternoon"},
+  {"id":"13","name":"Physics HL paper 2","date":"2026-04-29","session":"morning"},
+  {"id":"14","name":"Physics SL paper 2","date":"2026-04-29","session":"morning"},
+  {"id":"15","name":"Sports, exercise & health science HL paper 2","date":"2026-04-29","session":"morning"},
+  {"id":"16","name":"Sports, exercise & health science SL paper 2","date":"2026-04-29","session":"morning"},
+  {"id":"17","name":"Business management HL/SL paper 1","date":"2026-04-29","session":"afternoon"},
+  {"id":"18","name":"Business management HL paper 3","date":"2026-04-29","session":"afternoon"},
+  {"id":"19","name":"Business management HL paper 2","date":"2026-04-30","session":"morning"},
+  {"id":"20","name":"Business management SL paper 2","date":"2026-04-30","session":"morning"},
+  {"id":"21","name":"Computer science HL paper 1","date":"2026-04-30","session":"afternoon"},
+  {"id":"22","name":"Computer science SL paper 1","date":"2026-04-30","session":"afternoon"},
+  {"id":"23","name":"Environmental systems & societies HL paper 1","date":"2026-04-30","session":"afternoon"},
+  {"id":"24","name":"Environmental systems & societies SL paper 1","date":"2026-04-30","session":"afternoon"},
+  {"id":"25","name":"Computer science HL paper 2","date":"2026-05-04","session":"morning"},
+  {"id":"26","name":"Computer science HL paper 3","date":"2026-05-04","session":"morning"},
+  {"id":"27","name":"Computer science SL paper 2","date":"2026-05-04","session":"morning"},
+  {"id":"28","name":"History HL/SL paper 1","date":"2026-05-04","session":"afternoon"},
+  {"id":"29","name":"History HL/SL paper 2","date":"2026-05-04","session":"afternoon"},
+  {"id":"30","name":"Environmental systems & societies HL paper 2","date":"2026-05-04","session":"afternoon"},
+  {"id":"31","name":"Environmental systems & societies SL paper 2","date":"2026-05-04","session":"afternoon"},
+  {"id":"32","name":"History HL paper 3","date":"2026-05-05","session":"morning"},
+  {"id":"33","name":"Language B HL paper 1 (Except: English, French & Spanish)","date":"2026-05-05","session":"afternoon"},
+  {"id":"34","name":"Language B HL paper 2 – Reading comprehension (Except: English, French & Spanish)","date":"2026-05-05","session":"afternoon"},
+  {"id":"35","name":"Language B SL paper 1 (Except: English, French & Spanish)","date":"2026-05-05","session":"afternoon"},
+  {"id":"36","name":"Language B SL paper 2 – Reading comprehension (Except: English, French & Spanish)","date":"2026-05-05","session":"afternoon"},
+  {"id":"37","name":"Language ab initio SL paper 1 (Except: English, French & Spanish)","date":"2026-05-05","session":"afternoon"},
+  {"id":"38","name":"Language ab initio SL paper 2 – Reading comprehension (Except: English, French & Spanish)","date":"2026-05-05","session":"afternoon"},
+  {"id":"39","name":"Latin HL paper 1","date":"2026-05-05","session":"afternoon"},
+  {"id":"40","name":"Latin SL paper 1","date":"2026-05-05","session":"afternoon"},
+  {"id":"41","name":"Language B HL paper 2 – Listening comprehension (Except: English, French & Spanish)","date":"2026-05-06","session":"morning"},
+  {"id":"42","name":"Language B SL paper 2 – Listening comprehension (Except: English, French & Spanish)","date":"2026-05-06","session":"morning"},
+  {"id":"43","name":"Language ab initio SL paper 2 – Listening comprehension (Except: English, French & Spanish)","date":"2026-05-06","session":"morning"},
+  {"id":"44","name":"Latin HL paper 2","date":"2026-05-06","session":"morning"},
+  {"id":"45","name":"Latin SL paper 2","date":"2026-05-06","session":"morning"},
+  {"id":"46","name":"Psychology HL paper 1","date":"2026-05-06","session":"afternoon"},
+  {"id":"47","name":"Psychology SL paper 1","date":"2026-05-06","session":"afternoon"},
+  {"id":"48","name":"Psychology HL paper 2","date":"2026-05-07","session":"morning"},
+  {"id":"49","name":"Psychology HL paper 3","date":"2026-05-07","session":"morning"},
+  {"id":"50","name":"Psychology SL paper 2","date":"2026-05-07","session":"morning"},
+  {"id":"51","name":"English A Literature HL paper 1","date":"2026-05-07","session":"afternoon"},
+  {"id":"52","name":"English A Literature SL paper 1","date":"2026-05-07","session":"afternoon"},
+  {"id":"53","name":"English A Language & Literature HL paper 1","date":"2026-05-07","session":"afternoon"},
+  {"id":"54","name":"English A Language & Literature SL paper 1","date":"2026-05-07","session":"afternoon"},
+  {"id":"55","name":"English B HL paper 1","date":"2026-05-07","session":"afternoon"},
+  {"id":"56","name":"English B HL paper 2 – Reading comprehension","date":"2026-05-07","session":"afternoon"},
+  {"id":"57","name":"English B SL paper 1","date":"2026-05-07","session":"afternoon"},
+  {"id":"58","name":"English B SL paper 2 – Reading comprehension","date":"2026-05-07","session":"afternoon"},
+  {"id":"59","name":"English ab initio SL paper 1","date":"2026-05-07","session":"afternoon"},
+  {"id":"60","name":"English ab initio SL paper 2 – Reading comprehension","date":"2026-05-07","session":"afternoon"},
+  {"id":"61","name":"English A Literature HL/SL paper 2","date":"2026-05-08","session":"morning"},
+  {"id":"62","name":"English A Language & Literature HL/SL paper 2","date":"2026-05-08","session":"morning"},
+  {"id":"63","name":"English B HL paper 2 – Listening comprehension","date":"2026-05-08","session":"morning"},
+  {"id":"64","name":"English B SL paper 2 – Listening comprehension","date":"2026-05-08","session":"morning"},
+  {"id":"65","name":"English ab initio SL paper 2 – Listening comprehension","date":"2026-05-08","session":"morning"},
+  {"id":"66","name":"Geography HL paper 1","date":"2026-05-08","session":"afternoon"},
+  {"id":"67","name":"Geography SL paper 1","date":"2026-05-08","session":"afternoon"},
+  {"id":"68","name":"Philosophy HL paper 1","date":"2026-05-08","session":"afternoon"},
+  {"id":"69","name":"Philosophy SL paper 1","date":"2026-05-08","session":"afternoon"},
+  {"id":"70","name":"Social & cultural anthropology HL paper 1","date":"2026-05-08","session":"afternoon"},
+  {"id":"71","name":"Social & cultural anthropology SL paper 1","date":"2026-05-08","session":"afternoon"},
+  {"id":"72","name":"Literature & performance SL paper 1","date":"2026-05-08","session":"afternoon"},
+  {"id":"73","name":"Geography HL/SL paper 2","date":"2026-05-11","session":"morning"},
+  {"id":"74","name":"Geography HL paper 3","date":"2026-05-11","session":"morning"},
+  {"id":"75","name":"Philosophy HL/SL paper 2","date":"2026-05-11","session":"morning"},
+  {"id":"76","name":"Philosophy HL paper 3","date":"2026-05-11","session":"morning"},
+  {"id":"77","name":"Social & cultural anthropology HL paper 2","date":"2026-05-11","session":"morning"},
+  {"id":"78","name":"Social & cultural anthropology SL paper 2","date":"2026-05-11","session":"morning"},
+  {"id":"79","name":"Biology HL paper 1","date":"2026-05-11","session":"afternoon"},
+  {"id":"80","name":"Biology SL paper 1","date":"2026-05-11","session":"afternoon"},
+  {"id":"81","name":"Biology HL paper 2","date":"2026-05-12","session":"morning"},
+  {"id":"82","name":"Biology SL paper 2","date":"2026-05-12","session":"morning"},
+  {"id":"83","name":"Economics HL/SL paper 2","date":"2026-05-12","session":"afternoon"},
+  {"id":"84","name":"World religions SL paper 1","date":"2026-05-12","session":"afternoon"},
+  {"id":"85","name":"Economics HL paper 1","date":"2026-05-13","session":"morning"},
+  {"id":"86","name":"Economics HL paper 3","date":"2026-05-13","session":"morning"},
+  {"id":"87","name":"Economics SL paper 1","date":"2026-05-13","session":"morning"},
+  {"id":"88","name":"World religions SL paper 2","date":"2026-05-13","session":"morning"},
+  {"id":"89","name":"Classical Greek HL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"90","name":"Classical Greek SL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"91","name":"Spanish A Literature HL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"92","name":"Spanish A Literature SL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"93","name":"Spanish A Language & Literature HL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"94","name":"Spanish A Language & Literature SL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"95","name":"Spanish B HL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"96","name":"Spanish B HL paper 2 – Reading comprehension","date":"2026-05-13","session":"afternoon"},
+  {"id":"97","name":"Spanish B SL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"98","name":"Spanish B SL paper 2 – Reading comprehension","date":"2026-05-13","session":"afternoon"},
+  {"id":"99","name":"Spanish ab initio SL paper 1","date":"2026-05-13","session":"afternoon"},
+  {"id":"100","name":"Spanish ab initio SL paper 2 – Reading comprehension","date":"2026-05-13","session":"afternoon"},
+  {"id":"101","name":"Classical Greek HL paper 2","date":"2026-05-14","session":"morning"},
+  {"id":"102","name":"Classical Greek SL paper 2","date":"2026-05-14","session":"morning"},
+  {"id":"103","name":"Spanish A Literature HL/SL paper 2","date":"2026-05-14","session":"morning"},
+  {"id":"104","name":"Spanish A Language & Literature HL/SL paper 2","date":"2026-05-14","session":"morning"},
+  {"id":"105","name":"Spanish B HL paper 2 – Listening comprehension","date":"2026-05-14","session":"morning"},
+  {"id":"106","name":"Spanish B SL paper 2 – Listening comprehension","date":"2026-05-14","session":"morning"},
+  {"id":"107","name":"Spanish ab initio SL paper 2 – Listening comprehension","date":"2026-05-14","session":"morning"},
+  {"id":"108","name":"Mathematics: analysis and approaches HL paper 1","date":"2026-05-14","session":"afternoon"},
+  {"id":"109","name":"Mathematics: analysis and approaches SL paper 1","date":"2026-05-14","session":"afternoon"},
+  {"id":"110","name":"Mathematics: applications and interpretation HL paper 1","date":"2026-05-14","session":"afternoon"},
+  {"id":"111","name":"Mathematics: applications and interpretation SL paper 1","date":"2026-05-14","session":"afternoon"},
+  {"id":"112","name":"Mathematics: analysis and approaches HL paper 2","date":"2026-05-15","session":"morning"},
+  {"id":"113","name":"Mathematics: analysis and approaches SL paper 2","date":"2026-05-15","session":"morning"},
+  {"id":"114","name":"Mathematics: applications and interpretation HL paper 2","date":"2026-05-15","session":"morning"},
+  {"id":"115","name":"Mathematics: applications and interpretation SL paper 2","date":"2026-05-15","session":"morning"},
+  {"id":"116","name":"Chemistry HL paper 1","date":"2026-05-15","session":"afternoon"},
+  {"id":"117","name":"Chemistry SL paper 1","date":"2026-05-15","session":"afternoon"},
+  {"id":"118","name":"Design technology HL paper 1","date":"2026-05-15","session":"afternoon"},
+  {"id":"119","name":"Design technology SL paper 1","date":"2026-05-15","session":"afternoon"},
+  {"id":"120","name":"Design technology HL/SL paper 2","date":"2026-05-15","session":"afternoon"},
+  {"id":"121","name":"Chemistry HL paper 2","date":"2026-05-18","session":"morning"},
+  {"id":"122","name":"Chemistry SL paper 2","date":"2026-05-18","session":"morning"},
+  {"id":"123","name":"Design technology HL paper 3","date":"2026-05-18","session":"morning"},
+  {"id":"124","name":"Digital Society HL paper 1","date":"2026-05-18","session":"afternoon"},
+  {"id":"125","name":"Digital Society SL paper 1","date":"2026-05-18","session":"afternoon"},
+  {"id":"126","name":"Global politics HL/SL paper 1","date":"2026-05-18","session":"afternoon"},
+  {"id":"127","name":"Global politics HL/SL paper 2","date":"2026-05-18","session":"afternoon"},
+  {"id":"128","name":"Digital Society HL/SL paper 2","date":"2026-05-19","session":"morning"},
+  {"id":"129","name":"Digital Society HL paper 3","date":"2026-05-19","session":"morning"},
+  {"id":"130","name":"Global politics HL paper 3","date":"2026-05-19","session":"morning"},
+  {"id":"131","name":"French A Literature HL paper 1","date":"2026-05-19","session":"afternoon"},
+  {"id":"132","name":"French A Literature SL paper 1","date":"2026-05-19","session":"afternoon"},
+  {"id":"133","name":"French A Language & Literature HL paper 1","date":"2026-05-19","session":"afternoon"},
+  {"id":"134","name":"French A Language & Literature SL paper 1","date":"2026-05-19","session":"afternoon"},
+  {"id":"135","name":"French B HL paper 1","date":"2026-05-19","session":"afternoon"},
+  {"id":"136","name":"French B HL paper 2 – Reading comprehension","date":"2026-05-19","session":"afternoon"},
+  {"id":"137","name":"French B SL paper 1","date":"2026-05-19","session":"afternoon"},
+  {"id":"138","name":"French B SL paper 2 – Reading comprehension","date":"2026-05-19","session":"afternoon"},
+  {"id":"139","name":"French ab initio SL paper 1","date":"2026-05-19","session":"afternoon"},
+  {"id":"140","name":"French ab initio SL paper 2 – Reading comprehension","date":"2026-05-19","session":"afternoon"},
+  {"id":"141","name":"French A Literature HL/SL paper 2","date":"2026-05-20","session":"morning"},
+  {"id":"142","name":"French A Language & Literature HL/SL paper 2","date":"2026-05-20","session":"morning"},
+  {"id":"143","name":"French B HL paper 2 – Listening comprehension","date":"2026-05-20","session":"morning"},
+  {"id":"144","name":"French B SL paper 2 – Listening comprehension","date":"2026-05-20","session":"morning"},
+  {"id":"145","name":"French ab initio SL paper 2 – Listening comprehension","date":"2026-05-20","session":"morning"},
+  {"id":"146","name":"Mathematics: analysis and approaches HL paper 3","date":"2026-05-20","session":"afternoon"},
+  {"id":"147","name":"Mathematics: applications and interpretation HL paper 3","date":"2026-05-20","session":"afternoon"}
 ]

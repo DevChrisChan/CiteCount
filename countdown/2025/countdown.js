@@ -5,7 +5,7 @@ let examDates = []; // Declare examDates globally
 // Fetch the exam dates
 async function fetchExamDates() {
     try {
-        const response = await fetch('/countdown/dates.json');
+        const response = await fetch('/countdown/2025/dates.json');
         examDates = await response.json(); // Store exam dates in the global variable
 
         const select = document.getElementById('examSelect');

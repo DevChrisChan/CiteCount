@@ -44,7 +44,7 @@
               </svg>
             </div>
           </div>
-          <span class="app-title">IB Countdown</span>
+          <span class="app-title">IB M26 Exams Countdown</span>
         </a>
         <a href="/exam-timer/" class="app-card" data-lta-event="v2-more-apps-mocks-click">
           <div class="app-icon-wrapper">
