@@ -2290,7 +2290,8 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
 
             const selectedExams = personalSelection
                 .map(id => examData.find(exam => exam.id === id))
-                .filter(Boolean);
+                .filter(Boolean)
+                .sort((a, b) => new Date(a.date) - new Date(b.date));
 
             section.style.display = 'block';
 
