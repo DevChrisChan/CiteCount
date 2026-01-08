@@ -138,7 +138,7 @@ function initializeSelect2() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('/countdown/2025/dates.json');
+        const response = await fetch('/countdown/m25/dates.json');
         examData = await response.json();
 
         initializeSelect2();

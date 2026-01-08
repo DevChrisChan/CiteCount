@@ -1130,6 +1130,130 @@
             font-size: 0.875rem;
             color: var(--text-secondary);
         }
+
+        /* Perplexity Ad Box */
+        .pplx-ad-box {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 320px;
+            background: #091717;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 1000;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .pplx-ad-box.dismissed {
+            transform: translateY(100px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .pplx-ad-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            border-radius: 0.25rem;
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .pplx-ad-close:hover {
+            background: rgba(0, 0, 0, 0.4);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .pplx-ad-content {
+            padding: 1.25rem;
+            padding-top: 2rem;
+        }
+
+        .pplx-ad-logo {
+            width: 100%;
+            margin-bottom: 0.75rem;
+        }
+
+        .pplx-ad-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .pplx-ad-description {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .pplx-ad-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            background: #22d3ee;
+            color: #091717;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+
+        .pplx-ad-button:hover {
+            background: #06b6d4;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(34, 211, 238, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .pplx-ad-box {
+                width: calc(100% - 2rem);
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pplx-ad-box {
+                width: calc(100% - 1rem);
+                bottom: 0.5rem;
+                right: 0.5rem;
+                left: 0.5rem;
+            }
+
+            .pplx-ad-content {
+                padding: 1rem;
+                padding-top: 1.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1346,6 +1470,19 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
 </p>
     </footer>
 
+    <!-- Perplexity Pro Ad Box -->
+    <div id="pplxAdBox" class="pplx-ad-box" style="display: none;">
+        <button class="pplx-ad-close" onclick="dismissPplxAd()" aria-label="Close ad">✕</button>
+        <div class="pplx-ad-content">
+            <img src="/assets/pplx.svg" alt="Perplexity" class="pplx-ad-logo">
+            <h3 class="pplx-ad-title">Ace Your IB Exams with Perplexity Pro 🎓</h3>
+            <p class="pplx-ad-description">FREE for 12 months. Get instant exam help, practice questions explained, and revision summaries.</p>
+            <button class="pplx-ad-button" onclick="claimPplxOffer()" data-lta-event="countdown-n26-pplx-ad-claim">
+                Claim For Free Now →
+            </button>
+        </div>
+    </div>
+
     <!-- Exam Schedule Modal -->
     <div id="scheduleModal" class="schedule-modal">
         <div class="schedule-modal-content">
@@ -1504,6 +1641,57 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
         const DEFAULT_DATE = '2026-10-23';
         const PERSONAL_STORAGE_KEY = storageKey('personalCountdownSelection');
         let personalSelection = [];
+        let countdownDisplayMode = 'months';
+
+        // Perplexity Ad Box Functions
+        function dismissPplxAd() {
+            const adBox = document.getElementById('pplxAdBox');
+            if (adBox) {
+                adBox.classList.add('dismissed');
+                setTimeout(() => {
+                    adBox.style.display = 'none';
+                }, 300);
+
+                // Store dismissal timestamp (12 hours = 43200000 ms)
+                const dismissalTime = Date.now();
+                try {
+                    localStorage.setItem(storageKey('pplxAdDismissed'), dismissalTime.toString());
+                } catch (e) {
+                    console.warn('Unable to store ad dismissal', e);
+                }
+            }
+        }
+
+        function claimPplxOffer() {
+            window.open('https://pplx.ai/cite', '_blank');
+            dismissPplxAd();
+        }
+
+        function shouldShowPplxAd() {
+            try {
+                const dismissalTime = localStorage.getItem(storageKey('pplxAdDismissed'));
+                if (dismissalTime) {
+                    const timeSinceDismissal = Date.now() - parseInt(dismissalTime);
+                    const twelveHours = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+                    return timeSinceDismissal > twelveHours;
+                }
+            } catch (e) {
+                console.warn('Unable to check ad dismissal', e);
+            }
+            return true; // Show ad by default
+        }
+
+        function initPplxAd() {
+            if (shouldShowPplxAd()) {
+                const adBox = document.getElementById('pplxAdBox');
+                if (adBox) {
+                    // Show ad after a short delay
+                    setTimeout(() => {
+                        adBox.style.display = 'block';
+                    }, 2000);
+                }
+            }
+        }
 
         function padZero(num) {
             return num < 10 ? '0' + num : num;
@@ -1556,6 +1744,22 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
             examDate.setHours(0, 0, 0, 0);
             const diffTime = Math.abs(examDate - now);
             return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function applyCountdownDisplayMode() {
+            const monthsCountdown = document.getElementById('monthsCountdown');
+            const daysCountdown = document.getElementById('daysCountdown');
+            if (!monthsCountdown || !daysCountdown) return;
+
+            daysCountdown.classList.remove('hidden');
+
+            if (countdownDisplayMode === 'days') {
+                monthsCountdown.classList.add('hidden');
+                daysCountdown.classList.add('visible');
+            } else {
+                monthsCountdown.classList.remove('hidden');
+                daysCountdown.classList.remove('visible');
+            }
         }
 
         function loadPersonalSelectionFromStorage() {
@@ -1723,6 +1927,7 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
             const instructionEl = document.getElementById('selectInstruction');
             const titleEl = document.getElementById('examTitle');
             const countdownContainer = document.getElementById('countdown-container');
+            let showCountdown = true;
 
             if (exam) {
                 const formattedDate = formatDate(exam.date);
@@ -1740,6 +1945,7 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
                 if (isExamInProgress(exam)) {
                     const monthsCountdown = document.getElementById('monthsCountdown');
                     const daysCountdown = document.getElementById('daysCountdown');
+                    showCountdown = false;
                     
                     // Hide countdown elements
                     monthsCountdown.classList.add('hidden');
@@ -1774,6 +1980,7 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
                 } else if (hasSessionPassed(exam)) {
                     const monthsCountdown = document.getElementById('monthsCountdown');
                     const daysCountdown = document.getElementById('daysCountdown');
+                    showCountdown = false;
                     
                     // Hide countdown elements
                     monthsCountdown.classList.add('hidden');
@@ -1816,12 +2023,7 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
                     if (inProgressMessage) {
                         inProgressMessage.style.display = 'none';
                     }
-
-                    // Show countdown elements
-                    const monthsCountdown = document.getElementById('monthsCountdown');
-                    const daysCountdown = document.getElementById('daysCountdown');
-                    monthsCountdown.classList.remove('hidden');
-                    daysCountdown.classList.remove('hidden');
+                    showCountdown = true;
                 }
             } else {
                 // Show default title for first exam
@@ -1830,11 +2032,7 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
                 renderExamTitle(titleEl, 'Time Until First November 2026 IB Exam', formatDate(DEFAULT_DATE));
                 document.title = 'IB Exam Countdown - CiteCount';
 
-                // Show countdown elements
-                const monthsCountdown = document.getElementById('monthsCountdown');
-                const daysCountdown = document.getElementById('daysCountdown');
-                monthsCountdown.classList.remove('hidden');
-                daysCountdown.classList.remove('hidden');
+                showCountdown = true;
 
                 // Hide passed and in-progress messages if they exist
                 const passedMessage = document.getElementById('examPassedMessage');
@@ -1845,6 +2043,18 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
                 const inProgressMessage = document.getElementById('examInProgressMessage');
                 if (inProgressMessage) {
                     inProgressMessage.style.display = 'none';
+                }
+            }
+
+            if (showCountdown) {
+                applyCountdownDisplayMode();
+            } else {
+                const monthsCountdown = document.getElementById('monthsCountdown');
+                const daysCountdown = document.getElementById('daysCountdown');
+                if (monthsCountdown && daysCountdown) {
+                    monthsCountdown.classList.add('hidden');
+                    daysCountdown.classList.remove('visible');
+                    daysCountdown.classList.add('hidden');
                 }
             }
 
@@ -1876,6 +2086,9 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
                 }, 10);
             });
         }
+
+        // Initialize Perplexity ad
+        document.addEventListener('DOMContentLoaded', initPplxAd);
 
         function copyUrl() {
             const url = window.location.href;
@@ -2474,14 +2687,16 @@ CiteCount has been developed independently from and is not endorsed by the IBO.
                 const daysCountdown = document.getElementById('daysCountdown');
 
                 monthsCountdown.addEventListener('click', function() {
-                    monthsCountdown.classList.add('hidden');
-                    daysCountdown.classList.add('visible');
+                    countdownDisplayMode = 'days';
+                    applyCountdownDisplayMode();
                 });
 
                 daysCountdown.addEventListener('click', function() {
-                    daysCountdown.classList.remove('visible');
-                    monthsCountdown.classList.remove('hidden');
+                    countdownDisplayMode = 'months';
+                    applyCountdownDisplayMode();
                 });
+
+                applyCountdownDisplayMode();
 
                 // Populate exam grid
                 populateExamGrid();

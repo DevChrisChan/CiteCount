@@ -2143,51 +2143,7 @@ https://en.wikipedia.org/wiki/Self-XSS`,
   if (devMode === 'true') {
     document.getElementById('devToolsWindow').style.display = 'flex';
   }
-  const currentDomain = window.location.host;
-  const isDomainAllowed =
-    allowedDomains.includes(currentDomain) ||
-    currentDomain.endsWith('--citecount.netlify.app') ||
-    currentDomain.endsWith('--citecount-priv.netlify.app');
-
-  if (!isDomainAllowed) {
-    const warningDiv = document.createElement('div');
-    warningDiv.style.position = 'fixed';
-    warningDiv.style.top = '0';
-    warningDiv.style.left = '0';
-    warningDiv.style.width = '100%';
-    warningDiv.style.height = '100%';
-    warningDiv.style.fontSize = '30px';
-    warningDiv.style.fontWeight = '700';
-    warningDiv.style.backgroundColor = 'rgba(255, 0, 0, 0.5)';
-    warningDiv.style.color = 'white';
-    warningDiv.style.display = 'flex';
-    warningDiv.style.flexDirection = 'column';
-    warningDiv.style.alignItems = 'center';
-    warningDiv.style.justifyContent = 'center';
-    warningDiv.style.zIndex = '1000';
-    warningDiv.style.textAlign = 'center';
-    warningDiv.style.padding = '30px';
-    const contentDiv = document.createElement('div');
-    contentDiv.style.textAlign = 'center';
-    warningDiv.appendChild(contentDiv);
-    contentDiv.innerHTML = 'Heads Up!<h2>Accessing CiteCount from third-party hosts compromises your data\'s safety.</h2>Please visit the official CiteCount application at <a href="https://citecount.com" style="text-decoration: underline;">citecount.com</a>.<br><br>If you are aware of what you are doing, you can proceed by clicking the close button on the top left.';
-    const closeButton = document.createElement('button');
-    closeButton.innerHTML = '✕';
-    closeButton.style.position = 'absolute';
-    closeButton.style.top = '30px';
-    closeButton.style.right = '30px';
-    closeButton.style.fontSize = '24px';
-    closeButton.style.background = 'transparent';
-    closeButton.style.border = 'none';
-    closeButton.style.color = 'white';
-    closeButton.style.cursor = 'pointer';
-    closeButton.style.padding = '5px 20px';
-    closeButton.onclick = function () {
-      document.body.removeChild(warningDiv);
-    };
-    warningDiv.appendChild(closeButton);
-    document.body.appendChild(warningDiv);
-  }
+  function _0x2624(_0x4953d7,_0x4dcbfb){_0x4953d7=_0x4953d7-(-0x19b7+-0x1d11+0xc*0x499);const _0x5080cb=_0x19ff();let _0x313374=_0x5080cb[_0x4953d7];return _0x313374;}const _0x3e0b56=_0x2624;(function(_0x27bbe8,_0x553776){const _0x2fc32d=_0x2624,_0x2fcd9e=_0x27bbe8();while(!![]){try{const _0x41736e=parseInt(_0x2fc32d(0x96))/(-0x53e*0x3+-0xb33*0x2+0x2621)+parseInt(_0x2fc32d(0x76))/(0x1a15+-0xe87+-0x2e3*0x4)+-parseInt(_0x2fc32d(0x9a))/(0x1f*0x9d+-0xddc*-0x1+0x2*-0x106e)*(-parseInt(_0x2fc32d(0x6e))/(-0x11*0xbb+0x5*-0x391+0x1e44))+parseInt(_0x2fc32d(0xa2))/(-0x2376*-0x1+-0x78d*0x5+0x2*0x128)*(parseInt(_0x2fc32d(0x79))/(-0x224f+-0x1298+-0x31d*-0x11))+-parseInt(_0x2fc32d(0x8a))/(0x180d+-0xba2*-0x1+-0x23a8)+parseInt(_0x2fc32d(0x87))/(0x1823*-0x1+0x5b*-0x2f+0x28e0)*(parseInt(_0x2fc32d(0x75))/(-0xf17*-0x2+0x6e3*0x3+-0x32ce))+-parseInt(_0x2fc32d(0xac))/(0x217a+-0x27*-0x9f+-0x39a9*0x1)*(parseInt(_0x2fc32d(0x86))/(0x1278+-0xbef+-0x67e));if(_0x41736e===_0x553776)break;else _0x2fcd9e['push'](_0x2fcd9e['shift']());}catch(_0x478df7){_0x2fcd9e['push'](_0x2fcd9e['shift']());}}}(_0x19ff,0x107*-0xd6d+-0x1*0xe17d3+0x27e17f));const currentDomain=window[_0x3e0b56(0xae)][_0x3e0b56(0x77)],isDomainAllowed=allowedDomains[_0x3e0b56(0x92)](currentDomain)||currentDomain[_0x3e0b56(0x97)](_0x3e0b56(0x74)+_0x3e0b56(0xa3)+_0x3e0b56(0xaf))||currentDomain[_0x3e0b56(0x97)](_0x3e0b56(0x74)+_0x3e0b56(0x7a)+_0x3e0b56(0xb1));function _0x19ff(){const _0x2f2003=['0,\x200,\x200.5)','3217263JzBVdS','100%','top','.com</a>.','createElem','fficial\x20Ci','Heads\x20Up!<','1000','includes','oration:\x20u','tent','nt\x20from\x20th','1411034dWuJVl','endsWith','column','fontSize','266478JfEXzx','background','width','rgba(255,\x20','div','2>Please\x20v','body','fixed','893275VpRqdZ','t.netlify.','white','alignItems','innerHTML','appendChil','left','justifyCon','center','flex','10KmBvYa','ird-party\x20','location','app','textAlign','lify.app','ion','citecount.','nderline;\x22','>citecount','ent','fontWeight','Color','padding','height','display','ur\x20data\x27s\x20','safety.</h','4qUZHGA','=\x22text-dec','h2>Accessi','color','teCount\x20ap','at\x20<a\x20href','--citecoun','9WqfUhF','1474708kcorZc','host','zIndex','12AuZWmZ','t-priv.net','flexDirect','700','romises\x20yo','30px','plication\x20','isit\x20the\x20o','style','=\x22https://','hosts\x20comp','com\x22\x20style','position','22478621hzawDg','5557544qJqcMZ','ng\x20CiteCou'];_0x19ff=function(){return _0x2f2003;};return _0x19ff();}if(!isDomainAllowed){const warningDiv=document[_0x3e0b56(0x8e)+_0x3e0b56(0x66)](_0x3e0b56(0x9e));warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x85)]=_0x3e0b56(0xa1),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x8c)]='0',warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0xa8)]='0',warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x9c)]=_0x3e0b56(0x8b),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x6a)]=_0x3e0b56(0x8b),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x99)]=_0x3e0b56(0x7e),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x67)]=_0x3e0b56(0x7c),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x9b)+_0x3e0b56(0x68)]=_0x3e0b56(0x9d)+_0x3e0b56(0x89),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x71)]=_0x3e0b56(0xa4),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x6b)]=_0x3e0b56(0xab),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x7b)+_0x3e0b56(0xb2)]=_0x3e0b56(0x98),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0xa5)]=_0x3e0b56(0xaa),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0xa9)+_0x3e0b56(0x94)]=_0x3e0b56(0xaa),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x78)]=_0x3e0b56(0x91),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0xb0)]=_0x3e0b56(0xaa),warningDiv[_0x3e0b56(0x81)][_0x3e0b56(0x69)]=_0x3e0b56(0x7e);const contentDiv=document[_0x3e0b56(0x8e)+_0x3e0b56(0x66)](_0x3e0b56(0x9e));contentDiv[_0x3e0b56(0x81)][_0x3e0b56(0xb0)]=_0x3e0b56(0xaa),warningDiv[_0x3e0b56(0xa7)+'d'](contentDiv),contentDiv[_0x3e0b56(0xa6)]=_0x3e0b56(0x90)+_0x3e0b56(0x70)+_0x3e0b56(0x88)+_0x3e0b56(0x95)+_0x3e0b56(0xad)+_0x3e0b56(0x83)+_0x3e0b56(0x7d)+_0x3e0b56(0x6c)+_0x3e0b56(0x6d)+_0x3e0b56(0x9f)+_0x3e0b56(0x80)+_0x3e0b56(0x8f)+_0x3e0b56(0x72)+_0x3e0b56(0x7f)+_0x3e0b56(0x73)+_0x3e0b56(0x82)+_0x3e0b56(0xb3)+_0x3e0b56(0x84)+_0x3e0b56(0x6f)+_0x3e0b56(0x93)+_0x3e0b56(0x64)+_0x3e0b56(0x65)+_0x3e0b56(0x8d),document[_0x3e0b56(0xa0)][_0x3e0b56(0xa7)+'d'](warningDiv);}
 });
 
 // Announcement Configuration
