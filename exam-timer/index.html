@@ -248,6 +248,13 @@
             padding: 2rem;
             border-bottom: 1px solid var(--border-primary);
             background: var(--surface-color);
+            display: flex;
+            justify-content: center;
+        }
+
+        .content-header-inner {
+            width: 100%;
+            max-width: 600px;
         }
 
         .content-header h1 {
@@ -1080,10 +1087,11 @@
         <!-- Main Content -->
         <div class="exam-main-content">
             <div class="content-header">
-                <h1>IB Exam Timer</h1>
-                <p>Set up your examination timer with reading time and invigilator's instructions. Make sure to enable audio for the complete examination experience.</p>
+                <div class="content-header-inner">
+                    <h1>IB Exam Timer</h1>
+                    <p>Set up your examination timer with reading time and invigilator's instructions. Make sure to enable audio for the complete examination experience.</p>
+                </div>
             </div>
-
             <div class="content-body">
                 <div class="form-container">
                     <form id="setupForm">
@@ -1134,7 +1142,7 @@
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" id="disableInstructions" class="checkbox-input">
-                            <span>Disable invigilator's audio instructions</span>
+                            <span>Disable invigilator's instructions (starts countdown directly)</span>
                         </label>
                     </div>
                 </div>
@@ -1170,7 +1178,7 @@
                         </div>
                         <div class="timeline-connector" id="readingConnector">
                             <div class="timeline-line"></div>
-                            <div class="timeline-duration" id="readingDuration">5 min</div>
+                            <div class="timeline-duration" id="readingDuration">5 mins reading time</div>
                         </div>
                         <div class="timeline-step" id="timelineReadingStep">
                             <div class="timeline-point timeline-point-reading"></div>
@@ -1276,6 +1284,7 @@
         <div class="modal-content">
             <h3>✓ URL Copied</h3>
             <p>Send this link to share this exam timer setup.</p>
+            <div id="copiedUrlContainer" style="word-break: break-all; background: #f4f4f4; color: #333; padding: 8px 12px; border-radius: 6px; margin: 10px 0; font-size: 0.95em; text-align: left;"></div>
             <div class="modal-buttons">
                 <button class="modal-btn modal-btn-cancel" onclick="closeShareModal()">Close</button>
             </div>
@@ -1615,24 +1624,8 @@
                 });
             });
 
-        // Initialize mobile warning and history on page load
+        // Initialize history on page load
         window.addEventListener('DOMContentLoaded', function() {
-            // Check screen size
-            function checkScreenSize() {
-                const warning = document.getElementById('mobileWarning');
-                const wrapper = document.querySelector('.exam-timer-wrapper');
-                if (window.innerWidth < 769) {
-                    warning.classList.add('show');
-                    wrapper.style.display = 'none';
-                } else {
-                    warning.classList.remove('show');
-                    wrapper.style.display = 'flex';
-                }
-            }
-            
-            checkScreenSize();
-            window.addEventListener('resize', checkScreenSize);
-            
             // Load and display history
             updateHistoryDisplay();
             
@@ -1757,8 +1750,10 @@
             
             // Copy to clipboard
             navigator.clipboard.writeText(url).then(() => {
-                // Show modal
+                // Show modal and set URL
                 const modal = document.getElementById('shareModal');
+                const urlContainer = document.getElementById('copiedUrlContainer');
+                if (urlContainer) urlContainer.textContent = url;
                 modal.classList.add('show');
             }).catch(err => {
                 console.error('Failed to copy:', err);

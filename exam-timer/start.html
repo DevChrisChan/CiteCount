@@ -77,9 +77,9 @@
         .progress-bar {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #10B981, #34D399);
+            background: linear-gradient(90deg, #1E40AF, #3B82F6);
             transition: width 0.3s ease;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 10px rgba(30, 64, 175, 0.5);
         }
 
         .timer-controls {
@@ -284,12 +284,12 @@
         }
 
         .action-button.primary {
-            background: rgba(16, 185, 129, 0.9);
-            border-color: rgba(16, 185, 129, 1);
+            background: rgba(30, 64, 175, 0.9);
+            border-color: rgba(30, 64, 175, 1);
         }
 
         .action-button.primary:hover:not(:disabled) {
-            background: rgba(16, 185, 129, 1);
+            background: rgba(30, 64, 175, 1);
         }
 
         .action-button.pause {
@@ -529,26 +529,26 @@
             gap: 0.75rem;
             padding: 1.5rem;
             background: white;
-            border: 2px solid rgba(30, 64, 175, 0.15);
+            border: 2px solid #1E40AF;
             border-radius: 0.75rem;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 1rem;
             font-weight: 600;
-            color: #1F2937;
+            color: #1E40AF;
         }
 
         .exam-tool-button:hover {
-            background: rgba(30, 64, 175, 0.05);
-            border-color: rgba(30, 64, 175, 0.3);
+            background: #1E40AF;
+            color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
         }
 
         .exam-tool-button svg {
             width: 32px;
             height: 32px;
-            color: #1E40AF;
+            color: inherit;
         }
 
         /* App Window Styles */
@@ -664,6 +664,15 @@
             background: white;
         }
 
+        #scientificCalculatorWindow .app-window-content,
+        #graphingCalculatorWindow .app-window-content {
+            padding: 0;
+        }
+
+        #dataBookletsWindow .app-window-content {
+            padding: 0.8rem;
+        }
+
         .app-window-resizer {
             position: absolute;
             bottom: 0;
@@ -753,6 +762,99 @@
             height: 100%;
         }
 
+        /* Confirmation Modal Styles */
+        .confirm-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .confirm-modal {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 450px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .confirm-modal-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            color: #F59E0B;
+        }
+
+        .confirm-modal h3 {
+            margin: 0 0 1rem 0;
+            color: #1F2937;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .confirm-modal p {
+            color: #6B7280;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .confirm-modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .confirm-modal-button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .confirm-modal-button.confirm {
+            background: #EF4444;
+            color: white;
+        }
+
+        .confirm-modal-button.confirm:hover {
+            background: #DC2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .confirm-modal-button.cancel {
+            background: #F3F4F6;
+            color: #1F2937;
+        }
+
+        .confirm-modal-button.cancel:hover {
+            background: #E5E7EB;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             .exam-tools-section {
                 margin-top: 2rem;
@@ -767,6 +869,15 @@
                 min-width: 300px !important;
                 width: 90vw !important;
                 height: 70vh !important;
+            }
+
+            .confirm-modal {
+                max-width: 90%;
+                padding: 1.5rem;
+            }
+
+            .confirm-modal-buttons {
+                flex-direction: column;
             }
         }
     </style>
@@ -784,14 +895,14 @@
             <img src="/assets/logo.svg" alt="CiteCount Logo" style="width: 24px; height: 24px;">
             <h2 style="margin: 0; font-size: 1rem; font-weight: 900; color: #1F2937;">CiteCount Exam Timers</h2>
         </div>
-        <a href="/exam-timer" class="control-button" onclick="return confirm('Are you sure you want to reconfigure? This will end the current exam.');">
+        <a href="#" class="control-button" onclick="event.preventDefault(); showConfirmModal('reconfigure');">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                 <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             Configure
         </a>
-        <a href="#" class="control-button" onclick="if(confirm('Are you sure you want to restart the exam?')) { window.location.reload() } return false;">
+        <a href="#" class="control-button" onclick="event.preventDefault(); showConfirmModal('restart');">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
             </svg>
@@ -849,7 +960,7 @@
                 </div>
                 <div class="timeline-connector" id="readingConnector">
                     <div class="timeline-line"></div>
-                    <div class="timeline-duration" id="readingDuration">5 min</div>
+                    <div class="timeline-duration" id="readingDuration">5 mins reading time</div>
                 </div>
                 <div class="timeline-step" id="timelineReadingStep">
                     <div class="timeline-point timeline-point-reading"></div>
@@ -887,19 +998,22 @@
                     </svg>
                     <span>Data Booklets</span>
                 </button>
-                <button class="exam-tool-button" onclick="openCalculator()">
+                <button class="exam-tool-button" onclick="openScientificCalculator()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="4" y="2" width="16" height="20" rx="2"/>
                         <line x1="8" y1="6" x2="16" y2="6"/>
                         <line x1="16" y1="10" x2="8" y2="10"/>
-                        <line x1="8" y1="14" x2="10" y2="14"/>
-                        <line x1="12" y1="14" x2="12" y2="14.01"/>
-                        <line x1="16" y1="14" x2="16" y2="14.01"/>
-                        <line x1="8" y1="18" x2="8" y2="18.01"/>
-                        <line x1="12" y1="18" x2="12" y2="18.01"/>
-                        <line x1="16" y1="18" x2="16" y2="18.01"/>
                     </svg>
-                    <span>Calculator</span>
+                    <span>Scientific Calculator</span>
+                </button>
+                <button class="exam-tool-button" onclick="openGraphingCalculator()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"/>
+                        <polyline points="12 12 20 7.5"/>
+                        <polyline points="12 12 12 21"/>
+                        <polyline points="12 12 4 7.5"/>
+                    </svg>
+                    <span>Graphing Calculator</span>
                 </button>
             </div>
         </div>
@@ -935,7 +1049,7 @@
                         </button>
                         <span id="bookletTitle" style="font-weight: 500; color: #1F2937; font-size: 0.9rem; flex: 1;"></span>
                     </div>
-                    <iframe id="pdfIframe" style="width: 100%; height: calc(100% - 30px); border: none; border-radius: 0.5rem;"></iframe>
+                    <iframe id="pdfIframe" style="width: 100%; height: calc(100% - 30px); border: none; border-radius: 0.5rem;">Loading...</iframe>
                 </div>
                 <div id="bookletListContainer">
                     <p style="color: #6B7280; margin-bottom: 1rem; text-align: center;">Select a data booklet to view:</p>
@@ -989,19 +1103,19 @@
         <div class="app-window-resizer"></div>
     </div>
 
-    <!-- Calculator Window -->
-    <div class="app-window" id="calculatorWindow" style="display: none;">
-        <div class="app-window-header" id="calculatorHeader">
+    <!-- Calculator Windows -->
+    <div class="app-window" id="scientificCalculatorWindow" style="display: none;">
+        <div class="app-window-header" id="scientificCalculatorHeader">
             <div class="app-window-title">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="4" y="2" width="16" height="20" rx="2"/>
                     <line x1="8" y1="6" x2="16" y2="6"/>
                     <line x1="16" y1="10" x2="8" y2="10"/>
                 </svg>
-                Calculator
+                Scientific Calculator
             </div>
             <div class="app-window-controls">
-                <button class="app-control-btn" onclick="closeWindow('calculator')" title="Close">
+                <button class="app-control-btn" onclick="closeWindow('scientificCalculator')" title="Close">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"/>
                         <line x1="6" y1="6" x2="18" y2="18"/>
@@ -1009,18 +1123,87 @@
                 </button>
             </div>
         </div>
-        <div class="app-window-tabs">
-            <button class="app-tab active" onclick="switchCalculatorTab('scientific')">Scientific</button>
-            <button class="app-tab" onclick="switchCalculatorTab('graphing')">Graphing</button>
+        <div class="app-window-content">
+            <iframe id="scientificCalculatorIframe" src="https://www.desmos.com/scientific" frameborder="0" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        <div class="app-window-resizer"></div>
+    </div>
+
+    <div class="app-window" id="graphingCalculatorWindow" style="display: none;">
+        <div class="app-window-header" id="graphingCalculatorHeader">
+            <div class="app-window-title">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"/>
+                    <polyline points="12 12 20 7.5"/>
+                    <polyline points="12 12 12 21"/>
+                    <polyline points="12 12 4 7.5"/>
+                </svg>
+                Graphing Calculator
+            </div>
+            <div class="app-window-controls">
+                <button class="app-control-btn" onclick="closeWindow('graphingCalculator')" title="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
         </div>
         <div class="app-window-content">
-            <iframe id="calculatorIframe" src="https://www.desmos.com/scientific" frameborder="0" style="width: 100%; height: 100%; border: none;"></iframe>
+            <iframe id="graphingCalculatorIframe" src="https://www.desmos.com/calculator" frameborder="0" style="width: 100%; height: 100%; border: none;"></iframe>
         </div>
         <div class="app-window-resizer"></div>
     </div>
 
     <script src="/v2/apps-modal.js"></script>
     <script>
+        // Mobile warning modal
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                || (window.innerWidth <= 768);
+        }
+
+        function showMobileWarning() {
+            const modalHTML = `
+                <div id="mobileWarningModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 1rem;">
+                    <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 500px; text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); position: relative; margin: 1rem;">
+                        <button onclick="closeMobileWarning()" style="position: absolute; top: 1rem; right: 1rem; background: transparent; border: none; cursor: pointer; padding: 0.5rem; color: #6B7280; transition: color 0.2s;" onmouseover="this.style.color='#1F2937'" onmouseout="this.style.color='#6B7280'">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -8 72 72" style="width: 64px; height: 64px; color: #F59E0B; margin: 0 auto 1rem;" fill="currentColor">
+                            <path d="M15.8,49.7H56.22a3.78,3.78,0,0,0,3.36-5.5L39.38,8.39a3.8,3.8,0,0,0-6.78,0L12.4,44.2A3.81,3.81,0,0,0,15.8,49.7Zm23.38-8.33a3.29,3.29,0,1,1-6.58,0V41.3a3.29,3.29,0,0,1,6.58,0ZM34.11,17.18h3.8a1.63,1.63,0,0,1,1.54,2L37.79,33.75a1.78,1.78,0,0,1-3.56,0L32.56,19.19A1.64,1.64,0,0,1,34.11,17.18Z"/>
+                        </svg>
+                        <h2 style="margin: 0 0 1rem 0; color: #1F2937; font-size: 1.5rem; font-weight: 700;">Designed for Larger Screens</h2>
+                        <p style="color: #6B7280; font-size: 1rem; line-height: 1.6; margin: 0 0 1rem 0;">
+                            Exam Timers are designed for larger screens. Please visit <strong style="color: #1E40AF;">exam.citecount.com</strong> on your desktop for the best experience.
+                        </p>
+                        <p style="color: #EF4444; font-size: 0.9rem; line-height: 1.5; margin: 0 0 1.5rem 0; font-weight: 500;">
+                            Features may not work correctly on mobile devices.
+                        </p>
+                        <button onclick="closeMobileWarning()" style="padding: 12px 32px; background: #1E40AF; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(30, 64, 175, 0.3);" onmouseover="this.style.background='#1E3A8A'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#1E40AF'; this.style.transform='translateY(0)'">
+                            Continue Anyway
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('afterbegin', modalHTML);
+        }
+
+        function closeMobileWarning() {
+            const modal = document.getElementById('mobileWarningModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Check for mobile and show warning
+        if (isMobileDevice()) {
+            showMobileWarning();
+        }
+
         // Get URL parameters
         const params = new URLSearchParams(window.location.search);
         const subject = decodeURIComponent(params.get('subject') || 'Mock Examination');
@@ -1182,7 +1365,12 @@
         function startExam() {
             document.getElementById('startButton').style.display = 'none';
             if (disableInstructions) {
-                startMainExam();
+                // Skip instructions but check if reading time is enabled
+                if (disableReading) {
+                    startMainExam();
+                } else {
+                    showReadyButton();
+                }
             } else {
                 startTime = new Date();
                 document.getElementById('instructionsCard').innerHTML = `
@@ -1497,8 +1685,19 @@
             }
         }
 
-        function openCalculator() {
-            const window = document.getElementById('calculatorWindow');
+        function openScientificCalculator() {
+            const window = document.getElementById('scientificCalculatorWindow');
+            if (window.style.display === 'none') {
+                window.style.display = 'flex';
+                centerWindow(window, 700, 600);
+                bringToFront(window);
+            } else {
+                bringToFront(window);
+            }
+        }
+
+        function openGraphingCalculator() {
+            const window = document.getElementById('graphingCalculatorWindow');
             if (window.style.display === 'none') {
                 window.style.display = 'flex';
                 centerWindow(window, 700, 600);
@@ -1537,18 +1736,10 @@
             activeWindow = window;
         }
 
-        function switchCalculatorTab(type) {
-            const iframe = document.getElementById('calculatorIframe');
-            const tabs = document.querySelectorAll('#calculatorWindow .app-tab');
-            
-            tabs.forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (type === 'scientific') {
-                iframe.src = 'https://www.desmos.com/scientific';
-            } else if (type === 'graphing') {
-                iframe.src = 'https://www.desmos.com/calculator';
-            }
+        function backToBookletList() {
+            document.getElementById('bookletListContainer').style.display = 'block';
+            document.getElementById('bookletViewer').style.display = 'none';
+            document.getElementById('pdfIframe').src = '';
         }
 
         function openBooklet(path, name) {
@@ -1558,15 +1749,9 @@
             document.getElementById('pdfIframe').src = path;
         }
 
-        function backToBookletList() {
-            document.getElementById('bookletListContainer').style.display = 'block';
-            document.getElementById('bookletViewer').style.display = 'none';
-            document.getElementById('pdfIframe').src = '';
-        }
-
         // Dragging Functionality
         function initDragging() {
-            const headers = ['dataBookletsHeader', 'calculatorHeader'];
+            const headers = ['dataBookletsHeader', 'scientificCalculatorHeader', 'graphingCalculatorHeader'];
             
             headers.forEach(headerId => {
                 const header = document.getElementById(headerId);
@@ -1618,7 +1803,7 @@
 
         // Resizing Functionality
         function initResizing() {
-            const windows = ['dataBookletsWindow', 'calculatorWindow'];
+            const windows = ['dataBookletsWindow', 'scientificCalculatorWindow', 'graphingCalculatorWindow'];
             
             windows.forEach(windowId => {
                 const window = document.getElementById(windowId);
@@ -1655,6 +1840,71 @@
                 e.preventDefault();
             }
         });
+
+        // ============================================
+        // Confirmation Modal Functions
+        // ============================================
+        
+        function showConfirmModal(action) {
+            let title, message, confirmText, onConfirm;
+            
+            if (action === 'restart') {
+                title = 'Restart Exam?';
+                message = 'Are you sure you want to restart the exam? This will reload the page and reset the timer.';
+                confirmText = 'Restart';
+                onConfirm = () => window.location.reload();
+            } else if (action === 'reconfigure') {
+                title = 'Reconfigure Exam?';
+                message = 'Are you sure you want to reconfigure? This will end the current exam and return to the setup page.';
+                confirmText = 'Reconfigure';
+                onConfirm = () => window.location.href = '/exam-timer';
+            }
+            
+            const modalHTML = `
+                <div class="confirm-modal-overlay" id="confirmModalOverlay" onclick="if(event.target === this) closeConfirmModal()">
+                    <div class="confirm-modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -8 72 72" style="width: 64px; height: 64px; color: #F59E0B; margin: 0 auto 1rem;" fill="currentColor">
+                            <path d="M15.8,49.7H56.22a3.78,3.78,0,0,0,3.36-5.5L39.38,8.39a3.8,3.8,0,0,0-6.78,0L12.4,44.2A3.81,3.81,0,0,0,15.8,49.7Zm23.38-8.33a3.29,3.29,0,1,1-6.58,0V41.3a3.29,3.29,0,0,1,6.58,0ZM34.11,17.18h3.8a1.63,1.63,0,0,1,1.54,2L37.79,33.75a1.78,1.78,0,0,1-3.56,0L32.56,19.19A1.64,1.64,0,0,1,34.11,17.18Z"/>
+                        </svg>
+                        <h3>${title}</h3>
+                        <p>${message}</p>
+                        <div class="confirm-modal-buttons">
+                            <button class="confirm-modal-button cancel" onclick="closeConfirmModal()">Cancel</button>
+                            <button class="confirm-modal-button confirm" onclick="confirmAction()">${confirmText}</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Store the confirm action
+            window._confirmAction = onConfirm;
+            
+            // Add escape key handler
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape') {
+                    closeConfirmModal();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+        }
+        
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirmModalOverlay');
+            if (modal) {
+                modal.remove();
+            }
+            window._confirmAction = null;
+        }
+        
+        function confirmAction() {
+            if (window._confirmAction) {
+                window._confirmAction();
+            }
+            closeConfirmModal();
+        }
     </script>
 </body>
 </html>
