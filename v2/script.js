@@ -3278,7 +3278,7 @@ class CookieConsent {
 // Initialize cookie consent when DOM is loaded
 // TEMPORARILY COMMENTED OUT
 // document.addEventListener('DOMContentLoaded', function() {
-//   window.cookieConsent = new CookieConsent();
+//  window.cookieConsent = new CookieConsent();
 // });
 // Perplexity Overlay Logic
 function showPerplexityOverlay() {

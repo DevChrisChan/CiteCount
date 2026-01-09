@@ -34,7 +34,6 @@
     </script>
     <link href="/v2/style.css" rel="stylesheet">
     <link href="/v2/flowbite.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         body {
             padding-top: 50px;
@@ -339,85 +338,6 @@
             font-size: 0.85rem;
             color: var(--text-secondary);
             margin-top: 0.5rem;
-        }
-
-        .preset-section {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: var(--background-secondary);
-            border-radius: 0.5rem;
-            border: 1px solid var(--border-primary);
-        }
-
-        .preset-toggle {
-            cursor: pointer;
-            color: var(--accent-color);
-            font-size: 0.95rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 0.375rem;
-            transition: all 0.2s ease;
-        }
-
-        .preset-toggle:hover {
-            background: var(--background-primary);
-        }
-
-        .preset-toggle svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.2s ease;
-        }
-
-        .preset-toggle.expanded svg {
-            transform: rotate(180deg);
-        }
-
-        .preset-content {
-            display: none;
-            margin-top: 1rem;
-        }
-
-        .preset-content.show {
-            display: block;
-        }
-
-        .select2-container {
-            width: 100% !important;
-        }
-
-        .select2-container--default .select2-selection--single {
-            height: 44px;
-            background: var(--background-primary);
-            border: 1px solid var(--border-primary);
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            color: var(--text-primary);
-            line-height: 42px;
-            padding-left: 0.75rem;
-        }
-
-        .select2-dropdown {
-            background: var(--surface-color);
-            border: 1px solid var(--border-primary);
-            border-radius: 0.5rem;
-        }
-
-        .select2-results__option {
-            color: var(--text-primary);
-            padding: 0.75rem;
-        }
-
-        .select2-results__option--highlighted {
-            background: var(--accent-color) !important;
-            color: white;
         }
 
         .checkbox-group {
@@ -887,6 +807,145 @@
             margin-top: 0.5rem;
         }
 
+        .presets-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--surface-color);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.75rem;
+        }
+
+        .presets-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .preset-share-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0.4rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+        }
+
+        .preset-share-btn:hover {
+            background: var(--background-primary);
+            color: var(--text-primary);
+        }
+
+        .preset-share-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .preset-card {
+            background: var(--background-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .preset-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .preset-card-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .preset-card-duration {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .preset-card-duration svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .preset-card-button {
+            padding: 0.6rem 1rem;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        .preset-card-button:hover {
+            background: #1E40AF;
+            transform: translateY(-1px);
+        }
+
+        .preset-card-button:active {
+            transform: translateY(0);
+        }
+
+        .preset-card-button-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .preset-card-share-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0.4rem 0.5rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
+        .preset-card-share-btn:hover {
+            background: var(--background-secondary);
+            color: var(--text-primary);
+        }
+
+        .preset-card-share-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
         @media (max-width: 1024px) {
             .exam-sidebar {
                 width: 250px;
@@ -988,11 +1047,9 @@
                 border-width: 2px;
                 margin-bottom: 0.5rem;
             }
-        }
 
-        @media (prefers-color-scheme: dark) {
-            .select2-container--default .select2-selection--single {
-                background: var(--background-secondary);
+            .presets-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1098,7 +1155,7 @@
                 <!-- Subject Name -->
                 <div class="form-section">
                     <label for="subject" class="form-label">Subject Name</label>
-                    <input type="text" id="subject" class="form-input" autocomplete="off" placeholder="e.g., Chemistry HL Paper 2 (leave blank for 'Mock Examination')">
+                    <input type="text" id="subject" class="form-input" autocomplete="off" placeholder="Mock Examination">
                 </div>
 
                 <!-- Time Inputs -->
@@ -1114,23 +1171,17 @@
                             <div class="error-message" id="minutes-error">Please enter valid minutes (0-59)</div>
                         </div>
                     </div>
+                    <button type="button" class="button-secondary" onclick="document.getElementById('presetsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });" style="margin-top: 0.75rem; width: 100%;">
+                        <span style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            Or choose from IB exam presets
+                        </span>
+                    </button>
                 </div>
 
-                <!-- Preset Selection -->
-                <div class="preset-section">
-                    <div class="preset-toggle" id="presetToggle">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M6 9l6 6 6-6"/>
-                        </svg>
-                        <span>or choose from IB exam presets</span>
-                    </div>
-                    <div class="preset-content" id="presetContent">
-                        <select class="preset-select" id="examPreset">
-                            <option value="">Select an exam preset</option>
-                        </select>
-                        <div class="keyboard-hint">💡 Tip: Type to search through exam presets</div>
-                    </div>
-                </div>
+
 
                 <!-- Options -->
                 <div class="form-section" style="padding-top: 10px;">
@@ -1234,6 +1285,21 @@
                     })();
                 </script>
 
+                <!-- Presets Section -->
+                <div class="presets-section" id="presetsSection">
+                    <div class="presets-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; margin-right: 0.5rem;">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                        <span>Or start with presets</span>
+                    </div>
+                    <div class="presets-grid" id="presetsGrid">
+                        <!-- Presets will be loaded here -->
+                    </div>
+                </div>
                 
                 <p style="text-align: center; padding-top: 100px"><a id="links" target="_blank" rel="noopener noreferrer"
                 data-lta-event="contact form outbound click" href="/contact.html" style="color: var(--text-primary);">Contact the
@@ -1284,76 +1350,93 @@
         <div class="modal-content">
             <h3>✓ URL Copied</h3>
             <p>Send this link to share this exam timer setup.</p>
-            <div id="copiedUrlContainer" style="word-break: break-all; background: #f4f4f4; color: #333; padding: 8px 12px; border-radius: 6px; margin: 10px 0; font-size: 0.95em; text-align: left;"></div>
+            <div id="copiedUrlContainer" style="word-break: break-all; background: #f4f4f4; color: #333; padding: 8px 12px; border-radius: 6px; margin: 10px 0; font-size: 0.95em; text-align: left;">exam.citecount.com/</div>
             <div class="modal-buttons">
                 <button class="modal-btn modal-btn-cancel" onclick="closeShareModal()">Close</button>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="/v2/apps-modal.js"></script>
     <script>
-        // Preset toggle functionality
-        document.getElementById('presetToggle').addEventListener('click', function() {
-            const content = document.getElementById('presetContent');
-            const toggle = this;
-            
-            if (content.classList.contains('show')) {
-                content.classList.remove('show');
-                toggle.classList.remove('expanded');
-            } else {
-                content.classList.add('show');
-                toggle.classList.add('expanded');
-                $('#examPreset').select2('open');
-            }
-        });
 
-        // Load exam presets
-        fetch('exams.json')
+
+        // Load exam presets for preset cards
+        fetch('assets/exams.json')
             .then(response => response.json())
             .then(data => {
-                const select = $('#examPreset');
-                data.exams.forEach(exam => {
-                    select.append(
-                        `<option value="${exam.name}" data-hours="${exam.hours}" data-minutes="${exam.minutes}">
-                            ${exam.name} (${exam.hours}h ${exam.minutes}m)
-                        </option>`
-                    );
-                });
+                // Store data globally for preset cards
+                window.examsData = data;
+                
+                const presetsGrid = document.getElementById('presetsGrid');
 
-                select.select2({
-                    placeholder: "Search for an exam...",
-                    allowClear: false,
-                    width: '100%'
-                });
-
-                select.on('select2:select', function(e) {
-                    const selectedOption = e.params.data.element;
-                    const name = selectedOption.value;
-                    const hours = selectedOption.getAttribute('data-hours');
-                    const minutes = selectedOption.getAttribute('data-minutes');
-
-                    if (name) {
-                        document.getElementById('subject').value = name;
-                        document.getElementById('hours').value = hours;
-                        document.getElementById('minutes').value = minutes;
-                        validateDuration();
-                    }
-                });
-
-                // Clear preset when manually editing
-                ['subject', 'hours', 'minutes'].forEach(id => {
-                    document.getElementById(id).addEventListener('input', function() {
-                        select.val('').trigger('change');
+                // Populate preset cards
+                if (presetsGrid) {
+                    data.exams.forEach(exam => {
+                        const card = document.createElement('div');
+                        card.className = 'preset-card';
+                        
+                        const durationText = exam.hours > 0 && exam.minutes > 0 
+                            ? `${exam.hours}h ${exam.minutes}m`
+                            : exam.hours > 0 
+                                ? `${exam.hours}h`
+                                : `${exam.minutes}m`;
+                        
+                        card.innerHTML = `
+                            <div class="preset-card-name">${exam.name}</div>
+                            <div class="preset-card-duration">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                                <span>${durationText}</span>
+                            </div>
+                            <div class="preset-card-button-group">
+                                <button type="button" class="preset-card-button" onclick="startPresetExam('${exam.name.replace(/'/g, "\\'")}')">Start Exam</button>
+                                <button type="button" class="preset-card-share-btn" title="Share this preset" onclick="sharePresetExam('${exam.name.replace(/'/g, "\\'")}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                                        <polyline points="16 6 12 2 8 6"/>
+                                        <line x1="12" y1="2" x2="12" y2="15"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        `;
+                        
+                        presetsGrid.appendChild(card);
                     });
-                });
+                }
             })
             .catch(error => {
                 console.error('Error loading exams:', error);
-                document.querySelector('.preset-section').style.display = 'none';
             });
+
+        // Start exam from preset card
+        function startPresetExam(examName) {
+            const data = window.examsData;
+            if (!data) return;
+            
+            const exam = data.exams.find(e => e.name === examName);
+            if (!exam) return;
+            
+            const totalDurationMinutes = (exam.hours * 60) + exam.minutes;
+            const disableReading = false;
+            const disableInstructions = false;
+            
+            let url = `https://exam.citecount.com?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            if (exam.name !== 'Mock Examination') {
+                url = `https://exam.citecount.com?s=${encodeURIComponent(exam.name)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            }
+            
+            // Save to history
+            saveToHistory(exam.name, exam.hours, exam.minutes);
+            
+            try {
+                window.open(url, '_blank', 'fullscreen=yes');
+            } catch (error) {
+                alert('Please allow popups to start the exam timer.');
+            }
+        }
 
         // Validation
         function validateDuration() {
@@ -1656,14 +1739,16 @@
             if (!subjectValue) {
                 subjectValue = 'Mock Examination';
             }
-            const subject = encodeURIComponent(subjectValue);
             const hours = parseInt(document.getElementById('hours').value) || 0;
             const minutes = parseInt(document.getElementById('minutes').value) || 0;
-            const totalDuration = hours + (minutes / 60);
+            const totalDurationMinutes = (hours * 60) + minutes;
             const disableReading = document.getElementById('disableReading').checked;
             const disableInstructions = document.getElementById('disableInstructions').checked;
 
-            const url = `start.html?subject=${subject}&duration=${totalDuration}&disableReading=${disableReading}&disableInstructions=${disableInstructions}`;
+            let url = `https://exam.citecount.com?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            if (subjectValue !== 'Mock Examination') {
+                url = `https://exam.citecount.com?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            }
             
             // Save to history
             saveToHistory(subjectValue, hours, minutes);
@@ -1726,10 +1811,8 @@
         // Toggle reading time visibility in timeline
         document.getElementById('disableReading').addEventListener('change', updateTimelinePreview);
 
-        // Share functionality
-        document.getElementById('shareExamBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            
+        // Share functionality helper function
+        function triggerShareModal() {
             if (!validateDuration()) {
                 return;
             }
@@ -1739,26 +1822,72 @@
             if (!subjectValue) {
                 subjectValue = 'Mock Examination';
             }
-            const subject = encodeURIComponent(subjectValue);
             const hours = parseInt(document.getElementById('hours').value) || 0;
             const minutes = parseInt(document.getElementById('minutes').value) || 0;
-            const totalDuration = hours + (minutes / 60);
+            const totalDurationMinutes = (hours * 60) + minutes;
             const disableReading = document.getElementById('disableReading').checked;
             const disableInstructions = document.getElementById('disableInstructions').checked;
             
-            const url = `${window.location.origin}/exam-timer/start.html?subject=${subject}&duration=${totalDuration}&disableReading=${disableReading}&disableInstructions=${disableInstructions}`;
+            let url = `https://exam.citecount.com?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            if (subjectValue !== 'Mock Examination') {
+                url = `https://exam.citecount.com?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            }
             
             // Copy to clipboard
             navigator.clipboard.writeText(url).then(() => {
-                // Show modal and set URL
+                // Show modal and set URL without https://
                 const modal = document.getElementById('shareModal');
                 const urlContainer = document.getElementById('copiedUrlContainer');
-                if (urlContainer) urlContainer.textContent = url;
+                const urlWithoutProtocol = url.replace('https://', '');
+                if (urlContainer) urlContainer.textContent = urlWithoutProtocol;
                 modal.classList.add('show');
             }).catch(err => {
                 console.error('Failed to copy:', err);
                 alert('Failed to copy URL. Please try again.');
             });
+        }
+
+        // Share preset exam
+        function sharePresetExam(examName) {
+            const data = window.examsData;
+            if (!data) return;
+            
+            const exam = data.exams.find(e => e.name === examName);
+            if (!exam) return;
+            
+            const totalDurationMinutes = (exam.hours * 60) + exam.minutes;
+            const disableReading = false;
+            const disableInstructions = false;
+            
+            let url = `https://exam.citecount.com?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            if (exam.name !== 'Mock Examination') {
+                url = `https://exam.citecount.com?s=${encodeURIComponent(exam.name)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            }
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(url).then(() => {
+                // Show modal and set URL without https://
+                const modal = document.getElementById('shareModal');
+                const urlContainer = document.getElementById('copiedUrlContainer');
+                const urlWithoutProtocol = url.replace('https://', '');
+                if (urlContainer) urlContainer.textContent = urlWithoutProtocol;
+                modal.classList.add('show');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy URL. Please try again.');
+            });
+        }
+
+        // Share button functionality
+        document.getElementById('shareExamBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            triggerShareModal();
+        });
+
+        // Preset share button functionality
+        document.getElementById('presetShareBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            triggerShareModal();
         });
 
         // Function to close share modal

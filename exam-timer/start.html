@@ -199,6 +199,15 @@
             50% { opacity: 0.85; transform: scale(0.96); }
         }
 
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .timer-display.paused {
+            animation: flash 1.8s ease-in-out infinite;
+        }
+
         .time-info-card {
             display: inline-flex;
             flex-direction: column;
@@ -506,34 +515,34 @@
 
         /* Exam Tools Section */
         .exam-tools-section {
-            margin-top: 3rem;
-            padding: 2rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
             background: rgba(30, 64, 175, 0.04);
             border: 1px solid rgba(30, 64, 175, 0.15);
             border-radius: 1rem;
-            max-width: 700px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .exam-tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.75rem;
         }
 
         .exam-tool-button {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1.5rem;
+            gap: 0.5rem;
+            padding: 1rem;
             background: white;
             border: 2px solid #1E40AF;
             border-radius: 0.75rem;
             cursor: pointer;
             transition: all 0.2s ease;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #1E40AF;
         }
@@ -546,8 +555,8 @@
         }
 
         .exam-tool-button svg {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             color: inherit;
         }
 
@@ -584,6 +593,7 @@
             color: white;
             cursor: move;
             user-select: none;
+            touch-action: none;
         }
 
         .app-window-title {
@@ -681,6 +691,17 @@
             height: 20px;
             cursor: nwse-resize;
             background: linear-gradient(135deg, transparent 50%, rgba(30, 64, 175, 0.2) 50%);
+            touch-action: none;
+        }
+
+        .iframe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 9999;
         }
 
         .file-picker-container {
@@ -1125,6 +1146,7 @@
         </div>
         <div class="app-window-content">
             <iframe id="scientificCalculatorIframe" src="https://www.desmos.com/scientific" frameborder="0" style="width: 100%; height: 100%; border: none;"></iframe>
+            <div class="iframe-overlay" style="display: none;"></div>
         </div>
         <div class="app-window-resizer"></div>
     </div>
@@ -1151,6 +1173,7 @@
         </div>
         <div class="app-window-content">
             <iframe id="graphingCalculatorIframe" src="https://www.desmos.com/calculator" frameborder="0" style="width: 100%; height: 100%; border: none;"></iframe>
+            <div class="iframe-overlay" style="display: none;"></div>
         </div>
         <div class="app-window-resizer"></div>
     </div>
@@ -1206,10 +1229,11 @@
 
         // Get URL parameters
         const params = new URLSearchParams(window.location.search);
-        const subject = decodeURIComponent(params.get('subject') || 'Mock Examination');
-        const durationHours = parseFloat(params.get('duration')) || 1;
-        const disableReading = params.get('disableReading') === 'true';
-        const disableInstructions = params.get('disableInstructions') === 'true';
+        const subject = decodeURIComponent(params.get('s') || 'Mock Examination');
+        const durationMinutes = parseFloat(params.get('d')) || 60;
+        const durationHours = durationMinutes / 60;
+        const disableReading = params.get('r') === 't';
+        const disableInstructions = params.get('i') === 't';
         
         // Check if URL query was passed
         const hasUrlQuery = window.location.search.length > 0;
@@ -1240,13 +1264,21 @@
         
         document.getElementById('examTitle').textContent = subject;
         document.getElementById('examDuration').textContent = `Duration: ${durationText}`;
+        document.getElementById('examDuration').style.display = 'none';
         document.title = `${subject} - Exam Timer`;
+        
+        // Display total exam time in the big timer on initial page
+        const totalMinutes = Math.round(durationHours * 60);
+        const timerHours = Math.floor(durationHours);
+        const timerMinutes = Math.round((durationHours - timerHours) * 60);
+        document.getElementById('timerDisplay').textContent = `${String(timerHours).padStart(2, '0')}:${String(timerMinutes).padStart(2, '0')}:00`;
 
         // Timer variables
         let startTime;
         let endTime;
         let examTimer;
         let remainingTime;
+        let totalDuration;
         let isPaused = false;
         let isReadingTime = false;
         let currentPhase = 0;
@@ -1269,9 +1301,8 @@
         }
 
         function updateProgressBar() {
-            if (!startTime || !endTime) return;
-            const total = endTime - startTime;
-            const progress = Math.max((remainingTime / total) * 100, 0);
+            if (!totalDuration) return;
+            const progress = Math.max((remainingTime / totalDuration) * 100, 0);
             document.getElementById('progressBar').style.width = `${progress}%`;
         }
 
@@ -1288,8 +1319,16 @@
             
             const timerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             const timerDisplay = document.getElementById('timerDisplay');
-            timerDisplay.textContent = isPaused ? `Paused: ${timerText}` : timerText;
-            document.title = `${subject} - ${isPaused ? 'Paused: ' : ''}${timerText}`;
+            timerDisplay.textContent = timerText;
+            
+            // Add flash class when paused, remove it when not paused
+            if (isPaused) {
+                timerDisplay.classList.add('paused');
+            } else {
+                timerDisplay.classList.remove('paused');
+            }
+            
+            document.title = `${subject} - ${timerText}`;
             
             document.getElementById('startTime').textContent = formatTime(startTime);
             document.getElementById('endTime').textContent = formatTime(endTime);
@@ -1316,11 +1355,11 @@
                 
                 if (!isReadingTime) {
                     if (remainingTime <= 30*60*1000 && currentPhase < 3) {
-                        playAudio('5.mp3');
+                        playAudio('assets/5.mp3');
                         currentPhase = 3;
                     }
                     if (remainingTime <= 5*60*1000 && currentPhase < 4) {
-                        playAudio('6.mp3');
+                        playAudio('assets/6.mp3');
                         currentPhase = 4;
                     }
                 }
@@ -1390,7 +1429,7 @@
                 skipButton.textContent = 'Skip Instructions';
                 document.getElementById('actionButtons').appendChild(skipButton);
                 
-                const audio1 = new Audio('1.mp3');
+                const audio1 = new Audio('assets/1.mp3');
                 audio1.play();
                 
                 skipButton.addEventListener('click', () => {
@@ -1405,6 +1444,8 @@
         function proceedAfterInstructions() {
             document.getElementById('instructionsCard').style.display = 'none';
             document.getElementById('actionButtons').innerHTML = '';
+            // Show the exam duration for exam instructions page
+            document.getElementById('examDuration').style.display = 'block';
             if (disableReading) {
                 startMainExam();
             } else {
@@ -1418,6 +1459,15 @@
             readyButton.textContent = 'Start Reading Time';
             document.getElementById('actionButtons').appendChild(readyButton);
             
+            // Update instructions card for reading time page
+            document.getElementById('instructionsCard').style.display = 'block';
+            document.getElementById('instructionsCard').innerHTML = `
+                <p>When you're all set, click Start Reading Time to begin.</p>
+            `;
+            
+            // Show 5m in the big timer
+            document.getElementById('timerDisplay').textContent = '00:05:00';
+            
             readyButton.addEventListener('click', () => {
                 readyButton.style.display = 'none';
                 document.getElementById('instructionsCard').style.display = 'block';
@@ -1425,7 +1475,7 @@
                     <h3>Examination Instructions</h3>
                     <p>You may now open your examination paper. Your reading time starts now.</p>
                 `;
-                playAudio('2.mp3').then(() => {
+                playAudio('assets/2.mp3').then(() => {
                     document.getElementById('instructionsCard').style.display = 'none';
                     startReadingTime();
                 });
@@ -1442,6 +1492,7 @@
             startTime = new Date();
             endTime = new Date(startTime.getTime() + readingDuration);
             remainingTime = readingDuration;
+            totalDuration = readingDuration;
             
             const skipButton = document.createElement('button');
             skipButton.className = 'action-button';
@@ -1451,9 +1502,7 @@
             createPauseButton();
             
             skipButton.addEventListener('click', () => {
-                clearInterval(examTimer);
-                isReadingTime = false;
-                startMainExam();
+                showConfirmModal('skipReading');
             });
 
             updateTimer();
@@ -1477,9 +1526,10 @@
             startTime = new Date();
             endTime = new Date(startTime.getTime() + mainDuration);
             remainingTime = mainDuration;
+            totalDuration = mainDuration;
             currentPhase = 0;
             
-            playAudio('3.mp3');
+            playAudio('assets/3.mp3');
             createPauseButton();
 
             updateTimer();
@@ -1487,7 +1537,7 @@
         }
 
         function finishExam() {
-            playAudio('4.mp3');
+            playAudio('assets/4.mp3');
             document.getElementById('timerDisplay').textContent = "Time's Up!";
             document.getElementById('timeInfoCard').style.display = 'none';
             document.getElementById('progressBar').style.width = '0%';
@@ -1521,13 +1571,21 @@
             }
         });
 
-        // Keyboard shortcut for pause
+        // Keyboard shortcut for pause and reload protection
         document.addEventListener('keydown', function(e) {
             if (e.code === 'Space' && e.target.tagName !== 'BUTTON') {
                 e.preventDefault();
                 const pauseButton = document.getElementById('pauseButton');
                 if (pauseButton) {
                     pauseButton.click();
+                }
+            }
+            
+            // Intercept Cmd+R (Mac) and Ctrl+R (Windows/Linux) after exam starts
+            if ((e.metaKey || e.ctrlKey) && e.key === 'r') {
+                if (examTimer) {
+                    e.preventDefault();
+                    showConfirmModal('reload');
                 }
             }
         });
@@ -1768,13 +1826,24 @@
                     dragOffset.x = e.clientX - rect.left;
                     dragOffset.y = e.clientY - rect.top;
                     
-                    window.style.cursor = 'grabbing';
+                    window.style.cursor = 'move';
+                    document.body.style.userSelect = 'none';
+                    
+                    // Show iframe overlays to prevent iframe from capturing mouse events
+                    const content = window.querySelector('.app-window-content');
+                    if (content) {
+                        const overlays = content.querySelectorAll('.iframe-overlay');
+                        overlays.forEach(overlay => {
+                            overlay.style.display = 'block';
+                        });
+                    }
+                    
                     e.preventDefault();
                 });
             });
         }
 
-        document.addEventListener('mousemove', function(e) {
+        function handleMouseMove(e) {
             if (isDragging && activeWindow) {
                 const newLeft = e.clientX - dragOffset.x;
                 const newTop = e.clientY - dragOffset.y;
@@ -1791,14 +1860,32 @@
                 activeWindow.style.width = newWidth + 'px';
                 activeWindow.style.height = newHeight + 'px';
             }
-        });
+        }
 
-        document.addEventListener('mouseup', function() {
+        function handleMouseUp(e) {
             if (isDragging && activeWindow) {
                 activeWindow.style.cursor = '';
             }
             isDragging = false;
             isResizing = false;
+            document.body.style.userSelect = '';
+            
+            // Hide iframe overlays
+            const overlays = document.querySelectorAll('.iframe-overlay');
+            overlays.forEach(overlay => {
+                overlay.style.display = 'none';
+            });
+        }
+
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('blur', function() {
+            isDragging = false;
+            isResizing = false;
+            if (activeWindow) {
+                activeWindow.style.cursor = '';
+            }
+            document.body.style.userSelect = '';
         });
 
         // Resizing Functionality
@@ -1818,6 +1905,17 @@
                     resizeStartPos.y = e.clientY;
                     resizeStartPos.width = window.offsetWidth;
                     resizeStartPos.height = window.offsetHeight;
+                    
+                    document.body.style.userSelect = 'none';
+                    
+                    // Show iframe overlays to prevent iframe from capturing mouse events
+                    const content = window.querySelector('.app-window-content');
+                    if (content) {
+                        const overlays = content.querySelectorAll('.iframe-overlay');
+                        overlays.forEach(overlay => {
+                            overlay.style.display = 'block';
+                        });
+                    }
                     
                     e.preventDefault();
                     e.stopPropagation();
@@ -1858,6 +1956,20 @@
                 message = 'Are you sure you want to reconfigure? This will end the current exam and return to the setup page.';
                 confirmText = 'Reconfigure';
                 onConfirm = () => window.location.href = '/exam-timer';
+            } else if (action === 'reload') {
+                title = 'Reload Page?';
+                message = 'Are you sure you want to reload the page? This will end the current exam and reset the timer.';
+                confirmText = 'Reload';
+                onConfirm = () => window.location.reload();
+            } else if (action === 'skipReading') {
+                title = 'Skip Reading Time?';
+                message = 'Are you sure you want to skip reading time? This will immediately start the examination timer.';
+                confirmText = 'Skip';
+                onConfirm = () => {
+                    clearInterval(examTimer);
+                    isReadingTime = false;
+                    startMainExam();
+                };
             }
             
             const modalHTML = `
