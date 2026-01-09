@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840521099452662"
+     crossorigin="anonymous"></script>-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB Exam Timer - CiteCount</title>
+    <meta property="og:title" content="IB Exam Timer - CiteCount" />
+    <meta property="og:description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments." />
+    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/countdown/countdown.png" />
+    <meta property="og:url" content="https://citecount.netlify.app/countdown" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/countdown/countdown.png" />
+    <meta name="twitter:description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IB Exam Timer - CiteCount" />
+    <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+    <meta name="description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments.">
+    <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+    <meta name="theme-color" content="#004389" />
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="CiteCount" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LHVN622J29');
+    </script>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(90deg, #000428 0%, #004e92 100%);
+            color: white; 
+            margin: 0; 
+            padding: 20px; 
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            position: relative;
+            overflow-y: auto;
+            box-sizing: border-box;
+            gap: 15px;
+            background-color: #004e92;
+        }
+
+        #progressBarContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 2000;
+        }
+
+        #progressBar {
+            width: 100%;
+            height: 100%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        }
+
+        #readingTimeText {
+            display: none;
+        }
+
+        #currentTime {
+            font-size: 1.1rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .config-buttons {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .config-button {
+            font-size: 1rem;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            width: max-content;
+        }
+
+        .config-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #subjectTitle {
+            font-size: 2rem;
+            margin: 50px 0 10px;
+            text-align: center;
+            color: #4CAF50;
+            line-height: 1.3;
+        }
+
+        #timer { 
+            font-size: clamp(5rem, 15vw, 10rem); 
+            font-weight: bold; 
+            margin: auto 0;
+            text-align: center;
+            line-height: 1.2;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        #timer.warning {
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        #timer.critical {
+            color: #ff4444;
+            text-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .time-info-container {
+            display: none;
+            gap: 1rem;
+            margin: 1rem 0;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            flex-direction: column;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .time-info { 
+            font-size: 1rem; 
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            width: 90%;
+            max-width: 300px;
+            background: rgba(40, 167, 69, 0.9);
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(40, 167, 69, 1);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #instructions {
+            display: none;
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            line-height: 1.6;
+            max-height: 40vh;
+            overflow-y: auto;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        #buttonContainer {
+            margin-top: 20px;
+            padding-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                gap: 10px;
+            }
+
+            #currentTime {
+                position: static;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 20px;
+                order: -1;
+            }
+
+            .config-buttons {
+                position: static;
+                width: 100%;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 15px;
+                order: -2;
+            }
+
+            .config-button {
+                width: 90%;
+                max-width: 300px;
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            #subjectTitle {
+                font-size: 1.8rem;
+                margin: 20px 0 10px;
+            }
+
+            #timer {
+                margin: 15px 0;
+                font-size: 5rem;
+            }
+
+            .time-info-container {
+                width: 95%;
+                padding: 10px;
+            }
+
+            button {
+                font-size: 0.95rem;
+                padding: 12px 20px;
+            }
+
+            #instructions {
+                width: 95%;
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #subjectTitle {
+                font-size: 1.6rem;
+                margin: 15px 0;
+            }
+
+            #timer {
+                font-size: 4rem;
+            }
+
+            .time-info {
+                font-size: 0.9rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
+    <div id="currentTime"></div>
+    <div class="config-buttons">
+        <a href="/exam-timer/index.html" class="config-button" onclick="return confirm('Are you sure you want to configure the examination? This will end the current exam timer.');">Configure Exam</a>
+        <a href="#" class="config-button" onclick="if(confirm('Are you sure you want to restart the examination?')) { window.location.reload() } return false;">Restart Exam</a>
+        <a href="#" class="config-button" id="shareExamButton">Share Exam</a>
+    </div>
+    
+    <h1 id="subjectTitle"></h1>
+    <h2 id="examDuration"></h2>
+    <h2 id="readingTimeText">Reading Time</h2>
+    <div id="timer"></div>
+    <div class="time-info-container">
+        <div class="time-info" id="startTime"></div>
+        <div class="time-info" id="endTime"></div>
+    </div>
+    <div id="instructions">Get your workspace ready and click Start Exam to begin</div>
+    <button id="startButton">Start Exam</button>
+    <div id="buttonContainer"></div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const subject = decodeURIComponent(params.get('subject'));
+        const durationHours = parseFloat(params.get('duration'));
+        const disableReading = params.get('disableReading') === 'true';
+        const disableInstructions = params.get('disableInstructions') === 'true';
+        const hours = Math.floor(durationHours);
+        const minutes = Math.round((durationHours - hours) * 60);
+        let durationText = '';
+        if (hours > 0) durationText += `${hours} hour${hours !== 1 ? 's' : ''}`;
+        if (minutes > 0) durationText += `${hours > 0 ? ' ' : ''}${minutes} minute${minutes !== 1 ? 's' : ''}`;
+        
+        document.getElementById('subjectTitle').textContent = subject;
+        document.getElementById('examDuration').textContent = `Time allowed: ${durationText}`;
+        if (!disableInstructions || !disableReading) {
+            document.getElementById('instructions').style.display = 'block';
+            document.getElementById('startButton').style.display = 'block';
+        } else {
+            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('startButton').style.display = 'none';
+        }
+
+        function formatTime(date) {
+            return date.toLocaleTimeString('en-US', { 
+                hour12: true, 
+                hour: 'numeric', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        function updateCurrentTime() {
+            document.getElementById('currentTime').textContent = 
+                `Current Time: ${formatTime(new Date())}`;
+        }
+        let currentTimeUpdater = setInterval(updateCurrentTime, 1000);
+        updateCurrentTime();
+
+        document.getElementById('startButton').addEventListener('click', startExam);
+
+        let startTime;
+        let endTime;
+        let examTimer;
+        let currentPhase = 0;
+        let isReadingTime = false;
+        let remainingTime;
+        let isPaused = false;
+
+        function updateProgressBar() {
+            if (!startTime || !endTime) return;
+            const total = endTime - startTime;
+            const progress = Math.max((remainingTime / total) * 100, 0);
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        function togglePause() {
+            if (!examTimer) return;
+            
+            if (isPaused) {
+                isPaused = false;
+                const pauseButton = document.getElementById('pauseButton');
+                pauseButton.textContent = 'Pause (Space)';
+                pauseButton.style.background = 'rgba(40, 167, 69, 0.9)';
+                endTime = new Date(new Date().getTime() + remainingTime);
+                examTimer = setInterval(updateExamTimer, 1000);
+            } else {
+                isPaused = true;
+                const pauseButton = document.getElementById('pauseButton');
+                pauseButton.textContent = 'Resume (Space)';
+                pauseButton.style.background = 'rgba(255, 193, 7, 0.9)';
+                clearInterval(examTimer);
+            }
+            updateTimer();
+        }
+
+        function createPauseButton() {
+            const pauseButton = document.createElement('button');
+            pauseButton.id = 'pauseButton';
+            pauseButton.textContent = 'Pause (Space)';
+            pauseButton.title = 'Press Space to toggle pause';
+            pauseButton.addEventListener('click', togglePause);
+            document.getElementById('buttonContainer').appendChild(pauseButton);
+        }
+
+        function startExam() {
+            document.getElementById('startButton').style.display = 'none';
+            if (disableInstructions) {
+                startMainExam();
+            } else {
+                document.getElementById('instructions').style.display = 'block';
+                startTime = new Date();
+                document.getElementById('instructions').innerHTML = `
+                    <h3>Examination Instructions:</h3>
+                    <p>${[
+                        "Do not open the examination paper until I instruct you to do so.",
+                        "Are the subject, level and language of your examination paper correct?",
+                        "Read all the instructions very carefully. Do not answer more questions than required.",
+                        "Write as clearly as possible using both sides of each page in your answer booklet.",
+                        "Write your session number and name on the front page of your answer booklet in the boxes provided.",
+                        "Do this carefully please."
+                    ].join('<br><br>')}</p>`;
+
+                const skipButton = document.createElement('button');
+                skipButton.id = 'skipButton';
+                skipButton.textContent = 'Skip Instructions';
+                document.getElementById('buttonContainer').appendChild(skipButton);
+                
+                const audio1 = new Audio('1.mp3');
+                audio1.play();
+                
+                skipButton.addEventListener('click', () => {
+                    audio1.pause();
+                    proceedAfterInstructions();
+                });
+
+                audio1.addEventListener('ended', proceedAfterInstructions);
+            }
+        }
+
+        function proceedAfterInstructions() {
+            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('buttonContainer').innerHTML = '';
+            if (disableReading) {
+                startMainExam();
+            } else {
+                showReadyButton();
+            }
+        }
+
+        function showReadyButton() {
+            const readyButton = document.createElement('button');
+            readyButton.id = 'readyButton';
+            readyButton.textContent = 'Start Reading Time';
+            document.getElementById('buttonContainer').appendChild(readyButton);
+            
+            readyButton.addEventListener('click', () => {
+                readyButton.style.display = 'none'; 
+                document.getElementById('instructions').style.display = 'block';
+                document.getElementById('instructions').innerHTML = "Examination Instructions:<br><br>You may now open your examination paper. Your reading time starts now.";
+                playAudio('2.mp3').then(() => {
+                    document.getElementById('instructions').style.display = 'none';
+                    startReadingTime();
+                });
+            });
+        }
+
+        function startReadingTime() {
+            isReadingTime = true;
+            document.getElementById('readingTimeText').style.display = 'block';
+            document.querySelector('.time-info-container').style.display = 'flex';
+            
+            const readingDuration = 5 * 60 * 1000;
+            startTime = new Date();
+            endTime = new Date(startTime.getTime() + readingDuration);
+            remainingTime = readingDuration;
+            
+            const skipReading = document.createElement('button');
+            skipReading.id = 'skipReading';
+            skipReading.textContent = 'Skip Reading Time';
+            document.getElementById('buttonContainer').appendChild(skipReading);
+            
+            createPauseButton();
+            
+            skipReading.addEventListener('click', () => {
+                clearInterval(examTimer);
+                isReadingTime = false;
+                startMainExam();
+            });
+
+            updateTimer();
+            examTimer = setInterval(updateExamTimer, 1000);
+            
+            setTimeout(() => {
+                if (isReadingTime && !isPaused) {
+                    clearInterval(examTimer);
+                    isReadingTime = false;
+                    startMainExam();
+                }
+            }, readingDuration);
+        }
+
+        function startMainExam() {
+            document.getElementById('readingTimeText').style.display = 'none';
+            document.getElementById('buttonContainer').innerHTML = "";
+            document.querySelector('.time-info-container').style.display = 'flex';
+            
+            const mainDuration = durationHours * 60 * 60 * 1000;
+            startTime = new Date();
+            endTime = new Date(startTime.getTime() + mainDuration);
+            remainingTime = mainDuration;
+            currentPhase = 0;
+            
+            playAudio('3.mp3');
+            createPauseButton();
+
+            updateTimer();
+            examTimer = setInterval(updateExamTimer, 1000);
+
+            setTimeout(() => {
+                if (!isPaused) {
+                    clearInterval(examTimer);
+                    finishExam();
+                }
+            }, mainDuration);
+        }
+
+        function updateExamTimer() {
+            if (!isPaused) {
+                remainingTime -= 1000;
+                updateTimer();
+                updateProgressBar();
+                
+                if (!isReadingTime) {
+                    const timerElement = document.getElementById('timer');
+                    if (remainingTime <= 30*60*1000 && currentPhase < 3) {
+                        playAudio('5.mp3');
+                        timerElement.classList.add('warning');
+                        currentPhase = 3;
+                    }
+                    if (remainingTime <= 5*60*1000 && currentPhase < 4) {
+                        playAudio('6.mp3');
+                        timerElement.classList.remove('warning');
+                        timerElement.classList.add('critical');
+                        currentPhase = 4;
+                    }
+                }
+            }
+        }
+
+        function finishExam() {
+            playAudio('4.mp3');
+            document.getElementById('timer').textContent = "Time's up!";
+            document.querySelector('.time-info-container').style.display = 'none';
+            document.getElementById('progressBar').style.width = '0%';
+            document.title = `${subject} - Time's Up! - CiteCount`;
+            document.getElementById('buttonContainer').innerHTML = "";
+        }
+
+        function updateTimer() {
+            if (remainingTime <= 0) {
+                document.getElementById('timer').textContent = "00:00:00";
+                document.title = `${subject} - Time's Up! - CiteCount`;
+                return;
+            }
+
+            const hours = Math.floor(remainingTime / 3600000);
+            const minutes = Math.floor((remainingTime % 3600000) / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
+            
+            const timerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timer').textContent = isPaused ? `Paused: ${timerText}` : timerText;
+            document.title = `${subject} - ${isPaused ? 'Paused: ' : ''}${timerText} - CiteCount`;
+            
+            document.getElementById('startTime').textContent = `Start Time: ${formatTime(startTime)}`;
+            document.getElementById('endTime').textContent = `Scheduled End: ${formatTime(endTime)}`;
+        }
+
+        function playAudio(file) {
+            return new Promise(resolve => {
+                const audio = new Audio(file);
+                audio.play();
+                audio.addEventListener('ended', resolve);
+            });
+        }
+
+        document.getElementById('shareExamButton').addEventListener('click', async function(e) {
+            e.preventDefault();
+            const url = window.location.href;
+            
+            try {
+                await navigator.clipboard.writeText(url);
+                const originalText = this.textContent;
+                this.textContent = '✓ Copied!';
+                this.style.background = 'rgba(40, 167, 69, 0.9)';
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = '';
+                }, 2000);
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    const originalText = this.textContent;
+                    this.textContent = '✓ Copied!';
+                    this.style.background = 'rgba(40, 167, 69, 0.9)';
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.background = '';
+                    }, 2000);
+                } catch (err) {
+                    alert('Failed to copy. Please copy this URL manually:\n' + url);
+                }
+                
+                document.body.removeChild(textArea);
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+                const pauseButton = document.getElementById('pauseButton');
+                if (pauseButton && !pauseButton.disabled) {
+                    pauseButton.click();
+                }
+            }
+        });
+
+        window.addEventListener("beforeunload", function(e) {
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        });
+
+        if (!subject || !durationHours) {
+            document.getElementById('subjectTitle').textContent = "This examination setup is invalid. Redirecting to exam setup...";
+            setTimeout(() => {
+                window.location.href = '/exam-timer';
+            }, 5000);
+        } else if (disableInstructions && disableReading) {
+            startExam();
+        }
+    </script>
+</body>
+</html>

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840521099452662"
-     crossorigin="anonymous"></script>-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IB Exam Timer - CiteCount</title>
@@ -18,7 +16,8 @@
     <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
     <meta name="description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments.">
     <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
-    <meta name="theme-color" content="#004389" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
@@ -33,312 +32,1049 @@
         gtag('js', new Date());
         gtag('config', 'G-LHVN622J29');
     </script>
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(90deg, #000428 0%, #004e92 100%);
-            color: white; 
-            margin: 0; 
-            padding: 20px; 
-            min-height: 100vh;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            position: relative;
-            overflow-y: auto;
-            box-sizing: border-box;
-            gap: 15px;
-            background-color: #004e92;
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
-        #progressBarContainer {
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+            color: #1F2937;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        body:fullscreen {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .progress-bar-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 2000;
-        }
-
-        #progressBar {
-            width: 100%;
-            height: 100%;
-            background: #4CAF50;
-            transition: width 0.3s ease;
-        }
-
-        #readingTimeText {
-            display: none;
-        }
-
-        #currentTime {
-            font-size: 1.1rem;
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 10px 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            height: 6px;
+            background: rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
 
-        .config-buttons {
+        .progress-bar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #34D399);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .timer-controls {
             position: fixed;
             top: 20px;
             left: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            z-index: 1000;
+            gap: 10px;
+            z-index: 100;
         }
 
-        .config-button {
-            font-size: 1rem;
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
+        .control-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(30, 64, 175, 0.08);
             backdrop-filter: blur(10px);
-            padding: 12px 20px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(30, 64, 175, 0.2);
+            border-radius: 8px;
+            color: #1E40AF;
+            font-size: 0.9rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-decoration: none;
-            text-align: center;
-            width: max-content;
+            width: fit-content;
         }
 
-        .config-button:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .control-button:hover {
+            background: rgba(30, 64, 175, 0.15);
+            transform: translateY(-2px);
         }
 
-        #subjectTitle {
-            font-size: 2rem;
-            margin: 50px 0 10px;
-            text-align: center;
-            color: #4CAF50;
-            line-height: 1.3;
+        .control-button svg {
+            width: 18px;
+            height: 18px;
         }
 
-        #timer { 
-            font-size: clamp(5rem, 15vw, 10rem); 
-            font-weight: bold; 
-            margin: auto 0;
+        .current-time {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            background: rgba(30, 64, 175, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 64, 175, 0.2);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1F2937;
+            z-index: 100;
+        }
+
+        .timer-content {
             text-align: center;
+            padding: 2rem;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .exam-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: #1F2937;
+            text-shadow: none;
+        }
+
+        .exam-duration {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #4B5563;
+            margin-bottom: 1rem;
+        }
+
+        .reading-time-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 193, 7, 0.9);
+            color: #000;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+
+        .timer-display {
+            font-size: clamp(4rem, 15vw, 10rem);
+            font-weight: 900;
+            margin: 2rem 0;
             line-height: 1.2;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
+            color: #1E40AF;
+            text-shadow: none;
+            transition: all 0.3s ease;
         }
 
-        #timer.warning {
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        .timer-display.warning {
+            color: #F59E0B;
+            animation: pulse-warning 2s ease-in-out infinite;
         }
 
-        #timer.critical {
-            color: #ff4444;
-            text-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
-            animation: pulse 1s ease-in-out infinite;
+        .timer-display.critical {
+            color: #EF4444;
+            animation: pulse-critical 1s ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        @keyframes pulse-warning {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(0.98); }
         }
 
-        .time-info-container {
-            display: none;
-            gap: 1rem;
-            margin: 1rem 0;
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
+        @keyframes pulse-critical {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(0.96); }
+        }
+
+        .time-info-card {
+            display: inline-flex;
             flex-direction: column;
-            width: 90%;
+            gap: 1rem;
+            padding: 1.5rem 2rem;
+            background: rgba(30, 64, 175, 0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 64, 175, 0.15);
+            border-radius: 1rem;
+            margin: 1rem auto;
             max-width: 500px;
         }
 
-        .time-info { 
-            font-size: 1rem; 
-            text-align: center;
-            line-height: 1.4;
-        }
-
-        button {
-            padding: 12px 25px;
+        .time-info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 5px;
-            width: 90%;
-            max-width: 300px;
-            background: rgba(40, 167, 69, 0.9);
+            color: #1F2937;
+        }
+
+        .time-info-label {
+            color: #6B7280;
+        }
+
+        .time-info-value {
+            font-weight: 700;
+        }
+
+        .instructions-card {
+            padding: 1.5rem;
+            background: rgba(30, 64, 175, 0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(30, 64, 175, 0.15);
+            border-radius: 1rem;
+            margin: 2rem auto;
+            max-width: 700px;
+            line-height: 1.8;
+            text-align: left;
+            color: #1F2937;
+        }
+
+        .instructions-card h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: #1E40AF;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .action-button {
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: #1E40AF;
+            backdrop-filter: blur(10px);
+            border: 1px solid #1E40AF;
+            border-radius: 10px;
             color: white;
-            font-weight: 500;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(30, 64, 175, 0.3);
         }
 
-        button:hover:not(:disabled) {
+        .action-button:hover:not(:disabled) {
+            background: #1E3A8A;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            background: rgba(40, 167, 69, 1);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.4);
         }
 
-        button:disabled {
+        .action-button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
-        #instructions {
-            display: none;
-            width: 90%;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 15px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            line-height: 1.6;
-            max-height: 40vh;
-            overflow-y: auto;
-            text-align: center;
-            font-size: 0.95rem;
+        .action-button.primary {
+            background: rgba(16, 185, 129, 0.9);
+            border-color: rgba(16, 185, 129, 1);
         }
 
-        #buttonContainer {
-            margin-top: 20px;
-            padding-bottom: 20px;
+        .action-button.primary:hover:not(:disabled) {
+            background: rgba(16, 185, 129, 1);
+        }
+
+        .action-button.pause {
+            background: rgba(251, 191, 36, 0.9);
+            border-color: rgba(251, 191, 36, 1);
+            color: #000;
+        }
+
+        .action-button.pause:hover:not(:disabled) {
+            background: rgba(251, 191, 36, 1);
+        }
+
+        .timeline-preview {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(30, 64, 175, 0.04);
+            border: 1px solid rgba(30, 64, 175, 0.15);
+            border-radius: 0.75rem;
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #6B7280;
+        }
+
+        .timeline-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .timeline-step {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-point {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid rgba(30, 64, 175, 0.2);
+            background: white;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-point-start {
+            border-color: #1E40AF;
+            background: #1E40AF;
+            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.1);
+        }
+
+        .timeline-point-reading {
+            border-color: #F59E0B;
+            background: #F59E0B;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+        }
+
+        .timeline-point-end {
+            border-color: #10B981;
+            background: #10B981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        .timeline-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .timeline-time {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1F2937;
+            font-family: 'Monaco', 'Courier New', monospace;
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-label {
+            font-size: 0.8rem;
+            color: #6B7280;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .timeline-connector {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin: 0 0.5rem;
+            padding-top: 8px;
+        }
+
+        .timeline-line {
             width: 100%;
+            height: 2px;
+            background: rgba(30, 64, 175, 0.2);
+            position: relative;
+        }
+
+        .timeline-line::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid rgba(30, 64, 175, 0.2);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+
+        .timeline-duration {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6B7280;
+            background: rgba(30, 64, 175, 0.08);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            white-space: nowrap;
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 15px;
-                gap: 10px;
-            }
-
-            #currentTime {
+            .timer-controls {
                 position: static;
+                flex-direction: row;
+                justify-content: center;
                 width: 100%;
-                text-align: center;
-                margin-bottom: 20px;
+                padding: 10px;
                 order: -1;
             }
 
-            .config-buttons {
+            .current-time {
                 position: static;
-                width: 100%;
-                align-items: center;
-                gap: 10px;
-                margin-bottom: 15px;
                 order: -2;
+                margin: 10px auto;
             }
 
-            .config-button {
-                width: 90%;
-                max-width: 300px;
-                padding: 12px;
-                font-size: 0.95rem;
+            .timer-content {
+                padding: 1rem;
             }
 
-            #subjectTitle {
-                font-size: 1.8rem;
-                margin: 20px 0 10px;
+            .exam-title {
+                font-size: 1.75rem;
             }
 
-            #timer {
-                margin: 15px 0;
-                font-size: 5rem;
+            .exam-duration {
+                font-size: 1rem;
             }
 
-            .time-info-container {
-                width: 95%;
-                padding: 10px;
-            }
-
-            button {
-                font-size: 0.95rem;
-                padding: 12px 20px;
-            }
-
-            #instructions {
-                width: 95%;
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #subjectTitle {
-                font-size: 1.6rem;
-                margin: 15px 0;
-            }
-
-            #timer {
+            .timer-display {
                 font-size: 4rem;
             }
 
-            .time-info {
-                font-size: 0.9rem;
+            .time-info-card {
+                padding: 1rem;
             }
 
-            button {
-                font-size: 0.9rem;
+            .instructions-card {
+                padding: 1rem;
+            }
+
+            .control-button {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+
+            .timeline-preview {
+                padding: 1rem;
+            }
+
+            .timeline-header {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+            }
+
+            .timeline-connector {
+                margin: 0 0.25rem;
+            }
+
+            .timeline-time {
+                font-size: 0.95rem;
+            }
+
+            .timeline-label {
+                font-size: 0.7rem;
+            }
+
+            .timeline-duration {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.4rem;
+            }
+
+            .timeline-point {
+                width: 12px;
+                height: 12px;
+                border-width: 2px;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Exam Tools Section */
+        .exam-tools-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(30, 64, 175, 0.04);
+            border: 1px solid rgba(30, 64, 175, 0.15);
+            border-radius: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .exam-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .exam-tool-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.5rem;
+            background: white;
+            border: 2px solid rgba(30, 64, 175, 0.15);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .exam-tool-button:hover {
+            background: rgba(30, 64, 175, 0.05);
+            border-color: rgba(30, 64, 175, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.15);
+        }
+
+        .exam-tool-button svg {
+            width: 32px;
+            height: 32px;
+            color: #1E40AF;
+        }
+
+        /* App Window Styles */
+        .app-window {
+            position: fixed;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            z-index: 1000;
+            min-width: 400px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-window.minimized {
+            height: auto !important;
+        }
+
+        .app-window.minimized .app-window-content,
+        .app-window.minimized .app-window-tabs,
+        .app-window.minimized .app-window-resizer {
+            display: none !important;
+        }
+
+        .app-window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%);
+            color: white;
+            cursor: move;
+            user-select: none;
+        }
+
+        .app-window-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .app-window-title svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .app-window-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .app-control-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .app-control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .app-control-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .app-window-tabs {
+            display: flex;
+            background: #F3F4F6;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .app-tab {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6B7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .app-tab:hover {
+            background: rgba(30, 64, 175, 0.05);
+            color: #1F2937;
+        }
+
+        .app-tab.active {
+            background: white;
+            color: #1E40AF;
+            border-bottom-color: #1E40AF;
+        }
+
+        .app-window-content {
+            flex: 1;
+            overflow: auto;
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .app-window-resizer {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            cursor: nwse-resize;
+            background: linear-gradient(135deg, transparent 50%, rgba(30, 64, 175, 0.2) 50%);
+        }
+
+        .file-picker-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .booklet-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1rem;
+            padding: 1rem 0.5rem;
+        }
+
+        .booklet-icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: transparent;
+            border: 2px solid transparent;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .booklet-icon-item:hover {
+            background: rgba(30, 64, 175, 0.08);
+            border-color: rgba(30, 64, 175, 0.2);
+            transform: scale(1.05);
+        }
+
+        .booklet-icon-item svg {
+            width: 48px;
+            height: 48px;
+            color: #EF4444;
+            flex-shrink: 0;
+        }
+
+        .booklet-icon-item span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1F2937;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .app-back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(30, 64, 175, 0.1);
+            border: 1px solid rgba(30, 64, 175, 0.2);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1E40AF;
+        }
+
+        .app-back-btn:hover {
+            background: rgba(30, 64, 175, 0.15);
+            border-color: rgba(30, 64, 175, 0.3);
+        }
+
+        .app-back-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .booklet-viewer {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .exam-tools-section {
+                margin-top: 2rem;
+                padding: 1.5rem;
+            }
+
+            .exam-tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-window {
+                min-width: 300px !important;
+                width: 90vw !important;
+                height: 70vh !important;
             }
         }
     </style>
 </head>
-<body>
-    <div id="progressBarContainer">
-        <div id="progressBar"></div>
-    </div>
-    <div id="currentTime"></div>
-    <div class="config-buttons">
-        <a href="/exam-timer/index.html" class="config-button" onclick="return confirm('Are you sure you want to configure the examination? This will end the current exam timer.');">Configure Exam</a>
-        <a href="#" class="config-button" onclick="if(confirm('Are you sure you want to restart the examination?')) { window.location.reload() } return false;">Restart Exam</a>
-        <a href="#" class="config-button" id="shareExamButton">Share Exam</a>
-    </div>
-    
-    <h1 id="subjectTitle"></h1>
-    <h2 id="examDuration"></h2>
-    <h2 id="readingTimeText">Reading Time</h2>
-    <div id="timer"></div>
-    <div class="time-info-container">
-        <div class="time-info" id="startTime"></div>
-        <div class="time-info" id="endTime"></div>
-    </div>
-    <div id="instructions">Get your workspace ready and click Start Exam to begin</div>
-    <button id="startButton">Start Exam</button>
-    <div id="buttonContainer"></div>
 
+<body>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="current-time" id="currentTime"></div>
+
+    <div class="timer-controls">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; user-select: none;">
+            <img src="/assets/logo.svg" alt="CiteCount Logo" style="width: 24px; height: 24px;">
+            <h2 style="margin: 0; font-size: 1rem; font-weight: 900; color: #1F2937;">CiteCount Exam Timers</h2>
+        </div>
+        <a href="/exam-timer" class="control-button" onclick="return confirm('Are you sure you want to reconfigure? This will end the current exam.');">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Configure
+        </a>
+        <a href="#" class="control-button" onclick="if(confirm('Are you sure you want to restart the exam?')) { window.location.reload() } return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+            </svg>
+            Restart
+        </a>
+        <a href="#" class="control-button" id="shareButton">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+            </svg>
+            Share
+        </a>
+    </div>
+
+    <div class="timer-content">
+        <h1 class="exam-title" id="examTitle"></h1>
+        <div class="exam-duration" id="examDuration"></div>
+        <div class="reading-time-badge" id="readingTimeBadge" style="display: none;">Reading Time</div>
+        
+        <div class="timer-display" id="timerDisplay">--:--:--</div>
+        
+        <div class="time-info-card" id="timeInfoCard" style="display: none;">
+            <div class="time-info-item">
+                <span class="time-info-label">Start Time:</span>
+                <span class="time-info-value" id="startTime">--:--:--</span>
+            </div>
+            <div class="time-info-item">
+                <span class="time-info-label">Scheduled End:</span>
+                <span class="time-info-value" id="endTime">--:--:--</span>
+            </div>
+        </div>
+
+        <div class="instructions-card" id="instructionsCard">
+            <p>Get your workspace ready and click Start Exam to begin the examination timer.</p>
+        </div>
+
+        <div id="timelinePreview" class="timeline-preview">
+            <div class="timeline-header">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; margin-right: 0.5rem;">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>Exam Timeline</span>
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-step">
+                    <div class="timeline-point timeline-point-start"></div>
+                    <div class="timeline-info">
+                        <div class="timeline-time" id="timelineStartTime"></div>
+                        <div class="timeline-label">Now</div>
+                    </div>
+                </div>
+                <div class="timeline-connector" id="readingConnector">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-duration" id="readingDuration">5 min</div>
+                </div>
+                <div class="timeline-step" id="timelineReadingStep">
+                    <div class="timeline-point timeline-point-reading"></div>
+                    <div class="timeline-info">
+                        <div class="timeline-time" id="timelineReadingTime"></div>
+                        <div class="timeline-label">Reading Ends</div>
+                    </div>
+                </div>
+                <div class="timeline-connector">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-duration" id="examDuration"></div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-point timeline-point-end"></div>
+                    <div class="timeline-info">
+                        <div class="timeline-time" id="timelineEndTime"></div>
+                        <div class="timeline-label">Exam Ends</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons" id="actionButtons">
+            <button class="action-button primary" id="startButton">Start Exam</button>
+        </div>
+
+        <!-- Exam Tools Section -->
+        <div class="exam-tools-section" id="examToolsSection" style="display: none;">
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: #1F2937; margin-bottom: 1rem; text-align: center;">Exam Tools</h3>
+            <div class="exam-tools-grid">
+                <button class="exam-tool-button" onclick="openDataBooklets()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    <span>Data Booklets</span>
+                </button>
+                <button class="exam-tool-button" onclick="openCalculator()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="4" y="2" width="16" height="20" rx="2"/>
+                        <line x1="8" y1="6" x2="16" y2="6"/>
+                        <line x1="16" y1="10" x2="8" y2="10"/>
+                        <line x1="8" y1="14" x2="10" y2="14"/>
+                        <line x1="12" y1="14" x2="12" y2="14.01"/>
+                        <line x1="16" y1="14" x2="16" y2="14.01"/>
+                        <line x1="8" y1="18" x2="8" y2="18.01"/>
+                        <line x1="12" y1="18" x2="12" y2="18.01"/>
+                        <line x1="16" y1="18" x2="16" y2="18.01"/>
+                    </svg>
+                    <span>Calculator</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Booklets Window -->
+    <div class="app-window" id="dataBookletsWindow" style="display: none;">
+        <div class="app-window-header" id="dataBookletsHeader">
+            <div class="app-window-title">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                Data Booklets
+            </div>
+            <div class="app-window-controls">
+                <button class="app-control-btn" onclick="closeWindow('dataBooklets')" title="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="app-window-content">
+            <div class="file-picker-container">
+                <div class="booklet-viewer" id="bookletViewer" style="display: none;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 0.5rem;">
+                        <button class="app-back-btn" onclick="backToBookletList()" title="Back">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <span id="bookletTitle" style="font-weight: 500; color: #1F2937; font-size: 0.9rem; flex: 1;"></span>
+                    </div>
+                    <iframe id="pdfIframe" style="width: 100%; height: calc(100% - 30px); border: none; border-radius: 0.5rem;"></iframe>
+                </div>
+                <div id="bookletListContainer">
+                    <p style="color: #6B7280; margin-bottom: 1rem; text-align: center;">Select a data booklet to view:</p>
+                    <div class="booklet-list" id="bookletList">
+                        <div class="booklet-icon-item" onclick="openBooklet('https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/exam-timer/assets/chemistry.pdf', 'Chemistry Data Booklet')" title="Chemistry Data Booklet">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                                <polyline points="13 2 13 9 20 9"/>
+                            </svg>
+                            <span>Chemistry</span>
+                        </div>
+                        <div class="booklet-icon-item" onclick="openBooklet('https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/exam-timer/assets/aisl.pdf', 'Mathematics AISL')" title="Mathematics AISL">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                                <polyline points="13 2 13 9 20 9"/>
+                            </svg>
+                            <span>Math AISL</span>
+                        </div>
+                        <div class="booklet-icon-item" onclick="openBooklet('https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/exam-timer/assets/aahl.pdf', 'Mathematics AAHL')" title="Mathematics AAHL">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                                <polyline points="13 2 13 9 20 9"/>
+                            </svg>
+                            <span>Math AAHL</span>
+                        </div>
+                        <div class="booklet-icon-item" onclick="openBooklet('https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/exam-timer/assets/aihl.pdf', 'Mathematics AIHL')" title="Mathematics AIHL">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                                <polyline points="13 2 13 9 20 9"/>
+                            </svg>
+                            <span>Math AIHL</span>
+                        </div>
+                        <div class="booklet-icon-item" onclick="openBooklet('https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/exam-timer/assets/aasl.pdf', 'Mathematics AASL')" title="Mathematics AASL">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                                <polyline points="13 2 13 9 20 9"/>
+                            </svg>
+                            <span>Math AASL</span>
+                        </div>
+                        <div class="booklet-icon-item" onclick="openBooklet('https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/exam-timer/assets/physics.pdf', 'Physics Data Booklet')" title="Physics Data Booklet">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                                <polyline points="13 2 13 9 20 9"/>
+                            </svg>
+                            <span>Physics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-window-resizer"></div>
+    </div>
+
+    <!-- Calculator Window -->
+    <div class="app-window" id="calculatorWindow" style="display: none;">
+        <div class="app-window-header" id="calculatorHeader">
+            <div class="app-window-title">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="2" width="16" height="20" rx="2"/>
+                    <line x1="8" y1="6" x2="16" y2="6"/>
+                    <line x1="16" y1="10" x2="8" y2="10"/>
+                </svg>
+                Calculator
+            </div>
+            <div class="app-window-controls">
+                <button class="app-control-btn" onclick="closeWindow('calculator')" title="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="app-window-tabs">
+            <button class="app-tab active" onclick="switchCalculatorTab('scientific')">Scientific</button>
+            <button class="app-tab" onclick="switchCalculatorTab('graphing')">Graphing</button>
+        </div>
+        <div class="app-window-content">
+            <iframe id="calculatorIframe" src="https://www.desmos.com/scientific" frameborder="0" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        <div class="app-window-resizer"></div>
+    </div>
+
+    <script src="/v2/apps-modal.js"></script>
     <script>
+        // Get URL parameters
         const params = new URLSearchParams(window.location.search);
-        const subject = decodeURIComponent(params.get('subject'));
-        const durationHours = parseFloat(params.get('duration'));
+        const subject = decodeURIComponent(params.get('subject') || 'Mock Examination');
+        const durationHours = parseFloat(params.get('duration')) || 1;
         const disableReading = params.get('disableReading') === 'true';
         const disableInstructions = params.get('disableInstructions') === 'true';
+        
+        // Check if URL query was passed
+        const hasUrlQuery = window.location.search.length > 0;
+        
+        if (!hasUrlQuery) {
+            // Show modal for malformed URL
+            const modalHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 9999;">
+                    <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);">
+                        <h2 style="margin-top: 0; color: #1F2937; font-size: 1.5rem;">URL Malformed</h2>
+                        <p style="color: #6B7280; font-size: 1rem; line-height: 1.6; margin: 1rem 0;">
+                            No examination parameters were provided. Please set up your exam again.
+                        </p>
+                        <a href="/exam-timer" style="display: inline-block; padding: 12px 24px; background: #1E40AF; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.2s ease;" onmouseover="this.style.background='#1E3A8A'" onmouseout="this.style.background='#1E40AF'">
+                            Set Up Again
+                        </a>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('afterbegin', modalHTML);
+        }
+        
         const hours = Math.floor(durationHours);
         const minutes = Math.round((durationHours - hours) * 60);
         let durationText = '';
         if (hours > 0) durationText += `${hours} hour${hours !== 1 ? 's' : ''}`;
         if (minutes > 0) durationText += `${hours > 0 ? ' ' : ''}${minutes} minute${minutes !== 1 ? 's' : ''}`;
         
-        document.getElementById('subjectTitle').textContent = subject;
-        document.getElementById('examDuration').textContent = `Time allowed: ${durationText}`;
-        if (!disableInstructions || !disableReading) {
-            document.getElementById('instructions').style.display = 'block';
-            document.getElementById('startButton').style.display = 'block';
-        } else {
-            document.getElementById('instructions').style.display = 'none';
-            document.getElementById('startButton').style.display = 'none';
+        document.getElementById('examTitle').textContent = subject;
+        document.getElementById('examDuration').textContent = `Duration: ${durationText}`;
+        document.title = `${subject} - Exam Timer`;
+
+        // Timer variables
+        let startTime;
+        let endTime;
+        let examTimer;
+        let remainingTime;
+        let isPaused = false;
+        let isReadingTime = false;
+        let currentPhase = 0;
+
+        // Current time updater
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = formatTime(now);
         }
+        setInterval(updateCurrentTime, 1000);
+        updateCurrentTime();
 
         function formatTime(date) {
             return date.toLocaleTimeString('en-US', { 
@@ -349,23 +1085,6 @@
             });
         }
 
-        function updateCurrentTime() {
-            document.getElementById('currentTime').textContent = 
-                `Current Time: ${formatTime(new Date())}`;
-        }
-        let currentTimeUpdater = setInterval(updateCurrentTime, 1000);
-        updateCurrentTime();
-
-        document.getElementById('startButton').addEventListener('click', startExam);
-
-        let startTime;
-        let endTime;
-        let examTimer;
-        let currentPhase = 0;
-        let isReadingTime = false;
-        let remainingTime;
-        let isPaused = false;
-
         function updateProgressBar() {
             if (!startTime || !endTime) return;
             const total = endTime - startTime;
@@ -373,21 +1092,79 @@
             document.getElementById('progressBar').style.width = `${progress}%`;
         }
 
+        function updateTimer() {
+            if (remainingTime <= 0) {
+                document.getElementById('timerDisplay').textContent = "Time's Up!";
+                document.title = `${subject} - Time's Up!`;
+                return;
+            }
+
+            const hours = Math.floor(remainingTime / 3600000);
+            const minutes = Math.floor((remainingTime % 3600000) / 60000);
+            const seconds = Math.floor((remainingTime % 60000) / 1000);
+            
+            const timerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const timerDisplay = document.getElementById('timerDisplay');
+            timerDisplay.textContent = isPaused ? `Paused: ${timerText}` : timerText;
+            document.title = `${subject} - ${isPaused ? 'Paused: ' : ''}${timerText}`;
+            
+            document.getElementById('startTime').textContent = formatTime(startTime);
+            document.getElementById('endTime').textContent = formatTime(endTime);
+
+            // Update timer styling
+            if (!isReadingTime) {
+                if (remainingTime <= 5*60*1000) {
+                    timerDisplay.classList.remove('warning');
+                    timerDisplay.classList.add('critical');
+                } else if (remainingTime <= 30*60*1000) {
+                    timerDisplay.classList.add('warning');
+                    timerDisplay.classList.remove('critical');
+                } else {
+                    timerDisplay.classList.remove('warning', 'critical');
+                }
+            }
+        }
+
+        function updateExamTimer() {
+            if (!isPaused) {
+                remainingTime -= 1000;
+                updateTimer();
+                updateProgressBar();
+                
+                if (!isReadingTime) {
+                    if (remainingTime <= 30*60*1000 && currentPhase < 3) {
+                        playAudio('5.mp3');
+                        currentPhase = 3;
+                    }
+                    if (remainingTime <= 5*60*1000 && currentPhase < 4) {
+                        playAudio('6.mp3');
+                        currentPhase = 4;
+                    }
+                }
+
+                if (remainingTime <= 0) {
+                    clearInterval(examTimer);
+                    finishExam();
+                }
+            }
+        }
+
         function togglePause() {
             if (!examTimer) return;
             
+            const pauseButton = document.getElementById('pauseButton');
             if (isPaused) {
                 isPaused = false;
-                const pauseButton = document.getElementById('pauseButton');
                 pauseButton.textContent = 'Pause (Space)';
-                pauseButton.style.background = 'rgba(40, 167, 69, 0.9)';
+                pauseButton.classList.remove('pause');
+                pauseButton.classList.add('primary');
                 endTime = new Date(new Date().getTime() + remainingTime);
                 examTimer = setInterval(updateExamTimer, 1000);
             } else {
                 isPaused = true;
-                const pauseButton = document.getElementById('pauseButton');
                 pauseButton.textContent = 'Resume (Space)';
-                pauseButton.style.background = 'rgba(255, 193, 7, 0.9)';
+                pauseButton.classList.remove('primary');
+                pauseButton.classList.add('pause');
                 clearInterval(examTimer);
             }
             updateTimer();
@@ -396,10 +1173,10 @@
         function createPauseButton() {
             const pauseButton = document.createElement('button');
             pauseButton.id = 'pauseButton';
+            pauseButton.className = 'action-button primary';
             pauseButton.textContent = 'Pause (Space)';
-            pauseButton.title = 'Press Space to toggle pause';
             pauseButton.addEventListener('click', togglePause);
-            document.getElementById('buttonContainer').appendChild(pauseButton);
+            document.getElementById('actionButtons').appendChild(pauseButton);
         }
 
         function startExam() {
@@ -407,23 +1184,23 @@
             if (disableInstructions) {
                 startMainExam();
             } else {
-                document.getElementById('instructions').style.display = 'block';
                 startTime = new Date();
-                document.getElementById('instructions').innerHTML = `
-                    <h3>Examination Instructions:</h3>
-                    <p>${[
-                        "Do not open the examination paper until I instruct you to do so.",
-                        "Are the subject, level and language of your examination paper correct?",
-                        "Read all the instructions very carefully. Do not answer more questions than required.",
-                        "Write as clearly as possible using both sides of each page in your answer booklet.",
-                        "Write your session number and name on the front page of your answer booklet in the boxes provided.",
-                        "Do this carefully please."
-                    ].join('<br><br>')}</p>`;
+                document.getElementById('instructionsCard').innerHTML = `
+                    <h3>Examination Instructions</h3>
+                    <p style="line-height: 1.8;">
+                        Do not open the examination paper until I instruct you to do so.<br><br>
+                        Are the subject, level and language of your examination paper correct?<br><br>
+                        Read all the instructions very carefully. Do not answer more questions than required.<br><br>
+                        Write as clearly as possible using both sides of each page in your answer booklet.<br><br>
+                        Write your session number and name on the front page of your answer booklet in the boxes provided.<br><br>
+                        Do this carefully please.
+                    </p>
+                `;
 
                 const skipButton = document.createElement('button');
-                skipButton.id = 'skipButton';
+                skipButton.className = 'action-button';
                 skipButton.textContent = 'Skip Instructions';
-                document.getElementById('buttonContainer').appendChild(skipButton);
+                document.getElementById('actionButtons').appendChild(skipButton);
                 
                 const audio1 = new Audio('1.mp3');
                 audio1.play();
@@ -438,8 +1215,8 @@
         }
 
         function proceedAfterInstructions() {
-            document.getElementById('instructions').style.display = 'none';
-            document.getElementById('buttonContainer').innerHTML = '';
+            document.getElementById('instructionsCard').style.display = 'none';
+            document.getElementById('actionButtons').innerHTML = '';
             if (disableReading) {
                 startMainExam();
             } else {
@@ -449,16 +1226,19 @@
 
         function showReadyButton() {
             const readyButton = document.createElement('button');
-            readyButton.id = 'readyButton';
+            readyButton.className = 'action-button primary';
             readyButton.textContent = 'Start Reading Time';
-            document.getElementById('buttonContainer').appendChild(readyButton);
+            document.getElementById('actionButtons').appendChild(readyButton);
             
             readyButton.addEventListener('click', () => {
-                readyButton.style.display = 'none'; 
-                document.getElementById('instructions').style.display = 'block';
-                document.getElementById('instructions').innerHTML = "Examination Instructions:<br><br>You may now open your examination paper. Your reading time starts now.";
+                readyButton.style.display = 'none';
+                document.getElementById('instructionsCard').style.display = 'block';
+                document.getElementById('instructionsCard').innerHTML = `
+                    <h3>Examination Instructions</h3>
+                    <p>You may now open your examination paper. Your reading time starts now.</p>
+                `;
                 playAudio('2.mp3').then(() => {
-                    document.getElementById('instructions').style.display = 'none';
+                    document.getElementById('instructionsCard').style.display = 'none';
                     startReadingTime();
                 });
             });
@@ -466,22 +1246,23 @@
 
         function startReadingTime() {
             isReadingTime = true;
-            document.getElementById('readingTimeText').style.display = 'block';
-            document.querySelector('.time-info-container').style.display = 'flex';
+            document.getElementById('readingTimeBadge').style.display = 'inline-block';
+            document.getElementById('timeInfoCard').style.display = 'flex';
+            document.getElementById('examToolsSection').style.display = 'block';
             
             const readingDuration = 5 * 60 * 1000;
             startTime = new Date();
             endTime = new Date(startTime.getTime() + readingDuration);
             remainingTime = readingDuration;
             
-            const skipReading = document.createElement('button');
-            skipReading.id = 'skipReading';
-            skipReading.textContent = 'Skip Reading Time';
-            document.getElementById('buttonContainer').appendChild(skipReading);
+            const skipButton = document.createElement('button');
+            skipButton.className = 'action-button';
+            skipButton.textContent = 'Skip Reading Time';
+            document.getElementById('actionButtons').appendChild(skipButton);
             
             createPauseButton();
             
-            skipReading.addEventListener('click', () => {
+            skipButton.addEventListener('click', () => {
                 clearInterval(examTimer);
                 isReadingTime = false;
                 startMainExam();
@@ -500,9 +1281,9 @@
         }
 
         function startMainExam() {
-            document.getElementById('readingTimeText').style.display = 'none';
-            document.getElementById('buttonContainer').innerHTML = "";
-            document.querySelector('.time-info-container').style.display = 'flex';
+            document.getElementById('readingTimeBadge').style.display = 'none';
+            document.getElementById('actionButtons').innerHTML = '';
+            document.getElementById('timeInfoCard').style.display = 'flex';
             
             const mainDuration = durationHours * 60 * 60 * 1000;
             startTime = new Date();
@@ -515,139 +1296,365 @@
 
             updateTimer();
             examTimer = setInterval(updateExamTimer, 1000);
-
-            setTimeout(() => {
-                if (!isPaused) {
-                    clearInterval(examTimer);
-                    finishExam();
-                }
-            }, mainDuration);
-        }
-
-        function updateExamTimer() {
-            if (!isPaused) {
-                remainingTime -= 1000;
-                updateTimer();
-                updateProgressBar();
-                
-                if (!isReadingTime) {
-                    const timerElement = document.getElementById('timer');
-                    if (remainingTime <= 30*60*1000 && currentPhase < 3) {
-                        playAudio('5.mp3');
-                        timerElement.classList.add('warning');
-                        currentPhase = 3;
-                    }
-                    if (remainingTime <= 5*60*1000 && currentPhase < 4) {
-                        playAudio('6.mp3');
-                        timerElement.classList.remove('warning');
-                        timerElement.classList.add('critical');
-                        currentPhase = 4;
-                    }
-                }
-            }
         }
 
         function finishExam() {
             playAudio('4.mp3');
-            document.getElementById('timer').textContent = "Time's up!";
-            document.querySelector('.time-info-container').style.display = 'none';
+            document.getElementById('timerDisplay').textContent = "Time's Up!";
+            document.getElementById('timeInfoCard').style.display = 'none';
             document.getElementById('progressBar').style.width = '0%';
-            document.title = `${subject} - Time's Up! - CiteCount`;
-            document.getElementById('buttonContainer').innerHTML = "";
-        }
-
-        function updateTimer() {
-            if (remainingTime <= 0) {
-                document.getElementById('timer').textContent = "00:00:00";
-                document.title = `${subject} - Time's Up! - CiteCount`;
-                return;
-            }
-
-            const hours = Math.floor(remainingTime / 3600000);
-            const minutes = Math.floor((remainingTime % 3600000) / 60000);
-            const seconds = Math.floor((remainingTime % 60000) / 1000);
-            
-            const timerText = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            document.getElementById('timer').textContent = isPaused ? `Paused: ${timerText}` : timerText;
-            document.title = `${subject} - ${isPaused ? 'Paused: ' : ''}${timerText} - CiteCount`;
-            
-            document.getElementById('startTime').textContent = `Start Time: ${formatTime(startTime)}`;
-            document.getElementById('endTime').textContent = `Scheduled End: ${formatTime(endTime)}`;
+            document.title = `${subject} - Time's Up!`;
+            document.getElementById('actionButtons').innerHTML = '';
         }
 
         function playAudio(file) {
             return new Promise(resolve => {
                 const audio = new Audio(file);
-                audio.play();
+                audio.play().catch(() => console.log('Audio playback blocked'));
                 audio.addEventListener('ended', resolve);
             });
         }
 
-        document.getElementById('shareExamButton').addEventListener('click', async function(e) {
+        // Share button
+        document.getElementById('shareButton').addEventListener('click', async function(e) {
             e.preventDefault();
             const url = window.location.href;
             
             try {
                 await navigator.clipboard.writeText(url);
-                const originalText = this.textContent;
-                this.textContent = '✓ Copied!';
-                this.style.background = 'rgba(40, 167, 69, 0.9)';
+                const originalText = this.innerHTML;
+                this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied!`;
                 
                 setTimeout(() => {
-                    this.textContent = originalText;
-                    this.style.background = '';
+                    this.innerHTML = originalText;
                 }, 2000);
             } catch (err) {
-                // Fallback for older browsers
-                const textArea = document.createElement('textarea');
-                textArea.value = url;
-                textArea.style.position = 'fixed';
-                textArea.style.left = '-999999px';
-                document.body.appendChild(textArea);
-                textArea.select();
-                
-                try {
-                    document.execCommand('copy');
-                    const originalText = this.textContent;
-                    this.textContent = '✓ Copied!';
-                    this.style.background = 'rgba(40, 167, 69, 0.9)';
-                    
-                    setTimeout(() => {
-                        this.textContent = originalText;
-                        this.style.background = '';
-                    }, 2000);
-                } catch (err) {
-                    alert('Failed to copy. Please copy this URL manually:\n' + url);
-                }
-                
-                document.body.removeChild(textArea);
+                alert('Failed to copy URL. Please copy manually:\n' + url);
             }
         });
 
+        // Keyboard shortcut for pause
         document.addEventListener('keydown', function(e) {
             if (e.code === 'Space' && e.target.tagName !== 'BUTTON') {
                 e.preventDefault();
                 const pauseButton = document.getElementById('pauseButton');
-                if (pauseButton && !pauseButton.disabled) {
+                if (pauseButton) {
                     pauseButton.click();
                 }
             }
         });
 
+        // Prevent accidental navigation
         window.addEventListener("beforeunload", function(e) {
-            e.preventDefault();
-            e.returnValue = '';
-            return '';
+            if (examTimer) {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        });
+
+        // Timeline preview functionality
+        let timelineUpdateInterval;
+
+        function formatTimelineTime(date) {
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        function formatDuration(totalMinutes) {
+            if (totalMinutes < 60) {
+                return totalMinutes + ' min';
+            }
+            const hours = Math.floor(totalMinutes / 60);
+            const mins = totalMinutes % 60;
+            if (mins === 0) {
+                return hours + 'h';
+            }
+            return hours + 'h ' + mins + 'm';
+        }
+
+        function initializeTimeline() {
+            const totalExamMinutes = Math.floor(durationHours * 60);
+            document.getElementById('examDuration').textContent = formatDuration(totalExamMinutes);
+
+            // Hide reading time step if disabled
+            const readingStep = document.getElementById('timelineReadingStep');
+            const readingConnector = document.getElementById('readingConnector');
+            if (disableReading) {
+                readingStep.style.display = 'none';
+                readingConnector.style.display = 'none';
+            }
+
+            const updateTimes = () => {
+                const now = new Date();
+                
+                document.getElementById('timelineStartTime').textContent = formatTimelineTime(now);
+                document.getElementById('timelineReadingTime').textContent = formatTimelineTime(new Date(now.getTime() + 5 * 60000));
+                
+                let examEndOffset = totalExamMinutes;
+                if (!disableReading) {
+                    examEndOffset += 5;
+                }
+                const examEnd = new Date(now.getTime() + examEndOffset * 60000);
+                document.getElementById('timelineEndTime').textContent = formatTimelineTime(examEnd);
+            };
+
+            updateTimes();
+            timelineUpdateInterval = setInterval(updateTimes, 1000);
+        }
+
+        // Initialize timeline
+        initializeTimeline();
+
+        // Hide timeline when exam starts
+        function hideTimeline() {
+            const timeline = document.getElementById('timelinePreview');
+            if (timeline) {
+                timeline.style.display = 'none';
+            }
+            if (timelineUpdateInterval) {
+                clearInterval(timelineUpdateInterval);
+            }
+        }
+
+        // Fullscreen functionality
+        function requestFullscreen() {
+            const elem = document.documentElement;
+            
+            // Try standard Fullscreen API
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => {
+                    console.log(`Fullscreen request denied: ${err.message}`);
+                });
+            } 
+            // Firefox
+            else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            }
+            // Chrome/Safari
+            else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            }
+            // IE
+            else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+        }
+
+        // Handle fullscreen request before exam starts
+        function startExamWithFullscreen() {
+            hideTimeline();
+            
+            // Request fullscreen first
+            requestFullscreen();
+            
+            // Give fullscreen a moment to activate, then start exam
+            setTimeout(function() {
+                startExam();
+            }, 200);
+        }
+
+        // Initialize
+        document.getElementById('startButton').addEventListener('click', function() {
+            startExamWithFullscreen();
         });
 
         if (!subject || !durationHours) {
-            document.getElementById('subjectTitle').textContent = "This examination setup is invalid. Redirecting to exam setup...";
+            document.getElementById('examTitle').textContent = "Invalid Setup";
+            document.getElementById('instructionsCard').innerHTML = `
+                <h3>Error</h3>
+                <p>This examination setup is invalid. Redirecting to setup page...</p>
+            `;
+            document.getElementById('actionButtons').innerHTML = '';
             setTimeout(() => {
                 window.location.href = '/exam-timer';
-            }, 5000);
+            }, 3000);
         } else if (disableInstructions && disableReading) {
             startExam();
         }
+
+        // ============================================
+        // Exam Tools - Draggable & Resizable Windows
+        // ============================================
+        
+        let zIndexCounter = 1000;
+        let activeWindow = null;
+        let dragOffset = { x: 0, y: 0 };
+        let isDragging = false;
+        let isResizing = false;
+        let resizeStartPos = { x: 0, y: 0, width: 0, height: 0 };
+
+        // Window Management Functions
+        function openDataBooklets() {
+            const window = document.getElementById('dataBookletsWindow');
+            if (window.style.display === 'none') {
+                window.style.display = 'flex';
+                centerWindow(window, 600, 500);
+                bringToFront(window);
+            } else {
+                bringToFront(window);
+            }
+        }
+
+        function openCalculator() {
+            const window = document.getElementById('calculatorWindow');
+            if (window.style.display === 'none') {
+                window.style.display = 'flex';
+                centerWindow(window, 700, 600);
+                bringToFront(window);
+            } else {
+                bringToFront(window);
+            }
+        }
+
+        function closeWindow(windowName) {
+            const window = document.getElementById(windowName + 'Window');
+            window.style.display = 'none';
+        }
+
+        function minimizeWindow(windowName) {
+            const window = document.getElementById(windowName + 'Window');
+            window.classList.toggle('minimized');
+        }
+
+        function centerWindow(window, width, height) {
+            const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            
+            const left = Math.max(20, (viewportWidth - width) / 2);
+            const top = Math.max(80, (viewportHeight - height) / 2);
+            
+            window.style.width = width + 'px';
+            window.style.height = height + 'px';
+            window.style.left = left + 'px';
+            window.style.top = top + 'px';
+        }
+
+        function bringToFront(window) {
+            zIndexCounter++;
+            window.style.zIndex = zIndexCounter;
+            activeWindow = window;
+        }
+
+        function switchCalculatorTab(type) {
+            const iframe = document.getElementById('calculatorIframe');
+            const tabs = document.querySelectorAll('#calculatorWindow .app-tab');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (type === 'scientific') {
+                iframe.src = 'https://www.desmos.com/scientific';
+            } else if (type === 'graphing') {
+                iframe.src = 'https://www.desmos.com/calculator';
+            }
+        }
+
+        function openBooklet(path, name) {
+            document.getElementById('bookletListContainer').style.display = 'none';
+            document.getElementById('bookletViewer').style.display = 'block';
+            document.getElementById('bookletTitle').textContent = name;
+            document.getElementById('pdfIframe').src = path;
+        }
+
+        function backToBookletList() {
+            document.getElementById('bookletListContainer').style.display = 'block';
+            document.getElementById('bookletViewer').style.display = 'none';
+            document.getElementById('pdfIframe').src = '';
+        }
+
+        // Dragging Functionality
+        function initDragging() {
+            const headers = ['dataBookletsHeader', 'calculatorHeader'];
+            
+            headers.forEach(headerId => {
+                const header = document.getElementById(headerId);
+                const window = header.parentElement;
+                
+                header.addEventListener('mousedown', function(e) {
+                    if (e.target.closest('.app-window-controls')) return;
+                    
+                    isDragging = true;
+                    activeWindow = window;
+                    bringToFront(window);
+                    
+                    const rect = window.getBoundingClientRect();
+                    dragOffset.x = e.clientX - rect.left;
+                    dragOffset.y = e.clientY - rect.top;
+                    
+                    window.style.cursor = 'grabbing';
+                    e.preventDefault();
+                });
+            });
+        }
+
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging && activeWindow) {
+                const newLeft = e.clientX - dragOffset.x;
+                const newTop = e.clientY - dragOffset.y;
+                
+                activeWindow.style.left = Math.max(0, newLeft) + 'px';
+                activeWindow.style.top = Math.max(0, newTop) + 'px';
+            } else if (isResizing && activeWindow) {
+                const deltaX = e.clientX - resizeStartPos.x;
+                const deltaY = e.clientY - resizeStartPos.y;
+                
+                const newWidth = Math.max(400, resizeStartPos.width + deltaX);
+                const newHeight = Math.max(300, resizeStartPos.height + deltaY);
+                
+                activeWindow.style.width = newWidth + 'px';
+                activeWindow.style.height = newHeight + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isDragging && activeWindow) {
+                activeWindow.style.cursor = '';
+            }
+            isDragging = false;
+            isResizing = false;
+        });
+
+        // Resizing Functionality
+        function initResizing() {
+            const windows = ['dataBookletsWindow', 'calculatorWindow'];
+            
+            windows.forEach(windowId => {
+                const window = document.getElementById(windowId);
+                const resizer = window.querySelector('.app-window-resizer');
+                
+                resizer.addEventListener('mousedown', function(e) {
+                    isResizing = true;
+                    activeWindow = window;
+                    bringToFront(window);
+                    
+                    resizeStartPos.x = e.clientX;
+                    resizeStartPos.y = e.clientY;
+                    resizeStartPos.width = window.offsetWidth;
+                    resizeStartPos.height = window.offsetHeight;
+                    
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+                
+                // Bring window to front on click
+                window.addEventListener('mousedown', function() {
+                    bringToFront(window);
+                });
+            });
+        }
+
+        // Initialize dragging and resizing on page load
+        initDragging();
+        initResizing();
+
+        // Prevent text selection while dragging
+        document.addEventListener('selectstart', function(e) {
+            if (isDragging || isResizing) {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>

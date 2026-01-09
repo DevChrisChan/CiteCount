@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840521099452662"
+     crossorigin="anonymous"></script>-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IB Exam Timer - CiteCount</title>
+    <meta property="og:title" content="IB Exam Timer - CiteCount" />
+    <meta property="og:description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments." />
+    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/countdown/countdown.png" />
+    <meta property="og:url" content="https://citecount.com/exam-timer/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/countdown/countdown.png" />
+    <meta name="twitter:description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IB Exam Timer - CiteCount" />
+    <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+    <meta name="description" content="Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments.">
+    <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+    <meta name="theme-color" content="#004389" />
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="CiteCount" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LHVN622J29');
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            background-color: #004e92;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+            opacity: 0.85;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        input.invalid {
+            border-color: rgba(255, 100, 100, 0.6);
+            background: rgba(255, 100, 100, 0.1);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .time-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .time-inputs .form-group {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .required-note {
+            font-size: 0.9rem;
+            color: #d0d0d0;
+            margin-top: 0.25rem;
+            width: 100%;
+        }
+
+        .required-asterisk {
+            color: red;
+        }
+
+        .expandable-section {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .preset-toggle {
+            cursor: pointer;
+            color: #80c0ff;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+        }
+
+        .preset-toggle::before {
+            content: '▼';
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .preset-toggle.expanded::before {
+            transform: rotate(180deg);
+        }
+
+        .preset-toggle:hover {
+            color: #a0d0ff;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .preset-toggle.active {
+            background: rgba(167, 40, 40, 0.9);
+            color: white;
+        }
+
+        .preset-toggle.active::before {
+            content: '✕';
+            transform: none;
+        }
+
+        .preset-toggle.active:hover {
+            background: rgba(167, 40, 40, 1);
+        }
+
+        .keyboard-hint {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .expand-content {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            background: rgba(40, 167, 69, 0.9);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            font-weight: 500;
+            position: relative;
+        }
+
+        button:hover:not(:disabled) {
+            background: rgba(40, 167, 69, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        button.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            right: 1rem;
+            margin-top: -8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spinner 0.6s linear infinite;
+        }
+
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            justify-content: center;
+        }
+
+        .secondary-button {
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .secondary-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .checkbox-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            width: 0.9rem;
+            height: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            margin-right: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        input[type="checkbox"]:checked {
+            background: rgba(40, 167, 69, 0.9);
+            border-color: rgba(40, 167, 69, 1);
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0.5rem;
+            height: 0.25rem;
+            border: solid white;
+            border-width: 0 0 2px 2px;
+            transform: translate(-50%, -60%) rotate(-45deg);
+        }
+
+        input[type="checkbox"]:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .select2-container {
+            width: 100% !important;
+            position: relative;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 44px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 0.75rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: white;
+            line-height: 42px;
+            padding: 0 2.5rem 0 1rem;
+            font-size: 1rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+            display: block;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 42px;
+            width: 20px;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            position: absolute;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #ffffff transparent transparent transparent;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            display: none;
+        }
+
+        .select2-container--open .select2-selection--single {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .select2-dropdown {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.75rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 5px;
+        }
+
+        .select2-results__option {
+            color: white;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .select2-results__option--highlighted {
+            background: rgba(40, 167, 69, 0.8) !important;
+            color: white;
+        }
+
+        .select2-results__option[aria-selected="true"] {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h3 {
+                font-size: 1rem;
+            }
+
+            .time-inputs {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            input[type="text"], input[type="number"], button {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+
+            .select2-container--default .select2-selection--single {
+                height: 40px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 38px;
+                padding: 0 2.5rem 0 0.8rem;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 38px;
+                right: 8px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>IB Exam Timer</h1>
+        <h3>Make sure to enable audio for a full examination experience. Get your workspace ready, fill in examination information, and click Start Exam.</h3>
+        <form id="setupForm">
+            <div class="form-group">
+                <label for="subject">Subject Name:</label>
+                <input type="text" id="subject" placeholder="Enter subject name, or leave blank to default as 'Mock Examination'">
+            </div>
+
+            <div class="time-inputs">
+                <div class="form-group">
+                    <label for="hours">Hours<span class="required-asterisk">*</span>:</label>
+                    <input type="number" id="hours" min="0" max="12" value="1" required placeholder="Enter hours" aria-describedby="hours-error">
+                    <div class="error-message" id="hours-error">Please enter a valid duration (0-12 hours)</div>
+                </div>
+                <div class="form-group">
+                    <label for="minutes">Minutes<span class="required-asterisk">*</span>:</label>
+                    <input type="number" id="minutes" min="0" max="59" value="0" required placeholder="Enter minutes" aria-describedby="minutes-error">
+                    <div class="error-message" id="minutes-error">Please enter valid minutes (0-59)</div>
+                </div>
+                <div class="required-note">Required fields • At least 1 minute total required</div>
+                <div class="expandable-section">
+                    <div class="preset-toggle" id="presetToggle" role="button" tabindex="0" aria-expanded="false">or choose from IB exam presets...</div>
+                    <div class="expand-content" id="presets">
+                        <select class="preset-select" id="examPreset" aria-label="Select exam preset">
+                            <option value="">Select an exam preset</option>
+                        </select>
+                        <div class="keyboard-hint">💡 Tip: Type to search presets</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="disableReading" name="disableReading">
+                    Disable Reading Time
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="disableInstructions" name="disableInstructions">
+                    Disable Invigilator's Instructions
+                </label>
+            </div>
+
+            <button type="submit">Start Exam</button>
+            <div class="button-group">
+                <button type="button" class="secondary-button" onclick="window.location.href='/'">Return to CiteCount</button>
+                <button type="button" class="secondary-button" onclick="window.location.href='/contact.html?source=exam-timer'">Contact Us</button>
+                <button type="button" class="secondary-button" onclick="window.location.href='https://buymeacoffee.com/cite'">Donate</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        function togglePresets() {
+            const content = document.getElementById('presets');
+            const toggle = document.getElementById('presetToggle');
+            const select = $('#examPreset');
+            const isExpanded = content.style.display === 'block';
+            
+            if (isExpanded && !select.val()) {
+                content.style.display = 'none';
+                toggle.classList.remove('expanded');
+                toggle.setAttribute('aria-expanded', 'false');
+            } else {
+                content.style.display = 'block';
+                toggle.classList.add('expanded');
+                toggle.setAttribute('aria-expanded', 'true');
+                select.select2('open');
+            }
+        }
+
+        function updateToggleButton(value) {
+            const toggle = document.getElementById('presetToggle');
+            if (value && value !== '') {
+                toggle.classList.add('active');
+                toggle.classList.remove('expanded');
+            } else {
+                toggle.classList.remove('active');
+            }
+        }
+
+        function validateDuration() {
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const hoursInput = document.getElementById('hours');
+            const minutesInput = document.getElementById('minutes');
+            const hoursError = document.getElementById('hours-error');
+            const minutesError = document.getElementById('minutes-error');
+            
+            let isValid = true;
+            
+            if (hours < 0 || hours > 12) {
+                hoursInput.classList.add('invalid');
+                hoursError.classList.add('show');
+                isValid = false;
+            } else {
+                hoursInput.classList.remove('invalid');
+                hoursError.classList.remove('show');
+            }
+            
+            if (minutes < 0 || minutes > 59) {
+                minutesInput.classList.add('invalid');
+                minutesError.classList.add('show');
+                isValid = false;
+            } else {
+                minutesInput.classList.remove('invalid');
+                minutesError.classList.remove('show');
+            }
+            
+            if (hours === 0 && minutes === 0) {
+                minutesInput.classList.add('invalid');
+                minutesError.textContent = 'Total duration must be at least 1 minute';
+                minutesError.classList.add('show');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        document.getElementById('presetToggle').addEventListener('click', function(e) {
+            const select = $('#examPreset');
+            if (this.classList.contains('active')) {
+                select.val('').trigger('change');
+                document.getElementById('subject').value = '';
+                document.getElementById('hours').value = '1';
+                document.getElementById('minutes').value = '0';
+                document.getElementById('presets').style.display = 'none';
+                this.classList.remove('expanded');
+                this.setAttribute('aria-expanded', 'false');
+                updateToggleButton('');
+                validateDuration();
+            } else {
+                togglePresets();
+            }
+        });
+
+        document.getElementById('presetToggle').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+
+        fetch('exams.json')
+            .then(response => response.json())
+            .then(data => {
+                const select = $('#examPreset');
+                data.exams.forEach(exam => {
+                    select.append(
+                        `<option value="${exam.name}" data-hours="${exam.hours}" data-minutes="${exam.minutes}">
+                            ${exam.name} (${exam.hours}h ${exam.minutes}m)
+                        </option>`
+                    );
+                });
+
+                select.select2({
+                    placeholder: "Select an exam preset",
+                    allowClear: false,
+                    width: '100%'
+                });
+
+                select.on('select2:select', function(e) {
+                    const selectedOption = e.params.data.element;
+                    const name = selectedOption.value;
+                    const hours = selectedOption.getAttribute('data-hours');
+                    const minutes = selectedOption.getAttribute('data-minutes');
+
+                    if (name) {
+                        document.getElementById('subject').value = name;
+                        document.getElementById('hours').value = hours;
+                        document.getElementById('minutes').value = minutes;
+                        updateToggleButton(name);
+                    }
+                });
+
+                document.getElementById('subject').addEventListener('input', function() {
+                    select.val('').trigger('change');
+                    updateToggleButton('');
+                });
+                document.getElementById('hours').addEventListener('input', function() {
+                    select.val('').trigger('change');
+                    updateToggleButton('');
+                    validateDuration();
+                });
+                document.getElementById('minutes').addEventListener('input', function() {
+                    select.val('').trigger('change');
+                    updateToggleButton('');
+                    validateDuration();
+                });
+            })
+            .catch(error => {
+                console.error('Error loading exams:', error);
+                document.getElementById('presetToggle').style.display = 'none';
+            });
+
+        document.getElementById('setupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!validateDuration()) {
+                return;
+            }
+
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.classList.add('loading');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Starting Exam...';
+
+            const subjectInput = document.getElementById('subject').value;
+            let subjectValue = subjectInput.trim();
+            if (!subjectValue) {
+                subjectValue = 'Mock Examination';
+            }
+            const subject = encodeURIComponent(subjectValue);
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const totalDuration = hours + (minutes / 60);
+            const disableReading = document.getElementById('disableReading').checked;
+            const disableInstructions = document.getElementById('disableInstructions').checked;
+
+            const url = `start.html?subject=${subject}&duration=${totalDuration}&disableReading=${disableReading}&disableInstructions=${disableInstructions}`;
+            
+            setTimeout(() => {
+                try {
+                    window.open(url, '_blank', 'fullscreen=yes');
+                    submitButton.textContent = '✓ Exam Started!';
+                    submitButton.style.background = 'rgba(40, 167, 69, 1)';
+                    
+                    setTimeout(() => {
+                        submitButton.textContent = originalText;
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('loading');
+                        submitButton.style.background = '';
+                    }, 2000);
+                } catch (error) {
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('loading');
+                    alert('Please allow popups to start the exam timer.');
+                }
+            }, 300);
+        });
+
+        document.getElementById('minutes').addEventListener('change', function () {
+            if (this.value > 59) this.value = 59;
+            if (this.value < 0) this.value = 0;
+            validateDuration();
+        });
+
+        document.getElementById('hours').addEventListener('change', function () {
+            if (this.value > 12) this.value = 12;
+            if (this.value < 0) this.value = 0;
+            validateDuration();
+        });
+    </script>
+</body>
+</html>
