@@ -527,7 +527,7 @@
 
         .exam-tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 0.75rem;
         }
 
@@ -1036,6 +1036,16 @@
                     </svg>
                     <span>Graphing Calculator</span>
                 </button>
+                <button class="exam-tool-button" onclick="openDictionary()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                        <line x1="8" y1="6" x2="16" y2="6"/>
+                        <line x1="8" y1="10" x2="16" y2="10"/>
+                        <line x1="8" y1="14" x2="12" y2="14"/>
+                    </svg>
+                    <span>Dictionary</span>
+                </button>
             </div>
         </div>
     </div>
@@ -1173,6 +1183,35 @@
         </div>
         <div class="app-window-content">
             <iframe id="graphingCalculatorIframe" src="https://www.desmos.com/calculator" frameborder="0" style="width: 100%; height: 100%; border: none;"></iframe>
+            <div class="iframe-overlay" style="display: none;"></div>
+        </div>
+        <div class="app-window-resizer"></div>
+    </div>
+
+    <!-- Dictionary Window -->
+    <div class="app-window" id="dictionaryWindow" style="display: none;">
+        <div class="app-window-header" id="dictionaryHeader">
+            <div class="app-window-title">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    <line x1="8" y1="6" x2="16" y2="6"/>
+                    <line x1="8" y1="10" x2="16" y2="10"/>
+                    <line x1="8" y1="14" x2="12" y2="14"/>
+                </svg>
+                Dictionary
+            </div>
+            <div class="app-window-controls">
+                <button class="app-control-btn" onclick="closeWindow('dictionary')" title="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="app-window-content" style="padding: 0;">
+            <iframe id="dictionaryIframe" src="/exam-timer/assets/dictionary/index.html" frameborder="0" style="width: 100%; height: 100%; border: none;"></iframe>
             <div class="iframe-overlay" style="display: none;"></div>
         </div>
         <div class="app-window-resizer"></div>
@@ -1765,6 +1804,17 @@
             }
         }
 
+        function openDictionary() {
+            const window = document.getElementById('dictionaryWindow');
+            if (window.style.display === 'none') {
+                window.style.display = 'flex';
+                centerWindow(window, 600, 700);
+                bringToFront(window);
+            } else {
+                bringToFront(window);
+            }
+        }
+
         function closeWindow(windowName) {
             const window = document.getElementById(windowName + 'Window');
             window.style.display = 'none';
@@ -1809,7 +1859,7 @@
 
         // Dragging Functionality
         function initDragging() {
-            const headers = ['dataBookletsHeader', 'scientificCalculatorHeader', 'graphingCalculatorHeader'];
+            const headers = ['dataBookletsHeader', 'scientificCalculatorHeader', 'graphingCalculatorHeader', 'dictionaryHeader'];
             
             headers.forEach(headerId => {
                 const header = document.getElementById(headerId);
@@ -1890,7 +1940,7 @@
 
         // Resizing Functionality
         function initResizing() {
-            const windows = ['dataBookletsWindow', 'scientificCalculatorWindow', 'graphingCalculatorWindow'];
+            const windows = ['dataBookletsWindow', 'scientificCalculatorWindow', 'graphingCalculatorWindow', 'dictionaryWindow'];
             
             windows.forEach(windowId => {
                 const window = document.getElementById(windowId);

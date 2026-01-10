@@ -1423,7 +1423,7 @@
             const disableReading = false;
             const disableInstructions = false;
             
-            let url = `https://exam.citecount.com?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            let url = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
             if (exam.name !== 'Mock Examination') {
                 url = `https://exam.citecount.com?s=${encodeURIComponent(exam.name)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
             }
@@ -1745,9 +1745,9 @@
             const disableReading = document.getElementById('disableReading').checked;
             const disableInstructions = document.getElementById('disableInstructions').checked;
 
-            let url = `https://exam.citecount.com?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            let url = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
             if (subjectValue !== 'Mock Examination') {
-                url = `https://exam.citecount.com?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+                url = `https://exam.citecount.com/?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
             }
             
             // Save to history
@@ -1828,9 +1828,9 @@
             const disableReading = document.getElementById('disableReading').checked;
             const disableInstructions = document.getElementById('disableInstructions').checked;
             
-            let url = `https://exam.citecount.com?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            let url = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
             if (subjectValue !== 'Mock Examination') {
-                url = `https://exam.citecount.com?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+                url = `https://exam.citecount.com/?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
             }
             
             // Copy to clipboard
@@ -1859,9 +1859,9 @@
             const disableReading = false;
             const disableInstructions = false;
             
-            let url = `https://exam.citecount.com?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+            let url = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
             if (exam.name !== 'Mock Examination') {
-                url = `https://exam.citecount.com?s=${encodeURIComponent(exam.name)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+                url = `https://exam.citecount.com/?s=${encodeURIComponent(exam.name)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
             }
             
             // Copy to clipboard
