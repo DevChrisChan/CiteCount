@@ -901,6 +901,262 @@
                 flex-direction: column;
             }
         }
+
+        /* Dark Mode Styles */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0f0f0f;
+                color: #E5E7EB;
+            }
+
+            .progress-bar-container {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .control-button {
+                background: rgba(59, 130, 246, 0.15);
+                border-color: rgba(59, 130, 246, 0.3);
+                color: #60A5FA;
+            }
+
+            .control-button:hover {
+                background: rgba(59, 130, 246, 0.25);
+            }
+
+            .current-time {
+                background: rgba(59, 130, 246, 0.15);
+                border-color: rgba(59, 130, 246, 0.3);
+                color: #E5E7EB;
+            }
+
+            .exam-title {
+                color: #F3F4F6;
+            }
+
+            .exam-duration {
+                color: #9CA3AF;
+            }
+
+            .timer-display {
+                color: #60A5FA;
+            }
+
+            .timer-display.warning {
+                color: #FBBF24;
+            }
+
+            .timer-display.critical {
+                color: #F87171;
+            }
+
+            .time-info-card {
+                background: rgba(59, 130, 246, 0.08);
+                border-color: rgba(59, 130, 246, 0.2);
+            }
+
+            .time-info-item {
+                color: #E5E7EB;
+            }
+
+            .time-info-label {
+                color: #9CA3AF;
+            }
+
+            .time-info-value {
+                color: #F3F4F6;
+            }
+
+            .instructions-card {
+                background: rgba(59, 130, 246, 0.08);
+                border-color: rgba(59, 130, 246, 0.2);
+                color: #E5E7EB;
+            }
+
+            .instructions-card h3 {
+                color: #60A5FA;
+            }
+
+            .action-button {
+                background: #1E40AF;
+                border-color: #1E40AF;
+                color: white;
+            }
+
+            .action-button:hover:not(:disabled) {
+                background: #1E3A8A;
+            }
+
+            .action-button.primary {
+                background: rgba(59, 130, 246, 0.9);
+                border-color: rgba(59, 130, 246, 1);
+            }
+
+            .action-button.primary:hover:not(:disabled) {
+                background: rgba(59, 130, 246, 1);
+            }
+
+            .timeline-preview {
+                background: rgba(59, 130, 246, 0.08);
+                border-color: rgba(59, 130, 246, 0.2);
+            }
+
+            .timeline-header {
+                color: #9CA3AF;
+            }
+
+            .timeline-point {
+                border-color: rgba(59, 130, 246, 0.3);
+                background: #1F2937;
+            }
+
+            .timeline-point-start {
+                border-color: #60A5FA;
+                background: #60A5FA;
+                box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.15);
+            }
+
+            .timeline-point-reading {
+                border-color: #FBBF24;
+                background: #FBBF24;
+                box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.15);
+            }
+
+            .timeline-point-end {
+                border-color: #34D399;
+                background: #34D399;
+                box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.15);
+            }
+
+            .timeline-time {
+                color: #F3F4F6;
+            }
+
+            .timeline-label {
+                color: #9CA3AF;
+            }
+
+            .timeline-line {
+                background: rgba(59, 130, 246, 0.3);
+            }
+
+            .timeline-line::after {
+                border-left-color: rgba(59, 130, 246, 0.3);
+            }
+
+            .timeline-duration {
+                color: #9CA3AF;
+                background: rgba(59, 130, 246, 0.12);
+            }
+
+            .exam-tools-section {
+                background: rgba(59, 130, 246, 0.08);
+                border-color: rgba(59, 130, 246, 0.2);
+            }
+
+            .exam-tools-section h3 {
+                color: #F3F4F6;
+            }
+
+            .exam-tool-button {
+                background: #1F2937;
+                border-color: #60A5FA;
+                color: #60A5FA;
+            }
+
+            .exam-tool-button:hover {
+                background: #60A5FA;
+                color: #0f0f0f;
+            }
+
+            .app-window {
+                background: #1F2937;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            }
+
+            .app-window-header {
+                background: linear-gradient(135deg, #1E40AF 0%, #1E3A8A 100%);
+            }
+
+            .app-window-tabs {
+                background: #111827;
+                border-bottom-color: #374151;
+            }
+
+            .app-tab {
+                color: #9CA3AF;
+            }
+
+            .app-tab:hover {
+                background: rgba(59, 130, 246, 0.1);
+                color: #E5E7EB;
+            }
+
+            .app-tab.active {
+                background: #1F2937;
+                color: #60A5FA;
+                border-bottom-color: #60A5FA;
+            }
+
+            .app-window-content {
+                background: #1F2937;
+                color: #E5E7EB;
+            }
+
+            .app-back-btn {
+                background: rgba(59, 130, 246, 0.15);
+                border-color: rgba(59, 130, 246, 0.3);
+                color: #60A5FA;
+            }
+
+            .app-back-btn:hover {
+                background: rgba(59, 130, 246, 0.25);
+                border-color: rgba(59, 130, 246, 0.4);
+            }
+
+            .booklet-icon-item {
+                background: transparent;
+                border-color: transparent;
+            }
+
+            .booklet-icon-item:hover {
+                background: rgba(59, 130, 246, 0.12);
+                border-color: rgba(59, 130, 246, 0.3);
+            }
+
+            .booklet-icon-item svg {
+                color: #F87171;
+            }
+
+            .booklet-icon-item span {
+                color: #E5E7EB;
+            }
+
+            .confirm-modal-overlay {
+                background: rgba(0, 0, 0, 0.7);
+            }
+
+            .confirm-modal {
+                background: #1F2937;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            }
+
+            .confirm-modal h3 {
+                color: #F3F4F6;
+            }
+
+            .confirm-modal p {
+                color: #9CA3AF;
+            }
+
+            .confirm-modal-button.cancel {
+                background: #374151;
+                color: #E5E7EB;
+            }
+
+            .confirm-modal-button.cancel:hover {
+                background: #4B5563;
+            }
+        }
     </style>
 </head>
 
