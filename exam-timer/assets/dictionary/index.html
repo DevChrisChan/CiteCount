@@ -353,6 +353,60 @@
             margin-bottom: 0.5rem;
         }
 
+        .dictionary-footer {
+            opacity: 0.8;
+            color: var(--text-secondary, #6b7280);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            border-top: 1px solid var(--border-primary, #e5e7eb);
+            flex-shrink: 0;
+            background: transparent;
+        }
+
+        /* Modal shown when page is opened directly (not in an iframe) */
+        .embed-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .embed-modal-overlay.active {
+            display: flex;
+        }
+
+        .embed-modal {
+            max-width: 520px;
+            width: 100%;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(2,6,23,0.25);
+            padding: 1.25rem 1.25rem;
+            text-align: left;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .embed-modal { background: #0b1220; color: #f3f4f6; }
+            .embed-modal-overlay { background: rgba(2,6,23,0.7); }
+        }
+
+        .embed-modal h3 { margin-bottom: 0.5rem; font-size: 1.125rem; }
+        .embed-modal p { margin-bottom: 1rem; color: var(--text-secondary, #6b7280); }
+        .embed-modal .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+        .embed-modal .modal-btn { padding: 0.5rem 0.85rem; border-radius: 0.5rem; border: 1px solid transparent; cursor: pointer; }
+        .embed-modal .modal-btn.primary { background: var(--accent-color, #1e40af); color: white; border-color: var(--accent-color, #1e40af); }
+        .embed-modal .modal-btn.ghost { background: transparent; color: inherit; border-color: var(--border-primary, #e5e7eb); }
+
+        .dictionary-footer.hidden {
+            display: none;
+        }
         @media (prefers-color-scheme: dark) {
             .error-state {
                 background: #7f1d1d;
@@ -447,6 +501,22 @@
 
             <div class="definition-container" id="definitionContainer"></div>
         </div>
+        <footer class="dictionary-footer" role="contentinfo">
+            <p>Bilingual translation dictionaries are permitted in IB exams for non-language subjects. Make sure to obtain approval with your exam coordinator before use. The current CiteCount dictionary is not yet compliant with IB regulations, and we are working to address this.</p><br>
+            <p>© <span id="copyrightYear"></span> CiteCount. All rights reserved.</p>
+            <p>Content is sourced from Wiktionary under the CC BY-SA 4.0 license.</p>
+        </footer>
+    </div>
+
+    <!-- Modal shown when page is opened directly (not in an iframe) -->
+    <div id="iframeModalOverlay" class="embed-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="iframeModalTitle" style="display:none">
+        <div class="embed-modal" role="document">
+            <h3 id="iframeModalTitle">Designed as an Exam Timer app</h3>
+            <p>This dictionary is intended to be used inside the exam timer app. For the best experience, open it from the exam timer interface.</p>
+            <div class="modal-actions">
+                <button id="iframeModalDismiss" class="modal-btn ghost">Dismiss</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -460,6 +530,48 @@
         const definitionContainer = document.getElementById('definitionContainer');
         const backBtn = document.getElementById('backBtn');
         const forwardBtn = document.getElementById('forwardBtn');
+        const footer = document.querySelector('.dictionary-footer');
+
+        // Modal elements for iframe detection
+        const iframeModalOverlay = document.getElementById('iframeModalOverlay');
+        const iframeModalDismiss = document.getElementById('iframeModalDismiss');
+
+        function showIframeModal() {
+            try {
+                if (!iframeModalOverlay) return;
+                // Respect previous dismissal
+                if (localStorage && localStorage.getItem('dictionaryModalDismissed') === '1') return;
+                iframeModalOverlay.style.display = 'flex';
+                // small timeout to allow CSS transitions if any
+                requestAnimationFrame(() => iframeModalOverlay.classList.add('active'));
+                document.body.style.overflow = 'hidden';
+            } catch (e) {
+                console.warn('Failed to show iframe modal', e);
+            }
+        }
+
+        function hideIframeModal(persist = true) {
+            try {
+                if (!iframeModalOverlay) return;
+                iframeModalOverlay.classList.remove('active');
+                iframeModalOverlay.style.display = 'none';
+                document.body.style.overflow = '';
+                if (persist && localStorage) localStorage.setItem('dictionaryModalDismissed', '1');
+            } catch (e) {
+                console.warn('Failed to hide iframe modal', e);
+            }
+        }
+
+        if (iframeModalDismiss) {
+            iframeModalDismiss.addEventListener('click', () => hideIframeModal(true));
+        }
+
+        // Close when clicking outside the modal
+        if (iframeModalOverlay) {
+            iframeModalOverlay.addEventListener('click', (ev) => {
+                if (ev.target === iframeModalOverlay) hideIframeModal(true);
+            });
+        }
 
         // History management
         let searchHistory = [];
@@ -503,6 +615,9 @@
                 return;
             }
 
+            // Hide footer when searching
+            footer.classList.add('hidden');
+
             // Add to history only if not navigating
             if (!isNavigation) {
                 // Remove any forward history if we're not at the end
@@ -533,6 +648,13 @@
                 }
 
                 const data = await response.json();
+                
+                // Check if data has valid entries
+                if (!data.entries || data.entries.length === 0) {
+                    showNoResults(word);
+                    return;
+                }
+                
                 displayDefinition(data);
             } catch (error) {
                 console.error('Error fetching definition:', error);
@@ -635,6 +757,8 @@
         function showEmptyState() {
             hideAllStates();
             emptyState.classList.add('active');
+            // Show footer only in empty state
+            footer.classList.remove('hidden');
         }
 
         function hideAllStates() {
@@ -648,6 +772,17 @@
         // Auto-focus on input when page loads
         window.addEventListener('DOMContentLoaded', () => {
             searchInput.focus();
+            // Set dynamic copyright year
+            const yElem = document.getElementById('copyrightYear');
+            if (yElem) yElem.textContent = new Date().getFullYear();
+            // If this page is opened directly (not embedded in an iframe), show informational modal
+            try {
+                if (window.self === window.top) {
+                    showIframeModal();
+                }
+            } catch (e) {
+                // Cross-origin access to window.top could throw; in that case assume it's embedded and do nothing
+            }
         });
     </script>
 </body>

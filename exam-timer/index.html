@@ -1360,6 +1360,26 @@
     <script src="/v2/apps-modal.js"></script>
     <script>
 
+        // Helper function to get the appropriate exam URL based on current domain
+        function getExamUrl(subjectValue, totalDurationMinutes, disableReading, disableInstructions) {
+            const isLocalhost = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+            
+            if (isLocalhost) {
+                // For local development, use local URL
+                const baseUrl = `http://127.0.0.1:5500/exam-timer/start.html?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+                if (subjectValue !== 'Mock Examination') {
+                    return `http://127.0.0.1:5500/exam-timer/start.html?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+                }
+                return baseUrl;
+            } else {
+                // For production, use exam.citecount.com
+                const baseUrl = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+                if (subjectValue !== 'Mock Examination') {
+                    return `https://exam.citecount.com/?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
+                }
+                return baseUrl;
+            }
+        }
 
         // Load exam presets for preset cards
         fetch('assets/exams.json')
@@ -1423,10 +1443,7 @@
             const disableReading = false;
             const disableInstructions = false;
             
-            let url = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
-            if (exam.name !== 'Mock Examination') {
-                url = `https://exam.citecount.com?s=${encodeURIComponent(exam.name)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
-            }
+            const url = getExamUrl(exam.name, totalDurationMinutes, disableReading, disableInstructions);
             
             // Save to history
             saveToHistory(exam.name, exam.hours, exam.minutes);
@@ -1745,10 +1762,7 @@
             const disableReading = document.getElementById('disableReading').checked;
             const disableInstructions = document.getElementById('disableInstructions').checked;
 
-            let url = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
-            if (subjectValue !== 'Mock Examination') {
-                url = `https://exam.citecount.com/?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
-            }
+            const url = getExamUrl(subjectValue, totalDurationMinutes, disableReading, disableInstructions);
             
             // Save to history
             saveToHistory(subjectValue, hours, minutes);
@@ -1828,17 +1842,14 @@
             const disableReading = document.getElementById('disableReading').checked;
             const disableInstructions = document.getElementById('disableInstructions').checked;
             
-            let url = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
-            if (subjectValue !== 'Mock Examination') {
-                url = `https://exam.citecount.com/?s=${encodeURIComponent(subjectValue)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
-            }
+            const url = getExamUrl(subjectValue, totalDurationMinutes, disableReading, disableInstructions);
             
             // Copy to clipboard
             navigator.clipboard.writeText(url).then(() => {
                 // Show modal and set URL without https://
                 const modal = document.getElementById('shareModal');
                 const urlContainer = document.getElementById('copiedUrlContainer');
-                const urlWithoutProtocol = url.replace('https://', '');
+                const urlWithoutProtocol = url.replace(/^https?:\/\//, '');
                 if (urlContainer) urlContainer.textContent = urlWithoutProtocol;
                 modal.classList.add('show');
             }).catch(err => {
@@ -1859,17 +1870,14 @@
             const disableReading = false;
             const disableInstructions = false;
             
-            let url = `https://exam.citecount.com/?d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
-            if (exam.name !== 'Mock Examination') {
-                url = `https://exam.citecount.com/?s=${encodeURIComponent(exam.name)}&d=${totalDurationMinutes}&r=${disableReading ? 't' : 'f'}&i=${disableInstructions ? 't' : 'f'}`;
-            }
+            const url = getExamUrl(exam.name, totalDurationMinutes, disableReading, disableInstructions);
             
             // Copy to clipboard
             navigator.clipboard.writeText(url).then(() => {
                 // Show modal and set URL without https://
                 const modal = document.getElementById('shareModal');
                 const urlContainer = document.getElementById('copiedUrlContainer');
-                const urlWithoutProtocol = url.replace('https://', '');
+                const urlWithoutProtocol = url.replace(/^https?:\/\//, '');
                 if (urlContainer) urlContainer.textContent = urlWithoutProtocol;
                 modal.classList.add('show');
             }).catch(err => {
