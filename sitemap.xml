@@ -5,98 +5,43 @@
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-<!-- Main Pages -->
+<!-- Priority Pages -->
 <url>
   <loc>https://citecount.com/</loc>
   <changefreq>weekly</changefreq>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://citecount.com/product.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://citecount.com/pro.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://citecount.com/download.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/generate/</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/grade-calculator/</loc>
+  <loc>https://citecount.com/ib-resources/</loc>
   <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
+  <priority>0.95</priority>
 </url>
-<url>
-  <loc>https://citecount.com/contact.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.70</priority>
-</url>
-<url>
-  <loc>https://citecount.com/advertise.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.50</priority>
-</url>
-<url>
-  <loc>https://citecount.com/about-us.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.40</priority>
-</url>
-<url>
-  <loc>https://citecount.com/sitemap.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.10</priority>
-</url>
-<url>
-  <loc>https://citecount.com/privacy-policy.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.50</priority>
-</url>
-<url>
-  <loc>https://citecount.com/gdpr-policy.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.50</priority>
-</url>
-<url>
-  <loc>https://citecount.com/cookies-policy.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.50</priority>
-</url>
-<url>
-  <loc>https://citecount.com/terms-of-service.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.50</priority>
-</url>
-
-<!-- Tools and Features -->
 <url>
   <loc>https://citecount.com/countdown/</loc>
   <changefreq>daily</changefreq>
-  <priority>0.90</priority>
+  <priority>0.95</priority>
 </url>
 <url>
   <loc>https://citecount.com/countdown/n26/</loc>
   <changefreq>daily</changefreq>
-  <priority>0.90</priority>
-</url>
-<url>
-  <loc>https://citecount.com/countdown/schedule.html</loc>
-  <changefreq>weekly</changefreq>
-  <priority>0.85</priority>
+  <priority>0.95</priority>
 </url>
 <url>
   <loc>https://citecount.com/exam-timer/</loc>
   <changefreq>weekly</changefreq>
+  <priority>0.95</priority>
+</url>
+<url>
+  <loc>https://citecount.com/generate/</loc>
+  <changefreq>monthly</changefreq>
   <priority>0.90</priority>
+</url>
+
+<!-- Tools and Features -->
+<url>
+  <loc>https://citecount.com/countdown/schedule.html</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.85</priority>
 </url>
 <url>
   <loc>https://citecount.com/exam-timer/start.html</loc>
@@ -104,71 +49,19 @@
   <priority>0.85</priority>
 </url>
 <url>
-  <loc>https://citecount.com/ib-resources/</loc>
-  <changefreq>weekly</changefreq>
-  <priority>0.80</priority>
-</url>
-<url>
   <loc>https://citecount.com/ib-resources/correspondence.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.10</priority>
 </url>
 <url>
+  <loc>https://citecount.com/grade-calculator/</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>https://citecount.com/bulletin-analysis/</loc>
   <changefreq>monthly</changefreq>
   <priority>0.75</priority>
-</url>
-<url>
-  <loc>https://citecount.com/bulletin-analysis/m24.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.60</priority>
-</url>
-<url>
-  <loc>https://citecount.com/bulletin-analysis/n24.html</loc>
-  <changefreq>yearly</changefreq>
-  <priority>0.60</priority>
-</url>
-
-<!-- Support & Help Center (v2) -->
-<url>
-  <loc>https://citecount.com/v2/support/help.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.60</priority>
-</url>
-<url>
-  <loc>https://citecount.com/v2/support/help-new.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.60</priority>
-</url>
-<url>
-  <loc>https://citecount.com/v2/support/articles/getting-started.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.60</priority>
-</url>
-<url>
-  <loc>https://citecount.com/v2/support/articles/features.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.60</priority>
-</url>
-<url>
-  <loc>https://citecount.com/v2/support/articles/file-management.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.60</priority>
-</url>
-<url>
-  <loc>https://citecount.com/v2/support/articles/citations.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.60</priority>
-</url>
-<url>
-  <loc>https://citecount.com/v2/support/articles/shortcuts.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.60</priority>
-</url>
-<url>
-  <loc>https://citecount.com/v2/support/articles/troubleshooting.html</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.60</priority>
 </url>
 
 <!-- Blog Section -->
@@ -361,5 +254,101 @@
   <loc>https://citecount.com/blogs/university-application-timeline-ib-students.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.70</priority>
+</url>
+
+<!-- Bulletin Analysis -->
+<url>
+  <loc>https://citecount.com/bulletin-analysis/m24.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/bulletin-analysis/n24.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.60</priority>
+</url>
+
+<!-- Support & Help Center (v2) -->
+<url>
+  <loc>https://citecount.com/v2/support/help.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/help-new.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/getting-started.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/features.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/file-management.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/citations.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/shortcuts.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+<url>
+  <loc>https://citecount.com/v2/support/articles/troubleshooting.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.60</priority>
+</url>
+
+<!-- Legal & Information -->
+<url>
+  <loc>https://citecount.com/contact.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://citecount.com/advertise.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://citecount.com/about-us.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.40</priority>
+</url>
+<url>
+  <loc>https://citecount.com/sitemap.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.10</priority>
+</url>
+<url>
+  <loc>https://citecount.com/privacy-policy.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://citecount.com/gdpr-policy.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://citecount.com/cookies-policy.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
+</url>
+<url>
+  <loc>https://citecount.com/terms-of-service.html</loc>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
 </url>
 </urlset>
