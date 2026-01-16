@@ -3861,9 +3861,9 @@ pre {
   padding-left: 0;
 }
 
-.file-sidebar.collapsed .sidebar-ad-box {
+/*.file-sidebar.collapsed .sidebar-ad-box {
   display: none !important;
-}
+}*/
 
 .file-sidebar.collapsed .sidebar-footer {
   padding: 0.5rem;
