@@ -93,6 +93,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const savedCitationStates = localStorage.getItem('citationStates');
   if (savedCitationStates) {
     state.includedCitations = new Map(JSON.parse(savedCitationStates));
+    // Ensure counters and highlights respect restored citation states on load
+    updateWordCount();
+    refreshHighlightLayer();
+    updateCitationsTables();
   }
 
   const savedSortState = localStorage.getItem('sortState');
@@ -648,9 +652,21 @@ function highlightCitations(content) {
   return content.replace(/[()（）][^()（）]*[()（）]/g, (match) => {
     citationCounter++;
     const citationText = match.slice(1, -1);
-    const isIncluded = state.includedCitations.get(citationText) || false;
-    return `<span id="citation-${citationCounter}" class="citation-highlight ${isIncluded ? 'included' : 'excluded'}">${match}</span>`;
+    // Default to included unless explicitly excluded
+    const isIncluded = state.includedCitations.get(citationText);
+    const includedState = (isIncluded === undefined) ? true : isIncluded;
+    return `<span id="citation-${citationCounter}" class="citation-highlight ${includedState ? 'included' : 'excluded'}">${match}</span>`;
   });
+}
+
+function refreshHighlightLayer() {
+  const editor = document.getElementById('editor');
+  const highlightLayer = document.getElementById('highlight-layer');
+
+  if (editor && highlightLayer) {
+    highlightLayer.innerHTML = highlightCitations(editor.innerHTML);
+    syncScroll();
+  }
 }
 
 const allowedDomains = [
@@ -1650,7 +1666,7 @@ function updateWordCountWithSelection() {
     filteredCharCountEl.textContent = state.settings.charsNoCitations ? (state.totalChars - state.citationChars) : '0';
   }
   if (quoteCountEl) {
-    quoteCountEl.textContent = state.settings.citations ? state.citationGroups.size : '0';
+    quoteCountEl.textContent = state.settings.citations ? getIncludedCitationCount() : '0';
   }
 
   // Update dynamic counter display
@@ -1676,8 +1692,9 @@ function groupCitations() {
         wordCount: countWords(citation),
         charCount: countChars(citation)  // Added
       });
+      // Default to included unless explicitly excluded
       if (!state.includedCitations.has(citation)) {
-        state.includedCitations.set(citation, false);
+        state.includedCitations.set(citation, true);
       }
     }
   });
@@ -1699,6 +1716,14 @@ function calculateCitationChars() {  // Added
       state.citationChars += group.charCount * group.count;
     }
   });
+}
+
+function getIncludedCitationCount() {
+  let count = 0;
+  state.includedCitations.forEach(isIncluded => {
+    if (isIncluded) count++;
+  });
+  return count;
 }
 
 function countWords(text) {
@@ -1897,16 +1922,14 @@ function createCitationRow(tableBody, group, citationText) {
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.className = 'sr-only peer';
-  checkbox.checked = state.includedCitations.get(citationText);
+  // Checkbox represents "exclude" state, so checked = not included
+  checkbox.checked = !state.includedCitations.get(citationText);
   checkbox.addEventListener('change', function () {
-    state.includedCitations.set(citationText, this.checked);
-    updateFilteredWordCount();
+    // Store the inverse so true = included, checkbox checked = excluded
+    state.includedCitations.set(citationText, !this.checked);
     saveCitationStates();
-    // Update highlight colors immediately
-    const editor = document.getElementById('editor');
-    const highlightLayer = document.getElementById('highlight-layer');
-    highlightLayer.innerHTML = highlightCitations(editor.innerHTML);
-    syncScroll();
+    updateFilteredWordCount();
+    refreshHighlightLayer();
   });
   const slider = document.createElement('div');
   slider.className = 'w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600';
@@ -2019,8 +2042,38 @@ function jumpToCitation(citationText) {
 function updateFilteredWordCount() {
   calculateCitationWords();
   calculateCitationChars();  // Added
-  document.getElementById('filtered-word-count').textContent = state.settings.wordsNoCitations ? (state.totalWords - state.citationWords) : '0';
-  document.getElementById('filtered-char-count').textContent = state.settings.charsNoCitations ? (state.totalChars - state.citationChars) : '0';  // Added
+  state.wordsWithCitations = state.totalWords;
+  state.wordsNoCitations = state.totalWords - state.citationWords;
+  state.charsWithCitations = state.totalChars;
+  state.charsNoCitations = state.totalChars - state.citationChars;
+
+  const quoteCountEl = document.getElementById('quote-count');
+  if (quoteCountEl) {
+    quoteCountEl.textContent = state.settings.citations ? getIncludedCitationCount() : '0';
+  }
+
+  const totalWordCountEl = document.getElementById('total-word-count');
+  if (totalWordCountEl) {
+    totalWordCountEl.textContent = state.settings.wordsWithCitations ? state.totalWords : (state.settings.wordsNoCitations ? state.wordsNoCitations : '0');
+  }
+
+  const filteredWordCountEl = document.getElementById('filtered-word-count');
+  if (filteredWordCountEl) {
+    filteredWordCountEl.textContent = state.settings.wordsNoCitations ? state.wordsNoCitations : '0';
+  }
+
+  const totalCharCountEl = document.getElementById('total-char-count');
+  if (totalCharCountEl) {
+    totalCharCountEl.textContent = state.settings.charsWithCitations ? state.totalChars : (state.settings.charsNoCitations ? state.charsNoCitations : '0');
+  }
+
+  const filteredCharCountEl = document.getElementById('filtered-char-count');
+  if (filteredCharCountEl) {
+    filteredCharCountEl.textContent = state.settings.charsNoCitations ? state.charsNoCitations : '0';
+  }
+
+  updateTimeDetails();
+  updateCounterDisplay();
 }
 
 function showNotification(message, confirm = false, onConfirm = null, type = 'notification') {
@@ -2123,7 +2176,8 @@ function initiateExample() {
   const welcomeText = document.getElementById('welcome-text');
   editor.innerText = `Welcome to CiteCount! CiteCount is a tool designed to help you count words in your text while excluding in-text citations.\n\nCiteCount automatically detects your in-text citation and highlights it (CiteCount, 2025).\n\nBy default, all citations are not included in the Total Words count. They are visualized by a red highlight in the text. If CiteCount misrecognized an in-text citation (since CiteCount detects citations in parenthesis, like this one), you can always toggle it to count into the total word count, and it will be done for all occurrences of the same text.\n\nYou can click on a citation and CiteCount will jump to its position ("What's new in CiteCount v2", 2025).\n\nClick the help icon in the navigation bar if you run into any issues.\n\nThanks for using CiteCount!`;
   welcomeText.style.display = 'none';
-  state.includedCitations.set("since CiteCount detects citations in parenthesis, like this one", true);
+  // Demo exception: keep this sample citation excluded by default for the example
+  state.includedCitations.set("since CiteCount detects citations in parenthesis, like this one", false);
   saveCitationStates();
   handleEditorInput();
 }
@@ -2753,7 +2807,7 @@ function updateDetailTabCounters() {
     'details-words-with-citations': state.wordsWithCitations, 
     'details-chars-no-citations': state.charsNoCitations,
     'details-chars-with-citations': state.charsWithCitations,
-    'details-citations': state.citationGroups?.size || 0
+    'details-citations': getIncludedCitationCount()
   };
   
   // Mobile detail tab elements
@@ -2762,7 +2816,7 @@ function updateDetailTabCounters() {
     'details-words-with-citations-mobile': state.wordsWithCitations,
     'details-chars-no-citations-mobile': state.charsNoCitations, 
     'details-chars-with-citations-mobile': state.charsWithCitations,
-    'details-citations-mobile': state.citationGroups?.size || 0
+    'details-citations-mobile': getIncludedCitationCount()
   };
   
   // Update desktop elements
@@ -2825,7 +2879,7 @@ function updateCounterDisplay() {
         value.textContent = state.totalChars;
         break;
       case 'citations':
-        value.textContent = state.citationGroups.size;
+        value.textContent = getIncludedCitationCount();
         break;
       case 'speakingTime':
         value.textContent = state.speakingTime || '0 sec';

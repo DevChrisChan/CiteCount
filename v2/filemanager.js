@@ -17,7 +17,7 @@ const fileManager = {
     const sidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
     if (sidebarCollapsed) {
       document.getElementById('file-sidebar').classList.add('collapsed');
-      document.getElementById('sidebar-ad-box').style.display = 'none';
+      document.getElementById('sidebar-ad-box').classList.add('collapsed');
     }
     
     // Setup sidebar resize

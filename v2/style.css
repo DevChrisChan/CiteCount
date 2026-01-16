@@ -9,8 +9,8 @@
     --header-light: #F0F0F0;
     --header-dark: #1F1F1F;
     --accent-color: #1E40AF;
-    --highlight-included: rgba(0, 207, 0, 0.3);
-    --highlight-excluded: rgba(255, 0, 0, 0.3);
+    --highlight-included: rgba(255, 0, 0, 0.3);
+    --highlight-excluded: rgba(0, 207, 0, 0.3);
 
     /* Dynamic variables that change based on theme */
     --text-primary: var(--text-light);
@@ -563,7 +563,7 @@
   }
 
   #highlight-layer .citation-highlight {
-    border-radius: 2px;
+    border-radius: 5px;
     transition: all 0.3s ease;
     text-decoration: underline;
   }
@@ -1258,7 +1258,7 @@
     flex-direction: column;
     align-items: center;
     padding: 1rem 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     text-decoration: none;
     color: inherit;
     transition: all 0.15s ease;
