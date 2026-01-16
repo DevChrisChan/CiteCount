@@ -19,6 +19,7 @@
     --background-secondary: #F9FAFB;
     --border-primary: var(--border-light);
     --surface-color: #FFF;
+    --accent-color: #1E40AF;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -29,6 +30,7 @@
       --background-secondary: #1F1F1F;
       --border-primary: var(--border-dark);
       --surface-color: #242424;
+      --accent-color: #3B82F6;
     }
   }
 
@@ -340,7 +342,7 @@
     .citations-overlay,
     .settings-overlay,
     .help-overlay {
-      background: rgba(36, 36, 36, 0.95);
+      background: #1D1F24!important;
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
       border-color: var(--border-dark);
@@ -1000,6 +1002,73 @@
       background: rgba(17, 24, 39, 0.95);
       border-color: #374151;
     }
+  }
+
+  /* Normalize settings modal surfaces for light/dark themes */
+  .settings-overlay {
+    --settings-surface: #f9fafb;
+    --settings-surface-strong: #f3f4f6;
+    --settings-border-strong: #e5e7eb;
+    --settings-muted: #4b5563;
+    --settings-sidebar: #f9fafb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .settings-overlay {
+      --settings-surface: #1c1f24;
+      --settings-surface-strong: #262a31;
+      --settings-border-strong: #2f3540;
+      --settings-muted: #cbd5e1;
+      --settings-sidebar: #1b1e23;
+    }
+  }
+
+  .settings-overlay .settings-header {
+    background: var(--settings-surface);
+    border-bottom-color: var(--settings-border-strong);
+  }
+
+  .settings-overlay .settings-content-wrapper {
+    background: var(--settings-surface);
+  }
+
+  .settings-overlay .settings-sidebar {
+    background: var(--settings-sidebar);
+    border-right-color: var(--settings-border-strong);
+  }
+
+  .settings-overlay .settings-main-content {
+    background: var(--settings-surface);
+    color: var(--text-primary);
+  }
+
+  .settings-overlay .p-3.rounded-md,
+  .settings-overlay .p-4.rounded-md,
+  .settings-overlay [style*="background: #f3f4f6"] {
+    background: var(--settings-surface-strong) !important;
+    border: 1px solid var(--settings-border-strong);
+  }
+
+  .settings-overlay select,
+  .settings-overlay #fontFamilyDropdown,
+  .settings-overlay .font-option,
+  .settings-overlay input[type="range"] {
+    background: var(--settings-surface);
+    color: var(--text-primary);
+    border-color: var(--settings-border-strong);
+  }
+
+  .settings-overlay .font-option:hover {
+    background: var(--settings-surface-strong);
+  }
+
+  .settings-overlay .text-gray-500,
+  .settings-overlay .text-gray-600 {
+    color: var(--settings-muted) !important;
+  }
+
+  .settings-overlay .settings-category-btn.active {
+    box-shadow: 0 0 0 1px var(--settings-border-strong);
   }
 
   .citations-overlay h2,
@@ -1721,6 +1790,43 @@
 
   .confirmation-overlay button:last-child:hover {
     background: #D1D5DB;
+  }
+
+  /* Dark mode overrides placed after base styles so they win the cascade */
+  @media (prefers-color-scheme: dark) {
+    .confirmation-overlay {
+      background: #1D1F24;
+      border: 1px solid #1F2937;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .confirmation-overlay h2 {
+      color: #F9FAFB;
+    }
+
+    .confirmation-overlay p {
+      color: #E5E7EB;
+    }
+
+    .confirmation-overlay button:first-child {
+      background: #DC2626;
+      color: #FFF;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+    }
+
+    .confirmation-overlay button:first-child:hover {
+      background: #B91C1C;
+    }
+
+    .confirmation-overlay button:last-child {
+      background: #1F2937;
+      color: #E5E7EB;
+      border: 1px solid #374151;
+    }
+
+    .confirmation-overlay button:last-child:hover {
+      background: #1D1F24;
+    }
   }
 
   /* Info button styles */
