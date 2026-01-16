@@ -734,6 +734,48 @@
           </div>
         </div>
       </div>
+
+      <!-- Exclude Citation Info Modal -->
+      <div id="exclude-citation-modal" class="info-dialogue" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; max-width: 500px; max-height: 90vh; overflow-y: auto;">
+        <button onclick="closeExcludeCitationInfoModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; font-size: 1.5rem; opacity: 0.6;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">×</button>
+        <h3 id="exclude-citation-title" style="margin-top: 0; display: flex; align-items: center; gap: 0.75rem;">
+          <span>Excluding Citations</span>
+        </h3>
+        <div style="background: var(--background-secondary); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+          <p style="margin: 0; font-size: 0.95rem;"><strong>What does the toggle do?</strong></p>
+          <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">When enabled, the selected content is excluded from citation detection and will be counted toward your "Words without Citations" total. When disabled, the content is treated as a citation and will not be included in your word count.</p>
+        </div>
+
+        <div style="background: var(--background-secondary); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+          <p style="margin: 0; font-size: 0.95rem;"><strong>When to use this feature:</strong></p>
+          <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+            <li>CiteCount incorrectly detected normal parentheses as citations (e.g., "this result (2023) was significant")</li>
+            <li>You need to exclude a parenthetical phrase that isn't an actual citation</li>
+            <li>You want to manually correct CiteCount's detection for precise word counts</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--background-secondary); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+          <p style="margin: 0; font-size: 0.95rem;"><strong>Understanding the highlight layers:</strong></p>
+          <div style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
+            <p style="margin: 0.5rem 0;">As you type, CiteCount highlights parenthetical content with colors:</p>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin: 0.5rem 0;">
+              <div style="width: 24px; height: 24px; background: rgba(239, 68, 68, 0.3); border-radius: 3px;"></div>
+              <span><strong style="color: #ef4444;">Red highlight:</strong> Treated as a citation (not counted in "Words without Citations")</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin: 0.5rem 0;">
+              <div style="width: 24px; height: 24px; background: rgba(34, 197, 94, 0.3); border-radius: 3px;"></div>
+              <span><strong style="color: #22c55e;">Green highlight:</strong> Excluded from citations (counted in "Words without Citations")</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+          <p style="margin: 0; font-size: 0.9rem; color: white"><strong>💡 Pro Tip:</strong> Use the Try Example feature to see how CiteCount highlights and counts citations in a sample document with detailed explanations.</p>
+        </div>
+
+        <button onclick="closeExcludeCitationInfoModal()" style="width: 100%; padding: 0.75rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 600; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Got it</button>
+      </div>
     `;
   }
 })();

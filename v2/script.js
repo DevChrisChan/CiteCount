@@ -27,7 +27,8 @@ const state = {
       charsWithCitations: { enabled: true, order: 3, shortName: 'Total Characters', tooltip: 'Total Characters' },
       citations: { enabled: true, order: 4, shortName: 'Citations', tooltip: 'Citations' },
       speakingTime: { enabled: false, order: 5, shortName: 'Speaking Time', tooltip: 'Speaking Time' },
-      readingTime: { enabled: false, order: 6, shortName: 'Reading Time', tooltip: 'Reading Time' }
+      readingTime: { enabled: false, order: 6, shortName: 'Reading Time', tooltip: 'Reading Time' },
+      handwritingTime: { enabled: false, order: 7, shortName: 'Handwriting Time', tooltip: 'Handwriting Time' }
     }
   },
   currentOccurrenceIndex: new Map(),
@@ -197,6 +198,7 @@ function closeOverlays() {
   toggleHelpOverlay(false);
   toggleAppsModal(false);
   closePastePermissionModal();
+  closeExcludeCitationInfoModal();
   document.getElementById('confirmation-overlay').style.display = 'none';
   document.getElementById('info-dialogue').style.display = 'none';
   document.getElementById('overlay-background').style.display = 'none';
@@ -2767,9 +2769,28 @@ function updateTimeDetails() {
     readingTime = `${readingMinutes} ${minText} ${readingSeconds} ${secText}`;
   }
   
+  // Calculate handwriting time (40 words per minute)
+  const handwritingMinutesTotal = wordsWithoutCitations / 40;
+  const handwritingMinutes = Math.floor(handwritingMinutesTotal);
+  const handwritingSeconds = Math.round((handwritingMinutesTotal - handwritingMinutes) * 60);
+  
+  let handwritingTime;
+  if (handwritingMinutesTotal < 1/60) {
+    handwritingTime = '0 sec';
+  } else if (handwritingMinutes === 0) {
+    handwritingTime = handwritingSeconds === 1 ? '1 sec' : `${handwritingSeconds} secs`;
+  } else if (handwritingSeconds === 0) {
+    handwritingTime = handwritingMinutes === 1 ? '1 min' : `${handwritingMinutes} mins`;
+  } else {
+    const minText = handwritingMinutes === 1 ? 'min' : 'mins';
+    const secText = handwritingSeconds === 1 ? 'sec' : 'secs';
+    handwritingTime = `${handwritingMinutes} ${minText} ${handwritingSeconds} ${secText}`;
+  }
+  
   // Update the desktop display
   const speakingTimeElement = document.getElementById('speaking-time');
   const readingTimeElement = document.getElementById('reading-time');
+  const handwritingTimeElement = document.getElementById('handwriting-time');
   
   if (speakingTimeElement) {
     speakingTimeElement.textContent = speakingTime;
@@ -2779,9 +2800,14 @@ function updateTimeDetails() {
     readingTimeElement.textContent = readingTime;
   }
   
+  if (handwritingTimeElement) {
+    handwritingTimeElement.textContent = handwritingTime;
+  }
+  
   // Update the mobile display
   const speakingTimeMobileElement = document.getElementById('speaking-time-mobile');
   const readingTimeMobileElement = document.getElementById('reading-time-mobile');
+  const handwritingTimeMobileElement = document.getElementById('handwriting-time-mobile');
   
   if (speakingTimeMobileElement) {
     speakingTimeMobileElement.textContent = speakingTime;
@@ -2790,10 +2816,15 @@ function updateTimeDetails() {
   if (readingTimeMobileElement) {
     readingTimeMobileElement.textContent = readingTime;
   }
+  
+  if (handwritingTimeMobileElement) {
+    handwritingTimeMobileElement.textContent = handwritingTime;
+  }
 
   // Store times for counter display
   state.speakingTime = speakingTime;
   state.readingTime = readingTime;
+  state.handwritingTime = handwritingTime;
   
   // Update detail tab counters
   updateDetailTabCounters();
@@ -2887,6 +2918,9 @@ function updateCounterDisplay() {
       case 'readingTime':
         value.textContent = state.readingTime || '0 sec';
         break;
+      case 'handwritingTime':
+        value.textContent = state.handwritingTime || '0 sec';
+        break;
       default:
         value.textContent = '0';
     }
@@ -2957,6 +2991,30 @@ function moveCounterDown(counterKey) {
       updateCounterSettings();
     }
   }
+}
+
+function resetCountersToDefault() {
+  // Reset counters to default: all enabled except speaking, reading, and handwriting
+  state.settings.counters = {
+    wordsNoCitations: { enabled: true, order: 0, shortName: 'Words without Citations', tooltip: 'Words without Citations' },
+    wordsWithCitations: { enabled: true, order: 1, shortName: 'Total Words', tooltip: 'Total Words' },
+    charsNoCitations: { enabled: true, order: 2, shortName: 'Characters without Citations', tooltip: 'Characters without Citations' },
+    charsWithCitations: { enabled: true, order: 3, shortName: 'Total Characters', tooltip: 'Total Characters' },
+    citations: { enabled: true, order: 4, shortName: 'Citations', tooltip: 'Citations' },
+    speakingTime: { enabled: false, order: 5, shortName: 'Speaking Time', tooltip: 'Speaking Time' },
+    readingTime: { enabled: false, order: 6, shortName: 'Reading Time', tooltip: 'Reading Time' },
+    handwritingTime: { enabled: false, order: 7, shortName: 'Handwriting Time', tooltip: 'Handwriting Time' }
+  };
+  
+  // Save settings
+  localStorage.setItem('settings', JSON.stringify(state.settings));
+  
+  // Update display
+  updateCounterDisplay();
+  updateCounterSettings();
+  
+  // Show confirmation
+  showNotification('Counters have been reset to default', false);
 }
 
 function updateCounterSettings() {
@@ -3048,7 +3106,8 @@ function getCounterDescription(counterKey) {
     charsWithCitations: 'Total character count including citations',
     citations: 'Number of unique citations detected',
     speakingTime: 'Estimated time to speak the text (150 words/min)',
-    readingTime: 'Estimated time to read the text (200 words/min)'
+    readingTime: 'Estimated time to read the text (200 words/min)',
+    handwritingTime: 'Estimated time to write the text by hand (40 words/min)'
   };
   return descriptions[counterKey] || 'Counter description';
 }
@@ -3066,6 +3125,9 @@ function showInfoDialogue(type) {
   } else if (type === 'reading') {
     titleText.textContent = 'Reading Time Calculation';
     content.textContent = 'This calculation is based on an average reading speed of 200 words per minute. This represents typical silent reading speed for adults. Reading speeds vary based on factors like text complexity, familiarity with the subject, and individual reading ability, but 200 words per minute is considered the average for general comprehension reading.';
+  } else if (type === 'handwriting') {
+    titleText.textContent = 'Handwriting Time Calculation';
+    content.textContent = 'This calculation is based on an average handwriting speed of 40 words per minute. This represents the time needed to write the text by hand at a normal pace. Handwriting speeds vary significantly between individuals, materials used (pen, pencil), and writing style (cursive vs. print), but 40 words per minute is widely accepted as the average for continuous handwritten text. This estimate assumes standard paper and pen, not digital handwriting devices.';
   } else if (type === 'wordsNoCitations') {
     titleText.textContent = 'Words without Citations';
     content.textContent = 'This count includes only the main body text, excluding all in-text citations, reference entries, and bibliography. This measurement is particularly useful for academic assignments where word limits typically apply to content only, not citations. CiteCount automatically detects and removes various citation formats including APA, MLA, Chicago, Harvard, and other academic styles.';
@@ -3093,6 +3155,26 @@ function closeInfoDialogue() {
   
   dialogue.style.display = 'none';
   overlay.style.display = 'none';
+}
+
+function showExcludeCitationInfoModal() {
+  const modal = document.getElementById('exclude-citation-modal');
+  const overlay = document.getElementById('overlay-background');
+  
+  if (modal && overlay) {
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+  }
+}
+
+function closeExcludeCitationInfoModal() {
+  const modal = document.getElementById('exclude-citation-modal');
+  const overlay = document.getElementById('overlay-background');
+  
+  if (modal && overlay) {
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+  }
 }
 
 // Cookie Consent Management
@@ -3334,8 +3416,9 @@ class CookieConsent {
 // document.addEventListener('DOMContentLoaded', function() {
 //  window.cookieConsent = new CookieConsent();
 // });
+
 // Perplexity Overlay Logic
-function showPerplexityOverlay() {
+/*function showPerplexityOverlay() {
   const overlay = document.getElementById('perplexity-overlay');
   // Check if already dismissed
   if (overlay && !localStorage.getItem('perplexityOverlayDismissed')) {
@@ -3365,7 +3448,7 @@ function showPerplexityOverlay() {
       }
     }, 1000);
   }
-}
+}*/
 
 function dismissPerplexityOverlay() {
   const overlay = document.getElementById('perplexity-overlay');
