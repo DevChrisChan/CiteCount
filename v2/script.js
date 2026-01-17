@@ -871,7 +871,7 @@ function showFileImportProgress(totalFiles) {
           <span id="progress-count" style="flex-shrink: 0;">0 / ${totalFiles}</span>
         </div>
         <div style="width: 100%; height: 8px; background: var(--background-secondary); border-radius: 4px; overflow: hidden;">
-          <div id="progress-bar-fill" style="width: 0%; height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transition: width 0.3s ease;"></div>
+          <div id="progress-bar-fill" style="width: 0%; height: 100%; background: #1F40AF; transition: width 0.3s ease;"></div>
         </div>
         <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.75rem; color: var(--text-secondary);">
           <span id="time-elapsed">Elapsed: 0s</span>
@@ -885,7 +885,7 @@ function showFileImportProgress(totalFiles) {
         <button id="import-cancel-btn" onclick="cancelFileImport()" style="padding: 8px 16px; border-radius: 6px; background: transparent; 
                 border: 1px solid var(--border-primary); cursor: pointer; font-size: 0.875rem;">Cancel</button>
         <button id="import-done-btn" onclick="closeFileImportProgress()" style="padding: 8px 16px; border-radius: 6px; 
-                background: #667eea; color: white; border: none; cursor: pointer; font-size: 0.875rem; display: none;">Done</button>
+                background: #1F40AF; color: white; border: none; cursor: pointer; font-size: 0.875rem; display: none;">Done</button>
       </div>
     </div>
     <div id="file-import-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -959,8 +959,8 @@ function addFileToImportList(fileName, status = 'pending', projectId = null) {
   
   const goToButtonHTML = projectId ? `
     <button onclick="goToImportedFile('${fileId}')" 
-      style="flex-shrink: 0; padding: 4px 8px; background: #667eea; color: white; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: background 0.2s;"
-      onmouseover="this.style.background='#764ba2'" onmouseout="this.style.background='#667eea'" 
+      style="flex-shrink: 0; padding: 4px 8px; background: #1F40AF; color: white; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: background 0.2s;"
+      onmouseover="this.style.background='#1F40AF'" onmouseout="this.style.background='#1F40AF'" 
       title="Go to this file">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="display: inline; margin-right: 4px; vertical-align: -2px;">
         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -1052,8 +1052,8 @@ function processFilesSequentially(files, currentIndex, totalFiles) {
         if (!button) {
           const goToButtonHTML = `
             <button onclick="goToImportedFile('${fileId}')" 
-              style="flex-shrink: 0; padding: 4px 8px; background: #667eea; color: white; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: background 0.2s;"
-              onmouseover="this.style.background='#764ba2'" onmouseout="this.style.background='#667eea'" 
+              style="flex-shrink: 0; padding: 4px 8px; background: #1F40AF; color: white; border: none; border-radius: 4px; font-size: 0.75rem; cursor: pointer; transition: background 0.2s;"
+              onmouseover="this.style.background='#1F40AF'" onmouseout="this.style.background='#1F40AF'" 
               title="Go to this file">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="display: inline; margin-right: 4px; vertical-align: -2px;">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
@@ -2414,16 +2414,98 @@ if ('serviceWorker' in navigator) {
 }
 
 window.onerror = function (message, source, lineno, colno, error) {
-  const errorMessage = `An error occured, please contact the developers.\n` + `Error: ${message}\n` +
+  console.error('window.onerror triggered');
+  console.error('Message:', message);
+  console.error('Source:', source);
+  console.error('Line:', lineno, 'Column:', colno);
+  console.error('Error object:', error);
+  
+  const errorMessage = `Error: ${message}\n` +
     `Source: ${source}\n` +
     `Line: ${lineno}\n` +
     `Column: ${colno}\n` +
     `Stack: ${error ? error.stack : 'N/A'}`;
-  notify(errorMessage)
-  if (source === 'https://liteanalytics.com/lite.js') {
-    return true;
-  }
+  
+  console.log('Calling showErrorModal...');
+  showErrorModal(errorMessage);
+  
+  // Return true to prevent default browser error handling
+  return true;
 };
+
+// Error Modal Functions
+let currentErrorDetails = '';
+
+function showErrorModal(errorDetails) {
+  console.log('showErrorModal called with:', errorDetails);
+  currentErrorDetails = errorDetails;
+  
+  // Function to actually show the modal
+  const displayModal = () => {
+    const modal = document.getElementById('error-modal');
+    const errorBox = document.getElementById('error-details-box');
+   
+    if (modal && errorBox) {
+      errorBox.textContent = errorDetails;
+      modal.style.display = 'block';
+      
+      // Reset copy button text
+      const copyText = document.getElementById('copy-error-text');
+      if (copyText) copyText.textContent = 'Copy';
+    } else {
+      console.error('Error modal elements not found. Modal:', modal, 'ErrorBox:', errorBox);
+      // Fallback to notify if modal isn't available
+      if (typeof notify === 'function') {
+        notify('An error occurred. Check console for details.');
+      }
+    }
+  };
+  
+  // If DOM is ready, show immediately. Otherwise, wait for DOMContentLoaded
+  if (document.getElementById('error-modal')) {
+    displayModal();
+  } else {
+    console.log('Modal not ready yet, waiting for DOM...');
+    // Wait a bit for modals.js to inject the HTML
+    setTimeout(() => {
+      if (document.getElementById('error-modal')) {
+        displayModal();
+      } else {
+        // Still not available, try one more time after a longer delay
+        setTimeout(displayModal, 500);
+      }
+    }, 100);
+  }
+}
+
+function closeErrorModal() {
+  const modal = document.getElementById('error-modal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+function copyErrorDetails() {
+  navigator.clipboard.writeText(currentErrorDetails).then(() => {
+    const copyText = document.getElementById('copy-error-text');
+    if (copyText) {
+      copyText.textContent = 'Copied!';
+      setTimeout(() => {
+        copyText.textContent = 'Copy';
+      }, 2000);
+    }
+  }).catch(err => {
+    console.error('Failed to copy error details:', err);
+  });
+}
+
+function contactSupportFromError() {
+  // Open support page in new tab/window
+  window.open('/contact.html', '_blank');
+  
+  // Close the error modal
+  closeErrorModal();
+}
 
 // Flag to enable/disable survey messages
 const SURVEY_ENABLED = true;
@@ -3472,4 +3554,4 @@ function claimPerplexityOffer() {
 }
 
 // Initialize overlay and sidebar ad
-document.addEventListener('DOMContentLoaded', showPerplexityOverlay);
+// document.addEventListener('DOMContentLoaded', showPerplexityOverlay);
