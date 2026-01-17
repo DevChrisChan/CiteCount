@@ -65,13 +65,14 @@
     overflow: hidden;
   }
 
+ 
   .content-area {
-    flex: 1 0 auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
     padding: 0.5rem 1rem;
-    min-height: auto;
-    overflow: visible;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .main-content {
