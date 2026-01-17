@@ -5,64 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookies Policy - CiteCount</title>
     <meta name="description" content="CiteCount's cookies policy explaining how we use cookies, what types we use, and how you can control them.">
+    <meta property="og:title" content="Cookies Policy - CiteCount" />
+    <meta property="og:description" content="How CiteCount uses cookies and similar technologies." />
+    <meta property="og:url" content="https://citecount.com/cookies-policy.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
     <link href="/v2/style.css" rel="stylesheet">
     <link href="/v2/flowbite.css" rel="stylesheet">
     <style>
-        .policy-container {
-            max-width: 800px;
+        .legal-container {
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 2rem;
-            background: var(--background-primary);
+            padding: 0 1.5rem 3rem;
             color: var(--text-primary);
             line-height: 1.6;
         }
-        .policy-header {
-            text-align: center;
-            margin-bottom: 3rem;
+        .legal-meta {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
         }
-        .policy-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-        }
-        .policy-subtitle {
-            font-size: 1.125rem;
-            opacity: 0.8;
-        }
-        .policy-section {
-            margin-bottom: 2.5rem;
-        }
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--accent-color);
-        }
-        .subsection-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+        .legal-section { margin: 1.75rem 0; }
+        .legal-section h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
             margin-bottom: 0.75rem;
-            margin-top: 1.5rem;
+            color: var(--text-primary);
         }
-        .policy-text {
-            margin-bottom: 1rem;
+        .legal-section h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 1rem 0 0.5rem;
         }
-        .policy-list {
-            margin: 1rem 0;
-            padding-left: 1.5rem;
-        }
-        .policy-list li {
-            margin-bottom: 0.5rem;
+        .legal-section ul { margin: 0.75rem 0 0.75rem 1.5rem; }
+        .legal-section li { margin-bottom: 0.4rem; }
+        .highlight-box {
+            background: none;
+            border-left: 4px solid var(--accent-color);
+            padding: 0.75rem 1rem;
+            border-radius: 0;
+            margin: 1.25rem 0 1.75rem;
         }
         .cookie-table {
             width: 100%;
             border-collapse: collapse;
             margin: 1.5rem 0;
-            background: var(--background-secondary);
+            background: none;
             border-radius: 0.5rem;
             overflow: hidden;
         }
@@ -77,38 +74,19 @@
             color: white;
             font-weight: 600;
         }
-        .cookie-table tr:last-child td {
-            border-bottom: none;
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .highlight-box {
-            background: var(--background-secondary);
-            border-left: 4px solid var(--accent-color);
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 0.5rem 0.5rem 0;
-        }
+        .cookie-table tr:last-child td { border-bottom: none; }
         .cookie-category {
-            background: var(--background-secondary);
+            background: none;
             border: 1px solid var(--border-primary);
             border-radius: 0.5rem;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
+            padding: 1.25rem;
+            margin: 1.25rem 0;
         }
         .cookie-category h4 {
             color: var(--accent-color);
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            font-weight: 700;
         }
         .control-button {
             background: var(--accent-color);
@@ -121,298 +99,326 @@
             transition: background-color 0.2s;
             margin: 0.5rem 0.5rem 0.5rem 0;
         }
-        .control-button:hover {
-            background: var(--accent-color-dark, #0056b3);
+        .control-button:hover { background: var(--accent-color-dark, #0056b3); }
+        .control-button.secondary { background: var(--background-tertiary, #6c757d); }
+        #cookie-settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
         }
-        .control-button.secondary {
-            background: var(--background-tertiary, #6c757d);
+        .cookie-settings-content {
+            background: var(--background-primary);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .cookie-toggle input[type="checkbox"] { opacity: 0; width: 0; height: 0; }
+        .cookie-toggle .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 24px;
         }
     </style>
 </head>
 <body>
-    <div class="policy-container">
-        <a href="/" class="back-link">← Back to CiteCount</a>
-        
-        <div class="policy-header">
-            <h1 class="policy-title">Cookies Policy</h1>
-            <p class="policy-subtitle">How CiteCount Uses Cookies and Similar Technologies</p>
-            <p style="margin-top: 1rem; opacity: 0.7;">Last updated: August 9, 2025</p>
-        </div>
-
-        <div class="highlight-box">
-            <p><strong>Quick Summary:</strong> CiteCount uses minimal cookies to provide essential functionality and optional analytics. You have full control over non-essential cookies through our cookie settings.</p>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">1. What Are Cookies?</h2>
-            <p class="policy-text">Cookies are small text files that are placed on your device (computer, smartphone, or tablet) when you visit our website. They help us provide you with a better experience by remembering your preferences and understanding how you use our site.</p>
-            
-            <p class="policy-text">Similar technologies include:</p>
-            <ul class="policy-list">
-                <li><strong>Local Storage:</strong> Browser-based storage for your preferences and saved content</li>
-                <li><strong>Session Storage:</strong> Temporary storage that expires when you close your browser</li>
-                <li><strong>Web Beacons:</strong> Small transparent images used for analytics</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">2. How We Use Cookies</h2>
-            <p class="policy-text">CiteCount uses cookies for the following purposes:</p>
-            
-            <div class="cookie-category">
-                <h4>Essential Functionality</h4>
-                <ul class="policy-list">
-                    <li>Saving your text and preferences locally</li>
-                    <li>Remembering your settings and customizations</li>
-                    <li>Ensuring the application works properly</li>
-                    <li>Security and fraud prevention</li>
-                </ul>
+    <div class="app-container">
+        <header class="flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/'" style="user-select: none;">
+                <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+                <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
             </div>
-
-            <div class="cookie-category">
-                <h4>Analytics and Performance</h4>
-                <ul class="policy-list">
-                    <li>Understanding how users interact with our features</li>
-                    <li>Identifying areas for improvement</li>
-                    <li>Measuring the effectiveness of new features</li>
-                    <li>Analyzing usage patterns (anonymously)</li>
-                </ul>
+            <div class="flex items-center gap-2">
+                <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()" data-lta-event="v2-more-apps-click">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                        <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+                    </svg>
+                    <span class="hidden md:inline text-sm font-medium">More Apps</span>
+                </button>
             </div>
+        </header>
 
-            <div class="cookie-category">
-                <h4>User Experience</h4>
-                <ul class="policy-list">
-                    <li>Remembering your theme preference (light/dark mode)</li>
-                    <li>Storing your cookie consent choices</li>
-                    <li>Maintaining your session across page reloads</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">3. Types of Cookies We Use</h2>
-            
-            <table class="cookie-table">
-                <thead>
-                    <tr>
-                        <th>Cookie Type</th>
-                        <th>Purpose</th>
-                        <th>Duration</th>
-                        <th>Required</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Strictly Necessary</strong></td>
-                        <td>Essential for basic functionality, security, and AutoSave features</td>
-                        <td>Persistent (until you clear them)</td>
-                        <td>Yes</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Analytics</strong></td>
-                        <td>Help us understand usage patterns and improve the service</td>
-                        <td>Up to 2 years</td>
-                        <td>No (requires consent)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Performance</strong></td>
-                        <td>Monitor site performance and identify technical issues</td>
-                        <td>Session or up to 1 year</td>
-                        <td>No (requires consent)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Preferences</strong></td>
-                        <td>Remember your settings, theme, and customizations</td>
-                        <td>Persistent (until you clear them)</td>
-                        <td>Yes (for functionality)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">4. Specific Cookies and Services</h2>
-            
-            <h3 class="subsection-title">CiteCount Local Storage</h3>
-            <ul class="policy-list">
-                <li><strong>Purpose:</strong> Store your text content, settings, and preferences locally</li>
-                <li><strong>Type:</strong> First-party, essential</li>
-                <li><strong>Data stored:</strong> Your document content, user settings, theme preferences</li>
-                <li><strong>Duration:</strong> Until you clear browser data or uninstall</li>
-            </ul>
-
-            <h3 class="subsection-title">Google Analytics</h3>
-            <ul class="policy-list">
-                <li><strong>Purpose:</strong> Understand user behavior and improve our service</li>
-                <li><strong>Type:</strong> Third-party, analytics (requires consent)</li>
-                <li><strong>Data collected:</strong> Anonymous usage statistics, page views, feature usage</li>
-                <li><strong>Privacy:</strong> IP addresses are anonymized, no personal information collected</li>
-                <li><strong>More info:</strong> <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color);">Google Privacy Policy</a></li>
-            </ul>
-
-            <h3 class="subsection-title">Cloudflare</h3>
-            <ul class="policy-list">
-                <li><strong>Purpose:</strong> Security, performance, and content delivery</li>
-                <li><strong>Type:</strong> Third-party, essential for service delivery</li>
-                <li><strong>Data:</strong> Technical data for security and performance</li>
-                <li><strong>More info:</strong> <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color);">Cloudflare Privacy Policy</a></li>
-            </ul>
-
-            <h3 class="subsection-title">LiteAnalytics</h3>
-            <ul class="policy-list">
-                <li><strong>Purpose:</strong> Privacy-focused website analytics</li>
-                <li><strong>Type:</strong> Third-party, analytics (requires consent)</li>
-                <li><strong>Privacy:</strong> No personal data collection, GDPR compliant</li>
-                <li><strong>More info:</strong> <a href="https://liteanalytics.com/data-policy" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color);">LiteAnalytics Privacy</a></li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">5. Your Cookie Choices</h2>
-            <p class="policy-text">You have several options for controlling cookies on CiteCount:</p>
-
-            <h3 class="subsection-title">Cookie Settings (Recommended)</h3>
-            <p class="policy-text">Use our cookie preference center to choose which types of cookies you want to allow:</p>
-            <button class="control-button" onclick="showCookieSettings()">Open Cookie Settings</button>
-
-            <h3 class="subsection-title">Browser Settings</h3>
-            <p class="policy-text">You can also control cookies through your browser settings:</p>
-            <ul class="policy-list">
-                <li><strong>Block all cookies:</strong> Your browser can be set to block all cookies</li>
-                <li><strong>Delete cookies:</strong> You can delete existing cookies from your browser</li>
-                <li><strong>Selective blocking:</strong> Most browsers allow you to block third-party cookies while allowing first-party cookies</li>
-            </ul>
-
-            <h3 class="subsection-title">Impact of Disabling Cookies</h3>
-            <p class="policy-text">Please note that disabling certain cookies may affect your experience:</p>
-            <ul class="policy-list">
-                <li><strong>Essential cookies:</strong> Disabling these will prevent core functionality like AutoSave</li>
-                <li><strong>Analytics cookies:</strong> Disabling these won't affect functionality but helps us improve the service</li>
-                <li><strong>Preference cookies:</strong> Disabling these means your settings won't be remembered</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">6. Third-Party Cookies</h2>
-            <p class="policy-text">Some cookies on our site are set by third-party services. We carefully select our partners to ensure they respect your privacy:</p>
-            
-            <ul class="policy-list">
-                <li>We only work with privacy-respecting analytics providers</li>
-                <li>Third-party cookies are subject to their own privacy policies</li>
-                <li>You can opt out of third-party cookies through our cookie settings</li>
-                <li>We regularly review our third-party integrations</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">7. Cookie Security</h2>
-            <p class="policy-text">We implement security measures to protect cookie data:</p>
-            <ul class="policy-list">
-                <li><strong>Secure transmission:</strong> Cookies are transmitted over HTTPS</li>
-                <li><strong>Limited scope:</strong> Cookies are restricted to necessary domains only</li>
-                <li><strong>No sensitive data:</strong> We never store sensitive personal information in cookies</li>
-                <li><strong>Regular audits:</strong> We regularly review our cookie usage</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">8. International Transfers</h2>
-            <p class="policy-text">Some of our third-party services may transfer cookie data internationally:</p>
-            <ul class="policy-list">
-                <li>Google Analytics may transfer data to the United States</li>
-                <li>All transfers comply with applicable data protection laws</li>
-                <li>Appropriate safeguards are in place for international transfers</li>
-                <li>Data is always processed in accordance with our privacy commitments</li>
-            </ul>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">9. Updates to This Policy</h2>
-            <p class="policy-text">We may update this cookie policy from time to time to reflect:</p>
-            <ul class="policy-list">
-                <li>Changes in our cookie usage</li>
-                <li>New features or services</li>
-                <li>Changes in applicable laws and regulations</li>
-                <li>Updates to third-party services we use</li>
-            </ul>
-            <p class="policy-text">When we make significant changes, we will notify users and may ask for renewed consent where required.</p>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">10. Contact Us</h2>
-            <p class="policy-text">If you have questions about our use of cookies or this policy, please contact us through our <a href="/contact.html" style="color: var(--accent-color);">contact form</a>.</p>
-            
-            <p class="policy-text">We're committed to transparency and will be happy to provide additional information about our cookie practices.</p>
-        </div>
-
-        <div class="policy-section">
-            <h2 class="section-title">11. Quick Actions</h2>
-            <p class="policy-text">Manage your cookie preferences:</p>
-            <button class="control-button" onclick="openCookieSettingsModal()">Cookie Settings</button>
-            <button class="control-button secondary" onclick="acceptAllCookies()">Accept All Cookies</button>
-            <button class="control-button secondary" onclick="rejectNonEssentialCookies()">Reject Non-Essential</button>
-        </div>
-
-        <!-- Cookie Settings Modal -->
-        <div id="cookie-settings-modal" class="cookie-settings-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-            <div class="cookie-settings-content" style="background: var(--background-primary); border-radius: 0.5rem; padding: 2rem; max-width: 500px; width: 90%; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                <div class="cookie-settings-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Cookie Settings</h3>
-                    <button id="close-cookie-settings" class="close-btn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);" onclick="closeCookieSettingsModal()">
-                        ✕
-                    </button>
-                </div>
-                <div class="cookie-settings-body" style="margin-bottom: 1.5rem;">
-                    <div class="cookie-category" style="margin-bottom: 1.5rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem;">
-                        <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                            <h4 style="margin: 0; font-weight: 600;">Essential Cookies</h4>
-                            <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
-                                <input type="checkbox" checked disabled style="opacity: 0; width: 0; height: 0;">
-                                <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 24px;" onclick="event.preventDefault()"></span>
-                            </label>
-                        </div>
-                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies are necessary for the website to function and cannot be switched off.</p>
+        <main class="content-area" style="padding: 2rem; padding-top: 5rem; min-height: 60vh;">
+            <div class="legal-container">
+                <div class="flex items-start justify-between gap-3" style="flex-wrap: wrap;">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2">Cookies Policy</h1>
+                        <p class="text-base" style="color: var(--text-secondary);">How CiteCount uses cookies and similar technologies</p>
                     </div>
-                    <div class="cookie-category" style="margin-bottom: 1.5rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem;">
-                        <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                            <h4 style="margin: 0; font-weight: 600;">Analytics Cookies</h4>
-                            <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
-                                <input type="checkbox" id="analytics-cookies" checked>
-                                <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 24px;"></span>
-                            </label>
-                        </div>
-                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies allow us to count visits and traffic sources to measure and improve performance.</p>
-                    </div>
-                    <div class="cookie-category" style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem;">
-                        <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                            <h4 style="margin: 0; font-weight: 600;">Advertising Cookies</h4>
-                            <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
-                                <input type="checkbox" id="advertising-cookies" checked>
-                                <span class="slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: 0.4s; border-radius: 24px;"></span>
-                            </label>
-                        </div>
-                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies are used to deliver advertisements more relevant to you and your interests.</p>
+                    <div class="legal-meta">
+                        <span>Last updated: August 9, 2025</span>
+                        <span>Applies to: citecount.com</span>
                     </div>
                 </div>
-                <div class="cookie-settings-footer" style="display: flex; gap: 1rem;">
-                    <button id="save-cookie-preferences" class="control-button" style="flex: 1;" onclick="saveCookiePreferences()">Save Preferences</button>
-                    <button id="accept-all-settings" class="control-button secondary" style="flex: 1;" onclick="acceptAllCookies()">Accept All</button>
+
+                <div class="highlight-box">
+                    <p><strong>Quick Summary:</strong> CiteCount uses minimal cookies to provide essential functionality and optional analytics. You have full control over non-essential cookies through our cookie settings.</p>
+                </div>
+
+                <div class="legal-section">
+                    <h2>1. What Are Cookies?</h2>
+                    <p>Cookies are small text files that are placed on your device when you visit our website. They help us provide you with a better experience by remembering your preferences and understanding how you use our site.</p>
+                    <p>Similar technologies include:</p>
+                    <ul>
+                        <li><strong>Local Storage:</strong> Browser-based storage for your preferences and saved content.</li>
+                        <li><strong>Session Storage:</strong> Temporary storage that expires when you close your browser.</li>
+                        <li><strong>Web Beacons:</strong> Small transparent images used for analytics.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>2. How We Use Cookies</h2>
+                    <p>CiteCount uses cookies for the following purposes:</p>
+                    <div class="cookie-category">
+                        <h4>Essential Functionality</h4>
+                        <ul>
+                            <li>Saving your text and preferences locally.</li>
+                            <li>Remembering your settings and customizations.</li>
+                            <li>Ensuring the application works properly.</li>
+                            <li>Security and fraud prevention.</li>
+                        </ul>
+                    </div>
+                    <div class="cookie-category">
+                        <h4>Analytics and Performance</h4>
+                        <ul>
+                            <li>Understanding how users interact with our features.</li>
+                            <li>Identifying areas for improvement.</li>
+                            <li>Measuring the effectiveness of new features.</li>
+                            <li>Analyzing usage patterns (anonymously).</li>
+                        </ul>
+                    </div>
+                    <div class="cookie-category">
+                        <h4>User Experience</h4>
+                        <ul>
+                            <li>Remembering your theme preference (light/dark mode).</li>
+                            <li>Storing your cookie consent choices.</li>
+                            <li>Maintaining your session across page reloads.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="legal-section">
+                    <h2>3. Types of Cookies We Use</h2>
+                    <table class="cookie-table">
+                        <thead>
+                            <tr>
+                                <th>Cookie Type</th>
+                                <th>Purpose</th>
+                                <th>Duration</th>
+                                <th>Required</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Strictly Necessary</strong></td>
+                                <td>Essential for basic functionality, security, and AutoSave features.</td>
+                                <td>Persistent (until you clear them).</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Analytics</strong></td>
+                                <td>Help us understand usage patterns and improve the service.</td>
+                                <td>Up to 2 years.</td>
+                                <td>No (requires consent)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Performance</strong></td>
+                                <td>Monitor site performance and identify technical issues.</td>
+                                <td>Session or up to 1 year.</td>
+                                <td>No (requires consent)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Preferences</strong></td>
+                                <td>Remember your settings, theme, and customizations.</td>
+                                <td>Persistent (until you clear them).</td>
+                                <td>Yes (for functionality)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="legal-section">
+                    <h2>4. Specific Cookies and Services</h2>
+                    <h3>CiteCount Local Storage</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Store your text content, settings, and preferences locally.</li>
+                        <li><strong>Type:</strong> First-party, essential.</li>
+                        <li><strong>Data stored:</strong> Your document content, user settings, theme preferences.</li>
+                        <li><strong>Duration:</strong> Until you clear browser data or uninstall.</li>
+                    </ul>
+                    <h3>Google Analytics</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Understand user behavior and improve our service.</li>
+                        <li><strong>Type:</strong> Third-party, analytics (requires consent).</li>
+                        <li><strong>Data collected:</strong> Anonymous usage statistics, page views, feature usage.</li>
+                        <li><strong>Privacy:</strong> IP addresses are anonymized, no personal information collected.</li>
+                        <li><strong>More info:</strong> <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a></li>
+                    </ul>
+                    <h3>Cloudflare</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Security, performance, and content delivery.</li>
+                        <li><strong>Type:</strong> Third-party, essential for service delivery.</li>
+                        <li><strong>Data:</strong> Technical data for security and performance.</li>
+                        <li><strong>More info:</strong> <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare Privacy Policy</a></li>
+                    </ul>
+                    <h3>LiteAnalytics</h3>
+                    <ul>
+                        <li><strong>Purpose:</strong> Privacy-focused website analytics.</li>
+                        <li><strong>Type:</strong> Third-party, analytics (requires consent).</li>
+                        <li><strong>Privacy:</strong> No personal data collection, GDPR compliant.</li>
+                        <li><strong>More info:</strong> <a href="https://liteanalytics.com/data-policy" target="_blank" rel="noopener noreferrer">LiteAnalytics Privacy</a></li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>5. Your Cookie Choices</h2>
+                    <p>You have several options for controlling cookies on CiteCount:</p>
+                    <h3>Cookie Settings (Recommended)</h3>
+                    <p>Use our cookie preference center to choose which types of cookies you want to allow:</p>
+                    <button class="control-button" onclick="openCookieSettingsModal()">Open Cookie Settings</button>
+                    <h3>Browser Settings</h3>
+                    <p>You can also control cookies through your browser settings:</p>
+                    <ul>
+                        <li><strong>Block all cookies:</strong> Your browser can be set to block all cookies.</li>
+                        <li><strong>Delete cookies:</strong> You can delete existing cookies from your browser.</li>
+                        <li><strong>Selective blocking:</strong> Most browsers allow you to block third-party cookies while allowing first-party cookies.</li>
+                    </ul>
+                    <h3>Impact of Disabling Cookies</h3>
+                    <p>Please note that disabling certain cookies may affect your experience:</p>
+                    <ul>
+                        <li><strong>Essential cookies:</strong> Disabling these will prevent core functionality like AutoSave.</li>
+                        <li><strong>Analytics cookies:</strong> Disabling these won't affect functionality but helps us improve the service.</li>
+                        <li><strong>Preference cookies:</strong> Disabling these means your settings won't be remembered.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>6. Third-Party Cookies</h2>
+                    <p>Some cookies on our site are set by third-party services. We carefully select our partners to ensure they respect your privacy:</p>
+                    <ul>
+                        <li>We only work with privacy-respecting analytics providers.</li>
+                        <li>Third-party cookies are subject to their own privacy policies.</li>
+                        <li>You can opt out of third-party cookies through our cookie settings.</li>
+                        <li>We regularly review our third-party integrations.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>7. Cookie Security</h2>
+                    <p>We implement security measures to protect cookie data:</p>
+                    <ul>
+                        <li><strong>Secure transmission:</strong> Cookies are transmitted over HTTPS.</li>
+                        <li><strong>Limited scope:</strong> Cookies are restricted to necessary domains only.</li>
+                        <li><strong>No sensitive data:</strong> We never store sensitive personal information in cookies.</li>
+                        <li><strong>Regular audits:</strong> We regularly review our cookie usage.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>8. International Transfers</h2>
+                    <p>Some of our third-party services may transfer cookie data internationally:</p>
+                    <ul>
+                        <li>Google Analytics may transfer data to the United States.</li>
+                        <li>All transfers comply with applicable data protection laws.</li>
+                        <li>Appropriate safeguards are in place for international transfers.</li>
+                        <li>Data is always processed in accordance with our privacy commitments.</li>
+                    </ul>
+                </div>
+
+                <div class="legal-section">
+                    <h2>9. Updates to This Policy</h2>
+                    <p>We may update this cookie policy from time to time to reflect:</p>
+                    <ul>
+                        <li>Changes in our cookie usage.</li>
+                        <li>New features or services.</li>
+                        <li>Changes in applicable laws and regulations.</li>
+                        <li>Updates to third-party services we use.</li>
+                    </ul>
+                    <p>When we make significant changes, we will notify users and may ask for renewed consent where required.</p>
+                </div>
+
+                <div class="legal-section">
+                    <h2>10. Contact Us</h2>
+                    <p>If you have questions about our use of cookies or this policy, please contact us through our <a href="/contact.html">contact form</a>.</p>
+                    <p>We're committed to transparency and will be happy to provide additional information about our cookie practices.</p>
+                </div>
+
+                <div class="legal-section">
+                    <h2>11. Quick Actions</h2>
+                    <p>Manage your cookie preferences:</p>
+                    <button class="control-button" onclick="openCookieSettingsModal()">Cookie Settings</button>
+                    <button class="control-button secondary" onclick="acceptAllCookies()">Accept All Cookies</button>
+                    <button class="control-button secondary" onclick="rejectNonEssentialCookies()">Reject Non-Essential</button>
                 </div>
             </div>
-        </div>
+        </main>
 
-        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-primary);">
-            <a href="/" style="color: var(--accent-color); text-decoration: none; font-weight: 500;">← Return to CiteCount</a>
+        <div id="footer-placeholder"></div>
+    </div>
+
+    <!-- Cookie Settings Modal -->
+    <div id="cookie-settings-modal">
+        <div class="cookie-settings-content">
+            <div class="cookie-settings-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Cookie Settings</h3>
+                <button id="close-cookie-settings" class="close-btn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);" onclick="closeCookieSettingsModal()">✕</button>
+            </div>
+            <div class="cookie-settings-body" style="margin-bottom: 1.5rem;">
+                <div class="cookie-category" style="margin-bottom: 1.5rem;">
+                    <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <h4 style="margin: 0; font-weight: 600; color: var(--text-primary);">Essential Cookies</h4>
+                        <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" checked disabled>
+                            <span class="slider" onclick="event.preventDefault()"></span>
+                        </label>
+                    </div>
+                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies are necessary for the website to function and cannot be switched off.</p>
+                </div>
+                <div class="cookie-category" style="margin-bottom: 1.5rem;">
+                    <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <h4 style="margin: 0; font-weight: 600; color: var(--text-primary);">Analytics Cookies</h4>
+                        <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="analytics-cookies" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies allow us to count visits and traffic sources to measure and improve performance.</p>
+                </div>
+                <div class="cookie-category">
+                    <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                        <h4 style="margin: 0; font-weight: 600; color: var(--text-primary);">Advertising Cookies</h4>
+                        <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="advertising-cookies" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies are used to deliver advertisements more relevant to you and your interests.</p>
+                </div>
+            </div>
+            <div class="cookie-settings-footer" style="display: flex; gap: 1rem;">
+                <button id="save-cookie-preferences" class="control-button" style="flex: 1;" onclick="saveCookiePreferences()">Save Preferences</button>
+                <button id="accept-all-settings" class="control-button secondary" style="flex: 1;" onclick="acceptAllCookies()">Accept All</button>
+            </div>
         </div>
     </div>
 
+    <script src="/v2/apps-modal.js"></script>
+    <script src="/components/footer-loader.js"></script>
     <script>
-        // Apply theme
-        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        }
-
-        // Cookie management functions
         function openCookieSettingsModal() {
             document.getElementById('cookie-settings-modal').style.display = 'flex';
         }
@@ -424,16 +430,14 @@
         function saveCookiePreferences() {
             const analyticsEnabled = document.getElementById('analytics-cookies').checked;
             const advertisingEnabled = document.getElementById('advertising-cookies').checked;
-            
-            // Save to localStorage
+
             localStorage.setItem('cookie-consent', JSON.stringify({
                 essential: true,
                 analytics: analyticsEnabled,
                 advertising: advertisingEnabled,
                 timestamp: Date.now()
             }));
-            
-            // Update consent in gtag
+
             if (typeof gtag !== 'undefined') {
                 gtag('consent', 'update', {
                     analytics_storage: analyticsEnabled ? 'granted' : 'denied',
@@ -442,21 +446,19 @@
                     ad_personalization: advertisingEnabled ? 'granted' : 'denied'
                 });
             }
-            
+
             closeCookieSettingsModal();
             alert('Cookie preferences have been saved successfully.');
         }
 
         function acceptAllCookies() {
-            // Set consent for all cookie types
             localStorage.setItem('cookie-consent', JSON.stringify({
                 essential: true,
                 analytics: true,
                 advertising: true,
                 timestamp: Date.now()
             }));
-            
-            // Update consent in gtag
+
             if (typeof gtag !== 'undefined') {
                 gtag('consent', 'update', {
                     analytics_storage: 'granted',
@@ -465,21 +467,19 @@
                     ad_personalization: 'granted'
                 });
             }
-            
+
             closeCookieSettingsModal();
             alert('All cookies have been accepted.');
         }
 
         function rejectNonEssentialCookies() {
-            // Set consent for essential cookies only
             localStorage.setItem('cookie-consent', JSON.stringify({
                 essential: true,
                 analytics: false,
                 advertising: false,
                 timestamp: Date.now()
             }));
-            
-            // Update consent in gtag
+
             if (typeof gtag !== 'undefined') {
                 gtag('consent', 'update', {
                     analytics_storage: 'denied',
@@ -488,12 +488,11 @@
                     ad_personalization: 'denied'
                 });
             }
-            
+
             closeCookieSettingsModal();
             alert('Non-essential cookies have been rejected.');
         }
 
-        // Close modal when clicking outside
         document.addEventListener('click', function(event) {
             const modal = document.getElementById('cookie-settings-modal');
             if (event.target === modal) {
@@ -501,25 +500,17 @@
             }
         });
 
-        // Close modal with Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeCookieSettingsModal();
             }
         });
 
-        // Setup toggle switches for checkboxes
         document.querySelectorAll('.cookie-toggle input[type="checkbox"]:not([disabled])').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
                 const slider = this.parentElement.querySelector('.slider');
-                if (this.checked) {
-                    slider.style.backgroundColor = '#4CAF50';
-                } else {
-                    slider.style.backgroundColor = '#ccc';
-                }
+                slider.style.backgroundColor = this.checked ? '#4CAF50' : '#ccc';
             });
-            
-            // Initial state
             if (checkbox.checked) {
                 checkbox.parentElement.querySelector('.slider').style.backgroundColor = '#4CAF50';
             }

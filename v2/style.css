@@ -66,12 +66,12 @@
   }
 
   .content-area {
-    flex: 1;
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     padding: 0.5rem 1rem;
-    min-height: 0;
-    overflow: hidden;
+    min-height: auto;
+    overflow: visible;
   }
 
   .main-content {
