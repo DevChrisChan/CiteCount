@@ -44,11 +44,9 @@
         }
 
         .form-container {
-            background: var(--background-primary);
             border: 1px solid var(--border-primary);
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         #iframe-container {
@@ -134,36 +132,12 @@
                     <iframe id="forms" src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true" allowfullscreen onload="iframeLoaded()"></iframe>
                 </div>
                 <div style="text-align: center;">
-                    <a href="/" class="back-button" id="backButton">Return to previous page</a>
+                    <a href="/" class="back-button" id="backButton">Return</a>
                 </div>
             </div>
         </div>
-
-        <footer style="margin-top: 3rem;">
-            <div style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
-                <p style="text-align: center; padding-top: 30px;">
-                    <a href="/contact.html" style="color: var(--text-primary);">Contact the developers</a><br>
-                    <a href="/about-us.html" style="color: var(--text-primary);">About Us</a> • 
-                    <a href="/sitemap.html" style="color: var(--text-primary);">Sitemap</a> • 
-                    <a href="/privacy-policy.html" style="color: var(--text-primary);">Privacy Policy</a> • 
-                    <a href="/terms-of-service.html" style="color: var(--text-primary);">Terms of Service</a> • 
-                    <a href="/gdpr-policy.html" style="color: var(--text-primary);">GDPR Policy</a> • 
-                    <a href="/cookies-policy.html" style="color: var(--text-primary);">Cookies Policy</a>
-                </p>
-                <br>
-                <p style="text-align: center; opacity: 50%;">
-                    International Baccalaureate and IB are registered trademarks owned by the International Baccalaureate Organization.<br>
-                    CiteCount has been developed independently from and is not endorsed by the IBO.
-                </p>
-                <br>
-                <p style="text-align: center; opacity: 50%;">
-                    Some links in CiteCount are affiliate links. Clicking them may earn us a small commission at no extra cost to you, helping us maintain and improve the service.
-                </p>
-                <p style="padding-top: 5px; text-align: center;">
-                    &copy; <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
-                </p>
-            </div>
-        </footer>
+<div id="footer-placeholder"></div>
+<script src="/components/footer-loader.js"></script>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {

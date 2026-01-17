@@ -1,18 +1,22 @@
-<!-- Footer Template-->
 <!-- 
-Footer Placeholder in HTML 
-
 <div id="footer-placeholder"></div>
-
-Footer Loader Script 
-
 <script src="/components/footer-loader.js"></script>
 -->
 <footer style="padding: 3rem 1.5rem 2.5rem; border-top: 1px solid var(--border-primary); background: var(--background-primary); width: 100%; box-sizing: border-box;">
+    <style>
+      /* Footer link hover effect */
+      footer a {
+        transition: color 0.2s;
+      }
+      footer a:hover {
+        color: var(--text-primary);
+        filter: brightness(0);
+      }
+    </style>
   <div class="new-container" style="max-width: 1200px; margin: 0 auto; padding: 0 0.5rem; box-sizing: border-box;">
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, auto)); gap: 8rem; margin-bottom: 2rem;">
       <!-- Column 1: Product -->
-      <div>
+      <div style="text-align: left;">
         <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Product</h3>
         <ul style="list-style: none; padding: 0; margin: 0;">
           <li style="margin-bottom: 0.5rem;"><a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">CiteCount</a></li>
@@ -24,7 +28,7 @@ Footer Loader Script
       </div>
 
       <!-- Column 2: Guides -->
-      <div>
+      <div style="text-align: left;">
         <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Guides</h3>
         <ul style="list-style: none; padding: 0; margin: 0;">
           <li style="margin-bottom: 0.5rem;"><a href="/blogs/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">All Blogs</a></li>
@@ -36,19 +40,19 @@ Footer Loader Script
       </div>
 
       <!-- Column 3: Company -->
-      <div>
+      <div style="text-align: left;">
         <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Company</h3>
         <ul style="list-style: none; padding: 0; margin: 0;">
           <li style="margin-bottom: 0.5rem;"><a href="/about-us.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">About Us</a></li>
           <li style="margin-bottom: 0.5rem;"><a href="/contact.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Contact</a></li>
-          <li style="margin-bottom: 0.5rem;"><a href="/blogs/our-promise-for-safety" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Safety Promise</a></li>
+          <li style="margin-bottom: 0.5rem;"><a href="/blogs/our-promise-for-safety.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Safety Promise</a></li>
           <li style="margin-bottom: 0.5rem;"><a href="/advertise.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Advertise</a></li>
           <li style="margin-bottom: 0.5rem;"><a href="/sitemap.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Sitemap</a></li>
         </ul>
       </div>
 
       <!-- Column 4: Legal -->
-      <div>
+      <div style="text-align: left;">
         <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Legal</h3>
         <ul style="list-style: none; padding: 0; margin: 0;">
           <li style="margin-bottom: 0.5rem;"><a href="/privacy-policy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Privacy Policy</a></li>

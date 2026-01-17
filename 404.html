@@ -28,7 +28,7 @@
     <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-    <div class="app-container">
+    <div class="app-container" style="padding-top: 10%;">
         <header class="flex justify-between items-center">
             <div class="flex items-center gap-2 cursor-pointer" onclick="location.href='/';" style="user-select: none;">
                 <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
@@ -61,58 +61,13 @@
                     </div>
                 </div>
 
-                <footer style="border-top: 1px solid var(--border-primary); padding: 2rem;">
-                    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
-                        <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-primary);">Popular Pages</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                            <a href="/" class="group" style="text-decoration: none;">
-                                <div style="padding: 1rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent-color)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-primary)'">
-                                    <h4 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">CiteCount Home</h4>
-                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Access the main word counter application</p>
-                                </div>
-                            </a>
-                            <a href="/countdown/" class="group" style="text-decoration: none;">
-                                <div style="padding: 1rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent-color)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-primary)'">
-                                    <h4 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">IB Exam Countdown</h4>
-                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Track time until your IB exams</p>
-                                </div>
-                            </a>
-                            <a href="/exam-timer/" class="group" style="text-decoration: none;">
-                                <div style="padding: 1rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent-color)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-primary)'">
-                                    <h4 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">IB Exam Timer</h4>
-                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Practice with our exam timer application</p>
-                                </div>
-                            </a>
-                            <a href="/blogs/" class="group" style="text-decoration: none;">
-                                <div style="padding: 1rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent-color)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-primary)'">
-                                    <h4 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Blog & Guides</h4>
-                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Read academic guides and tips</p>
-                                </div>
-                            </a>
-                            <a href="/ib-resources/" class="group" style="text-decoration: none;">
-                                <div style="padding: 1rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent-color)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-primary)'">
-                                    <h4 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">IB Resources</h4>
-                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Curated resources for IB students</p>
-                                </div>
-                            </a>
-                            <a href="/grade-calculator/" class="group" style="text-decoration: none;">
-                                <div style="padding: 1rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='var(--accent-color)'" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-primary)'">
-                                    <h4 style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Grade Calculator</h4>
-                                    <p style="font-size: 0.9rem; color: var(--text-secondary);">Calculate your IB predicted grades</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div style="text-align: center; padding-top: 1rem; border-top: 1px solid var(--border-primary); opacity: 0.7; font-size: 0.9rem;">
-                            <p>&copy; 2026 CiteCount. All rights reserved.</p>
-                        </div>
-                    </div>
-                </footer>
+                <div id="footer-placeholder"></div>
             </div>
         </div>
 
         <div id="overlay-background" class="overlay-background" onclick="closeOverlays()"></div>
     </div>
-
+    <script src="/components/footer-loader.js"></script>
     <script src="/v2/apps-modal.js"></script>
     <script>
         function closeOverlays() {
