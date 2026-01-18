@@ -6,10 +6,9 @@
      crossorigin="anonymous"></script>-->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <link href="/archive/v1-final/styles/style.css" rel="stylesheet" type="text/css" />
-  <link href="/archive/v1-final/styles/dark.css" rel="stylesheet" type="text/css" />
-  <link href="/archive/v1-final/styles/drop.css" rel="stylesheet" type="text/css" />
-  <link href="/archive/v1-final/styles/test.css" rel="stylesheet" type="text/css" />
+  <link href="/v2/style.css" rel="stylesheet">
+  <link href="/v2/flowbite.css" rel="stylesheet">
+    <script src="/v2/apps-modal.js"></script>
   <title>CiteCount Blogs</title>
   <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
   <meta name="description"
@@ -47,58 +46,137 @@
 </head>
 
 <body>
-
-  <!-- Navigation bar-->
-  <nav class="navbar">
-    <a href="/" class="nav-link">
-      <img draggable="false" src="/assets/logo.svg" alt="CiteCount Logo" class="logo" />CiteCount
-    </a>
-    <div class="nav-buttons">
-      <a href="/countdown/" class="nav-link" style="font-weight: 500;">IB Exams Countdown</a>
-      <a href="/blogs" class="nav-link" style="font-weight: 900;">Blogs</a>
+  <!-- CiteCount Navbar Template -->
+  <header class="flex justify-between items-center">
+    <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
+      <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+      <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
     </div>
-  </nav>
-  <section class="landing-section" id="landing-section">
-    <div class="new-container">
-      
-  <br><br><br><br><br>
-  <h2 style="text-align: left;">
-       Bulletin Analysis
-      </h2>
-      <a href="/bulletin-analysis/m24.html">
-        <div class="blog" style="text-align: left;">
-          <h2>May 2024</h2>
+    <div class="flex items-center gap-2">
+      <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
+        data-lta-event="v2-more-apps-click">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+          class="h-5 w-5">
+          <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+        </svg>
+        <span class="hidden md:inline text-sm font-medium">More Apps</span>
+      </button>
+    </div>
+  </header>
+  <main class="new-container" style="margin-top: 3rem;">
+    <h1 style="text-align: center; font-size: 2.25rem; font-weight: 900; margin-bottom: 0.75rem; color: var(--text-primary); margin-top: 10%;">Bulletin Analysis</h1>
+    <p style="text-align: center; font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Interactive analysis of performance of past IB cohorts in the exams.</p>
+    <div style="display: flex; flex-direction: column; gap: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; align-items: center;">
+      <a href="/bulletin-analysis/m24.html" style="text-decoration: none;">
+        <div style="border: 1px solid var(--border-primary); border-radius: 1rem; padding: 2rem 1.5rem; background: var(--background-secondary); box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: box-shadow 0.2s; cursor: pointer; margin-bottom: 0;">
+          <h2 style="margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">May 2024</h2>
         </div>
       </a>
-      <br>
-      <a href="/bulletin-analysis/n24.html">
-        <div class="blog" style="text-align: left;">
-          <h2>November 2024</h2>
+      <a href="/bulletin-analysis/n24.html" style="text-decoration: none;">
+        <div style="border: 1px solid var(--border-primary); border-radius: 1rem; padding: 2rem 1.5rem; background: var(--background-secondary); box-shadow: 0 2px 8px rgba(0,0,0,0.03); transition: box-shadow 0.2s; cursor: pointer; margin-bottom: 0;">
+          <h2 style="margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">November 2024</h2>
         </div>
       </a>
-      <hr class="bottomhr">
-      <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
-          data-lta-event="contact form outbound click" href="/contact.html?source=blog.html" style="color: white;">Contact the
-          developers</a><br> <a id="links" data-lta-event="about us outbound click" href="/about-us.html"
-          style="color: white;">About Us</a> • <a id="links" data-lta-event="privacy policy outbound click" href="/privacy-policy.html"
-          style="color: white;">Privacy
-          policy</a> • <a id="links" data-lta-event="tos outbound click" href="/terms-of-service.html" style="color: white;">Terms of
-          Service</a> • <a id="links" data-lta-event="gdpr policy outbound click" href="/gdpr-policy.html"
-          style="color: white;">GDPR Policy</a> • <a id="links" data-lta-event="cookies policy outbound click"
-          href="/cookies-policy.html" style="color: white;">Cookies Policy</a></p>
-      <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned by
-        the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not
-        endorsed by the International Baccalaureate Organization.
-      </p>
-      <p style="padding-top: 5px;">
-          &copy;
-          <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
-        </p>
     </div>
-    </div>
-  </section>
+    <hr class="bottomhr" style="margin-top: 3rem;">
+  </main>
   </div>
-  <script src="/archive/v1-final/scripts/notifications.js"></script>
+  <!-- Footer -->
+  <footer style="padding: 3rem 1.5rem 2.5rem; border-top: 1px solid var(--border-primary); background: var(--background-primary); width: 100%; box-sizing: border-box;">
+      <style>
+        /* Footer link hover effect */
+        footer a {
+          transition: color 0.2s;
+        }
+        footer a:hover {
+          color: var(--text-primary);
+          filter: brightness(0);
+        }
+        @media (prefers-color-scheme: dark) {
+          footer a:hover {
+            color: #ffffff !important;
+            filter: none !important;
+          }
+        }
+      </style>
+    <div class="new-container" style="max-width: 1200px; margin: 0 auto; padding: 0 0.5rem; box-sizing: border-box;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, auto)); gap: 8rem; margin-bottom: 2rem;">
+        <!-- Column 1: Product -->
+        <div style="text-align: left;">
+          <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Product</h3>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">CiteCount</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/countdown/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Exams Countdown</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/exam-timer/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Exam Timer</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/ib-resources/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">IB Resources</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/generate" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Citation Generator</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Guides -->
+        <div style="text-align: left;">
+          <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Guides</h3>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="/v2/support" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Help Center</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/blogs/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">All Blogs</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/blogs/our-promise-for-safety.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Safety Promise</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/blogs/extended-essay-word-count.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Extended Essay</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/blogs/understanding-academic-referencing-styles.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Academic Referencing</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Company -->
+        <div style="text-align: left;">
+          <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Company</h3>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="/about-us.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">About Us</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/contact.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Contact</a></li>
+            <li style="margin-bottom: 0.5rem;">
+              <a href="https://status.citecount.com" target="_blank" rel="noopener" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                Service Status
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </li>
+            <li style="margin-bottom: 0.5rem;"><a href="/advertise.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Advertise</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/sitemap.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Sitemap</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Legal -->
+        <div style="text-align: left;">
+          <h3 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Legal</h3>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="/privacy-policy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Privacy Policy</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/terms-of-service.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Terms of Service</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/gdpr-policy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">GDPR Policy</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/cookies-policy.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Cookies Policy</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="/ib-resources/correspondence.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">Correspondence Center</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom section -->
+      <div style="padding-top: 1rem;display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+        <!-- Logo and brand -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; user-select: none; -webkit-user-select: none; -ms-user-select: none;" class="unselectable">
+          <img src="/assets/logo.svg" alt="CiteCount Logo" style="height: 24px; width: 24px;" class="logo">
+          <span style="font-weight: 900; font-size: 1.25rem; color: var(--text-primary);">CiteCount</span>
+        </div>
+        <!-- Copyright and disclaimer -->
+        <div style="text-align: center;">
+          <p style="margin: 0; font-size: 0.75rem; color: var(--text-secondary); opacity: 0.7;">
+            &copy; <span id="current-year"></span> CiteCount. All rights reserved.
+          </p>
+          <p style="margin: 0.5rem 0 0 0; font-size: 0.75rem; color: var(--text-secondary); opacity: 0.6;">
+            CiteCount was developed independently of the IBO and is not endorsed by it in any way.
+          </p>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+  </footer>
 </body>
 
 </html>
