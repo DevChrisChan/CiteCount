@@ -14,6 +14,7 @@ class ScrollDetector {
     this.appHeight = 0;
     this.hasScrolledBeyondApp = false;
     this.scrollBeyondCount = 0;
+    this.navButtonsHidden = false;
     
     // Configuration
     this.config = {
@@ -21,12 +22,16 @@ class ScrollDetector {
       scrollThreshold: 200, // pixels beyond app to trigger
       minScrollBeyondCount: 2, // How many times scrolled beyond before showing
       cooldownPeriod: 24 * 60 * 60 * 1000, // 24 hours before showing again
+      navHideThreshold: window.innerHeight, // Hide nav buttons after 100vh scroll
     };
 
     this.init();
   }
 
   init() {
+    // Always track nav button visibility, even if scroll detection is disabled
+    this.setupNavVisibilityListener();
+
     // Check if we're in cooldown period
     const lastDismissed = localStorage.getItem('scrollDetectorDismissed');
     if (lastDismissed) {
@@ -54,6 +59,20 @@ class ScrollDetector {
     if (appContainer) {
       this.appHeight = appContainer.offsetHeight;
     }
+  }
+
+  setupNavVisibilityListener() {
+    const updateVisibility = () => {
+      this.config.navHideThreshold = window.innerHeight;
+      const currentScrollY = window.scrollY || window.pageYOffset;
+      this.updateNavButtonVisibility(currentScrollY);
+    };
+
+    window.addEventListener('scroll', updateVisibility);
+    window.addEventListener('resize', updateVisibility);
+
+    // Run once on init to ensure correct state on load
+    updateVisibility();
   }
 
   setupListeners() {
@@ -94,12 +113,36 @@ class ScrollDetector {
     }, this.config.typingDetectionWindow);
   }
 
+  updateNavButtonVisibility(scrollY) {
+    const settingsBtn = document.getElementById('settings-btn');
+    const helpBtn = document.getElementById('help-btn');
+    
+    if (!settingsBtn || !helpBtn) return;
+
+    // Check if scrolled past 100vh
+    const shouldHide = scrollY > this.config.navHideThreshold;
+
+    if (shouldHide && !this.navButtonsHidden) {
+      // Hide buttons with animation
+      settingsBtn.classList.add('nav-hidden');
+      helpBtn.classList.add('nav-hidden');
+      this.navButtonsHidden = true;
+    } else if (!shouldHide && this.navButtonsHidden) {
+      // Show buttons with animation
+      settingsBtn.classList.remove('nav-hidden');
+      helpBtn.classList.remove('nav-hidden');
+      this.navButtonsHidden = false;
+    }
+  }
+
   onScroll() {
+    const currentScrollY = window.scrollY || window.pageYOffset;
+
+    // Early return for other scroll detector features if dismissed or in other states
     if (this.dismissedByUser || this.hasShownModal || this.isFocusModeEnabled()) {
       return;
     }
 
-    const currentScrollY = window.scrollY || window.pageYOffset;
     const beyondApp = currentScrollY - this.appHeight;
 
     // Check if user has scrolled beyond the app

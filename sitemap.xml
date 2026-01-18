@@ -270,12 +270,12 @@
 
 <!-- Support & Help Center (v2) -->
 <url>
-  <loc>https://citecount.com/v2/support/help.html</loc>
+  <loc>https://citecount.com/v2/support</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
 <url>
-  <loc>https://citecount.com/v2/support/help-new.html</loc>
+  <loc>https://citecount.com/v2/support</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
