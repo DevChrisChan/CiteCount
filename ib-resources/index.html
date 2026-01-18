@@ -1,914 +1,526 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840521099452662"
-     crossorigin="anonymous"></script>-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IB Resources - CiteCount</title>
-    <meta property="og:title" content="IB Docs Resources - Past Papers, Notes & Study Materials - CiteCount" />
-    <title>IB Docs Resources - Past Papers, Notes, Repositories & Study Materials - CiteCount</title>
-    <meta property="og:description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
-    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
-    <meta property="og:url" content="https://citecount.com/ib-resources" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
-    <meta name="twitter:description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="IB Resources - CiteCount" />
-    <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
-    <meta name="description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!">
-    <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
-    <meta name="theme-color" content="#0f172a" />
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "CiteCount",
-        "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.",
-        "applicationCategory": "Reference",
-        "operatingSystem": "All"
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IB Resources - CiteCount</title>
+
+  <!-- Meta Tags -->
+  <meta property="og:title" content="IB Docs Resources - Past Papers, Notes & Study Materials - CiteCount" />
+  <meta property="og:description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
+  <meta property="og:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
+  <meta property="og:url" content="https://citecount.com/ib-resources" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
+  <meta name="twitter:description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IB Resources - CiteCount" />
+  <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
+  <meta name="description" content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!">
+  <meta name="keywords" content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
+  
+  <script type="application/ld+json">
+  {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CiteCount",
+      "description": "CiteCount is a web application that provides an accurate word count without citations from your text. Ideal for academic, professional, or personal use.",
+      "applicationCategory": "Reference",
+      "operatingSystem": "All"
+  }
+  </script>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CiteCount" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+
+  <!-- Stylesheets -->
+  <link href="/v2/style.css" rel="stylesheet">
+  <link href="/v2/flowbite.css" rel="stylesheet">
+
+  <!-- Analytics & Tracking -->
+  <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-LHVN622J29');
+  </script>
+
+  <style>
+    .resource-search {
+      position: relative;
+      margin-bottom: 2rem;
     }
-    </script>
-    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="CiteCount" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-LHVN622J29');
-    </script>
-    <link href="/v2/style.css" rel="stylesheet">
-    <link href="/v2/flowbite.css" rel="stylesheet">
-    <link rel="manifest" href="manifest.json" />
-    <style>
-        :root {
-            --bg-gradient-start: #0f172a;
-            --bg-gradient-end: #1e293b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --card-bg: rgba(30, 41, 59, 0.6);
-            --card-hover: rgba(51, 65, 85, 0.8);
-            --card-border: rgba(148, 163, 184, 0.1);
-            --accent-color: #38bdf8;
-            --gold: #fbbf24;
-        }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-            background-attachment: fixed;
-            color: var(--text-primary);
-            display: flex;
-            flex-direction: column;
-            overflow-y: scroll; /* Always show scrollbar to prevent layout shift */
-        }
+    .resource-search input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      padding-left: 2.5rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
 
-        .search-container {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 16px 24px;
-            /* border-bottom: 1px solid var(--card-border); Removed to merge with nav */
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
+    .resource-search input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
 
-        .app-name-container {
-            position: absolute;
-            left: 24px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            z-index: 10;
-        }
+    .resource-search input::placeholder {
+      color: #9ca3af;
+    }
 
-        .logo {
-            height: 24px;
-            width: 24px;
-            filter: brightness(0) invert(1);
-        }
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      pointer-events: none;
+    }
 
-        .app-name {
-            color: var(--text-primary);
-            font-size: 20px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            white-space: nowrap;
-        }
+    .dark .resource-search input {
+      background-color: #1f2937;
+      border-color: #374151;
+      color: #f3f4f6;
+    }
 
-        .search-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-        }
+    .dark .resource-search input:focus {
+      border-color: #3b82f6;
+      background-color: #111827;
+    }
 
-        #search {
-            width: 100%;
-            padding: 14px 20px;
-            padding-left: 48px; /* Space for icon */
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-primary);
-            font-size: 16px;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-        }
+    .dark .search-icon {
+      color: #6b7280;
+    }
 
-        #search:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-        }
+    .category-section {
+      margin-bottom: 3rem;
+    }
 
-        #search::placeholder {
-            color: var(--text-secondary);
-        }
+    .category-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1f2937;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
 
-        .search-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            pointer-events: none;
-        }
+    .dark .category-title {
+      color: #f3f4f6;
+    }
 
-        .content {
-            padding: 32px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 1;
-            margin-top: 80px;
-        }
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            box-sizing: border-box;
-        }
+    .resource-card {
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      transition: all 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
 
-        .category {
-            margin-bottom: 32px;
-            animation: fadeIn 0.5s ease-out;
-        }
+    .resource-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+      transform: translateY(-2px);
+    }
 
-        .category-header {
-            color: var(--accent-color);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            padding-left: 4px;
-            opacity: 0.9;
-        }
+    .resource-card.starred {
+      border-color: #fbbf24;
+      background: linear-gradient(to bottom right, rgba(251, 191, 36, 0.05), #ffffff);
+    }
 
-        .link-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px;
-        }
+    .resource-card.starred:hover {
+      border-color: #fbbf24;
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.15);
+    }
 
-        .link-item {
-            background: var(--card-bg);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid var(--card-border);
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            box-sizing: border-box;
-        }
+    .dark .resource-card {
+      background-color: #1f2937;
+      border-color: #374151;
+    }
 
-        .link-item:hover {
-            background: var(--card-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-            border-color: rgba(148, 163, 184, 0.3);
-        }
+    .dark .resource-card:hover {
+      border-color: #3b82f6;
+      background-color: #111827;
+    }
 
-        .link-item.starred {
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            background: linear-gradient(to bottom right, rgba(251, 191, 36, 0.05), rgba(30, 41, 59, 0.6));
-        }
+    .dark .resource-card.starred {
+      border-color: #fbbf24;
+      background: linear-gradient(to bottom right, rgba(251, 191, 36, 0.1), #1f2937);
+    }
 
-        .link-item.starred:hover {
-            border-color: rgba(251, 191, 36, 0.5);
-            box-shadow: 0 10px 30px -10px rgba(251, 191, 36, 0.15);
-        }
+    .star-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.3));
+    }
 
-        .link-item a {
-            text-decoration: none;
-            color: var(--text-primary);
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            pointer-events: none;
-            display: block;
-        }
+    .resource-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1f2937;
+    }
 
-        .description {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.5;
-            flex-grow: 1;
-        }
+    .dark .resource-title {
+      color: #f3f4f6;
+    }
 
-        .site-url {
-            color: var(--text-secondary);
-            font-size: 12px;
-            margin-top: 12px;
-            opacity: 0.6;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-family: monospace;
-        }
+    .resource-description {
+      font-size: 0.875rem;
+      color: #6b7280;
+      flex-grow: 1;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
 
-        .star-indicator {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            color: var(--gold);
-            font-size: 18px;
-            filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.4));
-        }
+    .dark .resource-description {
+      color: #d1d5db;
+    }
 
-        .no-results {
-            color: var(--text-secondary);
-            text-align: center;
-            margin: 40px 0;
-            font-size: 18px;
-            background: rgba(255,255,255,0.05);
-            padding: 40px;
-            border-radius: 16px;
-        }
+    .resource-url {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      font-family: monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-        .suggest-button {
-            display: block;
-            margin: 40px auto;
-            padding: 12px 32px;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-            transition: all 0.2s ease;
-        }
+    .dark .resource-url {
+      color: #9ca3af;
+    }
 
-        .suggest-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-            filter: brightness(1.1);
-        }
+    .no-results {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #6b7280;
+    }
 
-        .disclaimer {
-            color: var(--text-secondary);
-            font-size: 12px;
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            opacity: 0.7;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+    .dark .no-results {
+      color: #d1d5db;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .suggest-button {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+    }
 
-        @media (max-width: 768px) {
-            .search-container { padding: 12px 16px; gap: 16px; flex-direction: column; }
-            .app-name-container { position: static; margin-bottom: 4px; }
-            .content { padding: 16px; margin-top: 130px; }
-            .app-name { font-size: 20px; }
-            .link-list { grid-template-columns: 1fr; }
-            .category-header { text-align: center; }
-        }
+    .suggest-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 12px rgba(59, 130, 246, 0.2);
+    }
 
-        @media (max-width: 480px) {
-            .search-container { padding-bottom: 16px; }
-            .content { margin-top: 140px; }
-            #search { font-size: 16px; } /* Prevent zoom on iOS */
-        }
+    .disclaimer {
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-align: center;
+      margin-top: 3rem;
+      padding: 1.5rem;
+    }
 
-        /* New styles for category nav */
-        .category-nav {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding: 12px 24px;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            position: fixed;
-            top: 88px;
-            left: 0;
-            right: 0;
-            z-index: 999;
-            border-bottom: 1px solid var(--card-border);
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        
-        .category-nav::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .nav-pill {
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .nav-pill:hover, .nav-pill.active {
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent-color);
-            border-color: rgba(56, 189, 248, 0.3);
-        }
+    .dark .disclaimer {
+      color: #d1d5db;
+    }
 
-        .content {
-            margin-top: 160px;
-        }
-        
-        .category-header {
-            color: var(--accent-color);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            padding-left: 4px;
-            opacity: 0.9;
-        }
+    .disclaimer a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0f172a;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
-            border: none;
-        }
-        
-        .back-to-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .back-to-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6);
-        }
+    .dark .disclaimer a {
+      color: #60a5fa;
+    }
 
-        @media (max-width: 768px) {
-            .category-nav { top: 130px; }
-            .content { margin-top: 200px; }
-            .category-header { top: 170px; }
-        }
+    .category-nav {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
 
-        /* Mini Browser Styles */
-        .mini-browser-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            animation: fadeIn 0.2s ease-out;
-        }
+    .dark .category-nav {
+      border-bottom-color: #374151;
+    }
 
-        .mini-browser-container {
-            width: 90%;
-            height: 90%;
-            background: #1e293b;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            border: 1px solid var(--card-border);
-        }
+    .category-pill {
+      padding: 0.5rem 1rem;
+      background-color: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1f2937;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
 
-        .browser-header {
-            padding: 12px 16px;
-            background: #0f172a;
-            border-bottom: 1px solid var(--card-border);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+    .category-pill:hover {
+      background-color: #e5e7eb;
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
 
-        .browser-controls, .browser-actions {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
+    .category-pill.active {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+      color: white;
+    }
 
-        .browser-info {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            min-width: 0;
-            align-items: center;
-        }
+    .dark .category-pill {
+      background-color: #374151;
+      border-color: #4b5563;
+      color: #f3f4f6;
+    }
 
-        .browser-header button {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--text-primary);
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            font-size: 16px;
-        }
+    .dark .category-pill:hover {
+      background-color: #4b5563;
+      border-color: #60a5fa;
+      color: #60a5fa;
+    }
 
-        .browser-header button:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+    .dark .category-pill.active {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+      color: white;
+    }
 
-        .browser-url {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 6px 12px;
-            border-radius: 6px;
-            color: var(--text-secondary);
-            font-size: 12px;
-            font-family: monospace;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-align: center;
-        }
+    @media (max-width: 640px) {
+      .resource-grid {
+        grid-template-columns: 1fr;
+      }
 
-        .browser-hint {
-            font-size: 10px;
-            color: var(--text-secondary);
-            opacity: 0.8;
-        }
-
-        #mini-browser-frame {
-            flex-grow: 1;
-            width: 100%;
-            height: 100%;
-            background: white;
-            border: none;
-        }
-
-        @media (max-width: 768px) {
-            .mini-browser-container {
-                width: 100%;
-                height: 100%;
-                border-radius: 0;
-            }
-            .browser-url {
-                display: none;
-            }
-            .browser-hint {
-                display: none;
-            }
-            .browser-info {
-                display: none;
-            }
-            .browser-header {
-                justify-content: space-between;
-            }
-        }
-    </style>
+      .category-title {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="search-container">
-        <a href="/" class="app-name-container">
-            <img src="/assets/logo.svg" alt="CiteCount Logo" class="logo">
-            <span class="app-name">CiteCount</span>
-        </a>
-        <div class="search-wrapper">
-            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="search" placeholder="Search resources, papers, notes...">
-        </div>
-    </div>
+  <div>
+    <!-- Navigation Bar -->
+    <header class="flex justify-between items-center">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
+        <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+        <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
+          data-lta-event="v2-more-apps-click">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+            class="h-5 w-5">
+            <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+          </svg>
+          <span class="hidden md:inline text-sm font-medium">More Apps</span>
+        </button>
+      </div>
+    </header>
 
-    <div class="category-nav" id="categoryNav">
-        <!-- Populated by JS -->
-    </div>
-    
-    <div class="content">
-        <div class="container">
-            <div id="categories">
-                <div class="category" id="cat-Grind-Papers">
-                    <div class="category-header">Grind Papers</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="window.open('https://dl.ibdocs.re/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://dl.ibdocs.re/">IB Docs</a>
-                            <div class="description">Repository for IB past papers, mark schemes, books, and more</div>
-                            <div class="site-url">dl.ibdocs.re</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="openMiniBrowser('https://revisiondojo.com/')">
-                            <a href="https://revisiondojo.com/">RevisionDojo</a>
-                            <div class="description">Topical questions, mock exam generation, flashcards, and more</div>
-                            <div class="site-url">revisiondojo.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="openMiniBrowser('https://revisionvillage.pages.dev/homepage')">
-                            <a href="https://revisionvillage.pages.dev/homepage">Revision Village Archive</a>
-                            <div class="description">An archive for Revision Village.</div>
-                            <div class="site-url">revisionvillage.pages.dev</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item" onclick="openMiniBrowser('https://pestle.pages.dev/')">
-                            <a href="https://pestle.pages.dev/">Pestle</a>
-                            <div class="description">Revision platform based on the IB Question Banks</div>
-                            <div class="site-url">pestle.pages.dev</div>
-                        </li>
-                        <li class="link-item" onclick="openMiniBrowser('https://revision-town.pages.dev/')">
-                            <a href="https://revision-town.pages.dev/">Revision Town</a>
-                            <div class="description">Another archive for Revision Village (supports mobile)</div>
-                            <div class="site-url">revision-town.pages.dev</div>
-                        </li>
-                        <li class="link-item" onclick="openMiniBrowser('https://exam-mate.com/')">
-                            <a href="https://exam-mate.com/">exam-mate</a>
-                            <div class="description">By topic revision</div>
-                            <div class="site-url">exam-mate.com</div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="category" id="cat-Study-Notes">
-                    <div class="category-header">Study Notes</div>
-                    <ul class="link-list">
-                        <li class="link-item" onclick="openMiniBrowser('https://smearchive.pages.dev/dp/')">
-                            <a href="https://smearchive.pages.dev/dp/">Save My Exams Archive</a>
-                            <div class="description">An archive for notes from Save My Exams.</div>
-                            <div class="site-url">smearchive.pages.dev</div>
-                        </li>
-                        <li class="link-item starred" onclick="window.open('https://shagun.gitbook.io/notes/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://shagun.gitbook.io/notes/">Shagun’s Notes</a>
-                            <div class="description">A huge collection of well-organized notes for various subjects</div>
-                            <div class="site-url">shagun.gitbook.io</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="openMiniBrowser('https://ib.bioninja.com.au/')">
-                            <a href="https://ib.bioninja.com.au/">BioNinja</a>
-                            <div class="description">Comprehensive notes for IB Biology</div>
-                            <div class="site-url">ib.bioninja.com.au</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="window.open('https://www.christosnikolaidis.com/en/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://www.christosnikolaidis.com/en/">Christos Nikolaidis</a>
-                            <div class="description">Excellent lecture notes and practice for IB Math AA/AI</div>
-                            <div class="site-url">www.christosnikolaidis.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="openMiniBrowser('https://pbaumgarten.com/')">
-                            <a href="https://pbaumgarten.com/">Paul Baumgarten</a>
-                            <div class="description">Holy grail for Computer Science in the IBDP (HL & SL)</div>
-                            <div class="site-url">pbaumgarten.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="openMiniBrowser('https://www.econplusdal.com/')">
-                            <a href="https://www.econplusdal.com/">EconplusDal</a>
-                            <div class="description">Economics notes and resources to help you ace your exams</div>
-                            <div class="site-url">www.econplusdal.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item" onclick="openMiniBrowser('https://ib-academy.nl/free-resources')">
-                            <a href="https://ib-academy.nl/free-resources">IB Academy</a>
-                            <div class="description">Free study guides for various subjects</div>
-                            <div class="site-url">ib-academy.nl</div>
-                        </li>
-                        <li class="link-item" onclick="window.open('https://gradegorilla.com/IB-physics-revision-questions.php', '_blank', 'noopener,noreferrer')">
-                            <a href="https://gradegorilla.com/IB-physics-revision-questions.php">GradeGorilla</a>
-                            <div class="description">Physics and Chemistry revision questions</div>
-                            <div class="site-url">gradegorilla.com</div>
-                        </li>
-                        <li class="link-item" onclick="openMiniBrowser('https://www.thinkib.net/')">
-                            <a href="https://www.thinkib.net/">ThinkIB</a>
-                            <div class="description">Resources for teachers and students across many subjects</div>
-                            <div class="site-url">www.thinkib.net</div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="category" id="cat-IAs">
-                    <div class="category-header">IAs</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="openMiniBrowser('https://clastify.com/ia')">
-                            <a href="https://clastify.com/ia">Clastify</a>
-                            <div class="description">IA examples for all subjects</div>
-                            <div class="site-url">clastify.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="category" id="cat-Research">
-                    <div class="category-header">Research</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="window.open('https://pplx.ai/cite', '_blank', 'noopener,noreferrer')">
-                            <a href="https://pplx.ai/cite">Perplexity</a>
-                            <div class="description">AI-powered answer engine</div>
-                            <div class="site-url">pplx.ai</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="window.open('https://sci-hub.se/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://sci-hub.se/">Sci-hub</a>
-                            <div class="description">Unlocks paywall for all research papers</div>
-                            <div class="site-url">sci-hub.se</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="openMiniBrowser('https://annas-archive.org/')">
-                            <a href="https://annas-archive.org/">Anna’s Archive</a>
-                            <div class="description">Open repository of textbooks, books, papers, and more</div>
-                            <div class="site-url">annas-archive.org</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="openMiniBrowser('https://citecount.com/')">
-                            <a href="https://citecount.com/">CiteCount</a>
-                            <div class="description">Counts number of words without citations for your IB coursework</div>
-                            <div class="site-url">citecount.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item" onclick="window.open('https://scholar.google.com/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://scholar.google.com/">Google Scholar</a>
-                            <div class="description">Search engine for academic literature</div>
-                            <div class="site-url">scholar.google.com</div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="category" id="cat-Tools">
-                    <div class="category-header">Tools</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="openMiniBrowser('https://ibpredict.org/')">
-                            <a href="https://ibpredict.org/">IB Predict</a>
-                            <div class="description">Predictive tool for your final IB score</div>
-                            <div class="site-url">ibpredict.org</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="openMiniBrowser('https://knowt.com/')">
-                            <a href="https://knowt.com/">Knowt</a>
-                            <div class="description">Flashcards and studying tool (Quizlet alternative)</div>
-                            <div class="site-url">knowt.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="category" id="cat-Forums">
-                    <div class="category-header">Forums</div>
-                    <ul class="link-list">
-                        <li class="link-item starred" onclick="window.open('https://www.reddit.com/r/IBO/', '_blank', 'noopener,noreferrer')">
-                            <a href="https://www.reddit.com/r/IBO/">r/IBO Subreddit</a>
-                            <div class="description">A subreddit for IB students to discuss and share resources</div>
-                            <div class="site-url">www.reddit.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                        <li class="link-item starred" onclick="window.open('https://discord.com/invite/ibo', '_blank', 'noopener,noreferrer')">
-                            <a href="https://discord.com/invite/ibo">r/IBO Discord</a>
-                            <div class="description">A Discord server for IB students to discuss and share resources</div>
-                            <div class="site-url">discord.com</div>
-                            <span class="star-indicator">★</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="no-results" style="display: none;">No resources found matching your search.</div>
-            </div>
-            
-            <a href="/contact.html?source=ib-resources" style="text-decoration: none!important;">
-                <button class="suggest-button">Suggest a Resource</button>
-            </a>
-            
-            <div class="disclaimer">
-                If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html" style="color: var(--accent-color); text-decoration: none;">here</a> for further details and instructions.
-            </div>
-        </div>
-    </div>
-
-    <div id="mini-browser-overlay" class="mini-browser-overlay">
-        <div class="mini-browser-container">
-            <div class="browser-header">
-                <div class="browser-controls">
-                    <button id="browser-reload" title="Reload">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-                    </button>
-                </div>
-                <div class="browser-info">
-                    <div class="browser-url" id="browser-url-display"></div>
-                    <div class="browser-hint">If the page is blank or refuses to connect, please open in a new tab.</div>
-                </div>
-                <div class="browser-actions">
-                    <button id="browser-open-new" title="Open in New Tab">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    </button>
-                    <button id="browser-close" title="Close">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                    </button>
-                </div>
-            </div>
-            <iframe id="mini-browser-frame" src="" sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-presentation"></iframe>
-        </div>
-    </div>
-
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
-    </button>
-
-    <script>
-        const categoriesContainer = document.getElementById('categories');
-        const searchInput = document.getElementById('search');
-        const categoryNav = document.getElementById('categoryNav');
-        const backToTopBtn = document.getElementById('backToTop');
-        const noResultsMsg = categoriesContainer.querySelector('.no-results');
-
-        // Mini Browser Logic
-        const browserOverlay = document.getElementById('mini-browser-overlay');
-        const browserFrame = document.getElementById('mini-browser-frame');
-        const urlDisplay = document.getElementById('browser-url-display');
-        let currentBrowserUrl = '';
-
-        function openMiniBrowser(url) {
-            currentBrowserUrl = url;
-            browserFrame.src = url;
-            urlDisplay.textContent = url;
-            browserOverlay.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMiniBrowser() {
-            browserOverlay.style.display = 'none';
-            browserFrame.src = '';
-            document.body.style.overflow = '';
-        }
-
-        document.getElementById('browser-close').onclick = closeMiniBrowser;
-        document.getElementById('browser-open-new').onclick = () => window.open(currentBrowserUrl, '_blank');
-        document.getElementById('browser-reload').onclick = () => {
-            browserFrame.src = browserFrame.src;
-        };
+    <!-- Main Content Area -->
+    <main class="content-area" style="padding: 2rem; padding-top: 5rem; min-height: 60vh;">
+      <div class="new-container" style="max-width: 1200px; margin: 0 auto;">
+        <h1 class="text-4xl font-bold mb-2">IB Resources</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">Curated collection of past papers, notes, study materials, and tools for IB students.</p>
         
-        browserOverlay.onclick = (e) => {
-            if (e.target === browserOverlay) closeMiniBrowser();
-        };
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && browserOverlay.style.display === 'flex') {
-                closeMiniBrowser();
-            }
+        <!-- Search Bar -->
+        <div class="resource-search">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="resource-search" placeholder="Search resources, papers, notes...">
+        </div>
+
+        <!-- Category Navigation Pills -->
+        <div class="category-nav">
+          <button class="category-pill" onclick="jumpToCategory('Grind-Papers')">Grind Papers</button>
+          <button class="category-pill" onclick="jumpToCategory('Study-Notes')">Study Notes</button>
+          <button class="category-pill" onclick="jumpToCategory('IAs')">IAs</button>
+          <button class="category-pill" onclick="jumpToCategory('Research')">Research</button>
+          <button class="category-pill" onclick="jumpToCategory('Tools')">Tools</button>
+          <button class="category-pill" onclick="jumpToCategory('Forums')">Forums</button>
+        </div>
+
+        <!-- Categories and Resources -->
+        <div id="categories-container">
+          <!-- Grind Papers -->
+          <div class="category-section" id="cat-Grind-Papers">
+            <div class="category-title">Grind Papers</div>
+            <div class="resource-grid">
+              <div class="resource-card starred" onclick="window.open('https://dl.ibdocs.re/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">IB Docs</div><div class="resource-description">Repository for IB past papers, mark schemes, books, and more</div><div class="resource-url">dl.ibdocs.re</div></div>
+              <div class="resource-card starred" onclick="window.open('https://revisiondojo.com/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">RevisionDojo</div><div class="resource-description">Topical questions, mock exam generation, flashcards, and more</div><div class="resource-url">revisiondojo.com</div></div>
+              <div class="resource-card starred" onclick="window.open('https://revisionvillage.pages.dev/homepage', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Revision Village Archive</div><div class="resource-description">An archive for Revision Village.</div><div class="resource-url">revisionvillage.pages.dev</div></div>
+              <div class="resource-card" onclick="window.open('https://pestle.pages.dev/', '_blank', 'noopener,noreferrer')"><div class="resource-title">Pestle</div><div class="resource-description">Revision platform based on the IB Question Banks</div><div class="resource-url">pestle.pages.dev</div></div>
+              <div class="resource-card" onclick="window.open('https://revision-town.pages.dev/', '_blank', 'noopener,noreferrer')"><div class="resource-title">Revision Town</div><div class="resource-description">Another archive for Revision Village (supports mobile)</div><div class="resource-url">revision-town.pages.dev</div></div>
+              <div class="resource-card" onclick="window.open('https://exam-mate.com/', '_blank', 'noopener,noreferrer')"><div class="resource-title">exam-mate</div><div class="resource-description">By topic revision</div><div class="resource-url">exam-mate.com</div></div>
+            </div>
+          </div>
+
+          <!-- Study Notes -->
+          <div class="category-section" id="cat-Study-Notes">
+            <div class="category-title">Study Notes</div>
+            <div class="resource-grid">
+              <div class="resource-card" onclick="window.open('https://smearchive.pages.dev/dp/', '_blank', 'noopener,noreferrer')"><div class="resource-title">Save My Exams Archive</div><div class="resource-description">An archive for notes from Save My Exams.</div><div class="resource-url">smearchive.pages.dev</div></div>
+              <div class="resource-card starred" onclick="window.open('https://shagun.gitbook.io/notes/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Shagun's Notes</div><div class="resource-description">A huge collection of well-organized notes for various subjects</div><div class="resource-url">shagun.gitbook.io</div></div>
+              <div class="resource-card starred" onclick="window.open('https://ib.bioninja.com.au/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">BioNinja</div><div class="resource-description">Comprehensive notes for IB Biology</div><div class="resource-url">ib.bioninja.com.au</div></div>
+              <div class="resource-card starred" onclick="window.open('https://www.christosnikolaidis.com/en/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Christos Nikolaidis</div><div class="resource-description">Excellent lecture notes and practice for IB Math AA/AI</div><div class="resource-url">www.christosnikolaidis.com</div></div>
+              <div class="resource-card starred" onclick="window.open('https://pbaumgarten.com/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Paul Baumgarten</div><div class="resource-description">Holy grail for Computer Science in the IBDP (HL & SL)</div><div class="resource-url">pbaumgarten.com</div></div>
+              <div class="resource-card starred" onclick="window.open('https://www.econplusdal.com/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">EconplusDal</div><div class="resource-description">Economics notes and resources to help you ace your exams</div><div class="resource-url">www.econplusdal.com</div></div>
+              <div class="resource-card" onclick="window.open('https://ib-academy.nl/free-resources', '_blank', 'noopener,noreferrer')"><div class="resource-title">IB Academy</div><div class="resource-description">Free study guides for various subjects</div><div class="resource-url">ib-academy.nl</div></div>
+              <div class="resource-card" onclick="window.open('https://gradegorilla.com/IB-physics-revision-questions.php', '_blank', 'noopener,noreferrer')"><div class="resource-title">GradeGorilla</div><div class="resource-description">Physics and Chemistry revision questions</div><div class="resource-url">gradegorilla.com</div></div>
+              <div class="resource-card" onclick="window.open('https://www.thinkib.net/', '_blank', 'noopener,noreferrer')"><div class="resource-title">ThinkIB</div><div class="resource-description">Resources for teachers and students across many subjects</div><div class="resource-url">www.thinkib.net</div></div>
+            </div>
+          </div>
+
+          <!-- IAs -->
+          <div class="category-section" id="cat-IAs">
+            <div class="category-title">IAs</div>
+            <div class="resource-grid">
+              <div class="resource-card starred" onclick="window.open('https://clastify.com/ia', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Clastify</div><div class="resource-description">IA examples for all subjects</div><div class="resource-url">clastify.com</div></div>
+            </div>
+          </div>
+
+          <!-- Research -->
+          <div class="category-section" id="cat-Research">
+            <div class="category-title">Research</div>
+            <div class="resource-grid">
+              <div class="resource-card starred" onclick="window.open('https://sci-hub.se/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Sci-hub</div><div class="resource-description">Unlocks paywall for all research papers</div><div class="resource-url">sci-hub.se</div></div>
+              <div class="resource-card starred" onclick="window.open('https://annas-archive.org/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Anna's Archive</div><div class="resource-description">Open repository of textbooks, books, papers, and more</div><div class="resource-url">annas-archive.org</div></div>
+              <div class="resource-card starred" onclick="window.open('https://citecount.com/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">CiteCount</div><div class="resource-description">Counts number of words without citations for your IB coursework</div><div class="resource-url">citecount.com</div></div>
+              <div class="resource-card" onclick="window.open('https://scholar.google.com/', '_blank', 'noopener,noreferrer')"><div class="resource-title">Google Scholar</div><div class="resource-description">Search engine for academic literature</div><div class="resource-url">scholar.google.com</div></div>
+            </div>
+          </div>
+
+          <!-- Tools -->
+          <div class="category-section" id="cat-Tools">
+            <div class="category-title">Tools</div>
+            <div class="resource-grid">
+              <div class="resource-card starred" onclick="window.open('https://ibpredict.org/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">IB Predict</div><div class="resource-description">Predictive tool for your final IB score</div><div class="resource-url">ibpredict.org</div></div>
+              <div class="resource-card starred" onclick="window.open('https://knowt.com/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Knowt</div><div class="resource-description">Flashcards and studying tool (Quizlet alternative)</div><div class="resource-url">knowt.com</div></div>
+            </div>
+          </div>
+
+          <!-- Forums -->
+          <div class="category-section" id="cat-Forums">
+            <div class="category-title">Forums</div>
+            <div class="resource-grid">
+              <div class="resource-card starred" onclick="window.open('https://www.reddit.com/r/IBO/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">r/IBO Subreddit</div><div class="resource-description">A subreddit for IB students to discuss and share resources</div><div class="resource-url">www.reddit.com</div></div>
+              <div class="resource-card starred" onclick="window.open('https://discord.com/invite/ibo', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">r/IBO Discord</div><div class="resource-description">A Discord server for IB students to discuss and share resources</div><div class="resource-url">discord.com</div></div>
+            </div>
+          </div>
+
+          <div class="no-results" id="no-results" style="display: none;">No resources found matching your search.</div>
+        </div>
+
+        <div style="text-align: center;">
+          <a href="/contact.html?source=ib-resources" style="text-decoration: none;">
+            <button class="suggest-button">Suggest a Resource</button>
+          </a>
+        </div>
+
+        <div class="disclaimer">
+          If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html">here</a> for further details and instructions.
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer Placeholder - Footer will be automatically injected here -->
+    <div id="footer-placeholder"></div>
+  </div>
+
+  <!-- Apps Modal Script -->
+  <script src="/v2/apps-modal.js"></script>
+  
+  <!-- Footer Loader Script -->
+  <script src="/components/footer-loader.js"></script>
+
+  <script>
+    const searchInput = document.getElementById('resource-search');
+    const categoriesContainer = document.getElementById('categories-container');
+    const noResultsMsg = document.getElementById('no-results');
+
+    function filterResources(searchTerm) {
+      const categories = categoriesContainer.querySelectorAll('.category-section');
+      let hasResults = false;
+
+      categories.forEach(category => {
+        const categoryName = category.id.replace('cat-', '').toLowerCase();
+        const cards = category.querySelectorAll('.resource-card');
+        let categoryHasVisible = false;
+
+        cards.forEach(card => {
+          const title = card.querySelector('.resource-title').textContent.toLowerCase();
+          const description = card.querySelector('.resource-description').textContent.toLowerCase();
+          const url = card.querySelector('.resource-url').textContent.toLowerCase();
+
+          if (title.includes(searchTerm) || description.includes(searchTerm) || url.includes(searchTerm) || categoryName.includes(searchTerm)) {
+            card.style.display = '';
+            categoryHasVisible = true;
+          } else {
+            card.style.display = 'none';
+          }
         });
 
-        function filterCategories(searchTerm) {
-            const categories = document.querySelectorAll('.category');
-            let hasResults = false;
-            
-            categories.forEach(category => {
-                const categoryName = category.querySelector('.category-header').textContent.toLowerCase();
-                const items = category.querySelectorAll('.link-item');
-                let hasVisibleItems = false;
-
-                items.forEach(item => {
-                    const title = item.querySelector('a').textContent.toLowerCase();
-                    const desc = item.querySelector('.description').textContent.toLowerCase();
-                    
-                    if (title.includes(searchTerm) || desc.includes(searchTerm) || categoryName.includes(searchTerm)) {
-                        item.style.display = '';
-                        hasVisibleItems = true;
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-
-                if (hasVisibleItems) {
-                    category.style.display = '';
-                    hasResults = true;
-                } else {
-                    category.style.display = 'none';
-                }
-            });
-            
-            if (noResultsMsg) {
-                noResultsMsg.style.display = hasResults ? 'none' : 'block';
-            }
-
-            // Update Nav visibility
-            if (!searchTerm) {
-                categoryNav.style.display = 'flex';
-            } else {
-                categoryNav.style.display = 'none';
-            }
+        if (categoryHasVisible) {
+          category.style.display = '';
+          hasResults = true;
+        } else {
+          category.style.display = 'none';
         }
+      });
 
-        function initNav() {
-            categoryNav.innerHTML = '';
-            const categories = document.querySelectorAll('.category');
-            categories.forEach(category => {
-                const name = category.querySelector('.category-header').textContent;
-                const pill = document.createElement('button');
-                pill.className = 'nav-pill';
-                pill.textContent = name;
-                pill.onclick = () => {
-                    const offset = 140; // Header height
-                    const bodyRect = document.body.getBoundingClientRect().top;
-                    const elementRect = category.getBoundingClientRect().top;
-                    const elementPosition = elementRect - bodyRect;
-                    const offsetPosition = elementPosition - offset;
+      if (noResultsMsg) {
+        noResultsMsg.style.display = hasResults ? 'none' : 'block';
+      }
+    }
 
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
-                };
-                categoryNav.appendChild(pill);
-            });
-        }
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      filterResources(searchTerm);
+    });
 
-        // Initialize
-        initNav();
-        
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            filterCategories(searchTerm);
-        });
-
-        // Back to top logic
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-        
-        backToTopBtn.onclick = () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-    </script>
+    function jumpToCategory(categoryId) {
+      const element = document.getElementById('cat-' + categoryId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  </script>
 </body>
+
 </html>
