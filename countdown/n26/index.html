@@ -1131,27 +1131,6 @@
             color: var(--text-secondary);
         }
 
-        /* Perplexity Ad Box */
-        .pplx-ad-box {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            width: 320px;
-            background: #091717;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            z-index: 1000;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            animation: slideInUp 0.5s ease-out;
-        }
-
-        .pplx-ad-box.dismissed {
-            transform: translateY(100px);
-            opacity: 0;
-            pointer-events: none;
-        }
-
         @keyframes slideInUp {
             from {
                 transform: translateY(100px);
@@ -1463,18 +1442,6 @@
 
     <div id="footer-placeholder"></div>
 <script src="/components/footer-loader.js"></script>
-    <!-- Perplexity Pro Ad Box -->
-    <div id="pplxAdBox" class="pplx-ad-box" style="display: none;">
-        <button class="pplx-ad-close" onclick="dismissPplxAd()" aria-label="Close ad">✕</button>
-        <div class="pplx-ad-content">
-            <img src="/assets/pplx.svg" alt="Perplexity" class="pplx-ad-logo">
-            <h3 class="pplx-ad-title">Ace Your IB Exams with Free Perplexity Pro On Us!</h3>
-            <p class="pplx-ad-description">Now FREE for 12 months. Get instant exam help, practice questions explained, and revision summaries.</p>
-            <button class="pplx-ad-button" onclick="claimPplxOffer()" data-lta-event="countdown-n26-pplx-ad-claim">
-                Claim For Free Now →
-            </button>
-        </div>
-    </div>
 
     <!-- Exam Schedule Modal -->
     <div id="scheduleModal" class="schedule-modal">
