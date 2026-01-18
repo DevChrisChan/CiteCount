@@ -25,6 +25,15 @@
     .article-body p { margin: 0; }
     .article-body ul { margin: 0.25rem 0 0.75rem 1.25rem; padding: 0; list-style-type: disc; }
     .article-body li { margin-bottom: 0.35rem; }
+    .breadcrumb { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; font-size: 0.95rem; color: #666; }
+    .breadcrumb.dark { color: #999; }
+    .breadcrumb a { color: #666; text-decoration: none; cursor: pointer; transition: color 0.2s ease; }
+    .breadcrumb a:hover { color: #000; }
+    .breadcrumb.dark a { color: #999; }
+    .breadcrumb.dark a:hover { color: #fff; }
+    .breadcrumb-separator { color: #999; }
+    .breadcrumb-current { font-weight: 600; color: #000; }
+    .breadcrumb.dark .breadcrumb-current { color: #fff; }
   </style>
   <script type="application/ld+json">
   {
@@ -78,6 +87,13 @@
 
     <main class="content-area" style="padding: 2rem; padding-top: 5rem; min-height: 60vh;">
       <div class="new-container article-body" style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; text-align: left; line-height: 1.6;">
+<div class="breadcrumb" id="breadcrumb">
+  <a onclick="window.location.href='/'">Home</a>
+  <span class="breadcrumb-separator">/</span>
+  <a onclick="window.location.href='/blogs/'">Blogs</a>
+  <span class="breadcrumb-separator">/</span>
+  <span class="breadcrumb-current" id="breadcrumb-current">Academic Writing Skills for IB Students</span>
+</div>
 <h1>Academic Writing Skills for IB Students</h1>
 
 <p>Academic writing is fundamental to IB success and university preparation. From Internal Assessments to the Extended Essay, developing sophisticated writing skills helps you communicate complex ideas clearly and persuasively while meeting rigorous academic standards.</p>
@@ -451,6 +467,19 @@
 
   <script src="/v2/apps-modal.js"></script>
   <script src="/components/footer-loader.js"></script>
+  <script>
+    // Update breadcrumb for dark mode
+    function updateBreadcrumbTheme() {
+      const breadcrumb = document.getElementById('breadcrumb');
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        breadcrumb.classList.add('dark');
+      } else {
+        breadcrumb.classList.remove('dark');
+      }
+    }
+    updateBreadcrumbTheme();
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateBreadcrumbTheme);
+  </script>
 </body>
 
 </html>

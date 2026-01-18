@@ -4,6 +4,21 @@
  */
 
 (function() {
+  function updateBreadcrumb() {
+    const current = document.getElementById('breadcrumb-current');
+    if (!current) {
+      return;
+    }
+
+    const titleEl = document.querySelector('.article-body h1')
+      || document.querySelector('main h1')
+      || document.querySelector('section h1')
+      || document.querySelector('h1');
+    if (titleEl && titleEl.textContent) {
+      current.textContent = titleEl.textContent.trim();
+    }
+  }
+
   // Function to load the footer
   function loadFooter() {
     const footerPlaceholder = document.getElementById('footer-placeholder');
@@ -39,8 +54,12 @@
 
   // Load footer when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadFooter);
+    document.addEventListener('DOMContentLoaded', () => {
+      updateBreadcrumb();
+      loadFooter();
+    });
   } else {
+    updateBreadcrumb();
     loadFooter();
   }
 })();

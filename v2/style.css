@@ -49,6 +49,35 @@
     position: relative;
   }
 
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    color: #666;
+  }
+
+  .breadcrumb a {
+    color: #666;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb a:hover {
+    color: #000;
+  }
+
+  .breadcrumb-separator {
+    color: #999;
+  }
+
+  .breadcrumb-current {
+    font-weight: 600;
+    color: #000;
+  }
+
   .app-container {
     display: flex;
     flex-direction: column;
@@ -176,6 +205,22 @@
       background: rgba(31, 31, 31, 0.8); /* Slightly transparent dark background */
       border-bottom: 1px solid rgba(55, 65, 81, 0.5); /* Adjusted for dark theme */
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow in dark mode */
+    }
+
+    .breadcrumb {
+      color: #999;
+    }
+
+    .breadcrumb a {
+      color: #999;
+    }
+
+    .breadcrumb a:hover {
+      color: #fff;
+    }
+
+    .breadcrumb-current {
+      color: #fff;
     }
 
     /* Citations table header dark mode */
