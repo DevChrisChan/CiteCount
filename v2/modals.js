@@ -578,6 +578,31 @@
         </div>
       </div>
 
+      <!-- Local Backup Reminder Modal -->
+      <div id="local-backup-reminder" class="local-backup-reminder" style="display: none;">
+        <div id="local-backup-reminder-overlay" style="position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(2px); z-index: 10001;"></div>
+        <div class="local-backup-reminder-dialog" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.98); background: var(--background-primary); color: var(--text-primary); border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.18); max-width: 520px; width: 92%; z-index: 10002; transition: opacity 0.15s ease, transform 0.15s ease; opacity: 0; overflow: hidden; border: 1px solid var(--border-primary);">
+          <div style="display: flex; gap: 12px; padding: 20px 20px 8px 20px; align-items: flex-start;">
+            <div style="background: #eef2ff; color: #312e81; padding: 12px; border-radius: 12px; flex-shrink: 0; display: grid; place-items: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 26px; height: 26px;">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <p style="margin: 0 0 8px 0; font-size: 1.05rem; font-weight: 700;">We noticed you've saved multiple files</p>
+              <p style="margin: 0; color: var(--text-secondary); line-height: 1.5; font-size: 0.95rem;">CiteCount runs locally in your browser and does not back up your projects. While content is saved in your browser, to keep a copy safe, go to Settings → General → Export all projects periodically.</p>
+            </div>
+            <button id="local-backup-reminder-close" aria-label="Close backup reminder" style="background: none; border: none; color: var(--text-secondary); font-size: 1.25rem; cursor: pointer; padding: 4px; line-height: 1;">×</button>
+          </div>
+          <div style="display: flex; gap: 10px; padding: 12px 20px 20px 20px; justify-content: flex-end; flex-wrap: wrap;">
+            <button id="local-backup-reminder-dismiss" style="padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-primary); background: var(--background-secondary); color: var(--text-primary); font-weight: 600; cursor: pointer; flex: 1 1 120px;">Got it</button>
+            <button id="local-backup-reminder-export" style="padding: 10px 14px; border-radius: 10px; border: none; background: linear-gradient(120deg, #1f40af, #3b82f6); color: white; font-weight: 700; cursor: pointer; flex: 1 1 140px;">Open Settings</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Dev Tools Window -->
       <div id="devToolsWindow" style="display: none; user-select: none;">
         <div id="devToolsHeader">

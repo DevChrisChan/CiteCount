@@ -684,14 +684,14 @@
     z-index: 21;
   }
 
-  /* Hide settings and help buttons when scrolled past 100vh */
-  #settings-btn, #help-btn {
+  /* Hide nav buttons (settings, help, docs) when scrolled past 100vh */
+  #settings-btn, #help-btn, #mobile-sidebar-toggle {
     transition: opacity 0.3s ease, visibility 0.3s ease;
     opacity: 1;
     visibility: visible;
   }
 
-  #settings-btn.nav-hidden, #help-btn.nav-hidden {
+  #settings-btn.nav-hidden, #help-btn.nav-hidden, #mobile-sidebar-toggle.nav-hidden {
     opacity: 0;
     visibility: hidden;
   }

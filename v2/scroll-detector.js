@@ -114,23 +114,22 @@ class ScrollDetector {
   }
 
   updateNavButtonVisibility(scrollY) {
-    const settingsBtn = document.getElementById('settings-btn');
-    const helpBtn = document.getElementById('help-btn');
-    
-    if (!settingsBtn || !helpBtn) return;
+    const navButtons = [
+      document.getElementById('settings-btn'),
+      document.getElementById('help-btn'),
+      document.getElementById('mobile-sidebar-toggle'),
+    ].filter(Boolean);
+
+    if (navButtons.length === 0) return;
 
     // Check if scrolled past 100vh
     const shouldHide = scrollY > this.config.navHideThreshold;
 
     if (shouldHide && !this.navButtonsHidden) {
-      // Hide buttons with animation
-      settingsBtn.classList.add('nav-hidden');
-      helpBtn.classList.add('nav-hidden');
+      navButtons.forEach((btn) => btn.classList.add('nav-hidden'));
       this.navButtonsHidden = true;
     } else if (!shouldHide && this.navButtonsHidden) {
-      // Show buttons with animation
-      settingsBtn.classList.remove('nav-hidden');
-      helpBtn.classList.remove('nav-hidden');
+      navButtons.forEach((btn) => btn.classList.remove('nav-hidden'));
       this.navButtonsHidden = false;
     }
   }

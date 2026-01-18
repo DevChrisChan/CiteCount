@@ -2,6 +2,10 @@
 // FILE MANAGEMENT SYSTEM
 // ============================================
 
+const LOCAL_BACKUP_MODAL_KEY = 'local_backup_modal_seen';
+const LOCAL_BACKUP_PROJECT_THRESHOLD = 4;
+let backupModalHandlersBound = false;
+
 const fileManager = {
   projects: [],
   currentProject: null,
@@ -46,6 +50,9 @@ const fileManager = {
         this.hideContextMenu();
       }
     });
+
+    setupBackupReminderModalHandlers();
+    this.checkBackupReminder();
   },
 
   generateId() {
@@ -89,11 +96,29 @@ const fileManager = {
     this.saveToStorage();
     this.renderFileTree();
 
+    this.checkBackupReminder();
+
     if (autoSwitch) {
       this.switchProject(project.id);
     }
 
     return project.id;
+  },
+
+  checkBackupReminder() {
+    try {
+      const seen = localStorage.getItem(LOCAL_BACKUP_MODAL_KEY) === 'true';
+      if (seen) return;
+
+      if (this.projects.length >= LOCAL_BACKUP_PROJECT_THRESHOLD) {
+        const didShow = showLocalBackupReminderModal();
+        if (didShow) {
+          localStorage.setItem(LOCAL_BACKUP_MODAL_KEY, 'true');
+        }
+      }
+    } catch (error) {
+      console.warn('Unable to show backup reminder modal', error);
+    }
   },
 
   createFolder(name = 'New Folder', parentId = null) {
@@ -1241,6 +1266,82 @@ fileManager.setupSidebarResize = function() {
   document.addEventListener('mousemove', handleResize);
   document.addEventListener('mouseup', stopResize);
 };
+
+function setupBackupReminderModalHandlers() {
+  if (backupModalHandlersBound) return;
+
+  const modal = document.getElementById('local-backup-reminder');
+  const overlay = document.getElementById('local-backup-reminder-overlay');
+  const closeBtn = document.getElementById('local-backup-reminder-close');
+  const dismissBtn = document.getElementById('local-backup-reminder-dismiss');
+  const exportBtn = document.getElementById('local-backup-reminder-export');
+
+  if (!modal || !overlay) return;
+
+  const closeTargets = [overlay, closeBtn, dismissBtn];
+  let bound = false;
+
+  closeTargets.forEach((el) => {
+    if (el) {
+      el.addEventListener('click', () => hideLocalBackupReminderModal());
+      bound = true;
+    }
+  });
+
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      hideLocalBackupReminderModal();
+      if (typeof toggleSettingsOverlay === 'function') {
+        toggleSettingsOverlay(true);
+      }
+    });
+    bound = true;
+  }
+
+  if (bound) {
+    backupModalHandlersBound = true;
+  }
+}
+
+function showLocalBackupReminderModal() {
+  setupBackupReminderModalHandlers();
+
+  const modal = document.getElementById('local-backup-reminder');
+  const overlay = document.getElementById('local-backup-reminder-overlay');
+  const dialog = modal ? modal.querySelector('.local-backup-reminder-dialog') : null;
+
+  if (!modal || !overlay || !dialog) return false;
+
+  modal.style.display = 'block';
+  overlay.style.display = 'block';
+  dialog.style.opacity = '0';
+  dialog.style.transform = 'translate(-50%, -50%) scale(0.98)';
+
+  requestAnimationFrame(() => {
+    dialog.style.opacity = '1';
+    dialog.style.transform = 'translate(-50%, -50%) scale(1)';
+  });
+
+  document.body.style.overflow = 'hidden';
+  return true;
+}
+
+function hideLocalBackupReminderModal() {
+  const modal = document.getElementById('local-backup-reminder');
+  const overlay = document.getElementById('local-backup-reminder-overlay');
+  const dialog = modal ? modal.querySelector('.local-backup-reminder-dialog') : null;
+
+  if (!modal || !overlay || !dialog) return;
+
+  dialog.style.opacity = '0';
+  dialog.style.transform = 'translate(-50%, -50%) scale(0.98)';
+
+  setTimeout(() => {
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 150);
+}
 
 let fileInputModalCallback = null;
 let fileInputModalType = 'project';
