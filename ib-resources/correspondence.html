@@ -52,6 +52,10 @@
         gtag('config', 'G-LHVN622J29');
     </script>
     <title>CiteCount Correspondence Center</title>
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
     <style>
         :root {
             --background-color: #f4f4f4;
@@ -65,20 +69,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        @media (min-width: 768px) {
-            :root {
-                margin-left: 20%;
-                margin-right: 20%;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            :root {
-                margin-left: 25%;
-                margin-right: 25%;
-            }
-        }
-
+      
         @media (prefers-color-scheme: dark) {
             :root {
                 --background-color: #1a1a1a;
@@ -92,16 +83,7 @@
             }
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
-        }
-
+     
         h1 {
             font-size: 2em;
             color: var(--heading-color);
@@ -137,7 +119,7 @@
             margin: 10px 0 10px 20px;
         }
 
-        button {
+       .content-area button {
             padding: 10px 15px;
             background-color: var(--button-bg);
             color: #fff;
@@ -147,7 +129,7 @@
             margin: 5px 0;
         }
 
-        button:hover {
+        .content-area button:hover {
             background-color: var(--button-hover);
         }
 
@@ -161,39 +143,61 @@
 </head>
 
 <body>
-    <h1>CiteCount Correspondence Center</h1>
-    <p class="effective-date">Effective Date: April 1, 2025</p>
+    <div>
+        <header class="flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
+                <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+                <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
+                    data-lta-event="v2-more-apps-click">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                        class="h-5 w-5">
+                        <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+                    </svg>
+                    <span class="hidden md:inline text-sm font-medium">More Apps</span>
+                </button>
+            </div>
+        </header>
 
-    <section>
-        CiteCount IB Resources serves as a curated aggregator of valuable International Baccalaureate (IB) resources,
-        compiled exclusively from user suggestions. Contributions are welcomed through the "Suggest a Resource" feature.
-        We do not condone piracy in any form; all linked resources are provided solely by user submissions. We bear no
-        responsibility for external events or occurrences, nor do we assume liability for the legality, accuracy, or
-        nature of materials hosted on external websites.
-    </section>
-    <br><br>
-    <section>International Baccalaureate and IB are registered trademarks
-        owned by the International Baccalaureate Organization. CiteCount has been developed independently from and is
-        not endorsed by the International Baccalaureate Organization.
-    </section>
-    <br><br>
-    <section><p>For any legal inquiries or requests concerning our content, please submit your correspondence through the contact form provided <a href="/contact">here</a>. We respectfully request that you refrain from pursuing third-party takedown notices, as we diligently address all submissions and pledge to respond within 24 hours of receiving a legitimate request, with removal of any identified links completed during that time frame, though propagation and reflection of changes may take up to 72 hours.</p>
+        <main class="content-area" style="padding: 2rem; padding-top: 5rem; min-height: 60vh;">
+            <div class="new-container" style="max-width: 900px; margin: 0 auto;">
+                <h1>CiteCount Correspondence Center</h1>
+                <p class="effective-date">Effective Date: April 1, 2025</p>
 
-        <p>When filling out the contact form, please include the following details:</p>
-        <ul>
-          <li><strong>Email</strong>: Provide an email address with your company's domain, corresponding to the service or website you are requesting to take down.</li>
-          <li><strong>Message</strong>: Begin your message with the header <strong>[CiteCount IB Resources Resource Takedown Request]</strong> followed by your specific request details.</li>
-        </ul></section>
+                <section>
+                    CiteCount IB Resources serves as a curated aggregator of valuable International Baccalaureate (IB) resources,
+                    compiled exclusively from user suggestions. Contributions are welcomed through the "Suggest a Resource" feature.
+                    We do not condone piracy in any form; all linked resources are provided solely by user submissions. We bear no
+                    responsibility for external events or occurrences, nor do we assume liability for the legality, accuracy, or
+                    nature of materials hosted on external websites.
+                </section>
+                <br><br>
+                <section>International Baccalaureate and IB are registered trademarks
+                    owned by the International Baccalaureate Organization. CiteCount has been developed independently from and is
+                    not endorsed by the International Baccalaureate Organization.
+                </section>
+                <br><br>
+                <section><p>For any legal inquiries or requests concerning our content, please submit your correspondence through the contact form provided <a href="/contact">here</a>. We respectfully request that you refrain from pursuing third-party takedown notices, as we diligently address all submissions and pledge to respond within 24 hours of receiving a legitimate request, with removal of any identified links completed during that time frame, though propagation and reflection of changes may take up to 72 hours.</p>
 
+                    <p>When filling out the contact form, please include the following details:</p>
+                    <ul>
+                      <li><strong>Email</strong>: Provide an email address with your company's domain, corresponding to the service or website you are requesting to take down.</li>
+                      <li><strong>Message</strong>: Begin your message with the header <strong>[CiteCount IB Resources Resource Takedown Request]</strong> followed by your specific request details.</li>
+                    </ul></section>
 
+                <button id="back-to-home">Back to CiteCount IB Resources</button>
+            </div>
+        </main>
 
+        <div id="footer-placeholder"></div>
+    </div>
 
-    <button id="back-to-home">Back to CiteCount IB Resources</button>
-
+    <script src="/v2/apps-modal.js"></script>
+    <script src="/components/footer-loader.js"></script>
     <script>
-
         document.getElementById('back-to-home').addEventListener('click', function () {
-
             window.location.href = '/ib-resources';
         });
     </script>
