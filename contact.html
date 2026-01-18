@@ -96,6 +96,53 @@
         .back-button:hover {
             opacity: 0.8;
         }
+        .required {
+            color: #e11d48;
+        }
+
+        .native-form label {
+            display: block;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .native-form input[type="email"] {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-primary);
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .native-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-primary);
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 1rem;
+            min-height: 50px;
+        }
+
+        .hint {
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-top: -0.25rem;
+            margin-bottom: 1rem;
+        }
+        .error-text {
+            margin-left: 0.5rem;
+            font-weight: 600;
+            color: #e11d48;
+            font-size: 0.95rem;
+        }
     </style>
     
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
@@ -127,13 +174,19 @@
             </div>
 
             <div class="form-container">
-                <div id="iframe-container">
-                    <div id="loading-text">Loading form... If the contact form does not load, click <a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform">here</a>.</div>
-                    <iframe id="forms" src="https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?embedded=true" allowfullscreen onload="iframeLoaded()"></iframe>
-                </div>
-                <div style="text-align: center;">
-                    <a href="/" class="back-button" id="backButton">Return</a>
-                </div>
+                <form id="contactForm" class="native-form" onsubmit="handleSubmit(event)" novalidate>
+                    <label for="email">Email address <span id="emailError" class="error-text" aria-live="polite"></span></label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" aria-describedby="email-desc" />
+                    <p id="email-desc" class="hint">Email address is collected to facilitate our response in accordance to our <a href="/privacy-policy.html">privacy policy</a>.</p>
+
+                    <label for="message">Message <span class="required">*</span> <span id="messageError" class="error-text" aria-live="polite"></span></label>
+                    <textarea id="message" name="message" rows="6" required placeholder="Write your message here..."></textarea>
+
+                    <div style="text-align: center; margin-top: 0.5rem;">
+                        <button type="submit" class="back-button">Submit</button>
+                    </div>
+                </form>
+                
             </div>
         </div>
 <div id="footer-placeholder"></div>
@@ -146,17 +199,46 @@
             document.body.appendChild(appsModalScript);
         });
 
-        function iframeLoaded() {
-            document.getElementById('loading-text').style.display = 'none';
-            document.getElementById('forms').style.display = 'block';
+        function validateEmail(value) {
+            // simple RFC-like email validation
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const customPage = urlParams.get('source');
-        const backButton = document.getElementById('backButton');
+        function handleSubmit(e) {
+            e.preventDefault();
+            const emailEl = document.getElementById('email');
+            const messageEl = document.getElementById('message');
+            const emailError = document.getElementById('emailError');
+            const messageError = document.getElementById('messageError');
 
-        if (customPage) {
-            backButton.href = `/${customPage}`; 
+            emailError.textContent = '';
+            messageError.textContent = '';
+
+            const email = (emailEl.value || '').trim();
+            const message = (messageEl.value || '').trim();
+
+            let firstInvalid = null;
+
+            if (!message) {
+                messageError.textContent = 'Please fill this field.';
+                if (!firstInvalid) firstInvalid = messageEl;
+            }
+
+            if (email) {
+                if (!validateEmail(email)) {
+                    emailError.textContent = 'Invalid email address.';
+                    if (!firstInvalid) firstInvalid = emailEl;
+                }
+            }
+
+            if (firstInvalid) {
+                firstInvalid.focus();
+                return;
+            }
+
+            const base = 'https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?usp=pp_url';
+            const params = '&entry.1825225442=' + encodeURIComponent(email) + '&entry.1601189229=' + encodeURIComponent(message);
+            window.open(base + params, '_blank', 'noopener');
         }
     </script>
 </body>

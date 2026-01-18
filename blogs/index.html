@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840521099452662"
      crossorigin="anonymous"></script>-->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <link href="/archive/v1-final/styles/style.css" rel="stylesheet" type="text/css" />
-  <link href="/archive/v1-final/styles/dark.css" rel="stylesheet" type="text/css" />
-  <link href="/archive/v1-final/styles/drop.css" rel="stylesheet" type="text/css" />
-  <link href="/archive/v1-final/styles/test.css" rel="stylesheet" type="text/css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/v2/style.css" rel="stylesheet">
   <link href="/v2/flowbite.css" rel="stylesheet">
   <title>CiteCount Blogs</title>
@@ -19,7 +15,7 @@
   <meta name="keywords"
     content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#575757" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
   <script type="application/ld+json">
   {
       "@context": "https://schema.org",
@@ -35,7 +31,54 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="CiteCount" />
   <link rel="manifest" href="/favicon/site.webmanifest" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    .blog {
+      background: var(--background-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-sizing: border-box;
+    }
+
+    .blog h3 {
+      color: #111827 !important;
+      font-weight: 700 !important;
+    }
+
+    .blog p {
+      color: #4b5563 !important;
+    }
+
+    .blog i {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-left: 15px;
+      opacity: 0 !important;
+      display: inline-block;
+      background-color: #64748b;
+      -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/><polyline points='15 3 21 3 21 9'/><line x1='10' y1='14' x2='21' y2='3'/></svg>") center / 1.25rem 1.25rem no-repeat;
+      mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/><polyline points='15 3 21 3 21 9'/><line x1='10' y1='14' x2='21' y2='3'/></svg>") center / 1.25rem 1.25rem no-repeat;
+    }
+
+    .blog:hover i {
+      opacity: 1 !important;
+      background-color: #1f2937;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .blog h3 {
+        color: #f9fafb !important;
+      }
+
+      .blog p {
+        color: #e5e7eb !important;
+      }
+
+      .blog:hover i {
+        background-color: #e5e7eb;
+      }
+    }
+  </style>
   <script defer async data-host="citecount.netlify.app" data-events="true"
     src="https://liteanalytics.com/lite.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
@@ -52,518 +95,630 @@
 </head>
 
 <body>
-
-  <!-- Navigation bar-->
-  <header class="flex justify-between items-center">
-    <div class="flex items-center gap-1 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
-      <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
-      <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
-    </div>
-    <div class="flex items-center gap-2">
-      <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
-        data-lta-event="v2-more-apps-click">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-          class="h-5 w-5">
-          <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
-        </svg>
-        <span class="hidden md:inline text-sm font-medium">More Apps</span>
-      </button>
-    </div>
-  </header>
-    </div>
-  </div>
-  <section class="landing-section" id="landing-section">
-    <div class="new-container">
-      <h1 style="text-align: center; margin-bottom: 10px; font-size: 2.5rem; font-weight: 900;">
-        CiteCount Blogs & Resources
-      </h1>
-      <p style="text-align: center; margin-bottom: 40px; opacity: 80%; font-size: 1.1rem;">
-        Comprehensive guides, tips, and insights for IB students and academic writers
-      </p>
-
-      <!-- IB Academic Guides Section -->
-      <div style="margin-bottom: 50px;">
-        <h2 style="text-align: left; margin-bottom: 25px; font-size: 1.8rem; font-weight: 700; color: #2563eb;">
-          📚 IB Academic Guides
-        </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
-          <a data-lta-event="ee blog outbound click" href="/blogs/extended-essay-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📝 Extended Essay Word Count Guide</h3>
-                <i class="fas fa-graduation-cap" style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of what's included in IB Extended Essay word counts, with official guidelines and practical tips.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="bio ia blog outbound click" href="/blogs/biology-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🔬 Biology IA Word Count Guide</h3>
-                <i class="fas fa-dna" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your Biology Internal Assessment with structure tips and word count requirements.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="chem ia blog outbound click" href="/blogs/chemistry-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">⚗️ Chemistry IA Word Count Guide</h3>
-                <i class="fas fa-flask" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Explore the framework and word restrictions for an effective Chemistry Internal Assessment.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="ib math ia blog outbound click" href="/blogs/ib-math-internal-assessment-guide.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📊 Math IA Complete Guide</h3>
-                <i class="fas fa-calculator" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Comprehensive planning, structure, and word count guidelines for your Math Internal Assessment.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="tok essay blog outbound click" href="/blogs/tok-essay-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🌍 Theory of Knowledge Essay Guide</h3>
-                <i class="fas fa-lightbulb" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK essay requirements, structure, and what counts toward the word limit.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="business ia blog outbound click" href="/blogs/business-management-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">💼 Business Management IA Guide</h3>
-                <i class="fas fa-chart-bar" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Step-by-step approach to Business Management Internal Assessments with real-world applications.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="physics ia blog outbound click" href="/blogs/physics-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">⚡ Physics IA Word Count Guide</h3>
-                <i class="fas fa-atom" style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your Physics Internal Assessment with experimental design tips and word count requirements.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="economics ia blog outbound click" href="/blogs/economics-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📈 Economics IA Word Count Guide</h3>
-                <i class="fas fa-coins" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to Economics Internal Assessments with analysis techniques and word count guidelines.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="psychology ia blog outbound click" href="/blogs/psychology-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🧠 Psychology IA Word Count Guide</h3>
-                <i class="fas fa-brain" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Comprehensive guide to Psychology Internal Assessments with research methodology and word limits.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="ess ia blog outbound click" href="/blogs/ess-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🌱 ESS IA Word Count Guide</h3>
-                <i class="fas fa-leaf" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Environmental Systems & Societies Internal Assessment guide with sustainability focus and word requirements.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="history ia blog outbound click" href="/blogs/history-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📜 History IA Word Count Guide</h3>
-                <i class="fas fa-landmark" style="color: #dc2626; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master your History Internal Assessment with source analysis techniques and word count guidelines.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="geography ia blog outbound click" href="/blogs/geography-ia-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🗺️ Geography IA Word Count Guide</h3>
-                <i class="fas fa-globe-americas" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to Geography Internal Assessments with fieldwork analysis and word count requirements.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="tok exhibition blog outbound click" href="/blogs/tok-exhibition-word-count.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🎨 TOK Exhibition Guide</h3>
-                <i class="fas fa-palette" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK Exhibition requirements, object selection, and commentary word limits.</p>
-            </div>
-          </a>
-        </div>
+  <div>
+    <header class="flex justify-between items-center">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';"
+        style="user-select: none;">
+        <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+        <h1 class="text-xl font-bold text-black dark:text-white"
+          style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
       </div>
-
-      <!-- Academic Skills Section -->
-      <div style="margin-bottom: 50px;">
-        <h2 style="text-align: left; margin-bottom: 25px; font-size: 1.8rem; font-weight: 700; color: #059669;">
-          🎯 Academic Skills & Tips
-        </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
-          <a data-lta-event="avoiding plagiarism blog outbound click" href="/blogs/avoiding-plagiarism-ib-coursework.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🛡️ Avoiding Plagiarism Guide</h3>
-                <i class="fas fa-shield-alt" style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Essential strategies for proper citation, paraphrasing, and maintaining academic integrity in IB coursework.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="academic referencing blog outbound click" href="/blogs/understanding-academic-referencing-styles.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📚 Academic Referencing Styles</h3>
-                <i class="fas fa-quote-right" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate APA, MLA, Chicago, and other citation styles with practical examples and clear explanations.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="draft to final blog outbound click" href="/blogs/draft-to-final-ib-revision-checklist.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">✏️ Draft to Final Revision Checklist</h3>
-                <i class="fas fa-tasks" style="color: #84cc16; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Transform drafts into polished submissions with our step-by-step revision guide covering content and formatting.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="time management blog outbound click" href="/blogs/time-management-for-ib-students.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">⏰ Time Management for IB Students</h3>
-                <i class="fas fa-clock" style="color: #f97316; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master juggling multiple IB assignments with proven productivity tips and organizational strategies.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="effective reading blog outbound click" href="/blogs/effective-reading-strategies.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📖 Effective Reading Strategies</h3>
-                <i class="fas fa-book-open" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master academic reading techniques for faster comprehension and better note-taking across all subjects.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="managing deadlines blog outbound click" href="/blogs/managing-multiple-deadlines.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🎯 Managing Multiple IB Deadlines</h3>
-                <i class="fas fa-calendar-check" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Proven systems for tracking and prioritizing Extended Essay, IAs, and coursework deadlines.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="critical thinking blog outbound click" href="/blogs/critical-thinking-skills.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">💡 Critical Thinking Skills for IB</h3>
-                <i class="fas fa-brain" style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop analytical thinking patterns essential for IB assessments and university preparation.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="note taking blog outbound click" href="/blogs/note-taking-strategies.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📝 Note-Taking Strategies for IB</h3>
-                <i class="fas fa-edit" style="color: #14b8a6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Optimize your study sessions with effective note-taking methods for lectures and textbook reading.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="research skills blog outbound click" href="/blogs/research-skills-source-evaluation.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🔍 Research Skills & Source Evaluation</h3>
-                <i class="fas fa-search" style="color: #6366f1; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn to identify credible sources and conduct thorough research for all your IB assignments.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="ucas personal statement blog outbound click" href="/blogs/ucas-personal-statement-guide-ib-students.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📝 UCAS Personal Statement for IB Students</h3>
-                <i class="fas fa-university" style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Complete guide to writing compelling personal statements that highlight your IB experience for UK university applications.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="cas reflection blog outbound click" href="/blogs/cas-reflection-writing-guide.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🌟 CAS Reflection Writing Guide</h3>
-                <i class="fas fa-heart" style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master meaningful CAS reflections that demonstrate growth and connect activities to IB learner profile attributes.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="university application blog outbound click" href="/blogs/university-application-timeline-ib-students.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎓 University Application Timeline for IB</h3>
-                <i class="fas fa-calendar-alt" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate university applications across different systems (UCAS, Common App, local) with IB-specific deadlines and requirements.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="exam techniques blog outbound click" href="/blogs/ib-exam-techniques-strategies.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📋 IB Exam Techniques & Strategies</h3>
-                <i class="fas fa-clipboard-check" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Master time management, question analysis, and answer structuring for all IB examination formats and question types.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="stress management blog outbound click" href="/blogs/stress-management-ib-diploma.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">😌 Stress Management for IB Diploma</h3>
-                <i class="fas fa-spa" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop healthy coping strategies and mental wellness techniques to thrive during the demanding IB programme.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="study abroad blog outbound click" href="/blogs/studying-abroad-ib-students.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✈️ Studying Abroad Guide for IB Students</h3>
-                <i class="fas fa-globe" style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Navigate international university applications, scholarships, and visa requirements with your IB qualification.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="academic writing blog outbound click" href="/blogs/academic-writing-skills-ib.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✍️ Academic Writing Skills for IB</h3>
-                <i class="fas fa-pen-fancy" style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Develop sophisticated writing techniques for essays, IAs, and the Extended Essay with university-level standards.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="predicted grades blog outbound click" href="/blogs/understanding-ib-predicted-grades.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📊 Understanding IB Predicted Grades</h3>
-                <i class="fas fa-chart-bar" style="color: #dc2626; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn how predicted grades work, their impact on university offers, and strategies to maximize your predictions.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="portfolio development blog outbound click" href="/blogs/building-academic-portfolio-ib.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">💼 Building Your Academic Portfolio</h3>
-                <i class="fas fa-briefcase" style="color: #059669; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Showcase your IB achievements, research projects, and extracurriculars for competitive university and scholarship applications.</p>
-            </div>
-          </a>
-
-          <a data-lta-event="transition to university blog outbound click" href="/blogs/transitioning-from-ib-to-university.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎯 Transitioning from IB to University</h3>
-                <i class="fas fa-arrow-right" style="color: #7c3aed; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Leverage your IB skills and mindset for academic success in higher education and beyond.</p>
-            </div>
-          </a>
-        </div>
+      <div class="flex items-center gap-2">
+        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps"
+          onclick="toggleAppsModal()" data-lta-event="v2-more-apps-click">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+            <path
+              d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+          </svg>
+          <span class="hidden md:inline text-sm font-medium">More Apps</span>
+        </button>
       </div>
+    </header>
 
-      <!-- Product Updates & Technical Section -->
-      <div style="margin-bottom: 50px;">
-        <h2 style="text-align: left; margin-bottom: 25px; font-size: 1.8rem; font-weight: 700; color: #7c3aed;">
-          🚀 Product Updates & Technical
-        </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
-          <a data-lta-event="2025 recap blog outbound click" href="/blogs/2025-recap.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;"
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'"><div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🎉 2025 Year in Review</h3>
-                <i class="fas fa-star" style="color: #ec4899; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">New CiteCount core, four IB apps, and 100k+ users — plus what’s next for 2026.</p>
-            </div>
-          </a>
-          <a data-lta-event="all new citecount blog outbound click" href="/blogs/all-new-citecount.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🎉 All New CiteCount</h3>
-                <i class="fas fa-rocket" style="color: #ec4899; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Discover the completely rewritten CiteCount with enhanced features and improved user experience.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="introducing countdown blog outbound click" href="/blogs/introducing-ib-exam-countdowns.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">⏱️ IB Examination Countdown App</h3>
-                <i class="fas fa-stopwatch" style="color: #14b8a6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn about our new countdown app designed specifically for IB examination sessions.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="ai blog outbound click" href="/blogs/integration-with-apple-intelligence.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🤖 Apple Intelligence Integration</h3>
-                <i class="fab fa-apple" style="color: #6366f1; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Discover how CiteCount integrates with Apple Intelligence on iOS 18.2 and macOS 15.2.</p>
-            </div>
-          </a>
-          
-          <a data-lta-event="promise for safety blog outbound click" href="/blogs/our-promise-for-safety.html" target="_blank" style="text-decoration: none;">
-            <div class="blog" style="text-align: left; height: 100%; display: flex; flex-direction: column; transition: transform 0.2s ease; position: relative;" 
-                 onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🔒 Our Promise for Safety</h3>
-                <i class="fas fa-lock" style="color: #22c55e; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
-              </div>
-              <p style="flex-grow: 1; font-size: 0.95rem; opacity: 85%;">Learn about CiteCount's privacy-first approach and how we protect your content and data.</p>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <!-- Back to CiteCount CTA -->
-      <div style="text-align: center; margin: 50px 0; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px;">
-        <h3 style="color: white; margin-bottom: 15px; font-size: 1.5rem; font-weight: 700;">Ready to try CiteCount?</h3>
-        <p style="color: white; opacity: 90%; margin-bottom: 20px; font-size: 1.1rem;">Get accurate word counts without citations for your IB coursework and academic writing.</p>
-        <a href="/" style="display: inline-block; padding: 12px 24px; background: white; color: #764ba2; 
-           text-decoration: none; border-radius: 8px; font-weight: 600; transition: transform 0.2s ease;"
-           onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-          🚀 Start Using CiteCount
-        </a>
-      </div>
-      <hr class="bottomhr">
-      <p style="text-align: center"><a id="links" target="_blank" rel="noopener noreferrer"
-          data-lta-event="contact form outbound click" href="/contact.html?source=blog.html" style="color: white;">Contact the
-          developers</a><br> <a id="links" data-lta-event="about us outbound click" href="/about-us.html"
-          style="color: white;">About Us</a> • <a id="links" data-lta-event="privacy policy outbound click" href="/privacy-policy.html"
-          style="color: white;">Privacy
-          policy</a> • <a id="links" data-lta-event="tos outbound click" href="/terms-of-service.html" style="color: white;">Terms of
-          Service</a> • <a id="links" data-lta-event="gdpr policy outbound click" href="/gdpr-policy.html"
-          style="color: white;">GDPR Policy</a> • <a id="links" data-lta-event="cookies policy outbound click"
-          href="/cookies-policy.html" style="color: white;">Cookies Policy</a></p>
-      <p style="text-align: center; opacity: 50%;">International Baccalaureate and IB are registered trademarks owned by
-        the International Baccalaureate Organization.<br>CiteCount has been developed independently from and is not
-        endorsed by the International Baccalaureate Organization.
-      </p>
-      <p style="padding-top: 5px;">
-          &copy;
-          <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
+    <main class="content-area" style="padding: 2rem; padding-top: 5rem; min-height: 60vh;">
+      <div class="new-container" style="max-width: 1200px; margin: 0 auto;">
+        <h1 style="text-align: center; margin-bottom: 10px; font-size: 2.5rem; font-weight: 900;">
+          CiteCount Blogs & Resources
+        </h1>
+        <p style="text-align: center; margin-bottom: 40px; opacity: 80%; font-size: 1.1rem;">
+          Comprehensive guides, tips, and insights for IB students and academic writers
         </p>
-    </div>
-    </div>
-  </section>
-  <!--<div style="padding: 20px;">
-        <h2>
-            CiteCount blogs
-        </h2>
-        <a data-lta-event="ee blog outbound click"
-            href="/blogs/ee-wordcount.html">
-            <div class="blog">
-                <h2>What is included in the word count of an IB Extended Essay?</h2>
-                <p>We have compiled all the information you need regarding word counts for your IB Extended Essay.</p>
-            </div>
-        </a>
-        <a href="/" class="back-button">Back to Home</a>
-        <p style="text-align: center">&copy; 2025 CiteCount. All rights reserved.<br><a id="links" target="_blank"
-                rel="noopener noreferrer" data-lta-event="contact form outbound click"
-                href="/contact.html">Contact the developers</a><br> <a id="links" target="_blank"
-                rel="noopener noreferrer" data-lta-event="privacy policy outbound click"
-                href="/privacy-policy.html">Privacy
-                policy</a> • <a id="links" target="_blank" rel="noopener noreferrer" data-lta-event="tos outbound click"
-                href="/terms-of-service.html">Terms of Service</a></p><br>
-        </p>
-    </div>-->
+
+        <!-- IB Academic Guides Section -->
+        <div style="margin-bottom: 50px;">
+          <h2 style="text-align: left; margin-bottom: 25px; font-size: 1.8rem; font-weight: 700; color: #2563eb;">
+            📚 IB Academic Guides
+          </h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+            <a data-lta-event="ee blog outbound click" href="/blogs/extended-essay-word-count.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📝 Extended Essay Word
+                    Count Guide</h3>
+                  <i class="fas fa-graduation-cap"
+                    style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Complete breakdown of what's included in IB
+                  Extended Essay word counts, with official guidelines and practical tips.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="bio ia blog outbound click" href="/blogs/biology-ia-word-count.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🔬 Biology IA Word Count
+                    Guide</h3>
+                  <i class="fas fa-dna" style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Master your Biology Internal Assessment with
+                  structure tips and word count requirements.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="chem ia blog outbound click" href="/blogs/chemistry-ia-word-count.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">⚗️ Chemistry IA Word Count
+                    Guide</h3>
+                  <i class="fas fa-flask"
+                    style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Explore the framework and word restrictions
+                  for an effective Chemistry Internal Assessment.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="ib math ia blog outbound click" href="/blogs/ib-math-internal-assessment-guide.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📊 Math IA Complete Guide
+                  </h3>
+                  <i class="fas fa-calculator"
+                    style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Comprehensive planning, structure, and word
+                  count guidelines for your Math Internal Assessment.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="tok essay blog outbound click" href="/blogs/tok-essay-word-count.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🌍 Theory of Knowledge
+                    Essay Guide</h3>
+                  <i class="fas fa-lightbulb"
+                    style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK essay requirements,
+                  structure, and what counts toward the word limit.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="business ia blog outbound click" href="/blogs/business-management-ia-word-count.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">💼 Business Management IA
+                    Guide</h3>
+                  <i class="fas fa-chart-bar"
+                    style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Step-by-step approach to Business Management
+                  Internal Assessments with real-world applications.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="physics ia blog outbound click" href="/blogs/physics-ia-word-count.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">⚡ Physics IA Word Count
+                    Guide</h3>
+                  <i class="fas fa-atom"
+                    style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Master your Physics Internal Assessment with
+                  experimental design tips and word count requirements.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="economics ia blog outbound click" href="/blogs/economics-ia-word-count.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📈 Economics IA Word Count
+                    Guide</h3>
+                  <i class="fas fa-coins"
+                    style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Complete guide to Economics Internal
+                  Assessments with analysis techniques and word count guidelines.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="psychology ia blog outbound click" href="/blogs/psychology-ia-word-count.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🧠 Psychology IA Word Count
+                    Guide</h3>
+                  <i class="fas fa-brain"
+                    style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Comprehensive guide to Psychology Internal
+                  Assessments with research methodology and word limits.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="ess ia blog outbound click" href="/blogs/ess-ia-word-count.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🌱 ESS IA Word Count Guide
+                  </h3>
+                  <i class="fas fa-leaf"
+                    style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Environmental Systems & Societies Internal
+                  Assessment guide with sustainability focus and word requirements.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="history ia blog outbound click" href="/blogs/history-ia-word-count.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📜 History IA Word Count
+                    Guide</h3>
+                  <i class="fas fa-landmark"
+                    style="color: #dc2626; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Master your History Internal Assessment with
+                  source analysis techniques and word count guidelines.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="geography ia blog outbound click" href="/blogs/geography-ia-word-count.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🗺️ Geography IA Word Count
+                    Guide</h3>
+                  <i class="fas fa-globe-americas"
+                    style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Complete guide to Geography Internal
+                  Assessments with fieldwork analysis and word count requirements.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="tok exhibition blog outbound click" href="/blogs/tok-exhibition-word-count.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🎨 TOK Exhibition Guide
+                  </h3>
+                  <i class="fas fa-palette"
+                    style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK Exhibition
+                  requirements, object selection, and commentary word limits.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Academic Skills Section -->
+        <div style="margin-bottom: 50px;">
+          <h2 style="text-align: left; margin-bottom: 25px; font-size: 1.8rem; font-weight: 700; color: #059669;">
+            🎯 Academic Skills & Tips
+          </h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+            <a data-lta-event="avoiding plagiarism blog outbound click"
+              href="/blogs/avoiding-plagiarism-ib-coursework.html" target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🛡️ Avoiding Plagiarism
+                    Guide</h3>
+                  <i class="fas fa-shield-alt"
+                    style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Essential strategies for proper citation,
+                  paraphrasing, and maintaining academic integrity in IB coursework.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="academic referencing blog outbound click"
+              href="/blogs/understanding-academic-referencing-styles.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📚 Academic Referencing
+                    Styles</h3>
+                  <i class="fas fa-quote-right"
+                    style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Navigate APA, MLA, Chicago, and other
+                  citation styles with practical examples and clear explanations.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="draft to final blog outbound click"
+              href="/blogs/draft-to-final-ib-revision-checklist.html" target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">✏️ Draft to Final Revision
+                    Checklist</h3>
+                  <i class="fas fa-tasks"
+                    style="color: #84cc16; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Transform drafts into polished submissions
+                  with our step-by-step revision guide covering content and formatting.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="time management blog outbound click" href="/blogs/time-management-for-ib-students.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">⏰ Time Management for IB
+                    Students</h3>
+                  <i class="fas fa-clock"
+                    style="color: #f97316; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Master juggling multiple IB assignments with
+                  proven productivity tips and organizational strategies.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="effective reading blog outbound click" href="/blogs/effective-reading-strategies.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📖 Effective Reading
+                    Strategies</h3>
+                  <i class="fas fa-book-open"
+                    style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Master academic reading techniques for faster
+                  comprehension and better note-taking across all subjects.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="managing deadlines blog outbound click" href="/blogs/managing-multiple-deadlines.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🎯 Managing Multiple IB
+                    Deadlines</h3>
+                  <i class="fas fa-calendar-check"
+                    style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Proven systems for tracking and prioritizing
+                  Extended Essay, IAs, and coursework deadlines.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="critical thinking blog outbound click" href="/blogs/critical-thinking-skills.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">💡 Critical Thinking Skills
+                    for IB</h3>
+                  <i class="fas fa-brain"
+                    style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Develop analytical thinking patterns
+                  essential for IB assessments and university preparation.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="note taking blog outbound click" href="/blogs/note-taking-strategies.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">📝 Note-Taking Strategies
+                    for IB</h3>
+                  <i class="fas fa-edit"
+                    style="color: #14b8a6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Optimize your study sessions with effective
+                  note-taking methods for lectures and textbook reading.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="research skills blog outbound click" href="/blogs/research-skills-source-evaluation.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🔍 Research Skills & Source
+                    Evaluation</h3>
+                  <i class="fas fa-search"
+                    style="color: #6366f1; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Learn to identify credible sources and
+                  conduct thorough research for all your IB assignments.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="ucas personal statement blog outbound click"
+              href="/blogs/ucas-personal-statement-guide-ib-students.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📝 UCAS
+                    Personal Statement for IB Students</h3>
+                  <i class="fas fa-university"
+                    style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Complete guide to writing compelling personal
+                  statements that highlight your IB experience for UK university applications.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="cas reflection blog outbound click" href="/blogs/cas-reflection-writing-guide.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🌟 CAS
+                    Reflection Writing Guide</h3>
+                  <i class="fas fa-heart"
+                    style="color: #ef4444; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Master meaningful CAS reflections that
+                  demonstrate growth and connect activities to IB learner profile attributes.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="university application blog outbound click"
+              href="/blogs/university-application-timeline-ib-students.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎓
+                    University Application Timeline for IB</h3>
+                  <i class="fas fa-calendar-alt"
+                    style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Navigate university applications across
+                  different systems (UCAS, Common App, local) with IB-specific deadlines and requirements.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="exam techniques blog outbound click" href="/blogs/ib-exam-techniques-strategies.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📋 IB
+                    Exam Techniques & Strategies</h3>
+                  <i class="fas fa-clipboard-check"
+                    style="color: #10b981; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Master time management, question analysis,
+                  and answer structuring for all IB examination formats and question types.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="stress management blog outbound click" href="/blogs/stress-management-ib-diploma.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">😌
+                    Stress Management for IB Diploma</h3>
+                  <i class="fas fa-spa" style="color: #06b6d4; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Develop healthy coping strategies and mental
+                  wellness techniques to thrive during the demanding IB programme.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="study abroad blog outbound click" href="/blogs/studying-abroad-ib-students.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✈️
+                    Studying Abroad Guide for IB Students</h3>
+                  <i class="fas fa-globe"
+                    style="color: #f59e0b; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Navigate international university
+                  applications, scholarships, and visa requirements with your IB qualification.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="academic writing blog outbound click" href="/blogs/academic-writing-skills-ib.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">✍️
+                    Academic Writing Skills for IB</h3>
+                  <i class="fas fa-pen-fancy"
+                    style="color: #8b5cf6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Develop sophisticated writing techniques for
+                  essays, IAs, and the Extended Essay with university-level standards.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="predicted grades blog outbound click"
+              href="/blogs/understanding-ib-predicted-grades.html" target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">📊
+                    Understanding IB Predicted Grades</h3>
+                  <i class="fas fa-chart-bar"
+                    style="color: #dc2626; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Learn how predicted grades work, their impact
+                  on university offers, and strategies to maximize your predictions.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="portfolio development blog outbound click"
+              href="/blogs/building-academic-portfolio-ib.html" target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">💼
+                    Building Your Academic Portfolio</h3>
+                  <i class="fas fa-briefcase"
+                    style="color: #059669; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Showcase your IB achievements, research
+                  projects, and extracurriculars for competitive university and scholarship applications.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="transition to university blog outbound click"
+              href="/blogs/transitioning-from-ib-to-university.html" target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1; font-weight: bold;">🎯
+                    Transitioning from IB to University</h3>
+                  <i class="fas fa-arrow-right"
+                    style="color: #7c3aed; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Leverage your IB skills and mindset for
+                  academic success in higher education and beyond.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Product Updates & Technical Section -->
+        <div style="margin-bottom: 50px;">
+          <h2 style="text-align: left; margin-bottom: 25px; font-size: 1.8rem; font-weight: 700; color: #7c3aed;">
+            🚀 Product Updates & Technical
+          </h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+            <a data-lta-event="2025 recap blog outbound click" href="/blogs/2025-recap.html" target="_blank"
+              style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🎉 2025 Year in Review</h3>
+                  <i class="fas fa-star"
+                    style="color: #ec4899; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">New CiteCount core, four IB apps, and 100k+
+                  users — plus what’s next for 2026.</p>
+              </div>
+            </a>
+            <a data-lta-event="all new citecount blog outbound click" href="/blogs/all-new-citecount.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🎉 All New CiteCount</h3>
+                  <i class="fas fa-rocket"
+                    style="color: #ec4899; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Discover the completely rewritten CiteCount
+                  with enhanced features and improved user experience.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="introducing countdown blog outbound click"
+              href="/blogs/introducing-ib-exam-countdowns.html" target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">⏱️ IB Examination Countdown
+                    App</h3>
+                  <i class="fas fa-stopwatch"
+                    style="color: #14b8a6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Learn about our new countdown app designed
+                  specifically for IB examination sessions.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="ai blog outbound click" href="/blogs/integration-with-apple-intelligence.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🤖 Apple Intelligence
+                    Integration</h3>
+                  <i class="fab fa-apple"
+                    style="color: #6366f1; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Discover how CiteCount integrates with Apple
+                  Intelligence on iOS 18.2 and macOS 15.2.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="promise for safety blog outbound click" href="/blogs/our-promise-for-safety.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🔒 Our Promise for Safety
+                  </h3>
+                  <i class="fas fa-lock"
+                    style="color: #22c55e; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">Learn about CiteCount's privacy-first
+                  approach and how we protect your content and data.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Back to CiteCount CTA -->
+        <div
+          style="text-align: center; margin: 50px 0; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px;">
+          <h3 style="color: white; margin-bottom: 15px; font-size: 1.5rem; font-weight: 700;">Ready to try CiteCount?
+          </h3>
+          <p style="color: white; opacity: 90%; margin-bottom: 20px; font-size: 1.1rem;">Get accurate word counts
+            without citations for your IB coursework and academic writing.</p>
+          <a href="/" style="display: inline-block; padding: 12px 24px; background: white; color: #764ba2; 
+           text-decoration: none; border-radius: 8px; font-weight: 600;">
+            🚀 Start Using CiteCount
+          </a>
+        </div>
+    </main>
+
+    <div id="footer-placeholder"></div>
   </div>
-  </div>
-  <script src="/archive/v1-final/scripts/notifications.js"></script>
+
+  <script src="/components/footer-loader.js"></script>
 </body>
+
 </html>
