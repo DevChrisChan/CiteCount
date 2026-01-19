@@ -3553,5 +3553,65 @@ function claimPerplexityOffer() {
   dismissPerplexityOverlay();
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+      const changingText = document.getElementById('cc-changing-text');
+      if (!changingText) {
+        return;
+      }
+
+      const fallback = document.querySelector('.cc-hero-fallback');
+      if (fallback) {
+        fallback.style.display = 'none';
+      }
+
+      const texts = [
+        'Research Papers',
+        'IB Courseworks',
+        'Academic Essays',
+        'Dissertations',
+        'University Assignments'
+      ];
+      const lightGradients = [
+        'linear-gradient(90deg, #ef4444, #f97316)',
+        'linear-gradient(90deg, #ec4899, #a855f7)',
+        'linear-gradient(90deg, #2563eb, #38bdf8)',
+        'linear-gradient(90deg, #f59e0b, #f97316)',
+        'linear-gradient(90deg, #22c55e, #14b8a6)',
+        'linear-gradient(90deg, #db2777, #7c3aed)'
+      ];
+      const darkGradients = [
+        'linear-gradient(90deg, #fda4af, #fed7aa)',
+        'linear-gradient(90deg, #fbcfe8, #f0abfc)',
+        'linear-gradient(90deg, #93c5fd, #67e8f9)',
+        'linear-gradient(90deg, #fde047, #fdba74)',
+        'linear-gradient(90deg, #86efac, #5eead4)',
+        'linear-gradient(90deg, #f9a8d4, #c4b5fd)'
+      ];
+      let index = 0;
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const getGradients = () => (mediaQuery.matches ? darkGradients : lightGradients);
+
+      changingText.style.backgroundImage = getGradients()[index];
+
+      setInterval(() => {
+        index = (index + 1) % texts.length;
+        changingText.textContent = texts[index];
+        changingText.style.backgroundImage = getGradients()[index];
+        changingText.classList.remove('animate');
+        void changingText.offsetWidth;
+        changingText.classList.add('animate');
+      }, 3000);
+
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', () => {
+          changingText.style.backgroundImage = getGradients()[index];
+        });
+      } else if (typeof mediaQuery.addListener === 'function') {
+        mediaQuery.addListener(() => {
+          changingText.style.backgroundImage = getGradients()[index];
+        });
+      }
+    });
+
 // Initialize overlay and sidebar ad
 // document.addEventListener('DOMContentLoaded', showPerplexityOverlay);

@@ -81,7 +81,7 @@
           </div>
           <span class="app-title">IB Resources</span>
         </a>
-        <a href="/bulletin-analysis/" class="app-card" data-lta-event="v2-more-apps-bulletin-click">
+        <a href="/ib-results/" class="app-card" data-lta-event="v2-more-apps-bulletin-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="32" height="32">
@@ -91,9 +91,9 @@
               </svg>
             </div>
           </div>
-          <span class="app-title">Bulletin Analysis</span>
+          <span class="app-title">Simulate IB Results</span>
         </a>
-        <a href="/blogs/" class="app-card" data-lta-event="v2-more-apps-blogs-click">
+        <a href="/blogs" class="app-card" data-lta-event="v2-more-apps-blogs-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
