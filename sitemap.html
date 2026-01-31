@@ -160,21 +160,99 @@
 
         .link-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 10px;
-            margin: 15px 0;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin: 18px 0;
         }
 
         .link-item {
-            padding: 8px 12px;
-            background-color: var(--background-color);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            transition: background-color 0.2s;
+            position: relative;
+            padding: 14px 16px 14px 18px;
+            background-color: var(--section-bg);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 12px;
+            transition: background-color 180ms ease, border-color 180ms ease;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-height: 64px;
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        .link-item strong a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .link-item a:hover {
+            text-decoration: underline;
+        }
+
+        .link-item::marker { display: none; }
+
+        .link-item small,
+        .link-item p,
+        .link-item > br + span {
+            color: var(--text-color);
+            font-size: 0.95rem;
+            line-height: 1.3;
         }
 
         .link-item:hover {
-            background-color: var(--border-color);
+            background-color: rgba(0,0,0,0.03);
+            border-color: rgba(0,0,0,0.09);
+        }
+
+        .link-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+         
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+            opacity: 0.98;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .link-item {
+                border: 1px solid rgba(255,255,255,0.04);
+                background-color: #1f2123;
+            }
+
+            .link-item:hover {
+                background-color: rgba(255,255,255,0.02);
+                border-color: rgba(255,255,255,0.06);
+            }
+
+          
+        }
+
+        /* Make whole card feel clickable and remove default blue focus ring */
+        .link-item {
+            cursor: pointer;
+        }
+
+        .link-item a {
+            position: relative;
+            z-index: 2;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .link-item a:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* When keyboard-focusing the card itself, avoid native focus ring */
+        .link-item:focus {
+            outline: none;
         }
     </style>
 </head>
@@ -524,6 +602,34 @@
 
     <script src="/v2/apps-modal.js"></script>
     <script src="/components/footer-loader.js"></script>
+    <script>
+        // Make entire .link-item clickable and keyboard-accessible.
+        (function() {
+            const items = document.querySelectorAll('.link-item');
+            items.forEach(item => {
+                const a = item.querySelector('a[href]');
+                if (!a) return;
+                // make card focusable
+                item.setAttribute('tabindex', '0');
+
+                // forward click on card to the link
+                item.addEventListener('click', (e) => {
+                    // ignore clicks on interactive children
+                    const tag = e.target.tagName.toLowerCase();
+                    if (tag === 'a' || e.target.closest('a')) return;
+                    window.location.href = a.href;
+                });
+
+                // support keyboard activation
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        a.click();
+                    }
+                });
+            });
+        })();
+    </script>
     <script>
         document.getElementById('back-to-home').addEventListener('click', function() {
             window.location.href = '/';
