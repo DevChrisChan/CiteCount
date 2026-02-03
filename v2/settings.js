@@ -328,7 +328,8 @@ const AVAILABLE_TOOLS = [
 	{ id: 'thesaurus', name: 'Thesaurus', icon: '🧠', description: 'Find synonyms and related words' },
 	{ id: 'pomodoro', name: 'Pomodoro Timer', icon: '🍅', description: 'Time-boxed work sessions' },
 	{ id: 'translate', name: 'Translate', icon: '🌐', description: 'Translate text between languages' },
-	{ id: 'notepad', name: 'Notepad', icon: '📓', description: 'Simple note-taking tool' }
+	{ id: 'notepad', name: 'Notepad', icon: '📓', description: 'Simple note-taking tool' },
+	{ id: 'wordbank', name: 'Word Bank', icon: '📚', description: 'Curated vocabulary collection' }
 ];
 
 const DEFAULT_PINNED_TOOLS = ['generateCitation', 'details'];

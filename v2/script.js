@@ -2774,6 +2774,7 @@ function switchPanelTab(tabName, isMoreToolView = false) {
   const pomodoroContainer = document.getElementById('pomodoro-container');
   const translateContainer = document.getElementById('translate-container');
   const notepadContainer = document.getElementById('notepad-container');
+  const wordbankContainer = document.getElementById('wordbank-container');
   
   const panelHeader = document.getElementById('panel-header');
   const panelTitle = document.getElementById('panel-title');
@@ -2807,6 +2808,7 @@ function switchPanelTab(tabName, isMoreToolView = false) {
   if (pomodoroContainer) pomodoroContainer.style.display = 'none';
   if (translateContainer) translateContainer.style.display = 'none';
   if (notepadContainer) notepadContainer.style.display = 'none';
+  if (wordbankContainer) wordbankContainer.style.display = 'none';
 
   // Handle each tab
   if (tabName === 'citations') {
@@ -3023,6 +3025,35 @@ function switchPanelTab(tabName, isMoreToolView = false) {
       }
     }
     if (notepadContainer) notepadContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
+  } else if (tabName === 'wordbank') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Word Bank';
+      }
+    } else {
+      // Highlight the tab it's pinned to
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Word Bank';
+      }
+    }
+    if (wordbankContainer) wordbankContainer.style.display = 'flex';
     if (searchRow) searchRow.style.display = 'none';
   } else if (tabName === 'moreApps') {
     if (menuBtn) {

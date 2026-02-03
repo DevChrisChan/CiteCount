@@ -15,7 +15,8 @@
     'thesaurus': '🧠 Thesaurus',
     'pomodoro': '🍅 Pomodoro Timer',
     'translate': '🌐 Translate',
-    'notepad': '📓 Notepad'
+    'notepad': '📓 Notepad',
+    'wordbank': '📚 Word Bank'
   };
 
   // Tool display names without emojis (for tabs)
@@ -27,7 +28,8 @@
     'thesaurus': 'Thesaurus',
     'pomodoro': 'Pomodoro Timer',
     'translate': 'Translate',
-    'notepad': 'Notepad'
+    'notepad': 'Notepad',
+    'wordbank': 'Word Bank'
   };
 
   // Track which tool is being viewed from More Tools
