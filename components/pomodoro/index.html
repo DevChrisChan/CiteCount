@@ -1110,11 +1110,6 @@
             //const yearElem = document.getElementById('copyrightYear');
             //if (yearElem) yearElem.textContent = new Date().getFullYear();
             
-            // Request notification permission
-            if ('Notification' in window && Notification.permission === 'default') {
-                Notification.requestPermission();
-            }
-            
             // Focus on task input
             taskInput.focus();
         });
