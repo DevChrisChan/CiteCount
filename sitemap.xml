@@ -270,42 +270,42 @@
 
 <!-- Support & Help Center (v2) -->
 <url>
-  <loc>https://citecount.com/v2/support</loc>
+  <loc>https://citecount.com/support</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
 <url>
-  <loc>https://citecount.com/v2/support</loc>
+  <loc>https://citecount.com/support</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
 <url>
-  <loc>https://citecount.com/v2/support/articles/getting-started.html</loc>
+  <loc>https://citecount.com/support/articles/getting-started.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
 <url>
-  <loc>https://citecount.com/v2/support/articles/features.html</loc>
+  <loc>https://citecount.com/support/articles/features.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
 <url>
-  <loc>https://citecount.com/v2/support/articles/file-management.html</loc>
+  <loc>https://citecount.com/support/articles/file-management.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
 <url>
-  <loc>https://citecount.com/v2/support/articles/citations.html</loc>
+  <loc>https://citecount.com/support/articles/citations.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
 <url>
-  <loc>https://citecount.com/v2/support/articles/shortcuts.html</loc>
+  <loc>https://citecount.com/support/articles/shortcuts.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
 <url>
-  <loc>https://citecount.com/v2/support/articles/troubleshooting.html</loc>
+  <loc>https://citecount.com/support/articles/troubleshooting.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.60</priority>
 </url>
