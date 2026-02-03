@@ -29,6 +29,12 @@
 						</svg>
 						<span>Counter Display</span>
 					</button>
+					<button class="settings-category-btn" data-category="tools" onclick="switchSettingsCategory('tools'); setTimeout(() => initializeToolsSelection(), 50);">
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+						</svg>
+						<span>Customise Tools</span>
+					</button>
 					<button class="settings-category-btn" data-category="storage" onclick="switchSettingsCategory('storage')">
 						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
@@ -157,10 +163,21 @@
 						<h3 class="text-lg font-medium mb-4">Counter Display</h3>
 						<div class="space-y-3">
 							<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Customize which counters appear in the top bar and their order. Use the arrow buttons to reorder.</p>
-							<button onclick="resetCountersToDefault()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-medium transition-colors mb-4" data-lta-event="v2-reset-counters-default">
+							<button onclick="resetCountersToDefault()" class="px-4 py-2 hover:bg-blue-600 text-white rounded-md font-medium transition-colors mb-4" data-lta-event="v2-reset-counters-default" style="background-color: #1F40AF;">
 								Reset to Default
 							</button>
 							<div id="counter-settings-container" class="space-y-3"></div>
+						</div>
+					</div>
+
+					<div class="settings-category-content" data-category="tools">
+						<h3 class="text-lg font-medium mb-4">Customise Tools</h3>
+						<div class="space-y-4">
+							<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Select 2 tools to pin as quick-access tabs. All other tools are available in More Tools.</p>
+							
+							<div id="tools-pinning-container" class="space-y-4">
+								<!-- Tools pinning UI will be populated here by JavaScript -->
+							</div>
 						</div>
 					</div>
 
@@ -295,4 +312,268 @@
 	} else {
 		document.body.insertAdjacentHTML('beforeend', template);
 	}
+
+	// Initialize tools selection UI after DOM update
+	setTimeout(() => {
+		initializeToolsSelection();
+	}, 150);
 })();
+
+// Tool configuration
+const AVAILABLE_TOOLS = [
+	{ id: 'citations', name: 'Citations', icon: '📚', description: 'View and manage citations' },
+	{ id: 'generateCitation', name: 'Generate Citation', icon: '📝', description: 'Create formatted citations' },
+	{ id: 'details', name: 'Word Count Details', icon: '📊', description: 'Detailed word count statistics' },
+	{ id: 'dictionary', name: 'Dictionary', icon: '📖', description: 'Look up word definitions' },
+	{ id: 'thesaurus', name: 'Thesaurus', icon: '🧠', description: 'Find synonyms and related words' },
+	{ id: 'pomodoro', name: 'Pomodoro Timer', icon: '🍅', description: 'Time-boxed work sessions' },
+	{ id: 'translate', name: 'Translate', icon: '🌐', description: 'Translate text between languages' },
+	{ id: 'notepad', name: 'Notepad', icon: '📓', description: 'Simple note-taking tool' }
+];
+
+const DEFAULT_PINNED_TOOLS = ['generateCitation', 'details'];
+
+// Store previous settings state (used for validation and restore on force reload)
+let previousPinnedTools = null;
+
+// Get pinned tools from localStorage (Tab 2 and Tab 3, Tab 1 is always Citations)
+function getPinnedTools() {
+	const stored = localStorage.getItem('pinnedTools');
+	return stored ? JSON.parse(stored) : DEFAULT_PINNED_TOOLS;
+}
+
+// Save pinned tools to localStorage
+function savePinnedTools(toolIds) {
+	localStorage.setItem('pinnedTools', JSON.stringify(toolIds));
+	// Trigger UI update if available
+	if (typeof updateToolsDisplay === 'function') {
+		updateToolsDisplay();
+	}
+}
+
+// Store the current settings when opening the modal (for restore on cancel/force reload)
+function storeCurrentSettings() {
+	previousPinnedTools = [...getPinnedTools()];
+}
+
+// Restore previous settings (called on force reload or when closing without valid selection)
+function restorePreviousSettings() {
+	if (previousPinnedTools !== null) {
+		savePinnedTools(previousPinnedTools);
+		previousPinnedTools = null;
+	}
+}
+
+// Validate that at least 2 tools are selected
+function validateToolsSelection() {
+	const pinnedTools = getPinnedTools();
+	return pinnedTools.length >= 2;
+}
+
+// Check if settings can be closed (returns true if valid, false with notification if invalid)
+function canCloseSettings() {
+	if (!validateToolsSelection()) {
+		if (typeof showNotification === 'function') {
+			notify('Please select at least 2 tools before closing settings.', false);
+		} else {
+			notify('Please select at least 2 tools before closing settings.');
+		}
+		return false;
+	}
+	// Clear previous state on successful close
+	previousPinnedTools = null;
+	return true;
+}
+
+// Initialize the tools pinning UI
+function initializeToolsSelection() {
+	const container = document.getElementById('tools-pinning-container');
+	if (!container) {
+		console.warn('Tools pinning container not found');
+		return;
+	}
+
+	const pinnedTools = getPinnedTools();
+	container.innerHTML = '';
+
+	// Create a grid of tool cards (simple tap to select)
+	const toolsGrid = document.createElement('div');
+	toolsGrid.style.cssText = `
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+		gap: 0.75rem;
+		margin-bottom: 2rem;
+	`;
+
+	// Create cards for all selectable tools (exclude Citations as it's always pinned)
+	AVAILABLE_TOOLS.filter(tool => tool.id !== 'citations').forEach(tool => {
+		const card = document.createElement('div');
+		const isPinned = pinnedTools.includes(tool.id);
+		const tabIndex = pinnedTools.indexOf(tool.id);
+
+		card.style.cssText = `
+			padding: 1.25rem 1rem;
+			border: 2px solid ${isPinned ? 'var(--accent-color)' : 'var(--border-primary)'};
+			border-radius: 0.5rem;
+			background: ${isPinned ? 'var(--accent-color)' : 'var(--background-secondary)'};
+			color: ${isPinned ? 'white' : 'var(--text-primary)'};
+			cursor: pointer;
+			transition: all 0.2s ease;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			gap: 0.5rem;
+			position: relative;
+		`;
+
+		// Add checkmark for selected tools
+		if (isPinned) {
+			const checkmark = document.createElement('div');
+			checkmark.style.cssText = `
+				position: absolute;
+				top: 0.25rem;
+				right: 0.25rem;
+				width: 24px;
+				height: 24px;
+				background: ${isPinned ? 'white' : 'var(--accent-color)'};
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: bold;
+				font-size: 0.75rem;
+				color: var(--accent-color);
+			`;
+			checkmark.textContent = tabIndex + 2;
+			card.appendChild(checkmark);
+		}
+
+		const icon = document.createElement('div');
+		icon.style.cssText = 'font-size: 2rem;';
+		icon.textContent = tool.icon;
+		card.appendChild(icon);
+
+		const name = document.createElement('div');
+		name.style.cssText = `
+			font-weight: 500;
+			font-size: 0.875rem;
+			line-height: 1.2;
+		`;
+		name.textContent = tool.name;
+		card.appendChild(name);
+
+		// Hover effect
+		card.onmouseover = () => {
+			if (!isPinned) {
+				card.style.borderColor = 'var(--accent-color)';
+				card.style.background = 'rgba(var(--accent-color-rgb), 0.1)';
+			}
+		};
+
+		card.onmouseout = () => {
+			if (!isPinned) {
+				card.style.borderColor = 'var(--border-primary)';
+				card.style.background = 'var(--background-secondary)';
+			}
+		};
+
+		card.addEventListener('click', () => {
+			if (isPinned) {
+				// Unpin this tool
+				const newPinned = pinnedTools.filter(id => id !== tool.id);
+				savePinnedTools(newPinned);
+			} else if (pinnedTools.length < 2) {
+				// Pin this tool
+				savePinnedTools([...pinnedTools, tool.id]);
+			} else {
+				// Replace the last pinned tool
+				const newPinned = [...pinnedTools.slice(0, 1), tool.id];
+				savePinnedTools(newPinned);
+			}
+			initializeToolsSelection();
+		});
+
+		toolsGrid.appendChild(card);
+	});
+
+	container.appendChild(toolsGrid);
+
+	// Show preview of tab layout
+	const preview = document.createElement('div');
+	preview.style.cssText = `
+		padding: 1.5rem;
+		border-radius: 0.5rem;
+		background: var(--background-secondary);
+		border: 1px solid var(--border-primary);
+	`;
+
+	const previewTitle = document.createElement('div');
+	previewTitle.style.cssText = 'font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);';
+	previewTitle.textContent = 'Tab Layout Preview';
+	preview.appendChild(previewTitle);
+
+	const tabsDisplay = document.createElement('div');
+	tabsDisplay.style.cssText = 'display: flex; gap: 0.5rem; flex-wrap: wrap;';
+
+	// Tab 1
+	const tab1 = document.createElement('div');
+	tab1.style.cssText = `
+		padding: 0.5rem 1rem;
+		background: var(--accent-color);
+		color: white;
+		border-radius: 0.375rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+	`;
+	tab1.textContent = '📚 Citations';
+	tabsDisplay.appendChild(tab1);
+
+	// Tab 2 & 3
+	for (let i = 0; i < 2; i++) {
+		const toolId = pinnedTools[i];
+		if (toolId) {
+			const tool = AVAILABLE_TOOLS.find(t => t.id === toolId);
+			if (tool) {
+				const tab = document.createElement('div');
+				tab.style.cssText = `
+					padding: 0.5rem 1rem;
+					background: var(--background-primary);
+					color: var(--text-primary);
+					border: 1px solid var(--border-primary);
+					border-radius: 0.375rem;
+					font-size: 0.875rem;
+					font-weight: 500;
+				`;
+				tab.textContent = `${tool.icon} ${tool.name}`;
+				tabsDisplay.appendChild(tab);
+			}
+		} else {
+			// Show placeholder when no tool is selected for this slot
+			const placeholder = document.createElement('div');
+			placeholder.style.cssText = `
+				padding: 0.5rem 1rem;
+				background: var(--background-primary);
+				color: var(--text-secondary);
+				border: 1px dashed var(--border-primary);
+				border-radius: 0.375rem;
+				font-size: 0.875rem;
+			`;
+			placeholder.textContent = '+ Select a tool';
+			tabsDisplay.appendChild(placeholder);
+		}
+	}
+
+	preview.appendChild(tabsDisplay);
+	container.appendChild(preview);
+}
+
+// Open settings and navigate to tools section
+function openToolsSettingsPage() {
+	storeCurrentSettings();
+	toggleSettingsOverlay(true);
+	setTimeout(() => {
+		switchSettingsCategory('tools');
+		initializeToolsSelection();
+	}, 100);
+}

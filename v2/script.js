@@ -150,6 +150,17 @@ document.addEventListener('DOMContentLoaded', function () {
           e.preventDefault();
           toggleSettingsOverlay(true);
           break;
+        case 'z':
+          if (e.shiftKey) {
+            // Command/Ctrl + Shift + Z for redo
+            e.preventDefault();
+            redoText();
+          } else {
+            // Command/Ctrl + Z for undo
+            e.preventDefault();
+            undoText();
+          }
+          break;
         case 'b':
           e.preventDefault();
           formatText('bold');
@@ -359,13 +370,33 @@ function updateFontSize(size) {
 function updateBeforeUnloadHandler() {
   if (state.settings.warnLeave && !state.settings.autoSave) {
     window.onbeforeunload = (e) => {
+      // Restore previous settings if settings modal is open with invalid selection
+      if (typeof restorePreviousSettings === 'function') {
+        const overlay = document.getElementById('settings-overlay');
+        if (overlay && overlay.classList.contains('open')) {
+          if (typeof validateToolsSelection === 'function' && !validateToolsSelection()) {
+            restorePreviousSettings();
+          }
+        }
+      }
+      
       if (document.getElementById('editor').innerText.trim()) {
         e.preventDefault();
         e.returnValue = '';
       }
     };
   } else {
-    window.onbeforeunload = null;
+    window.onbeforeunload = (e) => {
+      // Restore previous settings if settings modal is open with invalid selection (even when warnLeave is off)
+      if (typeof restorePreviousSettings === 'function') {
+        const overlay = document.getElementById('settings-overlay');
+        if (overlay && overlay.classList.contains('open')) {
+          if (typeof validateToolsSelection === 'function' && !validateToolsSelection()) {
+            restorePreviousSettings();
+          }
+        }
+      }
+    };
   }
 }
 
@@ -528,16 +559,23 @@ function resetSettings() {
 
 function exportSettings() {
   try {
-    // Get settings from localStorage
+    // Get settings and pinned tools from localStorage
     const settingsData = localStorage.getItem('settings');
+    const pinnedToolsData = localStorage.getItem('pinnedTools');
     
     if (!settingsData) {
       notify('No settings found to export.', false);
       return;
     }
 
+    // Create export object with all settings
+    const exportData = {
+      settings: JSON.parse(settingsData),
+      pinnedTools: pinnedToolsData ? JSON.parse(pinnedToolsData) : ['generateCitation', 'details']
+    };
+
     // Create a blob with the settings data
-    const dataStr = JSON.stringify(JSON.parse(settingsData), null, 2);
+    const dataStr = JSON.stringify(exportData, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     
     // Create download link
@@ -579,18 +617,33 @@ function importSettings(event) {
   reader.onload = function(e) {
     try {
       // Parse the imported data
-      const importedSettings = JSON.parse(e.target.result);
+      const importedData = JSON.parse(e.target.result);
       
-      // Validate the settings structure
-      if (!importedSettings || typeof importedSettings !== 'object') {
+      // Validate the data structure
+      if (!importedData || typeof importedData !== 'object') {
         throw new Error('Invalid settings format');
       }
       
-      // Validate required fields
+      // Handle both old format (flat object) and new format (with pinnedTools)
+      let importedSettings, importedPinnedTools;
+      
+      if (importedData.settings && importedData.pinnedTools !== undefined) {
+        // New format
+        importedSettings = importedData.settings;
+        importedPinnedTools = importedData.pinnedTools;
+      } else if (importedData.autoSave !== undefined || importedData.counters !== undefined) {
+        // Old format - just settings
+        importedSettings = importedData;
+        importedPinnedTools = null;
+      } else {
+        throw new Error('Settings file does not contain valid CiteCount settings');
+      }
+      
+      // Validate required fields in settings
       const requiredFields = ['autoSave', 'warnLeave', 'spellCheck'];
       const hasRequiredFields = requiredFields.some(field => field in importedSettings);
       
-      if (!hasRequiredFields) {
+      if (!hasRequiredFields && !importedSettings.counters) {
         throw new Error('Settings file does not contain valid CiteCount settings');
       }
       
@@ -615,6 +668,11 @@ function importSettings(event) {
       state.settings = mergedSettings;
       localStorage.setItem('settings', JSON.stringify(state.settings));
       
+      // Import pinned tools if available
+      if (importedPinnedTools && Array.isArray(importedPinnedTools)) {
+        localStorage.setItem('pinnedTools', JSON.stringify(importedPinnedTools));
+      }
+      
       // Update UI
       updateSettingsUI();
       updateWordCount();
@@ -626,6 +684,11 @@ function importSettings(event) {
       const afterAppContent = document.getElementById('after-app-placeholder');
       if (afterAppContent) {
         afterAppContent.style.display = state.settings.focus ? 'none' : 'block';
+      }
+      
+      // Refresh tools display if function exists
+      if (typeof updateToolsDisplay === 'function') {
+        updateToolsDisplay();
       }
       
       notify(`Settings imported successfully from ${file.name}!`, false);
@@ -1505,9 +1568,17 @@ function toggleSettingsOverlay(show) {
   const background = document.getElementById('overlay-background');
   
   if (show) {
+    // Store current settings when opening
+    if (typeof storeCurrentSettings === 'function') {
+      storeCurrentSettings();
+    }
     overlay.classList.add('open');
     background.style.display = 'block';
   } else {
+    // Validate before closing
+    if (typeof canCloseSettings === 'function' && !canCloseSettings()) {
+      return; // Don't close if validation fails
+    }
     overlay.classList.remove('open');
     overlay.style.display = 'none';
     background.style.display = 'none';
@@ -1557,6 +1628,18 @@ function toggleHelpOverlay(show) {
 
 function formatText(command) {
   document.execCommand(command, false, null);
+  document.getElementById('editor').focus();
+  handleEditorInput();
+}
+
+function undoText() {
+  document.execCommand('undo', false, null);
+  document.getElementById('editor').focus();
+  handleEditorInput();
+}
+
+function redoText() {
+  document.execCommand('redo', false, null);
   document.getElementById('editor').focus();
   handleEditorInput();
 }
@@ -2668,143 +2751,402 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });*/
 
-// Tab switching functionality
-function switchPanelTab(tabName) {
+// Tab switching functionality - supports all 8 tools
+function switchPanelTab(tabName, isMoreToolView = false) {
+  // Get all tab buttons
   const citationsTab = document.getElementById('citations-tab');
-  const detailsTab = document.getElementById('details-tab');
+  const tab2Button = document.getElementById('generate-citation-tab');
+  const tab3Button = document.getElementById('details-tab');
+  const menuBtn = document.getElementById('details-menu-btn');
+  
+  // Get pinned tools to determine which button to highlight
+  const pinnedTools = JSON.parse(localStorage.getItem('pinnedTools') || '["generateCitation", "details"]');
+  const isTab2Tool = pinnedTools[0] === tabName;
+  const isTab3Tool = pinnedTools[1] === tabName;
+  
+  // Get all containers
   const citationsContainer = document.getElementById('citations-table-container');
+  const generateCitationContainer = document.getElementById('generate-citation-container');
   const detailsContainer = document.getElementById('word-count-details-container');
+  const moreAppsContainer = document.getElementById('more-apps-container');
+  const dictionaryContainer = document.getElementById('dictionary-container');
+  const thesaurusContainer = document.getElementById('thesaurus-container');
+  const pomodoroContainer = document.getElementById('pomodoro-container');
+  const translateContainer = document.getElementById('translate-container');
+  const notepadContainer = document.getElementById('notepad-container');
+  
   const panelHeader = document.getElementById('panel-header');
+  const panelTitle = document.getElementById('panel-title');
   const searchRow = document.getElementById('citations-search-row');
 
+  // Reset all tabs' visual state (except menuBtn if this is a More Tools view)
+  citationsTab.style.color = 'var(--text-secondary)';
+  citationsTab.style.borderBottomColor = 'transparent';
+  citationsTab.classList.remove('active');
+  
+  tab2Button.style.color = 'var(--text-secondary)';
+  tab2Button.style.borderBottomColor = 'transparent';
+  tab2Button.classList.remove('active');
+  
+  tab3Button.style.color = 'var(--text-secondary)';
+  tab3Button.style.borderBottomColor = 'transparent';
+  tab3Button.classList.remove('active');
+  
+  if (!isMoreToolView && menuBtn) {
+    menuBtn.style.color = 'var(--text-secondary)';
+    menuBtn.style.borderBottomColor = 'transparent';
+  }
+  
+  // Hide all containers
+  if (citationsContainer) citationsContainer.style.display = 'none';
+  if (generateCitationContainer) generateCitationContainer.style.display = 'none';
+  if (detailsContainer) detailsContainer.style.display = 'none';
+  if (moreAppsContainer) moreAppsContainer.style.display = 'none';
+  if (dictionaryContainer) dictionaryContainer.style.display = 'none';
+  if (thesaurusContainer) thesaurusContainer.style.display = 'none';
+  if (pomodoroContainer) pomodoroContainer.style.display = 'none';
+  if (translateContainer) translateContainer.style.display = 'none';
+  if (notepadContainer) notepadContainer.style.display = 'none';
+
+  // Handle each tab
   if (tabName === 'citations') {
-    // Show citations tab
     citationsTab.classList.add('active');
-    detailsTab.classList.remove('active');
     citationsTab.style.color = 'var(--text-primary)';
     citationsTab.style.borderBottomColor = 'var(--accent-color)';
-    detailsTab.style.color = 'var(--text-secondary)';
-    detailsTab.style.borderBottomColor = 'transparent';
-    
-    // Handle underline visibility
-    const citationsUnderline = citationsTab.querySelector('.tab-underline');
-    const detailsUnderline = detailsTab.querySelector('.tab-underline');
-    if (citationsUnderline) citationsUnderline.style.opacity = '1';
-    if (detailsUnderline) detailsUnderline.style.opacity = '0';
-    
-    citationsContainer.style.display = 'block';
-    detailsContainer.style.display = 'none';
-    
-    // Hide header for citations
-    if (panelHeader) {
-      panelHeader.style.display = 'none';
-    }
-    
-    // Show search row only if there are citations
-    if (searchRow && state.citationGroups.size > 0) {
+    if (citationsContainer) citationsContainer.style.display = 'block';
+    if (panelHeader) panelHeader.style.display = 'none';
+    if (searchRow && state.citationGroups && state.citationGroups.size > 0) {
       searchRow.style.display = 'table-row';
     }
+  } else if (tabName === 'generateCitation') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Generate Citation';
+      }
+    } else {
+      // Highlight the tab it's pinned to
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Generate Citation';
+      }
+    }
+    if (generateCitationContainer) generateCitationContainer.style.display = 'block';
+    if (searchRow) searchRow.style.display = 'none';
   } else if (tabName === 'details') {
-    // Show details tab
-    detailsTab.classList.add('active');
-    citationsTab.classList.remove('active');
-    detailsTab.style.color = 'var(--text-primary)';
-    detailsTab.style.borderBottomColor = 'var(--accent-color)';
-    citationsTab.style.color = 'var(--text-secondary)';
-    citationsTab.style.borderBottomColor = 'transparent';
-    
-    // Handle underline visibility
-    const citationsUnderline = citationsTab.querySelector('.tab-underline');
-    const detailsUnderline = detailsTab.querySelector('.tab-underline');
-    if (citationsUnderline) citationsUnderline.style.opacity = '0';
-    if (detailsUnderline) detailsUnderline.style.opacity = '1';
-    
-    citationsContainer.style.display = 'none';
-    detailsContainer.style.display = 'block';
-    
-    // Show header for word count details
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Word Count Details';
+      }
+    } else {
+      // Highlight the tab it's pinned to
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Word Count Details';
+      }
+    }
+    if (detailsContainer) detailsContainer.style.display = 'block';
+    if (searchRow) searchRow.style.display = 'none';
+    if (typeof updateTimeDetails === 'function') {
+      updateTimeDetails();
+    }
+  } else if (tabName === 'dictionary') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Dictionary';
+      }
+    } else {
+      // Highlight the tab it's pinned to
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Dictionary';
+      }
+    }
+    if (dictionaryContainer) dictionaryContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
+  } else if (tabName === 'thesaurus') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Thesaurus';
+      }
+    } else {
+      // Highlight the tab it's pinned to
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Thesaurus';
+      }
+    }
+    if (thesaurusContainer) thesaurusContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
+  } else if (tabName === 'pomodoro') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Pomodoro Timer';
+      }
+    } else {
+      // Highlight the tab it's pinned to
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Pomodoro Timer';
+      }
+    }
+    if (pomodoroContainer) pomodoroContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
+  } else if (tabName === 'translate') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Translate';
+      }
+    } else {
+      // Highlight the tab it's pinned to
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Translate';
+      }
+    }
+    if (translateContainer) translateContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
+  } else if (tabName === 'notepad') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Notepad';
+      }
+    } else {
+      // Highlight the tab it's pinned to
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Notepad';
+      }
+    }
+    if (notepadContainer) notepadContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
+  } else if (tabName === 'moreApps') {
+    if (menuBtn) {
+      menuBtn.style.color = 'var(--text-primary)';
+      menuBtn.style.borderBottomColor = 'var(--accent-color)';
+    }
+    if (moreAppsContainer) {
+      moreAppsContainer.style.display = 'flex';
+    }
     if (panelHeader) {
       panelHeader.style.display = 'block';
+      if (panelTitle) panelTitle.textContent = 'More Tools';
     }
-    
-    // Hide search row when in details tab
-    if (searchRow) {
-      searchRow.style.display = 'none';
-    }
-    
-    // Update the time calculations when switching to details tab
-    updateTimeDetails();
+    if (searchRow) searchRow.style.display = 'none';
   }
+}
+
+// Open More Apps: on mobile open apps modal, on desktop switch to moreApps tab
+function openMoreAppsTab() {
+  if (window.innerWidth < 1024) {
+    // mobile: show apps modal if available
+    if (typeof toggleAppsModal === 'function') {
+      toggleAppsModal(true);
+      return;
+    }
+  }
+  switchPanelTab('moreApps');
 }
 
 // Mobile tab switching functionality
 function switchPanelTabMobile(tabName) {
   const citationsTab = document.getElementById('citations-tab-mobile');
+  const generateCitationTab = document.getElementById('generate-citation-tab-mobile');
   const detailsTab = document.getElementById('details-tab-mobile');
   const citationsContainer = document.querySelector('#citations-overlay .overflow-x-auto');
+  const generateCitationContainer = document.getElementById('generate-citation-container-mobile');
   const detailsContainer = document.getElementById('word-count-details-container-mobile');
   const mobileHeader = document.getElementById('mobile-panel-header');
   const mobilePanelTitle = document.getElementById('mobile-panel-title');
   const searchRow = document.getElementById('citations-search-row-mobile');
 
+  // Reset all tabs
+  citationsTab.style.color = 'var(--text-secondary)';
+  citationsTab.style.borderBottomColor = 'transparent';
+  generateCitationTab.style.color = 'var(--text-secondary)';
+  generateCitationTab.style.borderBottomColor = 'transparent';
+  detailsTab.style.color = 'var(--text-secondary)';
+  detailsTab.style.borderBottomColor = 'transparent';
+  
+  citationsContainer.style.display = 'none';
+  generateCitationContainer.style.display = 'none';
+  detailsContainer.style.display = 'none';
+
   if (tabName === 'citations') {
     // Show citations tab
     citationsTab.classList.add('active');
+    generateCitationTab.classList.remove('active');
     detailsTab.classList.remove('active');
     citationsTab.style.color = 'var(--text-primary)';
     citationsTab.style.borderBottomColor = 'var(--accent-color)';
-    detailsTab.style.color = 'var(--text-secondary)';
-    detailsTab.style.borderBottomColor = 'transparent';
-    
-    // Handle underline visibility
-    const citationsUnderline = citationsTab.querySelector('.tab-underline');
-    const detailsUnderline = detailsTab.querySelector('.tab-underline');
-    if (citationsUnderline) citationsUnderline.style.opacity = '1';
-    if (detailsUnderline) detailsUnderline.style.opacity = '0';
     
     citationsContainer.style.display = 'block';
-    detailsContainer.style.display = 'none';
     
     // Hide header for citations
     if (mobileHeader) {
       mobileHeader.style.display = 'none';
     }
     
+    // Update mobile title
+    if (mobilePanelTitle) {
+      mobilePanelTitle.textContent = 'Citations';
+    }
+    
     // Show search row only if there are citations
     if (searchRow && state.citationGroups.size > 0) {
       searchRow.style.display = 'table-row';
+    }
+  } else if (tabName === 'generateCitation') {
+    // Show generate citation tab
+    generateCitationTab.classList.add('active');
+    citationsTab.classList.remove('active');
+    detailsTab.classList.remove('active');
+    generateCitationTab.style.color = 'var(--text-primary)';
+    generateCitationTab.style.borderBottomColor = 'var(--accent-color)';
+    
+    generateCitationContainer.style.display = 'block';
+    
+    // Show header for generate citation
+    if (mobileHeader) {
+      mobileHeader.style.display = 'none';
+    }
+    
+    // Update mobile title
+    if (mobilePanelTitle) {
+      mobilePanelTitle.textContent = 'Generate Citation';
+    }
+    
+    // Hide search row
+    if (searchRow) {
+      searchRow.style.display = 'none';
     }
   } else if (tabName === 'details') {
     // Show details tab
     detailsTab.classList.add('active');
     citationsTab.classList.remove('active');
+    generateCitationTab.classList.remove('active');
     detailsTab.style.color = 'var(--text-primary)';
     detailsTab.style.borderBottomColor = 'var(--accent-color)';
-    citationsTab.style.color = 'var(--text-secondary)';
-    citationsTab.style.borderBottomColor = 'transparent';
     
-    // Handle underline visibility
-    const citationsUnderline = citationsTab.querySelector('.tab-underline');
-    const detailsUnderline = detailsTab.querySelector('.tab-underline');
-    if (citationsUnderline) citationsUnderline.style.opacity = '0';
-    if (detailsUnderline) detailsUnderline.style.opacity = '1';
-    
-    citationsContainer.style.display = 'none';
     detailsContainer.style.display = 'block';
     
     // Show header for word count details
     if (mobileHeader) {
-      mobileHeader.style.display = 'block';
-    }
-    
-    // Hide search row when in details tab
-    if (searchRow) {
-      searchRow.style.display = 'none';
+      mobileHeader.style.display = 'none';
     }
     
     // Update mobile title
     if (mobilePanelTitle) {
       mobilePanelTitle.textContent = 'Word Count Details';
+    }
+    
+    // Hide search row when in details tab
+    if (searchRow) {
+      searchRow.style.display = 'none';
     }
     
     // Update the time calculations when switching to details tab
@@ -3615,3 +3957,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize overlay and sidebar ad
 // document.addEventListener('DOMContentLoaded', showPerplexityOverlay);
+
+// More Tools Functions
+function showMoreToolsIframe(toolName, iframeViewId) {
+  const toolsGridView = document.getElementById('dictionary-tools-view');
+  const iframeView = document.getElementById(iframeViewId);
+  const dictionaryIframeView = document.getElementById('dictionary-iframe-view');
+  const thesaurusIframeView = document.getElementById('thesaurus-iframe-view');
+  const pomodoroIframeView = document.getElementById('pomodoro-iframe-view');
+  const translateIframeView = document.getElementById('translate-iframe-view');
+  const notepadIframeView = document.getElementById('notepad-iframe-view');
+  const moreAppsContainer = document.getElementById('more-apps-container');
+  const panelTitle = document.getElementById('panel-title');
+  const moreToolsHeaderNav = document.getElementById('more-tools-header-nav');
+
+  if (toolsGridView) toolsGridView.style.display = 'none';
+  if (dictionaryIframeView) dictionaryIframeView.style.display = 'none';
+  if (thesaurusIframeView) thesaurusIframeView.style.display = 'none';
+  if (pomodoroIframeView) pomodoroIframeView.style.display = 'none';
+  if (translateIframeView) translateIframeView.style.display = 'none';
+  if (notepadIframeView) notepadIframeView.style.display = 'none';
+  if (iframeView) iframeView.style.display = 'flex';
+
+  // Remove padding when showing iframe for full-space usage
+  if (moreAppsContainer) moreAppsContainer.style.padding = '0';
+
+  if (panelTitle) {
+    panelTitle.innerHTML = `<span style="opacity: 0.5; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.opacity='0.8'; this.style.textDecoration='underline'" onmouseout="this.style.opacity='0.5'; this.style.textDecoration='none'" onclick="closeMoreToolsView()">More Tools</span> / ${toolName}`;
+  }
+  if (moreToolsHeaderNav) moreToolsHeaderNav.style.display = 'flex';
+}
+
+function openDictionaryTool() {
+  showMoreToolsIframe('Dictionary', 'dictionary-iframe-view');
+}
+
+function openThesaurusTool() {
+  showMoreToolsIframe('Thesaurus', 'thesaurus-iframe-view');
+}
+
+function openPomodoroTool() {
+  showMoreToolsIframe('Pomodoro Timer', 'pomodoro-iframe-view');
+}
+
+function openTranslateTool() {
+  showMoreToolsIframe('Translate', 'translate-iframe-view');
+}
+
+function openNotepadTool() {
+  showMoreToolsIframe('Notepad', 'notepad-iframe-view');
+}
+
+function closeMoreToolsView() {
+  const toolsGridView = document.getElementById('dictionary-tools-view');
+  const dictionaryIframeView = document.getElementById('dictionary-iframe-view');
+  const thesaurusIframeView = document.getElementById('thesaurus-iframe-view');
+  const pomodoroIframeView = document.getElementById('pomodoro-iframe-view');
+  const translateIframeView = document.getElementById('translate-iframe-view');
+  const notepadIframeView = document.getElementById('notepad-iframe-view');
+  const moreAppsContainer = document.getElementById('more-apps-container');
+  const panelTitle = document.getElementById('panel-title');
+  const moreToolsHeaderNav = document.getElementById('more-tools-header-nav');
+
+  if (toolsGridView) toolsGridView.style.display = 'flex';
+  if (dictionaryIframeView) dictionaryIframeView.style.display = 'none';
+  if (thesaurusIframeView) thesaurusIframeView.style.display = 'none';
+  if (pomodoroIframeView) pomodoroIframeView.style.display = 'none';
+  if (translateIframeView) translateIframeView.style.display = 'none';
+  if (notepadIframeView) notepadIframeView.style.display = 'none';
+
+  // Restore padding when showing tools grid
+  if (moreAppsContainer) moreAppsContainer.style.padding = '1rem';
+
+  if (panelTitle) panelTitle.textContent = 'More Tools';
+  if (moreToolsHeaderNav) moreToolsHeaderNav.style.display = 'none';
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dictionary - CiteCount</title>
+    <title>Thesaurus - CiteCount</title>
     <style>
         * {
             margin: 0;
@@ -11,53 +11,46 @@
             box-sizing: border-box;
         }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
             body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-                background: var(--background-primary, #ffffff);
-                color: var(--text-primary, #1f2937);
-                height: 100vh;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
+                background: var(--background-primary, #0f0f0f);
+                color: var(--text-primary, #f3f4f6);
             }
-
-            /* Dark mode support for text */
-            @media (prefers-color-scheme: dark) {
-                body {
-                    background: var(--background-primary, #0f0f0f);
-                    color: var(--text-primary, #f3f4f6);
-                }
-                .word-title,
-                .part-of-speech,
-                .definition-text,
-                .synonyms-label,
-                .synonym-tag,
-                .dictionary-footer,
-                .no-results-title {
-                    color: var(--text-primary, #f3f4f6) !important;
-                }
-                .example,
-                .loading-text,
-                .empty-state,
-                .no-results-state {
-                    color: var(--text-secondary, #a1a1aa) !important;
-                }
-                .definition-text {
-                    border-left-color: var(--accent-color, #60a5fa);
-                }
-                .synonym-tag {
-                    background: var(--surface-color, #374151);
-                    color: var(--text-primary, #f3f4f6);
-                    border-color: var(--border-primary, #374151);
-                }
-                .synonym-tag:hover {
-                    background: var(--accent-color, #1e40af);
-                    color: #fff;
-                    border-color: var(--accent-color, #1e40af);
-                }
+            .word-title,
+            .synonym-category,
+            .synonym-word,
+            .thesaurus-footer,
+            .no-results-title {
+                color: var(--text-primary, #f3f4f6) !important;
             }
+            .word-score,
+            .loading-text,
+            .empty-state,
+            .no-results-state {
+                color: var(--text-secondary, #a1a1aa) !important;
+            }
+            .synonym-card {
+                background: var(--surface-color, #1f2937);
+                border-color: var(--border-primary, #374151);
+            }
+            .synonym-card:hover {
+                border-color: var(--accent-color, #60a5fa);
+                background: var(--surface-hover, #252f3f);
+            }
+        }
 
-        .dictionary-container {
+        .thesaurus-container {
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -179,12 +172,12 @@
             padding: 1.5rem;
         }
 
-        .definition-container {
+        .results-container {
             display: none;
             animation: slideIn 0.3s ease;
         }
 
-        .definition-container.active {
+        .results-container.active {
             display: block;
         }
 
@@ -205,96 +198,28 @@
             border-bottom: 1px solid var(--border-primary, #e5e7eb);
         }
 
+        @media (prefers-color-scheme: dark) {
+            .word-header {
+                border-bottom-color: var(--border-primary, #374151);
+            }
+        }
+
         .word-title {
             font-size: 2rem;
             font-weight: 800;
             color: var(--text-primary, #1f2937);
             margin-bottom: 0.5rem;
-        }
-
-        .word-phonetic {
-            font-size: 1.1rem;
-            color: var(--text-secondary, #6b7280);
-            font-style: italic;
-        }
-
-        .definition-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .part-of-speech {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--accent-color, #1e40af);
-            margin-bottom: 0.5rem;
-            text-transform: capitalize;
-        }
-
-        .definition-text {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: var(--text-primary, #1f2937);
-            margin-bottom: 0.5rem;
-            padding-left: 1rem;
-            border-left: 3px solid var(--accent-color, #1e40af);
-        }
-
-        .clickable-word {
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .clickable-word:hover {
-            color: var(--accent-color, #1e40af);
-            text-decoration: underline;
-        }
-
-        .example {
-            font-size: 0.95rem;
-            color: var(--text-secondary, #6b7280);
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            font-style: italic;
-            border-left: 3px solid var(--border-primary, #e5e7eb);
-        }
-
-        .synonyms {
-            font-size: 0.9rem;
-            margin-top: 0.75rem;
-            padding-left: 1rem;
-        }
-
-        .synonyms-label {
-            font-weight: 600;
-            color: var(--text-primary, #1f2937);
-            margin-right: 0.5rem;
-        }
-
-        .synonyms-list {
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
             gap: 0.5rem;
-            margin-top: 0.25rem;
         }
 
-        .synonym-tag {
-            background: var(--surface-color, #f3f4f6);
-            color: var(--text-primary, #1f2937);
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.375rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
+        .word-count {
+            font-size: 1rem;
+            color: var(--text-secondary, #6b7280);
+            font-weight: 400;
         }
 
-        .synonym-tag:hover {
-            background: var(--accent-color, #1e40af);
-            color: white;
-            border-color: var(--accent-color, #1e40af);
-        }
-
-        /* Speaker button next to word title */
         .speak-btn {
             background: transparent;
             border: 1px solid transparent;
@@ -314,8 +239,67 @@
             transform: translateY(-1px);
         }
 
-        .speak-btn svg { width: 20px; height: 20px; }
+        @media (prefers-color-scheme: dark) {
+            .speak-btn:hover {
+                background: var(--surface-color, #1f2937);
+            }
+        }
 
+        .speak-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .synonyms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .synonym-card {
+            background: var(--surface-color, #f9fafb);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .synonym-card {
+                background: var(--surface-color, #1f2937);
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .synonym-card:hover {
+            border-color: var(--accent-color, #1e40af);
+            background: var(--surface-hover, #f3f4f6);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .synonym-card:hover {
+                background: var(--surface-hover, #252f3f);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .synonym-word {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary, #1f2937);
+        }
+
+        .word-score {
+            font-size: 0.85rem;
+            color: var(--text-secondary, #6b7280);
+        }
 
         .loading-state {
             display: none;
@@ -376,6 +360,14 @@
             text-align: center;
         }
 
+        @media (prefers-color-scheme: dark) {
+            .error-state {
+                background: #7f1d1d;
+                border-color: #991b1b;
+                color: #fecaca;
+            }
+        }
+
         .error-state.active {
             display: block;
         }
@@ -405,7 +397,7 @@
             margin-bottom: 0.5rem;
         }
 
-        .dictionary-footer {
+        .thesaurus-footer {
             opacity: 0.8;
             color: var(--text-secondary, #6b7280);
             font-size: 0.9rem;
@@ -415,6 +407,16 @@
             border-top: 1px solid var(--border-primary, #e5e7eb);
             flex-shrink: 0;
             background: transparent;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .thesaurus-footer {
+                border-top-color: var(--border-primary, #374151);
+            }
+        }
+
+        .thesaurus-footer.hidden {
+            display: none;
         }
 
         /* Modal shown when page is opened directly (not in an iframe) */
@@ -445,26 +447,48 @@
         }
 
         @media (prefers-color-scheme: dark) {
-            .embed-modal { background: #0b1220; color: #f3f4f6; }
-            .embed-modal-overlay { background: rgba(2,6,23,0.7); }
-        }
-
-        .embed-modal h3 { margin-bottom: 0.5rem; font-size: 1.125rem; }
-        .embed-modal p { margin-bottom: 1rem; color: var(--text-secondary, #6b7280); }
-        .embed-modal .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
-        .embed-modal .modal-btn { padding: 0.5rem 0.85rem; border-radius: 0.5rem; border: 1px solid transparent; cursor: pointer; }
-        .embed-modal .modal-btn.primary { background: var(--accent-color, #1e40af); color: white; border-color: var(--accent-color, #1e40af); }
-        .embed-modal .modal-btn.ghost { background: transparent; color: inherit; border-color: var(--border-primary, #e5e7eb); }
-
-        .dictionary-footer.hidden {
-            display: none;
-        }
-        @media (prefers-color-scheme: dark) {
-            .error-state {
-                background: #7f1d1d;
-                border-color: #991b1b;
-                color: #fecaca;
+            .embed-modal {
+                background: #0b1220;
+                color: #f3f4f6;
             }
+            .embed-modal-overlay {
+                background: rgba(2,6,23,0.7);
+            }
+        }
+
+        .embed-modal h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem;
+        }
+
+        .embed-modal p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary, #6b7280);
+        }
+
+        .embed-modal .modal-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .embed-modal .modal-btn {
+            padding: 0.5rem 0.85rem;
+            border-radius: 0.5rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .embed-modal .modal-btn.primary {
+            background: var(--accent-color, #1e40af);
+            color: white;
+            border-color: var(--accent-color, #1e40af);
+        }
+
+        .embed-modal .modal-btn.ghost {
+            background: transparent;
+            color: inherit;
+            border-color: var(--border-primary, #e5e7eb);
         }
 
         @media (max-width: 768px) {
@@ -494,14 +518,15 @@
                 font-size: 1.5rem;
             }
 
-            .definition-text {
-                font-size: 0.95rem;
+            .synonyms-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 0.75rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="dictionary-container">
+    <div class="thesaurus-container">
         <div class="search-section">
             <div class="search-input-wrapper">
                 <button class="nav-btn" id="backBtn" onclick="navigateBack()" disabled title="Go back">
@@ -518,7 +543,7 @@
                     type="text" 
                     id="searchInput" 
                     class="search-input" 
-                    placeholder="Search for a word..." 
+                    placeholder="Find synonyms for a word..." 
                     autocomplete="off"
                 >
                 <button class="search-btn" id="searchBtn" onclick="searchWord()">Search</button>
@@ -528,7 +553,7 @@
         <div class="content-section">
             <div class="loading-state" id="loadingState">
                 <div class="spinner"></div>
-                <div class="loading-text">Loading definition...</div>
+                <div class="loading-text">Finding synonyms...</div>
             </div>
 
             <div class="error-state" id="errorState"></div>
@@ -537,7 +562,7 @@
                 <svg class="empty-state-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18,2 C19.3807,2 20.5,3.11929 20.5,4.5 L20.5,4.5 L20.5,18.75 C20.5,19.1642 20.1642,19.5 19.75,19.5 L19.75,19.5 L5.5,19.5 C5.5,20.0523 5.94772,20.5 6.5,20.5 L6.5,20.5 L19.75,20.5 C20.1642,20.5 20.5,20.8358 20.5,21.25 C20.5,21.6642 20.1642,22 19.75,22 L19.75,22 L6.5,22 C5.11929,22 4,20.8807 4,19.5 L4,19.5 L4,4.5 C4,3.11929 5.11929,2 6.5,2 L6.5,2 Z M16,5 L8,5 C7.44772,5 7,5.44772 7,6 L7,7 C7,7.55228 7.44772,8 8,8 L16,8 C16.5523,8 17,7.55228 17,7 L17,6 C17,5.44772 16.5523,5 16,5 Z"/>
                 </svg>
-                <p>Search for a word to see its definition</p>
+                <p>Search for a word to find synonyms and related terms</p>
             </div>
 
             <div class="no-results-state" id="noResultsState">
@@ -547,24 +572,24 @@
                     <line x1="11" y1="8" x2="11" y2="14"/>
                     <line x1="8" y1="11" x2="14" y2="11"/>
                 </svg>
-                <div class="no-results-title">No results found</div>
-                <p>We couldn't find a definition for "<span id="searchedWord"></span>". Try checking the spelling or searching for a different word.</p>
+                <div class="no-results-title">No synonyms found</div>
+                <p>We couldn't find any synonyms for "<span id="searchedWord"></span>". Try checking the spelling or searching for a different word.</p>
             </div>
 
-            <div class="definition-container" id="definitionContainer"></div>
+            <div class="results-container" id="resultsContainer"></div>
         </div>
-        <footer class="dictionary-footer" role="contentinfo">
-            <p>Bilingual translation dictionaries are permitted in IB exams for non-language subjects. Make sure to obtain approval with your exam coordinator before use. The current CiteCount dictionary is not yet compliant with IB regulations, and we are working to address this.</p><br>
+
+        <footer class="thesaurus-footer" role="contentinfo">
             <p>© <span id="copyrightYear"></span> CiteCount. All rights reserved.</p>
-            <p>Content is sourced from Wiktionary under the CC BY-SA 4.0 license.</p>
+            <p>Powered by Datamuse API.</p>
         </footer>
     </div>
 
     <!-- Modal shown when page is opened directly (not in an iframe) -->
     <div id="iframeModalOverlay" class="embed-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="iframeModalTitle" style="display:none">
         <div class="embed-modal" role="document">
-            <h3 id="iframeModalTitle">Designed as an Exam Timer app</h3>
-            <p>This dictionary is intended to be used inside the exam timer app. For the best experience, open it from the exam timer interface.</p>
+            <h3 id="iframeModalTitle">Designed as an Exam Timer Tool</h3>
+            <p>This thesaurus is intended to be used inside the exam timer app. For the best experience, open it from the exam timer interface.</p>
             <div class="modal-actions">
                 <button id="iframeModalDismiss" class="modal-btn ghost">Dismiss</button>
             </div>
@@ -572,17 +597,17 @@
     </div>
 
     <script>
-        const API_URL = 'https://freedictionaryapi.com/api/v1/entries/en/';
+        const API_URL = 'https://api.datamuse.com/words';
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const loadingState = document.getElementById('loadingState');
         const errorState = document.getElementById('errorState');
         const emptyState = document.getElementById('emptyState');
         const noResultsState = document.getElementById('noResultsState');
-        const definitionContainer = document.getElementById('definitionContainer');
+        const resultsContainer = document.getElementById('resultsContainer');
         const backBtn = document.getElementById('backBtn');
         const forwardBtn = document.getElementById('forwardBtn');
-        const footer = document.querySelector('.dictionary-footer');
+        const footer = document.querySelector('.thesaurus-footer');
 
         // Modal elements for iframe detection
         const iframeModalOverlay = document.getElementById('iframeModalOverlay');
@@ -592,7 +617,7 @@
             try {
                 if (!iframeModalOverlay) return;
                 // Respect previous dismissal
-                if (localStorage && localStorage.getItem('dictionaryModalDismissed') === '1') return;
+                if (localStorage && localStorage.getItem('thesaurusModalDismissed') === '1') return;
                 iframeModalOverlay.style.display = 'flex';
                 // small timeout to allow CSS transitions if any
                 requestAnimationFrame(() => iframeModalOverlay.classList.add('active'));
@@ -608,7 +633,7 @@
                 iframeModalOverlay.classList.remove('active');
                 iframeModalOverlay.style.display = 'none';
                 document.body.style.overflow = '';
-                if (persist && localStorage) localStorage.setItem('dictionaryModalDismissed', '1');
+                if (persist && localStorage) localStorage.setItem('thesaurusModalDismissed', '1');
             } catch (e) {
                 console.warn('Failed to hide iframe modal', e);
             }
@@ -688,114 +713,74 @@
             showLoadingState();
 
             try {
-                const response = await fetch(`${API_URL}${word}`);
+                // Using the /words?ml= endpoint for "means like" (synonyms)
+                const response = await fetch(`${API_URL}?ml=${encodeURIComponent(word)}&max=100`);
                 
                 if (!response.ok) {
-                    if (response.status === 404) {
-                        showNoResults(word);
-                    } else {
-                        showError('Failed to fetch definition. Please try again.');
-                    }
+                    showError('Failed to fetch synonyms. Please try again.');
                     return;
                 }
 
                 const data = await response.json();
                 
                 // Check if data has valid entries
-                if (!data.entries || data.entries.length === 0) {
+                if (!data || data.length === 0) {
                     showNoResults(word);
                     return;
                 }
                 
-                displayDefinition(data);
+                displayResults(word, data);
             } catch (error) {
-                console.error('Error fetching definition:', error);
+                console.error('Error fetching synonyms:', error);
                 showError('An error occurred. Please check your connection and try again.');
             }
         }
 
-        function makeWordsClickable(text) {
-            // Split text into words while preserving punctuation
-            return text.replace(/\b([a-zA-Z]+(?:'[a-zA-Z]+)?)\b/g, (match) => {
-                return `<span class="clickable-word" onclick="clickWord('${match.toLowerCase()}')">${match}</span>`;
-            });
-        }
-
-        function clickWord(word) {
-            searchInput.value = word;
-            searchWord();
-        }
-
-        function displayDefinition(data) {
+        function displayResults(word, data) {
             hideAllStates();
-            definitionContainer.classList.add('active');
-
-            const word = data.word;
-            const entries = data.entries || [];
+            resultsContainer.classList.add('active');
 
             let html = `
                 <div class="word-header">
-                    <div style="display:flex;align-items:center;gap:0.5rem;">
-                        <div class="word-title">${word}</div>
-                        <button class="speak-btn" type="button" data-word="${word}" aria-label="Play pronunciation of ${word}" title="Play pronunciation">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path d="M13 3.7446C13 3.27314 12.8728 2.50021 12.1657 2.14424C11.4151 1.76635 10.7163 2.19354 10.3623 2.51158L4.94661 7.43717H3C1.89543 7.43717 1 8.3326 1 9.43717L1.00001 14.6248C1.00001 15.7293 1.89544 16.6248 3.00001 16.6248H4.95001L10.3623 21.4891C10.7175 21.8081 11.416 22.2331 12.1656 21.8554C12.8717 21.4998 13 20.7286 13 20.2561V3.7446Z"/>
-                                <path d="M17.336 3.79605L17.0952 3.72886C16.5633 3.58042 16.0117 3.89132 15.8632 4.42329L15.7289 4.90489C15.5804 5.43685 15.8913 5.98843 16.4233 6.13687L16.6641 6.20406C18.9551 6.84336 20.7501 9.14615 20.7501 12.0001C20.7501 14.854 18.9551 17.1568 16.6641 17.7961L16.4233 17.8632C15.8913 18.0117 15.5804 18.5633 15.7289 19.0952L15.8632 19.5768C16.0117 20.1088 16.5633 20.4197 17.0952 20.2713L17.336 20.2041C20.7957 19.2387 23.2501 15.8818 23.2501 12.0001C23.2501 8.11832 20.7957 4.76146 17.336 3.79605Z"/>
-                                <path d="M16.3581 7.80239L16.1185 7.73078C15.5894 7.57258 15.0322 7.87329 14.874 8.40243L14.7308 8.88148C14.5726 9.41062 14.8733 9.96782 15.4024 10.126L15.642 10.1976C16.1752 10.3571 16.75 11.012 16.75 12C16.75 12.9881 16.1752 13.643 15.642 13.8024L15.4024 13.874C14.8733 14.0322 14.5726 14.5894 14.7308 15.1185L14.874 15.5976C15.0322 16.1267 15.5894 16.4274 16.1185 16.2692L16.3581 16.1976C18.1251 15.6693 19.25 13.8987 19.25 12C19.25 10.1014 18.1251 8.33068 16.3581 7.80239Z"/>
-                            </svg>
-                        </button>
+                    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+                        <div class="word-title">
+                            ${word}
+                            <button class="speak-btn" type="button" data-word="${word}" aria-label="Play pronunciation of ${word}" title="Play pronunciation">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M13 3.7446C13 3.27314 12.8728 2.50021 12.1657 2.14424C11.4151 1.76635 10.7163 2.19354 10.3623 2.51158L4.94661 7.43717H3C1.89543 7.43717 1 8.3326 1 9.43717L1.00001 14.6248C1.00001 15.7293 1.89544 16.6248 3.00001 16.6248H4.95001L10.3623 21.4891C10.7175 21.8081 11.416 22.2331 12.1656 21.8554C12.8717 21.4998 13 20.7286 13 20.2561V3.7446Z"/>
+                                    <path d="M17.336 3.79605L17.0952 3.72886C16.5633 3.58042 16.0117 3.89132 15.8632 4.42329L15.7289 4.90489C15.5804 5.43685 15.8913 5.98843 16.4233 6.13687L16.6641 6.20406C18.9551 6.84336 20.7501 9.14615 20.7501 12.0001C20.7501 14.854 18.9551 17.1568 16.6641 17.7961L16.4233 17.8632C15.8913 18.0117 15.5804 18.5633 15.7289 19.0952L15.8632 19.5768C16.0117 20.1088 16.5633 20.4197 17.0952 20.2713L17.336 20.2041C20.7957 19.2387 23.2501 15.8818 23.2501 12.0001C23.2501 8.11832 20.7957 4.76146 17.336 3.79605Z"/>
+                                    <path d="M16.3581 7.80239L16.1185 7.73078C15.5894 7.57258 15.0322 7.87329 14.874 8.40243L14.7308 8.88148C14.5726 9.41062 14.8733 9.96782 15.4024 10.126L15.642 10.1976C16.1752 10.3571 16.75 11.012 16.75 12C16.75 12.9881 16.1752 13.643 15.642 13.8024L15.4024 13.874C14.8733 14.0322 14.5726 14.5894 14.7308 15.1185L14.874 15.5976C15.0322 16.1267 15.5894 16.4274 16.1185 16.2692L16.3581 16.1976C18.1251 15.6693 19.25 13.8987 19.25 12C19.25 10.1014 18.1251 8.33068 16.3581 7.80239Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="word-count">(${data.length} synonym${data.length !== 1 ? 's' : ''} found)</span>
                     </div>
                 </div>
+                <div class="synonyms-grid">
             `;
 
-            entries.forEach((entry) => {
-                const partOfSpeech = entry.partOfSpeech || '';
-                const senses = entry.senses || [];
-
-                if (partOfSpeech) {
-                    html += `<div style="margin-bottom: 1.5rem;">
-                        <div class="part-of-speech">${partOfSpeech}</div>`;
-                }
-
-                senses.forEach((sense) => {
-                    const definition = sense.definition || '';
-                    const examples = sense.examples || [];
-                    const synonyms = sense.synonyms || [];
-
-                    if (definition) {
-                        html += `<div class="definition-item">
-                            <div class="definition-text">${makeWordsClickable(definition)}</div>`;
-
-                        if (examples.length > 0) {
-                            examples.forEach((example) => {
-                                html += `<div class="example">"${makeWordsClickable(example)}"</div>`;
-                            });
-                        }
-
-                        if (synonyms.length > 0) {
-                            html += `<div class="synonyms">
-                                <span class="synonyms-label">Synonyms:</span>
-                                <div class="synonyms-list">
-                                    ${synonyms.map(syn => `<span class="synonym-tag" onclick="searchSynonym('${syn}')">${syn}</span>`).join('')}
-                                </div>
-                            </div>`;
-                        }
-
-                        html += `</div>`;
-                    }
-                });
-
-                if (partOfSpeech) {
-                    html += `</div>`;
-                }
+            data.forEach((item) => {
+                const synonymWord = item.word || '';
+                const score = item.score || 0;
+                
+                html += `
+                    <div class="synonym-card" onclick="clickSynonym('${synonymWord.replace(/'/g, "\\'")}')">
+                        <div class="synonym-word">${synonymWord}</div>
+                        <div class="word-score">Relevance: ${Math.round(score / 1000)}</div>
+                    </div>
+                `;
             });
 
-            definitionContainer.innerHTML = html;
+            html += `</div>`;
+
+            resultsContainer.innerHTML = html;
         }
 
-        function searchSynonym(word) {
+        function clickSynonym(word) {
             searchInput.value = word;
             searchWord();
+            // Scroll to top
+            document.querySelector('.content-section').scrollTop = 0;
         }
 
         function showLoadingState() {
@@ -827,7 +812,7 @@
             errorState.classList.remove('active');
             emptyState.classList.remove('active');
             noResultsState.classList.remove('active');
-            definitionContainer.classList.remove('active');
+            resultsContainer.classList.remove('active');
         }
 
         /* Native pronunciation using the Web Speech API (speechSynthesis) */

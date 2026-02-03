@@ -1950,14 +1950,11 @@
     background: #1D4ED8;
   }
 
-  /* Tab underline animation */
-  .panel-tab .tab-underline {
-    transition: opacity 0.2s ease;
-  }
 
   .panel-tab.active .tab-underline {
     opacity: 1 !important;
   }
+
 
   .manage-btn {
     transition: all 0.2s ease;
@@ -4099,6 +4096,9 @@ pre {
     z-index: 1000;
     transition: left 0.3s ease;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
   }
   
   .file-sidebar.mobile-open {
@@ -4701,7 +4701,6 @@ pre {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
   cursor: pointer;
   border-radius: 0.375rem;
   border: 2px solid transparent;
@@ -4709,10 +4708,14 @@ pre {
   background: var(--background-secondary);
 }
 
+.icon-picker-item .ui-icon {
+  width: 22px;
+  height: 22px;
+}
+
 .icon-picker-item:hover {
   background: var(--background-primary);
   border-color: var(--accent-color);
-  transform: scale(1.1);
 }
 
 .icon-picker-item.selected {
@@ -4814,14 +4817,24 @@ pre {
   border-color: #1e40af;
 }
 
-/* Emoji picker in modal */
-.emoji-picker-toggle {
+/* SVG icon picker in modal */
+.ui-icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: inline-block;
+}
+
+.icon-picker-toggle {
   width: 50px;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
   cursor: pointer;
   border-radius: 0.375rem;
   border: 1px solid var(--border-primary);
@@ -4830,12 +4843,17 @@ pre {
   padding: 0;
 }
 
-.emoji-picker-toggle:hover {
+.icon-picker-toggle:hover {
   border-color: var(--accent-color);
   background: var(--background-secondary);
 }
 
-.emoji-picker-popup {
+.icon-picker-display .ui-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-picker-popup {
   position: absolute;
   top: 100%;
   left: 0;
@@ -4848,7 +4866,7 @@ pre {
   padding: 0.5rem;
 }
 
-.emoji-picker-grid {
+.icon-picker-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 0.25rem;
@@ -4856,13 +4874,12 @@ pre {
   overflow-y: auto;
 }
 
-.emoji-option {
+.icon-option {
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
   cursor: pointer;
   border-radius: 0.25rem;
   border: 2px solid transparent;
@@ -4871,15 +4888,29 @@ pre {
   padding: 0;
 }
 
-.emoji-option:hover {
+.icon-option .ui-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.icon-option:hover {
   border-color: var(--accent-color);
-  transform: scale(1.1);
   background: var(--background-secondary);
 }
 
-.emoji-option.selected {
+.icon-option.selected {
   border-color: var(--accent-color);
   background: rgba(30, 64, 175, 0.1);
+}
+
+.file-tree-icon.ui-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.storage-project-icon .ui-icon {
+  width: 20px;
+  height: 20px;
 }
 
 /* Drag and drop styling */
@@ -4983,7 +5014,11 @@ pre {
 }
 
 .storage-project-icon {
-  font-size: 1.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
 }
 
@@ -5435,4 +5470,62 @@ pre {
         .cc-changing-text {
           text-decoration-color: #ffffff;
         }
+      }
+
+      /* Tools Selection Styling */
+      #tools-selection-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1rem;
+        padding: 0;
+        margin: 0;
+      }
+
+      .tool-selection-card {
+        transition: all 0.2s ease;
+      }
+
+      .tool-selection-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .tool-selection-card:hover {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      .tool-selection-card.selected {
+        background: rgba(59, 130, 246, 0.08) !important;
+      }
+
+      /* Utility Classes */
+      .space-y-3 {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      #selected-tools-preview {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background: var(--background-secondary);
+        border: 1px solid var(--border-primary);
+      }
+
+      .selected-tool-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--accent-color);
+        color: white;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
       }

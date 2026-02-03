@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notepad - CiteCount</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: var(--background-primary, #0f0f0f);
+                color: var(--text-primary, #f3f4f6);
+            }
+        }
+
+        .notepad-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header-section {
+            padding: 1rem 1.5rem;
+            background: var(--surface-color, #f9fafb);
+            border-bottom: 1px solid var(--border-primary, #e5e7eb);
+            flex-shrink: 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .header-section {
+                background: var(--surface-color, #1f2937);
+                border-bottom-color: var(--border-primary, #374151);
+            }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .note-title-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            transition: all 0.2s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .note-title-input {
+                background: var(--background-primary, #0f0f0f);
+                color: var(--text-primary, #f3f4f6);
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .note-title-input:focus {
+            outline: none;
+            border-color: var(--accent-color, #1e40af);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .note-title-input::placeholder {
+            color: var(--text-secondary, #9ca3af);
+        }
+
+        .actions-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .stats-display {
+            display: flex;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--background-primary, #ffffff);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .stats-display {
+                background: var(--background-primary, #0f0f0f);
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            color: var(--text-secondary, #6b7280);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            color: var(--accent-color, #1e40af);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .action-btn {
+                background: var(--background-primary, #0f0f0f);
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .action-btn:hover {
+            background: var(--surface-color, #f3f4f6);
+            border-color: var(--accent-color, #1e40af);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .action-btn:hover {
+                background: var(--surface-color, #1f2937);
+            }
+        }
+
+        .action-btn.primary {
+            background: var(--accent-color, #1e40af);
+            color: white;
+            border-color: var(--accent-color, #1e40af);
+        }
+
+        .action-btn.primary:hover {
+            background: #1e3a8a;
+        }
+
+        .action-btn.danger {
+            color: #dc2626;
+        }
+
+        .action-btn.danger:hover {
+            background: #fee2e2;
+            border-color: #dc2626;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .action-btn.danger:hover {
+                background: #7f1d1d;
+                border-color: #991b1b;
+            }
+        }
+
+        .action-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .content-section {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .notepad-textarea {
+            flex: 1;
+            width: 100%;
+            padding: 1.5rem;
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            resize: none;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .notepad-textarea {
+                background: var(--background-primary, #0f0f0f);
+                color: var(--text-primary, #f3f4f6);
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .notepad-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color, #1e40af);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .notepad-textarea::placeholder {
+            color: var(--text-secondary, #9ca3af);
+        }
+
+        .auto-save-indicator {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary, #6b7280);
+            text-align: right;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .auto-save-indicator.visible {
+            opacity: 1;
+        }
+
+        .auto-save-indicator.saving {
+            color: var(--accent-color, #1e40af);
+        }
+
+        .auto-save-indicator.saved {
+            color: #059669;
+        }
+
+        .notepad-footer {
+            opacity: 0.8;
+            color: var(--text-secondary, #6b7280);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            border-top: 1px solid var(--border-primary, #e5e7eb);
+            flex-shrink: 0;
+            background: transparent;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .notepad-footer {
+                border-top-color: var(--border-primary, #374151);
+            }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            max-width: 400px;
+            width: 100%;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(2, 6, 23, 0.25);
+            padding: 1.5rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal {
+                background: #0b1220;
+                color: #f3f4f6;
+            }
+            .modal-overlay {
+                background: rgba(2, 6, 23, 0.7);
+            }
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .modal-message {
+            font-size: 0.95rem;
+            color: var(--text-secondary, #6b7280);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .modal-btn.primary {
+            background: var(--accent-color, #1e40af);
+            color: white;
+            border-color: var(--accent-color, #1e40af);
+        }
+
+        .modal-btn.primary:hover {
+            background: #1e3a8a;
+        }
+
+        .modal-btn.danger {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .modal-btn.danger:hover {
+            background: #b91c1c;
+        }
+
+        .modal-btn.secondary {
+            background: transparent;
+            color: var(--text-primary, #1f2937);
+            border-color: var(--border-primary, #e5e7eb);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal-btn.secondary {
+                color: #f3f4f6;
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .modal-btn.secondary:hover {
+            background: var(--surface-color, #f3f4f6);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal-btn.secondary:hover {
+                background: var(--surface-color, #1f2937);
+            }
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 10000;
+            animation: slideInUp 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .toast {
+                background: #1f2937;
+                border-color: #374151;
+            }
+        }
+
+        .toast.active {
+            display: flex;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .toast.success .toast-icon {
+            color: #059669;
+        }
+
+        .toast.error .toast-icon {
+            color: #dc2626;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .title-section {
+                width: 100%;
+            }
+
+            .note-title-input {
+                max-width: 100%;
+            }
+
+            .actions-section {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .stats-display {
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .stat-item {
+                font-size: 0.75rem;
+            }
+
+            .action-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .content-section {
+                padding: 1rem;
+            }
+
+            .notepad-textarea {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+
+            .toast {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="notepad-container">
+        <div class="header-section">
+            <div class="header-content">
+                <div class="title-section">
+                    <input 
+                        type="text" 
+                        class="note-title-input" 
+                        id="noteTitle" 
+                        placeholder="Untitled Note"
+                        maxlength="100"
+                    >
+                </div>
+                <div class="actions-section">
+                    <div class="stats-display">
+                        <div class="stat-item">
+                            <span class="stat-label">Words</span>
+                            <span class="stat-value" id="wordCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Chars</span>
+                            <span class="stat-value" id="charCount">0</span>
+                        </div>
+                    </div>
+                    <button class="action-btn" id="downloadBtn" onclick="downloadNote()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Export
+                    </button>
+                    <button class="action-btn danger" id="clearBtn" onclick="confirmClear()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="editor-container">
+                <textarea 
+                    class="notepad-textarea" 
+                    id="noteContent" 
+                    placeholder="Start typing your note..."
+                    spellcheck="true"
+                ></textarea>
+                <div class="auto-save-indicator" id="autoSaveIndicator">
+                    Auto-saved
+                </div>
+            </div>
+        </div>
+
+        <!--<footer class="notepad-footer" role="contentinfo">
+            <p>© <span id="copyrightYear"></span> CiteCount. All rights reserved.</p>
+        </footer>-->
+    </div>
+
+    <!-- Clear Confirmation Modal -->
+    <div id="clearModal" class="modal-overlay">
+        <div class="modal">
+            <h3 class="modal-title">Clear Note?</h3>
+            <p class="modal-message">Are you sure you want to clear this note? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" onclick="closeClearModal()">Cancel</button>
+                <button class="modal-btn danger" onclick="clearNote()">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <svg class="toast-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span id="toastMessage">Action completed</span>
+    </div>
+
+    <script>
+        const noteTitle = document.getElementById('noteTitle');
+        const noteContent = document.getElementById('noteContent');
+        const wordCount = document.getElementById('wordCount');
+        const charCount = document.getElementById('charCount');
+        const autoSaveIndicator = document.getElementById('autoSaveIndicator');
+        const clearModal = document.getElementById('clearModal');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        let autoSaveTimeout = null;
+        const AUTOSAVE_DELAY = 1000; // 1 second
+
+        // Load saved note from localStorage
+        function loadNote() {
+            try {
+                const savedTitle = localStorage.getItem('notepadTitle');
+                const savedContent = localStorage.getItem('notepadContent');
+                
+                if (savedTitle) {
+                    noteTitle.value = savedTitle;
+                }
+                if (savedContent) {
+                    noteContent.value = savedContent;
+                }
+                
+                updateStats();
+            } catch (e) {
+                console.error('Failed to load note:', e);
+            }
+        }
+
+        // Save note to localStorage
+        function saveNote() {
+            try {
+                localStorage.setItem('notepadTitle', noteTitle.value);
+                localStorage.setItem('notepadContent', noteContent.value);
+                showAutoSaveIndicator('saved');
+            } catch (e) {
+                console.error('Failed to save note:', e);
+                showAutoSaveIndicator('error');
+            }
+        }
+
+        // Auto-save with debounce
+        function triggerAutoSave() {
+            showAutoSaveIndicator('saving');
+            
+            if (autoSaveTimeout) {
+                clearTimeout(autoSaveTimeout);
+            }
+            
+            autoSaveTimeout = setTimeout(() => {
+                saveNote();
+            }, AUTOSAVE_DELAY);
+        }
+
+        // Show auto-save indicator
+        function showAutoSaveIndicator(status) {
+            autoSaveIndicator.classList.remove('saving', 'saved');
+            
+            if (status === 'saving') {
+                autoSaveIndicator.textContent = 'Saving...';
+                autoSaveIndicator.classList.add('saving', 'visible');
+            } else if (status === 'saved') {
+                autoSaveIndicator.textContent = 'Auto-saved';
+                autoSaveIndicator.classList.add('saved', 'visible');
+                
+                // Hide after 2 seconds
+                setTimeout(() => {
+                    autoSaveIndicator.classList.remove('visible');
+                }, 2000);
+            } else if (status === 'error') {
+                autoSaveIndicator.textContent = 'Save failed';
+                autoSaveIndicator.classList.add('visible');
+            }
+        }
+
+        // Update word and character count
+        function updateStats() {
+            const text = noteContent.value;
+            
+            // Character count
+            const chars = text.length;
+            charCount.textContent = chars.toLocaleString();
+            
+            // Word count
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            wordCount.textContent = words.toLocaleString();
+        }
+
+        // Download note as text file
+        function downloadNote() {
+            const title = noteTitle.value.trim() || 'Untitled Note';
+            const content = noteContent.value;
+            
+            if (!content.trim()) {
+                showToast('Note is empty', 'error');
+                return;
+            }
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Note downloaded', 'success');
+        }
+
+        // Show clear confirmation modal
+        function confirmClear() {
+            if (noteContent.value.trim() === '' && noteTitle.value.trim() === '') {
+                showToast('Note is already empty', 'error');
+                return;
+            }
+            clearModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close clear modal
+        function closeClearModal() {
+            clearModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Clear note
+        function clearNote() {
+            noteTitle.value = '';
+            noteContent.value = '';
+            updateStats();
+            saveNote();
+            closeClearModal();
+            showToast('Note cleared', 'success');
+            noteContent.focus();
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = `toast ${type} active`;
+            
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        // Click outside modal to close
+        clearModal.addEventListener('click', (e) => {
+            if (e.target === clearModal) {
+                closeClearModal();
+            }
+        });
+
+        // Event listeners
+        noteTitle.addEventListener('input', () => {
+            triggerAutoSave();
+        });
+
+        noteContent.addEventListener('input', () => {
+            updateStats();
+            triggerAutoSave();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Cmd/Ctrl + S to save
+            if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+                e.preventDefault();
+                saveNote();
+                showToast('Note saved', 'success');
+            }
+            
+            // Cmd/Ctrl + D to download
+            if ((e.metaKey || e.ctrlKey) && e.key === 'd') {
+                e.preventDefault();
+                downloadNote();
+            }
+        });
+
+        // Prevent data loss on page unload
+        window.addEventListener('beforeunload', (e) => {
+            if (autoSaveTimeout) {
+                clearTimeout(autoSaveTimeout);
+                saveNote();
+            }
+        });
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadNote();
+            noteContent.focus();
+            
+            // Set dynamic copyright year
+            const yearElem = document.getElementById('copyrightYear');
+            if (yearElem) {
+                yearElem.textContent = new Date().getFullYear();
+            }
+        });
+
+        // Tab key support in textarea
+        noteContent.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const start = noteContent.selectionStart;
+                const end = noteContent.selectionEnd;
+                const value = noteContent.value;
+                
+                // Insert tab
+                noteContent.value = value.substring(0, start) + '\t' + value.substring(end);
+                
+                // Move cursor
+                noteContent.selectionStart = noteContent.selectionEnd = start + 1;
+                
+                // Trigger auto-save
+                updateStats();
+                triggerAutoSave();
+            }
+        });
+    </script>
+</body>
+</html>

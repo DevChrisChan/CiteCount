@@ -153,13 +153,13 @@
           <span class="hidden md:inline text-sm font-medium">Settings</span>
         </button>
 
-        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
-          data-lta-event="v2-more-apps-click">
+        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Tools" onclick="toggleAppsModal()"
+          data-lta-event="v2-more-tools-click">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
             class="h-5 w-5">
             <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
           </svg>
-          <span class="hidden md:inline text-sm font-medium">More Apps</span>
+          <span class="hidden md:inline text-sm font-medium">More Tools</span>
         </button>
       </div>
     </header>
@@ -278,6 +278,21 @@
               <div style="display: flex; gap: 0.5rem;">
                 <!-- Desktop formatting buttons -->
                 <div class="hidden md:flex gap-2">
+                    <button data-tooltip="Undo (Cmd + Z)" onclick="undoText()"
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-undo-action">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5">
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M10.7071 4.29289C11.0976 4.68342 11.0976 5.31658 10.7071 5.70711L8.41421 8H13.5C16.5376 8 19 10.4624 19 13.5C19 16.5376 16.5376 19 13.5 19H11C10.4477 19 10 18.5523 10 18C10 17.4477 10.4477 17 11 17H13.5C15.433 17 17 15.433 17 13.5C17 11.567 15.433 10 13.5 10H8.41421L10.7071 12.2929C11.0976 12.6834 11.0976 13.3166 10.7071 13.7071C10.3166 14.0976 9.68342 14.0976 9.29289 13.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289L9.29289 4.29289C9.68342 3.90237 10.3166 3.90237 10.7071 4.29289Z"
+                      fill="currentColor" />
+                    </svg>
+                    </button>
+                    <button data-tooltip="Redo (Cmd + Shift + Z)" onclick="redoText()"
+                    class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-redo-action">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 4.29289C13.6834 3.90237 14.3166 3.90237 14.7071 4.29289L18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L14.7071 13.7071C14.3166 14.0976 13.6834 14.0976 13.2929 13.7071C12.9024 13.3166 12.9024 12.6834 13.2929 12.2929L15.5858 10H10.5C8.567 10 7 11.567 7 13.5C7 15.433 8.567 17 10.5 17H13C13.5523 17 14 17.4477 14 18C14 18.5523 13.5523 19 13 19H10.5C7.46243 19 5 16.5376 5 13.5C5 10.4624 7.46243 8 10.5 8H15.5858L13.2929 5.70711C12.9024 5.31658 12.9024 4.68342 13.2929 4.29289Z"/>
+                    </svg>
+                    </button>
                   <button data-tooltip="Bold (Cmd + B)" onclick="formatText('bold')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-bold-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -386,18 +401,6 @@
                     <path d="M14 11v6"></path>
                   </svg>
                 </button>
-                <button data-tooltip="Generate Citation" onclick="openCitationModal()"
-                  class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center gap-2" data-lta-event="v2-generate-citation-action">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
-                  </svg>
-                  <span class="hidden md:inline text-sm font-medium flex items-center gap-1.5">Generate Citation</span>
-                </button>
               </div>
               <button id="manage-citations-btn"
                 style="background: #004e92; color: #fff; border-radius: 0.5rem; border: none; transition: background 0.2s ease; display: inline-flex; align-items: center; justify-content: center; display: none;"
@@ -457,8 +460,22 @@
           <!-- Panel Header with Title (only for Word Count Details) -->
           <div id="panel-header"
             style="padding: 1rem; border-bottom: 1px solid var(--border-primary); background: var(--background-secondary); display: none;">
-            <h3 id="panel-title" style="margin: 0; font-size: 1rem; font-weight: 600; color: var(--text-primary);">Word
-              Count Details</h3>
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; height: 1.5rem;">
+              <h3 id="panel-title" style="margin: 0; font-size: 1rem; font-weight: 600; color: var(--text-primary);">More Tools</h3>
+              <!-- More Tools Navigation (shown only when viewing a tool) -->
+              <div id="more-tools-header-nav" style="display: none; align-items: center; gap: 0.5rem;">
+                <button id="dict-header-back-btn" onclick="closeMoreToolsView()" data-tooltip="Back" style="padding: 0.5rem; border: none; background: transparent; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='var(--background-primary)'" onmouseout="this.style.background='transparent'">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                  </svg>
+                </button>
+                <button id="dict-header-forward-btn" onclick="closeMoreToolsView()" data-tooltip="Exit" style="padding: 0.5rem; border: none; background: transparent; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='var(--background-primary)'" onmouseout="this.style.background='transparent'">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div id="citations-table-container" class="quote-table-container"
@@ -517,6 +534,165 @@
               <tbody id="quotes-table-body">
               </tbody>
             </table>
+          </div>
+
+          <!-- Generate Citation Content -->
+          <div id="generate-citation-container"
+            style="flex: 1; padding: 1rem; background: var(--background-primary); display: none; overflow-y: auto;">
+            <!-- Auto-Lookup Section -->
+            <div class="auto-lookup-section" style="margin-bottom: 1.5rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Quick Add - Auto-fill from identifier:</label>
+              <div class="auto-lookup-input-group" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div class="auto-lookup-type-selector" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button class="lookup-type-btn active" data-type="url" onclick="selectLookupType('url')" style="padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;" title="Website URL">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; margin-right: 0.25rem; vertical-align: middle;">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="2" y1="12" x2="22" y2="12"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    URL
+                  </button>
+                  <button class="lookup-type-btn" data-type="doi" onclick="selectLookupType('doi')" style="padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;" title="Digital Object Identifier">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; margin-right: 0.25rem; vertical-align: middle;">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                      <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    DOI
+                  </button>
+                  <button class="lookup-type-btn" data-type="isbn" onclick="selectLookupType('isbn')" style="padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;" title="Book ISBN">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; margin-right: 0.25rem; vertical-align: middle;">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    ISBN
+                  </button>
+                </div>
+                <div class="auto-lookup-input-wrapper" style="display: flex; gap: 0.5rem;">
+                  <input type="text" id="auto-lookup-input" placeholder="Enter URL, DOI (10.xxxx/xxxxx), or ISBN" autocomplete="off" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+                  <button type="button" class="auto-lookup-btn" onclick="autoLookup()" id="auto-lookup-btn" style="padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; font-weight: 500;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lookup-icon" style="display: inline; margin-right: 0.25rem; vertical-align: middle;">
+                      <circle cx="11" cy="11" r="8"/>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    Lookup
+                  </button>
+                </div>
+                <span class="help-text" id="lookup-status" style="display: none; margin-top: 0.25rem; font-size: 0.75rem; color: var(--text-secondary);"></span>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-primary); padding: 1rem 0; text-align: center; color: var(--text-secondary); font-size: 0.875rem;">or fill in manually</div>
+
+            <!-- Citation Style Selector -->
+            <div class="citation-style-selector" style="margin-bottom: 1.5rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Citation Style:</label>
+              <div class="style-buttons" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="style-btn active" data-style="mla" onclick="selectCitationStyle('mla')" style="padding: 0.5rem 1rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">MLA 9th</button>
+                <button class="style-btn" data-style="apa" onclick="selectCitationStyle('apa')" style="padding: 0.5rem 1rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">APA 7th</button>
+                <button class="style-btn" data-style="harvard" onclick="selectCitationStyle('harvard')" style="padding: 0.5rem 1rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">Harvard</button>
+              </div>
+            </div>
+
+            <!-- Source Type Selector -->
+            <div class="source-type-selector" style="margin-bottom: 1.5rem;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Source Type:</label>
+              <select id="source-type" onchange="updateCitationForm()" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;">
+                <option value="website" selected>Website</option>
+                <option value="book">Book</option>
+                <option value="journal">Journal Article</option>
+                <option value="newspaper">Newspaper Article</option>
+              </select>
+            </div>
+
+            <!-- Citation Form -->
+            <div id="citation-form" class="citation-form" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem;">
+              <!-- URL Fields (for websites) -->
+              <div class="form-group" id="url-group" style="display: block;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">URL</label>
+                <input type="text" id="url" placeholder="https://example.com" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              <div class="form-group" id="access-date-group" style="display: block;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Access Date</label>
+                <div style="display: flex; gap: 0.5rem;">
+                  <input type="date" id="access-date" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" autocomplete="off" />
+                  <button type="button" class="today-btn" onclick="setTodayDate()" style="padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; font-weight: 500;" title="Set to today">Today</button>
+                </div>
+              </div>
+              
+              <!-- Common Fields -->
+              <div class="form-group">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Author(s) <span style="color: var(--text-secondary); font-size: 0.75rem;">(Last name, First name)</span></label>
+                <input type="text" id="author" placeholder="e.g., Smith, John or Smith, John; Doe, Jane" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              <div class="form-group">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Year</label>
+                <input type="text" id="year" placeholder="e.g., 2023" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              <div class="form-group">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Title</label>
+                <input type="text" id="title" placeholder="Enter title" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              
+              <!-- Publisher (for books and newspapers) -->
+              <div class="form-group" id="publisher-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Publisher</label>
+                <input type="text" id="publisher" placeholder="Enter publisher" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              
+              <!-- Publisher Location (for books) -->
+              <div class="form-group" id="publisher-location-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Publisher Location <span style="color: var(--text-secondary); font-size: 0.75rem;">(optional)</span></label>
+                <input type="text" id="publisher-location" placeholder="e.g., New York" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              
+              <!-- Edition (for books) -->
+              <div class="form-group" id="edition-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Edition <span style="color: var(--text-secondary); font-size: 0.75rem;">(optional)</span></label>
+                <input type="text" id="edition" placeholder="e.g., 2nd" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              
+              <!-- ISBN (for books) -->
+              <div class="form-group" id="isbn-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">ISBN <span style="color: var(--text-secondary); font-size: 0.75rem;">(optional)</span></label>
+                <input type="text" id="isbn" placeholder="e.g., 978-0-123456-78-9" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              
+              <!-- Journal Fields -->
+              <div class="form-group" id="journal-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Journal Name</label>
+                <input type="text" id="journal-name" placeholder="Enter journal name" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              <div class="form-group" id="volume-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Volume</label>
+                <input type="text" id="volume" placeholder="e.g., 12" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              <div class="form-group" id="issue-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Issue <span style="color: var(--text-secondary); font-size: 0.75rem;">(optional)</span></label>
+                <input type="text" id="issue" placeholder="e.g., 3" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              <div class="form-group" id="pages-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Pages</label>
+                <input type="text" id="pages" placeholder="e.g., 45-67" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              
+              <!-- DOI (for journals) -->
+              <div class="form-group" id="doi-group" style="display: none;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">DOI <span style="color: var(--text-secondary); font-size: 0.75rem;">(optional)</span></label>
+                <input type="text" id="doi" placeholder="e.g., 10.1000/xyz123" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+              
+              <!-- Website Name/Publisher -->
+              <div class="form-group" id="website-name-group" style="display: block;">
+                <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Website Name <span style="color: var(--text-secondary); font-size: 0.75rem;">(optional)</span></label>
+                <input type="text" id="website-name" placeholder="e.g., BBC News, Wikipedia" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="clear-form-btn" onclick="resetCitationForm()" style="flex: 0 0 auto; padding: 0.5rem 1rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; background: transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500;">Clear</button>
+              <button class="generate-btn" onclick="generateCitation()" style="flex: 1; padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; font-weight: 600;">Generate Citation</button>
+            </div>
           </div>
 
           <!-- More Word Count Details Content -->
@@ -711,18 +887,94 @@
             </div>
           </div>
 
-          <!-- Tab Selector at Bottom -->
-          <div id="panel-tab-selector"
-            style="border-top: 1px solid var(--border-primary); display: flex; background: var(--background-secondary);">
-            <button id="citations-tab" class="panel-tab active" onclick="switchPanelTab('citations')"
-              style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
-              Citations
-            </button>
-            <button id="details-tab" class="panel-tab" onclick="switchPanelTab('details')"
-              style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
-              Word Count Details
-            </button>
+          <!-- More Tools Content -->
+          <!-- Dictionary iFrame View (pinnable) -->
+          <div id="dictionary-container" style="flex: 1; padding: 0; margin: 0; background: var(--background-primary); display: none; flex-direction: column; overflow: hidden;">
+            <iframe id="dictionary-iframe" src="/components/dictionary/index.html" style="width: 100%; height: 100%; border: none; background: var(--background-primary); display: block;"></iframe>
           </div>
+
+          <!-- Thesaurus iFrame View (pinnable) -->
+          <div id="thesaurus-container" style="flex: 1; padding: 0; margin: 0; background: var(--background-primary); display: none; flex-direction: column; overflow: hidden;">
+            <iframe id="thesaurus-iframe" src="/components/thesaurus/index.html" style="width: 100%; height: 100%; border: none; background: var(--background-primary); display: block;"></iframe>
+          </div>
+
+          <!-- Pomodoro iFrame View (pinnable) -->
+          <div id="pomodoro-container" style="flex: 1; padding: 0; margin: 0; background: var(--background-primary); display: none; flex-direction: column; overflow: hidden;">
+            <iframe id="pomodoro-iframe" src="/components/pomodoro/index.html" style="width: 100%; height: 100%; border: none; background: var(--background-primary); display: block;"></iframe>
+          </div>
+
+          <!-- Translate iFrame View (pinnable) -->
+          <div id="translate-container" style="flex: 1; padding: 0; margin: 0; background: var(--background-primary); display: none; flex-direction: column; overflow: hidden;">
+            <iframe id="translate-iframe" src="/components/translate/index.html" style="width: 100%; height: 100%; border: none; background: var(--background-primary); display: block;"></iframe>
+          </div>
+
+          <!-- Notepad iFrame View (pinnable) -->
+          <div id="notepad-container" style="flex: 1; padding: 0; margin: 0; background: var(--background-primary); display: none; flex-direction: column; overflow: hidden;">
+            <iframe id="notepad-iframe" src="/components/notepad/index.html" style="width: 100%; height: 100%; border: none; background: var(--background-primary); display: block;"></iframe>
+          </div>
+
+          <!-- More Tools Container (all available tools) -->
+          <div id="more-apps-container" style="flex: 1; padding: 1rem; background: var(--background-primary); display: none; flex-direction: column; overflow-y: auto;">
+            <!-- Dictionary Tool Container -->
+            <div id="dictionary-tools-view" style="display: flex; flex-direction: column; width: 100%; flex: 1; overflow-y: auto;">
+              <!-- Tools Grid -->
+              <div id="tools-grid" style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <!-- Dictionary Tool Box -->
+                <div id="dictionary-tool-box" data-tool-id="dictionary" class="tool-box" onclick="switchPanelTab('dictionary', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📚 Dictionary</h3>
+                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Look up word definitions, meanings, and usage examples instantly.</p>
+                </div>
+                <!-- Thesaurus Tool Box -->
+                <div id="thesaurus-tool-box" data-tool-id="thesaurus" class="tool-box" onclick="switchPanelTab('thesaurus', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">🧠 Thesaurus</h3>
+                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Find synonyms and related words to sharpen your writing.</p>
+                </div>
+                <!-- Pomodoro Tool Box -->
+                <div id="pomodoro-tool-box" data-tool-id="pomodoro" class="tool-box" onclick="switchPanelTab('pomodoro', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">🍅 Pomodoro Timer</h3>
+                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Stay focused with time-boxed work sessions and breaks.</p>
+                </div>
+                <!-- Translate Tool Box -->
+                <div id="translate-tool-box" data-tool-id="translate" class="tool-box" onclick="switchPanelTab('translate', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">🌐 Translate</h3>
+                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Translate text between languages quickly and easily.</p>
+                </div>
+                <!-- Notepad Tool Box -->
+                <div id="notepad-tool-box" data-tool-id="notepad" class="tool-box" onclick="switchPanelTab('notepad', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📝 Notepad</h3>
+                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">A simple notepad for quick notes and ideas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Selector at Bottom -->
+            <div id="panel-tab-selector"
+            style="border-top: 1px solid var(--border-primary); display: flex; align-items: center; background: var(--background-secondary);">
+            <button id="citations-tab" class="panel-tab active" data-tool-id="citations"
+              style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
+              <span class="tab-label">Citations</span>
+            </button>
+            <div aria-hidden="true" style="width:3px; height:1.6rem; background:var(--border-primary); margin:0 0.5rem; border-radius:2px; opacity:0.95;"></div>
+            <button id="generate-citation-tab" class="panel-tab" data-tool-id="generateCitation"
+              style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
+              <span class="tab-label">Generate Citation</span>
+            </button>
+            <div aria-hidden="true" style="width:3px; height:1.6rem; background:var(--border-primary); margin:0 0.5rem; border-radius:2px; opacity:0.95;"></div>
+            <button id="details-tab" class="panel-tab" data-tool-id="details"
+              style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
+              <span class="tab-label">Word Count Details</span>
+            </button>
+            <div aria-hidden="true" style="width:3px; height:1.6rem; background:var(--border-primary); margin:0 0.5rem; border-radius:2px; opacity:0.95;" id="divider-before-menu"></div>
+            <button id="details-menu-btn" class="panel-tab" title="More tools" aria-label="More tools menu"
+              style="flex: 0 0 auto; width: auto; min-width: 34px; height: 34px; border: none; background: transparent; border-bottom: 2px solid transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0 0.5rem; margin-left: 0.25rem; color: var(--text-secondary);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                <rect x="3" y="6" width="18" height="2" rx="1"></rect>
+                <rect x="3" y="11" width="18" height="2" rx="1"></rect>
+                <rect x="3" y="16" width="18" height="2" rx="1"></rect>
+              </svg>
+            </button>
+            </div>
         </div>
       </div>
             </div> <!-- End editor-and-citations-wrapper -->
@@ -795,6 +1047,81 @@
           <tbody id="quotes-table-body-mobile">
           </tbody>
         </table>
+      </div>
+
+      <!-- Mobile Generate Citation Content -->
+      <div id="generate-citation-container-mobile"
+        style="padding: 1rem; background: var(--background-primary); display: none; overflow-y: auto; flex: 1;">
+        <!-- Auto-Lookup Section -->
+        <div class="auto-lookup-section" style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Quick Add - Auto-fill from identifier:</label>
+          <div class="auto-lookup-input-group" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div class="auto-lookup-type-selector" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="lookup-type-btn active" data-type="url" onclick="selectLookupType('url')" style="padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;" title="Website URL">URL</button>
+              <button class="lookup-type-btn" data-type="doi" onclick="selectLookupType('doi')" style="padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;" title="Digital Object Identifier">DOI</button>
+              <button class="lookup-type-btn" data-type="isbn" onclick="selectLookupType('isbn')" style="padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;" title="Book ISBN">ISBN</button>
+            </div>
+            <div class="auto-lookup-input-wrapper" style="display: flex; gap: 0.5rem;">
+              <input type="text" id="auto-lookup-input" placeholder="Enter URL, DOI, or ISBN" autocomplete="off" style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+              <button type="button" class="auto-lookup-btn" onclick="autoLookup()" id="auto-lookup-btn" style="padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; font-weight: 500;">Lookup</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-primary); padding: 1rem 0; text-align: center; color: var(--text-secondary); font-size: 0.875rem;">or fill in manually</div>
+
+        <!-- Citation Style Selector -->
+        <div class="citation-style-selector" style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Citation Style:</label>
+          <div class="style-buttons" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="style-btn active" data-style="mla" onclick="selectCitationStyle('mla')" style="padding: 0.5rem 1rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">MLA 9th</button>
+            <button class="style-btn" data-style="apa" onclick="selectCitationStyle('apa')" style="padding: 0.5rem 1rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">APA 7th</button>
+            <button class="style-btn" data-style="harvard" onclick="selectCitationStyle('harvard')" style="padding: 0.5rem 1rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">Harvard</button>
+          </div>
+        </div>
+
+        <!-- Source Type Selector -->
+        <div class="source-type-selector" style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Source Type:</label>
+          <select id="source-type" onchange="updateCitationForm()" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;">
+            <option value="website" selected>Website</option>
+            <option value="book">Book</option>
+            <option value="journal">Journal Article</option>
+            <option value="newspaper">Newspaper Article</option>
+          </select>
+        </div>
+
+        <!-- Citation Form (simplified for mobile) -->
+        <div id="citation-form-mobile" class="citation-form" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem;">
+          <div class="form-group">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">URL</label>
+            <input type="text" id="url" placeholder="https://example.com" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+          </div>
+          <div class="form-group">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Access Date</label>
+            <input type="date" id="access-date" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Author(s)</label>
+            <input type="text" id="author" placeholder="e.g., Smith, John" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+          </div>
+          <div class="form-group">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Year</label>
+            <input type="text" id="year" placeholder="e.g., 2023" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+          </div>
+          <div class="form-group">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Title</label>
+            <input type="text" id="title" placeholder="Enter title" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+          </div>
+          <div class="form-group">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500; font-size: 0.875rem;">Website Name</label>
+            <input type="text" id="website-name" placeholder="e.g., BBC News" autocomplete="off" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;" />
+          </div>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="clear-form-btn" onclick="resetCitationForm()" style="flex: 0 0 auto; padding: 0.5rem 1rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; background: transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500;">Clear</button>
+          <button class="generate-btn" onclick="generateCitation()" style="flex: 1; padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; font-weight: 600;">Generate Citation</button>
+        </div>
       </div>
 
       <!-- Mobile More Word Count Details Content -->
@@ -991,9 +1318,13 @@
           style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid var(--accent-color); cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-primary); position: relative;">
           Citations
         </button>
+        <button id="generate-citation-tab-mobile" class="panel-tab" onclick="switchPanelTabMobile('generateCitation')"
+          style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
+          Generate
+        </button>
         <button id="details-tab-mobile" class="panel-tab" onclick="switchPanelTabMobile('details')"
           style="flex: 1; padding: 0.75rem; background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); position: relative;">
-          Word Count Details
+          Details
         </button>
       </div>
     </div>
@@ -1023,8 +1354,8 @@
   </div>
   
   <!--End of CiteCount application-->
-  <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 1rem 0;">
   <div id="after-app-placeholder" class="after-app-placeholder">
+    <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 1rem 0;">
     <!--<section class="cc-hero-banner" aria-labelledby="cc-hero-title">
       <h1 id="cc-hero-title">
         Precise Word Counter without Citations for your
@@ -1486,10 +1817,107 @@
   <script src="/v2/apps-modal.js"></script>
   <script src="/v2/modals.js"></script>
   <script src="/v2/settings.js"></script>
+  <script src="/v2/custom-tools.js"></script>
   <script src="/v2/dev.js"></script>
   <script src="/v2/citation.js"></script>
   <script src="/v2/filemanager.js"></script>
   <script src="/v2/scroll-detector.js"></script>
+  <svg aria-hidden="true" focusable="false" style="position: absolute; width: 0; height: 0; overflow: hidden;">
+    <symbol id="icon-file" viewBox="0 0 24 24">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+    </symbol>
+    <symbol id="icon-note" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M7 8h10" />
+      <path d="M7 12h7" />
+      <path d="M7 16h5" />
+    </symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    </symbol>
+    <symbol id="icon-book-open" viewBox="0 0 24 24">
+      <path d="M12 7v14" />
+      <path d="M3 5h7a2 2 0 0 1 2 2v14H5a2 2 0 0 0-2 2V7a2 2 0 0 1 2-2z" />
+      <path d="M21 5h-7a2 2 0 0 0-2 2v14h7a2 2 0 0 1 2 2V7a2 2 0 0 0-2-2z" />
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+    </symbol>
+    <symbol id="icon-briefcase" viewBox="0 0 24 24">
+      <rect x="3" y="7" width="18" height="13" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M3 12h18" />
+    </symbol>
+    <symbol id="icon-graduation" viewBox="0 0 24 24">
+      <path d="M22 10l-10-5-10 5 10 5 10-5z" />
+      <path d="M6 12v5a6 6 0 0 0 12 0v-5" />
+    </symbol>
+    <symbol id="icon-target" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="12" cy="12" r="1" />
+    </symbol>
+    <symbol id="icon-lightbulb" viewBox="0 0 24 24">
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+      <path d="M8 14a6 6 0 1 1 8 0c-1 1-1 2-1 3H9c0-1 0-2-1-3z" />
+    </symbol>
+    <symbol id="icon-flask" viewBox="0 0 24 24">
+      <path d="M10 2h4" />
+      <path d="M10 2v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V2" />
+      <path d="M8 14h8" />
+    </symbol>
+    <symbol id="icon-palette" viewBox="0 0 24 24">
+      <path d="M12 3a9 9 0 0 0 0 18h3a3 3 0 0 0 0-6h-1a2 2 0 0 1 0-4h1a2 2 0 0 0 0-4h-3z" />
+      <circle cx="7.5" cy="10" r="1" />
+      <circle cx="9.5" cy="6.5" r="1" />
+      <circle cx="6" cy="13.5" r="1" />
+    </symbol>
+    <symbol id="icon-chart" viewBox="0 0 24 24">
+      <path d="M3 3v18h18" />
+      <path d="M7 15v-4" />
+      <path d="M12 15v-8" />
+      <path d="M17 15v-6" />
+    </symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24">
+      <path d="M12 3l3 6 6 .9-4.5 4.4 1.1 6.2L12 17l-5.6 3.5 1.1-6.2L3 9.9l6-.9z" />
+    </symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 16v-4" />
+      <path d="M12 8h.01" />
+    </symbol>
+    <symbol id="icon-edit" viewBox="0 0 24 24">
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
+    </symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24">
+      <path d="M3 6h18" />
+      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+      <path d="M10 11v6" />
+      <path d="M14 11v6" />
+    </symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+      <path d="M19 12H5" />
+      <path d="M12 19l-7-7 7-7" />
+    </symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24">
+      <path d="M4 6h16" />
+      <path d="M4 12h16" />
+      <path d="M4 18h16" />
+      <circle cx="9" cy="6" r="2" />
+      <circle cx="15" cy="12" r="2" />
+      <circle cx="9" cy="18" r="2" />
+    </symbol>
+    <symbol id="icon-box" viewBox="0 0 24 24">
+      <path d="M21 16V8l-9-5-9 5v8l9 5 9-5z" />
+      <path d="M3 8l9 5 9-5" />
+      <path d="M12 13v8" />
+    </symbol>
+  </svg>
 </body>
 
 </html>

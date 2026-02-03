@@ -65,42 +65,11 @@
           <h3 id="file-input-modal-title">Create New Project</h3>
           <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 1rem;">
             <div style="position: relative; flex-shrink: 0;">
-              <button type="button" id="emoji-picker-toggle" class="emoji-picker-toggle" onclick="toggleEmojiPicker()" style="display: none;">
-                <span id="selected-emoji-display">📄</span>
+              <button type="button" id="icon-picker-toggle" class="icon-picker-toggle" onclick="toggleIconPicker()" style="display: none;">
+                <span id="selected-icon-display" class="icon-picker-display"></span>
               </button>
-              <div id="emoji-picker-container" class="emoji-picker-popup" style="display: none;">
-                <div class="emoji-picker-grid">
-                  <button type="button" class="emoji-option" data-emoji="📄" onclick="selectEmoji('📄')">📄</button>
-                  <button type="button" class="emoji-option" data-emoji="📝" onclick="selectEmoji('📝')">📝</button>
-                  <button type="button" class="emoji-option" data-emoji="📚" onclick="selectEmoji('📚')">📚</button>
-                  <button type="button" class="emoji-option" data-emoji="📖" onclick="selectEmoji('📖')">📖</button>
-                  <button type="button" class="emoji-option" data-emoji="📕" onclick="selectEmoji('📕')">📕</button>
-                  <button type="button" class="emoji-option" data-emoji="📗" onclick="selectEmoji('📗')">📗</button>
-                  <button type="button" class="emoji-option" data-emoji="📘" onclick="selectEmoji('📘')">📘</button>
-                  <button type="button" class="emoji-option" data-emoji="📙" onclick="selectEmoji('📙')">📙</button>
-                  <button type="button" class="emoji-option" data-emoji="📓" onclick="selectEmoji('📓')">📓</button>
-                  <button type="button" class="emoji-option" data-emoji="📔" onclick="selectEmoji('📔')">📔</button>
-                  <button type="button" class="emoji-option" data-emoji="📒" onclick="selectEmoji('📒')">📒</button>
-                  <button type="button" class="emoji-option" data-emoji="📃" onclick="selectEmoji('📃')">📃</button>
-                  <button type="button" class="emoji-option" data-emoji="📜" onclick="selectEmoji('📜')">📜</button>
-                  <button type="button" class="emoji-option" data-emoji="📋" onclick="selectEmoji('📋')">📋</button>
-                  <button type="button" class="emoji-option" data-emoji="📰" onclick="selectEmoji('📰')">📰</button>
-                  <button type="button" class="emoji-option" data-emoji="🗂️" onclick="selectEmoji('🗂️')">🗂️</button>
-                  <button type="button" class="emoji-option" data-emoji="📁" onclick="selectEmoji('📁')">📁</button>
-                  <button type="button" class="emoji-option" data-emoji="📂" onclick="selectEmoji('📂')">📂</button>
-                  <button type="button" class="emoji-option" data-emoji="🗃️" onclick="selectEmoji('🗃️')">🗃️</button>
-                  <button type="button" class="emoji-option" data-emoji="🗄️" onclick="selectEmoji('🗄️')">🗄️</button>
-                  <button type="button" class="emoji-option" data-emoji="✏️" onclick="selectEmoji('✏️')">✏️</button>
-                  <button type="button" class="emoji-option" data-emoji="✒️" onclick="selectEmoji('✒️')">✒️</button>
-                  <button type="button" class="emoji-option" data-emoji="🖊️" onclick="selectEmoji('🖊️')">🖊️</button>
-                  <button type="button" class="emoji-option" data-emoji="🖋️" onclick="selectEmoji('🖋️')">🖋️</button>
-                  <button type="button" class="emoji-option" data-emoji="💼" onclick="selectEmoji('💼')">💼</button>
-                  <button type="button" class="emoji-option" data-emoji="🎓" onclick="selectEmoji('🎓')">🎓</button>
-                  <button type="button" class="emoji-option" data-emoji="🎯" onclick="selectEmoji('🎯')">🎯</button>
-                  <button type="button" class="emoji-option" data-emoji="🎨" onclick="selectEmoji('🎨')">🎨</button>
-                  <button type="button" class="emoji-option" data-emoji="🔬" onclick="selectEmoji('🔬')">🔬</button>
-                  <button type="button" class="emoji-option" data-emoji="💡" onclick="selectEmoji('💡')">💡</button>
-                </div>
+              <div id="icon-picker-container" class="icon-picker-popup" style="display: none;">
+                <div id="icon-picker-grid" class="icon-picker-grid"></div>
               </div>
             </div>
             <input type="text" id="file-input-modal-input" placeholder="Enter name..." style="flex: 1;" autocomplete="off" />

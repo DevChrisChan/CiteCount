@@ -6,6 +6,44 @@ const LOCAL_BACKUP_MODAL_KEY = 'local_backup_modal_seen';
 const LOCAL_BACKUP_PROJECT_THRESHOLD = 4;
 let backupModalHandlersBound = false;
 
+const PROJECT_ICON_IDS = [
+  'icon-file',
+  'icon-note',
+  'icon-book',
+  'icon-book-open',
+  'icon-briefcase',
+  'icon-graduation',
+  'icon-target',
+  'icon-lightbulb',
+  'icon-flask',
+  'icon-palette',
+  'icon-chart',
+  'icon-star'
+];
+
+const APP_ICON_IDS = new Set([
+  ...PROJECT_ICON_IDS,
+  'icon-folder',
+  'icon-info',
+  'icon-edit',
+  'icon-trash',
+  'icon-arrow-left',
+  'icon-settings',
+  'icon-box'
+]);
+
+function resolveIconId(iconId, fallbackId = 'icon-file') {
+  if (typeof iconId !== 'string') return fallbackId;
+  if (!APP_ICON_IDS.has(iconId)) return fallbackId;
+  return iconId;
+}
+
+function renderIconSvg(iconId, className = 'ui-icon') {
+  const safeId = resolveIconId(iconId);
+  const classAttr = className ? ` class="${className}"` : '';
+  return `<svg${classAttr} aria-hidden="true" focusable="false"><use href="#${safeId}"></use></svg>`;
+}
+
 const fileManager = {
   projects: [],
   currentProject: null,
@@ -72,9 +110,8 @@ const fileManager = {
     return `${baseName} (${counter})`;
   },
 
-  getRandomEmoji() {
-    const emojis = ['📄', '📝', '📚', '📖', '📕', '📗', '📘', '📙', '📓', '📔', '📒', '📃', '📜', '📋', '📰', '🗂️', '📁', '📂', '🗃️', '🗄️', '✏️', '✒️', '🖊️', '🖋️', '💼', '🎓', '🎯', '🎨', '🔬', '💡'];
-    return emojis[Math.floor(Math.random() * emojis.length)];
+  getRandomIconId() {
+    return PROJECT_ICON_IDS[Math.floor(Math.random() * PROJECT_ICON_IDS.length)];
   },
 
   createProject(name = 'Untitled Project', autoSwitch = false, icon = null) {
@@ -87,7 +124,7 @@ const fileManager = {
       citations: [],
       folderId: null,
       order: maxOrder + 1,
-      icon: icon || this.getRandomEmoji(),
+      icon: resolveIconId(icon || this.getRandomIconId()),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -375,7 +412,7 @@ const fileManager = {
                  onchange="updateStorageQuotaSelection()">
           <label for="delete-project-${project.id}" style="flex: 1; min-width: 0; cursor: pointer;">
             <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
-              <span style="font-size: 1.2em;">${project.icon || '📄'}</span>
+              <span class="storage-project-icon">${renderIconSvg(resolveIconId(project.icon), 'ui-icon')}</span>
               <div style="flex: 1; min-width: 0; overflow: hidden;">
                 <div style="font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${project.name}">
                   ${project.name}
@@ -488,7 +525,7 @@ const fileManager = {
     if (settingsSize > 0) {
       allItems.push({
         name: 'App Settings',
-        icon: '⚙️',
+        icon: 'icon-settings',
         type: 'system',
         size: settingsSize,
         key: 'system-settings'
@@ -498,7 +535,7 @@ const fileManager = {
     if (appDataSize > 0) {
       allItems.push({
         name: 'Other App Data',
-        icon: '📦',
+        icon: 'icon-box',
         type: 'system',
         size: appDataSize,
         key: 'system-appdata'
@@ -607,7 +644,7 @@ const fileManager = {
       
       itemElement.innerHTML = `
         <div class="storage-project-info">
-          <span class="storage-project-icon">${item.icon || '📄'}</span>
+          <span class="storage-project-icon">${renderIconSvg(resolveIconId(item.icon), 'ui-icon')}</span>
           <div class="storage-project-details">
             <div class="storage-project-name" title="${displayName}">
               ${displayName}${currentLabel}
@@ -637,9 +674,9 @@ const fileManager = {
         if (project.order === undefined) {
           project.order = index;
         }
-        // Ensure all projects have an icon
-        if (!project.icon) {
-          project.icon = '📄';
+        // Ensure all projects have a valid SVG icon id
+        if (!project.icon || !APP_ICON_IDS.has(project.icon)) {
+          project.icon = 'icon-file';
         }
       });
     }
@@ -823,7 +860,7 @@ const fileManager = {
              oncontextmenu="showFolderContextMenu(event, '${folder.id}')">
           <span class="folder-toggle ${isCollapsed ? 'collapsed' : ''}" 
                 onclick="event.stopPropagation(); fileManager.toggleFolder('${folder.id}')">${toggleIcon}</span>
-          <span class="icon" onclick="event.stopPropagation(); fileManager.toggleFolder('${folder.id}')">📁</span>
+          <span class="icon" onclick="event.stopPropagation(); fileManager.toggleFolder('${folder.id}')">${renderIconSvg('icon-folder', 'ui-icon file-tree-icon')}</span>
           <span class="name" onclick="event.stopPropagation(); fileManager.toggleFolder('${folder.id}')" ondblclick="event.stopPropagation(); startRenamingFolder('${folder.id}')">${this.escapeHtml(folder.name)}</span>
           <div class="actions">
             <button class="file-action-btn" onclick="event.stopPropagation(); startRenamingFolder('${folder.id}')" title="Rename">
@@ -872,7 +909,7 @@ const fileManager = {
              onclick="handleProjectClick(event, '${project.id}')"
              ondblclick="startRenamingProject('${project.id}')"
              oncontextmenu="showProjectContextMenu(event, '${project.id}')">
-          <span class="icon project-icon-with-tooltip" data-tooltip="${this.escapeHtml(project.name)}" onclick="handleProjectIconClick(event, '${project.id}')">${project.icon || '📄'}</span>
+          <span class="icon project-icon-with-tooltip" data-tooltip="${this.escapeHtml(project.name)}" onclick="handleProjectIconClick(event, '${project.id}')">${renderIconSvg(resolveIconId(project.icon), 'ui-icon file-tree-icon')}</span>
           <span class="name">${this.escapeHtml(project.name)}</span>
           <div class="actions">
             <button class="file-action-btn" onclick="event.stopPropagation(); startRenamingProject('${project.id}')" title="Rename">
@@ -1255,16 +1292,64 @@ fileManager.setupSidebarResize = function() {
   const savedWidth = localStorage.getItem('sidebar_width');
   if (savedWidth && !sidebar.classList.contains('collapsed')) {
     const width = parseInt(savedWidth);
-    if (width >= minWidth && width <= maxWidth) {
+    // Only apply saved width if we're in desktop mode
+    if (window.innerWidth > 1024 && width >= minWidth && width <= maxWidth) {
       sidebar.style.width = width + 'px';
       sidebar.style.minWidth = width + 'px';
     }
+  }
+  
+  // Clear inline styles if starting in mobile mode
+  if (window.innerWidth <= 1024) {
+    sidebar.style.width = '';
+    sidebar.style.minWidth = '';
   }
   
   // Event listeners
   resizeHandle.addEventListener('mousedown', startResize);
   document.addEventListener('mousemove', handleResize);
   document.addEventListener('mouseup', stopResize);
+  
+  // Handle window resize to fix mobile/desktop transition
+  let previousIsMobile = window.innerWidth <= 1024;
+  
+  function handleWindowResize() {
+    const isMobile = window.innerWidth <= 1024;
+    const overlay = document.getElementById('mobile-sidebar-overlay');
+    
+    // If transitioning from desktop to mobile
+    if (!previousIsMobile && isMobile) {
+      // Remove inline styles to let CSS media query take over
+      sidebar.style.width = '';
+      sidebar.style.minWidth = '';
+      // Close mobile sidebar if it was open
+      sidebar.classList.remove('mobile-open');
+      if (overlay) overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // If transitioning from mobile to desktop
+    else if (previousIsMobile && !isMobile) {
+      // Close mobile sidebar and overlay
+      sidebar.classList.remove('mobile-open');
+      if (overlay) overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      
+      // Restore saved width or use default
+      if (!sidebar.classList.contains('collapsed')) {
+        const savedWidth = localStorage.getItem('sidebar_width');
+        const width = savedWidth ? Math.max(180, Math.min(500, parseInt(savedWidth))) : 260;
+        sidebar.style.width = width + 'px';
+        sidebar.style.minWidth = width + 'px';
+      } else {
+        sidebar.style.width = '48px';
+        sidebar.style.minWidth = '48px';
+      }
+    }
+    
+    previousIsMobile = isMobile;
+  }
+  
+  window.addEventListener('resize', handleWindowResize);
 };
 
 function setupBackupReminderModalHandlers() {
@@ -1345,36 +1430,52 @@ function hideLocalBackupReminderModal() {
 
 let fileInputModalCallback = null;
 let fileInputModalType = 'project';
-let selectedEmoji = null;
+let selectedIconId = null;
 
-function toggleEmojiPicker() {
-  const picker = document.getElementById('emoji-picker-container');
+function toggleIconPicker() {
+  const picker = document.getElementById('icon-picker-container');
   const isVisible = picker.style.display === 'block';
   picker.style.display = isVisible ? 'none' : 'block';
 }
 
-function selectEmoji(emoji) {
-  selectedEmoji = emoji;
-  // Update visual selection
-  document.querySelectorAll('.emoji-option').forEach(btn => {
+function ensureIconPickerGrid() {
+  const grid = document.getElementById('icon-picker-grid');
+  if (!grid || grid.childElementCount > 0) return;
+
+  grid.innerHTML = PROJECT_ICON_IDS.map((iconId) => {
+    return `
+      <button type="button" class="icon-option" data-icon="${iconId}" onclick="selectIcon('${iconId}')">
+        ${renderIconSvg(iconId, 'ui-icon')}
+      </button>
+    `;
+  }).join('');
+}
+
+function selectIcon(iconId) {
+  selectedIconId = resolveIconId(iconId);
+  document.querySelectorAll('.icon-option').forEach(btn => {
     btn.classList.remove('selected');
   });
-  const selectedBtn = document.querySelector(`[data-emoji="${emoji}"]`);
+  const selectedBtn = document.querySelector(`[data-icon="${selectedIconId}"]`);
   if (selectedBtn) {
     selectedBtn.classList.add('selected');
   }
-  // Update the display button
-  document.getElementById('selected-emoji-display').textContent = emoji;
-  // Close the picker
-  document.getElementById('emoji-picker-container').style.display = 'none';
+  const display = document.getElementById('selected-icon-display');
+  if (display) {
+    display.innerHTML = renderIconSvg(selectedIconId, 'ui-icon');
+  }
+  const picker = document.getElementById('icon-picker-container');
+  if (picker) {
+    picker.style.display = 'none';
+  }
 }
 
 function showFileInputModal(title, placeholder, type, callback) {
   const modal = document.getElementById('file-input-modal');
   const titleEl = document.getElementById('file-input-modal-title');
   const input = document.getElementById('file-input-modal-input');
-  const emojiToggle = document.getElementById('emoji-picker-toggle');
-  const emojiPicker = document.getElementById('emoji-picker-container');
+  const iconToggle = document.getElementById('icon-picker-toggle');
+  const iconPicker = document.getElementById('icon-picker-container');
   
   titleEl.textContent = title;
   input.placeholder = placeholder;
@@ -1382,26 +1483,21 @@ function showFileInputModal(title, placeholder, type, callback) {
   fileInputModalType = type;
   fileInputModalCallback = callback;
   
-  // Show emoji picker only for projects
+  // Show icon picker only for projects
   if (type === 'project') {
-    emojiToggle.style.display = 'flex';
-    selectedEmoji = fileManager.getRandomEmoji();
-    // Update display and selection
-    document.getElementById('selected-emoji-display').textContent = selectedEmoji;
-    document.querySelectorAll('.emoji-option').forEach(btn => {
-      btn.classList.remove('selected');
-    });
-    const randomEmojiBtn = document.querySelector(`[data-emoji="${selectedEmoji}"]`);
-    if (randomEmojiBtn) {
-      randomEmojiBtn.classList.add('selected');
-    }
+    iconToggle.style.display = 'flex';
+    ensureIconPickerGrid();
+    selectedIconId = fileManager.getRandomIconId();
+    selectIcon(selectedIconId);
   } else {
-    emojiToggle.style.display = 'none';
-    selectedEmoji = null;
+    iconToggle.style.display = 'none';
+    selectedIconId = null;
   }
   
   // Hide picker popup initially
-  emojiPicker.style.display = 'none';
+  if (iconPicker) {
+    iconPicker.style.display = 'none';
+  }
   
   modal.style.display = 'flex';
   setTimeout(() => input.focus(), 100);
@@ -1439,7 +1535,7 @@ function confirmFileInput() {
   
   if (fileInputModalCallback) {
     if (fileInputModalType === 'project') {
-      fileInputModalCallback(value || 'Untitled Project', selectedEmoji);
+      fileInputModalCallback(value || 'Untitled Project', selectedIconId);
     } else {
       fileInputModalCallback(value);
     }
@@ -1447,13 +1543,13 @@ function confirmFileInput() {
   
   // Clear input and close modal
   input.value = '';
-  selectedEmoji = null;
+  selectedIconId = null;
   closeFileInputModal();
 }
 
 function createNewProject() {
-  showFileInputModal('Create New Project', 'Enter project name (optional)...', 'project', (name, emoji) => {
-    const projectId = fileManager.createProject(name, true, emoji);
+  showFileInputModal('Create New Project', 'Enter project name (optional)...', 'project', (name, iconId) => {
+    const projectId = fileManager.createProject(name, true, iconId);
     const project = fileManager.projects.find(p => p.id === projectId);
     notify('Project created: ' + project.name);
   });
@@ -1611,17 +1707,17 @@ function showProjectContextMenu(event, projectId) {
 
   const menuItems = [
     {
-      icon: 'ℹ️',
+      icon: renderIconSvg('icon-info', 'ui-icon'),
       label: 'Get Info',
       action: () => showProjectInfoModal(projectId)
     },
     {
-      icon: '✏️',
+      icon: renderIconSvg('icon-edit', 'ui-icon'),
       label: 'Rename',
       action: () => startRenamingProject(projectId)
     },
     {
-      icon: '📁',
+      icon: renderIconSvg('icon-folder', 'ui-icon'),
       label: 'Move to Folder',
       action: () => {
         if (folders.length === 0) {
@@ -1635,7 +1731,7 @@ function showProjectContextMenu(event, projectId) {
 
   if (project.folderId) {
     menuItems.push({
-      icon: '↩️',
+      icon: renderIconSvg('icon-arrow-left', 'ui-icon'),
       label: 'Move to Root',
       action: () => fileManager.moveToFolder(projectId, null)
     });
@@ -1643,7 +1739,7 @@ function showProjectContextMenu(event, projectId) {
 
   menuItems.push({ separator: true });
   menuItems.push({
-    icon: '🗑️',
+    icon: renderIconSvg('icon-trash', 'ui-icon'),
     label: 'Delete',
     danger: true,
     action: () => deleteProjectWithConfirmation(projectId)
@@ -1658,13 +1754,13 @@ function showFolderContextMenu(event, folderId) {
 
   const menuItems = [
     {
-      icon: '✏️',
+      icon: renderIconSvg('icon-edit', 'ui-icon'),
       label: 'Rename',
       action: () => startRenamingFolder(folderId)
     },
     { separator: true },
     {
-      icon: '🗑️',
+      icon: renderIconSvg('icon-trash', 'ui-icon'),
       label: 'Delete',
       danger: true,
       action: () => deleteFolder(folderId)
@@ -1844,7 +1940,7 @@ function showMoveToFolderMenu(projectId, folders) {
     <div style="max-height: 300px; overflow-y: auto;">
       ${folders.map(folder => `
         <div class="folder-option" data-folder-id="${folder.id}" style="padding: 0.75rem; margin: 0.25rem 0; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s; user-select: none;" onmouseover="this.style.background='var(--background-secondary)'" onmouseout="this.style.background='transparent'">
-          <span>📁</span>
+          <span>${renderIconSvg('icon-folder', 'ui-icon')}</span>
           <span style="color: var(--text-primary);">${fileManager.escapeHtml(folder.name)}</span>
         </div>
       `).join('')}
@@ -1930,32 +2026,7 @@ function handleProjectIconClick(event, projectId) {
 // ICON PICKER FUNCTIONALITY
 // ============================================
 
-const projectIcons = [
-  // General
-  '📄', '📝', '📚', '📖', '📋', '✏️',
-  // Science
-  '🔬', '🧪', '🧬', '⚗️', '🦠', '🔭',
-  // Math & Physics
-  '📐', '📏', '🧮', '⚛️', '🔢',
-  // Technology & CS
-  '💻', '🖥️', '⌨️', '🖱️', '💾',
-  // Chemistry & Biology
-  '⚗️', '🧫', '🌱',
-  // Geography & Environment
-  '🌍', '🗺️', '🏔️',
-  // History & Social
-  '🏛️', '📜', '⏳', '🏺',
-  // Economics & Business
-  '💰', '📊', '📈', '💼', '🏦',
-  // Languages & Literature
-  '📕', '📗', '📘', '📙', '✍️', '🗣️',
-  // Arts & Music
-  '🎨', '🎭', '🎵', '🎼', '🖼️',
-  // Sports & PE
-  '⚽', '🏀', '🏃', '🤸',
-  // Other
-  '⭐', '✨', '💡', '🎯', '🔥'
-];
+const projectIcons = [...PROJECT_ICON_IDS];
 
 function showIconPicker(projectId, event) {
   event.stopPropagation();
@@ -1981,11 +2052,11 @@ function showIconPicker(projectId, event) {
   modal.innerHTML = `
     <div class="icon-picker-header">Choose an icon</div>
     <div class="icon-picker-grid">
-      ${projectIcons.map(icon => `
-        <div class="icon-picker-item ${icon === project.icon ? 'selected' : ''}" 
-             data-icon="${icon}"
-             onclick="selectProjectIcon('${projectId}', '${icon}')">
-          ${icon}
+      ${projectIcons.map(iconId => `
+        <div class="icon-picker-item ${iconId === project.icon ? 'selected' : ''}"
+             data-icon="${iconId}"
+             onclick="selectProjectIcon('${projectId}', '${iconId}')">
+          ${renderIconSvg(iconId, 'ui-icon')}
         </div>
       `).join('')}
     </div>
@@ -2016,7 +2087,7 @@ function showIconPicker(projectId, event) {
 function selectProjectIcon(projectId, icon) {
   const project = fileManager.projects.find(p => p.id === projectId);
   if (project) {
-    project.icon = icon;
+    project.icon = resolveIconId(icon);
     project.updatedAt = new Date().toISOString();
     fileManager.saveToStorage();
     fileManager.renderFileTree();
@@ -2285,9 +2356,9 @@ function importProjects(event) {
                 updatedAt: new Date().toISOString()
               };
               
-              // Ensure project has an icon
-              if (!newProject.icon) {
-                newProject.icon = fileManager.getRandomEmoji();
+              // Ensure project has a valid icon
+              if (!newProject.icon || !APP_ICON_IDS.has(newProject.icon)) {
+                newProject.icon = fileManager.getRandomIconId();
               }
               
               return newProject;

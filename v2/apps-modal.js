@@ -11,6 +11,21 @@
   const appsModalHTML = `
     <div id="apps-modal" class="apps-modal" style="display: none; z-index:100000">
       <div class="apps-grid">
+        <a href="" onclick="openToolsSettingsPage(); event.preventDefault();" class="app-card" style="background: linear-gradient(135deg, var(--accent-color) 0%, rgba(59, 130, 246, 0.8) 100%); cursor: pointer;" data-lta-event="v2-more-apps-edit-tools-click">
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: transparent;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <circle cx="12" cy="12" r="1"/>
+                <circle cx="12" cy="5" r="1"/>
+                <circle cx="12" cy="19" r="1"/>
+                <circle cx="5" cy="12" r="1"/>
+                <circle cx="19" cy="12" r="1"/>
+                <path d="M12 6v6m0 6v-6m-6-6v6m12 0v-6"/>
+              </svg>
+            </div>
+          </div>
+          <span class="app-title">Edit Tools</span>
+        </a>
         <a href="/" class="app-card" data-lta-event="v2-more-apps-citecount-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
