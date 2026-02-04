@@ -769,6 +769,27 @@ function setupResizablePanels() {
   const split = document.querySelector('.split');
   let isResizing = false;
   let startX, startWidthEditor, startWidthCitations;
+  let resizeOverlay = null;
+  let previousBodyUserSelect = '';
+
+  function addResizeOverlay() {
+    if (resizeOverlay) return;
+    resizeOverlay = document.createElement('div');
+    resizeOverlay.style.position = 'fixed';
+    resizeOverlay.style.inset = '0';
+    resizeOverlay.style.cursor = 'ew-resize';
+    resizeOverlay.style.zIndex = '9999';
+    resizeOverlay.style.background = 'transparent';
+    resizeOverlay.style.pointerEvents = 'auto';
+    resizeOverlay.style.userSelect = 'none';
+    document.body.appendChild(resizeOverlay);
+  }
+
+  function removeResizeOverlay() {
+    if (!resizeOverlay) return;
+    resizeOverlay.remove();
+    resizeOverlay = null;
+  }
 
   function updatePanelFlex() {
     const isMobile = window.innerWidth < 1024;
@@ -798,12 +819,18 @@ function setupResizablePanels() {
     startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
     startWidthEditor = editorPanel.offsetWidth;
     startWidthCitations = citationsPanel.offsetWidth;
+    addResizeOverlay();
+    previousBodyUserSelect = document.body.style.userSelect;
+    document.body.style.userSelect = 'none';
     document.documentElement.style.cursor = 'ew-resize';
     e.preventDefault();
   }
 
   function handleResize(e) {
     if (!isResizing) return;
+    if (e.type.includes('touch')) {
+      e.preventDefault();
+    }
     const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
     const container = document.querySelector('.split');
     const containerWidth = container.offsetWidth;
@@ -827,6 +854,8 @@ function setupResizablePanels() {
 
   function stopResize() {
     isResizing = false;
+    removeResizeOverlay();
+    document.body.style.userSelect = previousBodyUserSelect;
     document.documentElement.style.cursor = '';
   }
 
@@ -838,8 +867,9 @@ function setupResizablePanels() {
   document.addEventListener('mouseup', stopResize);
 
   gutter.addEventListener('touchstart', startResize);
-  document.addEventListener('touchmove', handleResize);
+  document.addEventListener('touchmove', handleResize, { passive: false });
   document.addEventListener('touchend', stopResize);
+  document.addEventListener('touchcancel', stopResize);
 }
 
 function updateLayout() {
