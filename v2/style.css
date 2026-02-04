@@ -5387,6 +5387,158 @@ pre {
   background: #dc2626;
 }
 
+/* Download Modal */
+.download-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10002;
+  padding: 1rem;
+}
+
+.download-modal-content {
+  width: min(560px, 92vw);
+  background: var(--background-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+}
+
+.download-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.download-modal-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.download-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--text-secondary);
+  border-radius: 0.375rem;
+}
+
+.download-close:hover {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+.download-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.download-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.download-input,
+.download-select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border-primary);
+  background: var(--background-secondary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.download-input {
+  border-radius: 0.5rem !important;
+}
+
+.download-select {
+  border-radius: 0.5rem;
+}
+
+.download-option input[type="checkbox"] {
+  border-radius: 0.25rem;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.download-option input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+.download-option input[type="checkbox"]:focus,
+.download-option input[type="checkbox"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.download-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.download-option {
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.download-option.disabled {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.download-note {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0;
+}
+
+.download-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.download-btn {
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.download-btn.secondary {
+  background: transparent;
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+}
+
+.download-btn.primary {
+  background: var(--accent-color);
+  color: white;
+}
+
+.download-btn.primary:hover {
+  background: #003a6d;
+}
+
 @media (max-width: 640px) {
   .confirmation-modal-content {
     max-width: 90vw;

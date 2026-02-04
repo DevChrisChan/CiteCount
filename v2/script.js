@@ -208,6 +208,9 @@ function closeOverlays() {
   toggleSettingsOverlay(false);
   toggleHelpOverlay(false);
   toggleAppsModal(false);
+  if (typeof closeDownloadModal === 'function') {
+    closeDownloadModal();
+  }
   closePastePermissionModal();
   closeExcludeCitationInfoModal();
   document.getElementById('confirmation-overlay').style.display = 'none';
@@ -1633,12 +1636,20 @@ function formatText(command) {
 }
 
 function undoText() {
+  if (!document.queryCommandEnabled('undo')) {
+    notify('Nothing to undo.');
+    return;
+  }
   document.execCommand('undo', false, null);
   document.getElementById('editor').focus();
   handleEditorInput();
 }
 
 function redoText() {
+  if (!document.queryCommandEnabled('redo')) {
+    notify('Nothing to redo.');
+    return;
+  }
   document.execCommand('redo', false, null);
   document.getElementById('editor').focus();
   handleEditorInput();

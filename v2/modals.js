@@ -771,6 +771,42 @@
         <button onclick="closeExcludeCitationInfoModal()" style="width: 100%; padding: 0.75rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 600; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Got it</button>
       </div>
 
+      <!-- Download Modal -->
+      <div id="download-modal" class="download-modal" style="display: none;" onclick="closeDownloadModal()">
+        <div class="download-modal-content" onclick="event.stopPropagation()">
+          <div class="download-modal-header">
+            <h2>Export File</h2>
+            <button class="download-close" onclick="closeDownloadModal()" aria-label="Close download modal">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="download-modal-body">
+            <label class="download-label" for="download-filename">File name</label>
+            <input id="download-filename" class="download-input" type="text" placeholder="citecount-export" autocomplete="off" />
+
+            <label class="download-label" for="download-format">Format</label>
+            <select id="download-format" class="download-select" onchange="updateDownloadFormatOptions()">
+              <option value="pdf" selected>PDF (.pdf)</option>
+              <option value="txt">Text (.txt)</option>
+              <option value="html">HTML (.html)</option>
+            </select>
+
+            <div class="download-options">
+              <label class="download-option"><input type="checkbox" id="download-preserve-fonts" checked> Preserve fonts and size</label>
+              <label class="download-option"><input type="checkbox" id="download-preserve-styles" checked> Preserve text styling (bold, italic, underline)</label>
+              <label class="download-option"><input type="checkbox" id="download-include-highlights" checked> Include citation highlights</label>
+            </div>
+            <p id="download-format-note" class="download-note">PDF and HTML keep styling. Text files export plain text only.</p>
+          </div>
+          <div class="download-modal-footer">
+            <button class="download-btn secondary" onclick="closeDownloadModal()">Cancel</button>
+            <button class="download-btn primary" onclick="downloadEditorContent()">Download</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Error Modal -->
       <div id="error-modal" class="citation-modal" style="display: none; z-index: 10002; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); align-items: center; justify-content: center;">
         <div class="citation-modal-content" style="max-width: 600px; width: 90%; margin: 0 auto; position: relative; top: 50%; transform: translateY(-50%); border-radius: 0.75rem; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);">
