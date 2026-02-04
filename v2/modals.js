@@ -771,7 +771,7 @@
         <button onclick="closeExcludeCitationInfoModal()" style="width: 100%; padding: 0.75rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 600; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Got it</button>
       </div>
 
-      <!-- Download Modal -->
+      <!-- Export File Modal -->
       <div id="download-modal" class="download-modal" style="display: none;" onclick="closeDownloadModal()">
         <div class="download-modal-content" onclick="event.stopPropagation()">
           <div class="download-modal-header">
@@ -784,7 +784,7 @@
           </div>
           <div class="download-modal-body">
             <label class="download-label" for="download-filename">File name</label>
-            <input id="download-filename" class="download-input" type="text" placeholder="citecount-export" autocomplete="off" />
+            <input id="download-filename" class="download-input" type="text" placeholder="CiteCount-Export" autocomplete="off" />
 
             <label class="download-label" for="download-format">Format</label>
             <select id="download-format" class="download-select" onchange="updateDownloadFormatOptions()">

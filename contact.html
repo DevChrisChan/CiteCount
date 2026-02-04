@@ -44,7 +44,7 @@
         }
 
         .form-container {
-            border: 1px solid var(--border-primary);
+            border: 0.1px solid var(--border-primary);
             border-radius: 12px;
             padding: 2rem;
         }
@@ -185,6 +185,7 @@
                     <div style="text-align: center; margin-top: 0.5rem;">
                         <button type="submit" class="back-button">Submit</button>
                     </div>
+                    <div id="submitStatus" class="hint" style="display:none; text-align:center; margin-top:0.5rem; font-weight:700;" aria-live="polite"></div>
                 </form>
                 
             </div>
@@ -204,15 +205,85 @@
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
         }
 
+        // Return or create a persistent 10-char user id in localStorage
+        function getOrCreateUserId() {
+            try {
+                const key = 'cc_uid';
+                let uid = localStorage.getItem(key);
+                if (uid && typeof uid === 'string' && uid.length === 10) return uid;
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                uid = Array.from({ length: 10 }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+                localStorage.setItem(key, uid);
+                return uid;
+            } catch (e) {
+                console.warn('localStorage not available', e);
+                return 'unknown';
+            }
+        }
+
+        function getBrowserInfo() {
+            const ua = navigator.userAgent || '';
+            if (navigator.userAgentData && navigator.userAgentData.brands) {
+                try { return navigator.userAgentData.brands.map(b=>b.brand+' '+b.version).join(', '); } catch(e){}
+            }
+            return ua.split(')')[0];
+        }
+
+        function getOSInfo() {
+            const platform = navigator.platform || 'unknown';
+            const userAgent = navigator.userAgent || '';
+            if (/Windows/.test(userAgent)) return 'Windows';
+            if (/Mac/.test(userAgent)) return 'macOS';
+            if (/Android/.test(userAgent)) return 'Android';
+            if (/iPhone|iPad|iPod/.test(userAgent)) return 'iOS';
+            if (/Linux/.test(userAgent)) return 'Linux';
+            return platform;
+        }
+
+        function getAspectRatio() {
+            try {
+                const w = window.innerWidth || document.documentElement.clientWidth || screen.width;
+                const h = window.innerHeight || document.documentElement.clientHeight || screen.height;
+                const ratio = (w / h).toFixed(2);
+                // try to express as nearest simple ratio
+                const gcd = (a,b)=>b?gcd(b,a%b):a;
+                const ai = Math.round(w);
+                const bi = Math.round(h);
+                const g = gcd(ai,bi) || 1;
+                return `${ai/g}:${bi/g} (${ratio})`;
+            } catch(e) { return 'unknown'; }
+        }
+
+        function snapshotLocalStorage(maxEntries = 8, maxValueLen = 200) {
+            try {
+                const keys = Object.keys(localStorage || {}).slice(0, maxEntries);
+                const out = keys.map(k => {
+                    let v = localStorage.getItem(k);
+                    if (v === null) v = '';
+                    if (v.length > maxValueLen) v = v.slice(0, maxValueLen) + '...';
+                    return `${k}: ${v}`;
+                });
+                return out.join('\n');
+            } catch (e) { return 'localStorage unavailable'; }
+        }
+
+        function truncate(str, max) {
+            if (typeof str !== 'string') str = String(str || '');
+            if (str.length <= max) return str;
+            return str.slice(0, max-3) + '...';
+        }
+
         function handleSubmit(e) {
             e.preventDefault();
             const emailEl = document.getElementById('email');
             const messageEl = document.getElementById('message');
             const emailError = document.getElementById('emailError');
             const messageError = document.getElementById('messageError');
+            const statusEl = document.getElementById('submitStatus');
 
             emailError.textContent = '';
             messageError.textContent = '';
+            statusEl.style.display = 'none';
 
             const email = (emailEl.value || '').trim();
             const message = (messageEl.value || '').trim();
@@ -236,9 +307,74 @@
                 return;
             }
 
-            const base = 'https://docs.google.com/forms/d/e/1FAIpQLScthBC2oy0Sh-jAg5gUEq2s8r0xi6zfbH5rYOEeZPeK8Szjkw/viewform?usp=pp_url';
-            const params = '&entry.1825225442=' + encodeURIComponent(email) + '&entry.1601189229=' + encodeURIComponent(message);
-            window.open(base + params, '_blank', 'noopener');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const webhookURL = 'https://discord.com/api/webhooks/1468637478272368763/sFULl2Ecsz9XNgI5JhH72ThsIXXEHA5kOm80PJGY9npL9FauyOgw6utnvcaAA4bsxYkc';
+
+            submitBtn.disabled = true;
+            const originalLabel = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+
+            const uid = getOrCreateUserId();
+
+            // gather environment info; keep fields small to avoid Discord limits
+            const os = truncate(getOSInfo(), 64);
+            const browser = truncate(getBrowserInfo(), 180);
+            const aspect = truncate(getAspectRatio(), 64);
+            const localSnap = truncate(snapshotLocalStorage(10, 300), 1000);
+
+            // try to fetch approximate geo info from a public IP geolocation API
+            const geoPromise = fetch('https://ipapi.co/json/').then(r => r.ok ? r.json() : Promise.reject()).catch(()=>({ city: 'unknown', region: 'unknown', country_name: 'unknown' }));
+
+            Promise.all([geoPromise]).then(([geo]) => {
+                const location = `${geo.city || 'unknown'}, ${geo.region || ''} ${geo.country_name || ''}`.trim();
+                const truncatedLocation = truncate(location, 200);
+                const truncatedMessage = truncate(message || '(no message)', 1900);
+
+                const fields = [
+                    { name: 'User ID', value: truncate(uid, 1024), inline: true },
+                    { name: 'Location (approx)', value: truncatedLocation || 'unknown', inline: true },
+                    { name: 'OS', value: os || 'unknown', inline: true },
+                    { name: 'Browser', value: browser || 'unknown', inline: false },
+                    { name: 'Aspect Ratio', value: aspect || 'unknown', inline: true }
+                ];
+
+                if (email) fields.push({ name: 'Email', value: truncate(email, 256), inline: true });
+                if (localSnap) fields.push({ name: 'LocalStorage', value: '```json\n' + localSnap + '```', inline: false });
+
+                const embedTitleEmail = email ? truncate(email, 200) : 'no email provided';
+                const payload = {
+                    embeds: [
+                        {
+                            title: `Contact Form Submission (${embedTitleEmail})`,
+                            description: truncatedMessage,
+                            fields: fields,
+                            timestamp: new Date().toISOString()
+                        }
+                    ]
+                };
+
+                return fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            }).then(response => {
+                if (!response || !response.ok) throw new Error('Network response not ok');
+                if (email) {
+                    statusEl.textContent = `Thanks for your message! We have received your message, and we'll get back to you at ${email} within 24 hours.`;
+                } else {
+                    statusEl.textContent = 'Thanks for your message! We have received your message.';
+                }
+                statusEl.style.display = 'block';
+                emailEl.value = '';
+                messageEl.value = '';
+            }).catch(err => {
+                messageError.textContent = 'Failed to send. Please try again later.';
+                console.error('Webhook send error', err);
+            }).finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalLabel;
+            });
         }
     </script>
 </body>

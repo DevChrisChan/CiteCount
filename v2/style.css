@@ -2068,6 +2068,7 @@
     border-radius: 1rem;
     border: 1px solid #E5E7EB;
     box-sizing: border-box;
+    background-color: #FAFAFA;
   }
 
 .landing-section {
@@ -5452,9 +5453,52 @@ pre {
   width: 100%;
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--border-primary);
-  background: var(--background-secondary);
+  background: var(--surface-color);
   color: var(--text-primary);
   font-size: 0.9rem;
+}
+
+.download-input::placeholder,
+.download-select::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+.download-input:focus,
+.download-select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.download-input,
+.download-select {
+  -webkit-text-fill-color: currentColor;
+}
+
+.dark .download-input,
+.dark .download-select {
+  background: #242424 !important;
+  color: #E5E7EB !important;
+  border-color: #374151 !important;
+}
+
+.dark .download-input::placeholder,
+.dark .download-select::placeholder {
+  color: #9CA3AF !important;
+}
+
+.download-modal .download-input,
+.download-modal .download-select {
+  background: #242424 !important;
+  color: #E5E7EB !important;
+  border-color: #374151 !important;
+  -webkit-text-fill-color: #E5E7EB !important;
+}
+
+.download-modal .download-input::placeholder,
+.download-modal .download-select::placeholder {
+  color: #9CA3AF !important;
 }
 
 .download-input {
