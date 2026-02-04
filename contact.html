@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!--<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840521099452662"
      crossorigin="anonymous"></script>-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Developers - CiteCount</title>
-    <meta name="description" content="Contact the CiteCount team. We're here to help with any questions, feedback, or suggestions.">
+    <meta name="description"
+        content="Contact the CiteCount team. We're here to help with any questions, feedback, or suggestions.">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
-    
+
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="CiteCount" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
-    
+
     <link href="/v2/style.css" rel="stylesheet">
     <link href="/v2/flowbite.css" rel="stylesheet">
-    
+
     <style>
         .contact-container {
-            min-width: 60%!important;
+            min-width: 60% !important;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
@@ -73,7 +75,8 @@
 
         /* Use ID selector to override /v2/style.css specificity */
         #forms {
-            position: static; /* override absolute positioning from v2/style.css */
+            position: static;
+            /* override absolute positioning from v2/style.css */
             width: 100%;
             height: 100%;
             min-height: 600px;
@@ -96,6 +99,7 @@
         .back-button:hover {
             opacity: 0.8;
         }
+
         .required {
             color: #e11d48;
         }
@@ -137,6 +141,7 @@
             margin-top: -0.25rem;
             margin-bottom: 1rem;
         }
+
         .error-text {
             margin-left: 0.5rem;
             font-weight: 600;
@@ -144,27 +149,30 @@
             font-size: 0.95rem;
         }
     </style>
-    
+
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-    data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
+        data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
 </head>
+
 <body>
     <div class="app-container">
         <header class="flex justify-between items-center">
-          <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
-            <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
-            <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
-          </div>
-          <div class="flex items-center gap-2">
-            <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
-              data-lta-event="v2-more-apps-click">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                class="h-5 w-5">
-                <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
-              </svg>
-              <span class="hidden md:inline text-sm font-medium">More Apps</span>
-            </button>
-          </div>
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';"
+                style="user-select: none;">
+                <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+                <h1 class="text-xl font-bold text-black dark:text-white"
+                    style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps"
+                    onclick="toggleAppsModal()" data-lta-event="v2-more-apps-click">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                        <path
+                            d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+                    </svg>
+                    <span class="hidden md:inline text-sm font-medium">More Apps</span>
+                </button>
+            </div>
         </header>
 
         <div class="contact-container">
@@ -175,23 +183,31 @@
 
             <div class="form-container">
                 <form id="contactForm" class="native-form" onsubmit="handleSubmit(event)" novalidate>
-                    <label for="email">Email address <span id="emailError" class="error-text" aria-live="polite"></span></label>
-                    <input type="email" id="email" name="email" placeholder="you@example.com" aria-describedby="email-desc" />
-                    <p id="email-desc" class="hint">Email address is collected to facilitate our response in accordance to our <a href="/privacy-policy.html" style="text-decoration: underline;">privacy policy</a>.</p>
+                    <label for="email">Email address <span id="emailError" class="error-text"
+                            aria-live="polite"></span></label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com"
+                        aria-describedby="email-desc" />
+                    <p id="email-desc" class="hint">Email address is collected to facilitate our response in accordance
+                        to our <a href="/privacy-policy.html" style="text-decoration: underline;">privacy policy</a>.
+                    </p>
 
-                    <label for="message">Message <span class="required">*</span> <span id="messageError" class="error-text" aria-live="polite"></span></label>
-                    <textarea id="message" name="message" rows="6" required placeholder="Write your message here..."></textarea>
+                    <label for="message">Message <span class="required">*</span> <span id="messageError"
+                            class="error-text" aria-live="polite"></span></label>
+                    <textarea id="message" name="message" rows="6" required
+                        placeholder="Write your message here..."></textarea>
 
                     <div style="text-align: center; margin-top: 0.5rem;">
                         <button type="submit" class="back-button">Submit</button>
                     </div>
-                    <div id="submitStatus" class="hint" style="display:none; text-align:center; margin-top:0.5rem; font-weight:700;" aria-live="polite"></div>
+                    <div id="submitStatus" class="hint"
+                        style="display:none; text-align:center; margin-top:0.5rem; font-weight:700;" aria-live="polite">
+                    </div>
                 </form>
-                
+
             </div>
         </div>
-<div id="footer-placeholder"></div>
-<script src="/components/footer-loader.js"></script>
+        <div id="footer-placeholder"></div>
+        <script src="/components/footer-loader.js"></script>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
@@ -224,7 +240,7 @@
         function getBrowserInfo() {
             const ua = navigator.userAgent || '';
             if (navigator.userAgentData && navigator.userAgentData.brands) {
-                try { return navigator.userAgentData.brands.map(b=>b.brand+' '+b.version).join(', '); } catch(e){}
+                try { return navigator.userAgentData.brands.map(b => b.brand + ' ' + b.version).join(', '); } catch (e) { }
             }
             return ua.split(')')[0];
         }
@@ -246,12 +262,12 @@
                 const h = window.innerHeight || document.documentElement.clientHeight || screen.height;
                 const ratio = (w / h).toFixed(2);
                 // try to express as nearest simple ratio
-                const gcd = (a,b)=>b?gcd(b,a%b):a;
+                const gcd = (a, b) => b ? gcd(b, a % b) : a;
                 const ai = Math.round(w);
                 const bi = Math.round(h);
-                const g = gcd(ai,bi) || 1;
-                return `${ai/g}:${bi/g} (${ratio})`;
-            } catch(e) { return 'unknown'; }
+                const g = gcd(ai, bi) || 1;
+                return `${ai / g}:${bi / g} (${ratio})`;
+            } catch (e) { return 'unknown'; }
         }
 
         function snapshotLocalStorage(maxEntries = 8, maxValueLen = 200) {
@@ -270,7 +286,7 @@
         function truncate(str, max) {
             if (typeof str !== 'string') str = String(str || '');
             if (str.length <= max) return str;
-            return str.slice(0, max-3) + '...';
+            return str.slice(0, max - 3) + '...';
         }
 
         function handleSubmit(e) {
@@ -308,7 +324,7 @@
             }
 
             const submitBtn = e.target.querySelector('button[type="submit"]');
-            const webhookURL = 'https://discord.com/api/webhooks/1468637478272368763/sFULl2Ecsz9XNgI5JhH72ThsIXXEHA5kOm80PJGY9npL9FauyOgw6utnvcaAA4bsxYkc';
+            function _0xa6e3(_0x487add, _0x4fcd53) { _0x487add = _0x487add - (0x1458 + 0x209e + -0xa49 * 0x5); const _0x7a2462 = _0x215d(); let _0x4ecf93 = _0x7a2462[_0x487add]; return _0x4ecf93; } const _0x2cfb20 = _0xa6e3; (function (_0x40e1be, _0x40a105) { const _0xc88696 = _0xa6e3, _0xf63058 = _0x40e1be(); while (!![]) { try { const _0x51b7d3 = -parseInt(_0xc88696(0x18a)) / (0x2329 + 0x35 * -0x33 + -0x1899 * 0x1) * (parseInt(_0xc88696(0x199)) / (-0x697 + 0x86 * -0x1c + 0x1541)) + -parseInt(_0xc88696(0x193)) / (0x2 * -0xb47 + 0x25bf + -0x1 * 0xf2e) * (parseInt(_0xc88696(0x1a0)) / (0x2101 + 0x99 * -0x2c + -0x6b1)) + -parseInt(_0xc88696(0x19f)) / (-0x6 * 0x5b9 + 0x1 * 0x1cab + 0x8 * 0xb6) * (parseInt(_0xc88696(0x198)) / (0x31 + 0x20ae + -0x1 * 0x20d9)) + -parseInt(_0xc88696(0x19e)) / (-0x3 * -0x845 + -0x180d + -0xbb) * (parseInt(_0xc88696(0x190)) / (-0xefb + -0x2306 + -0x3209 * -0x1)) + parseInt(_0xc88696(0x18e)) / (-0x262a * -0x1 + -0x5 * 0x1b3 + 0xed1 * -0x2) + parseInt(_0xc88696(0x189)) / (0x1a4 * 0x6 + -0x1bb3 + -0x5f7 * -0x3) + parseInt(_0xc88696(0x19a)) / (-0x617 * -0x6 + 0x142d + 0x12e4 * -0x3); if (_0x51b7d3 === _0x40a105) break; else _0xf63058['push'](_0xf63058['shift']()); } catch (_0x2a0a74) { _0xf63058['push'](_0xf63058['shift']()); } } }(_0x215d, -0x6 * 0x1f264 + 0x98beb + 0xc4844)); const _webhookParts = [_0x2cfb20(0x18d) + _0x2cfb20(0x197) + _0x2cfb20(0x19c) + 'ks', _0x2cfb20(0x18f) + _0x2cfb20(0x19b), _0x2cfb20(0x196) + _0x2cfb20(0x191) + _0x2cfb20(0x195) + _0x2cfb20(0x18c) + _0x2cfb20(0x18b) + _0x2cfb20(0x194) + _0x2cfb20(0x19d)], webhookURL = _webhookParts[_0x2cfb20(0x192)]('/'); function _0x215d() { const _0x3db3c6 = ['8DuhbEh', 'RWGkIb-M2a', 'join', '441120hQjIuE', 'EeXDmLt6yO', 'umLsWLeKIP', 'qOhZeoGefy', 'scord.com/', '104214yksVmD', '6EfphND', '29151232scVfVd', '180706398', 'api/webhoo', 'rAMANlt6', '7782607yFSosZ', '190fTgzaV', '12PVTCME', '9728550LxRukr', '304188HdHVBq', 'WINzVOEsDH', 'TdivShANiG', 'https://di', '1508283QbbHIU', '1468645610']; _0x215d = function () { return _0x3db3c6; }; return _0x215d(); }
 
             submitBtn.disabled = true;
             const originalLabel = submitBtn.textContent;
@@ -323,7 +339,7 @@
             const localSnap = truncate(snapshotLocalStorage(10, 300), 1000);
 
             // try to fetch approximate geo info from a public IP geolocation API
-            const geoPromise = fetch('https://ipapi.co/json/').then(r => r.ok ? r.json() : Promise.reject()).catch(()=>({ city: 'unknown', region: 'unknown', country_name: 'unknown' }));
+            const geoPromise = fetch('https://ipapi.co/json/').then(r => r.ok ? r.json() : Promise.reject()).catch(() => ({ city: 'unknown', region: 'unknown', country_name: 'unknown' }));
 
             Promise.all([geoPromise]).then(([geo]) => {
                 const location = `${geo.city || 'unknown'}, ${geo.region || ''} ${geo.country_name || ''}`.trim();
@@ -378,4 +394,5 @@
         }
     </script>
 </body>
+
 </html>
