@@ -860,13 +860,12 @@
                 }
 
                 const result = await response.json();
-                return result.result.language || 'en';
+                const detected = Array.isArray(result)
+                    ? result[0]?.language
+                    : result?.result?.language || result?.language;
+                return detected || 'en';
             } catch (error) {
                 console.error('Language detection error:', error);
-                if (isCORSError(error)) {
-                    console.log('CORS error detected in detectLanguage');
-                    showErrorOverlay();
-                }
                 return 'en';
             }
         }
