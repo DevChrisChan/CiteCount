@@ -2786,6 +2786,8 @@ function switchPanelTab(tabName, isMoreToolView = false) {
   const translateContainer = document.getElementById('translate-container');
   const notepadContainer = document.getElementById('notepad-container');
   const wordbankContainer = document.getElementById('wordbank-container');
+  const scientificCalculatorContainer = document.getElementById('scientific-calculator-container');
+  const graphingCalculatorContainer = document.getElementById('graphing-calculator-container');
   
   const panelHeader = document.getElementById('panel-header');
   const panelTitle = document.getElementById('panel-title');
@@ -2820,6 +2822,8 @@ function switchPanelTab(tabName, isMoreToolView = false) {
   if (translateContainer) translateContainer.style.display = 'none';
   if (notepadContainer) notepadContainer.style.display = 'none';
   if (wordbankContainer) wordbankContainer.style.display = 'none';
+  if (scientificCalculatorContainer) scientificCalculatorContainer.style.display = 'none';
+  if (graphingCalculatorContainer) graphingCalculatorContainer.style.display = 'none';
 
   // Handle each tab
   if (tabName === 'citations') {
@@ -3065,6 +3069,62 @@ function switchPanelTab(tabName, isMoreToolView = false) {
       }
     }
     if (wordbankContainer) wordbankContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
+  } else if (tabName === 'scientificCalculator') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Scientific Calculator';
+      }
+    } else {
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Scientific Calculator';
+      }
+    }
+    if (scientificCalculatorContainer) scientificCalculatorContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
+  } else if (tabName === 'graphingCalculator') {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = '<span onclick="switchPanelTab(\'moreApps\');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">More Tools</span> / Graphing Calculator';
+      }
+    } else {
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = 'Graphing Calculator';
+      }
+    }
+    if (graphingCalculatorContainer) graphingCalculatorContainer.style.display = 'flex';
     if (searchRow) searchRow.style.display = 'none';
   } else if (tabName === 'moreApps') {
     if (menuBtn) {

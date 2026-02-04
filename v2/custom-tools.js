@@ -16,7 +16,9 @@
     'pomodoro': '🍅 Pomodoro Timer',
     'translate': '🌐 Translate',
     'notepad': '📓 Notepad',
-    'wordbank': '📚 Word Bank'
+    'wordbank': '📚 Word Bank',
+    'scientificCalculator': '🧮 Scientific Calculator',
+    'graphingCalculator': '📈 Graphing Calculator'
   };
 
   // Tool display names without emojis (for tabs)
@@ -29,7 +31,9 @@
     'pomodoro': 'Pomodoro Timer',
     'translate': 'Translate',
     'notepad': 'Notepad',
-    'wordbank': 'Word Bank'
+    'wordbank': 'Word Bank',
+    'scientificCalculator': 'Scientific Calculator',
+    'graphingCalculator': 'Graphing Calculator'
   };
 
   // Track which tool is being viewed from More Tools
@@ -237,6 +241,16 @@
       };
       
       toolsGrid.appendChild(customiseToolsBtn);
+    }
+
+    // Short contact line with 70% opacity
+    let contactLine = document.getElementById('tools-contact-line');
+    if (!contactLine) {
+      contactLine = document.createElement('div');
+      contactLine.id = 'tools-contact-line';
+      contactLine.style.cssText = 'opacity: 0.7; font-size: 0.875rem; color: var(--text-primary); margin-top: 0.75rem; text-align: center;';
+      contactLine.innerHTML = `Have an idea for a tool? We'll build it for you. Contact us <a href="/contact" style="text-decoration: underline;">here</a>.`;
+      toolsGrid.appendChild(contactLine);
     }
   }
 

@@ -1591,6 +1591,19 @@ function startRenamingProject(projectId) {
   input.value = currentName;
   input.className = 'file-rename-input';
 
+  const confirmBtn = document.createElement('button');
+  confirmBtn.type = 'button';
+  confirmBtn.className = 'file-rename-confirm-btn';
+  confirmBtn.title = 'Confirm';
+  confirmBtn.style.border = 'none';
+  confirmBtn.style.background = 'transparent';
+  confirmBtn.style.cursor = 'pointer';
+  confirmBtn.style.display = 'inline-flex';
+  confirmBtn.style.alignItems = 'center';
+  confirmBtn.style.justifyContent = 'center';
+  confirmBtn.style.padding = '4px';
+  confirmBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
   const finishRename = () => {
     const newName = input.value.trim();
     if (newName && newName !== currentName) {
@@ -1600,7 +1613,15 @@ function startRenamingProject(projectId) {
     }
   };
 
-  input.onblur = finishRename;
+  // If focus leaves input but not to the confirm button, finish rename
+  input.onblur = () => {
+    setTimeout(() => {
+      if (document.activeElement !== confirmBtn) {
+        finishRename();
+      }
+    }, 0);
+  };
+
   input.onkeydown = (e) => {
     if (e.key === 'Enter') {
       finishRename();
@@ -1609,7 +1630,32 @@ function startRenamingProject(projectId) {
     }
   };
 
-  nameSpan.replaceWith(input);
+  confirmBtn.onclick = (e) => {
+    e.stopPropagation();
+    finishRename();
+  };
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'file-rename-wrapper';
+  wrapper.style.display = 'flex';
+  wrapper.style.alignItems = 'center';
+  wrapper.style.minWidth = '0';
+  wrapper.style.gap = '8px';
+  input.style.flex = '1';
+  input.style.minWidth = '0';
+  input.style.overflow = 'hidden';
+  input.style.textOverflow = 'ellipsis';
+  input.style.whiteSpace = 'nowrap';
+  confirmBtn.style.marginLeft = '8px';
+  confirmBtn.style.flex = '0 0 28px';
+  confirmBtn.style.width = '28px';
+  confirmBtn.style.height = '28px';
+  confirmBtn.style.minWidth = '28px';
+
+  wrapper.appendChild(input);
+  wrapper.appendChild(confirmBtn);
+
+  nameSpan.replaceWith(wrapper);
   input.focus();
   input.select();
 }
@@ -1643,6 +1689,19 @@ function startRenamingFolder(folderId) {
   input.value = currentName;
   input.className = 'file-rename-input';
 
+  const confirmBtn = document.createElement('button');
+  confirmBtn.type = 'button';
+  confirmBtn.className = 'file-rename-confirm-btn';
+  confirmBtn.title = 'Confirm';
+  confirmBtn.style.border = 'none';
+  confirmBtn.style.background = 'transparent';
+  confirmBtn.style.cursor = 'pointer';
+  confirmBtn.style.display = 'inline-flex';
+  confirmBtn.style.alignItems = 'center';
+  confirmBtn.style.justifyContent = 'center';
+  confirmBtn.style.padding = '4px';
+  confirmBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
   const finishRename = () => {
     const newName = input.value.trim();
     if (newName && newName !== currentName) {
@@ -1652,7 +1711,14 @@ function startRenamingFolder(folderId) {
     }
   };
 
-  input.onblur = finishRename;
+  input.onblur = () => {
+    setTimeout(() => {
+      if (document.activeElement !== confirmBtn) {
+        finishRename();
+      }
+    }, 0);
+  };
+
   input.onkeydown = (e) => {
     if (e.key === 'Enter') {
       finishRename();
@@ -1661,7 +1727,32 @@ function startRenamingFolder(folderId) {
     }
   };
 
-  nameSpan.replaceWith(input);
+  confirmBtn.onclick = (e) => {
+    e.stopPropagation();
+    finishRename();
+  };
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'file-rename-wrapper';
+  wrapper.style.display = 'flex';
+  wrapper.style.alignItems = 'center';
+  wrapper.style.minWidth = '0';
+  wrapper.style.gap = '8px';
+  input.style.flex = '1';
+  input.style.minWidth = '0';
+  input.style.overflow = 'hidden';
+  input.style.textOverflow = 'ellipsis';
+  input.style.whiteSpace = 'nowrap';
+  confirmBtn.style.marginLeft = '8px';
+  confirmBtn.style.flex = '0 0 28px';
+  confirmBtn.style.width = '28px';
+  confirmBtn.style.height = '28px';
+  confirmBtn.style.minWidth = '28px';
+
+  wrapper.appendChild(input);
+  wrapper.appendChild(confirmBtn);
+
+  nameSpan.replaceWith(wrapper);
   input.focus();
   input.select();
 }
@@ -1807,7 +1898,7 @@ function showProjectInfoModal(projectId) {
     });
   };
 
-  // Create modal
+  // Create modal with header, scrollable body, and footer
   const modal = document.createElement('div');
   modal.className = 'file-info-modal';
   modal.style.cssText = `
@@ -1818,30 +1909,32 @@ function showProjectInfoModal(projectId) {
     background: var(--background-primary);
     border: 1px solid var(--border-primary);
     border-radius: 0.5rem;
-    padding: 2rem;
+    padding: 0; /* inner sections handle spacing */
     z-index: 1001;
     max-width: 500px;
     width: 90%;
     max-height: 80vh;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    overflow: hidden; /* body will scroll */
   `;
-  
+
   modal.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-      <h2 style="margin: 0; font-size: 1.5rem; color: var(--text-primary);">Document Info</h2>
-      <button class="close-info-modal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary); padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">✕</button>
+    <div style="padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-primary); display:flex; justify-content: space-between; align-items: center; flex: none;">
+      <h2 style="margin: 0; font-size: 1.25rem; color: var(--text-primary); font-weight: 700;">Document Properties</h2>
+      <button class="close-info-modal" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-secondary); padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">✕</button>
     </div>
-    
-    <div style="space-y: 1rem;">
+
+    <div class="file-info-body" style="padding: 1rem 1.25rem; overflow-y: auto; display:flex; flex-direction: column; gap: 1rem; flex: 1;">
       <!-- File Name -->
-      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Document Name</div>
         <div style="color: var(--text-primary); font-weight: 600; word-break: break-word;">${fileManager.escapeHtml(project.name)}</div>
       </div>
 
       <!-- File Size -->
-      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">File Size</div>
         <div style="color: var(--text-primary); font-weight: 600;">
           ${contentLength} bytes (${(contentLength / 1024).toFixed(2)} KB)
@@ -1849,43 +1942,43 @@ function showProjectInfoModal(projectId) {
       </div>
 
       <!-- Word Count -->
-      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Word Count</div>
         <div style="color: var(--text-primary); font-weight: 600;">${wordCount.toLocaleString()} words</div>
       </div>
 
       <!-- Character Count -->
-      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Character Count</div>
         <div style="color: var(--text-primary); font-weight: 600;">${contentLength.toLocaleString()} characters</div>
       </div>
 
       <!-- Citation Count -->
-      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Citation Count</div>
         <div style="color: var(--text-primary); font-weight: 600;">${citationCount} citations</div>
       </div>
 
       <!-- Created Date -->
-      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Created Date</div>
         <div style="color: var(--text-primary); font-weight: 600;">${formatDate(createdDate)}</div>
       </div>
 
       <!-- Last Modified Date -->
-      <div style="margin-bottom: 1.25rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Last Modified</div>
         <div style="color: var(--text-primary); font-weight: 600;">${formatDate(modifiedDate)}</div>
       </div>
 
       <!-- Document ID (for reference) -->
-      <div style="margin-bottom: 1.5rem; padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Document ID</div>
         <div style="color: var(--text-primary); font-family: monospace; font-size: 0.875rem; word-break: break-all;">${project.id}</div>
       </div>
     </div>
 
-    <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+    <div style="padding: 0.75rem 1rem; border-top: 1px solid var(--border-primary); display:flex; gap: 0.75rem; justify-content: flex-end; flex: none;">
       <button class="close-info-modal" style="padding: 0.625rem 1.25rem; border: 1px solid var(--border-primary); background: transparent; color: var(--text-primary); border-radius: 0.375rem; cursor: pointer; font-weight: 500; transition: background 0.2s;">Close</button>
     </div>
   `;

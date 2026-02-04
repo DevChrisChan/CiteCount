@@ -927,6 +927,16 @@
             <iframe id="wordbank-iframe" src="/components/wordbank/index.html" loading="lazy" style="width: 100%; height: 100%; border: none; background: var(--background-primary); display: block;"></iframe>
           </div>
 
+          <!-- Scientific Calculator iFrame View (pinnable) -->
+          <div id="scientific-calculator-container" style="flex: 1; padding: 0; margin: 0; background: var(--background-primary); display: none; flex-direction: column; overflow: hidden;">
+            <iframe id="scientific-calculator-iframe" src="https://www.desmos.com/scientific" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width: 100%; height: 100%; border: none; background: var(--background-primary); display: block;"></iframe>
+          </div>
+
+          <!-- Graphing Calculator iFrame View (pinnable) -->
+          <div id="graphing-calculator-container" style="flex: 1; padding: 0; margin: 0; background: var(--background-primary); display: none; flex-direction: column; overflow: hidden;">
+            <iframe id="graphing-calculator-iframe" src="https://www.desmos.com/calculator" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width: 100%; height: 100%; border: none; background: var(--background-primary); display: block;"></iframe>
+          </div>
+
           <!-- More Tools Container (all available tools) -->
           <div id="more-apps-container" style="flex: 1; padding: 1rem; background: var(--background-primary); display: none; flex-direction: column; overflow-y: auto;">
             <!-- Dictionary Tool Container -->
@@ -962,6 +972,16 @@
                 <div id="wordbank-tool-box" data-tool-id="wordbank" class="tool-box" onclick="switchPanelTab('wordbank', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
                   <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📚 Word Bank</h3>
                   <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Curated collection of words and vocabulary for writing.</p>
+                </div>
+                <!-- Scientific Calculator Tool Box -->
+                <div id="scientific-calculator-tool-box" data-tool-id="scientificCalculator" class="tool-box" onclick="switchPanelTab('scientificCalculator', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">🧮 Scientific Calculator</h3>
+                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Quick scientific calculations with functions and constants.</p>
+                </div>
+                <!-- Graphing Calculator Tool Box -->
+                <div id="graphing-calculator-tool-box" data-tool-id="graphingCalculator" class="tool-box" onclick="switchPanelTab('graphingCalculator', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📈 Graphing Calculator</h3>
+                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Plot functions, analyze graphs, and explore equations.</p>
                 </div>
               </div>
             </div>

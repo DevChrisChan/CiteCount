@@ -329,7 +329,9 @@ const AVAILABLE_TOOLS = [
 	{ id: 'pomodoro', name: 'Pomodoro Timer', icon: '🍅', description: 'Time-boxed work sessions' },
 	{ id: 'translate', name: 'Translate', icon: '🌐', description: 'Translate text between languages' },
 	{ id: 'notepad', name: 'Notepad', icon: '📓', description: 'Simple note-taking tool' },
-	{ id: 'wordbank', name: 'Word Bank', icon: '📚', description: 'Curated vocabulary collection' }
+	{ id: 'wordbank', name: 'Word Bank', icon: '📚', description: 'Curated vocabulary collection' },
+	{ id: 'scientificCalculator', name: 'Scientific Calculator', icon: '🧮', description: 'Quick scientific calculations' },
+	{ id: 'graphingCalculator', name: 'Graphing Calculator', icon: '📈', description: 'Plot and analyze graphs' }
 ];
 
 const DEFAULT_PINNED_TOOLS = ['generateCitation', 'details'];
