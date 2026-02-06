@@ -54,6 +54,16 @@
 						</svg>
 						<span>About</span>
 					</button>
+					
+					<!-- Faint divider before Developers -->
+					<div id="developers-divider" style="border-top: 1px solid rgba(156, 163, 175, 0.2); margin: 0.5rem 0; display: none;"></div>
+					
+					<button class="settings-category-btn" data-category="developers" onclick="switchSettingsCategory('developers')" id="developers-category-btn" style="display: none;">
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+						</svg>
+						<span>Developers</span>
+					</button>
 				</div>
 
 				<div class="settings-main-content">
@@ -156,13 +166,24 @@
 									</div>
 								</div>
 							</div>
+
+						<div class="flex items-center justify-between p-3 rounded-md" id="developer-mode-toggle" style="background: #f3f4f6; display: none;">
+							<div>
+								<span class="font-medium">Developer Mode</span>
+								<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Enable advanced debugging and development tools</p>
+							</div>
+							<label class="relative inline-flex items-center cursor-pointer">
+								<input type="checkbox" id="developerMode" class="sr-only peer" onchange="toggleDeveloperMode(this.checked)">
+								<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+							</label>
 						</div>
 					</div>
+				</div>
 
-					<div class="settings-category-content" data-category="counter">
-						<h3 class="text-lg font-medium mb-4">Counter Display</h3>
-						<div class="space-y-3">
-							<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Customize which counters appear in the top bar and their order. Use the arrow buttons to reorder.</p>
+				<div class="settings-category-content" data-category="counter">
+					<h3 class="text-lg font-medium mb-4">Counter Display</h3>
+					<div class="space-y-3">
+						<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Customize which counters appear in the top bar and their order. Use the arrow buttons to reorder.</p>
 							<button onclick="resetCountersToDefault()" class="px-4 py-2 hover:bg-blue-600 text-white rounded-md font-medium transition-colors mb-4" data-lta-event="v2-reset-counters-default" style="background-color: #1F40AF;">
 								Reset to Default
 							</button>
@@ -292,6 +313,27 @@
 									<li>Multi-file batch processing</li>
 									<li>Enhanced project organization</li>
 								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="settings-category-content" data-category="developers">
+						<h3 class="text-lg font-medium mb-4">Developers</h3>
+						<div class="space-y-3">
+							<!-- Dev Tools Tabs -->
+							<div style="border: 1px solid var(--border-primary); border-radius: 0.5rem; overflow: hidden;">
+								<div style="display: flex; gap: 0.25rem; background: var(--background-secondary); padding: 0.5rem; border-bottom: 1px solid var(--border-primary); overflow-x: auto;">
+									<button class="dev-tab-btn active" data-dev-tab="localstorage" onclick="switchDevTab('localstorage')" style="padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; white-space: nowrap; font-size: 0.875rem;">Local Storage</button>
+									<button class="dev-tab-btn" data-dev-tab="system" onclick="switchDevTab('system')" style="padding: 0.5rem 1rem; background: transparent; color: var(--text-primary); border: none; border-radius: 0.375rem; cursor: pointer; white-space: nowrap; font-size: 0.875rem;">System Info</button>
+									<button class="dev-tab-btn" data-dev-tab="internalSettings" onclick="switchDevTab('internalSettings')" style="padding: 0.5rem 1rem; background: transparent; color: var(--text-primary); border: none; border-radius: 0.375rem; cursor: pointer; white-space: nowrap; font-size: 0.875rem;">Internal Settings</button>
+									<button class="dev-tab-btn" data-dev-tab="devToolsSettings" onclick="switchDevTab('devToolsSettings')" style="padding: 0.5rem 1rem; background: transparent; color: var(--text-primary); border: none; border-radius: 0.375rem; cursor: pointer; white-space: nowrap; font-size: 0.875rem;">Dev Tools Settings</button>
+									<button class="dev-tab-btn" data-dev-tab="console" onclick="switchDevTab('console')" style="padding: 0.5rem 1rem; background: transparent; color: var(--text-primary); border: none; border-radius: 0.375rem; cursor: pointer; white-space: nowrap; font-size: 0.875rem;">Console</button>
+									<button class="dev-tab-btn" data-dev-tab="errors" onclick="switchDevTab('errors')" style="padding: 0.5rem 1rem; background: transparent; color: var(--text-primary); border: none; border-radius: 0.375rem; cursor: pointer; white-space: nowrap; font-size: 0.875rem;">Errors</button>
+									<button class="dev-tab-btn" data-dev-tab="cookies" onclick="switchDevTab('cookies')" style="padding: 0.5rem 1rem; background: transparent; color: var(--text-primary); border: none; border-radius: 0.375rem; cursor: pointer; white-space: nowrap; font-size: 0.875rem;">Cookies</button>
+								</div>
+								<div id="dev-content" style="padding: 1rem; max-height: 400px; overflow-y: auto;" class="text-sm">
+									<!-- Content populated by switchDevTab -->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -579,4 +621,292 @@ function openToolsSettingsPage() {
 		switchSettingsCategory('tools');
 		initializeToolsSelection();
 	}, 100);
+}
+
+// Developer Mode Functions
+function toggleDeveloperMode(checked) {
+	if (checked) {
+		// Show warning modal with background overlay
+		showNotification(
+			'Enabling Developer Mode will grant access to advanced debugging tools and system information. Please note that modifying browser storage or cookies may affect the stability and security of your saved data. Proceed with caution.',
+			true,
+			() => {
+				// User confirmed - save the setting and show developers section
+				localStorage.setItem('developerMode', 'true');
+				const devCategoryBtn = document.getElementById('developers-category-btn');
+				const devDivider = document.getElementById('developers-divider');
+				if (devCategoryBtn) {
+					devCategoryBtn.style.display = 'flex';
+				}
+				if (devDivider) {
+					devDivider.style.display = 'block';
+				}
+				notify('Developer Mode enabled');
+			},
+			'confirmation',
+			() => {
+				// User cancelled - uncheck the toggle
+				document.getElementById('developerMode').checked = false;
+			},
+			{
+				title: 'Enable Developer Mode',
+				confirmButton: 'Yes, Enable',
+				cancelButton: 'Cancel'
+			}
+		);
+	} else {
+		localStorage.setItem('developerMode', 'false');
+		const devCategoryBtn = document.getElementById('developers-category-btn');
+		const devDivider = document.getElementById('developers-divider');
+		if (devCategoryBtn) {
+			devCategoryBtn.style.display = 'none';
+		}
+		if (devDivider) {
+			devDivider.style.display = 'none';
+		}
+		// If currently viewing developers category, switch to about
+		const developersCategoryContent = document.querySelector('.settings-category-content[data-category="developers"]');
+		if (developersCategoryContent && developersCategoryContent.classList.contains('active')) {
+			switchSettingsCategory('about');
+		}
+		notify('Developer Mode disabled');
+	}
+}
+
+function switchDevTab(tabId) {
+	// Update button states
+	document.querySelectorAll('.dev-tab-btn').forEach(btn => {
+		if (btn.dataset.devTab === tabId) {
+			btn.style.background = 'var(--accent-color)';
+			btn.style.color = 'white';
+			btn.classList.add('active');
+		} else {
+			btn.style.background = 'transparent';
+			btn.style.color = 'var(--text-primary)';
+			btn.classList.remove('active');
+		}
+	});
+
+	// Update content
+	const contentDiv = document.getElementById('dev-content');
+	if (!contentDiv) return;
+
+	if (tabId === 'localstorage') {
+		let html = '<div style="margin-bottom: 0.75rem;"><button id="clear-all-storage-btn" onclick="confirmClearAllStorage()" style="padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">Clear All</button></div>';
+		html += '<table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;"><thead><tr style="background: var(--background-secondary);"><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Key</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Value</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Action</th></tr></thead><tbody>';
+		for (let key in localStorage) {
+			if (localStorage.hasOwnProperty(key)) {
+				let value = localStorage[key];
+				try {
+					const parsed = JSON.parse(value);
+					if (typeof parsed === 'object' && parsed !== null) {
+						value = JSON.stringify(parsed, null, 2);
+					}
+				} catch (e) {}
+				html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary); word-break: break-word;">${key}</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary); word-break: break-word; max-width: 300px; overflow: auto;"><pre style="margin: 0; white-space: pre-wrap;">${value}</pre></td><td style="padding: 0.5rem; border: 1px solid var(--border-primary);"><button onclick="confirmClearStorageItem('${key}')" style="padding: 0.25rem 0.5rem; background: #ef4444; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;">Clear</button></td></tr>`;
+			}
+		}
+		html += '</tbody></table>';
+		contentDiv.innerHTML = html;
+	} else if (tabId === 'system') {
+		const systemInfo = {
+			'User Agent': navigator.userAgent,
+			'Language': navigator.language,
+			'Screen Resolution': `${window.screen.width}x${window.screen.height}`,
+			'Viewport Size': `${window.innerWidth}x${window.innerHeight}`,
+			'Color Depth': `${screen.colorDepth} bits`,
+			'Pixel Ratio': window.devicePixelRatio,
+			'Available Screen': `${screen.availWidth}x${screen.availHeight}`,
+			'Online Status': navigator.onLine ? 'Online' : 'Offline',
+			'Cookies Enabled': navigator.cookieEnabled ? 'Yes' : 'No',
+			'Platform': navigator.platform,
+			'CPU Cores': navigator.hardwareConcurrency || 'Unknown',
+			'Memory': navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'Unknown',
+			'Touch Points': navigator.maxTouchPoints || 0,
+			'Do Not Track': navigator.doNotTrack || 'Unknown',
+			'Time Zone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+			'Connection': navigator.connection?.effectiveType || 'Unknown',
+			'Downlink': navigator.connection?.downlink ? `${navigator.connection.downlink} Mbps` : 'Unknown',
+			'Current Location': window.location.href
+		};
+		let html = '<table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;"><thead><tr style="background: var(--background-secondary);"><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Property</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Value</th></tr></thead><tbody>';
+		for (let [key, value] of Object.entries(systemInfo)) {
+			html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary); font-weight: 500;">${key}</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary); word-break: break-word;">${value}</td></tr>`;
+		}
+		html += '</tbody></table>';
+		contentDiv.innerHTML = html;
+	} else if (tabId === 'internalSettings') {
+		const disableAnalytics = localStorage.getItem('lta_do_not_track') === 'true';
+		const isPremium = localStorage.getItem('isPremium') === 'true';
+		let html = '<table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;"><thead><tr style="background: var(--background-secondary);"><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Setting</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Value</th></tr></thead><tbody>';
+		html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary);">Disable Analytics</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary);"><input type="checkbox" id="dev-disable-analytics" ${disableAnalytics ? 'checked' : ''} onchange="localStorage.setItem('lta_do_not_track', this.checked ? 'true' : 'false');"></td></tr>`;
+		html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary);">Grant Pro</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary);"><input type="checkbox" id="dev-grant-pro" ${isPremium ? 'checked' : ''} onchange="localStorage.setItem('isPremium', this.checked ? 'true' : 'false');"></td></tr>`;
+		html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary);">Restart app as prod</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary);"><button onclick="window.location.href = '/';" style="padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">Restart</button></td></tr>`;
+		html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary);">Restart app in debug mode</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary);"><button onclick="window.location.href = window.location.href.split('?')[0] + '?dev=true';" style="padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">Restart</button></td></tr>`;
+		html += '</tbody></table>';
+		contentDiv.innerHTML = html;
+	} else if (tabId === 'devToolsSettings') {
+		let html = '<table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;"><thead><tr style="background: var(--background-secondary);"><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Setting</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Value</th></tr></thead><tbody>';
+		html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary);">Open Floating Dev Tools</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary);"><button onclick="if(document.getElementById('devToolsWindow')){document.getElementById('devToolsWindow').style.display='flex';}" style="padding: 0.5rem 1rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">Open</button></td></tr>`;
+		html += '</tbody></table>';
+		contentDiv.innerHTML = html;
+	} else if (tabId === 'console') {
+		contentDiv.innerHTML = '<pre id="dev-console-output" style="background: var(--background-secondary); padding: 1rem; border-radius: 0.375rem; overflow-x: auto; font-size: 0.75rem; max-height: 300px; overflow-y: auto;">Console output will appear here...</pre>';
+	} else if (tabId === 'errors') {
+		let html = '<table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;"><thead><tr style="background: var(--background-secondary);"><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Time</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Error</th></tr></thead><tbody id="dev-errors-tbody">';
+		html += '<tr><td colspan="2" style="padding: 0.5rem; border: 1px solid var(--border-primary); text-align: center; color: var(--text-secondary);">No errors recorded</td></tr>';
+		html += '</tbody></table>';
+		contentDiv.innerHTML = html;
+	} else if (tabId === 'cookies') {
+		let html = '<div style="margin-bottom: 0.75rem;"><button id="clear-all-cookies-btn" onclick="confirmClearAllCookies()" style="padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">Clear All</button></div>';
+		html += '<table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;"><thead><tr style="background: var(--background-secondary);"><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Name</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Value</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Action</th></tr></thead><tbody>';
+		const cookies = document.cookie.split(';');
+		if (cookies.length === 1 && cookies[0] === '') {
+			html += '<tr><td colspan="3" style="padding: 0.5rem; border: 1px solid var(--border-primary); text-align: center; color: var(--text-secondary);">No cookies found</td></tr>';
+		} else {
+			cookies.forEach(cookie => {
+				if (cookie.trim()) {
+					const [name, value] = cookie.split('=').map(part => part.trim());
+					html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary);">${name}</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary); word-break: break-word; max-width: 300px; overflow: auto;">${decodeURIComponent(value)}</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary);"><button onclick="confirmClearCookie('${name}')" style="padding: 0.25rem 0.5rem; background: #ef4444; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;">Clear</button></td></tr>`;
+				}
+			});
+		}
+		html += '</tbody></table>';
+		contentDiv.innerHTML = html;
+	}
+}
+
+// Initialize developer mode on settings load
+function initializeDeveloperMode() {
+	const developerMode = localStorage.getItem('developerMode') === 'true';
+	const checkbox = document.getElementById('developerMode');
+	const devCategoryBtn = document.getElementById('developers-category-btn');
+	const devDivider = document.getElementById('developers-divider');
+	const devModeToggle = document.getElementById('developer-mode-toggle');
+	
+	// Only show developer mode toggle on localhost:5500
+	const isLocalDev = window.location.hostname === '127.0.0.1' && window.location.port === '5500';
+	if (devModeToggle) {
+		devModeToggle.style.display = isLocalDev ? 'flex' : 'none';
+	}
+	
+	if (checkbox) {
+		checkbox.checked = developerMode;
+	}
+	
+	if (devCategoryBtn) {
+		devCategoryBtn.style.display = developerMode ? 'flex' : 'none';
+	}
+	
+	if (devDivider) {
+		devDivider.style.display = developerMode ? 'block' : 'none';
+	}
+}
+
+// Call initialization when settings overlay is opened
+document.addEventListener('DOMContentLoaded', () => {
+	setTimeout(initializeDeveloperMode, 500);
+});
+
+// Also initialize when switching to developers category
+const originalSwitchSettingsCategory = window.switchSettingsCategory;
+if (typeof originalSwitchSettingsCategory === 'function') {
+	window.switchSettingsCategory = function(category) {
+		originalSwitchSettingsCategory(category);
+		if (category === 'developers') {
+			// Initialize developer tools content when switching to developers tab
+			setTimeout(() => switchDevTab('localstorage'), 100);
+		}
+	};
+}
+
+// Two-step confirmation for localStorage clear operations
+let clearAllStorageConfirm = false;
+let clearItemConfirm = {};
+
+function confirmClearAllStorage() {
+	const btn = document.getElementById('clear-all-storage-btn');
+	if (!clearAllStorageConfirm) {
+		btn.textContent = 'Click again to confirm';
+		btn.style.background = '#dc2626';
+		clearAllStorageConfirm = true;
+		setTimeout(() => {
+			if (clearAllStorageConfirm) {
+				btn.textContent = 'Clear All';
+				btn.style.background = '#ef4444';
+				clearAllStorageConfirm = false;
+			}
+		}, 3000);
+	} else {
+		localStorage.clear();
+		clearAllStorageConfirm = false;
+		switchDevTab('localstorage');
+	}
+}
+
+function confirmClearStorageItem(key) {
+	if (!clearItemConfirm[key]) {
+		const btn = event.target;
+		btn.textContent = 'Confirm?';
+		btn.style.background = '#dc2626';
+		clearItemConfirm[key] = true;
+		setTimeout(() => {
+			if (clearItemConfirm[key]) {
+				btn.textContent = 'Clear';
+				btn.style.background = '#ef4444';
+				clearItemConfirm[key] = false;
+			}
+		}, 3000);
+	} else {
+		localStorage.removeItem(key);
+		clearItemConfirm[key] = false;
+		switchDevTab('localstorage');
+	}
+}
+
+// Two-step confirmation for cookies clear operations
+let clearAllCookiesConfirm = false;
+let clearCookieConfirm = {};
+
+function confirmClearAllCookies() {
+	const btn = document.getElementById('clear-all-cookies-btn');
+	if (!clearAllCookiesConfirm) {
+		btn.textContent = 'Click again to confirm';
+		btn.style.background = '#dc2626';
+		clearAllCookiesConfirm = true;
+		setTimeout(() => {
+			if (clearAllCookiesConfirm) {
+				btn.textContent = 'Clear All';
+				btn.style.background = '#ef4444';
+				clearAllCookiesConfirm = false;
+			}
+		}, 3000);
+	} else {
+		document.cookie.split(';').forEach(c => {
+			const [name] = c.split('=');
+			document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+		});
+		clearAllCookiesConfirm = false;
+		switchDevTab('cookies');
+	}
+}
+
+function confirmClearCookie(name) {
+	if (!clearCookieConfirm[name]) {
+		const btn = event.target;
+		btn.textContent = 'Confirm?';
+		btn.style.background = '#dc2626';
+		clearCookieConfirm[name] = true;
+		setTimeout(() => {
+			if (clearCookieConfirm[name]) {
+				btn.textContent = 'Clear';
+				btn.style.background = '#ef4444';
+				clearCookieConfirm[name] = false;
+			}
+		}, 3000);
+	} else {
+		document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+		clearCookieConfirm[name] = false;
+		switchDevTab('cookies');
+	}
 }

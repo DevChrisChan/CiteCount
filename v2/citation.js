@@ -118,7 +118,7 @@ function setupCitationModalKeyboard() {
             e.preventDefault();
             closeCitationModal();
         } else if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-            // Ctrl/Cmd + Enter to generate citation
+            // Ctrl/⌘ + Enter to generate citation
             e.preventDefault();
             generateCitation();
         }

@@ -159,7 +159,7 @@
             class="h-5 w-5">
             <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
           </svg>
-          <span class="hidden md:inline text-sm font-medium">More Tools</span>
+          <span class="hidden md:inline text-sm font-medium">More Apps</span>
         </button>
       </div>
     </header>
@@ -278,7 +278,7 @@
               <div style="display: flex; gap: 0.5rem;">
                 <!-- Desktop formatting buttons -->
                 <div class="hidden md:flex gap-2">
-                    <button data-tooltip="Undo (Cmd + Z)" onclick="undoText()"
+                    <button data-tooltip="Undo (⌘ + Z)" onclick="undoText()"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-undo-action">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                       class="h-5 w-5">
@@ -287,13 +287,13 @@
                       fill="currentColor" />
                     </svg>
                     </button>
-                    <button data-tooltip="Redo (Cmd + Shift + Z)" onclick="redoText()"
+                    <button data-tooltip="Redo (⌘ + Shift + Z)" onclick="redoText()"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-redo-action">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 4.29289C13.6834 3.90237 14.3166 3.90237 14.7071 4.29289L18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L14.7071 13.7071C14.3166 14.0976 13.6834 14.0976 13.2929 13.7071C12.9024 13.3166 12.9024 12.6834 13.2929 12.2929L15.5858 10H10.5C8.567 10 7 11.567 7 13.5C7 15.433 8.567 17 10.5 17H13C13.5523 17 14 17.4477 14 18C14 18.5523 13.5523 19 13 19H10.5C7.46243 19 5 16.5376 5 13.5C5 10.4624 7.46243 8 10.5 8H15.5858L13.2929 5.70711C12.9024 5.31658 12.9024 4.68342 13.2929 4.29289Z"/>
                     </svg>
                     </button>
-                  <button data-tooltip="Bold (Cmd + B)" onclick="formatText('bold')"
+                  <button data-tooltip="Bold (⌘ + B)" onclick="formatText('bold')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-bold-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -301,7 +301,7 @@
                       <path d="M6 12h9a3.5 3.5 0 0 1 0 7H6z" />
                     </svg>
                   </button>
-                  <button data-tooltip="Italic (Cmd + I)" onclick="formatText('italic')"
+                  <button data-tooltip="Italic (⌘ + I)" onclick="formatText('italic')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-italic-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -310,7 +310,7 @@
                       <line x1="15" y1="5" x2="9" y2="19"></line>
                     </svg>
                   </button>
-                  <button data-tooltip="Underline (Cmd + U)" onclick="formatText('underline')"
+                  <button data-tooltip="Underline (⌘ + U)" onclick="formatText('underline')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
                     data-lta-event="v2-underline-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -319,7 +319,7 @@
                       <line x1="4" y1="19" x2="20" y2="19"></line>
                     </svg>
                   </button>
-                  <button data-tooltip="Strikethrough (Cmd + Shift + X)" onclick="formatText('strikethrough')"
+                  <button data-tooltip="Strikethrough (⌘ + Shift + X)" onclick="formatText('strikethrough')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
                     data-lta-event="v2-strikethrough-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -382,7 +382,7 @@
                     </button>
                   </div>
                 </div>
-                <button id="copy-btn" data-tooltip="Copy Text (Cmd + C)" onclick="copyText()"
+                <button id="copy-btn" data-tooltip="Copy Text (⌘ + C)" onclick="copyText()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-copy-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -390,7 +390,7 @@
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                   </svg>
                 </button>
-                <button id="download-btn" data-tooltip="Export" onclick="openDownloadModal()"
+                <button id="download-btn" data-tooltip="Export..." onclick="openDownloadModal()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-download-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -399,7 +399,7 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                   </svg>
                 </button>
-                <button data-tooltip="Clear Text (Cmd + A, Delete)" onclick="clearText()"
+                <button data-tooltip="Clear Text (⌘ + A, Delete)" onclick="clearText()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-clear-text-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">

@@ -2202,7 +2202,7 @@ function updateFilteredWordCount() {
   updateCounterDisplay();
 }
 
-function showNotification(message, confirm = false, onConfirm = null, type = 'notification') {
+function showNotification(message, confirm = false, onConfirm = null, type = 'notification', onCancel = null, customText = null) {
   const notification = document.getElementById('notification');
   const confirmation = document.getElementById('confirmation-overlay');
   const target = confirm ? confirmation : notification;
@@ -2210,13 +2210,13 @@ function showNotification(message, confirm = false, onConfirm = null, type = 'no
   target.innerHTML = '';
   if (confirm) {
     const h2 = document.createElement('h2');
-    h2.textContent = 'Confirm Clear';
+    h2.textContent = customText?.title || 'Confirm Clear';
     const p = document.createElement('p');
     p.textContent = message;
     const div = document.createElement('div');
     div.className = 'mt-2 flex justify-center';
     const yesButton = document.createElement('button');
-    yesButton.textContent = 'Yes, Clear';
+    yesButton.textContent = customText?.confirmButton || 'Yes, Clear';
     yesButton.className = 'px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600';
     const confirmAction = () => {
       target.style.display = 'none';
@@ -2228,10 +2228,11 @@ function showNotification(message, confirm = false, onConfirm = null, type = 'no
       target.style.display = 'none';
       document.getElementById('overlay-background').style.display = 'none';
       document.removeEventListener('keydown', keyHandler);
+      if (onCancel) onCancel();
     };
     yesButton.addEventListener('click', confirmAction);
     const cancelButton = document.createElement('button');
-    cancelButton.textContent = 'Cancel';
+    cancelButton.textContent = customText?.cancelButton || 'Cancel';
     cancelButton.className = 'px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 ml-2';
     cancelButton.addEventListener('click', cancelAction);
     div.appendChild(yesButton);
