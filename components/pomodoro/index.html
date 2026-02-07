@@ -241,6 +241,17 @@
             margin-bottom: 1.5rem;
         }
 
+        .secondary-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .secondary-controls .control-btn {
+            flex: 1 1 auto;
+            width: auto;
+        }
+
         .control-btn {
             padding: 1rem 2rem;
             border: none;
@@ -639,10 +650,36 @@
 
             .controls {
                 flex-direction: column;
+                gap: 0.75rem;
             }
 
             .control-btn {
                 width: 100%;
+                padding: 0.6rem 1rem;
+                font-size: 0.95rem;
+                border-radius: 0.375rem;
+            }
+
+            /* Make primary button fit nicely without huge min-width on small screens */
+            .control-btn.primary {
+                min-width: 0;
+            }
+
+            .control-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            /* On small screens keep Reset and Skip side-by-side */
+            .secondary-controls {
+                width: 100%;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .secondary-controls .control-btn {
+                width: auto;
+                flex: 1 1 0;
             }
         }
     </style>
@@ -678,19 +715,22 @@
                         </svg>
                         Start
                     </button>
-                    <button class="control-btn secondary" id="resetBtn" onclick="resetTimer()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                            <path d="M3 3v5h5"/>
-                        </svg>
-                        Reset
-                    </button>
-                    <button class="control-btn secondary" id="skipBtn" onclick="skipSession()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M5 4v16l13-8L5 4zm13 0h3v16h-3V4z"/>
-                        </svg>
-                        Skip
-                    </button>
+
+                    <div class="secondary-controls">
+                        <button class="control-btn secondary" id="resetBtn" onclick="resetTimer()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                                <path d="M3 3v5h5"/>
+                            </svg>
+                            Reset
+                        </button>
+                        <button class="control-btn secondary" id="skipBtn" onclick="skipSession()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M5 4v16l13-8L5 4zm13 0h3v16h-3V4z"/>
+                            </svg>
+                            Skip
+                        </button>
+                    </div>
                 </div>
 
                 <div class="task-input-container">
@@ -1006,7 +1046,6 @@
         function timerComplete() {
             pauseTimer();
             playNotificationSound();
-            showNotification();
             
             // Move to next phase
             if (currentMode === 'work') {
@@ -1066,25 +1105,6 @@
                 oscillator.stop(audioContext.currentTime + 0.5);
             } catch (e) {
                 console.warn('Could not play notification sound', e);
-            }
-        }
-
-        function showNotification() {
-            if (!('Notification' in window)) return;
-            
-            if (Notification.permission === 'granted') {
-                const title = currentMode === 'work' ? 'Break time!' : 'Back to work!';
-                const body = currentMode === 'work' 
-                    ? 'Great job! Time for a break.' 
-                    : 'Break is over. Ready to focus?';
-                
-                new Notification(title, {
-                    body: body,
-                    icon: '/favicon/favicon-32x32.png',
-                    badge: '/favicon/favicon-32x32.png'
-                });
-            } else if (Notification.permission !== 'denied') {
-                Notification.requestPermission();
             }
         }
 

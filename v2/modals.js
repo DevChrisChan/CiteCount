@@ -813,8 +813,8 @@
         <div class="citation-modal-content" style="max-width: 600px; width: 90%; margin: 0 auto; position: relative; top: 50%; transform: translateY(-50%); border-radius: 0.75rem; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);">
           <div class="citation-modal-header" style="background: #fef2f2; border-bottom: 2px solid #dc2626; border-radius: 0.75rem 0.75rem 0 0;">
             <h2 style="color: #dc2626; display: flex; align-items: center; gap: 0.5rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 28px; height: 28px;">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 28px; height: 28px;">
+                <path d="M12.884 2.532c-.346-.654-1.422-.654-1.768 0l-9 17A.999.999 0 0 0 3 21h18a.998.998 0 0 0 .883-1.467L12.884 2.532zM13 18h-2v-2h2v2zm-2-4V9h2l.001 5H11z" />
               </svg>
               CiteCount has ran into an error
             </h2>
@@ -826,9 +826,9 @@
             
             <div style="position: relative; margin-bottom: 1rem;">
               <div id="error-details-box" style="background: #1f2937; color: #e5e7eb; padding: 1rem; border-radius: 0.5rem; font-family: monospace; font-size: 0.875rem; max-height: 300px; overflow-y: auto; white-space: pre-wrap; word-break: break-all;">
-                <!-- Error details will be inserted here -->
+                Ironically, there was an error fetching the error details.
               </div>
-              <button id="copy-error-btn" onclick="copyErrorDetails()" style="position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
+              <button id="copy-error-btn" onclick="copyErrorDetails()" style="position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; transition: background 0.15s, opacity 0.15s;" onmouseover="this.style.background='#2563eb'; this.style.opacity='0.85';" onmouseout="this.style.background='#3b82f6'; this.style.opacity='1';">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px;">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>

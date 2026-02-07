@@ -38,6 +38,10 @@ const state = {
   }
 };
 
+// Context menu and pinned tool editing variables
+let contextMenuTargetTabId = null;
+let contextMenuTargetTabIndex = -1;
+
 document.addEventListener('DOMContentLoaded', function () {
   const editor = document.getElementById('editor');
   const highlightLayer = document.getElementById('highlight-layer');
@@ -100,6 +104,11 @@ document.addEventListener('DOMContentLoaded', function () {
     updateCitationsTables();
   }
 
+  // Initialize context menu for tab buttons
+  initializeTabContextMenu();
+  // Update tab labels based on pinned tools
+  updatePinnedTabLabels();
+
   const savedSortState = localStorage.getItem('sortState');
   if (savedSortState) {
     state.sortState = JSON.parse(savedSortState);
@@ -152,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
           break;
         case 'z':
           if (e.shiftKey) {
-            // Command/Ctrl + Shift + Z for redo
+            // Command/Ctrl + ⇧ + Z for redo
             e.preventDefault();
             redoText();
           } else {
@@ -2801,7 +2810,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });*/
 
 // Tab switching functionality - supports all 8 tools
-function switchPanelTab(tabName, isMoreToolView = false) {
+function switchPanelTab(tabName, isMoreToolView = false, isHistoryNavigation = false) {
+  // Add to navigation history if this is a More Tools view and not a history navigation
+  if (isMoreToolView && !isHistoryNavigation) {
+    addToMoreToolsHistory(tabName);
+  }
+  
   // Get all tab buttons
   const citationsTab = document.getElementById('citations-tab');
   const tab2Button = document.getElementById('generate-citation-tab');
@@ -3179,6 +3193,37 @@ function switchPanelTab(tabName, isMoreToolView = false) {
       if (panelTitle) panelTitle.textContent = 'More Tools';
     }
     if (searchRow) searchRow.style.display = 'none';
+  }
+  
+  // Track the currently active iframe for navigation controls
+  const iframeToolMap = {
+    'dictionary': 'dictionary-iframe',
+    'thesaurus': 'thesaurus-iframe',
+    'pomodoro': 'pomodoro-iframe',
+    'translate': 'translate-iframe',
+    'notepad': 'notepad-iframe',
+    'wordbank': 'wordbank-iframe',
+    'scientificCalculator': 'scientific-calculator-iframe',
+    'graphingCalculator': 'graphing-calculator-iframe'
+  };
+  
+  // Set the current active iframe or reset it
+  if (iframeToolMap[tabName]) {
+    currentActiveIframe = iframeToolMap[tabName];
+  } else {
+    currentActiveIframe = null;
+  }
+  
+  // Show/hide navigation controls for More Tools views
+  const moreToolsHeaderNav = document.getElementById('more-tools-header-nav');
+  if (isMoreToolView && moreToolsHeaderNav && panelHeader && panelHeader.style.display !== 'none') {
+    moreToolsHeaderNav.style.display = 'flex';
+    // Update button states after showing navigation
+    if (!isHistoryNavigation) {
+      updateNavigationButtons();
+    }
+  } else if (moreToolsHeaderNav && !isMoreToolView) {
+    moreToolsHeaderNav.style.display = 'none';
   }
 }
 
@@ -4097,9 +4142,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-// Initialize overlay and sidebar ad
-// document.addEventListener('DOMContentLoaded', showPerplexityOverlay);
-
 // More Tools Functions
 function showMoreToolsIframe(toolName, iframeViewId) {
   const toolsGridView = document.getElementById('dictionary-tools-view');
@@ -4123,6 +4165,19 @@ function showMoreToolsIframe(toolName, iframeViewId) {
 
   // Remove padding when showing iframe for full-space usage
   if (moreAppsContainer) moreAppsContainer.style.padding = '0';
+
+  // Track the currently active iframe for navigation
+  const iframeIdMap = {
+    'dictionary-iframe-view': 'dictionary-iframe',
+    'thesaurus-iframe-view': 'thesaurus-iframe',
+    'pomodoro-iframe-view': 'pomodoro-iframe',
+    'translate-iframe-view': 'translate-iframe',
+    'notepad-iframe-view': 'notepad-iframe',
+    'wordbank-container': 'wordbank-iframe',
+    'scientific-calculator-container': 'scientific-calculator-iframe',
+    'graphing-calculator-container': 'graphing-calculator-iframe'
+  };
+  currentActiveIframe = iframeIdMap[iframeViewId] || null;
 
   if (panelTitle) {
     panelTitle.innerHTML = `<span style="opacity: 0.5; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.opacity='0.8'; this.style.textDecoration='underline'" onmouseout="this.style.opacity='0.5'; this.style.textDecoration='none'" onclick="closeMoreToolsView()">More Tools</span> / ${toolName}`;
@@ -4171,6 +4226,358 @@ function closeMoreToolsView() {
   // Restore padding when showing tools grid
   if (moreAppsContainer) moreAppsContainer.style.padding = '1rem';
 
+  // Reset the active iframe tracker
+  currentActiveIframe = null;
+  
+  // Navigate back to More Tools page
+  switchPanelTab('moreApps', true, false);
+
   if (panelTitle) panelTitle.textContent = 'More Tools';
   if (moreToolsHeaderNav) moreToolsHeaderNav.style.display = 'none';
+}
+
+// Variable to track the currently active iframe
+let currentActiveIframe = null;
+
+// Navigation history for More Tools section
+let moreToolsNavigationHistory = ['moreApps']; // Start with More Tools page
+let moreToolsNavigationIndex = 0; // Current position in history
+
+// Function to get the currently visible iframe
+function getCurrentIframe() {
+  if (currentActiveIframe) {
+    return document.getElementById(currentActiveIframe);
+  }
+  
+  // Fallback: Find the currently visible iframe
+  const iframeIds = [
+    'dictionary-iframe',
+    'thesaurus-iframe',
+    'pomodoro-iframe',
+    'translate-iframe',
+    'notepad-iframe',
+    'wordbank-iframe',
+    'scientific-calculator-iframe',
+    'graphing-calculator-iframe'
+  ];
+  
+  for (const id of iframeIds) {
+    const container = document.getElementById(id.replace('-iframe', '-container'));
+    if (container && container.style.display !== 'none') {
+      currentActiveIframe = id;
+      return document.getElementById(id);
+    }
+  }
+  
+  return null;
+}
+
+// Add entry to navigation history
+function addToMoreToolsHistory(toolName) {
+  // Remove any forward history when navigating to a new page
+  moreToolsNavigationHistory = moreToolsNavigationHistory.slice(0, moreToolsNavigationIndex + 1);
+  
+  // Don't add duplicate consecutive entries
+  if (moreToolsNavigationHistory[moreToolsNavigationIndex] !== toolName) {
+    moreToolsNavigationHistory.push(toolName);
+    moreToolsNavigationIndex++;
+  }
+  
+  updateNavigationButtons();
+}
+
+// Update navigation button states
+function updateNavigationButtons() {
+  const backBtn = document.getElementById('iframe-back-btn');
+  const forwardBtn = document.getElementById('iframe-forward-btn');
+  
+  if (backBtn) {
+    // Enable back button if we're not at the start of history
+    if (moreToolsNavigationIndex > 0) {
+      backBtn.style.opacity = '1';
+      backBtn.style.cursor = 'pointer';
+      backBtn.disabled = false;
+    } else {
+      backBtn.style.opacity = '0.4';
+      backBtn.style.cursor = 'not-allowed';
+      backBtn.disabled = true;
+    }
+  }
+  
+  if (forwardBtn) {
+    // Enable forward button if we're not at the end of history
+    if (moreToolsNavigationIndex < moreToolsNavigationHistory.length - 1) {
+      forwardBtn.style.opacity = '1';
+      forwardBtn.style.cursor = 'pointer';
+      forwardBtn.disabled = false;
+    } else {
+      forwardBtn.style.opacity = '0.4';
+      forwardBtn.style.cursor = 'not-allowed';
+      forwardBtn.disabled = true;
+    }
+  }
+}
+
+// Navigate back in More Tools history
+function navigateIframeBack() {
+  if (moreToolsNavigationIndex > 0) {
+    moreToolsNavigationIndex--;
+    const previousTool = moreToolsNavigationHistory[moreToolsNavigationIndex];
+    switchPanelTab(previousTool, true, true); // true for isMoreToolView, true for isHistoryNavigation
+    updateNavigationButtons();
+  }
+}
+
+// Navigate forward in More Tools history
+function navigateIframeForward() {
+  if (moreToolsNavigationIndex < moreToolsNavigationHistory.length - 1) {
+    moreToolsNavigationIndex++;
+    const nextTool = moreToolsNavigationHistory[moreToolsNavigationIndex];
+    switchPanelTab(nextTool, true, true); // true for isMoreToolView, true for isHistoryNavigation
+    updateNavigationButtons();
+  }
+}
+
+// Reload current view (iframe or page)
+function reloadIframe() {
+  const iframe = getCurrentIframe();
+  if (iframe) {
+    try {
+      iframe.contentWindow.location.reload();
+    } catch (e) {
+      // If direct reload fails (cross-origin), reload via src
+      const currentSrc = iframe.src;
+      iframe.src = currentSrc;
+    }
+  } else {
+    // If not an iframe, just re-render the current view
+    const currentTool = moreToolsNavigationHistory[moreToolsNavigationIndex];
+    if (currentTool) {
+      switchPanelTab(currentTool, true, true);
+    }
+  }
+}
+
+// ========================================
+// Context Menu and Pinned Tool Management
+// ========================================
+
+// Available tools with their display names and IDs
+const availableTools = [
+  { id: 'generateCitation', name: '📝 Generate Citation', icon: '📝' },
+  { id: 'details', name: '📊 Word Count Details', icon: '📊' },
+  { id: 'dictionary', name: '📚 Dictionary', icon: '📚' },
+  { id: 'thesaurus', name: '🧠 Thesaurus', icon: '🧠' },
+  { id: 'pomodoro', name: '🍅 Pomodoro Timer', icon: '🍅' },
+  { id: 'translate', name: '🌐 Translate', icon: '🌐' },
+  { id: 'notepad', name: '📝 Notepad', icon: '📝' },
+  { id: 'wordbank', name: '💬 Word Bank', icon: '💬' },
+  { id: 'scientificCalculator', name: '🧮 Scientific Calculator', icon: '🧮' },
+  { id: 'graphingCalculator', name: '📈 Graphing Calculator', icon: '📈' }
+];
+
+// Initialize context menu for tab buttons
+function initializeTabContextMenu() {
+  const generateCitationTab = document.getElementById('generate-citation-tab');
+  const detailsTab = document.getElementById('details-tab');
+  const contextMenu = document.getElementById('tab-context-menu');
+
+  // Add right-click handlers to only the second and third tab buttons (not citations)
+  const tabs = [generateCitationTab, detailsTab];
+  
+  tabs.forEach((tab, index) => {
+    if (!tab) return;
+    
+    tab.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Store which tab was right-clicked
+      contextMenuTargetTabId = tab.id;
+      contextMenuTargetTabIndex = index;
+      
+      // Get context menu dimensions
+      contextMenu.style.display = 'block';
+      contextMenu.style.visibility = 'hidden';
+      const menuHeight = contextMenu.offsetHeight;
+      contextMenu.style.visibility = 'visible';
+      
+      // Position context menu above cursor to avoid being hidden below app
+      contextMenu.style.left = e.pageX + 'px';
+      contextMenu.style.top = (e.pageY - menuHeight - 5) + 'px';
+    });
+  });
+
+  // Close context menu when clicking elsewhere
+  document.addEventListener('click', function(e) {
+    if (contextMenu && !contextMenu.contains(e.target)) {
+      contextMenu.style.display = 'none';
+    }
+  });
+}
+
+// Open the edit pinned tool modal
+function openEditPinnedToolModal() {
+  const modal = document.getElementById('edit-pinned-tool-modal');
+  const contextMenu = document.getElementById('tab-context-menu');
+  const modalTabName = document.getElementById('modal-tab-name');
+  const toolSelectionGrid = document.getElementById('tool-selection-grid');
+  
+  // Hide context menu
+  if (contextMenu) contextMenu.style.display = 'none';
+  
+  // Get current pinned tools
+  const pinnedTools = JSON.parse(localStorage.getItem('pinnedTools') || '["generateCitation", "details"]');
+  
+  // Determine which tab index we're editing
+  let editingIndex = -1;
+  let tabDisplayName = '';
+  
+  if (contextMenuTargetTabId === 'generate-citation-tab') {
+    // Tab 2 - pinnedTools[0]
+    editingIndex = 0;
+    tabDisplayName = 'Tab 2';
+  } else if (contextMenuTargetTabId === 'details-tab') {
+    // Tab 3 - pinnedTools[1]
+    editingIndex = 1;
+    tabDisplayName = 'Tab 3';
+  }
+  
+  if (editingIndex === -1) return;
+  
+  // Set modal title
+  modalTabName.textContent = tabDisplayName;
+  
+  // Clear and populate tool selection grid
+  toolSelectionGrid.innerHTML = '';
+  
+  availableTools.forEach(tool => {
+    const isCurrentlyPinned = pinnedTools[editingIndex] === tool.id;
+    const isPinnedElsewhere = pinnedTools.includes(tool.id) && !isCurrentlyPinned;
+    
+    const toolOption = document.createElement('div');
+    toolOption.style.cssText = `
+      padding: 1rem;
+      border: 2px solid ${isCurrentlyPinned ? 'var(--accent-color)' : 'var(--border-primary)'};
+      border-radius: 0.5rem;
+      cursor: ${isPinnedElsewhere ? 'not-allowed' : 'pointer'};
+      transition: all 0.2s;
+      background: ${isCurrentlyPinned ? 'rgba(0, 78, 146, 0.1)' : (isPinnedElsewhere ? 'var(--background-secondary)' : 'var(--background-primary)')};
+      opacity: ${isPinnedElsewhere ? '0.5' : '1'};
+      position: relative;
+    `;
+    
+    if (!isPinnedElsewhere) {
+      toolOption.onmouseover = function() {
+        if (!isCurrentlyPinned) {
+          this.style.borderColor = 'var(--accent-color)';
+          this.style.background = 'rgba(0, 78, 146, 0.05)';
+        }
+      };
+      toolOption.onmouseout = function() {
+        if (!isCurrentlyPinned) {
+          this.style.borderColor = 'var(--border-primary)';
+          this.style.background = 'var(--background-primary)';
+        }
+      };
+    }
+    
+    toolOption.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="font-size: 1.5rem;">${tool.icon}</span>
+        <div style="flex: 1;">
+          <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem;">${tool.name.replace(tool.icon + ' ', '')}</div>
+          ${isCurrentlyPinned ? '<div style="font-size: 0.75rem; color: var(--accent-color); font-weight: 500;">Currently Pinned</div>' : ''}
+          ${isPinnedElsewhere ? '<div style="font-size: 0.75rem; color: #EF4444; font-weight: 500;">Pinned to Another Tab</div>' : ''}
+        </div>
+        ${isCurrentlyPinned ? '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>' : ''}
+      </div>
+    `;
+    
+    toolOption.onclick = function() {
+      if (isPinnedElsewhere) {
+        // Show duplicate warning using notify()
+        notify('This tool is already pinned to another tab. Please choose a different tool.');
+      } else {
+        // Update pinned tool
+        selectPinnedTool(editingIndex, tool.id);
+      }
+    };
+    
+    toolSelectionGrid.appendChild(toolOption);
+  });
+  
+  // Show modal
+  modal.style.display = 'flex';
+  
+  // Add ESC key handler to close modal
+  const escHandler = function(e) {
+    if (e.key === 'Escape') {
+      closeEditPinnedToolModal();
+      document.removeEventListener('keydown', escHandler);
+    }
+  };
+  document.addEventListener('keydown', escHandler);
+}
+
+// Select a tool for a pinned slot
+function selectPinnedTool(slotIndex, toolId) {
+  const pinnedTools = JSON.parse(localStorage.getItem('pinnedTools') || '["generateCitation", "details"]');
+  
+  // Check if tool is already pinned elsewhere
+  const existingIndex = pinnedTools.indexOf(toolId);
+  if (existingIndex !== -1 && existingIndex !== slotIndex) {
+    notify('This tool is already pinned to another tab. Please choose a different tool.');
+    return;
+  }
+  
+  // Update pinned tools
+  pinnedTools[slotIndex] = toolId;
+  localStorage.setItem('pinnedTools', JSON.stringify(pinnedTools));
+  
+  // Update UI
+  updatePinnedTabLabels();
+  
+  // Switch to the newly pinned tool
+  switchPanelTab(toolId, false);
+  
+  // Close modal
+  closeEditPinnedToolModal();
+  
+  notify('Tool pinned successfully!');
+}
+
+// Close the edit pinned tool modal
+function closeEditPinnedToolModal() {
+  const modal = document.getElementById('edit-pinned-tool-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+// Update tab labels based on pinned tools
+function updatePinnedTabLabels() {
+  const pinnedTools = JSON.parse(localStorage.getItem('pinnedTools') || '["generateCitation", "details"]');
+  const generateCitationTab = document.getElementById('generate-citation-tab');
+  const detailsTab = document.getElementById('details-tab');
+  
+  // Update tab 2 label
+  if (generateCitationTab) {
+    const tool1 = availableTools.find(t => t.id === pinnedTools[0]);
+    if (tool1) {
+      const label = generateCitationTab.querySelector('.tab-label');
+      if (label) {
+        label.textContent = tool1.name.replace(tool1.icon + ' ', '');
+      }
+    }
+  }
+  
+  // Update tab 3 label
+  if (detailsTab) {
+    const tool2 = availableTools.find(t => t.id === pinnedTools[1]);
+    if (tool2) {
+      const label = detailsTab.querySelector('.tab-label');
+      if (label) {
+        label.textContent = tool2.name.replace(tool2.icon + ' ', '');
+      }
+    }
+  }
 }

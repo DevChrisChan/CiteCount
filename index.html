@@ -279,7 +279,7 @@
               <div style="display: flex; gap: 0.5rem;">
                 <!-- Desktop formatting buttons -->
                 <div class="hidden md:flex gap-2">
-                    <button data-tooltip="Undo (⌘ + Z)" onclick="undoText()"
+                    <button data-tooltip="Undo (⌘ Z)" onclick="undoText()"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-undo-action">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                       class="h-5 w-5">
@@ -288,13 +288,13 @@
                       fill="currentColor" />
                     </svg>
                     </button>
-                    <button data-tooltip="Redo (⌘ + Shift + Z)" onclick="redoText()"
+                    <button data-tooltip="Redo (⌘ ⇧ Z)" onclick="redoText()"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-redo-action">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 4.29289C13.6834 3.90237 14.3166 3.90237 14.7071 4.29289L18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L14.7071 13.7071C14.3166 14.0976 13.6834 14.0976 13.2929 13.7071C12.9024 13.3166 12.9024 12.6834 13.2929 12.2929L15.5858 10H10.5C8.567 10 7 11.567 7 13.5C7 15.433 8.567 17 10.5 17H13C13.5523 17 14 17.4477 14 18C14 18.5523 13.5523 19 13 19H10.5C7.46243 19 5 16.5376 5 13.5C5 10.4624 7.46243 8 10.5 8H15.5858L13.2929 5.70711C12.9024 5.31658 12.9024 4.68342 13.2929 4.29289Z"/>
                     </svg>
                     </button>
-                  <button data-tooltip="Bold (⌘ + B)" onclick="formatText('bold')"
+                  <button data-tooltip="Bold (⌘ B)" onclick="formatText('bold')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-bold-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -302,7 +302,7 @@
                       <path d="M6 12h9a3.5 3.5 0 0 1 0 7H6z" />
                     </svg>
                   </button>
-                  <button data-tooltip="Italic (⌘ + I)" onclick="formatText('italic')"
+                  <button data-tooltip="Italic (⌘ I)" onclick="formatText('italic')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-italic-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -311,7 +311,7 @@
                       <line x1="15" y1="5" x2="9" y2="19"></line>
                     </svg>
                   </button>
-                  <button data-tooltip="Underline (⌘ + U)" onclick="formatText('underline')"
+                  <button data-tooltip="Underline (⌘ U)" onclick="formatText('underline')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
                     data-lta-event="v2-underline-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -320,7 +320,7 @@
                       <line x1="4" y1="19" x2="20" y2="19"></line>
                     </svg>
                   </button>
-                  <button data-tooltip="Strikethrough (⌘ + Shift + X)" onclick="formatText('strikethrough')"
+                  <button data-tooltip="Strikethrough (⌘ ⇧ X)" onclick="formatText('strikethrough')"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
                     data-lta-event="v2-strikethrough-action">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -383,7 +383,7 @@
                     </button>
                   </div>
                 </div>
-                <button id="copy-btn" data-tooltip="Copy Text (⌘ + C)" onclick="copyText()"
+                <button id="copy-btn" data-tooltip="Copy Text (⌘ C)" onclick="copyText()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-copy-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -400,7 +400,7 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                   </svg>
                 </button>
-                <button data-tooltip="Clear Text (⌘ + A, Delete)" onclick="clearText()"
+                <button data-tooltip="Clear Text (⌘ A, Delete)" onclick="clearText()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-clear-text-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
@@ -488,12 +488,12 @@
               <h3 id="panel-title" style="margin: 0; font-size: 1rem; font-weight: 600; color: var(--text-primary);">More Tools</h3>
               <!-- More Tools Navigation (shown only when viewing a tool) -->
               <div id="more-tools-header-nav" style="display: none; align-items: center; gap: 0.5rem;">
-                <button id="dict-header-back-btn" onclick="closeMoreToolsView()" data-tooltip="Back" style="padding: 0.5rem; border: none; background: transparent; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='var(--background-primary)'" onmouseout="this.style.background='transparent'">
+                <button id="iframe-back-btn" onclick="navigateIframeBack()" data-tooltip="Go Back" style="padding: 0.5rem; border: none; background: transparent; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; opacity: 1;" onmouseover="if(!this.disabled) this.style.background='var(--background-primary)'" onmouseout="this.style.background='transparent'">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M15 18l-6-6 6-6"/>
                   </svg>
                 </button>
-                <button id="dict-header-forward-btn" onclick="closeMoreToolsView()" data-tooltip="Exit" style="padding: 0.5rem; border: none; background: transparent; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='var(--background-primary)'" onmouseout="this.style.background='transparent'">
+                <button id="iframe-forward-btn" onclick="navigateIframeForward()" data-tooltip="Go Forward" style="padding: 0.5rem; border: none; background: transparent; border-radius: 0.375rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; opacity: 1;" onmouseover="if(!this.disabled) this.style.background='var(--background-primary)'" onmouseout="this.style.background='transparent'">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M9 18l6-6-6-6"/>
                   </svg>
@@ -957,46 +957,54 @@
             <!-- Dictionary Tool Container -->
             <div id="dictionary-tools-view" style="display: flex; flex-direction: column; width: 100%; flex: 1; overflow-y: auto;">
               <!-- Tools Grid -->
-              <div id="tools-grid" style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <div id="tools-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
                 <!-- Dictionary Tool Box -->
-                <div id="dictionary-tool-box" data-tool-id="dictionary" class="tool-box" onclick="switchPanelTab('dictionary', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📚 Dictionary</h3>
-                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Look up word definitions, meanings, and usage examples instantly.</p>
+                <div id="dictionary-tool-box" data-tool-id="dictionary" class="tool-box" onclick="switchPanelTab('dictionary', true)" style="padding: 1.25rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; display: flex; flex-direction: column; align-items: center; text-align: center;" onmouseover="this.style.borderColor='var(--accent-color)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.backgroundColor='var(--background-primary)'" onmouseout="this.style.borderColor='var(--border-primary)'; this.style.boxShadow='none'; this.style.backgroundColor='var(--background-secondary)'">
+                  <h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">📚</h3>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">Dictionary</p>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Look up definitions and meanings</p>
                 </div>
                 <!-- Thesaurus Tool Box -->
-                <div id="thesaurus-tool-box" data-tool-id="thesaurus" class="tool-box" onclick="switchPanelTab('thesaurus', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">🧠 Thesaurus</h3>
-                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Find synonyms and related words to sharpen your writing.</p>
+                <div id="thesaurus-tool-box" data-tool-id="thesaurus" class="tool-box" onclick="switchPanelTab('thesaurus', true)" style="padding: 1.25rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; display: flex; flex-direction: column; align-items: center; text-align: center;" onmouseover="this.style.borderColor='var(--accent-color)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.backgroundColor='var(--background-primary)'" onmouseout="this.style.borderColor='var(--border-primary)'; this.style.boxShadow='none'; this.style.backgroundColor='var(--background-secondary)'">
+                  <h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">🧠</h3>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">Thesaurus</p>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Find synonyms and alternatives</p>
                 </div>
                 <!-- Pomodoro Tool Box -->
-                <div id="pomodoro-tool-box" data-tool-id="pomodoro" class="tool-box" onclick="switchPanelTab('pomodoro', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">🍅 Pomodoro Timer</h3>
-                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Stay focused with time-boxed work sessions and breaks.</p>
+                <div id="pomodoro-tool-box" data-tool-id="pomodoro" class="tool-box" onclick="switchPanelTab('pomodoro', true)" style="padding: 1.25rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; display: flex; flex-direction: column; align-items: center; text-align: center;" onmouseover="this.style.borderColor='var(--accent-color)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.backgroundColor='var(--background-primary)'" onmouseout="this.style.borderColor='var(--border-primary)'; this.style.boxShadow='none'; this.style.backgroundColor='var(--background-secondary)'">
+                  <h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">🍅</h3>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">Pomodoro</p>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Stay focused with timed sessions</p>
                 </div>
                 <!-- Translate Tool Box -->
-                <div id="translate-tool-box" data-tool-id="translate" class="tool-box" onclick="switchPanelTab('translate', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">🌐 Translate</h3>
-                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Translate text between languages quickly and easily.</p>
+                <div id="translate-tool-box" data-tool-id="translate" class="tool-box" onclick="switchPanelTab('translate', true)" style="padding: 1.25rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; display: flex; flex-direction: column; align-items: center; text-align: center;" onmouseover="this.style.borderColor='var(--accent-color)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.backgroundColor='var(--background-primary)'" onmouseout="this.style.borderColor='var(--border-primary)'; this.style.boxShadow='none'; this.style.backgroundColor='var(--background-secondary)'">
+                  <h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">🌐</h3>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">Translate</p>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Translate between languages</p>
                 </div>
                 <!-- Notepad Tool Box -->
-                <div id="notepad-tool-box" data-tool-id="notepad" class="tool-box" onclick="switchPanelTab('notepad', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📝 Notepad</h3>
-                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">A simple notepad for quick notes and ideas.</p>
+                <div id="notepad-tool-box" data-tool-id="notepad" class="tool-box" onclick="switchPanelTab('notepad', true)" style="padding: 1.25rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; display: flex; flex-direction: column; align-items: center; text-align: center;" onmouseover="this.style.borderColor='var(--accent-color)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.backgroundColor='var(--background-primary)'" onmouseout="this.style.borderColor='var(--border-primary)'; this.style.boxShadow='none'; this.style.backgroundColor='var(--background-secondary)'">
+                  <h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">📝</h3>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">Notepad</p>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Quick notes and ideas</p>
                 </div>
                 <!-- Word Bank Tool Box -->
-                <div id="wordbank-tool-box" data-tool-id="wordbank" class="tool-box" onclick="switchPanelTab('wordbank', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📚 Word Bank</h3>
-                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Curated collection of words and vocabulary for writing.</p>
+                <div id="wordbank-tool-box" data-tool-id="wordbank" class="tool-box" onclick="switchPanelTab('wordbank', true)" style="padding: 1.25rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; display: flex; flex-direction: column; align-items: center; text-align: center;" onmouseover="this.style.borderColor='var(--accent-color)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.backgroundColor='var(--background-primary)'" onmouseout="this.style.borderColor='var(--border-primary)'; this.style.boxShadow='none'; this.style.backgroundColor='var(--background-secondary)'">
+                  <h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">📚</h3>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">Word Bank</p>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Curated vocabulary collection</p>
                 </div>
                 <!-- Scientific Calculator Tool Box -->
-                <div id="scientific-calculator-tool-box" data-tool-id="scientificCalculator" class="tool-box" onclick="switchPanelTab('scientificCalculator', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">🧮 Scientific Calculator</h3>
-                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Quick scientific calculations with functions and constants.</p>
+                <div id="scientific-calculator-tool-box" data-tool-id="scientificCalculator" class="tool-box" onclick="switchPanelTab('scientificCalculator', true)" style="padding: 1.25rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; display: flex; flex-direction: column; align-items: center; text-align: center;" onmouseover="this.style.borderColor='var(--accent-color)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.backgroundColor='var(--background-primary)'" onmouseout="this.style.borderColor='var(--border-primary)'; this.style.boxShadow='none'; this.style.backgroundColor='var(--background-secondary)'">
+                  <h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">🧮</h3>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">Scientific Calculator</p>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Advanced calculations</p>
                 </div>
                 <!-- Graphing Calculator Tool Box -->
-                <div id="graphing-calculator-tool-box" data-tool-id="graphingCalculator" class="tool-box" onclick="switchPanelTab('graphingCalculator', true)" style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;" this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                  <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📈 Graphing Calculator</h3>
-                  <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Plot functions, analyze graphs, and explore equations.</p>
+                <div id="graphing-calculator-tool-box" data-tool-id="graphingCalculator" class="tool-box" onclick="switchPanelTab('graphingCalculator', true)" style="padding: 1.25rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; display: flex; flex-direction: column; align-items: center; text-align: center;" onmouseover="this.style.borderColor='var(--accent-color)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.backgroundColor='var(--background-primary)'" onmouseout="this.style.borderColor='var(--border-primary)'; this.style.boxShadow='none'; this.style.backgroundColor='var(--background-secondary)'">
+                  <h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">📈</h3>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">Graphing Calculator</p>
+                  <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Plot and analyze graphs</p>
                 </div>
               </div>
             </div>
@@ -1404,6 +1412,33 @@
       <span>Join our <a href="https://discord.gg/twnz2957sK" target="_blank" class="underline">Discord server</a> for
         paid feedback!</span>
       <button onclick="dismissAd()">✕</button>
+    </div>
+
+    <!-- Context Menu for Tab Buttons -->
+    <div id="tab-context-menu" style="display: none; position: fixed; z-index: 10000; background: var(--background-primary); border: 1px solid var(--border-primary); border-radius: 0.375rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 150px;">
+      <div onclick="openEditPinnedToolModal()" style="padding: 0.75rem 1rem; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--background-secondary)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size: 0.875rem; font-weight: 500; color: var(--text-primary);">Edit Pinned Tool</span>
+      </div>
+    </div>
+
+    <!-- Edit Pinned Tool Modal -->
+    <div id="edit-pinned-tool-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10001; align-items: center; justify-content: center;" onclick="if(event.target === this) closeEditPinnedToolModal()">
+      <div style="background: var(--background-primary); border-radius: 0.5rem; max-width: 500px; width: 90%; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,0.2);">
+        <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-primary); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--background-primary); z-index: 1; border-radius: 0.5rem 0.5rem 0 0;">
+          <h2 style="margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">Edit Pinned Tool</h2>
+          <button onclick="closeEditPinnedToolModal()" style="padding: 0.5rem; border: none; background: transparent; cursor: pointer; border-radius: 0.375rem; transition: background 0.2s;" onmouseover="this.style.background='var(--background-secondary)'" onmouseout="this.style.background='transparent'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div style="padding: 1.5rem; overflow-y: auto; flex: 1;">
+          <p style="margin: 0 0 1rem 0; color: var(--text-secondary); font-size: 0.875rem;">Select which tool to pin to <span id="modal-tab-name" style="font-weight: 600; color: var(--text-primary);"></span>:</p>
+          <div id="tool-selection-grid" style="display: grid; gap: 0.75rem;">
+            <!-- Tool options will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   

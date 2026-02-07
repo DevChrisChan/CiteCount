@@ -219,15 +219,15 @@
       detailsBox.style.display = 'none';
     }
 
-    // Add a "Customise Tools" button at the bottom of the grid
+    // Add a "Customise Tools" button on the same line as the tools grid
     let customiseToolsBtn = document.getElementById('customise-tools-btn');
     if (!customiseToolsBtn) {
-      // Create it
+      // Create the button and add it to the grid
       customiseToolsBtn = document.createElement('div');
       customiseToolsBtn.id = 'customise-tools-btn';
       customiseToolsBtn.className = 'tool-box';
-      customiseToolsBtn.style.cssText = 'padding: 1.5rem; border: 2px dashed var(--border-primary); border-radius: 0.5rem; background: transparent; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 120px;';
-      customiseToolsBtn.innerHTML = '<div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div><h3 style="font-size: 1rem; font-weight: 600; margin: 0; color: var(--text-primary);">Customize Tools</h3><p style="font-size: 0.75rem; color: var(--text-secondary); margin: 0.5rem 0 0; line-height: 1.4;">Choose which tools to pin</p>';
+      customiseToolsBtn.style.cssText = 'padding: 1.25rem; border: 2px dashed var(--border-primary); border-radius: 0.5rem; background: transparent; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; text-align: center;';
+      customiseToolsBtn.innerHTML = '<div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚙️</div><h3 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.5rem; color: var(--text-primary);">Customize</h3><p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Pin your tools</p>';
       customiseToolsBtn.onclick = function() { openToolsSettingsPage(); };
       
       // Add hover effects
@@ -243,14 +243,14 @@
       toolsGrid.appendChild(customiseToolsBtn);
     }
 
-    // Short contact line with 70% opacity
+    // Add centered idea line at the bottom
     let contactLine = document.getElementById('tools-contact-line');
     if (!contactLine) {
       contactLine = document.createElement('div');
       contactLine.id = 'tools-contact-line';
-      contactLine.style.cssText = 'opacity: 0.7; font-size: 0.875rem; color: var(--text-primary); margin-top: 0.75rem; text-align: center;';
-      contactLine.innerHTML = `Have an idea for a tool? We'll build it for you. Contact us <a href="/contact" style="text-decoration: underline;">here</a>.`;
-      toolsGrid.appendChild(contactLine);
+      contactLine.style.cssText = 'opacity: 0.7; font-size: 0.875rem; color: var(--text-primary); margin-top: 1.5rem; text-align: center; padding: 0;';
+      contactLine.innerHTML = `💡 Have an idea for a tool? <a href="/contact.html" style="text-decoration: underline; color: inherit;">Let us know</a>`;
+      toolsGrid.parentElement.appendChild(contactLine);
     }
   }
 

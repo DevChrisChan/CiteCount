@@ -4621,18 +4621,6 @@ pre {
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  animation: slideDown 0.2s ease;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .selection-count {
