@@ -36,7 +36,7 @@
       </div>
 
       <!-- Perplexity Overlay -->
-      <div id="perplexity-overlay" class="perplexity-overlay">
+      <!--<div id="perplexity-overlay" class="perplexity-overlay">
         <div class="perplexity-dialog" style="background-color: #091717; color: white;">
           <img src="/assets/pplx.svg" alt="Perplexity" style="width: 100%; display: block;">
           <div class="perplexity-content">
@@ -57,7 +57,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
 
       <!-- New Project/Folder Modal -->
       <div id="file-input-modal" class="file-input-modal" style="display: none;">
@@ -785,6 +785,7 @@
           <div class="download-modal-body">
             <label class="download-label" for="download-filename">File name</label>
             <input id="download-filename" class="download-input" type="text" placeholder="CiteCount-Export" autocomplete="off" />
+            <p id="download-filename-error" class="download-error" style="display: none;"></p>
 
             <label class="download-label" for="download-format">Format</label>
             <select id="download-format" class="download-select" onchange="updateDownloadFormatOptions()">

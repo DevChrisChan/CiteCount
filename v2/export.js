@@ -40,6 +40,9 @@ function openDownloadModal() {
     includeHighlights.disabled = false;
   }
 
+  setupDownloadFilenameValidation();
+  updateDownloadFilenameValidation();
+
   modal.style.display = 'flex';
   background.style.display = 'block';
   updateDownloadFormatOptions();
@@ -54,6 +57,61 @@ function closeDownloadModal() {
   if (background) {
     background.style.display = 'none';
   }
+}
+
+function setupDownloadFilenameValidation() {
+  const filenameInput = document.getElementById('download-filename');
+  const errorEl = document.getElementById('download-filename-error');
+
+  if (!filenameInput || !errorEl || filenameInput.dataset.validationBound === 'true') {
+    return;
+  }
+
+  filenameInput.dataset.validationBound = 'true';
+  filenameInput.addEventListener('input', updateDownloadFilenameValidation);
+}
+
+function updateDownloadFilenameValidation() {
+  const filenameInput = document.getElementById('download-filename');
+  const errorEl = document.getElementById('download-filename-error');
+
+  if (!filenameInput || !errorEl) return;
+
+  const value = filenameInput.value || '';
+  const invalidChar = findInvalidFilenameChar(value);
+
+  if (!invalidChar) {
+    errorEl.style.display = 'none';
+    errorEl.textContent = '';
+    return;
+  }
+
+  const displayChar = formatInvalidFilenameChar(invalidChar);
+  errorEl.textContent = `Invalid character '${displayChar}'`;
+  errorEl.style.display = 'block';
+}
+
+function findInvalidFilenameChar(value) {
+  const invalidRegex = /[<>:"/\\|?*\x00-\x1F]/;
+
+  for (let i = 0; i < value.length; i += 1) {
+    if (invalidRegex.test(value[i])) {
+      return value[i];
+    }
+  }
+
+  return '';
+}
+
+function formatInvalidFilenameChar(char) {
+  if (!char) return '';
+
+  const code = char.codePointAt(0);
+  if (code <= 0x1F) {
+    return `U+${code.toString(16).toUpperCase().padStart(4, '0')}`;
+  }
+
+  return char;
 }
 
 function updateDownloadFormatOptions() {
@@ -103,7 +161,7 @@ function updateDownloadFormatOptions() {
     toggleOption(preserveFonts, true);
     toggleOption(preserveStyles, true);
     toggleOption(includeHighlights, true);
-    noteEl.textContent = 'PDF exports selectable text. Styling is preserved for bold and italic.';
+    noteEl.textContent = 'PDF exports selectable text. All styling are preserved.';
   } else {
     toggleOption(preserveFonts, true);
     toggleOption(preserveStyles, true);
@@ -134,7 +192,7 @@ function downloadEditorContent() {
   const baseName = sanitizeFilename(filenameInput && filenameInput.value
     ? filenameInput.value
     : getDefaultExportFilename());
-  const filename = baseName || 'citecount-export';
+  const filename = baseName || 'CiteCount-Export';
 
   if (format === 'txt') {
     downloadBlob(rawText, 'text/plain;charset=utf-8', `${filename}.txt`);
@@ -167,7 +225,7 @@ function sanitizeFilename(name) {
 }
 
 function getDefaultExportFilename() {
-  let name = 'citecount-export';
+  let name = 'CiteCount-Export';
 
   if (typeof fileManager !== 'undefined' && fileManager.currentProject && Array.isArray(fileManager.projects)) {
     const project = fileManager.projects.find((item) => item.id === fileManager.currentProject);
@@ -176,7 +234,7 @@ function getDefaultExportFilename() {
     }
   }
 
-  return sanitizeFilename(name) || 'citecount-export';
+  return sanitizeFilename(name) || 'CiteCount-Export';
 }
 
 function downloadBlob(content, mimeType, filename) {

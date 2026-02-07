@@ -1941,24 +1941,6 @@ function showProjectInfoModal(projectId) {
         </div>
       </div>
 
-      <!-- Word Count -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Word Count</div>
-        <div style="color: var(--text-primary); font-weight: 600;">${wordCount.toLocaleString()} words</div>
-      </div>
-
-      <!-- Character Count -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Character Count</div>
-        <div style="color: var(--text-primary); font-weight: 600;">${contentLength.toLocaleString()} characters</div>
-      </div>
-
-      <!-- Citation Count -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
-        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Citation Count</div>
-        <div style="color: var(--text-primary); font-weight: 600;">${citationCount} citations</div>
-      </div>
-
       <!-- Created Date -->
       <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Created Date</div>
@@ -1975,6 +1957,24 @@ function showProjectInfoModal(projectId) {
       <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Document ID</div>
         <div style="color: var(--text-primary); font-family: monospace; font-size: 0.875rem; word-break: break-all;">${project.id}</div>
+      </div>
+
+      <!-- Word Count -->
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Word Count</div>
+        <div style="color: var(--text-primary); font-weight: 600;">${wordCount.toLocaleString()} words</div>
+      </div>
+
+      <!-- Character Count -->
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Character Count</div>
+        <div style="color: var(--text-primary); font-weight: 600;">${contentLength.toLocaleString()} characters</div>
+      </div>
+
+      <!-- Citation Count -->
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Citation Count</div>
+        <div style="color: var(--text-primary); font-weight: 600;">${citationCount} citations</div>
       </div>
     </div>
 
