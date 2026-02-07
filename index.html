@@ -74,6 +74,7 @@
   </script>
   <link href="/v2/style.css" rel="stylesheet">
   <link href="/v2/flowbite.css" rel="stylesheet">
+  <link href="/v2/interactive-guide.css" rel="stylesheet">
   <link rel="manifest" href="manifest.json" />
 </head>
 
@@ -435,6 +436,20 @@
                 </div>
               </div>
               <div id="welcome-text" class="welcome-text" style="user-select: none; display: none;">
+                <!-- First-time welcome banner -->
+                <div id="first-time-welcome" style="display: none; user-select: auto; pointer-events: auto;">
+                  <div style="display: flex; flex-direction: column; gap: 0.75rem; align-items: center; text-align: center; margin-bottom: 1rem;">
+                    <p style="font-size: 1rem; font-weight: 500; margin: 0;">👋 Welcome to CiteCount!</p>
+                    <button onclick="startCiteCountGuide(); document.getElementById('first-time-welcome').style.display='none';"
+                      class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
+                      style="cursor: pointer; pointer-events: auto; user-select: auto;"
+                      data-lta-event="v2-welcome-tour-click">
+                      Take a Short Tour
+                    </button>
+                  </div>
+                  <div style="margin-bottom: 1rem; border-top: 1px solid var(--border-primary); opacity: 0.5;"></div>
+                </div>
+                
                 <p>Start typing, paste your document, or drag and drop your Word / PDF document directly into CiteCount.
                 </p>
                 <div class="welcome-buttons">
@@ -1862,6 +1877,7 @@
   <script src="/v2/citation.js"></script>
   <script src="/v2/filemanager.js"></script>
   <script src="/v2/scroll-detector.js"></script>
+  <script src="/v2/interactive-guide.js"></script>
   <svg aria-hidden="true" focusable="false" style="position: absolute; width: 0; height: 0; overflow: hidden;">
     <symbol id="icon-file" viewBox="0 0 24 24">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />

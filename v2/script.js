@@ -1846,8 +1846,11 @@ function calculateCitationChars() {  // Added
 
 function getIncludedCitationCount() {
   let count = 0;
-  state.includedCitations.forEach(isIncluded => {
-    if (isIncluded) count++;
+  state.includedCitations.forEach((isIncluded, citationText) => {
+    // Only count citations that exist in the current text
+    if (isIncluded && state.citationGroups.has(citationText)) {
+      count++;
+    }
   });
   return count;
 }

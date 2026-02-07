@@ -300,8 +300,14 @@
 								</div>
 							</div>
 
-							<div>
-								<h4 class="font-medium mb-2">What's new</h4>
+							<div>							<h4 class="font-medium mb-2">Interactive Tour</h4>
+							<p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Take a guided tour to learn about CiteCount's features.</p>
+							<button onclick="if(typeof startCiteCountGuide === 'function') { toggleSettingsOverlay(false); startCiteCountGuide(); }" class="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-sm" data-lta-event="v2-settings-tour-click">
+								Start Interactive Tour
+							</button>
+						</div>
+
+						<div>								<h4 class="font-medium mb-2">What's new</h4>
 								<ul class="list-disc pl-5 text-sm text-gray-600 dark:text-gray-300 space-y-1">
 									<li>Brand new document & folder management system</li>
 									<li>Advanced citation generator with history tracking</li>
