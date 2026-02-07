@@ -2313,6 +2313,10 @@ function initiateExample() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+   const editor = document.getElementById('editor');
+      if (editor && editor.textContent.trim() === '') {
+        editor.focus();
+      }
   updateLayout();
   console.log('%cWARNING', 'font-size:8em;color:red;font-weight:900;')
   console.log(`%cThis is a browser feature intended for developers.
@@ -2843,6 +2847,7 @@ function switchPanelTab(tabName, isMoreToolView = false) {
   if (!isMoreToolView && menuBtn) {
     menuBtn.style.color = 'var(--text-secondary)';
     menuBtn.style.borderBottomColor = 'transparent';
+    menuBtn.classList.remove('active');
   }
   
   // Hide all containers
@@ -3164,6 +3169,7 @@ function switchPanelTab(tabName, isMoreToolView = false) {
     if (menuBtn) {
       menuBtn.style.color = 'var(--text-primary)';
       menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      menuBtn.classList.add('active');
     }
     if (moreAppsContainer) {
       moreAppsContainer.style.display = 'flex';

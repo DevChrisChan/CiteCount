@@ -228,7 +228,6 @@
       background: #1F1F1F !important;
       color: var(--text-dark) !important;
       border-color: var(--border-dark) !important;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     /* Citations search row dark mode */
@@ -353,7 +352,7 @@
 
     .quote-table th {
       background: #242424;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
     }
 
     .quote-table tr:hover {
@@ -834,7 +833,6 @@
     top: 0;
     background: #FFF;
     z-index: 20;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .quote-table td {
@@ -1686,7 +1684,7 @@
   }
 
   .gutter:active {
-    background-color: #9CA3AF;
+    background-color: #9CA3AF; 
   }
 
   .drop-overlay {
@@ -1807,6 +1805,24 @@
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    animation: confirmationOverlayIn 0.2s ease-out;
+  }
+
+  @keyframes confirmationOverlayIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .confirmation-overlay {
+      animation: none;
+    }
   }
 
   .confirmation-overlay h2 {
@@ -1951,8 +1967,34 @@
   }
 
 
-  .panel-tab.active .tab-underline {
-    opacity: 1 !important;
+  .panel-tab {
+    position: relative;
+    border-bottom: 0 !important;
+  }
+
+  .panel-tab::after {
+    content: '';
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    bottom: 0;
+    height: 2px;
+    background: var(--accent-color);
+    opacity: 0;
+    transform: scaleX(0.2);
+    transform-origin: center;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .panel-tab.active::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel-tab::after {
+      transition: none;
+    }
   }
 
 

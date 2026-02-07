@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 - CiteCount</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--background-primary, #ffffff);
+            color: var(--text-primary, #1f2937);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: var(--background-primary, #0f0f0f);
+                color: var(--text-primary, #f3f4f6);
+            }
+        }
+
+        .game-container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary, #1f2937);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .title {
+                color: var(--text-primary, #f3f4f6);
+            }
+        }
+
+        .scores {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .score-container {
+            background: var(--surface-color, #f9fafb);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            min-width: 80px;
+            position: relative;
+            overflow: visible;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .score-container {
+                background: var(--surface-color, #1f2937);
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .score-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary, #6b7280);
+            margin-bottom: 0.25rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .score-label {
+                color: var(--text-secondary, #a1a1aa);
+            }
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary, #1f2937);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .score-value {
+                color: var(--text-primary, #f3f4f6);
+            }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .instructions {
+            font-size: 0.9rem;
+            color: var(--text-secondary, #6b7280);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .instructions {
+                color: var(--text-secondary, #a1a1aa);
+            }
+        }
+
+        .new-game-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-color, #1e40af);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .new-game-btn:hover {
+            background: #1e3a8a;
+            transform: translateY(-1px);
+        }
+
+        .new-game-btn:active {
+            transform: translateY(0);
+        }
+
+        .game-board {
+            background: var(--surface-color, #f9fafb);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            position: relative;
+            aspect-ratio: 1;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .game-board {
+                background: var(--surface-color, #1f2937);
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 0.75rem;
+            width: 100%;
+            height: 100%;
+        }
+
+        .grid-cell {
+            background: var(--background-primary, #ffffff);
+            border: 1px solid var(--border-primary, #e5e7eb);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .grid-cell {
+                background: var(--background-primary, #0f0f0f);
+                border-color: var(--border-primary, #374151);
+            }
+        }
+
+        .grid-cell.tile-2 {
+            background: #eee4da;
+            color: #776e65;
+        }
+
+        .grid-cell.tile-4 {
+            background: #ede0c8;
+            color: #776e65;
+        }
+
+        .grid-cell.tile-8 {
+            background: #f2b179;
+            color: #f9f6f2;
+        }
+
+        .grid-cell.tile-16 {
+            background: #f59563;
+            color: #f9f6f2;
+        }
+
+        .grid-cell.tile-32 {
+            background: #f67c5f;
+            color: #f9f6f2;
+        }
+
+        .grid-cell.tile-64 {
+            background: #f65e3b;
+            color: #f9f6f2;
+        }
+
+        .grid-cell.tile-128 {
+            background: #edcf72;
+            color: #f9f6f2;
+            font-size: 1.75rem;
+        }
+
+        .grid-cell.tile-256 {
+            background: #edcc61;
+            color: #f9f6f2;
+            font-size: 1.75rem;
+        }
+
+        .grid-cell.tile-512 {
+            background: #edc850;
+            color: #f9f6f2;
+            font-size: 1.75rem;
+        }
+
+        .grid-cell.tile-1024 {
+            background: #edc53f;
+            color: #f9f6f2;
+            font-size: 1.5rem;
+        }
+
+        .grid-cell.tile-2048 {
+            background: #edc22e;
+            color: #f9f6f2;
+            font-size: 1.5rem;
+        }
+
+        .grid-cell.tile-super {
+            background: #3c3a32;
+            color: #f9f6f2;
+            font-size: 1.25rem;
+        }
+
+        .grid-cell.merged {
+            animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .grid-cell.new {
+            animation: appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .score-increment {
+            position: absolute;
+            top: -30px;
+            right: 10px;
+            color: var(--accent-color, #1e40af);
+            font-weight: 700;
+            font-size: 1.2rem;
+            animation: scoreFloat 0.8s ease-out forwards;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes scoreFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+        }
+
+        .game-board {
+            transition: transform 0.1s ease;
+        }
+
+        .game-board.shake {
+            animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% {
+                transform: translateX(-2px);
+            }
+            20%, 80% {
+                transform: translateX(4px);
+            }
+            30%, 50%, 70% {
+                transform: translateX(-6px);
+            }
+            40%, 60% {
+                transform: translateX(6px);
+            }
+        }
+
+        .game-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 0.75rem;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .game-message {
+                background: rgba(15, 15, 15, 0.95);
+            }
+        }
+
+        .game-message.show {
+            display: flex;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .message-content {
+            text-align: center;
+            padding: 2rem;
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+        }
+
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary, #1f2937);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .message-title {
+                color: var(--text-primary, #f3f4f6);
+            }
+        }
+
+        .message-title.won {
+            color: #edc22e;
+        }
+
+        .message-title.lost {
+            color: #dc2626;
+        }
+
+        .message-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary, #6b7280);
+            margin-bottom: 1.5rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .message-text {
+                color: var(--text-secondary, #a1a1aa);
+            }
+        }
+
+        .message-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .message-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-color, #1e40af);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .message-btn:hover {
+            background: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+
+        .message-btn:active {
+            transform: translateY(0);
+        }
+
+        .message-btn.hidden {
+            display: none;
+        }
+
+        .message-btn.secondary {
+            background: var(--surface-color, #f3f4f6);
+            color: var(--text-primary, #1f2937);
+            border: 1px solid var(--border-primary, #e5e7eb);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .message-btn.secondary {
+                background: var(--surface-color, #374151);
+                color: var(--text-primary, #f3f4f6);
+                border-color: var(--border-primary, #4b5563);
+            }
+        }
+
+        .message-btn.secondary:hover {
+            background: var(--border-primary, #e5e7eb);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .message-btn.secondary:hover {
+                background: var(--border-primary, #4b5563);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .grid-cell {
+                font-size: 1.5rem;
+            }
+
+            .grid-cell.tile-128,
+            .grid-cell.tile-256,
+            .grid-cell.tile-512 {
+                font-size: 1.25rem;
+            }
+
+            .grid-cell.tile-1024,
+            .grid-cell.tile-2048 {
+                font-size: 1rem;
+            }
+
+            .grid-cell.tile-super {
+                font-size: 0.9rem;
+            }
+
+            .message-title {
+                font-size: 2rem;
+            }
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--text-secondary, #6b7280);
+            font-size: 0.85rem;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .footer {
+                color: var(--text-secondary, #a1a1aa);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <div class="title">2048</div>
+            <div class="scores">
+                <div class="score-container">
+                    <div class="score-label">Score</div>
+                    <div class="score-value" id="score">0</div>
+                </div>
+                <div class="score-container">
+                    <div class="score-label">Best</div>
+                    <div class="score-value" id="bestScore">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="instructions">Use arrow keys to move tiles</div>
+            <button class="new-game-btn" onclick="newGame()">New Game</button>
+        </div>
+
+        <div class="game-board">
+            <div class="grid-container" id="grid"></div>
+            <div class="game-message" id="gameMessage">
+                <div class="message-content">
+                    <div class="message-title" id="messageTitle">Game Over!</div>
+                    <div class="message-text" id="messageText">Your score: <span id="finalScore">0</span></div>
+                    <div class="message-buttons">
+                        <button class="message-btn" onclick="newGame()">Try Again</button>
+                        <button class="message-btn secondary" id="continueBtn" onclick="hideMessage()">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Join tiles to reach 2048! © <span id="copyrightYear"></span> CiteCount</p>
+        </div>
+    </div>
+
+    <script>
+        const GRID_SIZE = 4;
+        let grid = [];
+        let score = 0;
+        let bestScore = 0;
+        let gameWon = false;
+        let gameOver = false;
+
+        // Initialize
+        document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+        loadBestScore();
+        initGame();
+
+        function initGame() {
+            grid = Array(GRID_SIZE).fill().map(() => Array(GRID_SIZE).fill(0));
+            score = 0;
+            gameWon = false;
+            gameOver = false;
+            updateScore();
+            addRandomTile();
+            addRandomTile();
+            renderGrid();
+        }
+
+        function newGame() {
+            hideMessage();
+            initGame();
+        }
+
+        function loadBestScore() {
+            bestScore = parseInt(localStorage.getItem('2048-best-score') || '0');
+            document.getElementById('bestScore').textContent = bestScore;
+        }
+
+        function saveBestScore() {
+            if (score > bestScore) {
+                bestScore = score;
+                localStorage.setItem('2048-best-score', bestScore);
+                document.getElementById('bestScore').textContent = bestScore;
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            saveBestScore();
+        }
+
+        function showScoreIncrement(amount) {
+            const scoreContainer = document.querySelector('.score-container');
+            const increment = document.createElement('div');
+            increment.className = 'score-increment';
+            increment.textContent = '+' + amount;
+            scoreContainer.appendChild(increment);
+            setTimeout(() => increment.remove(), 800);
+        }
+
+        function addRandomTile() {
+            const emptyCells = [];
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    if (grid[i][j] === 0) {
+                        emptyCells.push({ row: i, col: j });
+                    }
+                }
+            }
+
+            if (emptyCells.length > 0) {
+                const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                grid[row][col] = Math.random() < 0.9 ? 2 : 4;
+                return row * GRID_SIZE + col;
+            }
+            return -1;
+        }
+
+        function renderGrid(newTiles = [], mergedTiles = []) {
+            const gridElement = document.getElementById('grid');
+            gridElement.innerHTML = '';
+
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell';
+                    const value = grid[i][j];
+                    const index = i * GRID_SIZE + j;
+                    
+                    if (value > 0) {
+                        cell.textContent = value;
+                        if (value > 2048) {
+                            cell.classList.add('tile-super');
+                        } else {
+                            cell.classList.add(`tile-${value}`);
+                        }
+                        
+                        if (newTiles.includes(index)) {
+                            cell.classList.add('new');
+                        }
+                        if (mergedTiles.includes(index)) {
+                            cell.classList.add('merged');
+                        }
+                    }
+                    
+                    gridElement.appendChild(cell);
+                }
+            }
+        }
+
+        function move(direction) {
+            if (gameOver) return;
+
+            let moved = false;
+            const oldScore = score;
+
+            if (direction === 'up') {
+                moved = moveUp();
+            } else if (direction === 'down') {
+                moved = moveDown();
+            } else if (direction === 'left') {
+                moved = moveLeft();
+            } else if (direction === 'right') {
+                moved = moveRight();
+            }
+
+            if (moved) {
+                const newTileIndex = addRandomTile();
+                renderGrid([newTileIndex]);
+                
+                // Show score increment animation
+                const scoreGain = score - oldScore;
+                if (scoreGain > 0) {
+                    showScoreIncrement(scoreGain);
+                }
+                updateScore();
+
+                if (checkWin() && !gameWon) {
+                    gameWon = true;
+                    setTimeout(() => showWinMessage(), 300);
+                } else if (checkGameOver()) {
+                    gameOver = true;
+                    setTimeout(() => showGameOverMessage(), 300);
+                }
+            } else {
+                // Shake animation when no move is possible
+                const gameBoard = document.querySelector('.game-board');
+                gameBoard.classList.add('shake');
+                setTimeout(() => gameBoard.classList.remove('shake'), 300);
+            }
+        }
+
+        function moveLeft() {
+            let moved = false;
+            for (let i = 0; i < GRID_SIZE; i++) {
+                const row = grid[i].filter(val => val !== 0);
+                const merged = [];
+                
+                for (let j = 0; j < row.length; j++) {
+                    if (j < row.length - 1 && row[j] === row[j + 1]) {
+                        merged.push(row[j] * 2);
+                        score += row[j] * 2;
+                        j++;
+                    } else {
+                        merged.push(row[j]);
+                    }
+                }
+                
+                while (merged.length < GRID_SIZE) {
+                    merged.push(0);
+                }
+                
+                if (JSON.stringify(grid[i]) !== JSON.stringify(merged)) {
+                    moved = true;
+                }
+                grid[i] = merged;
+            }
+            return moved;
+        }
+
+        function moveRight() {
+            let moved = false;
+            for (let i = 0; i < GRID_SIZE; i++) {
+                const row = grid[i].filter(val => val !== 0);
+                const merged = [];
+                
+                for (let j = row.length - 1; j >= 0; j--) {
+                    if (j > 0 && row[j] === row[j - 1]) {
+                        merged.unshift(row[j] * 2);
+                        score += row[j] * 2;
+                        j--;
+                    } else {
+                        merged.unshift(row[j]);
+                    }
+                }
+                
+                while (merged.length < GRID_SIZE) {
+                    merged.unshift(0);
+                }
+                
+                if (JSON.stringify(grid[i]) !== JSON.stringify(merged)) {
+                    moved = true;
+                }
+                grid[i] = merged;
+            }
+            return moved;
+        }
+
+        function moveUp() {
+            let moved = false;
+            for (let j = 0; j < GRID_SIZE; j++) {
+                const col = grid.map(row => row[j]).filter(val => val !== 0);
+                const merged = [];
+                
+                for (let i = 0; i < col.length; i++) {
+                    if (i < col.length - 1 && col[i] === col[i + 1]) {
+                        merged.push(col[i] * 2);
+                        score += col[i] * 2;
+                        i++;
+                    } else {
+                        merged.push(col[i]);
+                    }
+                }
+                
+                while (merged.length < GRID_SIZE) {
+                    merged.push(0);
+                }
+                
+                for (let i = 0; i < GRID_SIZE; i++) {
+                    if (grid[i][j] !== merged[i]) {
+                        moved = true;
+                    }
+                    grid[i][j] = merged[i];
+                }
+            }
+            return moved;
+        }
+
+        function moveDown() {
+            let moved = false;
+            for (let j = 0; j < GRID_SIZE; j++) {
+                const col = grid.map(row => row[j]).filter(val => val !== 0);
+                const merged = [];
+                
+                for (let i = col.length - 1; i >= 0; i--) {
+                    if (i > 0 && col[i] === col[i - 1]) {
+                        merged.unshift(col[i] * 2);
+                        score += col[i] * 2;
+                        i--;
+                    } else {
+                        merged.unshift(col[i]);
+                    }
+                }
+                
+                while (merged.length < GRID_SIZE) {
+                    merged.unshift(0);
+                }
+                
+                for (let i = 0; i < GRID_SIZE; i++) {
+                    if (grid[i][j] !== merged[i]) {
+                        moved = true;
+                    }
+                    grid[i][j] = merged[i];
+                }
+            }
+            return moved;
+        }
+
+        function checkWin() {
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    if (grid[i][j] === 2048) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function checkGameOver() {
+            // Check for empty cells
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    if (grid[i][j] === 0) {
+                        return false;
+                    }
+                }
+            }
+
+            // Check for possible merges
+            for (let i = 0; i < GRID_SIZE; i++) {
+                for (let j = 0; j < GRID_SIZE; j++) {
+                    const current = grid[i][j];
+                    if (i < GRID_SIZE - 1 && grid[i + 1][j] === current) {
+                        return false;
+                    }
+                    if (j < GRID_SIZE - 1 && grid[i][j + 1] === current) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        function showWinMessage() {
+            const messageElement = document.getElementById('gameMessage');
+            const titleElement = document.getElementById('messageTitle');
+            const textElement = document.getElementById('messageText');
+            const continueBtn = document.getElementById('continueBtn');
+
+            titleElement.textContent = 'You Win!';
+            titleElement.className = 'message-title won';
+            textElement.innerHTML = `You reached 2048! Your score: <span id="finalScore">${score}</span>`;
+            continueBtn.classList.remove('hidden');
+            messageElement.classList.add('show');
+        }
+
+        function showGameOverMessage() {
+            const messageElement = document.getElementById('gameMessage');
+            const titleElement = document.getElementById('messageTitle');
+            const textElement = document.getElementById('messageText');
+            const continueBtn = document.getElementById('continueBtn');
+
+            titleElement.textContent = 'Game Over!';
+            titleElement.className = 'message-title lost';
+            textElement.innerHTML = `Your score: <span id="finalScore">${score}</span>`;
+            continueBtn.classList.add('hidden');
+            messageElement.classList.add('show');
+        }
+
+        function hideMessage() {
+            document.getElementById('gameMessage').classList.remove('show');
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                e.preventDefault();
+            }
+
+            switch (e.key) {
+                case 'ArrowUp':
+                    move('up');
+                    break;
+                case 'ArrowDown':
+                    move('down');
+                    break;
+                case 'ArrowLeft':
+                    move('left');
+                    break;
+                case 'ArrowRight':
+                    move('right');
+                    break;
+            }
+        });
+
+        // Touch controls for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+            
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            
+            const minSwipeDistance = 50;
+            
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (Math.abs(deltaX) > minSwipeDistance) {
+                    if (deltaX > 0) {
+                        move('right');
+                    } else {
+                        move('left');
+                    }
+                }
+            } else {
+                if (Math.abs(deltaY) > minSwipeDistance) {
+                    if (deltaY > 0) {
+                        move('down');
+                    } else {
+                        move('up');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
