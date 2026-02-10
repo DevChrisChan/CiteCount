@@ -274,7 +274,7 @@
             <div class="split">
         <div id="editor-panel" class="split-panel">
           <div class="editor-container shadow-sm">
-            <div class="toolbar flex gap-2" style="justify-content: space-between; align-items: center;">
+            <div id="toolbar" class="toolbar flex gap-2" style="justify-content: space-between; align-items: center;">
               <!-- Left-aligned buttons -->
               <div style="display: flex; gap: 0.5rem;">
                 <!-- Desktop formatting buttons -->
@@ -422,6 +422,31 @@
             </div>
 
             <div class="editor-wrapper">
+              <!-- Search Box -->
+              <div id="search-box" class="search-box" style="display: none;">
+                <div class="search-box-content">
+                  <input type="text" id="search-input" placeholder="Find..." spellcheck="false" autocomplete="off">
+                  <div class="search-controls">
+                    <span id="search-results" class="search-results"></span>
+                    <button id="search-prev" class="search-nav-btn" title="Previous (Shift+Enter)" disabled>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                      </svg>
+                    </button>
+                    <button id="search-next" class="search-nav-btn" title="Next (Enter)" disabled>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </button>
+                    <button id="search-close" class="search-close-btn" title="Close (Esc)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
               <div id="editor" contenteditable="true" spellcheck="true" data-lta-event="v2-input-focus"></div>
               <div id="highlight-layer"></div>
               <div id="drop-overlay" class="drop-overlay" style="display: none;">
@@ -1913,6 +1938,7 @@
   <script src="/v2/filemanager.js"></script>
   <script src="/v2/scroll-detector.js"></script>
   <script src="/v2/interactive-guide.js"></script>
+  <script src="/v2/search.js"></script>
   <svg aria-hidden="true" focusable="false" style="position: absolute; width: 0; height: 0; overflow: hidden;">
     <symbol id="icon-file" viewBox="0 0 24 24">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
