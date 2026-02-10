@@ -11,6 +11,7 @@ const state = {
     warnLeave: true,
     spellCheck: true,
     focus: false,
+    simplifiedMode: false,
     wordsNoCitations: true,
     charsNoCitations: true,
     wordsWithCitations: true,
@@ -365,6 +366,104 @@ function toggleSetting(setting, value) {
       afterAppContent.style.display = value ? 'none' : 'block';
     }
   }
+  if (setting === 'simplifiedMode') {
+    // Keep the toggle flipped - don't revert yet
+    const checkbox = document.getElementById('simplifiedMode');
+    
+    // Show restart modal with blur background
+    showNotification(
+      'The app requires a restart to ' + (value ? 'enable' : 'disable') + ' Simplified Mode.',
+      true,
+      () => {
+        // User confirmed - apply the setting and changes
+        state.settings[setting] = value;
+        saveSettings();
+        
+        // Apply UI changes
+        const sidebar = document.getElementById('file-sidebar');
+        const citationsPanel = document.getElementById('citations-panel');
+        const gutter = document.getElementById('gutter');
+        
+        if (value) {
+          // Enable Simplified Mode - hide sidebar and right section
+          if (sidebar) sidebar.style.display = 'none';
+          if (citationsPanel) {
+            citationsPanel.style.display = 'flex';
+            // Hide all content except citations
+            const generateCitationContainer = document.getElementById('generate-citation-container');
+            const wordCountDetailsContainer = document.getElementById('word-count-details-container');
+            const moreAppsContainer = document.getElementById('more-apps-container');
+            const dictionaryContainer = document.getElementById('dictionary-container');
+            const thesaurusContainer = document.getElementById('thesaurus-container');
+            const pomodoroContainer = document.getElementById('pomodoro-container');
+            const translateContainer = document.getElementById('translate-container');
+            const notepadContainer = document.getElementById('notepad-container');
+            const wordbankContainer = document.getElementById('wordbank-container');
+            const scientificCalculatorContainer = document.getElementById('scientific-calculator-container');
+            const graphingCalculatorContainer = document.getElementById('graphing-calculator-container');
+            
+            if (generateCitationContainer) generateCitationContainer.style.display = 'none';
+            if (wordCountDetailsContainer) wordCountDetailsContainer.style.display = 'none';
+            if (moreAppsContainer) moreAppsContainer.style.display = 'none';
+            if (dictionaryContainer) dictionaryContainer.style.display = 'none';
+            if (thesaurusContainer) thesaurusContainer.style.display = 'none';
+            if (pomodoroContainer) pomodoroContainer.style.display = 'none';
+            if (translateContainer) translateContainer.style.display = 'none';
+            if (notepadContainer) notepadContainer.style.display = 'none';
+            if (wordbankContainer) wordbankContainer.style.display = 'none';
+            if (scientificCalculatorContainer) scientificCalculatorContainer.style.display = 'none';
+            if (graphingCalculatorContainer) graphingCalculatorContainer.style.display = 'none';
+            
+            const panelTabSelector = document.getElementById('panel-tab-selector');
+            const panelHeader = document.getElementById('panel-header');
+            const moreToolsHeaderNav = document.getElementById('more-tools-header-nav');
+            
+            if (panelTabSelector) panelTabSelector.style.display = 'none';
+            if (panelHeader) panelHeader.style.display = 'none';
+            if (moreToolsHeaderNav) moreToolsHeaderNav.style.display = 'none';
+          }
+          if (gutter) gutter.style.display = 'none';
+        } else {
+          // Disable Simplified Mode - show sidebar and restore UI
+          if (sidebar) sidebar.style.display = 'block';
+          if (citationsPanel) {
+            const panelTabSelector = document.getElementById('panel-tab-selector');
+            const panelHeader = document.getElementById('panel-header');
+            if (panelTabSelector) panelTabSelector.style.display = 'flex';
+          }
+          if (gutter) gutter.style.display = 'block';
+        }
+        
+        // Refresh the page
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
+      },
+      'confirmation',
+      () => {
+        // User cancelled - revert the toggle
+        if (checkbox) checkbox.checked = !value;
+        state.settings[setting] = !value;
+      },
+      {
+        title: 'App Restart Required',
+        confirmButton: 'Restart Now',
+        cancelButton: 'Cancel'
+      }
+    );
+    
+    // Apply strong blur to overlay background
+    setTimeout(() => {
+      const overlay = document.getElementById('overlay-background');
+      if (overlay) {
+        overlay.style.backdropFilter = 'blur(8px)';
+        overlay.style.WebkitBackdropFilter = 'blur(8px)';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+      }
+    }, 50);
+    
+    return;
+  }
   if (setting === 'warnLeave') {
     updateBeforeUnloadHandler();
   }
@@ -508,6 +607,50 @@ function updateSettingsUI() {
   const afterAppContent = document.getElementById('after-app-placeholder');
   if (afterAppContent) {
     afterAppContent.style.display = state.settings.focus ? 'none' : 'block';
+  }
+  
+  // Apply Simplified Mode styling on page load/initialization
+  if (state.settings.simplifiedMode) {
+    const sidebar = document.getElementById('file-sidebar');
+    const citationsPanel = document.getElementById('citations-panel');
+    const gutter = document.getElementById('gutter');
+    
+    if (sidebar) sidebar.style.display = 'none';
+    if (citationsPanel) {
+      citationsPanel.style.display = 'flex';
+      const generateCitationContainer = document.getElementById('generate-citation-container');
+      const wordCountDetailsContainer = document.getElementById('word-count-details-container');
+      const moreAppsContainer = document.getElementById('more-apps-container');
+      const dictionaryContainer = document.getElementById('dictionary-container');
+      const thesaurusContainer = document.getElementById('thesaurus-container');
+      const pomodoroContainer = document.getElementById('pomodoro-container');
+      const translateContainer = document.getElementById('translate-container');
+      const notepadContainer = document.getElementById('notepad-container');
+      const wordbankContainer = document.getElementById('wordbank-container');
+      const scientificCalculatorContainer = document.getElementById('scientific-calculator-container');
+      const graphingCalculatorContainer = document.getElementById('graphing-calculator-container');
+      
+      if (generateCitationContainer) generateCitationContainer.style.display = 'none';
+      if (wordCountDetailsContainer) wordCountDetailsContainer.style.display = 'none';
+      if (moreAppsContainer) moreAppsContainer.style.display = 'none';
+      if (dictionaryContainer) dictionaryContainer.style.display = 'none';
+      if (thesaurusContainer) thesaurusContainer.style.display = 'none';
+      if (pomodoroContainer) pomodoroContainer.style.display = 'none';
+      if (translateContainer) translateContainer.style.display = 'none';
+      if (notepadContainer) notepadContainer.style.display = 'none';
+      if (wordbankContainer) wordbankContainer.style.display = 'none';
+      if (scientificCalculatorContainer) scientificCalculatorContainer.style.display = 'none';
+      if (graphingCalculatorContainer) graphingCalculatorContainer.style.display = 'none';
+      
+      const panelTabSelector = document.getElementById('panel-tab-selector');
+      const panelHeader = document.getElementById('panel-header');
+      const moreToolsHeaderNav = document.getElementById('more-tools-header-nav');
+      
+      if (panelTabSelector) panelTabSelector.style.display = 'none';
+      if (panelHeader) panelHeader.style.display = 'none';
+      if (moreToolsHeaderNav) moreToolsHeaderNav.style.display = 'none';
+    }
+    if (gutter) gutter.style.display = 'none';
   }
   
   // Update counter settings display

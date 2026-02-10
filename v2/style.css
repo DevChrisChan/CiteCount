@@ -670,7 +670,7 @@
     border-radius: 0.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
-    min-width: 320px;
+    min-width: 400px;
     animation: slideInFromTop 0.15s ease-out;
     user-select: none;
   }
