@@ -110,8 +110,9 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            padding: 0.5rem 1rem;
-            gap: 0;
+            /* bring header items slightly closer to edges */
+            padding: 0.5rem 0.5rem !important;
+            gap: 1rem;
         }
 
         .sidebar-header {
@@ -119,13 +120,18 @@
             justify-content: space-between;
             align-items: center;
             gap: 0.5rem;
+            margin-top: 0 !important;
+            padding-top: 0 !important;
         }
 
         .sidebar-title {
             font-size: 0.9rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin: 0;
+            margin: 0 !important;
+            padding: 0 !important;
+            /* slight left shift to align visually with sidebar edge */
+            margin-left: -0.25rem !important;
         }
 
         .sidebar-action-btn {
@@ -141,6 +147,8 @@
             justify-content: center;
             width: 28px;
             height: 28px;
+            /* small nudge to the right for better separation from the title */
+            transform: translateX(6px);
         }
 
         .sidebar-action-btn:hover {
@@ -253,7 +261,7 @@
 
         .content-header-inner {
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
         }
 
         .content-header h1 {
@@ -280,7 +288,7 @@
 
         .form-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
         }
 
         .form-section {
@@ -1062,12 +1070,12 @@
             <h1 style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
         </div>
         <div class="flex items-center gap-2">
-            <button id="historyNavBtn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="History" onclick="toggleMobileHistory()" data-lta-event="history-nav-btn">
+            <button id="historyNavBtn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="Recent Timers" onclick="toggleMobileHistory()" data-lta-event="history-nav-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="10"/>
                     <polyline points="12 6 12 12 16 14"/>
                 </svg>
-                <span class="hidden md:inline text-sm font-medium">History</span>
+                <span>Recent Timers</span>
             </button>
             <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
                 data-lta-event="v2-more-apps-click">
@@ -1129,15 +1137,6 @@
                     </svg>
                     <p>No exam timers yet. Start one to see history here.</p>
                 </div>
-            </div>
-
-            <div class="sidebar-footer">
-                <button class="sidebar-collapse-btn" onclick="window.location.href='/'" title="Return to CiteCount" data-lta-event="timer-return-home">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                    </svg>
-                    Back to CiteCount
-                </button>
             </div>
         </aside>
 
