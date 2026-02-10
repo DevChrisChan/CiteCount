@@ -89,6 +89,16 @@ const fileManager = {
       }
     });
 
+    const fileTree = document.getElementById('file-tree');
+    if (fileTree) {
+      fileTree.addEventListener('contextmenu', (e) => {
+        if (e.target.closest('.file-tree-item')) {
+          return;
+        }
+        showAddDocumentMenu(e, { useCursorPosition: true });
+      });
+    }
+
     setupBackupReminderModalHandlers();
     this.checkBackupReminder();
   },
@@ -2262,10 +2272,14 @@ function showAddDocumentMenu(event) {
     }
   ];
 
-  // Position the context menu near the button
-  const rect = event.target.closest('button').getBoundingClientRect();
-  const x = rect.left;
-  const y = rect.bottom + 5;
+  let x = event.pageX;
+  let y = event.pageY;
+  const button = event.target.closest('button');
+  if (button) {
+    const rect = button.getBoundingClientRect();
+    x = rect.left;
+    y = rect.bottom + 5;
+  }
 
   fileManager.showContextMenu(x, y, menuItems);
 }

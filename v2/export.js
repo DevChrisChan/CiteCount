@@ -161,7 +161,7 @@ function updateDownloadFormatOptions() {
     toggleOption(preserveFonts, true);
     toggleOption(preserveStyles, true);
     toggleOption(includeHighlights, true);
-    noteEl.textContent = 'PDF exports selectable text. All styling are preserved.';
+    noteEl.textContent = 'PDF exports selectable text. All stylings are preserved.';
   } else {
     toggleOption(preserveFonts, true);
     toggleOption(preserveStyles, true);
