@@ -4408,6 +4408,8 @@ pre {
     width: 260px !important;
     min-width: 260px !important;
     max-width: 260px !important;
+    margin-left: 0;
+    margin-top: 0;
   }
   
   .file-sidebar.mobile-open {
