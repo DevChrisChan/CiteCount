@@ -254,7 +254,7 @@
 
     /* Panel header dark mode */
     #panel-header {
-      background: #1F1F1F !important;
+      background: #242424 !important;
       border-color: var(--border-dark) !important;
     }
 
@@ -791,12 +791,8 @@
     width: 100%;
     padding: 0.5rem;
     background: inherit;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-primary);
     z-index: 1;
-  }
-
-  .dark .toolbar {
-    border-bottom-color: var(--border-dark);
   }
 
   .toolbar button,
@@ -1155,8 +1151,7 @@
     position: sticky;
     top: 0;
     z-index: 10;
-    padding: 1.5rem;
-    padding-bottom: 1rem;
+    padding: 1rem 1.5rem 0.75rem;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid #E5E7EB;
@@ -1258,6 +1253,10 @@
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
+  }
+
+  .settings-overlay .settings-header h2 {
+    margin-bottom: 0;
   }
 
   .citations-overlay button,
@@ -1855,7 +1854,7 @@
     }
 
     .settings-overlay .settings-header {
-      padding: 0.875rem 1rem;
+      padding: 0.75rem 1rem 0.625rem;
       flex-shrink: 0;
     }
   }
@@ -4255,8 +4254,8 @@ pre {
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
-  border-bottom: #00000020 1px solid;
-  border-top: #00000020 1px solid;
+  border-bottom: 1px solid var(--border-primary);
+  border-top: 1px solid var(--border-primary);
   margin-top: 65px;
   height: 91.2vh;
   margin-left: 15px;
