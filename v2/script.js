@@ -569,7 +569,7 @@ function updateSettingsUI() {
   const fontFamilyButtonText = document.getElementById('fontFamilyButtonText');
   if (fontFamilyButtonText) {
     const fontDisplayNames = {
-      'system-ui': 'System UI',
+      'system-ui': 'System Font',
       'serif': 'Serif',
       'monospace': 'Monospace',
       "'Times New Roman', serif": 'Times New Roman',
@@ -580,7 +580,7 @@ function updateSettingsUI() {
       "'Verdana', sans-serif": 'Verdana'
     };
     
-    fontFamilyButtonText.textContent = fontDisplayNames[state.settings.fontFamily] || 'System UI';
+    fontFamilyButtonText.textContent = fontDisplayNames[state.settings.fontFamily] || 'System Font';
     fontFamilyButtonText.style.fontFamily = state.settings.fontFamily;
   }
   

@@ -133,6 +133,7 @@
             color: var(--text-primary);
             font-size: 1rem;
             min-height: 50px;
+            max-height: 500px;
         }
 
         .hint {
@@ -377,9 +378,9 @@
             }).then(response => {
                 if (!response || !response.ok) throw new Error('Network response not ok');
                 if (email) {
-                    statusEl.textContent = `Thanks for your message! We have received your message, and we'll get back to you at ${email} within 24 hours.`;
+                    statusEl.textContent = `Thanks for contacting the team! We have received your message, and we'll get back to you at ${email} within 24 hours.`;
                 } else {
-                    statusEl.textContent = 'Thanks for your message! We have received your message.';
+                    statusEl.textContent = 'Thanks for contacting the team! We have received your message.';
                 }
                 statusEl.style.display = 'block';
                 emailEl.value = '';

@@ -7,11 +7,20 @@
 (function() {
   'use strict';
 
+  const APPS_ORDER_KEY = 'citecount-apps-order-v1';
+
   // Apps modal HTML template
   const appsModalHTML = `
     <div id="apps-modal" class="apps-modal" style="display: none; z-index:100000">
+      <div class="apps-modal-controls">
+        <span class="apps-modal-title">Applications</span>
+        <div class="apps-modal-actions">
+          <button type="button" class="apps-reset-order" aria-hidden="true">Reset</button>
+          <button type="button" class="apps-edit-toggle" aria-pressed="false">Customize</button>
+        </div>
+      </div>
       <div class="apps-grid">
-        <a href="/" class="app-card" data-lta-event="v2-more-apps-citecount-click">
+        <a href="/" class="app-card" data-app-id="citecount" data-lta-event="v2-more-apps-citecount-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
@@ -24,7 +33,7 @@
           </div>
           <span class="app-title">CiteCount</span>
         </a>
-        <a href="/generate/" class="app-card" data-lta-event="v2-more-apps-citation-click">
+        <a href="/generate/" class="app-card" data-app-id="citation-generator" data-lta-event="v2-more-apps-citation-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 191.029 191.029" width="20" height="20">
@@ -35,7 +44,7 @@
           </div>
           <span class="app-title">Citation Generator</span>
         </a>
-        <a href="/countdown/" class="app-card" data-lta-event="v2-more-apps-countdown-click">
+        <a href="/countdown/" class="app-card" data-app-id="countdown-m26" data-lta-event="v2-more-apps-countdown-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
@@ -46,7 +55,7 @@
           </div>
           <span class="app-title">IB M26 Exams Countdown</span>
         </a>
-        <a href="/countdown/n26/" class="app-card" data-lta-event="v2-more-apps-countdown-n26-click">
+        <a href="/countdown/n26/" class="app-card" data-app-id="countdown-n26" data-lta-event="v2-more-apps-countdown-n26-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #70e1f5 0%, #ffd194 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
@@ -57,7 +66,7 @@
           </div>
           <span class="app-title">IB N26 Exams Countdown</span>
         </a>
-        <a href="/exam-timer/" class="app-card" data-lta-event="v2-more-apps-mocks-click">
+        <a href="/exam-timer/" class="app-card" data-app-id="exam-timer" data-lta-event="v2-more-apps-mocks-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
@@ -70,7 +79,7 @@
           </div>
           <span class="app-title">Exam Timer</span>
         </a>
-        <a href="/ib-resources/" class="app-card" data-lta-event="v2-more-apps-ib-resources-click">
+        <a href="/ib-resources/" class="app-card" data-app-id="ib-resources" data-lta-event="v2-more-apps-ib-resources-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
@@ -81,7 +90,7 @@
           </div>
           <span class="app-title">IB Resources</span>
         </a>
-        <a href="/ib-results/" class="app-card" data-lta-event="v2-more-apps-bulletin-click">
+        <a href="/ib-results/" class="app-card" data-app-id="ib-results" data-lta-event="v2-more-apps-bulletin-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="32" height="32">
@@ -93,7 +102,7 @@
           </div>
           <span class="app-title">Simulate IB Results</span>
         </a>
-        <a href="/blogs" class="app-card" data-lta-event="v2-more-apps-blogs-click">
+        <a href="/blogs" class="app-card" data-app-id="blogs" data-lta-event="v2-more-apps-blogs-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
@@ -106,7 +115,7 @@
           </div>
           <span class="app-title">Blogs & Guides</span>
         </a>
-        <a href="/contact.html" class="app-card" data-lta-event="v2-more-apps-contact-click">
+        <a href="/contact.html" class="app-card" data-app-id="contact" data-lta-event="v2-more-apps-contact-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
@@ -134,6 +143,11 @@
       header.insertAdjacentHTML('afterend', appsModalHTML);
     } else {
       document.body.insertAdjacentHTML('beforeend', appsModalHTML);
+    }
+
+    const modal = document.getElementById('apps-modal');
+    if (modal) {
+      initializeAppsReorder(modal);
     }
   }
 
@@ -182,6 +196,184 @@
   function closeAppsModalOnEscape(event) {
     if (event.key === 'Escape') {
       window.toggleAppsModal(false);
+    }
+  }
+
+  function initializeAppsReorder(modal) {
+    const grid = modal.querySelector('.apps-grid');
+    const toggleButton = modal.querySelector('.apps-edit-toggle');
+    const resetButton = modal.querySelector('.apps-reset-order');
+    if (!grid || !toggleButton) return;
+
+    const defaultOrder = Array.from(grid.querySelectorAll('.app-card'))
+      .map((card) => card.dataset.appId)
+      .filter(Boolean);
+
+    applySavedOrder(grid);
+    setEditMode(modal, toggleButton, resetButton, false);
+
+    toggleButton.addEventListener('click', () => {
+      const isEditing = modal.classList.toggle('apps-editing');
+      setEditMode(modal, toggleButton, resetButton, isEditing);
+    });
+
+    if (resetButton) {
+      resetButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        restoreDefaultOrder(grid, defaultOrder);
+        // Auto-exit customize mode
+        modal.classList.remove('apps-editing');
+        setEditMode(modal, toggleButton, resetButton, false);
+      });
+    }
+
+    grid.addEventListener('dragstart', (event) => {
+      const card = event.target.closest('.app-card');
+      if (!card || !modal.classList.contains('apps-editing')) return;
+      card.classList.add('dragging');
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', card.dataset.appId || '');
+    });
+
+    grid.addEventListener('click', (event) => {
+      if (modal.classList.contains('apps-editing')) {
+        event.preventDefault();
+      }
+    });
+
+    grid.addEventListener('dragover', (event) => {
+      if (!modal.classList.contains('apps-editing')) return;
+      event.preventDefault();
+      const dragging = grid.querySelector('.app-card.dragging');
+      if (!dragging) return;
+      const target = getDragTarget(grid, event.clientX, event.clientY);
+      clearDropIndicators(grid);
+      if (!target || target === dragging) return;
+      target.element.classList.add('drop-indicator');
+      if (target.insertAfter) {
+        if (target.element.nextElementSibling) {
+          grid.insertBefore(dragging, target.element.nextElementSibling);
+        } else {
+          grid.appendChild(dragging);
+        }
+      } else {
+        grid.insertBefore(dragging, target.element);
+      }
+    });
+
+    grid.addEventListener('drop', (event) => {
+      if (!modal.classList.contains('apps-editing')) return;
+      event.preventDefault();
+      clearDropIndicators(grid);
+      saveOrder(grid);
+    });
+
+    grid.addEventListener('dragend', (event) => {
+      const card = event.target.closest('.app-card');
+      if (card) {
+        card.classList.remove('dragging');
+      }
+      clearDropIndicators(grid);
+      if (modal.classList.contains('apps-editing')) {
+        saveOrder(grid);
+      }
+    });
+  }
+
+  function setEditMode(modal, toggleButton, resetButton, isEditing) {
+    modal.classList.toggle('apps-editing', isEditing);
+    toggleButton.setAttribute('aria-pressed', isEditing ? 'true' : 'false');
+    toggleButton.textContent = isEditing ? 'Done' : 'Customize';
+    if (resetButton) {
+      resetButton.setAttribute('aria-hidden', isEditing ? 'false' : 'true');
+    }
+    const cards = modal.querySelectorAll('.app-card');
+    cards.forEach((card) => {
+      card.setAttribute('draggable', isEditing ? 'true' : 'false');
+    });
+  }
+
+  function getDragTarget(grid, x, y) {
+    const target = document.elementFromPoint(x, y);
+    const card = target ? target.closest('.app-card') : null;
+    if (!card || !grid.contains(card) || card.classList.contains('dragging')) {
+      return null;
+    }
+    const rect = card.getBoundingClientRect();
+    const insertAfter = y > rect.top + rect.height / 2 || (
+      y > rect.top + rect.height / 4 && y < rect.top + rect.height * 0.75 && x > rect.left + rect.width / 2
+    );
+    return { element: card, insertAfter };
+  }
+
+  function applySavedOrder(grid) {
+    const order = readSavedOrder();
+    if (!order || !order.length) return;
+
+    const cards = Array.from(grid.querySelectorAll('.app-card'));
+    const cardMap = new Map(cards.map((card) => [card.dataset.appId, card]));
+    const fragment = document.createDocumentFragment();
+
+    order.forEach((id) => {
+      const card = cardMap.get(id);
+      if (card) {
+        fragment.appendChild(card);
+        cardMap.delete(id);
+      }
+    });
+
+    cardMap.forEach((card) => fragment.appendChild(card));
+    grid.appendChild(fragment);
+  }
+
+  function readSavedOrder() {
+    try {
+      const raw = localStorage.getItem(APPS_ORDER_KEY);
+      const parsed = raw ? JSON.parse(raw) : null;
+      return Array.isArray(parsed) ? parsed : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveOrder(grid) {
+    const order = Array.from(grid.querySelectorAll('.app-card'))
+      .map((card) => card.dataset.appId)
+      .filter(Boolean);
+    try {
+      localStorage.setItem(APPS_ORDER_KEY, JSON.stringify(order));
+    } catch (error) {
+      // Ignore storage errors silently.
+    }
+  }
+
+  function restoreDefaultOrder(grid, defaultOrder) {
+    const cards = Array.from(grid.querySelectorAll('.app-card'));
+    const cardMap = new Map(cards.map((card) => [card.dataset.appId, card]));
+    const fragment = document.createDocumentFragment();
+
+    defaultOrder.forEach((id) => {
+      const card = cardMap.get(id);
+      if (card) {
+        fragment.appendChild(card);
+        cardMap.delete(id);
+      }
+    });
+
+    cardMap.forEach((card) => fragment.appendChild(card));
+    grid.appendChild(fragment);
+
+    try {
+      localStorage.removeItem(APPS_ORDER_KEY);
+    } catch (error) {
+      // Ignore storage errors silently.
+    }
+  }
+
+  function clearDropIndicators(grid) {
+    const current = grid.querySelector('.app-card.drop-indicator');
+    if (current) {
+      current.classList.remove('drop-indicator');
     }
   }
 

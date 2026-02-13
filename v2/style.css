@@ -1270,17 +1270,17 @@
   /* Apps Modal Styles */
   .apps-modal {
     position: fixed;
-    top: 3.5rem;
+    top: 3.25rem;
     right: 1rem;
     transform: scale(0.95);
     transform-origin: top right;
-    width: min(90%, 420px);
+    width: min(88%, 380px);
     max-height: calc(100vh - 5rem);
     z-index: 60;
-    padding: 1.25rem;
+    padding: 0.9rem 1rem;
     overflow-y: auto;
     overflow-x: hidden;
-    border-radius: 1.5rem;
+    border-radius: 1.2rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
     background: #fff;
@@ -1430,15 +1430,76 @@
   .apps-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-    padding: 0.5rem 0;
+    gap: 0.4rem;
+    padding: 0.35rem 0;
+  }
+
+  .apps-modal-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0 0.5rem;
+  }
+
+  .apps-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .apps-modal-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #111827;
+    letter-spacing: 0.2px;
+    padding-left: 0.25rem;
+  }
+
+  .apps-edit-toggle {
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: rgba(0, 0, 0, 0.04);
+    color: #202124;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .apps-reset-order {
+    border: none;
+    background: none;
+    color: #111827;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: underline;
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0;
+    display: none;
+  }
+
+  .apps-editing .apps-reset-order {
+    display: inline;
+  }
+
+  .apps-edit-toggle:hover {
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  .apps-editing .apps-edit-toggle {
+    background: #111827;
+    border-color: #111827;
+    color: #ffffff;
   }
 
   .app-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem 0.5rem;
+    padding: 0.75rem 0.35rem;
     border-radius: 1rem;
     text-decoration: none;
     color: inherit;
@@ -1448,7 +1509,13 @@
     border: none;
   }
 
-  .app-card:hover {
+  .apps-editing .app-card {
+    cursor: grab;
+  }
+
+  .apps-editing .app-card.dragging {
+    cursor: grabbing;
+    opacity: 0.7;
     background: rgba(0, 0, 0, 0.04);
   }
 
@@ -1495,6 +1562,44 @@
     transition: all 0.15s ease;
   }
 
+  .apps-editing .app-icon svg {
+    animation: appIconShake 0.32s infinite ease-in-out;
+    transform-origin: 50% 55%;
+  }
+
+  @keyframes appIconShake {
+    0% {
+      transform: rotate(-8deg);
+    }
+    50% {
+      transform: rotate(8deg);
+    }
+    100% {
+      transform: rotate(-8deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .apps-editing .app-icon svg {
+      animation: none;
+    }
+  }
+
+  .apps-editing .app-card.drop-indicator {
+    position: relative;
+  }
+
+  .apps-editing .app-card.drop-indicator::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    border-radius: 999px;
+    background: #111827;
+  }
+
   .app-title {
     font-size: 0.8125rem;
     font-weight: 400;
@@ -1509,6 +1614,34 @@
   @media (prefers-color-scheme: dark) {
     .app-title {
       color: #e8eaed;
+    }
+
+    .apps-modal-title {
+      color: #f9fafb;
+    }
+
+    .apps-editing .app-card.drop-indicator::before {
+      background: #e8eaed;
+    }
+
+    .apps-edit-toggle {
+      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: #e8eaed;
+    }
+
+    .apps-reset-order {
+      color: #e8eaed;
+    }
+
+    .apps-edit-toggle:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .apps-editing .apps-edit-toggle {
+      background: #e8eaed;
+      border-color: #e8eaed;
+      color: #111827;
     }
   }
 
