@@ -728,42 +728,48 @@
       </div>
 
       <!-- Exclude Citation Info Modal -->
-      <div id="exclude-citation-modal" class="info-dialogue" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; max-width: 500px; max-height: 90vh; overflow-y: auto;">
-      <button onclick="closeExcludeCitationInfoModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; font-size: 1.5rem; opacity: 0.6;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">×</button>
-      <h3 id="exclude-citation-title" style="margin-top: 0; display: flex; align-items: center; gap: 0.75rem;">
-        <span>Excluding Citations</span>
+      <div id="exclude-citation-modal" class="info-dialogue" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; max-width: 460px; max-height: 90vh; overflow-y: auto; background: var(--background-primary); color: var(--text-primary); border: 1px solid var(--border-primary);">
+      <button onclick="closeExcludeCitationInfoModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; font-size: 1.5rem; color: var(--text-secondary); opacity: 0.6; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">×</button>
+      <h3 id="exclude-citation-title" style="margin-top: 0; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary);">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; opacity: 0.8;">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+        </svg>
+        <span>Citation Exclusion Toggle</span>
       </h3>
-      <div style="background: var(--background-secondary); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">
-        <p style="margin: 0; font-size: 0.95rem;"><strong>What does the toggle do?</strong></p>
-        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">When enabled, the selected content is excluded from citation detection and will be counted toward your "Words without Citations" total. When disabled, the content is treated as a citation and will not be included in your word count.</p>
+      
+      <div style="background: var(--background-secondary); padding: 0.875rem; border-radius: 0.5rem; margin-bottom: 0.75rem; border: 1px solid var(--border-primary);">
+        <p style="margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--text-primary);">
+          <strong>Toggle ON:</strong> Content is excluded from citation detection and counted in "Words without Citations".<br>
+          <strong>Toggle OFF:</strong> Content is treated as a citation and excluded from word count.
+        </p>
       </div>
 
-      <div style="background: var(--background-secondary); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">
-        <p style="margin: 0; font-size: 0.95rem;"><strong>When to use this feature:</strong></p>
-        <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
-        <li>CiteCount incorrectly detected normal parentheses as citations (e.g., "this result (2023) was significant")</li>
-        <li>You need to exclude a parenthetical phrase that isn't an actual citation</li>
-        <li>You want to manually correct CiteCount's detection for precise word counts</li>
+      <div style="background: var(--background-secondary); padding: 0.875rem; border-radius: 0.5rem; margin-bottom: 0.75rem; border: 1px solid var(--border-primary);">
+        <p style="margin: 0 0 0.5rem 0; font-size: 0.875rem; font-weight: 600; color: var(--text-primary);">Use this when CiteCount incorrectly detects:</p>
+        <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6;">
+          <li>Regular parentheses as citations (e.g., "result (2023) was significant")</li>
+          <li>Non-citation parenthetical phrases</li>
         </ul>
       </div>
 
-      <div style="background: var(--background-secondary); padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">
-        <p style="margin: 0; font-size: 0.95rem;"><strong>Understanding the highlight layers:</strong></p>
-        <div style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--text-secondary);">
-        <p style="margin: 0.5rem 0;">As you type, CiteCount highlights parenthetical content with colors:</p>
-        <div style="display: flex; align-items: center; gap: 0.75rem; margin: 0.5rem 0;">
-          <div style="width: 24px; height: 24px; background: rgba(239, 68, 68, 0.3); border-radius: 3px;"></div>
-          <span><strong style="color: #ef4444;">Red highlight:</strong> Treated as a citation (not counted in "Words without Citations")</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 0.75rem; margin: 0.5rem 0;">
-          <div style="width: 24px; height: 24px; background: rgba(34, 197, 94, 0.3); border-radius: 3px;"></div>
-          <span><strong style="color: #22c55e;">Green highlight:</strong> Excluded from citations (counted in "Words without Citations")</span>
-        </div>
+      <div style="background: var(--background-secondary); padding: 0.875rem; border-radius: 0.5rem; margin-bottom: 0.75rem; border: 1px solid var(--border-primary);">
+        <p style="margin: 0 0 0.625rem 0; font-size: 0.875rem; font-weight: 600; color: var(--text-primary);">Highlight colors:</p>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.875rem;">
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <div style="width: 20px; height: 20px; background: rgba(239, 68, 68, 0.35); border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(239, 68, 68, 0.5);"></div>
+            <span style="color: var(--text-secondary);"><strong style="color: #ef4444;">Red:</strong> Citation (excluded from word count)</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <div style="width: 20px; height: 20px; background: rgba(34, 197, 94, 0.35); border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(34, 197, 94, 0.5);"></div>
+            <span style="color: var(--text-secondary);"><strong style="color: #22c55e;">Green:</strong> Not a citation (counted)</span>
+          </div>
         </div>
       </div>
 
-      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
-        <p style="margin: 0; font-size: 0.9rem; color: white"><strong>💡 Pro Tip:</strong> Use the Try Example feature to see how CiteCount highlights and counts citations in a sample document with detailed explanations.</p>
+      <div style="background: rgba(99, 102, 241, 0.12); padding: 0.875rem; border-radius: 0.5rem; margin-bottom: 1rem; border: 1px solid rgba(99, 102, 241, 0.3);">
+        <p style="margin: 0; font-size: 0.875rem; color: var(--text-primary); line-height: 1.5;">
+          <strong style="color: rgb(99, 102, 241);">💡 Tip:</strong> Use the "Try Example" feature to see citation highlighting in action with detailed explanations.
+        </p>
       </div>
 
       <button onclick="closeExcludeCitationInfoModal()" style="width: 100%; padding: 0.75rem; background: var(--accent-color); color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-weight: 600; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Got it</button>

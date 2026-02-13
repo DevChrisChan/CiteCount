@@ -336,14 +336,29 @@
                 <div class="relative md:hidden">
                   <button id="format-dropdown-btn" data-tooltip="Text Formatting" onclick="toggleFormatDropdown()"
                     class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-format-dropdown">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                      <path d="M6 4h4a4 4 0 0 1 0 8H6z" />
-                      <path d="M6 12h4a4 4 0 0 1 0 8H6z" />
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor">
+                      <path d="M20.71,3.29a2.91,2.91,0,0,0-2.2-.84,3.25,3.25,0,0,0-2.17,1L7.46,12.29s0,0,0,0a.62.62,0,0,0-.11.17,1,1,0,0,0-.1.18l0,0L6,16.72A1,1,0,0,0,7,18a.9.9,0,0,0,.28,0l4-1.17,0,0,.18-.1a.62.62,0,0,0,.17-.11l0,0,8.87-8.88a3.25,3.25,0,0,0,1-2.17A2.91,2.91,0,0,0,20.71,3.29Z"></path>
+                      <path d="M21,22H3a1,1,0,0,1,0-2H21a1,1,0,0,1,0,2Z"></path>
                     </svg>
                   </button>
                   <div id="format-dropdown"
                     class="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50 hidden min-w-32">
+                    <button onclick="undoText(); toggleFormatDropdown()"
+                      class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M10.7071 4.29289C11.0976 4.68342 11.0976 5.31658 10.7071 5.70711L8.41421 8H13.5C16.5376 8 19 10.4624 19 13.5C19 16.5376 16.5376 19 13.5 19H11C10.4477 19 10 18.5523 10 18C10 17.4477 10.4477 17 11 17H13.5C15.433 17 17 15.433 17 13.5C17 11.567 15.433 10 13.5 10H8.41421L10.7071 12.2929C11.0976 12.6834 11.0976 13.3166 10.7071 13.7071C10.3166 14.0976 9.68342 14.0976 9.29289 13.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289L9.29289 4.29289C9.68342 3.90237 10.3166 3.90237 10.7071 4.29289Z"
+                        fill="currentColor" />
+                      </svg>
+                      Undo
+                    </button>
+                    <button onclick="redoText(); toggleFormatDropdown()"
+                      class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2929 4.29289C13.6834 3.90237 14.3166 3.90237 14.7071 4.29289L18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L14.7071 13.7071C14.3166 14.0976 13.6834 14.0976 13.2929 13.7071C12.9024 13.3166 12.9024 12.6834 13.2929 12.2929L15.5858 10H10.5C8.567 10 7 11.567 7 13.5C7 15.433 8.567 17 10.5 17H13C13.5523 17 14 17.4477 14 18C14 18.5523 13.5523 19 13 19H10.5C7.46243 19 5 16.5376 5 13.5C5 10.4624 7.46243 8 10.5 8H15.5858L13.2929 5.70711C12.9024 5.31658 12.9024 4.68342 13.2929 4.29289Z"/>
+                      </svg>
+                      Redo
+                    </button>
                     <button onclick="formatText('bold'); toggleFormatDropdown()"
                       class="w-full text-left px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -503,8 +518,8 @@
 
         <div id="gutter" class="gutter hidden lg:block" data-lta-event="v2-gutter-resize"></div>
 
-        <div id="citations-panel" class="split-panel hidden lg:block shadow-sm"
-          style="border-width: 1px; border-color: var(--border-primary); border-radius: 0.5rem; position: relative; display: flex; flex-direction: column;">
+        <div id="citations-panel" class="split-panel hidden lg:flex shadow-sm"
+          style="border-width: 1px; border-color: var(--border-primary); border-radius: 0.5rem; position: relative; flex-direction: column;">
 
           <!-- Panel Header with Title (only for Word Count Details) -->
           <div id="panel-header"
