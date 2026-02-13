@@ -4246,13 +4246,21 @@ pre {
   flex-direction: column;
   background: var(--background-secondary);
   border-right: 1px solid var(--border-primary);
+  border-left: 1px solid var(--border-primary);
   overflow: hidden;
-  height: 100%;
   transition: none;
   position: relative;
   z-index: 10;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: #00000020 1px solid;
+  border-top: #00000020 1px solid;
+  margin-top: 65px;
+  height: 91.2vh;
+  margin-left: 15px;
 }
-
 .file-sidebar.transitioning {
   transition: width 0.3s ease, min-width 0.3s ease;
 }
@@ -4333,6 +4341,7 @@ pre {
   position: sticky;
   bottom: 0;
   background: var(--background-secondary);
+  border-radius: 10px;
 }
 
 .file-sidebar.collapsed .sidebar-btn-full {
@@ -4443,7 +4452,7 @@ pre {
 
 .sidebar-header {
   padding: 1rem;
-  margin-top: 3rem;
+
   border-bottom: 1px solid var(--border-primary);
   display: flex;
   justify-content: space-between;
