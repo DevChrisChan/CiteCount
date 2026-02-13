@@ -153,7 +153,8 @@ class ScrollDetector {
 
       // Check if this looks like accidental scrolling
       // (scrolled beyond app while typing recently or multiple times)
-      if ((this.isUserTyping || this.scrollBeyondCount >= this.config.minScrollBeyondCount)) {
+      // AND the editor has content
+      if (this.hasEditorContent() && (this.isUserTyping || this.scrollBeyondCount >= this.config.minScrollBeyondCount)) {
         this.showFocusModeModal();
       }
     } else {
@@ -170,6 +171,14 @@ class ScrollDetector {
     } catch (e) {
       return false;
     }
+  }
+
+  hasEditorContent() {
+    const editor = document.getElementById('editor');
+    if (!editor) return false;
+    
+    const content = editor.value || editor.textContent || '';
+    return content.trim().length > 0;
   }
 
   showFocusModeModal() {
