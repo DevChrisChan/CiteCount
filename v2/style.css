@@ -878,12 +878,16 @@
     transition: background-color 0.2s ease;
     min-width: 80px;
     min-height: 60px;
-    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
+  }
+
+  .counter-card h3 {
+    user-select: none;
+
   }
 
   .stats-row {
@@ -1803,10 +1807,10 @@
       width: 100%;
       border-right: none;
       border-bottom: 1px solid #E5E7EB;
-      padding: 0.75rem 0.5rem;
+      padding: 0.75rem 1rem;
       background: #F9FAFB;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       overflow-x: auto;
       overflow-y: hidden;
       gap: 0.5rem;
@@ -5046,6 +5050,7 @@ pre {
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 
 .file-input-modal-content {
@@ -5056,6 +5061,7 @@ pre {
   min-width: 400px;
   max-width: 90%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
 }
 
 .file-input-modal-content h3 {

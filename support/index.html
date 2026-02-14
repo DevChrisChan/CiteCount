@@ -8,6 +8,13 @@
     <link href="/v2/style.css" rel="stylesheet">
     <link href="/v2/flowbite.css" rel="stylesheet">
     <script src="/v2/apps-modal.js"></script>
+
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="CiteCount" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
     <style>
         :root {
             --primary-color: #3b82f6;
@@ -311,7 +318,7 @@
         }
 
         .help-footer {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1F40AF;
             border-radius: 1rem;
             padding: 2rem;
             text-align: center;
@@ -403,7 +410,7 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --background-primary: #1D1F24;
+                --background-primary: #181818;
                 --background-secondary: #1c1c1c;
                 --background-light: #2a2a2a;
                 --text-primary: #ffffff;
@@ -828,6 +835,46 @@
             }
         }
 
+        // Articles index
+        const articlesIndex = [
+            {
+                "url": "./articles/getting-started.html",
+                "title": "Getting Started with CiteCount",
+                "description": "Learn the basics of CiteCount and start counting words accurately",
+                "searchable": "getting started quick start guide setup beginning start import documents drag drop paste clipboard open editor type text view counts citations panel autosave"
+            },
+            {
+                "url": "./articles/features.html",
+                "title": "Features & Tools",
+                "description": "Explore all features including citations, file management, and more",
+                "searchable": "features tools functionality options capabilities export download premium pro advanced word count characters speaking time reading time counter display formatting"
+            },
+            {
+                "url": "./articles/citations.html",
+                "title": "Citations & Formatting",
+                "description": "Master citation detection, management, and generation",
+                "searchable": "citations citation detection management generate APA MLA Harvard Chicago formatting styles in-text bibliography references exclude include toggle citation highlighting citation generator"
+            },
+            {
+                "url": "./articles/file-management.html",
+                "title": "File Management",
+                "description": "Organize projects, folders, and manage your documents",
+                "searchable": "file management project management documents folders organize save delete rename create new project folder storage quota local storage save work"
+            },
+            {
+                "url": "./articles/troubleshooting.html",
+                "title": "Troubleshooting",
+                "description": "Solutions to common issues and error messages",
+                "searchable": "troubleshooting issues problems errors bugs help fix broken not working import fails citations wrong word count different slow error message message fail"
+            },
+            {
+                "url": "./articles/shortcuts.html",
+                "title": "Keyboard Shortcuts",
+                "description": "Work faster with keyboard shortcuts and productivity tips",
+                "searchable": "keyboard shortcuts hotkeys quick actions cmd control meta alt shift windows mac bold italic underline strikethrough settings productivity"
+            }
+        ];
+
         // Search functionality
         const searchInput = document.getElementById('searchInput');
         const categoryGrid = document.getElementById('categoryGrid');
@@ -835,6 +882,7 @@
 
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase().trim();
+            const faqSection = document.querySelector('[style*="margin-top: 4rem"]');
 
             if (searchTerm === '') {
                 // Show all
@@ -844,11 +892,16 @@
                 document.querySelectorAll('.faq-item').forEach(item => {
                     item.style.display = 'block';
                 });
+                categoryGrid.style.marginBottom = '3rem';
+                if (faqSection) {
+                    faqSection.style.display = 'block';
+                }
                 removeSearchResults();
                 return;
             }
 
             let hasResults = false;
+            let hasFAQResults = false;
 
             // Search categories
             document.querySelectorAll('.category-card').forEach(card => {
@@ -861,24 +914,59 @@
                 }
             });
 
+            // Reduce category grid margin when filtering
+            const allCardsHidden = Array.from(document.querySelectorAll('.category-card')).every(card => card.style.display === 'none');
+            if (allCardsHidden) {
+                categoryGrid.style.marginBottom = '0rem';
+            } else {
+                categoryGrid.style.marginBottom = '3rem';
+            }
+
             // Search FAQs
             document.querySelectorAll('.faq-item').forEach(item => {
                 const text = (item.textContent + ' ' + (item.dataset.searchable || '')).toLowerCase();
                 if (text.includes(searchTerm)) {
                     item.style.display = 'block';
                     hasResults = true;
+                    hasFAQResults = true;
                 } else {
                     item.style.display = 'none';
                 }
             });
 
+            // Search articles
+            const matchedArticles = articlesIndex.filter(article => {
+                const searchableText = (article.title + ' ' + article.description + ' ' + article.searchable).toLowerCase();
+                return searchableText.includes(searchTerm);
+            });
+
+            if (matchedArticles.length > 0) {
+                hasResults = true;
+            }
+
+            // Show/hide article results
+            displayArticleResults(matchedArticles, searchTerm);
+
             // Show "no results" message
             if (!hasResults) {
+                if (faqSection) {
+                    faqSection.style.display = 'none';
+                }
                 showNoResults(searchTerm);
             } else {
-                removeSearchResults();
+                if (faqSection) {
+                    faqSection.style.display = hasFAQResults ? 'block' : 'none';
+                }
+                removeNoResults();
             }
         });
+
+        function removeNoResults() {
+            const existing = document.getElementById('no-results');
+            if (existing) {
+                existing.remove();
+            }
+        }
 
         function showNoResults(searchTerm) {
             removeSearchResults();
@@ -892,13 +980,62 @@
                 <p>No results found for "${searchTerm}"</p>
                 <p style="font-size: 0.875rem; margin-top: 0.5rem;">Try different keywords or contact support below.</p>
             `;
-            faqList.parentNode.appendChild(noResults);
+            categoryGrid.parentNode.insertBefore(noResults, categoryGrid.nextSibling);
+        }
+
+        function displayArticleResults(articles, searchTerm) {
+            // Remove existing article results section
+            const existingResults = document.getElementById('article-search-results');
+            if (existingResults) {
+                existingResults.remove();
+            }
+
+            // If no articles match, return
+            if (articles.length === 0) {
+                return;
+            }
+
+            // Create article results section
+            const resultsSection = document.createElement('div');
+            resultsSection.id = 'article-search-results';
+            resultsSection.style.marginTop = '0rem';
+            resultsSection.style.marginBottom = '2rem';
+            resultsSection.innerHTML = `<h2 class="section-title">📄 Article Results</h2>`;
+
+            // Add article cards
+            const articlesGrid = document.createElement('div');
+            articlesGrid.className = 'category-grid';
+            articlesGrid.style.marginTop = '1rem';
+
+            articles.forEach(article => {
+                const card = document.createElement('a');
+                card.href = article.url;
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <h3 class="category-title">${article.title}</h3>
+                    <p class="category-description">${article.description}</p>
+                `;
+                articlesGrid.appendChild(card);
+            });
+
+            resultsSection.appendChild(articlesGrid);
+
+            // Insert before the FAQ section
+            const faqSection = document.querySelector('[style*="margin-top: 4rem"]');
+            if (faqSection) {
+                faqSection.parentNode.insertBefore(resultsSection, faqSection);
+            } else {
+                // Fallback: insert after category grid
+                categoryGrid.parentNode.insertBefore(resultsSection, categoryGrid.nextSibling);
+            }
         }
 
         function removeSearchResults() {
-            const existing = document.getElementById('no-results');
-            if (existing) {
-                existing.remove();
+            removeNoResults();
+
+            const articleResults = document.getElementById('article-search-results');
+            if (articleResults) {
+                articleResults.remove();
             }
         }
 

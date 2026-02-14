@@ -13,7 +13,7 @@
   const appsModalHTML = `
     <div id="apps-modal" class="apps-modal" style="display: none; z-index:100000">
       <div class="apps-modal-controls">
-        <span class="apps-modal-title">Applications</span>
+        <span class="apps-modal-title" style="user-select: none;">Applications</span>
         <div class="apps-modal-actions">
           <button type="button" class="apps-reset-order" aria-hidden="true">Reset</button>
           <button type="button" class="apps-edit-toggle" aria-pressed="false">Customize</button>
@@ -33,17 +33,7 @@
           </div>
           <span class="app-title">CiteCount</span>
         </a>
-        <a href="/generate/" class="app-card" data-app-id="citation-generator" data-lta-event="v2-more-apps-citation-click">
-          <div class="app-icon-wrapper">
-            <div class="app-icon" style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 191.029 191.029" width="20" height="20">
-                <path fill="white" d="M44.33,88.474v15.377h38.417v82.745H0v-82.745h0.002V88.474c0-31.225,8.984-54.411,26.704-68.918 C38.964,9.521,54.48,4.433,72.824,4.433v44.326C62.866,48.759,44.33,48.759,44.33,88.474z M181.107,48.759V4.433 c-18.343,0-33.859,5.088-46.117,15.123c-17.72,14.507-26.705,37.694-26.705,68.918v15.377h0v82.745h82.744v-82.745h-38.417V88.474 C152.613,48.759,171.149,48.759,181.107,48.759z"/>
-              </svg>
-            </div>
-            <span class="app-beta-badge">BETA</span>
-          </div>
-          <span class="app-title">Citation Generator</span>
-        </a>
+        <!-- Citation Generator removed per update; Help Center will be added after Contact -->
         <a href="/countdown/" class="app-card" data-app-id="countdown-m26" data-lta-event="v2-more-apps-countdown-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
@@ -125,6 +115,17 @@
             </div>
           </div>
           <span class="app-title">Contact</span>
+        </a>
+        <a href="/support/" class="app-card" data-app-id="help-center" data-lta-event="v2-more-apps-help-click">
+          <div class="app-icon-wrapper">
+            <div class="app-icon" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="32" height="32" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+<path fill="#FFFFFF" stroke="#FFFFFF" stroke-linejoin="round" stroke-linecap="round" stroke-width="40" d="m759.936 805.248-90.944-91.008A254.912 254.912 0 0 1 512 768a254.912 254.912 0 0 1-156.992-53.76l-90.944 91.008A382.464 382.464 0 0 0 512 896c94.528 0 181.12-34.176 247.936-90.752zm45.312-45.312A382.464 382.464 0 0 0 896 512c0-94.528-34.176-181.12-90.752-247.936l-91.008 90.944C747.904 398.4 768 452.864 768 512c0 59.136-20.096 113.6-53.76 156.992l91.008 90.944zm-45.312-541.184A382.464 382.464 0 0 0 512 128c-94.528 0-181.12 34.176-247.936 90.752l90.944 91.008A254.912 254.912 0 0 1 512 256c59.136 0 113.6 20.096 156.992 53.76l90.944-91.008zm-541.184 45.312A382.464 382.464 0 0 0 128 512c0 94.528 34.176 181.12 90.752 247.936l91.008-90.944A254.912 254.912 0 0 1 256 512c0-59.136 20.096-113.6 53.76-156.992l-91.008-90.944zm417.28 394.496a194.56 194.56 0 0 0 22.528-22.528C686.912 602.56 704 559.232 704 512a191.232 191.232 0 0 0-67.968-146.56A191.296 191.296 0 0 0 512 320a191.232 191.232 0 0 0-146.56 67.968C337.088 421.44 320 464.768 320 512a191.232 191.232 0 0 0 67.968 146.56C421.44 686.912 464.768 704 512 704c47.296 0 90.56-17.088 124.032-45.44zM512 960a448 448 0 1 1 0-896 448 448 0 0 1 0 896z"/>
+</svg>
+            </div>
+          </div>
+          <span class="app-title">Help Center</span>
         </a>
       </div>
     </div>
@@ -209,7 +210,7 @@
       .map((card) => card.dataset.appId)
       .filter(Boolean);
 
-    applySavedOrder(grid);
+    applySavedOrder(grid, defaultOrder);
     setEditMode(modal, toggleButton, resetButton, false);
 
     toggleButton.addEventListener('click', () => {
@@ -306,9 +307,30 @@
     return { element: card, insertAfter };
   }
 
-  function applySavedOrder(grid) {
+  function applySavedOrder(grid, defaultOrder) {
     const order = readSavedOrder();
     if (!order || !order.length) return;
+
+    // Validate saved order: it must contain the same set of app IDs as the current defaultOrder.
+    try {
+      const currentSet = new Set(defaultOrder);
+      const orderSet = new Set(order);
+
+      if (currentSet.size !== orderSet.size) {
+        localStorage.removeItem(APPS_ORDER_KEY);
+        return;
+      }
+
+      for (const id of orderSet) {
+        if (!currentSet.has(id)) {
+          localStorage.removeItem(APPS_ORDER_KEY);
+          return;
+        }
+      }
+    } catch (e) {
+      try { localStorage.removeItem(APPS_ORDER_KEY); } catch (err) {}
+      return;
+    }
 
     const cards = Array.from(grid.querySelectorAll('.app-card'));
     const cardMap = new Map(cards.map((card) => [card.dataset.appId, card]));

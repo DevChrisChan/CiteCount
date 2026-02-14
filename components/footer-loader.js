@@ -48,7 +48,7 @@
       })
       .catch(error => {
         console.error('Error loading footer:', error);
-        footerPlaceholder.innerHTML = '<footer style="padding: 2rem; text-align: center;">Footer could not be loaded.</footer>';
+        footerPlaceholder.innerHTML = '<footer style="padding: 2rem; text-align: center;">© 2026 CiteCount. All rights reserved.</footer>';
       });
   }
 

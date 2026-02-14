@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="Unlock Premium - CiteCount" />
     <meta property="og:description"
-      content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
-    <meta property="og:image"
-      content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
+        content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
+    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
     <meta property="og:url" content="https://citecount.com/pro/" />
     <meta property="og:type" content="website" />
-    <meta name="twitter:image"
-      content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
+    <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/DevChrisChan/CiteCount@main/assets/mockup1.jpg" />
     <meta name="twitter:description"
-      content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
+        content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Unlock Premium - CiteCount" />
     <meta name="google-site-verification" content="k3HduRndgQCyQQuqpEA6mrILZ_9OA-i2YoN-vzS0LRk" />
     <meta name="description"
-      content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!">
+        content="CiteCount accurately counts words without citations, references, or brackets for your IB coursework, essays and documents. Free & privacy-focused. Try now!">
     <meta name="keywords"
-      content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
+        content="CiteCount, Word Count, Word Counter, Citations, Web Application, Word Counter without Citations, Word Counter without Brackets">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
     <script type="application/ld+json">
@@ -39,15 +38,15 @@
     <meta name="apple-mobile-web-app-title" content="CiteCount" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
     <script defer async data-host="citecount.netlify.app" data-events="true"
-      src="https://liteanalytics.com/lite.js"></script>
+        src="https://liteanalytics.com/lite.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHVN622J29"></script>
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-      data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
+        data-cf-beacon='{"token": "d002cd256ca845a8bdfb2cc23b01685a"}'></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-LHVN622J29');
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-LHVN622J29');
     </script>
     <title>Unlock Pro - CiteCount</title>
     <link href="/v2/style.css" rel="stylesheet">
@@ -85,8 +84,13 @@
         }
 
         @keyframes rainbow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 200% 50%;
+            }
         }
 
         .pro-subtitle {
@@ -127,9 +131,19 @@
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
         }
 
         .pro-buttons {
@@ -261,23 +275,33 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
+    <link href="/v2/style.css" rel="stylesheet">
+    <link href="/v2/flowbite.css" rel="stylesheet">
+    <script src="/v2/apps-modal.js"></script>
 </head>
+
 <body>
     <div class="app-container">
         <header class="flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';"
+                style="user-select: none;">
                 <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
-                <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900;">CiteCount</h1>
+                <h1 class="text-xl font-bold text-black dark:text-white"
+                    style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
             </div>
             <div class="flex items-center gap-2">
-                <button class="p-2 rounded-md flex items-center gap-2" onclick="window.location.href='/';">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps"
+                    onclick="toggleAppsModal()" data-lta-event="v2-more-apps-click">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                        <path
+                            d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
                     </svg>
-                    <span class="hidden md:inline text-sm font-medium">Home</span>
+                    <span class="hidden md:inline text-sm font-medium">More Apps</span>
                 </button>
             </div>
         </header>
@@ -285,11 +309,14 @@
         <div class="pro-content">
             <div class="pro-card">
                 <h2 id="title" class="pro-title">Unlock Pro</h2>
-                <p id="subtitle" class="pro-subtitle">Enter your code to unlock CiteCount Pro and get access to premium features.</p>
+                <p id="subtitle" class="pro-subtitle">Enter your code to unlock CiteCount Pro and get access to premium
+                    features.</p>
                 <input type="text" id="codeInput" class="pro-input" placeholder="Enter Pro Code">
                 <div class="pro-buttons">
-                    <button id="unlockButton" class="pro-btn pro-btn-primary" onclick="enablePremium()">Unlock Now</button>
-                    <a href="https://buymeacoffee.com/cite" class="pro-btn pro-btn-secondary" target="_blank" rel="noopener noreferrer">Buy Pro</a>
+                    <button id="unlockButton" class="pro-btn pro-btn-primary" onclick="enablePremium()">Unlock
+                        Now</button>
+                    <a href="https://buymeacoffee.com/cite" class="pro-btn pro-btn-secondary" target="_blank"
+                        rel="noopener noreferrer">Buy Pro</a>
                     <a href="/" id="experienceButton" class="pro-btn pro-btn-primary hidden">Experience Pro</a>
                 </div>
                 <div id="status" class="pro-status"></div>
@@ -307,24 +334,12 @@
             </div>
         </div>
 
-        <footer style="margin-top: auto; padding: 2rem 0; text-align: center;">
-            <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
-                <p style="margin-bottom: 1rem;">
-                    <a href="/contact.html" style="color: var(--text-secondary); text-decoration: none; margin: 0 0.5rem;">Contact</a>
-                    <a href="/about-us.html" style="color: var(--text-secondary); text-decoration: none; margin: 0 0.5rem;">About Us</a>
-                    <a href="/privacy-policy.html" style="color: var(--text-secondary); text-decoration: none; margin: 0 0.5rem;">Privacy Policy</a>
-                    <a href="/terms-of-service.html" style="color: var(--text-secondary); text-decoration: none; margin: 0 0.5rem;">Terms of Service</a>
-                </p>
-                <p style="color: var(--text-secondary); font-size: 0.875rem; opacity: 0.7;">
-                    &copy; <script>document.write(new Date().getFullYear())</script> CiteCount. All rights reserved.
-                </p>
-            </div>
-        </footer>
+        <div id="footer-placeholder"></div>
     </div>
-
+      <script src="/components/footer-loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
-        const CODE = 'PR0'; 
+        const CODE = 'PR0';
         let confettiInterval;
 
         function showPremiumUnlocked() {
@@ -380,7 +395,7 @@
                     localStorage.setItem('isPremium', 'true');
                     statusElement.textContent = 'Premium Unlocked! Enjoy Your Benefits!';
                     statusElement.style.color = 'var(--accent-color)';
-                    
+
                     confetti({
                         particleCount: 150,
                         spread: 90,
@@ -431,11 +446,12 @@
             if (e.key === 'Enter') enablePremium();
         });
 
-        window.onload = function() {
+        window.onload = function () {
             if (localStorage.getItem('isPremium') === 'true') {
                 showPremiumUnlocked();
             }
         };
     </script>
 </body>
+
 </html>
