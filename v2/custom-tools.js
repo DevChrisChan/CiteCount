@@ -36,8 +36,57 @@
     'graphingCalculator': 'Graphing Calculator'
   };
 
-  // Track which tool is being viewed from More Tools
-  let currentMoreToolView = null;
+  function getToolDisplayName(toolId, includeIcon = false) {
+    if (typeof window.getToolDisplayMeta === 'function') {
+      const tool = window.getToolDisplayMeta(toolId);
+      if (tool) {
+        return includeIcon ? `${tool.icon} ${tool.name}` : tool.name;
+      }
+    }
+
+    return includeIcon ? (TOOL_NAMES_WITH_EMOJI[toolId] || toolId) : (TOOL_NAMES[toolId] || toolId);
+  }
+
+  function createToolBox({ id, icon, name, description, onClick, custom = false, dashed = false }) {
+    const toolBox = document.createElement('div');
+    toolBox.id = `${id}-tool-box`;
+    toolBox.className = 'tool-box';
+    toolBox.setAttribute('data-tool-id', id);
+    if (custom) {
+      toolBox.setAttribute('data-custom-tool-box', 'true');
+    }
+
+    toolBox.style.cssText = [
+      'padding: 1.25rem',
+      `border: ${dashed ? '2px dashed' : '1px solid'} var(--border-primary)`,
+      'border-radius: 0.5rem',
+      `background: ${dashed ? 'transparent' : 'var(--background-secondary)'}`,
+      'cursor: pointer',
+      'transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease',
+      'display: flex',
+      'flex-direction: column',
+      'align-items: center',
+      'text-align: center'
+    ].join('; ');
+
+    toolBox.innerHTML = `<h3 style="font-size: 1.5rem; margin: 0; margin-bottom: 0.5rem;">${icon}</h3><p style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0 0 0.5rem; line-height: 1.3;">${name}</p><p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">${description}</p>`;
+
+    toolBox.onclick = onClick;
+    toolBox.onmouseover = function() {
+      this.style.borderColor = 'var(--accent-color)';
+      this.style.boxShadow = '0 10px 24px rgba(15,23,42,0.12)';
+      this.style.transform = 'translateY(-2px)';
+      this.style.backgroundColor = dashed ? 'rgba(var(--accent-color-rgb), 0.05)' : 'var(--background-primary)';
+    };
+    toolBox.onmouseout = function() {
+      this.style.borderColor = 'var(--border-primary)';
+      this.style.boxShadow = 'none';
+      this.style.transform = 'translateY(0)';
+      this.style.backgroundColor = dashed ? 'transparent' : 'var(--background-secondary)';
+    };
+
+    return toolBox;
+  }
 
   // Get pinned tools from localStorage (Tab 2 and Tab 3)
   function getPinnedTools() {
@@ -51,7 +100,7 @@
     const tab1Label = document.querySelector('#citations-tab .tab-label');
     const citationsTab = document.getElementById('citations-tab');
     if (tab1Label) {
-      tab1Label.textContent = TOOL_NAMES['citations'];
+      tab1Label.textContent = getToolDisplayName('citations', false);
     }
     if (citationsTab) {
       citationsTab.onclick = function(e) { 
@@ -65,7 +114,7 @@
     if (tab2Button) {
       const tab2Label = tab2Button.querySelector('.tab-label');
       if (tab2Label && pinnedTools[0]) {
-        const toolName = TOOL_NAMES[pinnedTools[0]];
+        const toolName = getToolDisplayName(pinnedTools[0], false);
         tab2Label.textContent = toolName || pinnedTools[0];
       }
       // Update data attribute
@@ -85,7 +134,7 @@
     if (tab3Button) {
       const tab3Label = tab3Button.querySelector('.tab-label');
       if (tab3Label && pinnedTools[1]) {
-        const toolName = TOOL_NAMES[pinnedTools[1]];
+        const toolName = getToolDisplayName(pinnedTools[1], false);
         tab3Label.textContent = toolName || pinnedTools[1];
       }
       // Update data attribute
@@ -185,13 +234,15 @@
     if (!pinnedTools.includes('generateCitation')) {
       if (!generateCitationBox) {
         // Create it
-        generateCitationBox = document.createElement('div');
+        generateCitationBox = createToolBox({
+          id: 'generate-citation',
+          icon: '📝',
+          name: 'Generate Citation',
+          description: 'Create formatted citations in MLA, APA, Harvard and more styles.',
+          onClick: function() { switchPanelTab('generateCitation', true); }
+        });
         generateCitationBox.id = 'generate-citation-tool-box';
-        generateCitationBox.className = 'tool-box';
         generateCitationBox.setAttribute('data-tool-id', 'generateCitation');
-        generateCitationBox.style.cssText = 'padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;';
-        generateCitationBox.innerHTML = '<h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📝 Generate Citation</h3><p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Create formatted citations in MLA, APA, Harvard and more styles.</p>';
-        generateCitationBox.onclick = function() { switchPanelTab('generateCitation', true); };
         toolsGrid.insertAdjacentElement('afterbegin', generateCitationBox);
       } else {
         generateCitationBox.style.display = 'flex';
@@ -204,13 +255,15 @@
     if (!pinnedTools.includes('details')) {
       if (!detailsBox) {
         // Create it
-        detailsBox = document.createElement('div');
+        detailsBox = createToolBox({
+          id: 'word-count-details',
+          icon: '📊',
+          name: 'Word Count Details',
+          description: 'View detailed statistics including reading time, character count, and more.',
+          onClick: function() { switchPanelTab('details', true); }
+        });
         detailsBox.id = 'word-count-details-tool-box';
-        detailsBox.className = 'tool-box';
         detailsBox.setAttribute('data-tool-id', 'details');
-        detailsBox.style.cssText = 'padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;';
-        detailsBox.innerHTML = '<h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">📊 Word Count Details</h3><p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">View detailed statistics including reading time, character count, and more.</p>';
-        detailsBox.onclick = function() { switchPanelTab('details', true); };
         toolsGrid.insertAdjacentElement('afterbegin', detailsBox);
       } else {
         detailsBox.style.display = 'flex';
@@ -219,28 +272,59 @@
       detailsBox.style.display = 'none';
     }
 
+    Array.from(toolsGrid.querySelectorAll('[data-custom-tool-box="true"]')).forEach((node) => node.remove());
+
+    const customTools = typeof window.getCustomTools === 'function' ? window.getCustomTools() : [];
+    const customiseToolsBtn = document.getElementById('customise-tools-btn');
+
+    customTools.forEach((tool) => {
+      const toolBox = createToolBox({
+        id: tool.id,
+        icon: tool.icon || '🧩',
+        name: tool.name,
+        description: tool.description,
+        custom: true,
+        onClick: function() { switchPanelTab(tool.id, true); }
+      });
+      if (customiseToolsBtn) {
+        toolsGrid.insertBefore(toolBox, customiseToolsBtn);
+      } else {
+        toolsGrid.appendChild(toolBox);
+      }
+    });
+
     // Add a "Customise Tools" button on the same line as the tools grid
-    let customiseToolsBtn = document.getElementById('customise-tools-btn');
-    if (!customiseToolsBtn) {
+    let customiseToolsButton = document.getElementById('customise-tools-btn');
+    if (!customiseToolsButton) {
       // Create the button and add it to the grid
-      customiseToolsBtn = document.createElement('div');
-      customiseToolsBtn.id = 'customise-tools-btn';
-      customiseToolsBtn.className = 'tool-box';
-      customiseToolsBtn.style.cssText = 'padding: 1.25rem; border: 2px dashed var(--border-primary); border-radius: 0.5rem; background: transparent; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; text-align: center;';
-      customiseToolsBtn.innerHTML = '<div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚙️</div><h3 style="font-size: 1rem; font-weight: 600; margin: 0 0 0.5rem; color: var(--text-primary);">Customize</h3><p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Pin your tools</p>';
-      customiseToolsBtn.onclick = function() { openToolsSettingsPage(); };
-      
-      // Add hover effects
-      customiseToolsBtn.onmouseover = () => {
-        customiseToolsBtn.style.borderColor = 'var(--accent-color)';
-        customiseToolsBtn.style.background = 'rgba(var(--accent-color-rgb), 0.05)';
-      };
-      customiseToolsBtn.onmouseout = () => {
-        customiseToolsBtn.style.borderColor = 'var(--border-primary)';
-        customiseToolsBtn.style.background = 'transparent';
-      };
-      
-      toolsGrid.appendChild(customiseToolsBtn);
+      customiseToolsButton = createToolBox({
+        id: 'customise-tools',
+        icon: '⚙️',
+        name: 'Customize',
+        description: 'Pin your tools',
+        dashed: true,
+        onClick: function() { openToolsSettingsPage(); }
+      });
+      customiseToolsButton.id = 'customise-tools-btn';
+      toolsGrid.appendChild(customiseToolsButton);
+    }
+
+    let marketplaceBtn = document.getElementById('tools-marketplace-btn');
+    if (!marketplaceBtn) {
+      marketplaceBtn = createToolBox({
+        id: 'tools-marketplace',
+        icon: '🛍️',
+        name: 'Tools Marketplace',
+        description: 'Add iframe tools and custom apps',
+        dashed: true,
+        onClick: function() {
+          if (typeof window.openToolsMarketplaceModal === 'function') {
+            window.openToolsMarketplaceModal();
+          }
+        }
+      });
+      marketplaceBtn.id = 'tools-marketplace-btn';
+      toolsGrid.appendChild(marketplaceBtn);
     }
 
     // Add centered idea line at the bottom
@@ -270,6 +354,12 @@
       setTimeout(() => {
         initializeToolsDisplay();
       }, 200);
+    });
+
+    window.addEventListener('customToolsChanged', () => {
+      setTimeout(() => {
+        initializeToolsDisplay();
+      }, 50);
     });
   }
 

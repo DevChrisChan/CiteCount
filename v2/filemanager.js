@@ -1918,7 +1918,7 @@ function showProjectInfoModal(projectId) {
     transform: translate(-50%, -50%);
     background: var(--background-primary);
     border: 1px solid var(--border-primary);
-    border-radius: 0.5rem;
+    border-radius: 1.25rem;
     padding: 0; /* inner sections handle spacing */
     z-index: 1001;
     max-width: 500px;
@@ -1938,13 +1938,13 @@ function showProjectInfoModal(projectId) {
 
     <div class="file-info-body" style="padding: 1rem 1.25rem; overflow-y: auto; display:flex; flex-direction: column; gap: 1rem; flex: 1;">
       <!-- File Name -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.75rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Document Name</div>
         <div style="color: var(--text-primary); font-weight: 600; word-break: break-word;">${fileManager.escapeHtml(project.name)}</div>
       </div>
 
       <!-- File Size -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.75rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">File Size</div>
         <div style="color: var(--text-primary); font-weight: 600;">
           ${contentLength} bytes (${(contentLength / 1024).toFixed(2)} KB)
@@ -1952,44 +1952,44 @@ function showProjectInfoModal(projectId) {
       </div>
 
       <!-- Created Date -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.75rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Created Date</div>
         <div style="color: var(--text-primary); font-weight: 600;">${formatDate(createdDate)}</div>
       </div>
 
       <!-- Last Modified Date -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.75rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Last Modified</div>
         <div style="color: var(--text-primary); font-weight: 600;">${formatDate(modifiedDate)}</div>
       </div>
 
       <!-- Document ID (for reference) -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.75rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Document ID</div>
         <div style="color: var(--text-primary); font-family: monospace; font-size: 0.875rem; word-break: break-all;">${project.id}</div>
       </div>
 
       <!-- Word Count -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.75rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Word Count</div>
         <div style="color: var(--text-primary); font-weight: 600;">${wordCount.toLocaleString()} words</div>
       </div>
 
       <!-- Character Count -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.75rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Character Count</div>
         <div style="color: var(--text-primary); font-weight: 600;">${contentLength.toLocaleString()} characters</div>
       </div>
 
       <!-- Citation Count -->
-      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.375rem; border: 1px solid var(--border-primary);">
+      <div style="padding: 1rem; background: var(--background-secondary); border-radius: 0.75rem; border: 1px solid var(--border-primary);">
         <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem; font-weight: 500;">Citation Count</div>
         <div style="color: var(--text-primary); font-weight: 600;">${citationCount} citations</div>
       </div>
     </div>
 
     <div style="padding: 0.75rem 1rem; border-top: 1px solid var(--border-primary); display:flex; gap: 0.75rem; justify-content: flex-end; flex: none;">
-      <button class="close-info-modal" style="padding: 0.625rem 1.25rem; border: 1px solid var(--border-primary); background: transparent; color: var(--text-primary); border-radius: 0.375rem; cursor: pointer; font-weight: 500; transition: background 0.2s;">Close</button>
+      <button class="close-info-modal" style="padding: 0.625rem 1.25rem; border: 1px solid var(--border-primary); background: transparent; color: var(--text-primary); border-radius: 0.75rem; cursor: pointer; font-weight: 500; transition: background 0.2s;">Close</button>
     </div>
   `;
   

@@ -379,7 +379,7 @@
 })();
 
 // Tool configuration
-const AVAILABLE_TOOLS = [
+const BASE_AVAILABLE_TOOLS = [
 	{ id: 'citations', name: 'Citations', icon: '📚', description: 'View and manage citations' },
 	{ id: 'generateCitation', name: 'Generate Citation', icon: '📝', description: 'Create formatted citations' },
 	{ id: 'details', name: 'Word Count Details', icon: '📊', description: 'Detailed word count statistics' },
@@ -392,6 +392,13 @@ const AVAILABLE_TOOLS = [
 	{ id: 'scientificCalculator', name: 'Scientific Calculator', icon: '🧮', description: 'Quick scientific calculations' },
 	{ id: 'graphingCalculator', name: 'Graphing Calculator', icon: '📈', description: 'Plot and analyze graphs' }
 ];
+
+function getAvailableTools() {
+	if (typeof window.getMergedMarketplaceTools === 'function') {
+		return window.getMergedMarketplaceTools(BASE_AVAILABLE_TOOLS);
+	}
+	return BASE_AVAILABLE_TOOLS;
+}
 
 const DEFAULT_PINNED_TOOLS = ['generateCitation', 'details'];
 
@@ -468,7 +475,7 @@ function initializeToolsSelection() {
 	`;
 
 	// Create cards for all selectable tools (exclude Citations as it's always pinned)
-	AVAILABLE_TOOLS.filter(tool => tool.id !== 'citations').forEach(tool => {
+	getAvailableTools().filter(tool => tool.id !== 'citations').forEach(tool => {
 		const card = document.createElement('div');
 		const isPinned = pinnedTools.includes(tool.id);
 		const tabIndex = pinnedTools.indexOf(tool.id);
@@ -595,7 +602,7 @@ function initializeToolsSelection() {
 	for (let i = 0; i < 2; i++) {
 		const toolId = pinnedTools[i];
 		if (toolId) {
-			const tool = AVAILABLE_TOOLS.find(t => t.id === toolId);
+			const tool = getAvailableTools().find(t => t.id === toolId);
 			if (tool) {
 				const tab = document.createElement('div');
 				tab.style.cssText = `

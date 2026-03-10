@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools Marketplace - CiteCount</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f8fc;
+      --panel: rgba(255, 255, 255, 0.9);
+      --panel-strong: #ffffff;
+      --panel-soft: #eef4ff;
+      --text: #10203a;
+      --muted: #60708a;
+      --border: rgba(124, 145, 180, 0.28);
+      --accent: #0f5bd8;
+      --accent-strong: #0a45a8;
+      --accent-soft: rgba(15, 91, 216, 0.1);
+      --success: #0f9f6e;
+      --danger: #d64545;
+      --shadow: 0 24px 60px rgba(15, 32, 58, 0.12);
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --font: "SF Pro Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(15, 91, 216, 0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(41, 121, 255, 0.12), transparent 26%),
+        linear-gradient(180deg, #f7faff 0%, #eef4ff 48%, #f7f9fc 100%);
+    }
+
+    .shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(117, 146, 189, 0.22);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(135deg, rgba(11, 52, 127, 0.96), rgba(15, 91, 216, 0.88) 54%, rgba(106, 163, 255, 0.86));
+      color: #ffffff;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -90px -90px auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      filter: blur(4px);
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      max-width: 11ch;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 720px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #ffffff;
+      color: var(--accent-strong);
+      box-shadow: 0 12px 28px rgba(10, 69, 168, 0.18);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .summary-card,
+    .section,
+    .drawer-panel,
+    .tool-card,
+    .empty-state,
+    .saved-tool {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-card {
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+
+    .summary-card .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .summary-card .value {
+      margin-top: 8px;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .summary-card .meta {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section {
+      border-radius: var(--radius-lg);
+      padding: 22px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .tool-card {
+      border-radius: 22px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), transparent 45%);
+      pointer-events: none;
+    }
+
+    .tool-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .tool-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      background: linear-gradient(135deg, rgba(15, 91, 216, 0.18), rgba(106, 163, 255, 0.28));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--panel-soft);
+      color: var(--accent-strong);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge.success {
+      background: rgba(15, 159, 110, 0.14);
+      color: var(--success);
+    }
+
+    .tool-name {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .tool-description {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .tool-url {
+      font-size: 12px;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(15, 32, 58, 0.04);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tool-card .btn {
+      width: 100%;
+      border-radius: 14px;
+      padding: 12px 14px;
+    }
+
+    .btn-add {
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 14px 28px rgba(15, 91, 216, 0.18);
+    }
+
+    .btn-muted {
+      background: rgba(15, 32, 58, 0.05);
+      color: var(--text);
+    }
+
+    .saved-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .saved-tool {
+      border-radius: 18px;
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .saved-tool-main {
+      min-width: 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .saved-tool h3 {
+      margin: 0 0 4px;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+    }
+
+    .saved-tool p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .saved-tool-actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-danger {
+      background: rgba(214, 69, 69, 0.12);
+      color: var(--danger);
+    }
+
+    .empty-state {
+      border-radius: 20px;
+      padding: 26px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .tips {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .tip {
+      border-radius: 18px;
+      background: var(--panel-strong);
+      border: 1px solid var(--border);
+      padding: 16px;
+    }
+
+    .tip h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .tip p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .drawer {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      z-index: 20;
+    }
+
+    .drawer.open {
+      display: flex;
+    }
+
+    .drawer-panel {
+      width: min(560px, 100%);
+      border-radius: 28px;
+      padding: 24px;
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .drawer-panel h2 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .drawer-panel p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(117, 146, 189, 0.34);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.9);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    textarea {
+      min-height: 104px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(15, 91, 216, 0.12);
+    }
+
+    .drawer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(16, 32, 58, 0.94);
+      color: #ffffff;
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.26);
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 30;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 860px) {
+      .hero-top,
+      .section-header,
+      .saved-tool {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .summary-grid,
+      .tips {
+        grid-template-columns: 1fr;
+      }
+
+      .saved-tool-actions {
+        width: 100%;
+      }
+
+      .saved-tool-actions .btn {
+        flex: 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding: 18px;
+      }
+
+      .hero,
+      .section,
+      .drawer-panel {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="eyebrow">Workspace Tools</div>
+          <h1>Build your own tools shelf.</h1>
+          <p>Add iframe-powered tools directly into CiteCount. Curated picks are ready in one click, and you can bring in your own internal page or external web app with just a name, URL, and short description.</p>
+        </div>
+        <button class="btn btn-secondary" id="open-custom-tool">Add Custom Tool</button>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="jump-to-presets">Browse Curated Tools</button>
+        <button class="btn btn-secondary" id="jump-to-library">View My Added Tools</button>
+      </div>
+    </section>
+
+    <section class="summary-grid">
+      <div class="summary-card">
+        <div class="label">Saved Tools</div>
+        <div class="value" id="saved-tools-count">0</div>
+        <div class="meta">Stored in your browser on this device.</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">One-Click Adds</div>
+        <div class="value" id="preset-tools-count">0</div>
+        <div class="meta">Curated iframe-ready tools from the CiteCount ecosystem.</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">How It Works</div>
+        <div class="value">Name + URL</div>
+        <div class="meta">Every tool just needs an iframe URL and short metadata.</div>
+      </div>
+    </section>
+
+    <section class="section" id="presets-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Curated Picks</h2>
+          <p class="section-subtitle">These are ready-made tools that fit cleanly inside the CiteCount side panel. Add them now and open them later from More Tools.</p>
+        </div>
+        <span class="badge">Iframe-ready</span>
+      </div>
+      <div class="preset-grid" id="preset-grid"></div>
+    </section>
+
+    <section class="section" id="library-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">My Added Tools</h2>
+          <p class="section-subtitle">Manage the tools already attached to your CiteCount workspace.</p>
+        </div>
+        <button class="btn btn-muted" id="open-custom-tool-alt">Add Another</button>
+      </div>
+      <div class="saved-list" id="saved-tools-list"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Before You Add a Tool</h2>
+          <p class="section-subtitle">A few constraints come from how iframes work on the web, not from CiteCount itself.</p>
+        </div>
+      </div>
+      <div class="tips">
+        <div class="tip">
+          <h3>Use iframe-friendly URLs</h3>
+          <p>Some websites block embedding with security headers. Internal CiteCount pages and purpose-built embeddable pages work best.</p>
+        </div>
+        <div class="tip">
+          <h3>Keep metadata short</h3>
+          <p>The More Tools grid is compact. Clear names and one-sentence descriptions make the workspace easier to scan and pin.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="drawer" id="custom-tool-drawer">
+    <div class="drawer-panel">
+      <h2>Add Custom Tool</h2>
+      <p>Bring your own iframe-powered page into CiteCount. Relative paths like <strong>/support/</strong> work for internal tools.</p>
+      <form id="custom-tool-form" class="form-grid">
+        <label>
+          Tool Name
+          <input id="tool-name" type="text" maxlength="64" placeholder="Exam Planner" required>
+        </label>
+        <label>
+          Short Description
+          <textarea id="tool-description" maxlength="160" placeholder="A quick planning board for weekly study sessions." required></textarea>
+        </label>
+        <label>
+          iFrame URL
+          <input id="tool-url" type="url" placeholder="/support/ or https://example.com/embed" required>
+        </label>
+        <div class="drawer-actions">
+          <button type="button" class="btn btn-muted" id="cancel-custom-tool">Cancel</button>
+          <button type="submit" class="btn btn-add">Add Tool</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      const STORAGE_KEY = 'citecount-custom-tools-v1';
+      const DEFAULT_ICON = '🧩';
+      const PRESET_TOOLS = [
+        {
+          id: 'focus-break-2048',
+          name: '2048 Break',
+          description: 'Take a quick brain reset with a compact game that fits neatly into the CiteCount side panel.',
+          iframeUrl: '/components/2048/index.html',
+          icon: '🎮',
+          source: 'marketplace'
+        },
+        {
+          id: 'help-center-panel',
+          name: 'Help Center',
+          description: 'Keep CiteCount help articles one click away while you work on documents and citations.',
+          iframeUrl: '/support/',
+          icon: '🛟',
+          source: 'marketplace'
+        },
+        {
+          id: 'ib-resources-browser',
+          name: 'IB Resources',
+          description: 'Browse curated IB resources without leaving the CiteCount workspace.',
+          iframeUrl: '/ib-resources/',
+          icon: '📚',
+          source: 'marketplace'
+        },
+        {
+          id: 'results-simulator',
+          name: 'Results Simulator',
+          description: 'Open the IB results simulator inside the same panel to compare planning scenarios.',
+          iframeUrl: '/ib-results/',
+          icon: '📈',
+          source: 'marketplace'
+        },
+        {
+          id: 'bulletin-analysis-lab',
+          name: 'Bulletin Analysis',
+          description: 'Pin the bulletin analysis workspace for quick reference during study and review sessions.',
+          iframeUrl: '/bulletin-analysis/',
+          icon: '🧪',
+          source: 'marketplace'
+        },
+        {
+          id: 'countdown-dashboard',
+          name: 'Exam Countdown',
+          description: 'Keep the IB exam countdown visible alongside your writing workflow.',
+          iframeUrl: '/countdown/',
+          icon: '⏳',
+          source: 'marketplace'
+        }
+      ];
+
+      const presetGrid = document.getElementById('preset-grid');
+      const savedToolsList = document.getElementById('saved-tools-list');
+      const savedToolsCount = document.getElementById('saved-tools-count');
+      const presetToolsCount = document.getElementById('preset-tools-count');
+      const drawer = document.getElementById('custom-tool-drawer');
+      const customToolForm = document.getElementById('custom-tool-form');
+      const toast = document.getElementById('toast');
+      let toastTimer = null;
+
+      presetToolsCount.textContent = PRESET_TOOLS.length.toString();
+
+      function normalizeText(value, fallback = '') {
+        return String(value == null ? fallback : value).trim();
+      }
+
+      function slugify(value) {
+        return normalizeText(value)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .slice(0, 48);
+      }
+
+      function normalizeIframeUrl(rawUrl) {
+        const value = normalizeText(rawUrl);
+        if (!value) {
+          throw new Error('A valid iframe URL is required.');
+        }
+
+        const parsed = new URL(value, window.location.origin);
+        if (!['http:', 'https:'].includes(parsed.protocol)) {
+          throw new Error('Only http and https iframe URLs are supported.');
+        }
+
+        if (parsed.origin === window.location.origin) {
+          return parsed.pathname + parsed.search + parsed.hash;
+        }
+
+        return parsed.toString();
+      }
+
+      function readTools() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function writeTools(tools) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tools));
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('visible');
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => {
+          toast.classList.remove('visible');
+        }, 2800);
+      }
+
+      function postToParent(type, payload) {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type, payload }, window.location.origin);
+        }
+      }
+
+      function getUniqueId(name, existingTools) {
+        const baseId = slugify(name) || 'custom-tool';
+        const existingIds = new Set(existingTools.map((tool) => tool.id));
+        let nextId = baseId;
+        let suffix = 2;
+
+        while (existingIds.has(nextId)) {
+          nextId = `${baseId}-${suffix}`;
+          suffix += 1;
+        }
+
+        return nextId;
+      }
+
+      function upsertTool(tool) {
+        const current = readTools();
+        const remaining = current.filter((item) => item.id !== tool.id);
+        const normalizedTool = {
+          id: normalizeText(tool.id) || getUniqueId(tool.name, current),
+          name: normalizeText(tool.name).slice(0, 64),
+          description: normalizeText(tool.description).slice(0, 160),
+          iframeUrl: normalizeIframeUrl(tool.iframeUrl),
+          icon: normalizeText(tool.icon, DEFAULT_ICON) || DEFAULT_ICON,
+          source: normalizeText(tool.source, 'custom') || 'custom',
+          createdAt: Date.now()
+        };
+
+        const next = [...remaining, normalizedTool].sort((left, right) => left.name.localeCompare(right.name));
+        writeTools(next);
+        postToParent('citecount:marketplace-upsert-tool', normalizedTool);
+        render();
+        return normalizedTool;
+      }
+
+      function removeTool(toolId) {
+        const next = readTools().filter((tool) => tool.id !== toolId);
+        writeTools(next);
+        postToParent('citecount:marketplace-remove-tool', { id: toolId });
+        render();
+      }
+
+      function renderPresets() {
+        const savedIds = new Set(readTools().map((tool) => tool.id));
+        presetGrid.innerHTML = '';
+
+        PRESET_TOOLS.forEach((tool) => {
+          const isAdded = savedIds.has(tool.id);
+          const card = document.createElement('article');
+          card.className = 'tool-card';
+          card.innerHTML = `
+            <div class="tool-card-header">
+              <div class="tool-icon">${tool.icon}</div>
+              <span class="badge ${isAdded ? 'success' : ''}">${isAdded ? 'Added' : 'Curated'}</span>
+            </div>
+            <div>
+              <h3 class="tool-name">${tool.name}</h3>
+              <p class="tool-description">${tool.description}</p>
+            </div>
+            <div class="tool-url">${tool.iframeUrl}</div>
+          `;
+
+          const button = document.createElement('button');
+          button.className = `btn ${isAdded ? 'btn-muted' : 'btn-add'}`;
+          button.textContent = isAdded ? 'Update in Workspace' : 'Add to Workspace';
+          button.addEventListener('click', () => {
+            upsertTool(tool);
+            showToast(`${tool.name} is now available in More Tools.`);
+          });
+
+          card.appendChild(button);
+          presetGrid.appendChild(card);
+        });
+      }
+
+      function renderSavedTools() {
+        const tools = readTools();
+        savedToolsCount.textContent = tools.length.toString();
+        savedToolsList.innerHTML = '';
+
+        if (!tools.length) {
+          savedToolsList.innerHTML = '<div class="empty-state">You have not added any marketplace tools yet. Start with a curated pick or add your own iframe URL.</div>';
+          return;
+        }
+
+        tools.forEach((tool) => {
+          const row = document.createElement('div');
+          row.className = 'saved-tool';
+          row.innerHTML = `
+            <div class="saved-tool-main">
+              <div class="tool-icon">${tool.icon || DEFAULT_ICON}</div>
+              <div>
+                <h3>${tool.name}</h3>
+                <p>${tool.description}</p>
+                <div class="tool-url" style="margin-top: 10px;">${tool.iframeUrl}</div>
+              </div>
+            </div>
+          `;
+
+          const actions = document.createElement('div');
+          actions.className = 'saved-tool-actions';
+
+          const addAgainBtn = document.createElement('button');
+          addAgainBtn.className = 'btn btn-muted';
+          addAgainBtn.textContent = 'Refresh';
+          addAgainBtn.addEventListener('click', () => {
+            upsertTool(tool);
+            showToast(`${tool.name} was refreshed.`);
+          });
+
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'btn btn-danger';
+          removeBtn.textContent = 'Remove';
+          removeBtn.addEventListener('click', () => {
+            removeTool(tool.id);
+            showToast(`${tool.name} was removed.`);
+          });
+
+          actions.appendChild(addAgainBtn);
+          actions.appendChild(removeBtn);
+          row.appendChild(actions);
+          savedToolsList.appendChild(row);
+        });
+      }
+
+      function render() {
+        renderPresets();
+        renderSavedTools();
+      }
+
+      function openDrawer() {
+        drawer.classList.add('open');
+      }
+
+      function closeDrawer() {
+        drawer.classList.remove('open');
+        customToolForm.reset();
+      }
+
+      document.getElementById('open-custom-tool').addEventListener('click', openDrawer);
+      document.getElementById('open-custom-tool-alt').addEventListener('click', openDrawer);
+      document.getElementById('cancel-custom-tool').addEventListener('click', closeDrawer);
+      drawer.addEventListener('click', (event) => {
+        if (event.target === drawer) {
+          closeDrawer();
+        }
+      });
+
+      document.getElementById('jump-to-presets').addEventListener('click', () => {
+        document.getElementById('presets-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      document.getElementById('jump-to-library').addEventListener('click', () => {
+        document.getElementById('library-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      customToolForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        try {
+          const currentTools = readTools();
+          const name = document.getElementById('tool-name').value;
+          const description = document.getElementById('tool-description').value;
+          const iframeUrl = document.getElementById('tool-url').value;
+
+          const tool = upsertTool({
+            id: getUniqueId(name, currentTools),
+            name,
+            description,
+            iframeUrl,
+            icon: DEFAULT_ICON,
+            source: 'custom'
+          });
+
+          closeDrawer();
+          showToast(`${tool.name} is now available in More Tools.`);
+        } catch (error) {
+          showToast(error.message || 'Unable to add this tool.');
+        }
+      });
+
+      window.addEventListener('storage', (event) => {
+        if (event.key === STORAGE_KEY) {
+          render();
+        }
+      });
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && drawer.classList.contains('open')) {
+          closeDrawer();
+        }
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -2969,6 +2969,7 @@ function switchPanelTab(tabName, isMoreToolView = false, isHistoryNavigation = f
   const pinnedTools = JSON.parse(localStorage.getItem('pinnedTools') || '["generateCitation", "details"]');
   const isTab2Tool = pinnedTools[0] === tabName;
   const isTab3Tool = pinnedTools[1] === tabName;
+  const customTool = typeof window.getCustomToolById === 'function' ? window.getCustomToolById(tabName) : null;
   
   // Get all containers
   const citationsContainer = document.getElementById('citations-table-container');
@@ -2983,6 +2984,8 @@ function switchPanelTab(tabName, isMoreToolView = false, isHistoryNavigation = f
   const wordbankContainer = document.getElementById('wordbank-container');
   const scientificCalculatorContainer = document.getElementById('scientific-calculator-container');
   const graphingCalculatorContainer = document.getElementById('graphing-calculator-container');
+  const customToolContainer = document.getElementById('custom-tool-container');
+  const customToolIframe = document.getElementById('custom-tool-iframe');
   
   const panelHeader = document.getElementById('panel-header');
   const panelTitle = document.getElementById('panel-title');
@@ -3020,6 +3023,7 @@ function switchPanelTab(tabName, isMoreToolView = false, isHistoryNavigation = f
   if (wordbankContainer) wordbankContainer.style.display = 'none';
   if (scientificCalculatorContainer) scientificCalculatorContainer.style.display = 'none';
   if (graphingCalculatorContainer) graphingCalculatorContainer.style.display = 'none';
+  if (customToolContainer) customToolContainer.style.display = 'none';
 
   // Handle each tab
   if (tabName === 'citations') {
@@ -3322,6 +3326,42 @@ function switchPanelTab(tabName, isMoreToolView = false, isHistoryNavigation = f
     }
     if (graphingCalculatorContainer) graphingCalculatorContainer.style.display = 'flex';
     if (searchRow) searchRow.style.display = 'none';
+  } else if (customTool) {
+    if (isMoreToolView) {
+      if (menuBtn) {
+        menuBtn.classList.add('active');
+        menuBtn.style.color = 'var(--text-primary)';
+        menuBtn.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader && panelTitle) {
+        panelHeader.style.display = 'block';
+        panelTitle.innerHTML = `<span onclick="switchPanelTab('moreApps');" style="opacity: 0.5; cursor: pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">More Tools</span> / ${customTool.name}`;
+      }
+    } else {
+      if (isTab2Tool) {
+        tab2Button.classList.add('active');
+        tab2Button.style.color = 'var(--text-primary)';
+        tab2Button.style.borderBottomColor = 'var(--accent-color)';
+      } else if (isTab3Tool) {
+        tab3Button.classList.add('active');
+        tab3Button.style.color = 'var(--text-primary)';
+        tab3Button.style.borderBottomColor = 'var(--accent-color)';
+      }
+      if (panelHeader) {
+        panelHeader.style.display = 'block';
+        if (panelTitle) panelTitle.textContent = customTool.name;
+      }
+    }
+
+    if (customToolIframe) {
+      if (customToolIframe.src !== customTool.iframeUrl && customToolIframe.getAttribute('src') !== customTool.iframeUrl) {
+        customToolIframe.src = customTool.iframeUrl;
+      }
+      customToolIframe.title = customTool.name;
+    }
+
+    if (customToolContainer) customToolContainer.style.display = 'flex';
+    if (searchRow) searchRow.style.display = 'none';
   } else if (tabName === 'moreApps') {
     if (menuBtn) {
       menuBtn.style.color = 'var(--text-primary)';
@@ -3351,7 +3391,9 @@ function switchPanelTab(tabName, isMoreToolView = false, isHistoryNavigation = f
   };
   
   // Set the current active iframe or reset it
-  if (iframeToolMap[tabName]) {
+  if (customTool) {
+    currentActiveIframe = 'custom-tool-iframe';
+  } else if (iframeToolMap[tabName]) {
     currentActiveIframe = iframeToolMap[tabName];
   } else {
     currentActiveIframe = null;
@@ -4506,7 +4548,7 @@ function reloadIframe() {
 // ========================================
 
 // Available tools with their display names and IDs
-const availableTools = [
+const baseAvailableTools = [
   { id: 'generateCitation', name: '📝 Generate Citation', icon: '📝' },
   { id: 'details', name: '📊 Word Count Details', icon: '📊' },
   { id: 'dictionary', name: '📚 Dictionary', icon: '📚' },
@@ -4518,6 +4560,13 @@ const availableTools = [
   { id: 'scientificCalculator', name: '🧮 Scientific Calculator', icon: '🧮' },
   { id: 'graphingCalculator', name: '📈 Graphing Calculator', icon: '📈' }
 ];
+
+function getAvailableToolsForUI() {
+  if (typeof window.getMergedMarketplaceTools === 'function') {
+    return window.getMergedMarketplaceTools(baseAvailableTools);
+  }
+  return baseAvailableTools;
+}
 
 // Initialize context menu for tab buttons
 function initializeTabContextMenu() {
@@ -4594,7 +4643,7 @@ function openEditPinnedToolModal() {
   // Clear and populate tool selection grid
   toolSelectionGrid.innerHTML = '';
   
-  availableTools.forEach(tool => {
+  getAvailableToolsForUI().forEach(tool => {
     const isCurrentlyPinned = pinnedTools[editingIndex] === tool.id;
     const isPinnedElsewhere = pinnedTools.includes(tool.id) && !isCurrentlyPinned;
     
@@ -4704,7 +4753,7 @@ function updatePinnedTabLabels() {
   
   // Update tab 2 label
   if (generateCitationTab) {
-    const tool1 = availableTools.find(t => t.id === pinnedTools[0]);
+    const tool1 = getAvailableToolsForUI().find(t => t.id === pinnedTools[0]);
     if (tool1) {
       const label = generateCitationTab.querySelector('.tab-label');
       if (label) {
@@ -4715,7 +4764,7 @@ function updatePinnedTabLabels() {
   
   // Update tab 3 label
   if (detailsTab) {
-    const tool2 = availableTools.find(t => t.id === pinnedTools[1]);
+    const tool2 = getAvailableToolsForUI().find(t => t.id === pinnedTools[1]);
     if (tool2) {
       const label = detailsTab.querySelector('.tab-label');
       if (label) {
@@ -4724,3 +4773,5 @@ function updatePinnedTabLabels() {
     }
   }
 }
+
+window.updatePinnedTabLabels = updatePinnedTabLabels;
