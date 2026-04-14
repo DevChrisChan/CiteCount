@@ -56,154 +56,95 @@
     <link href="/v2/flowbite.css" rel="stylesheet">
 
     <style>
-        :root {
-            --background-color: #f4f4f4;
-            --text-color: #666;
-            --heading-color: #333;
-            --subheading-color: #555;
-            --link-color: #007BFF;
-            --button-bg: #007BFF;
-            --button-hover: #0056b3;
-            --italic-color: #777;
-            --section-bg: #ffffff;
-            --border-color: #e0e0e0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        .sitemap-shell {
+            max-width: 1100px;
+            margin: 0 auto;
+            color: var(--text-primary);
+            line-height: 1.65;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --background-color: #1a1a1a;
-                --text-color: #d1d1d1;
-                --heading-color: #ffffff;
-                --subheading-color: #cccccc;
-                --link-color: #66b3ff;
-                --button-bg: #66b3ff;
-                --button-hover: #3385ff;
-                --italic-color: #999999;
-                --section-bg: #2a2a2a;
-                --border-color: #404040;
-            }
-        }
-
-        h1 {
-            font-size: 2em;
-            color: var(--heading-color);
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 1.5em;
-            color: var(--subheading-color);
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-
-        h3 {
-            font-size: 1.2em;
-            color: var(--subheading-color);
-            margin-top: 20px;
-            margin-bottom: 10px;
+        .sitemap-title {
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin: 0 0 1.25rem;
+            text-align: left;
+            color: var(--text-primary);
         }
 
         .section {
-            background-color: var(--section-bg);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        p {
-            margin: 10px 0;
-        }
-
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        ul {
-            margin: 10px 0 10px 20px;
-        }
-
-        li {
-            margin: 5px 0;
-        }
-
-        .content-area button {
-            padding: 10px 15px;
-            background-color: var(--button-bg);
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px 0;
-        }
-
-        .content-area button:hover {
-            background-color: var(--button-hover);
-        }
-
-        #back-to-home {
-            display: block;
-            margin: 20px auto;
-            text-align: center;
+            background-color: var(--background-secondary);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-primary);
         }
 
         .site-section {
-            margin-bottom: 25px;
+            margin-bottom: 1rem;
+        }
+
+        .section h2 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin: 0 0 0.75rem;
+            font-weight: 800;
+        }
+
+        .section h3 {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin: 1rem 0 0.6rem;
+            font-weight: 700;
+        }
+
+        .section p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .section a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .section a:hover {
+            text-decoration: underline;
         }
 
         .link-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 16px;
-            margin: 18px 0;
+            gap: 0.75rem;
+            margin: 0.85rem 0;
         }
 
         .link-item {
             position: relative;
-            padding: 14px 16px 14px 18px;
-            background-color: var(--section-bg);
-            border: 1px solid rgba(0,0,0,0.06);
-            border-radius: 12px;
+            padding: 0.85rem 0.9rem 0.85rem 1rem;
+            background-color: var(--background-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 0.7rem;
             transition: background-color 180ms ease, border-color 180ms ease;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 0.3rem;
             min-height: 64px;
-            color: var(--text-color);
+            color: var(--text-secondary);
             overflow: hidden;
+            cursor: pointer;
         }
 
         .link-item strong a {
-            color: var(--link-color);
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 700;
             display: inline-block;
         }
 
-        .link-item a:hover {
-            text-decoration: underline;
-        }
-
-        .link-item::marker { display: none; }
-
-        .link-item small,
-        .link-item p,
-        .link-item > br + span {
-            color: var(--text-color);
-            font-size: 0.95rem;
-            line-height: 1.3;
-        }
-
         .link-item:hover {
-            background-color: rgba(0,0,0,0.03);
-            border-color: rgba(0,0,0,0.09);
+            background-color: var(--background-secondary);
+            border-color: var(--accent-color);
         }
 
         .link-item::before {
@@ -212,30 +153,11 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 6px;
-         
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
-            opacity: 0.98;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .link-item {
-                border: 1px solid rgba(255,255,255,0.04);
-                background-color: #1f2123;
-            }
-
-            .link-item:hover {
-                background-color: rgba(255,255,255,0.02);
-                border-color: rgba(255,255,255,0.06);
-            }
-
-          
-        }
-
-        /* Make whole card feel clickable and remove default blue focus ring */
-        .link-item {
-            cursor: pointer;
+            width: 3px;
+            background: var(--accent-color);
+            border-top-left-radius: 0.7rem;
+            border-bottom-left-radius: 0.7rem;
+            opacity: 0.95;
         }
 
         .link-item a {
@@ -245,14 +167,38 @@
             text-decoration: none;
         }
 
-        .link-item a:focus {
+        .link-item a:focus,
+        .link-item:focus {
             outline: none;
             box-shadow: none;
         }
 
-        /* When keyboard-focusing the card itself, avoid native focus ring */
-        .link-item:focus {
-            outline: none;
+        #back-to-home {
+            display: inline-block;
+            margin: 0.5rem 0 0;
+            text-align: center;
+            padding: 0.75rem 1.25rem;
+            background-color: var(--accent-color);
+            color: #fff;
+            border: 1px solid transparent;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 700;
+            transition: opacity 0.2s ease;
+        }
+
+        #back-to-home:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .sitemap-title {
+                font-size: 1.9rem;
+            }
+
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -277,8 +223,8 @@
         </header>
 
         <main class="content-area" style="padding: 2rem; padding-top: 5rem; min-height: 60vh;">
-            <div class="new-container" style="max-width: 1200px; margin: 0 auto;">
-                <h1>CiteCount Sitemap</h1>
+            <div class="sitemap-shell">
+                <h1 class="sitemap-title">CiteCount Sitemap</h1>
 
                 <section class="section">
                     <p>Welcome to the CiteCount sitemap! This page helps you navigate through all the features and content available on our platform. CiteCount is a comprehensive word counting tool designed specifically for academic writing, particularly for IB students and researchers.</p>
