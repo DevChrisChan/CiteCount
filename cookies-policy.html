@@ -75,14 +75,14 @@
             font-weight: 600;
         }
         .cookie-table tr:last-child td { border-bottom: none; }
-        .cookie-category {
+        .legal-section .cookie-category {
             background: none;
             border: 1px solid var(--border-primary);
             border-radius: 0.5rem;
             padding: 1.25rem;
             margin: 1.25rem 0;
         }
-        .cookie-category h4 {
+        .legal-section .cookie-category h4 {
             color: var(--accent-color);
             margin-bottom: 0.75rem;
             font-size: 1.2rem;
@@ -101,41 +101,16 @@
         }
         .control-button:hover { background: var(--accent-color-dark, #0056b3); }
         .control-button.secondary { background: var(--background-tertiary, #6c757d); }
-        #cookie-settings-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        .cookie-settings-content {
-            background: var(--background-primary);
-            border-radius: 0.5rem;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .cookie-toggle input[type="checkbox"] { opacity: 0; width: 0; height: 0; }
-        .cookie-toggle .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: 0.4s;
-            border-radius: 24px;
-        }
     </style>
 </head>
 <body>
+    <div
+        style="-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;"
+        id="notification" title="Click notification to dismiss.">
+        There is an error displaying this notification.
+        <div id="progress-bar"></div>
+    </div>
+
     <div>
         <header class="flex justify-between items-center">
             <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/'" style="user-select: none;">
@@ -371,52 +346,57 @@
     </div>
 
     <!-- Cookie Settings Modal -->
-    <div id="cookie-settings-modal">
+    <div id="cookie-settings-modal" class="cookie-settings-modal" style="display: none;">
         <div class="cookie-settings-content">
-            <div class="cookie-settings-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Cookie Settings</h3>
-                <button id="close-cookie-settings" class="close-btn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-primary);" onclick="closeCookieSettingsModal()">✕</button>
+            <div class="cookie-settings-header">
+                <h3>Cookie Settings</h3>
+                <button id="close-cookie-settings" class="close-btn" onclick="closeCookieSettingsModal()">
+                    <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px;">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
             </div>
-            <div class="cookie-settings-body" style="margin-bottom: 1.5rem;">
-                <div class="cookie-category" style="margin-bottom: 1.5rem;">
-                    <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                        <h4 style="margin: 0; font-weight: 600; color: var(--text-primary);">Essential Cookies</h4>
-                        <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+            <div class="cookie-settings-body">
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <h4>Essential Cookies</h4>
+                        <label class="cookie-toggle disabled">
                             <input type="checkbox" checked disabled>
                             <span class="slider" onclick="event.preventDefault()"></span>
                         </label>
                     </div>
-                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies are necessary for the website to function and cannot be switched off.</p>
+                    <p>These cookies are necessary for the website to function and cannot be switched off.</p>
                 </div>
-                <div class="cookie-category" style="margin-bottom: 1.5rem;">
-                    <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                        <h4 style="margin: 0; font-weight: 600; color: var(--text-primary);">Analytics Cookies</h4>
-                        <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <h4>Analytics Cookies</h4>
+                        <label class="cookie-toggle">
                             <input type="checkbox" id="analytics-cookies" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies allow us to count visits and traffic sources to measure and improve performance.</p>
+                    <p>These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site.</p>
                 </div>
                 <div class="cookie-category">
-                    <div class="cookie-category-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                        <h4 style="margin: 0; font-weight: 600; color: var(--text-primary);">Advertising Cookies</h4>
-                        <label class="cookie-toggle" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                    <div class="cookie-category-header">
+                        <h4>Advertising Cookies</h4>
+                        <label class="cookie-toggle">
                             <input type="checkbox" id="advertising-cookies" checked>
                             <span class="slider"></span>
                         </label>
                     </div>
-                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">These cookies are used to deliver advertisements more relevant to you and your interests.</p>
+                    <p>These cookies are used to deliver advertisements more relevant to you and your interests.</p>
                 </div>
             </div>
-            <div class="cookie-settings-footer" style="display: flex; gap: 1rem;">
-                <button id="save-cookie-preferences" class="control-button" style="flex: 1;" onclick="saveCookiePreferences()">Save Preferences</button>
-                <button id="accept-all-settings" class="control-button secondary" style="flex: 1;" onclick="acceptAllCookies()">Accept All</button>
+            <div class="cookie-settings-footer">
+                <button id="save-cookie-preferences" class="cookie-btn primary" onclick="saveCookiePreferences()">Save Preferences</button>
+                <button id="accept-all-settings" class="cookie-btn secondary" onclick="acceptAllCookies()">Accept All</button>
             </div>
         </div>
     </div>
 
     <script src="/v2/apps-modal.js"></script>
+    <script src="/v2/notify.js"></script>
     <script src="/components/footer-loader.js"></script>
     <script>
         function openCookieSettingsModal() {
@@ -448,7 +428,7 @@
             }
 
             closeCookieSettingsModal();
-            alert('Cookie preferences have been saved successfully.');
+            notify('Cookie preferences have been saved successfully.');
         }
 
         function acceptAllCookies() {
@@ -469,7 +449,7 @@
             }
 
             closeCookieSettingsModal();
-            alert('All cookies have been accepted.');
+            notify('All cookies have been accepted.');
         }
 
         function rejectNonEssentialCookies() {
@@ -490,7 +470,7 @@
             }
 
             closeCookieSettingsModal();
-            alert('Non-essential cookies have been rejected.');
+            notify('Non-essential cookies have been rejected.');
         }
 
         document.addEventListener('click', function(event) {
@@ -506,15 +486,6 @@
             }
         });
 
-        document.querySelectorAll('.cookie-toggle input[type="checkbox"]:not([disabled])').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                const slider = this.parentElement.querySelector('.slider');
-                slider.style.backgroundColor = this.checked ? '#4CAF50' : '#ccc';
-            });
-            if (checkbox.checked) {
-                checkbox.parentElement.querySelector('.slider').style.backgroundColor = '#4CAF50';
-            }
-        });
     </script>
 </body>
 </html>

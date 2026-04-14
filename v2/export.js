@@ -1,3 +1,7 @@
+let isExporting = false;
+let latestExportedPreviewUrl = '';
+let currentDownloadProgress = 0;
+
 function openDownloadModal() {
   const modal = document.getElementById('download-modal');
   const background = document.getElementById('overlay-background');
@@ -42,6 +46,7 @@ function openDownloadModal() {
 
   setupDownloadFilenameValidation();
   updateDownloadFilenameValidation();
+  resetDownloadProgressUi();
 
   modal.style.display = 'flex';
   background.style.display = 'block';
@@ -49,6 +54,10 @@ function openDownloadModal() {
 }
 
 function closeDownloadModal() {
+  if (isExporting) {
+    return;
+  }
+
   const modal = document.getElementById('download-modal');
   const background = document.getElementById('overlay-background');
   if (modal) {
@@ -56,6 +65,163 @@ function closeDownloadModal() {
   }
   if (background) {
     background.style.display = 'none';
+  }
+}
+
+function setDownloadControlsDisabled(disabled) {
+  const modal = document.getElementById('download-modal');
+  if (!modal) return;
+
+  const controls = modal.querySelectorAll('input, select, button');
+  controls.forEach((control) => {
+    control.disabled = disabled;
+  });
+}
+
+function setDownloadModalView(view) {
+  const configView = document.getElementById('download-config-view');
+  const progressView = document.getElementById('download-progress-view');
+  const defaultFooter = document.getElementById('download-modal-footer-default');
+  const progressFooter = document.getElementById('download-modal-footer-progress');
+
+  const showProgress = view === 'progress';
+
+  if (configView) {
+    configView.style.display = showProgress ? 'none' : 'block';
+  }
+  if (progressView) {
+    progressView.style.display = showProgress ? 'block' : 'none';
+  }
+  if (defaultFooter) {
+    defaultFooter.style.display = showProgress ? 'none' : 'flex';
+  }
+  if (progressFooter) {
+    progressFooter.style.display = showProgress ? 'flex' : 'none';
+  }
+}
+
+function resetDownloadProgressUi() {
+  const progressFill = document.getElementById('download-progress-fill');
+  const progressStatus = document.getElementById('download-progress-status');
+  const progressPercent = document.getElementById('download-progress-percent');
+  const progressTrack = document.querySelector('.download-progress-track');
+  const doneButton = document.getElementById('download-done-btn');
+
+  currentDownloadProgress = 0;
+
+  setDownloadModalView('config');
+  if (progressFill) {
+    progressFill.style.width = '0%';
+  }
+  if (progressStatus) {
+    progressStatus.textContent = 'Preparing export...';
+  }
+  if (progressPercent) {
+    progressPercent.textContent = '0%';
+  }
+  if (progressTrack) {
+    progressTrack.setAttribute('aria-valuenow', '0');
+  }
+  setPreviewButtonVisible(false);
+  if (doneButton) {
+    doneButton.disabled = true;
+  }
+}
+
+function updateDownloadProgress(percent, status) {
+  const progressFill = document.getElementById('download-progress-fill');
+  const progressStatus = document.getElementById('download-progress-status');
+  const progressPercent = document.getElementById('download-progress-percent');
+  const progressTrack = document.querySelector('.download-progress-track');
+  const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+
+  setDownloadModalView('progress');
+  if (progressFill) {
+    progressFill.style.width = `${safePercent}%`;
+  }
+  if (progressStatus && status) {
+    progressStatus.textContent = status;
+  }
+  if (progressPercent) {
+    progressPercent.textContent = `${safePercent}%`;
+  }
+  if (progressTrack) {
+    progressTrack.setAttribute('aria-valuenow', String(safePercent));
+  }
+}
+
+function setPreviewButtonVisible(visible) {
+  const previewButton = document.getElementById('download-preview-btn');
+  if (!previewButton) return;
+  previewButton.disabled = !visible;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function animateProgressTo(target, status, stepDelay = 16) {
+  const safeTarget = Math.max(0, Math.min(100, Math.round(target)));
+
+  while (currentDownloadProgress < safeTarget) {
+    currentDownloadProgress += 1;
+    updateDownloadProgress(currentDownloadProgress, status);
+    await sleep(stepDelay);
+  }
+
+  updateDownloadProgress(currentDownloadProgress, status);
+}
+
+async function runTimedProgressStep(target, status, minDurationMs, task) {
+  const taskPromise = typeof task === 'function' ? task() : Promise.resolve();
+  const animationPromise = animateProgressTo(target, status);
+  const delayPromise = sleep(minDurationMs);
+  await Promise.all([taskPromise, animationPromise, delayPromise]);
+}
+
+function waitForPaint() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
+}
+
+function openExportPdfPreview() {
+  if (!latestExportedPreviewUrl) {
+    notify('No PDF available to preview yet.', false, null, 'warning');
+    return;
+  }
+
+  const previewModal = document.getElementById('pdf-preview-modal');
+  const previewFrame = document.getElementById('pdf-preview-frame');
+  if (!previewModal || !previewFrame) {
+    return;
+  }
+
+  previewFrame.src = latestExportedPreviewUrl;
+  previewModal.style.display = 'flex';
+}
+
+function updateLatestPreview(content, mimeType) {
+  if (latestExportedPreviewUrl) {
+    URL.revokeObjectURL(latestExportedPreviewUrl);
+  }
+
+  const blob = content instanceof Blob
+    ? content
+    : new Blob([content], { type: mimeType });
+
+  latestExportedPreviewUrl = URL.createObjectURL(blob);
+}
+
+function closePdfPreviewModal() {
+  const previewModal = document.getElementById('pdf-preview-modal');
+  const previewFrame = document.getElementById('pdf-preview-frame');
+
+  if (previewFrame) {
+    previewFrame.src = 'about:blank';
+  }
+  if (previewModal) {
+    previewModal.style.display = 'none';
   }
 }
 
@@ -170,9 +336,17 @@ function updateDownloadFormatOptions() {
       ? 'HTML preserves styling and can be opened in browsers or Word.'
       : 'PDF renders your content for printing and sharing.';
   }
+
+  if (formatSelect.value !== 'pdf') {
+    setPreviewButtonVisible(false);
+  }
 }
 
-function downloadEditorContent() {
+async function downloadEditorContent() {
+  if (isExporting) {
+    return;
+  }
+
   const editor = document.getElementById('editor');
   const formatSelect = document.getElementById('download-format');
   const filenameInput = document.getElementById('download-filename');
@@ -194,28 +368,52 @@ function downloadEditorContent() {
     : getDefaultExportFilename());
   const filename = baseName || 'CiteCount-Export';
 
-  if (format === 'txt') {
-    downloadBlob(rawText, 'text/plain;charset=utf-8', `${filename}.txt`);
-    closeDownloadModal();
-    notify('Downloaded as TXT.', false, null, 'success');
-    return;
+  isExporting = true;
+  setDownloadControlsDisabled(true);
+  setDownloadModalView('progress');
+  setPreviewButtonVisible(false);
+
+  try {
+    if (format === 'txt') {
+      await runTimedProgressStep(25, 'Preparing text export...', 280, null);
+      await runTimedProgressStep(70, 'Packaging TXT file...', 320, null);
+      await runTimedProgressStep(100, 'Export complete', 380, () => {
+        downloadBlob(rawText, 'text/plain;charset=utf-8', `${filename}.txt`);
+      });
+      updateLatestPreview(rawText, 'text/plain;charset=utf-8');
+      setPreviewButtonVisible(true);
+      notify('Downloaded as TXT.', false, null, 'success');
+      return;
+    }
+    
+    const exportOptions = {
+      preserveFonts: preserveFonts ? preserveFonts.checked : true,
+      preserveStyles: preserveStyles ? preserveStyles.checked : true,
+      includeHighlights: includeHighlights ? includeHighlights.checked : true
+    };
+
+    if (format === 'html') {
+      await runTimedProgressStep(25, 'Preparing HTML export...', 280, null);
+      const html = buildExportHtml(exportOptions);
+      await runTimedProgressStep(68, 'Packaging HTML file...', 320, null);
+      await runTimedProgressStep(100, 'Export complete', 380, () => {
+        downloadBlob(html, 'text/html;charset=utf-8', `${filename}.html`);
+      });
+      updateLatestPreview(html, 'text/html;charset=utf-8');
+      setPreviewButtonVisible(true);
+      notify('Downloaded as HTML.', false, null, 'success');
+      return;
+    }
+
+    await exportToPdf(exportOptions, filename);
+  } finally {
+    isExporting = false;
+    setDownloadControlsDisabled(false);
+    const doneButton = document.getElementById('download-done-btn');
+    if (doneButton) {
+      doneButton.disabled = false;
+    }
   }
-
-  const exportOptions = {
-    preserveFonts: preserveFonts ? preserveFonts.checked : true,
-    preserveStyles: preserveStyles ? preserveStyles.checked : true,
-    includeHighlights: includeHighlights ? includeHighlights.checked : true
-  };
-
-  if (format === 'html') {
-    const html = buildExportHtml(exportOptions);
-    downloadBlob(html, 'text/html;charset=utf-8', `${filename}.html`);
-    closeDownloadModal();
-    notify('Downloaded as HTML.', false, null, 'success');
-    return;
-  }
-
-  exportToPdf(exportOptions, filename);
 }
 
 function sanitizeFilename(name) {
@@ -238,7 +436,9 @@ function getDefaultExportFilename() {
 }
 
 function downloadBlob(content, mimeType, filename) {
-  const blob = new Blob([content], { type: mimeType });
+  const blob = content instanceof Blob
+    ? content
+    : new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
@@ -323,12 +523,18 @@ function loadExportScripts() {
 
 async function exportToPdf(options, filename) {
   try {
-    await loadExportScripts();
+    setDownloadModalView('progress');
+    await runTimedProgressStep(10, 'Loading PDF engine...', 420, async () => {
+      await waitForPaint();
+      await loadExportScripts();
+    });
 
     if (!window.jspdf || !window.jspdf.jsPDF) {
       notify('PDF export is unavailable. Please try HTML or TXT.', false, null, 'error');
       return;
     }
+
+    await runTimedProgressStep(24, 'Preparing content...', 320, () => waitForPaint());
 
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'pt', 'letter');
@@ -342,12 +548,17 @@ async function exportToPdf(options, filename) {
     const highlightRanges = options.includeHighlights
       ? getCitationHighlightRanges(textData.text)
       : [];
+
+    await runTimedProgressStep(46, 'Building PDF layout...', 300, () => waitForPaint());
+
     const lines = buildPdfLines(textData.segments, pdf, fontConfig, maxWidth);
     const lineHeight = fontConfig.size * 1.4;
+    const totalLines = Math.max(lines.length, 1);
 
     let cursorY = margin + fontConfig.size;
 
-    lines.forEach((line) => {
+    for (let index = 0; index < lines.length; index += 1) {
+      const line = lines[index];
       if (cursorY + lineHeight > pageHeight - margin) {
         pdf.addPage();
         cursorY = margin + fontConfig.size;
@@ -366,13 +577,26 @@ async function exportToPdf(options, filename) {
       });
 
       cursorY += lineHeight;
-    });
 
-    pdf.save(`${filename}.pdf`);
-    closeDownloadModal();
+      if (index % 24 === 0 || index === totalLines - 1) {
+        const renderProgress = 50 + Math.round((index / totalLines) * 40);
+        await animateProgressTo(renderProgress, 'Rendering pages...', 8);
+      }
+    }
+
+    await runTimedProgressStep(94, 'Finalizing PDF...', 320, null);
+    const pdfBlob = pdf.output('blob');
+
+    downloadBlob(pdfBlob, 'application/pdf', `${filename}.pdf`);
+
+    updateLatestPreview(pdfBlob, 'application/pdf');
+
+    await animateProgressTo(100, 'Export complete', 14);
+    setPreviewButtonVisible(true);
     notify('Downloaded as PDF.', false, null, 'success');
   } catch (error) {
     console.error('PDF export error:', error);
+    updateDownloadProgress(0, 'Export failed');
     notify('PDF export failed. Please try HTML or TXT.', false, null, 'error');
   }
 }

@@ -575,7 +575,10 @@
       <div id="devToolsHeader">
         <span>Dev Tools</span> <span id="currentLocation"
         style="margin-left: 8px; padding: 2px 6px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 3px; font-family: monospace; font-size: 12px; color: #666;"></span>
-        <button id="devToolsClose">×</button>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <button id="devToolsPopOut" style="padding: 4px 8px; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 4px; background: #ffffff; cursor: pointer;">Pop Out</button>
+          <button id="devToolsClose">×</button>
+        </div>
       </div>
       <div id="devToolsTabs">
         <button class="tab-button active" data-tab="localstorage">Local Storage</button>
@@ -590,6 +593,8 @@
         <div class="tab-content active" id="localstorage">
         <div class="storage-controls">
           <button id="clearAllStorage">Clear All</button>
+          <input id="localStorageSearchKey" type="text" placeholder="Search keys" style="margin-left: 8px; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; min-width: 120px;">
+          <input id="localStorageSearchValue" type="text" placeholder="Search values" style="margin-left: 6px; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; min-width: 120px;">
         </div>
         <table id="localStorageTable">
           <thead>
@@ -787,6 +792,7 @@
         </button>
         </div>
         <div class="download-modal-body">
+        <div id="download-config-view">
         <label class="download-label" for="download-filename">File name</label>
         <input id="download-filename" class="download-input" type="text" placeholder="CiteCount-Export" autocomplete="off" />
         <p id="download-filename-error" class="download-error" style="display: none;"></p>
@@ -805,11 +811,42 @@
         </div>
         <p id="download-format-note" class="download-note">PDF and HTML keep styling. Text files export plain text only.</p>
         </div>
-        <div class="download-modal-footer">
+
+        <div id="download-progress-view" style="display: none;">
+        <div id="download-progress-container" class="download-progress" aria-live="polite">
+          <div class="download-progress-header">
+            <span id="download-progress-status">Preparing export...</span>
+            <span id="download-progress-percent">0%</span>
+          </div>
+          <div class="download-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="download-progress-fill" class="download-progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+        </div>
+        </div>
+        <div id="download-modal-footer-default" class="download-modal-footer">
         <button class="download-btn secondary" onclick="closeDownloadModal()">Cancel</button>
         <button class="download-btn primary" onclick="downloadEditorContent()">Download</button>
         </div>
+        <div id="download-modal-footer-progress" class="download-modal-footer" style="display: none;">
+        <button id="download-preview-btn" class="download-btn secondary" onclick="openExportPdfPreview()" disabled>Preview</button>
+        <button id="download-done-btn" class="download-btn primary" onclick="closeDownloadModal()">Done</button>
+        </div>
       </div>
+      </div>
+
+      <div id="pdf-preview-modal" class="download-modal" style="display: none;" onclick="closePdfPreviewModal()">
+        <div class="download-modal-content pdf-preview-modal-content" onclick="event.stopPropagation()">
+          <div class="download-modal-header">
+            <h2>Export Preview</h2>
+            <button class="download-close" onclick="closePdfPreviewModal()" aria-label="Close PDF preview">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <iframe id="pdf-preview-frame" title="Exported PDF Preview" class="pdf-preview-frame"></iframe>
+        </div>
       </div>
 
       <!-- Error Modal -->
@@ -832,7 +869,7 @@
           <div id="error-details-box" style="background: #1f2937; color: #e5e7eb; padding: 1rem; border-radius: 0.5rem; font-family: monospace; font-size: 0.875rem; max-height: 300px; overflow-y: auto; white-space: pre-wrap; word-break: break-all;">
           Ironically, there was an error fetching the error details.
           </div>
-          <button id="copy-error-btn" onclick="copyErrorDetails()" style="position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; transition: background 0.15s, opacity 0.15s;" onmouseover="this.style.background='#2563eb'; this.style.opacity='0.85';" onmouseout="this.style.background='#3b82f6'; this.style.opacity='1';">
+          <button id="copy-error-btn" onclick="copyErrorDetails()" style="opacity: 0.85; position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; transition: background 0.15s, opacity 0.15s;" onmouseover="this.style.background='#2563eb'; this.style.opacity='0.5';" onmouseout="this.style.background='#3b82f6'; this.style.opacity='0.85';">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px;">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
           </svg>

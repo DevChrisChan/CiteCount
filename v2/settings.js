@@ -335,7 +335,10 @@
 					</div>
 
 					<div class="settings-category-content" data-category="developers">
-						<h3 class="text-lg font-medium mb-4">Developers</h3>
+						<div class="flex items-center justify-between mb-4">
+							<h3 class="text-lg font-medium">Developers</h3>
+							<a href="/dev.html" target="_blank" rel="noopener" class="px-3 py-1 rounded-md text-sm" style="background: var(--accent-color); color: white; text-decoration: none;">Open Full Page</a>
+						</div>
 						<div class="space-y-3">
 							<!-- Dev Tools Tabs -->
 							<div style="border: 1px solid var(--border-primary); border-radius: 0.5rem; overflow: hidden;">
@@ -716,11 +719,21 @@ function switchDevTab(tabId) {
 	if (!contentDiv) return;
 
 	if (tabId === 'localstorage') {
+		const keyQuery = (document.getElementById('dev-localstorage-search-key')?.value || '').toLowerCase();
+		const valueQuery = (document.getElementById('dev-localstorage-search-value')?.value || '').toLowerCase();
 		let html = '<div style="margin-bottom: 0.75rem;"><button id="clear-all-storage-btn" onclick="confirmClearAllStorage()" style="padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem;">Clear All</button></div>';
+		html += '<div style="margin-bottom: 0.75rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"><input id="dev-localstorage-search-key" type="text" placeholder="Search keys" oninput="switchDevTab(\'localstorage\')" style="padding: 0.45rem 0.65rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;"><input id="dev-localstorage-search-value" type="text" placeholder="Search values" oninput="switchDevTab(\'localstorage\')" style="padding: 0.45rem 0.65rem; border: 1px solid var(--border-primary); border-radius: 0.375rem; font-size: 0.875rem;"></div>';
 		html += '<table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;"><thead><tr style="background: var(--background-secondary);"><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Key</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Value</th><th style="padding: 0.5rem; text-align: left; border: 1px solid var(--border-primary);">Action</th></tr></thead><tbody>';
+		let matchCount = 0;
 		for (let key in localStorage) {
 			if (localStorage.hasOwnProperty(key)) {
 				let value = localStorage[key];
+				const keyMatches = !keyQuery || key.toLowerCase().includes(keyQuery);
+				const valueMatches = !valueQuery || String(value).toLowerCase().includes(valueQuery);
+				if (!keyMatches || !valueMatches) {
+					continue;
+				}
+				matchCount += 1;
 				try {
 					const parsed = JSON.parse(value);
 					if (typeof parsed === 'object' && parsed !== null) {
@@ -730,8 +743,15 @@ function switchDevTab(tabId) {
 				html += `<tr><td style="padding: 0.5rem; border: 1px solid var(--border-primary); word-break: break-word;">${key}</td><td style="padding: 0.5rem; border: 1px solid var(--border-primary); word-break: break-word; max-width: 300px; overflow: auto;"><pre style="margin: 0; white-space: pre-wrap;">${value}</pre></td><td style="padding: 0.5rem; border: 1px solid var(--border-primary);"><button onclick="confirmClearStorageItem('${key}')" style="padding: 0.25rem 0.5rem; background: #ef4444; color: white; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;">Clear</button></td></tr>`;
 			}
 		}
+		if (matchCount === 0) {
+			html += '<tr><td colspan="3" style="padding: 0.5rem; border: 1px solid var(--border-primary); text-align: center; color: var(--text-secondary);">No matching localStorage entries</td></tr>';
+		}
 		html += '</tbody></table>';
 		contentDiv.innerHTML = html;
+		const keyInput = document.getElementById('dev-localstorage-search-key');
+		const valueInput = document.getElementById('dev-localstorage-search-value');
+		if (keyInput) keyInput.value = keyQuery;
+		if (valueInput) valueInput.value = valueQuery;
 	} else if (tabId === 'system') {
 		const systemInfo = {
 			'User Agent': navigator.userAgent,

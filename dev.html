@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CiteCount Dev Tools</title>
+	<style>
+		:root {
+			--background-primary: #f8fafc;
+			--background-secondary: #ffffff;
+			--text-primary: #0f172a;
+			--text-secondary: #475569;
+			--border-primary: #cbd5e1;
+			--accent-color: #1f40af;
+			--danger-color: #dc2626;
+			--danger-color-strong: #b91c1c;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			background: linear-gradient(160deg, #eef2ff 0%, #f8fafc 45%, #ecfeff 100%);
+			color: var(--text-primary);
+			min-height: 100vh;
+			padding: 1.25rem;
+		}
+
+		.page {
+			max-width: none;
+			margin: 0;
+			background: var(--background-secondary);
+			border: 1px solid var(--border-primary);
+			border-radius: 0.75rem;
+			overflow: visible;
+			box-shadow: 0 20px 45px -30px rgba(15, 23, 42, 0.45);
+		}
+
+		.page-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+			padding: 1rem 1.25rem;
+			background: #0f172a;
+			color: #ffffff;
+		}
+
+		.page-header.hidden {
+			display: none;
+		}
+
+		.page-header h1 {
+			font-size: 1.1rem;
+			margin: 0;
+		}
+
+		.page-header p {
+			margin: 0.2rem 0 0;
+			font-size: 0.85rem;
+			color: #bfdbfe;
+		}
+
+		.top-actions {
+			display: flex;
+			gap: 0.5rem;
+		}
+
+		.btn {
+			border: none;
+			border-radius: 0.4rem;
+			padding: 0.5rem 0.9rem;
+			font-size: 0.875rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: background-color 0.2s ease;
+		}
+
+		.btn.primary {
+			background: var(--accent-color);
+			color: #ffffff;
+		}
+
+		.btn.primary:hover {
+			background: #183389;
+		}
+
+		.btn.danger {
+			background: var(--danger-color);
+			color: #ffffff;
+		}
+
+		.btn.danger:hover {
+			background: var(--danger-color-strong);
+		}
+
+		.btn.small {
+			padding: 0.35rem 0.6rem;
+			font-size: 0.75rem;
+		}
+
+		.btn.danger-confirm {
+			background: var(--danger-color-strong);
+		}
+
+		.dev-tabs {
+			display: flex;
+			gap: 0.35rem;
+			padding: 0.75rem;
+			border-bottom: 1px solid var(--border-primary);
+			background: var(--background-primary);
+			overflow-x: auto;
+		}
+
+		.dev-tab-btn {
+			border: none;
+			border-radius: 0.35rem;
+			padding: 0.45rem 0.8rem;
+			font-size: 0.84rem;
+			white-space: nowrap;
+			cursor: pointer;
+			background: transparent;
+			color: var(--text-primary);
+		}
+
+		.dev-tab-btn.active {
+			background: var(--accent-color);
+			color: #ffffff;
+		}
+
+		.dev-content {
+			padding: 1rem;
+			max-height: none;
+			overflow: visible;
+		}
+
+		.actions-row {
+			margin-bottom: 0.75rem;
+		}
+
+		.dev-search-input {
+			padding: 0.45rem 0.65rem;
+			border: 1px solid var(--border-primary);
+			border-radius: 0.35rem;
+			font-size: 0.84rem;
+			background: #ffffff;
+			color: var(--text-primary);
+			min-width: 180px;
+		}
+
+		.dev-search-input:focus {
+			outline: none;
+			border-color: var(--accent-color);
+			box-shadow: 0 0 0 2px rgba(31, 64, 175, 0.12);
+		}
+
+		.dev-edit-input,
+		.dev-edit-value {
+			width: 100%;
+			padding: 0.45rem 0.6rem;
+			border: 1px solid var(--border-primary);
+			border-radius: 0.35rem;
+			background: #ffffff;
+			color: var(--text-primary);
+			font-size: 0.82rem;
+			font-family: inherit;
+		}
+
+		.dev-edit-value {
+			resize: vertical;
+			min-height: 68px;
+		}
+
+		.dev-table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.875rem;
+		}
+
+		.dev-table th,
+		.dev-table td {
+			border: 1px solid var(--border-primary);
+			padding: 0.5rem;
+			text-align: left;
+			vertical-align: top;
+		}
+
+		.dev-table th {
+			background: #e2e8f0;
+		}
+
+		.dev-table td pre {
+			margin: 0;
+			white-space: pre-wrap;
+			word-break: break-word;
+			max-width: 480px;
+		}
+
+		.empty-cell {
+			text-align: center;
+			color: var(--text-secondary);
+		}
+
+		.dev-console-output {
+			margin: 0;
+			padding: 1rem;
+			background: #0f172a;
+			color: #e2e8f0;
+			border-radius: 0.4rem;
+			font-size: 0.78rem;
+			max-height: 70vh;
+			overflow: auto;
+		}
+
+		.dev-toast {
+			position: fixed;
+			right: 1rem;
+			bottom: 1rem;
+			padding: 0.65rem 0.95rem;
+			border-radius: 0.45rem;
+			background: #0f172a;
+			color: #ffffff;
+			font-size: 0.85rem;
+			opacity: 0;
+			transform: translateY(10px);
+			pointer-events: none;
+			transition: opacity 0.2s ease, transform 0.2s ease;
+		}
+
+		.dev-toast.show {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		@media (max-width: 768px) {
+			body {
+				padding: 0.6rem;
+			}
+
+			.page-header {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.top-actions {
+				width: 100%;
+			}
+
+			.top-actions .btn {
+				flex: 1;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="page">
+		<div class="page-header hidden" aria-hidden="true">
+			<div>
+				<h1>CiteCount Developer Tools</h1>
+				<p>Standalone page ported from the Settings Developers tab.</p>
+			</div>
+			<div class="top-actions">
+				<button id="open-main-app" class="btn primary" type="button">Open Main App</button>
+			</div>
+		</div>
+
+		<div class="dev-tabs">
+			<button class="dev-tab-btn active" data-dev-tab="localstorage" type="button">Local Storage</button>
+			<button class="dev-tab-btn" data-dev-tab="system" type="button">System Info</button>
+			<button class="dev-tab-btn" data-dev-tab="internalSettings" type="button">Internal Settings</button>
+			<button class="dev-tab-btn" data-dev-tab="devToolsSettings" type="button">Dev Tools Settings</button>
+			<button class="dev-tab-btn" data-dev-tab="console" type="button">Console</button>
+			<button class="dev-tab-btn" data-dev-tab="errors" type="button">Errors</button>
+			<button class="dev-tab-btn" data-dev-tab="cookies" type="button">Cookies</button>
+		</div>
+
+		<div id="dev-content" class="dev-content"></div>
+	</div>
+
+	<div id="dev-toast" class="dev-toast"></div>
+
+	<script src="v2/dev-page.js"></script>
+</body>
+</html>

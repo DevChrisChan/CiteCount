@@ -8,7 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const consoleOutput = document.getElementById('consoleOutput');
     const errorsTable = document.getElementById('errorsTable').querySelector('tbody');
     const clearAllStorageBtn = document.getElementById('clearAllStorage');
+    const localStorageSearchKeyInput = document.getElementById('localStorageSearchKey');
+    const localStorageSearchValueInput = document.getElementById('localStorageSearchValue');
     const clearAllCookiesBtn = document.getElementById('clearAllCookies');
+    const devToolsPopOutBtn = document.getElementById('devToolsPopOut');
     const disableAnalyticsCheckbox = document.getElementById('disableAnalytics');
     const grantPro = document.getElementById('grantPro');
     const disableDevModeCheckbox = document.getElementById('disableDevMode');
@@ -131,6 +134,16 @@ document.addEventListener('DOMContentLoaded', () => {
         devTools.style.display = 'none';
     });
 
+    if (devToolsPopOutBtn) {
+        devToolsPopOutBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const popup = window.open('/dev.html', 'CiteCountDevToolsWindow', 'status=1,toolbar=1,width=1100,height=760,resizable=yes,scrollbars=yes');
+            if (popup) {
+                popup.focus();
+            }
+        });
+    }
+
     // Console override
     const originalConsoleLog = console.log;
     const originalConsoleError = console.error;
@@ -210,6 +223,18 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.clear();
         updateTabContent('localstorage');
     });
+
+    if (localStorageSearchKeyInput) {
+        localStorageSearchKeyInput.addEventListener('input', () => {
+            updateTabContent('localstorage');
+        });
+    }
+
+    if (localStorageSearchValueInput) {
+        localStorageSearchValueInput.addEventListener('input', () => {
+            updateTabContent('localstorage');
+        });
+    }
 
     // Clear all cookies
     clearAllCookiesBtn.addEventListener('click', () => {
@@ -303,38 +328,102 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tabId === 'localstorage') {
             const tbody = document.getElementById('localStorageTable').querySelector('tbody');
             tbody.innerHTML = '';
+            const keyQuery = (localStorageSearchKeyInput?.value || '').toLowerCase();
+            const valueQuery = (localStorageSearchValueInput?.value || '').toLowerCase();
+            let renderedCount = 0;
             for (let key in localStorage) {
                 if (localStorage.hasOwnProperty(key)) {
+                    let rawValue = localStorage[key];
+                    const keyMatches = !keyQuery || key.toLowerCase().includes(keyQuery);
+                    const valueMatches = !valueQuery || String(rawValue).toLowerCase().includes(valueQuery);
+                    if (!keyMatches || !valueMatches) {
+                        continue;
+                    }
+
+                    renderedCount += 1;
+
                     const row = document.createElement('tr');
+                    const keyCell = document.createElement('td');
                     const valueCell = document.createElement('td');
                     const actionCell = document.createElement('td');
-                    let value = localStorage[key];
+                    const keyInput = document.createElement('input');
+                    keyInput.type = 'text';
+                    keyInput.value = key;
+                    keyInput.style.width = '100%';
+                    keyInput.style.padding = '4px 6px';
+                    keyInput.style.border = '1px solid var(--border-color)';
+                    keyInput.style.borderRadius = '4px';
+                    keyInput.style.background = 'var(--table-bg)';
+                    keyInput.style.color = 'var(--text-color)';
+                    keyInput.style.fontSize = '12px';
+                    keyCell.appendChild(keyInput);
 
-                    try {
-                        const parsed = JSON.parse(value);
-                        if (typeof parsed === 'object' && parsed !== null) {
-                            valueCell.appendChild(createJsonTable(parsed));
-                        } else {
-                            valueCell.textContent = value;
+                    const valueInput = document.createElement('textarea');
+                    valueInput.value = String(rawValue);
+                    valueInput.style.width = '100%';
+                    valueInput.style.minHeight = '64px';
+                    valueInput.style.padding = '4px 6px';
+                    valueInput.style.border = '1px solid var(--border-color)';
+                    valueInput.style.borderRadius = '4px';
+                    valueInput.style.background = 'var(--table-bg)';
+                    valueInput.style.color = 'var(--text-color)';
+                    valueInput.style.fontSize = '12px';
+                    valueInput.style.fontFamily = 'monospace';
+                    valueInput.style.resize = 'vertical';
+                    valueCell.appendChild(valueInput);
+
+                    const saveBtn = document.createElement('button');
+                    saveBtn.className = 'tab-button';
+                    saveBtn.textContent = 'Save';
+                    saveBtn.style.marginRight = '6px';
+                    saveBtn.addEventListener('click', () => {
+                        const nextKey = keyInput.value.trim();
+                        const nextValue = valueInput.value;
+
+                        if (!nextKey) {
+                            notify('Key cannot be empty.');
+                            return;
                         }
-                    } catch (e) {
-                        valueCell.textContent = value;
-                    }
+
+                        if (nextKey !== key && localStorage.getItem(nextKey) !== null) {
+                            notify(`Key already exists: ${nextKey}`);
+                            return;
+                        }
+
+                        if (nextKey !== key) {
+                            localStorage.removeItem(key);
+                        }
+                        localStorage.setItem(nextKey, nextValue);
+                        notify(`Saved localStorage key: ${nextKey}`);
+                        updateTabContent('localstorage');
+                    });
 
                     const clearBtn = document.createElement('button');
                     clearBtn.className = 'clear-storage-btn';
-                    clearBtn.textContent = 'Clear';
+                    clearBtn.textContent = 'Delete';
                     clearBtn.addEventListener('click', () => {
                         localStorage.removeItem(key);
                         updateTabContent('localstorage');
                     });
 
-                    row.innerHTML = `<td>${key}</td>`;
+                    row.appendChild(keyCell);
                     row.appendChild(valueCell);
+                    actionCell.appendChild(saveBtn);
                     actionCell.appendChild(clearBtn);
                     row.appendChild(actionCell);
                     tbody.appendChild(row);
                 }
+            }
+
+            if (renderedCount === 0) {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.colSpan = 3;
+                cell.textContent = 'No matching localStorage entries';
+                cell.style.textAlign = 'center';
+                cell.style.color = 'var(--text-color)';
+                row.appendChild(cell);
+                tbody.appendChild(row);
             }
         } else if (tabId === 'system') {
             const tbody = document.getElementById('systemTable').querySelector('tbody');
