@@ -155,6 +155,13 @@
       gap: 0.75rem;
       align-items: center;
       background-color: #ffffff;
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .mirror-card:hover {
+      border-color: #60a5fa;
+      background-color: #f8fafc;
     }
 
     .mirror-card.top-online {
@@ -166,6 +173,11 @@
     .dark .mirror-card {
       border-color: #374151;
       background-color: #111827;
+    }
+
+    .dark .mirror-card:hover {
+      border-color: #60a5fa;
+      background-color: #1f2937;
     }
 
     .dark .mirror-card.top-online {
@@ -278,6 +290,28 @@
       background-color: #f8fafc;
     }
 
+    .disclaimer {
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-align: center;
+      margin-top: 2.2rem;
+      padding: 1.5rem;
+    }
+
+    .dark .disclaimer {
+      color: #d1d5db;
+    }
+
+    .disclaimer a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dark .disclaimer a {
+      color: #60a5fa;
+    }
+
     .dark .empty-state {
       border-color: #4b5563;
       background-color: #1f2937;
@@ -325,6 +359,10 @@
 
       <div class="info-banner" id="mirrors-info">Loading latest mirror status...</div>
       <div class="mirror-list" id="mirror-list"></div>
+
+      <div class="disclaimer">
+        If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html">here</a> for further details and instructions.
+      </div>
     </main>
 
     <div id="footer-placeholder"></div>
@@ -372,9 +410,35 @@
         const status = normalizeMirrorStatus(mirror.status);
         const isTopOnline = index === firstOnlineIndex && status === 'online';
         const topBadge = isTopOnline ? '<span class="status-pill top">top mirror</span>' : '';
-        return `<article class="mirror-card${isTopOnline ? ' top-online' : ''}"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url">${url}</a></div><div class="status-group">${topBadge}<span class="status-pill ${status}">${status}</span></div></article>`;
+        return `<article class="mirror-card${isTopOnline ? ' top-online' : ''}" role="link" tabindex="0"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url">${url}</a></div><div class="status-group">${topBadge}<span class="status-pill ${status}">${status}</span></div></article>`;
       }).join('');
     }
+
+    listEl.addEventListener('click', (event) => {
+      const clickedLink = event.target.closest('a.mirror-url');
+      if (clickedLink) return;
+
+      const card = event.target.closest('.mirror-card');
+      if (!card) return;
+
+      const link = card.querySelector('a.mirror-url');
+      if (link && link.href) {
+        window.open(link.href, '_blank', 'noopener,noreferrer');
+      }
+    });
+
+    listEl.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+
+      const card = event.target.closest('.mirror-card');
+      if (!card) return;
+
+      event.preventDefault();
+      const link = card.querySelector('a.mirror-url');
+      if (link && link.href) {
+        window.open(link.href, '_blank', 'noopener,noreferrer');
+      }
+    });
 
     async function loadMirrors() {
       try {

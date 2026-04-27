@@ -439,11 +439,23 @@
       grid-template-columns: 1fr auto;
       gap: 0.55rem;
       align-items: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .mirror-item:hover {
+      border-color: #60a5fa;
+      background-color: #f8fafc;
     }
 
     .dark .mirror-item {
       border-color: #374151;
       background-color: #1f2937;
+    }
+
+    .dark .mirror-item:hover {
+      border-color: #60a5fa;
+      background-color: #111827;
     }
 
     .mirror-name {
@@ -821,7 +833,7 @@
         const status = normalizeMirrorStatus(mirror.status);
         const name = mirror.name || 'Unnamed mirror';
         const url = mirror.url || '#';
-        return `<li class="mirror-item"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url-link">${url}</a></div>${buildStatusPill(status)}</li>`;
+        return `<li class="mirror-item" role="link" tabindex="0"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url-link">${url}</a></div>${buildStatusPill(status)}</li>`;
       }).join('');
     }
 
@@ -882,6 +894,35 @@
         mirrorsModal.addEventListener('click', (event) => {
           if (event.target === mirrorsModal) {
             closeMirrorsModal();
+          }
+        });
+      }
+
+      const mirrorsList = document.getElementById('mirrors-list');
+      if (mirrorsList) {
+        mirrorsList.addEventListener('click', (event) => {
+          const clickedLink = event.target.closest('a.mirror-url-link');
+          if (clickedLink) return;
+
+          const item = event.target.closest('.mirror-item');
+          if (!item) return;
+
+          const link = item.querySelector('a.mirror-url-link');
+          if (link && link.href) {
+            window.open(link.href, '_blank', 'noopener,noreferrer');
+          }
+        });
+
+        mirrorsList.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+
+          const item = event.target.closest('.mirror-item');
+          if (!item) return;
+
+          event.preventDefault();
+          const link = item.querySelector('a.mirror-url-link');
+          if (link && link.href) {
+            window.open(link.href, '_blank', 'noopener,noreferrer');
           }
         });
       }
