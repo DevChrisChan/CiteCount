@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IB Docs Mirrors - CiteCount</title>
+
+  <meta name="description" content="Live IB Docs mirrors with online/offline status.">
+  <meta property="og:title" content="IB Docs Mirrors - CiteCount" />
+  <meta property="og:description" content="View all available IB Docs mirrors with live online/offline status." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://citecount.com/ib-resources/mirrors" />
+
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+
+  <link href="/v2/style.css" rel="stylesheet">
+  <link href="/v2/flowbite.css" rel="stylesheet">
+
+  <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
+
+  <style>
+    .page-wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2rem;
+      padding-top: 5rem;
+      min-height: 60vh;
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+      color: #111827;
+    }
+
+    .dark .title {
+      color: #f3f4f6;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #4b5563;
+      margin-bottom: 1.25rem;
+    }
+
+    .dark .subtitle {
+      color: #d1d5db;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 0.65rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .btn-link {
+      display: inline-block;
+      padding: 0.55rem 0.8rem;
+      border-radius: 0.45rem;
+      border: 1px solid #d1d5db;
+      background-color: #f9fafb;
+      color: #1f2937;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-link:hover {
+      border-color: #2563eb;
+      color: #2563eb;
+      background-color: #eff6ff;
+    }
+
+    .dark .btn-link {
+      border-color: #4b5563;
+      background-color: #1f2937;
+      color: #e5e7eb;
+    }
+
+    .dark .btn-link:hover {
+      border-color: #60a5fa;
+      color: #60a5fa;
+      background-color: #111827;
+    }
+
+    .info-banner {
+      border: 1px solid #dbeafe;
+      background-color: #eff6ff;
+      color: #1e3a8a;
+      border-radius: 0.6rem;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .info-banner-content {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #93c5fd;
+      background-color: #dbeafe;
+      color: #1e3a8a;
+      border-radius: 9999px;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .info-message {
+      font-size: 0.9rem;
+    }
+
+    .dark .info-banner {
+      border-color: #1d4ed8;
+      background-color: rgba(30, 64, 175, 0.2);
+      color: #bfdbfe;
+    }
+
+    .dark .source-badge {
+      border-color: rgba(147, 197, 253, 0.7);
+      background-color: rgba(59, 130, 246, 0.25);
+      color: #dbeafe;
+    }
+
+    .mirror-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .mirror-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.6rem;
+      padding: 0.9rem 1rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+      background-color: #ffffff;
+    }
+
+    .mirror-card.top-online {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.18);
+      background: linear-gradient(180deg, #fffdf7 0%, #ffffff 100%);
+    }
+
+    .dark .mirror-card {
+      border-color: #374151;
+      background-color: #111827;
+    }
+
+    .dark .mirror-card.top-online {
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, #111827 100%);
+    }
+
+    .mirror-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.2rem;
+    }
+
+    .dark .mirror-name {
+      color: #f3f4f6;
+    }
+
+    .mirror-url {
+      font-size: 0.85rem;
+      color: #2563eb;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .mirror-url:hover {
+      text-decoration: underline;
+    }
+
+    .dark .mirror-url {
+      color: #93c5fd;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: 1px solid transparent;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-size: 0.72rem;
+      font-weight: 700;
+      min-width: 78px;
+      padding: 0.3rem 0.6rem;
+    }
+
+    .status-pill.online {
+      background-color: #ecfdf3;
+      border-color: #86efac;
+      color: #166534;
+    }
+
+    .status-pill.offline {
+      background-color: #fef2f2;
+      border-color: #fca5a5;
+      color: #991b1b;
+    }
+
+    .status-pill.unknown {
+      background-color: #f3f4f6;
+      border-color: #d1d5db;
+      color: #374151;
+    }
+
+    .status-pill.top {
+      background-color: #fffbeb;
+      border-color: #fcd34d;
+      color: #92400e;
+      min-width: 0;
+    }
+
+    .status-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .dark .status-pill.online {
+      background-color: rgba(22, 101, 52, 0.25);
+      border-color: rgba(74, 222, 128, 0.6);
+      color: #86efac;
+    }
+
+    .dark .status-pill.offline {
+      background-color: rgba(127, 29, 29, 0.25);
+      border-color: rgba(252, 165, 165, 0.5);
+      color: #fca5a5;
+    }
+
+    .dark .status-pill.unknown {
+      background-color: rgba(55, 65, 81, 0.7);
+      border-color: #6b7280;
+      color: #d1d5db;
+    }
+
+    .dark .status-pill.top {
+      background-color: rgba(146, 64, 14, 0.35);
+      border-color: rgba(251, 191, 36, 0.7);
+      color: #fcd34d;
+    }
+
+    .empty-state {
+      border: 1px dashed #cbd5e1;
+      border-radius: 0.6rem;
+      padding: 1rem;
+      text-align: center;
+      color: #4b5563;
+      background-color: #f8fafc;
+    }
+
+    .dark .empty-state {
+      border-color: #4b5563;
+      background-color: #1f2937;
+      color: #d1d5db;
+    }
+
+    @media (max-width: 640px) {
+      .page-wrap {
+        padding: 1rem;
+        padding-top: 4.5rem;
+      }
+
+      .mirror-card {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <header class="flex justify-between items-center">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
+        <img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+        <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
+          data-lta-event="v2-more-apps-click">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+            <path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+          </svg>
+          <span class="hidden md:inline text-sm font-medium">More Apps</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="page-wrap">
+      <h1 class="title">IB Docs Mirrors</h1>
+      <p class="subtitle">Live status feed from ibResources. The top online mirror is what CiteCount uses by default.</p>
+
+      <div class="top-actions">
+        <a href="/ib-resources/" class="btn-link">Back to IB Resources</a>
+      </div>
+
+      <div class="info-banner" id="mirrors-info">Loading latest mirror status...</div>
+      <div class="mirror-list" id="mirror-list"></div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+  </div>
+
+  <script src="/v2/apps-modal.js"></script>
+  <script src="/components/footer-loader.js"></script>
+
+  <script>
+    const mirrorsApiUrl = 'https://ibresources.in/api/v2/mirrors';
+    const infoEl = document.getElementById('mirrors-info');
+    const listEl = document.getElementById('mirror-list');
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function setInfoBannerMessage(message) {
+      infoEl.innerHTML = `<span class="info-banner-content"><span class="source-badge">Message from ibresources</span><span class="info-message">${escapeHtml(message)}</span></span>`;
+    }
+
+    function normalizeMirrorStatus(status) {
+      const normalized = String(status || '').toLowerCase();
+      if (normalized === 'online') return 'online';
+      if (normalized === 'offline') return 'offline';
+      return 'unknown';
+    }
+
+    function renderMirrors(mirrors) {
+      if (!mirrors.length) {
+        listEl.innerHTML = '<div class="empty-state">No mirrors are currently available from the API.</div>';
+        return;
+      }
+
+      const firstOnlineIndex = mirrors.findIndex((mirror) => normalizeMirrorStatus(mirror.status) === 'online');
+
+      listEl.innerHTML = mirrors.map((mirror, index) => {
+        const name = mirror.name || 'Unnamed mirror';
+        const url = mirror.url || '#';
+        const status = normalizeMirrorStatus(mirror.status);
+        const isTopOnline = index === firstOnlineIndex && status === 'online';
+        const topBadge = isTopOnline ? '<span class="status-pill top">top mirror</span>' : '';
+        return `<article class="mirror-card${isTopOnline ? ' top-online' : ''}"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url">${url}</a></div><div class="status-group">${topBadge}<span class="status-pill ${status}">${status}</span></div></article>`;
+      }).join('');
+    }
+
+    async function loadMirrors() {
+      try {
+        const response = await fetch(mirrorsApiUrl, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+
+        const payload = await response.json();
+        const mirrors = Array.isArray(payload.mirrors) ? payload.mirrors : [];
+        const firstOnline = mirrors.find((mirror) => normalizeMirrorStatus(mirror.status) === 'online');
+
+        const messageFromIbresources = payload.additional_info || 'Mirrors can go up/down quickly.';
+
+        if (firstOnline && firstOnline.url) {
+          setInfoBannerMessage(messageFromIbresources);
+        } else {
+          setInfoBannerMessage(payload.additional_info || 'No online mirrors detected right now.');
+        }
+
+        renderMirrors(mirrors);
+      } catch (error) {
+        setInfoBannerMessage('Could not load mirrors right now. Please try again shortly.');
+        listEl.innerHTML = '<div class="empty-state">Mirror status is temporarily unavailable.</div>';
+      }
+    }
+
+    loadMirrors();
+  </script>
+</body>
+
+</html>

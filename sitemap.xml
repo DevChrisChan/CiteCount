@@ -54,6 +54,11 @@
   <priority>0.10</priority>
 </url>
 <url>
+  <loc>https://citecount.com/ib-resources/mirrors.html</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.75</priority>
+</url>
+<url>
   <loc>https://citecount.com/grade-calculator/</loc>
   <changefreq>weekly</changefreq>
   <priority>0.80</priority>

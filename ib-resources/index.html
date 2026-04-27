@@ -226,6 +226,252 @@
       color: #9ca3af;
     }
 
+    .ib-docs-meta {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 0.35rem;
+    }
+
+    .dark .ib-docs-meta {
+      color: #d1d5db;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      border-radius: 9999px;
+      padding: 0.2rem 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border: 1px solid transparent;
+    }
+
+    .status-pill.online {
+      background-color: #ecfdf3;
+      border-color: #86efac;
+      color: #166534;
+    }
+
+    .status-pill.offline {
+      background-color: #fef2f2;
+      border-color: #fca5a5;
+      color: #991b1b;
+    }
+
+    .status-pill.unknown {
+      background-color: #f3f4f6;
+      border-color: #d1d5db;
+      color: #374151;
+    }
+
+    .dark .status-pill.online {
+      background-color: rgba(22, 101, 52, 0.25);
+      border-color: rgba(74, 222, 128, 0.6);
+      color: #86efac;
+    }
+
+    .dark .status-pill.offline {
+      background-color: rgba(127, 29, 29, 0.25);
+      border-color: rgba(252, 165, 165, 0.5);
+      color: #fca5a5;
+    }
+
+    .dark .status-pill.unknown {
+      background-color: rgba(55, 65, 81, 0.7);
+      border-color: #6b7280;
+      color: #d1d5db;
+    }
+
+    .mirror-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .mirror-button,
+    .mirror-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid #d1d5db;
+      border-radius: 0.35rem;
+      background-color: #f9fafb;
+      color: #1f2937;
+      padding: 0.35rem 0.6rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      line-height: 1;
+    }
+
+    .mirror-button:hover,
+    .mirror-link:hover {
+      border-color: #3b82f6;
+      color: #3b82f6;
+      background-color: #eff6ff;
+    }
+
+    .mirror-button {
+      cursor: pointer;
+    }
+
+    .dark .mirror-button,
+    .dark .mirror-link {
+      border-color: #4b5563;
+      background-color: #1f2937;
+      color: #e5e7eb;
+    }
+
+    .dark .mirror-button:hover,
+    .dark .mirror-link:hover {
+      border-color: #60a5fa;
+      color: #60a5fa;
+      background-color: #111827;
+    }
+
+    .mirrors-modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1500;
+      padding: 1rem;
+    }
+
+    .mirrors-modal.open {
+      display: flex;
+    }
+
+    .mirrors-modal-panel {
+      width: 100%;
+      max-width: 680px;
+      max-height: 82vh;
+      overflow: hidden;
+      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb;
+      background-color: #ffffff;
+      box-shadow: 0 20px 40px rgba(2, 6, 23, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dark .mirrors-modal-panel {
+      background-color: #111827;
+      border-color: #374151;
+    }
+
+    .mirrors-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .dark .mirrors-modal-header {
+      border-bottom-color: #374151;
+    }
+
+    .mirrors-modal-header h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .dark .mirrors-modal-header h2 {
+      color: #f3f4f6;
+    }
+
+    .close-mirrors-button {
+      border: none;
+      background: transparent;
+      font-size: 1.6rem;
+      line-height: 1;
+      color: #6b7280;
+      cursor: pointer;
+      padding: 0 0.25rem;
+    }
+
+    .close-mirrors-button:hover {
+      color: #111827;
+    }
+
+    .dark .close-mirrors-button:hover {
+      color: #f3f4f6;
+    }
+
+    .mirrors-modal-body {
+      padding: 1rem 1.25rem 1.25rem;
+      overflow: auto;
+    }
+
+    .mirrors-note {
+      font-size: 0.85rem;
+      color: #4b5563;
+      margin-bottom: 0.85rem;
+    }
+
+    .dark .mirrors-note {
+      color: #d1d5db;
+    }
+
+    .mirrors-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .mirror-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      padding: 0.7rem 0.85rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.55rem;
+      align-items: center;
+    }
+
+    .dark .mirror-item {
+      border-color: #374151;
+      background-color: #1f2937;
+    }
+
+    .mirror-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.2rem;
+    }
+
+    .dark .mirror-name {
+      color: #f3f4f6;
+    }
+
+    .mirror-url-link {
+      font-size: 0.75rem;
+      color: #2563eb;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .mirror-url-link:hover {
+      text-decoration: underline;
+    }
+
+    .dark .mirror-url-link {
+      color: #93c5fd;
+    }
+
     .no-results {
       text-align: center;
       padding: 3rem 1rem;
@@ -392,7 +638,7 @@
           <div class="category-section" id="cat-Grind-Papers">
             <div class="category-title">Grind Papers</div>
             <div class="resource-grid">
-              <div class="resource-card starred" onclick="window.open('https://dl.ibdocs.re/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">IB Docs</div><div class="resource-description">Repository for IB past papers, mark schemes, books, and more</div><div class="resource-url">dl.ibdocs.re</div></div>
+              <div class="resource-card starred" id="ib-docs-card" data-url="https://dl.ibdocs.re/" role="button" tabindex="0" aria-label="Open IB Docs mirror"><span class="star-badge">★</span><div class="resource-title">IB Docs</div><div class="resource-description">Repository for IB past papers, mark schemes, books, and more. Opens the first online mirror automatically.</div><div class="resource-url" id="ib-docs-url">Loading best mirror...</div><div class="ib-docs-meta"><span class="status-pill unknown" id="ib-docs-status">Checking mirror status</span></div><div class="mirror-actions"><button class="mirror-button" id="ib-docs-show-mirrors" type="button">View mirrors</button><a class="mirror-link" href="/ib-resources/mirrors.html">View all mirrors page</a></div></div>
               <div class="resource-card starred" onclick="window.open('https://revisiondojo.com/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">RevisionDojo</div><div class="resource-description">Topical questions, mock exam generation, flashcards, and more</div><div class="resource-url">revisiondojo.com</div></div>
               <div class="resource-card starred" onclick="window.open('https://revisionvillage.pages.dev/homepage', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Revision Village Archive</div><div class="resource-description">An archive for Revision Village.</div><div class="resource-url">revisionvillage.pages.dev</div></div>
               <div class="resource-card" onclick="window.open('https://pestle.pages.dev/', '_blank', 'noopener,noreferrer')"><div class="resource-title">Pestle</div><div class="resource-description">Revision platform based on the IB Question Banks</div><div class="resource-url">pestle.pages.dev</div></div>
@@ -473,6 +719,19 @@
     <div id="footer-placeholder"></div>
   </div>
 
+  <div class="mirrors-modal" id="mirrors-modal" aria-hidden="true" role="dialog" aria-labelledby="mirrors-modal-title">
+    <div class="mirrors-modal-panel">
+      <div class="mirrors-modal-header">
+        <h2 id="mirrors-modal-title">IB Docs Mirrors</h2>
+        <button type="button" class="close-mirrors-button" id="close-mirrors-modal" aria-label="Close mirrors popup">×</button>
+      </div>
+      <div class="mirrors-modal-body">
+        <div class="mirrors-note" id="mirrors-additional-info"></div>
+        <ul class="mirrors-list" id="mirrors-list"></ul>
+      </div>
+    </div>
+  </div>
+
   <!-- Apps Modal Script -->
   <script src="/v2/apps-modal.js"></script>
   
@@ -480,6 +739,154 @@
   <script src="/components/footer-loader.js"></script>
 
   <script>
+    const mirrorsApiUrl = 'https://ibresources.in/api/v2/mirrors';
+    let mirrorsCache = [];
+    let additionalMirrorsInfo = '';
+
+    function normalizeMirrorStatus(status) {
+      const normalized = String(status || '').toLowerCase();
+      if (normalized === 'online') return 'online';
+      if (normalized === 'offline') return 'offline';
+      return 'unknown';
+    }
+
+    function getMirrorHost(url) {
+      try {
+        return new URL(url).host;
+      } catch (error) {
+        return url || 'Unavailable';
+      }
+    }
+
+    function buildStatusPill(status) {
+      const normalized = normalizeMirrorStatus(status);
+      return `<span class="status-pill ${normalized}">${normalized}</span>`;
+    }
+
+    async function fetchMirrorsFromApi() {
+      try {
+        const response = await fetch(mirrorsApiUrl, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error('Mirror API request failed');
+        }
+
+        const payload = await response.json();
+        mirrorsCache = Array.isArray(payload.mirrors) ? payload.mirrors : [];
+        additionalMirrorsInfo = payload.additional_info || '';
+      } catch (error) {
+        mirrorsCache = [];
+        additionalMirrorsInfo = 'Unable to fetch mirror status right now. You can still use the default mirror link.';
+      }
+
+      return mirrorsCache;
+    }
+
+    function updateIBDocsCard(mirrors) {
+      const card = document.getElementById('ib-docs-card');
+      const urlLabel = document.getElementById('ib-docs-url');
+      const statusLabel = document.getElementById('ib-docs-status');
+
+      if (!card || !urlLabel || !statusLabel) return;
+
+      const firstOnlineMirror = mirrors.find((mirror) => normalizeMirrorStatus(mirror.status) === 'online');
+      const selectedMirror = firstOnlineMirror || mirrors[0];
+
+      if (selectedMirror && selectedMirror.url) {
+        card.dataset.url = selectedMirror.url;
+        urlLabel.textContent = getMirrorHost(selectedMirror.url);
+        const normalized = normalizeMirrorStatus(selectedMirror.status);
+        statusLabel.className = `status-pill ${normalized}`;
+        statusLabel.textContent = normalized;
+      } else {
+        card.dataset.url = 'https://dl.ibdocs.re/';
+        urlLabel.textContent = 'dl.ibdocs.re';
+        statusLabel.className = 'status-pill unknown';
+        statusLabel.textContent = 'unknown';
+      }
+    }
+
+    function renderMirrorsList() {
+      const list = document.getElementById('mirrors-list');
+      const additionalInfo = document.getElementById('mirrors-additional-info');
+      if (!list || !additionalInfo) return;
+
+      additionalInfo.textContent = `Message from ibresources: ${additionalMirrorsInfo || 'Live status from ibresources.in API'}`;
+
+      if (!mirrorsCache.length) {
+        list.innerHTML = '<li class="mirror-item"><div><div class="mirror-name">No mirrors available</div><div class="resource-url">Please try again later.</div></div><span class="status-pill unknown">unknown</span></li>';
+        return;
+      }
+
+      list.innerHTML = mirrorsCache.map((mirror) => {
+        const status = normalizeMirrorStatus(mirror.status);
+        const name = mirror.name || 'Unnamed mirror';
+        const url = mirror.url || '#';
+        return `<li class="mirror-item"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url-link">${url}</a></div>${buildStatusPill(status)}</li>`;
+      }).join('');
+    }
+
+    function openMirrorsModal() {
+      const modal = document.getElementById('mirrors-modal');
+      if (!modal) return;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMirrorsModal() {
+      const modal = document.getElementById('mirrors-modal');
+      if (!modal) return;
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    async function initializeIBDocsMirrors() {
+      const mirrors = await fetchMirrorsFromApi();
+      updateIBDocsCard(mirrors);
+      renderMirrorsList();
+
+      const ibDocsCard = document.getElementById('ib-docs-card');
+      const showMirrorsButton = document.getElementById('ib-docs-show-mirrors');
+      const closeMirrorsButton = document.getElementById('close-mirrors-modal');
+      const mirrorsModal = document.getElementById('mirrors-modal');
+
+      if (ibDocsCard) {
+        ibDocsCard.addEventListener('click', (event) => {
+          if (event.target.closest('.mirror-button') || event.target.closest('.mirror-link')) {
+            return;
+          }
+          const openUrl = ibDocsCard.dataset.url || 'https://dl.ibdocs.re/';
+          window.open(openUrl, '_blank', 'noopener,noreferrer');
+        });
+
+        ibDocsCard.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            const openUrl = ibDocsCard.dataset.url || 'https://dl.ibdocs.re/';
+            window.open(openUrl, '_blank', 'noopener,noreferrer');
+          }
+        });
+      }
+
+      if (showMirrorsButton) {
+        showMirrorsButton.addEventListener('click', (event) => {
+          event.stopPropagation();
+          openMirrorsModal();
+        });
+      }
+
+      if (closeMirrorsButton) {
+        closeMirrorsButton.addEventListener('click', closeMirrorsModal);
+      }
+
+      if (mirrorsModal) {
+        mirrorsModal.addEventListener('click', (event) => {
+          if (event.target === mirrorsModal) {
+            closeMirrorsModal();
+          }
+        });
+      }
+    }
+
     const searchInput = document.getElementById('resource-search');
     const categoriesContainer = document.getElementById('categories-container');
     const noResultsMsg = document.getElementById('no-results');
@@ -530,6 +937,14 @@
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
+
+    initializeIBDocsMirrors();
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMirrorsModal();
+      }
+    });
   </script>
 </body>
 
