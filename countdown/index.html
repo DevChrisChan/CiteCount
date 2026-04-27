@@ -1904,6 +1904,33 @@
             }
         }
 
+        function getDefaultLandingExam() {
+            if (!Array.isArray(examData) || examData.length === 0) {
+                return {
+                    name: 'First May 2026 IB exam',
+                    date: DEFAULT_DATE,
+                    session: 'morning'
+                };
+            }
+
+            const defaultDateExam = examData.find(exam => exam.date === DEFAULT_DATE && exam.session === 'morning');
+            if (defaultDateExam) {
+                return defaultDateExam;
+            }
+
+            const toTimestamp = (exam) => {
+                const date = new Date(exam.date);
+                if (exam.session === 'morning') {
+                    date.setHours(9, 0, 0, 0);
+                } else {
+                    date.setHours(13, 0, 0, 0);
+                }
+                return date.getTime();
+            };
+
+            return examData.slice().sort((a, b) => toTimestamp(a) - toTimestamp(b))[0];
+        }
+
         function updateExamDisplay(exam, displayTitle) {
             currentExam = exam;
 
@@ -2009,23 +2036,59 @@
                     showCountdown = true;
                 }
             } else {
+                const defaultExam = getDefaultLandingExam();
+                currentExam = defaultExam;
+
                 // Show default title for first exam
                 instructionEl.classList.remove('hidden');
                 titleEl.style.display = 'block';
-                renderExamTitle(titleEl, 'Time Until First May 2026 IB Exam', formatDate(DEFAULT_DATE));
+                renderExamTitle(titleEl, 'Time Until First May 2026 IB Exam', formatDate(defaultExam.date));
                 document.title = 'IB Exam Countdown - CiteCount';
 
-                showCountdown = true;
+                if (isExamInProgress(defaultExam) || hasSessionPassed(defaultExam)) {
+                    const monthsCountdown = document.getElementById('monthsCountdown');
+                    const daysCountdown = document.getElementById('daysCountdown');
+                    showCountdown = false;
 
-                // Hide passed and in-progress messages if they exist
-                const passedMessage = document.getElementById('examPassedMessage');
-                if (passedMessage) {
-                    passedMessage.style.display = 'none';
-                }
-                
-                const inProgressMessage = document.getElementById('examInProgressMessage');
-                if (inProgressMessage) {
-                    inProgressMessage.style.display = 'none';
+                    // Hide countdown elements
+                    monthsCountdown.classList.add('hidden');
+                    daysCountdown.classList.remove('visible');
+                    daysCountdown.classList.add('hidden');
+
+                    // Create or update passed message
+                    let passedMessage = document.getElementById('examPassedMessage');
+                    if (!passedMessage) {
+                        passedMessage = document.createElement('div');
+                        passedMessage.id = 'examPassedMessage';
+                        passedMessage.className = 'exam-passed-message';
+                        const countdownElement = document.querySelector('.countdown-container');
+                        countdownElement.parentNode.insertBefore(passedMessage, countdownElement.nextSibling);
+                    }
+
+                    passedMessage.innerHTML = `
+                        <div class="exam-passed-icon">✓</div>
+                        <div class="exam-passed-text">May 2026 exam session has started.</div>
+                    `;
+                    passedMessage.style.display = 'block';
+
+                    // Hide in-progress message if it exists
+                    const inProgressMessage = document.getElementById('examInProgressMessage');
+                    if (inProgressMessage) {
+                        inProgressMessage.style.display = 'none';
+                    }
+                } else {
+                    showCountdown = true;
+
+                    // Hide passed and in-progress messages if they exist
+                    const passedMessage = document.getElementById('examPassedMessage');
+                    if (passedMessage) {
+                        passedMessage.style.display = 'none';
+                    }
+
+                    const inProgressMessage = document.getElementById('examInProgressMessage');
+                    if (inProgressMessage) {
+                        inProgressMessage.style.display = 'none';
+                    }
                 }
             }
 
@@ -2678,8 +2741,6 @@
                     countdownDisplayMode = 'months';
                     applyCountdownDisplayMode();
                 });
-
-                applyCountdownDisplayMode();
 
                 // Populate exam grid
                 populateExamGrid();
