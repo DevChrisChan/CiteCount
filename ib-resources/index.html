@@ -751,7 +751,7 @@
   <script src="/components/footer-loader.js"></script>
 
   <script>
-    const mirrorsApiUrl = 'https://ibresources.in/api/v2/mirrors';
+    const mirrorsApiUrl = 'https://ibresources.cc/api/v2/mirrors';
     let mirrorsCache = [];
     let additionalMirrorsInfo = '';
 
@@ -822,7 +822,7 @@
       const additionalInfo = document.getElementById('mirrors-additional-info');
       if (!list || !additionalInfo) return;
 
-      additionalInfo.textContent = `Message from ibresources: ${additionalMirrorsInfo || 'Live status from ibresources.in API'}`;
+      additionalInfo.textContent = `Message from ibresources: ${additionalMirrorsInfo || 'Live status from ibresources.cc API'}`;
 
       if (!mirrorsCache.length) {
         list.innerHTML = '<li class="mirror-item"><div><div class="mirror-name">No mirrors available</div><div class="resource-url">Please try again later.</div></div><span class="status-pill unknown">unknown</span></li>';
