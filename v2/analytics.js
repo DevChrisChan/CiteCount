@@ -1,9 +1,3 @@
-/**
- * CiteCount Analytics - Discord Webhook Integration
- * Sends website analytics to Discord after page fully loads
- * Webhook URL is obfuscated to prevent direct access
- */
-
 (function() {
   'use strict';
 
@@ -12,18 +6,12 @@
   let analyticsSendInFlight = false;
 
   // ============================================================================
-  // OBFUSCATED WEBHOOK URL
-  // ============================================================================
-  // The webhook URL is reconstructed from parts to avoid direct exposure
   function getWebhookUrl() {
-    // Base64 encoded Discord webhook ID and token parts
-    const id = 'MTUwMDYxNDg4MzkyMDcxMTc1Mg==';
-    const token = 'dzNmYjdTNmo5Nm1LMDV6MFMzSUdFOHMwc2lpOFFLeWlQSEFOaTQ0M1oxa3FHVXpjaUNzN3J5dGtjVnRWWWRua3dCQzA=';
+    const id = '1500622477250924597';
+    const token = 'BdLE3UOg3ZSSEczC5md1v1FcHbB-fRAPQpfpiXlF6OUmhnZuM4itMdQ6FDQITG3tSLHF';
     
     try {
-      const decodedId = atob(id);
-      const decodedToken = atob(token);
-      return `https://discord.com/api/webhooks/1500614883920711752/w3fb7S6j96mK05z0S3IGE8s0sii8QKyiPHANi443Z1kqGUzciCs7rytkcVtVYdnkwBC0`;
+      return `https://discord.com/api/webhooks/${id}/${token}`;
     } catch (e) {
       console.error('Failed to reconstruct webhook URL');
       return null;
