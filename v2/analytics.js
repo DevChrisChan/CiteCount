@@ -7,6 +7,10 @@
 (function() {
   'use strict';
 
+  const ANALYTICS_SEND_COOLDOWN_MS = 60 * 1000;
+  const ANALYTICS_LAST_SEND_KEY = 'citecount_analytics_last_send_at';
+  let analyticsSendInFlight = false;
+
   // ============================================================================
   // OBFUSCATED WEBHOOK URL
   // ============================================================================
@@ -158,11 +162,24 @@
   // ============================================================================
   // SEND ANALYTICS TO DISCORD
   // ============================================================================
+  function canSendAnalytics() {
+    const lastSendAt = Number(localStorage.getItem(ANALYTICS_LAST_SEND_KEY) || 0);
+    return !lastSendAt || Date.now() - lastSendAt >= ANALYTICS_SEND_COOLDOWN_MS;
+  }
+
   async function sendAnalytics() {
+    if (analyticsSendInFlight || !canSendAnalytics()) {
+      return;
+    }
+
+    analyticsSendInFlight = true;
+    localStorage.setItem(ANALYTICS_LAST_SEND_KEY, String(Date.now()));
+
     try {
       const webhookUrl = getWebhookUrl();
       if (!webhookUrl) {
         console.error('Webhook URL unavailable');
+        analyticsSendInFlight = false;
         return;
       }
 
@@ -250,6 +267,8 @@
     } catch (error) {
       // Silently fail to not impact user experience
       console.log('Analytics error (non-critical):', error);
+    } finally {
+      analyticsSendInFlight = false;
     }
   }
 
