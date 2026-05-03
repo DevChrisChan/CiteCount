@@ -136,6 +136,14 @@
           Comprehensive guides, tips, and insights for IB students and academic writers
         </p>
 
+        <div style="text-align:center; margin-bottom: 30px;">
+          <input id="blog-search" type="search"
+            placeholder="Search blogs by title or description..."
+            aria-label="Search blogs"
+            style="width: 100%; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid #d1d5db; box-sizing: border-box;">
+          <p id="search-results" style="margin-top:8px; opacity:0.8; font-size:0.95rem;"></p>
+        </div>
+
         <!-- IB Academic Guides Section -->
         <div style="margin-bottom: 50px;">
           <h2 style="text-align: left; margin-bottom: 25px; font-size: 1.8rem; font-weight: 700; color: #2563eb;">
@@ -333,6 +341,20 @@
                 </div>
                 <p style="font-size: 0.95rem; opacity: 85%;">Complete breakdown of TOK Exhibition
                   requirements, object selection, and commentary word limits.</p>
+              </div>
+            </a>
+
+            <a data-lta-event="tok exhibition prompts blog outbound click" href="/blogs/tok-exhibition-prompts.html"
+              target="_blank" style="text-decoration: none;">
+              <div class="blog"
+                style="text-align: left; height: 100%; display: flex; flex-direction: column;position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: white; flex: 1;">🧭 TOK Exhibition Prompts
+                  </h3>
+                  <i class="fas fa-compass"
+                    style="color: #3b82f6; font-size: 1.5rem; margin-left: 15px; opacity: 0.8;"></i>
+                </div>
+                <p style="font-size: 0.95rem; opacity: 85%;">All 35 prescribed TOK exhibition prompts grouped by theme, with guidance for choosing the best question.</p>
               </div>
             </a>
           </div>
@@ -717,6 +739,58 @@
     <div id="footer-placeholder"></div>
   </div>
 
+  <script>
+    (function(){
+      const input = document.getElementById('blog-search');
+      const resultsEl = document.getElementById('search-results');
+      if(!input) return;
+      const blogDivs = Array.from(document.querySelectorAll('.new-container .blog'));
+      const items = blogDivs.map(div => {
+        const text = (div.innerText || '').toLowerCase();
+        const anchor = div.closest('a') || div.parentElement;
+        return {div, anchor, text};
+      });
+
+      // Category containers are outer divs inside .new-container that contain an h2 and links
+      const categoryContainers = Array.from(document.querySelectorAll('.new-container > div')).filter(c => c.querySelector('h2') && c.querySelector('a'));
+
+      function updateResults() {
+        const q = input.value.trim().toLowerCase();
+        let visible = 0;
+        items.forEach(item => {
+          const match = q === '' || item.text.indexOf(q) !== -1;
+          if(item.anchor) {
+            item.anchor.style.display = match ? '' : 'none';
+          }
+          if(match) visible++;
+        });
+
+        // Hide category containers that have no visible anchors for this query
+        categoryContainers.forEach(container => {
+          const anchors = Array.from(container.querySelectorAll('a'));
+          const anyVisible = anchors.some(a => getComputedStyle(a).display !== 'none');
+          container.style.display = (q === '' || anyVisible) ? '' : 'none';
+        });
+
+        if(q === '') {
+          resultsEl.textContent = '';
+        } else {
+          resultsEl.textContent = visible ? `Showing ${visible} result${visible === 1 ? '' : 's'}` : 'No results found';
+        }
+      }
+
+      input.addEventListener('input', updateResults);
+      input.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') {
+          input.value = '';
+          updateResults();
+        }
+      });
+
+      // initialize
+      updateResults();
+    })();
+  </script>
   <script src="/components/footer-loader.js"></script>
 </body>
 

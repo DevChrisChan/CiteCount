@@ -1442,6 +1442,11 @@ let fileInputModalCallback = null;
 let fileInputModalType = 'project';
 let selectedIconId = null;
 
+function canCloseFileInputModal() {
+  const input = document.getElementById('file-input-modal-input');
+  return !input || !input.value.trim();
+}
+
 function toggleIconPicker() {
   const picker = document.getElementById('icon-picker-container');
   const isVisible = picker.style.display === 'block';

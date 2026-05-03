@@ -60,8 +60,8 @@
       </div>-->
 
       <!-- New Project/Folder Modal -->
-      <div id="file-input-modal" class="file-input-modal" style="display: none;">
-      <div class="file-input-modal-content">
+      <div id="file-input-modal" class="file-input-modal" style="display: none;" onclick="if(event.target === this && canCloseFileInputModal()) closeFileInputModal()">
+      <div class="file-input-modal-content" onclick="event.stopPropagation()">
         <h3 id="file-input-modal-title">Create New Project</h3>
         <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 1rem;">
         <div style="position: relative; flex-shrink: 0;">

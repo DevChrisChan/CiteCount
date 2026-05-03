@@ -279,8 +279,10 @@ function generateCitation(data) {
   previewDiv.innerHTML = `<p>${citation}</p>`;
   resultSection.style.display = 'block';
   
-  // Scroll to result
-  resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Scroll to result with a slight delay to ensure rendering
+  setTimeout(() => {
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
 }
 
 // Format Authors Helper
@@ -1088,39 +1090,119 @@ async function fetchFromURL() {
   fetchBtn.disabled = true;
   fetchBtn.classList.add('loading');
   statusEl.textContent = 'Fetching page information...';
-  statusEl.className = 'fetch-status';
+  statusEl.className = 'fetch-status loading';
   
   try {
-    // Use a CORS proxy or backend service for fetching
-    // For now, we'll extract basic info from the URL
     const urlObj = new URL(url);
     const domain = urlObj.hostname.replace('www.', '');
     
-    // Set basic info
+    // Set URL and access date (fallback essentials)
     document.getElementById('url').value = url;
-    
-    // Try to extract website name from domain
-    const siteName = domain.split('.')[0];
-    document.getElementById('website-name').value = capitalizeFirstLetter(siteName);
-    
-    // Set today as access date
     setToday();
     
-    statusEl.textContent = 'Basic info extracted. Please fill in the remaining fields manually.';
-    statusEl.className = 'fetch-status success';
+    // Show progress
+    statusEl.textContent = 'Extracting metadata...';
     
-    // Note: Full metadata extraction would require a backend service
-    // to bypass CORS restrictions. Consider using:
-    // - OpenGraph meta tags via a proxy
-    // - A serverless function to fetch and parse pages
-    // - An API like microlink.io or urlbox.io
+    // Try to fetch page metadata
+    const metadata = await tryFetchMetadata(url);
+    
+    if (metadata.success) {
+      // Populate fields with fetched data
+      if (metadata.title) {
+        document.getElementById('page-title').value = metadata.title;
+      }
+      if (metadata.siteName) {
+        document.getElementById('website-name').value = metadata.siteName;
+      }
+      if (metadata.description) {
+        document.getElementById('publisher').value = metadata.description.substring(0, 100);
+      }
+      if (metadata.publishDate) {
+        document.getElementById('publish-date').value = metadata.publishDate;
+      }
+      
+      statusEl.textContent = '✓ Page info extracted successfully!';
+      statusEl.className = 'fetch-status success';
+      showNotification('Citation info auto-filled. Review and generate citation.', 'success');
+    } else {
+      // Fallback: Insert minimal info from URL
+      const siteName = domain.split('.')[0];
+      document.getElementById('website-name').value = capitalizeFirstLetter(siteName);
+      document.getElementById('page-title').value = urlObj.pathname.split('/').filter(p => p).pop() || siteName;
+      
+      statusEl.textContent = '⚠ Extracted basic info. Please fill in the remaining fields.';
+      statusEl.className = 'fetch-status warning';
+      showNotification('Auto-fill partially completed. Please review and complete the citation.', 'info');
+    }
+    
+    // Auto-scroll to generate button
+    setTimeout(() => {
+      const generateBtn = document.querySelector('.generate-btn');
+      if (generateBtn) {
+        generateBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 300);
     
   } catch (error) {
-    statusEl.textContent = 'Could not fetch page info. Please fill in fields manually.';
-    statusEl.className = 'fetch-status error';
+    console.error('Error in fetchFromURL:', error);
+    
+    // Fallback: Still populate URL and access date
+    const siteName = urlObj.hostname.replace('www.', '').split('.')[0];
+    document.getElementById('website-name').value = capitalizeFirstLetter(siteName);
+    document.getElementById('page-title').value = 'Article or Page';
+    
+    statusEl.textContent = '✓ URL saved. Please fill in the remaining fields manually.';
+    statusEl.className = 'fetch-status warning';
+    showNotification('Could not fetch full metadata, but URL is saved.', 'info');
+    
+    // Auto-scroll to form for user to complete
+    setTimeout(() => {
+      const generateBtn = document.querySelector('.generate-btn');
+      if (generateBtn) {
+        generateBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 300);
   } finally {
     fetchBtn.disabled = false;
     fetchBtn.classList.remove('loading');
+  }
+}
+
+// Helper function to fetch metadata from URL
+async function tryFetchMetadata(url) {
+  try {
+    // Method 1: Try using a public metadata API (e.g., microlink.io)
+    // This is a free service that can extract page metadata
+    const proxyUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
+    
+    const response = await fetch(proxyUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      return { success: false };
+    }
+    
+    const data = await response.json();
+    
+    if (data.data) {
+      const metadata = {
+        success: true,
+        title: data.data.title || '',
+        siteName: data.data.publisher || new URL(url).hostname.replace('www.', ''),
+        description: data.data.description || '',
+        publishDate: data.data.date ? data.data.date.split('T')[0] : ''
+      };
+      return metadata;
+    }
+    
+    return { success: false };
+  } catch (error) {
+    console.error('Metadata fetch error:', error);
+    return { success: false };
   }
 }
 
