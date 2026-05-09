@@ -103,7 +103,7 @@
       <button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="survey-dismiss-click">Maybe Later</button>
     </div>
   </div>
-  <div class="app-container" id="app-top">
+  <div class="app-container">
     <div id="announcement-banner" class="announcement-banner" style="display: none;">
       <div class="announcement-content">
         <svg class="announcement-icon" width="20" height="20" viewBox="0 -0.2 50.963 50.963"
@@ -1507,709 +1507,458 @@
   
   <!--End of CiteCount application-->
   <div id="after-app-placeholder" class="after-app-placeholder">
-    <link id="product-page-static-styles" rel="stylesheet" href="/v2/product.css">
-    <div id="product-page-root">
-      <!-- HERO -->
-      <div class="hero">
-        <h1 class="reveal reveal-d1">Count words.<br>Not <span class="cite-highlight cite-desktop">(in-text citations, 2026)</span><span
-            class="cite-highlight cite-mobile">(citations, 2026)</span>.</h1>
-        <p class="hero-sub reveal reveal-d2">The most precise word counter for IB students and academic writers. Privacy first, CiteCount
-          automatically excludes in-text citations, generates formatted references, and your work never leaves your browser.
-        </p>
-        <div class="hero-actions reveal reveal-d3">
-          <a href="#app-top" class="btn-primary">Open CiteCount →</a>
-          <a href="#features" class="btn-secondary">See how it works</a>
-        </div>
-
-        <!-- App window mockup -->
-        <div class="hero-mockup reveal reveal-d3" id="product-hero-mockup">
-          <div class="app-window">
-            <div class="app-titlebar">
-              <div class="titlebar-dot" style="background:#ff5f57;"></div>
-              <div class="titlebar-dot" style="background:#ffbd2e;"></div>
-              <div class="titlebar-dot" style="background:#28c840;"></div>
-              <div class="titlebar-name">
-                <img src="/assets/logo.svg" alt="CiteCount Logo" width="14" height="14">
-                CiteCount
+    <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 1rem 0;">
+    <!--<section class="cc-hero-banner" aria-labelledby="cc-hero-title">
+      <h1 id="cc-hero-title">
+        Precise Word Counter without Citations for your
+        <span class="cc-hero-text-container">
+          <span class="cc-hero-fallback">Research Papers</span>
+          <span id="cc-changing-text" class="cc-changing-text">Research Papers</span>
+        </span>
+      </h1>
+      <h3>At CiteCount, we are redefining word counting solutions for students and researchers.</h3>
+    </section>-->
+    <!-- Secondary Landing / Applications & Resources Section -->
+    <div style="background: var(--background-primary); padding: 3rem 1.5rem;">
+      <div class="new-container" style="max-width: 1200px; margin: 0 auto;">
+        <section style="margin-bottom: 2.5rem;">
+      <h2 style="text-align: left; margin-bottom: 1rem; font-size: 1.875rem; font-weight: 700; color: var(--text-primary);">
+        What is CiteCount?
+      </h2>
+      <p style="text-align: left; color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin: 0;">
+        CiteCount is a privacy-first, browser-based word counter built for students, researchers, and anyone who writes academic work. It accurately counts words and characters while automatically excluding in-text citations, references, and bracketed content, giving you the true word count required for assignments like university assignments, IB Internal Assessments, Extended Essays, and reports. Everything runs locally in your browser, so your documents are never uploaded to a server. In addition to precise counting, CiteCount includes tools for importing Word and PDF files, highlighting detected citations, generating formatted references, and tracking reading, speaking, and handwriting time, all designed to help you meet academic requirements with confidence.
+      </p>
+    </section>
+        <section style="margin-bottom: 3rem;">
+          <h2 style="text-align: left; margin-bottom: 2rem; font-size: 1.875rem; font-weight: 700; color: var(--text-primary);">
+            CiteCount Applications
+          </h2>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+            <a href="/countdown" target="_blank" rel="noopener noreferrer" data-lta-event="countdown app outbound click" style="text-decoration: none; display: block;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">IB May 2026 Exams Countdown</h3>
+                <p style="font-size: 1rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Customisable exam countdowns application for IB May 2026 Examination Session.</p>
               </div>
-            </div>
-            <div class="app-stats-bar">
-              <div class="stat-cell">
-                <div class="stat-label">Words without Citations</div>
-                <div class="stat-value" id="stat1">120</div>
-              </div>
-              <div class="stat-cell">
-                <div class="stat-label">Total Words</div>
-                <div class="stat-value" id="stat2">129</div>
-              </div>
-              <div class="stat-cell">
-                <div class="stat-label">Characters without Citations</div>
-                <div class="stat-value" id="stat3">713</div>
-              </div>
-              <div class="stat-cell">
-                <div class="stat-label">Total Characters</div>
-                <div class="stat-value" id="stat4">776</div>
-              </div>
-              <div class="stat-cell">
-                <div class="stat-label">Citations</div>
-                <div class="stat-value" id="stat5">2</div>
-              </div>
-            </div>
-            <div class="app-body">
-              <div class="app-editor">
-                <p>Welcome to CiteCount! CiteCount is a tool designed to help you count words in your text while excluding
-                  in-text citations.</p>
-                <p>CiteCount automatically detects your in-text citation and highlights it <span
-                    class="cite-red">(CiteCount, 2026)</span>.</p>
-                <p>By default, all citations are not included in the Total Words count. They are visualized by a red
-                  highlight in the text. If CiteCount misrecognized an in-text citation <span class="cite-green">(since
-                    CiteCount detects citations in parenthesis, like this one)</span>, you can always toggle it to count
-                  into the total word count.</p>
-                <p>You can click on a citation and CiteCount will jump to its position <span class="cite-red">("What's new
-                    in CiteCount v2", 2026)</span>.</p>
-              </div>
-              <div class="app-sidebar">
-                <div class="sidebar-header">
-                  In-text Citation
-                  <span class="sidebar-col">Words</span>
-                  <span class="sidebar-col">Occ.</span>
-                  <span class="sidebar-col">Excl.</span>
-                </div>
-                <div class="cite-row">
-                  <span class="cite-name">CiteCount, 2026</span>
-                  <span class="cite-num">2</span>
-                  <span class="cite-num">1</span>
-                  <div class="toggle off"></div>
-                </div>
-                <div class="cite-row">
-                  <span class="cite-name" style="font-size:0.73rem;">since CiteCount detects citations in parenthesis,
-                    …</span>
-                  <span class="cite-num">9</span>
-                  <span class="cite-num">1</span>
-                  <div class="toggle on"></div>
-                </div>
-                <div class="cite-row">
-                  <span class="cite-name" style="font-size:0.73rem;">"What's new in CiteCount v2", 2026</span>
-                  <span class="cite-num">6</span>
-                  <span class="cite-num">1</span>
-                  <div class="toggle off"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TRUST BAR -->
-      <div class="trust-bar">
-        <div class="trust-item"><span class="trust-icon">🔒</span> Files never leave your device</div>
-        <div class="trust-item"><span class="trust-icon">⚡</span> No server, instant processing</div>
-        <div class="trust-item"><span class="trust-icon">📄</span> Imports Word & PDF files</div>
-        <div class="trust-item"><span class="trust-icon">🎓</span> Built for IB & university</div>
-        <div class="trust-item"><span class="trust-icon">📚</span> MLA · APA · Harvard</div>
-      </div>
-
-      <!-- COUNTING FEATURES -->
-      <section class="section" id="features">
-        <div class="two-col reveal reveal-d1">
-          <div>
-            <span class="eyebrow reveal">Core Counting Engine</span>
-            <h2 class="reveal reveal-d1">Most accurate word-counting algorithms</h2>
-            <p class="section-desc reveal reveal-d2">CiteCount understands every available word count matters, and we
-              deliver the most accurate, citation-aware counting experience. Our advanced algorithms gives you the complete
-              picture: clean counts, citation-separated totals, and time estimates for reading, speaking, and handwriting.
-            </p>
-          </div>
-          <div class="reveal reveal-d2">
-            <div class="panel">
-              <div class="panel-header">📈 Words processed</div>
-              <div class="panel-body" style="text-align:center;">
-                <div id="words-processed" class="big-number" aria-live="polite">---,---,---</div>
-                <div style="font-size:0.95rem;color:var(--text-soft);margin-top:0.35rem;">words processed across CiteCount
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="reveal reveal-d3" style="margin-top:1.75rem;">
-          <div class="feature-grid">
-            <div class="feature-cell">
-              <div class="feature-cell-label">Primary metric</div>
-              <h3>Words Without Citations</h3>
-              <p>The count your examiner actually grades. All in-text citations and reference lists are detected and
-                excluded automatically.</p>
-            </div>
-            <div class="feature-cell">
-              <div class="feature-cell-label">Secondary metric</div>
-              <h3>Total Word Count</h3>
-              <p>The full count including all citations, shown alongside the clean count so you always know both figures at
-                once.</p>
-            </div>
-            <div class="feature-cell">
-              <div class="feature-cell-label">Detail</div>
-              <h3>Character Counting</h3>
-              <p>Separate character counts with and without citations, essential for assignments that specify character
-                limits.</p>
-            </div>
-            <div class="feature-cell">
-              <div class="feature-cell-label">Detection</div>
-              <h3>Citation Highlighting</h3>
-              <p>Every detected citation is highlighted red in your text. The sidebar shows words, occurrence count, and
-                lets you exclude individual ones.</p>
-            </div>
-            <div class="feature-cell">
-              <div class="feature-cell-label">Time estimates</div>
-              <h3>Reading & Speaking Time</h3>
-              <p>Reading time at 200 wpm. Speaking at 150 wpm. Know exactly how long your essay takes to deliver before you
-                present.</p>
-            </div>
-            <div class="feature-cell">
-              <div class="feature-cell-label">More estimates</div>
-              <h3>Handwriting Time</h3>
-              <p>Estimated at 40 wpm, for students who write exam answers by hand and need to know if their response fits
-                the time available.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <hr class="section-divider">
-
-      <!-- FILE IMPORT -->
-      <section class="section">
-        <div class="two-col">
-          <div>
-            <span class="eyebrow reveal">File Import</span>
-            <h2 class="reveal reveal-d1">Drop in your Word or PDF</h2>
-            <p class="section-desc reveal reveal-d2" style="margin-bottom: 1.5rem;">No copy-pasting. Drag and drop your
-              document directly into CiteCount, it parses the content, strips images and equations, and starts counting
-              immediately.</p>
-            <ul class="check-list reveal reveal-d3">
-              <li><span class="check-icon">✓</span>Supports .docx Word documents and PDF files</li>
-              <li><span class="check-icon">✓</span>Images and equations automatically removed before counting</li>
-              <li><span class="check-icon">✓</span>Drag-and-drop or click to choose a file</li>
-              <li><span class="check-icon">✓</span>Content is processed locally, never uploaded to any server</li>
-              <li><span class="check-icon">✓</span>Batch upload unlimited files at once</li>
-              <li><span class="check-icon">✓</span><a href="/blogs/our-promise-for-safety.html" target="_blank"
-                  style="text-decoration: underline;">View our data safety promise</a></li>
-            </ul>
-          </div>
-          <div class="reveal reveal-d2">
-            <div class="panel">
-              <div class="panel-header">📂 Import document</div>
-              <div class="panel-body">
-                <div
-                  style="border: 1.5px dashed var(--border-dark); border-radius: var(--radius); padding: 2.5rem 1.5rem; text-align: center; margin-bottom: 1rem; background: var(--bg);">
-                  <div style="font-size: 2rem; margin-bottom: 0.6rem;">📄</div>
-                  <div style="font-size: 0.85rem; font-weight: 500; color: var(--text-mid); margin-bottom: 0.25rem;">Drop to
-                    import into CiteCount</div>
-                  <div style="font-size: 0.72rem; color: var(--text-faint);">Release your Word or PDF file here</div>
-                </div>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                  <div
-                    style="background: var(--navy); color: white; border-radius: var(--radius-sm); padding: 0.45rem 0.85rem; font-size: 0.75rem; font-weight: 500;">
-                    📋 Paste Text</div>
-                  <div
-                    style="border: 1px solid var(--border-dark); border-radius: var(--radius-sm); padding: 0.45rem 0.85rem; font-size: 0.75rem; color: var(--text-mid);">
-                    📁 Upload File</div>
-                </div>
-                <div
-                  style="margin-top: 1rem; padding: 0.6rem 0.8rem; background: var(--bg); border-radius: var(--radius-sm); font-size: 0.72rem; color: var(--text-soft); display: flex; align-items: center; gap: 0.4rem;">
-                  <span>🔒</span> Your content stays secure in your browser and never leaves your device.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <hr class="section-divider">
-
-      <!-- CITATION GENERATOR -->
-      <section class="section" id="citations">
-        <span class="eyebrow reveal">Reference Generator</span>
-        <h2 class="reveal reveal-d1">Generate formatted citations in seconds</h2>
-        <p class="section-desc reveal reveal-d2">Paste a URL, DOI, or ISBN and CiteCount auto-fills the reference. Choose
-          your style and source type, then drop the citation into your bibliography.</p>
-
-        <div class="two-col">
-          <div class="reveal reveal-d2">
-            <div class="panel">
-              <div class="panel-header">⚡ Quick Add — auto-fill from identifier</div>
-              <div class="panel-body">
-                <div class="input-row">
-                  <div class="fake-input">https://www.example.com/article...</div>
-                  <button class="btn-sm">Lookup</button>
-                </div>
-                <div class="id-tabs">
-                  <div class="id-tab active">URL</div>
-                  <div class="id-tab inactive">DOI</div>
-                  <div class="id-tab inactive">ISBN</div>
-                </div>
-                <div class="form-row">
-                  <span class="form-key">Citation Style</span>
-                  <div class="style-tabs">
-                    <div class="style-tab active">MLA 9th</div>
-                    <div class="style-tab inactive">APA 7th</div>
-                    <div class="style-tab inactive">Harvard</div>
-                  </div>
-                </div>
-                <div class="form-row" style="flex-direction:column;align-items:flex-start;gap:0.4rem;">
-                  <span class="form-key">Source Type</span>
-                  <div class="source-tags">
-                    <div class="source-tag active">Website</div>
-                    <div class="source-tag">Book</div>
-                    <div class="source-tag">Journal Article</div>
-                    <div class="source-tag">Newspaper</div>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <span class="form-key">Author(s)</span>
-                  <span class="form-val">Smith, John</span>
-                </div>
-                <div class="form-row">
-                  <span class="form-key">Year</span>
-                  <span class="form-val">2024</span>
-                </div>
-                <div class="form-row">
-                  <span class="form-key">Title</span>
-                  <span class="form-val" style="max-width:180px;text-align:right;">Impact of Climate Policy…</span>
-                </div>
-                <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
-                  <button class="btn-sm" style="flex:1;">Generate Citation</button>
-                  <button
-                    style="border: 1px solid var(--border-dark); background: none; border-radius: var(--radius-sm); padding: 0.45rem 0.9rem; font-size: 0.78rem; color: var(--text-soft); font-family: var(--font); cursor: pointer;">Clear</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="reveal reveal-d3">
-            <ul class="check-list">
-              <li><span class="check-icon">✓</span>Three citation styles: MLA 9th, APA 7th, and Harvard</li>
-              <li><span class="check-icon">✓</span>Auto-fill from URL, DOI, or ISBN — no manual entry needed</li>
-              <li><span class="check-icon">✓</span>Source types: websites, books, journal articles, newspapers</li>
-              <li><span class="check-icon">✓</span>Fill any field manually when auto-fill misses details</li>
-              <li><span class="check-icon">✓</span>Detected citations listed with word counts and occurrence totals</li>
-              <li><span class="check-icon">✓</span>Toggle individual citations to exclude them from the word count</li>
-              <li><span class="check-icon">✓</span>Click a citation in the sidebar to jump to it in your text</li>
-              <li><span class="check-icon">✓</span>Sort detected citations by count, words, or name</li>
-              <li><span class="check-icon">✓</span>Search through detected citations in the sidebar</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <hr class="section-divider">
-
-      <!-- TOOLS -->
-      <section class="section" id="tools">
-        <span class="eyebrow reveal">Built-in Tools Suite</span>
-        <h2 class="reveal reveal-d1">Everything you need, in one workspace</h2>
-        <p class="section-desc reveal reveal-d2">CiteCount ships a full suite of academic productivity tools alongside your
-          document. No switching tabs, no distractions.</p>
-        
-        <div class="tools-grid reveal reveal-d3" id="toolsGrid">
-          <div style="cursor: pointer;" class="tool-tile" data-iframe="/components/dictionary/index.html" role="button" tabindex="0">
-            <span class="tool-tile-icon">📚</span>
-            <div class="tool-tile-name">Dictionary</div>
-            <div class="tool-tile-desc">Look up definitions without leaving your document</div>
-          </div>
-          <div style="cursor: pointer;" class="tool-tile" data-iframe="/components/thesaurus/index.html" role="button" tabindex="0">
-            <span class="tool-tile-icon">🧠</span>
-            <div class="tool-tile-name">Thesaurus</div>
-            <div class="tool-tile-desc">Find synonyms and alternatives instantly</div>
-          </div>
-          <div style="cursor: pointer;" class="tool-tile" data-iframe="/components/pomodoro/index.html" role="button" tabindex="0">
-            <span class="tool-tile-icon">🍅</span>
-            <div class="tool-tile-name">Pomodoro Timer</div>
-            <div class="tool-tile-desc">Timed study sessions with structured breaks</div>
-          </div>
-          <div style="cursor: pointer;" class="tool-tile" data-iframe="/components/translate/index.html" role="button" tabindex="0">
-            <span class="tool-tile-icon">🌐</span>
-            <div class="tool-tile-name">Translate</div>
-            <div class="tool-tile-desc">Translate content between languages</div>
-          </div>
-          <div style="cursor: pointer;" class="tool-tile" data-iframe="/components/notepad/index.html" role="button" tabindex="0">
-            <span class="tool-tile-icon">📝</span>
-            <div class="tool-tile-name">Notepad</div>
-            <div class="tool-tile-desc">Quick notes and ideas alongside your work</div>
-          </div>
-          <div style="cursor: pointer;" class="tool-tile" data-iframe="/components/wordbank/index.html" role="button" tabindex="0">
-            <span class="tool-tile-icon">📚</span>
-            <div class="tool-tile-name">Word Bank</div>
-            <div class="tool-tile-desc">Curated vocabulary to enrich academic writing</div>
-          </div>
-          <div style="cursor: pointer;" class="tool-tile" data-iframe="/components/tools-marketplace/index.html#presets-section" role="button" tabindex="0">
-            <span class="tool-tile-icon">🧮</span>
-            <div class="tool-tile-name">Scientific Calculator</div>
-            <div class="tool-tile-desc">Advanced calculations for STEM coursework</div>
-          </div>
-          <div style="cursor: pointer;" class="tool-tile" data-iframe="/components/tools-marketplace/index.html#presets-section" role="button" tabindex="0">
-            <span class="tool-tile-icon">📈</span>
-            <div class="tool-tile-name">Graphing Calculator</div>
-            <div class="tool-tile-desc">Plot and analyze mathematical functions</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- IB APPS -->
-      <div class="full-bg">
-        <section class="section" id="resources">
-          <span class="eyebrow reveal">IB Applications</span>
-          <h2 class="reveal reveal-d1">The complete IB toolkit</h2>
-          <p class="section-desc reveal reveal-d2">Dedicated apps built specifically for the International Baccalaureate
-            programme, beyond the word counter.</p>
-
-          <div class="apps-grid reveal reveal-d3">
-            <a href="/countdown" class="app-tile">
-              <div class="app-tile-icon">⏳</div>
-              <div>
-                <h3>IB Exam Countdown</h3>
-                <p>Customisable countdown timers for the IB May examination session. Every subject's date visible at a
-                  glance.</p>
-              </div>
-              <span class="app-tile-arrow">→</span>
             </a>
-            <a href="/exam-timer" class="app-tile">
-              <div class="app-tile-icon">⏱</div>
-              <div>
-                <h3>IB Exam Timer</h3>
-                <p>Full exam simulation with separate reading time and voice guidance for invigilator instructions — perfect
-                  for mock exams.</p>
+            <a href="/exam-timer/" target="_blank" rel="noopener noreferrer" data-lta-event="ib exam timer app outbound click" style="text-decoration: none; display: block;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">IB Exam Timer</h3>
+                <p style="font-size: 1rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Setup and display an IB exam timer along with separate reading time with voice guidance for invigilators instructions to simulate real IB exam environments.</p>
               </div>
-              <span class="app-tile-arrow">→</span>
             </a>
-            <a href="/ib-resources" class="app-tile">
-              <div class="app-tile-icon">🎓</div>
-              <div>
-                <h3>IB Resources Directory</h3>
-                <p>A hand-picked collection of the most useful resources for IB students across all subjects and components.
-                </p>
+            <a href="/ib-resources/" target="_blank" rel="noopener noreferrer" data-lta-event="ib resources app outbound click" style="text-decoration: none; display: block;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">IB Resources</h3>
+                <p style="font-size: 1rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">A hand-picked list of useful resources for IB students.</p>
               </div>
-              <span class="app-tile-arrow">→</span>
             </a>
-            <a href="/bulletin-analysis" class="app-tile">
-              <div class="app-tile-icon">📊</div>
-              <div>
-                <h3>IB Bulletin Analysis</h3>
-                <p>Interactive visual analysis of IB Bulletin reports — grade distributions, pass rates, and subject trends.
-                </p>
+            <a href="/bulletin-analysis/" target="_blank" rel="noopener noreferrer" data-lta-event="ib bulletin analysis app outbound click" style="text-decoration: none; display: block;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-primary);">IB Bulletin Analysis</h3>
+                <p style="font-size: 1rem; color: var(--text-secondary); margin: 0; line-height: 1.5;">Interactive analysis for IB Bulletin reports.</p>
               </div>
-              <span class="app-tile-arrow">→</span>
             </a>
           </div>
         </section>
-      </div>
 
-      <!-- GUIDES -->
-      <section class="section">
-        <span class="eyebrow reveal">Academic Guides</span>
-        <h2 class="reveal reveal-d1">Written by top scorers, for every subject</h2>
-        <p class="section-desc reveal reveal-d2">Detailed IA, EE, and TOK guides authored by IB graduates who achieved top
-          marks, and academic skills articles by Ivy League and Russell Group students.</p>
-
-        <div class="guides-grid reveal reveal-d3">
-          <a href="/blogs/extended-essay-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">Extended Essay</span>
-            <h4>Complete Word Count & Structure Guide</h4>
-          </a>
-          <a href="/blogs/tok-essay-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">TOK Essay</span>
-            <h4>Requirements, Structure & Word Limit</h4>
-          </a>
-          <a href="/blogs/tok-exhibition-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">TOK Exhibition</span>
-            <h4>Object Selection & Commentary Word Limits</h4>
-          </a>
-          <a href="/blogs/biology-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">Biology IA</span>
-            <h4>Structure, Tips & Word Count Requirements</h4>
-          </a>
-          <a href="/blogs/chemistry-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">Chemistry IA</span>
-            <h4>Framework & Word Restrictions Guide</h4>
-          </a>
-          <a href="/blogs/physics-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">Physics IA</span>
-            <h4>Experimental Design & Word Limits</h4>
-          </a>
-          <a href="/blogs/ib-math-internal-assessment-guide" class="guide-tile" target="_blank"><span
-              class="guide-subject">Mathematics IA</span>
-            <h4>Planning, Structure & Word Count Guidelines</h4>
-          </a>
-          <a href="/blogs/economics-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">Economics IA</span>
-            <h4>Analysis Techniques & Word Count Guide</h4>
-          </a>
-          <a href="/blogs/psychology-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">Psychology IA</span>
-            <h4>Research Methodology & Word Limits</h4>
-          </a>
-          <a href="/blogs/business-management-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">Business Management IA</span>
-            <h4>Real-World Applications & Structure</h4>
-          </a>
-          <a href="/blogs/history-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">History IA</span>
-            <h4>Source Analysis & Word Count Guide</h4>
-          </a>
-          <a href="/blogs/geography-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">Geography IA</span>
-            <h4>Fieldwork Analysis & Word Count Guide</h4>
-          </a>
-          <a href="/blogs/ess-ia-word-count" class="guide-tile" target="_blank"><span
-              class="guide-subject">ESS IA</span>
-            <h4>Environmental Systems & Societies IA</h4>
-          </a>
-          <a href="/blogs/ucas-personal-statement-guide-ib-students" class="guide-tile"
-            target="_blank"><span class="guide-subject">University Applications</span>
-            <h4>UCAS Personal Statement for IB Students</h4>
-          </a>
-          <a href="/blogs/ib-exam-techniques-strategies" class="guide-tile" target="_blank"><span
-              class="guide-subject">Exam Preparation</span>
-            <h4>IB Exam Techniques & Strategies</h4>
-          </a>
-        </div>
-        <div style="text-align:center;margin-top:2rem;" class="reveal">
-          <a href="/blogs" class="btn-secondary" target="_blank" style="border-radius: 8px;">View all guides
-            →</a>
-        </div>
-      </section>
-
-      <hr class="section-divider">
-
-      <!-- PRIVACY -->
-      <section class="section">
-        <div class="privacy-two">
-          <div>
-            <span class="eyebrow reveal">Privacy Promise</span>
-            <h2 class="reveal reveal-d1">Your work stays yours</h2>
-            <p class="section-desc reveal reveal-d2" style="margin-bottom: 1.5rem;">CiteCount is a client-side application.
-              This isn't a marketing claim, it's an architectural guarantee. No server ever receives your text.</p>
-            <ul class="check-list reveal reveal-d3">
-              <li><span class="check-icon">✓</span>All processing happens locally inside your browser, no network requests
-                containing your text are ever made</li>
-              <li><span class="check-icon">✓</span>Word and PDF files are parsed entirely on-device; file bytes never travel
-                beyond your machine</li>
-              <li><span class="check-icon">✓</span>No account required. No sign-in. No data retained between sessions</li>
-              <li><span class="check-icon">✓</span>Fully open source for transparency</li>
-            </ul>
-          </div>
-          <div class="reveal reveal-d2">
-            <div class="privacy-browser">
-              <div class="browser-bar">
-                <div class="b-dot" style="background:#ff5f57;"></div>
-                <div class="b-dot" style="background:#ffbd2e;"></div>
-                <div class="b-dot" style="background:#28c840;"></div>
-                <div class="browser-url"><span class="url-lock">🔒</span>citecount.com</div>
-              </div>
-              <div class="browser-content">
-                <div class="flow-row">
-                  <div class="flow-node">
-                    <div class="flow-icon-box">📄</div>
-                    <div>
-                      <div class="flow-text-title">Your document</div>
-                      <div class="flow-text-sub">Word · PDF · Pasted text</div>
-                    </div>
-                  </div>
-                  <div class="flow-connector"></div>
-                  <div class="flow-node">
-                    <div class="flow-icon-box">⚙️</div>
-                    <div>
-                      <div class="flow-text-title">Browser JavaScript engine</div>
-                      <div class="flow-text-sub">Counting · Parsing · Citation detection</div>
-                    </div>
-                  </div>
-                  <div class="flow-connector"></div>
-                  <div class="flow-node">
-                    <div class="flow-icon-box">✦</div>
-                    <div>
-                      <div class="flow-text-title">Your word count</div>
-                      <div class="flow-text-sub">Private · Accurate · Instant</div>
-                    </div>
-                  </div>
+        <!-- IB Academic Guides Section -->
+        <section style="margin-bottom: 3rem;">
+          <h2 style="text-align: left; margin-bottom: 1rem; font-size: 1.875rem; font-weight: 700; color: var(--text-primary);">
+            📚 IB Academic Guides
+          </h2>
+          <p style="text-align: left; margin-bottom: 2rem; color: var(--text-secondary); font-size: 0.875rem;">Our guides are written by IB top scorers who have just graduated.</p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+            <a href="/blogs/extended-essay-word-count.html" target="_blank" data-lta-event="ee blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📝</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Extended Essay Word Count Guide</h3>
                 </div>
-                <div class="no-server-badge">
-                  ✓ No server receives your content, ever.
-                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Complete breakdown of what's included in IB Extended Essay word counts, with official guidelines and practical tips.</p>
               </div>
-            </div>
+            </a>
+
+            <a href="/blogs/biology-ia-word-count.html" target="_blank" data-lta-event="bio ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🔬</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Biology IA Word Count Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Master your Biology Internal Assessment with structure tips and word count requirements.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/chemistry-ia-word-count.html" target="_blank" data-lta-event="chem ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">⚗️</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Chemistry IA Word Count Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Explore the framework and word restrictions for an effective Chemistry Internal Assessment.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/ib-math-internal-assessment-guide.html" target="_blank" data-lta-event="ib math ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📊</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Math IA Complete Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Comprehensive planning, structure, and word count guidelines for your Math Internal Assessment.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/tok-essay-word-count.html" target="_blank" data-lta-event="tok essay blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🌍</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Theory of Knowledge Essay Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Complete breakdown of TOK essay requirements, structure, and what counts toward the word limit.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/business-management-ia-word-count.html" target="_blank" data-lta-event="business ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">💼</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Business Management IA Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Step-by-step approach to Business Management Internal Assessments with real-world applications.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/physics-ia-word-count.html" target="_blank" data-lta-event="physics ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">⚡</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Physics IA Word Count Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Master your Physics Internal Assessment with experimental design tips and word count requirements.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/economics-ia-word-count.html" target="_blank" data-lta-event="economics ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📈</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Economics IA Word Count Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Complete guide to Economics Internal Assessments with analysis techniques and word count guidelines.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/psychology-ia-word-count.html" target="_blank" data-lta-event="psychology ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🧠</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Psychology IA Word Count Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Comprehensive guide to Psychology Internal Assessments with research methodology and word limits.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/ess-ia-word-count.html" target="_blank" data-lta-event="ess ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🌱</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">ESS IA Word Count Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Environmental Systems & Societies Internal Assessment guide with sustainability focus and word requirements.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/history-ia-word-count.html" target="_blank" data-lta-event="history ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📜</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">History IA Word Count Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Master your History Internal Assessment with source analysis techniques and word count guidelines.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/geography-ia-word-count.html" target="_blank" data-lta-event="geography ia blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🗺️</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Geography IA Word Count Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Complete guide to Geography Internal Assessments with fieldwork analysis and word count requirements.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/tok-exhibition-word-count.html" target="_blank" data-lta-event="tok exhibition blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🎨</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">TOK Exhibition Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Complete breakdown of TOK Exhibition requirements, object selection, and commentary word limits.</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Academic Skills & Tips Section -->
+        <section style="margin-bottom: 3rem;">
+          <h2 style="text-align: left; margin-bottom: 1rem; font-size: 1.875rem; font-weight: 700; color: var(--text-primary);">
+            🎯 Academic Skills & Tips
+          </h2>
+          <p style="text-align: left; margin-bottom: 2rem; color: var(--text-secondary); font-size: 0.875rem;">Our tips are written by students of the Ivy League universities.</p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+            <a href="/blogs/avoiding-plagiarism-ib-coursework.html" target="_blank" data-lta-event="avoiding plagiarism blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🛡️</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Avoiding Plagiarism Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Essential strategies for proper citation, paraphrasing, and maintaining academic integrity in IB coursework.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/understanding-academic-referencing-styles.html" target="_blank" data-lta-event="academic referencing blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📚</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Academic Referencing Styles</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Navigate APA, MLA, Chicago, and other citation styles with practical examples and clear explanations.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/draft-to-final-ib-revision-checklist.html" target="_blank" data-lta-event="draft to final blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">✏️</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Draft to Final Revision Checklist</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Transform drafts into polished submissions with our step-by-step revision guide covering content and formatting.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/time-management-for-ib-students.html" target="_blank" data-lta-event="time management blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">⏰</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Time Management for IB Students</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Master juggling multiple IB assignments with proven productivity tips and organizational strategies.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/effective-reading-strategies.html" target="_blank" data-lta-event="effective reading blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📖</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Effective Reading Strategies</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Master academic reading techniques for faster comprehension and better note-taking across all subjects.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/managing-multiple-deadlines.html" target="_blank" data-lta-event="managing deadlines blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🎯</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Managing Multiple IB Deadlines</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Proven systems for tracking and prioritizing Extended Essay, IAs, and coursework deadlines.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/critical-thinking-skills.html" target="_blank" data-lta-event="critical thinking blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">💡</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Critical Thinking Skills for IB</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Develop analytical thinking patterns essential for IB assessments and university preparation.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/note-taking-strategies.html" target="_blank" data-lta-event="note taking blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📝</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Note-Taking Strategies for IB</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Optimize your study sessions with effective note-taking methods for lectures and textbook reading.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/research-skills-source-evaluation.html" target="_blank" data-lta-event="research skills blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🔍</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Research Skills & Source Evaluation</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Learn to identify credible sources and conduct thorough research for all your IB assignments.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/ucas-personal-statement-guide-ib-students.html" target="_blank" data-lta-event="ucas personal statement blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📝</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">UCAS Personal Statement for IB Students</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Complete guide to writing compelling personal statements that highlight your IB experience for UK university applications.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/cas-reflection-writing-guide.html" target="_blank" data-lta-event="cas reflection blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🌟</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">CAS Reflection Writing Guide</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Master meaningful CAS reflections that demonstrate growth and connect activities to IB learner profile attributes.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/university-application-timeline-ib-students.html" target="_blank" data-lta-event="university application blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🎓</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">University Application Timeline for IB</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Navigate university applications across different systems (UCAS, Common App, local) with IB-specific deadlines and requirements.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/ib-exam-techniques-strategies.html" target="_blank" data-lta-event="exam techniques blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📋</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">IB Exam Techniques & Strategies</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Master time management, question analysis, and answer structuring for all IB examination formats and question types.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/stress-management-ib-diploma.html" target="_blank" data-lta-event="stress management blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">😌</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Stress Management for IB Diploma</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Develop healthy coping strategies and mental wellness techniques to thrive during the demanding IB programme.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/studying-abroad-ib-students.html" target="_blank" data-lta-event="study abroad blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">✈️</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Studying Abroad Guide for IB Students</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Navigate international university applications, scholarships, and visa requirements with your IB qualification.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/academic-writing-skills-ib.html" target="_blank" data-lta-event="academic writing blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">✍️</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Academic Writing Skills for IB</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Develop sophisticated writing techniques for essays, IAs, and the Extended Essay with university-level standards.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/understanding-ib-predicted-grades.html" target="_blank" data-lta-event="predicted grades blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">📊</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Understanding IB Predicted Grades</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Learn how predicted grades work, their impact on university offers, and strategies to maximize your predictions.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/building-academic-portfolio-ib.html" target="_blank" data-lta-event="portfolio development blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">💼</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Building Your Academic Portfolio</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Showcase your IB achievements, research projects, and extracurriculars for competitive university and scholarship applications.</p>
+              </div>
+            </a>
+
+            <a href="/blogs/transitioning-from-ib-to-university.html" target="_blank" data-lta-event="transition to university blog outbound click" style="text-decoration: none;">
+              <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <span style="font-size: 1.25rem;">🎯</span>
+                  <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Transitioning from IB to University</h3>
+                </div>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Leverage your IB skills and mindset for academic success in higher education and beyond.</p>
+              </div>
+            </a>
+              </div>
+        </section>
+
+            <!-- Product Updates & Technical Section -->
+            <div style="margin-bottom: 50px;">
+              <h2 style="text-align: left; margin-bottom: 20px;" class="text-2xl font-bold">
+                🚀 Product Updates & Technical
+              </h2>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+                <a href="/blogs/all-new-citecount.html" target="_blank" data-lta-event="all new citecount blog outbound click" style="text-decoration: none;">
+                  <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                      <span style="font-size: 1.25rem;">🎉</span>
+                      <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">All New CiteCount</h3>
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Discover the completely rewritten CiteCount with enhanced features and improved user experience.</p>
+                  </div>
+                </a>
+
+                <a href="/blogs/introducing-ib-exam-countdowns.html" target="_blank" data-lta-event="introducing countdown blog outbound click" style="text-decoration: none;">
+                  <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                      <span style="font-size: 1.25rem;">⏱️</span>
+                      <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">IB Examination Countdown App</h3>
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Learn about our new countdown app designed specifically for IB examination sessions.</p>
+                  </div>
+                </a>
+
+                <a href="/blogs/integration-with-apple-intelligence.html" target="_blank" data-lta-event="ai blog outbound click" style="text-decoration: none;">
+                  <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                      <span style="font-size: 1.25rem;">🤖</span>
+                      <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Apple Intelligence Integration</h3>
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Discover how CiteCount integrates with Apple Intelligence on iOS 18.2 and macOS 15.2.</p>
+                  </div>
+                </a>
+
+                <a href="/blogs/our-promise-for-safety.html" target="_blank" data-lta-event="promise for safety blog outbound click" style="text-decoration: none;">
+                  <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                      <span style="font-size: 1.25rem;">🔒</span>
+                      <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Our Promise for Safety</h3>
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Learn about CiteCount's privacy-first approach and how we protect your content and data.</p>
+                  </div>
+                </a>
+
+                <a href="/blogs/analytics.html" data-lta-event="analytics blog outbound click" style="text-decoration: none;" target="_blank">
+                  <div style="padding: 1.5rem; border: 1px solid var(--border-primary); border-radius: 0.5rem; background: var(--background-secondary); height: 100%; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                      <span style="font-size: 1.25rem;">📈</span>
+                      <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin: 0;">Web Analytics & Improvements</h3>
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; line-height: 1.5; flex-grow: 1;">Behind the scenes: how we use analytics responsibly to make CiteCount better for everyone.</p>
+                  </div>
+                </a>
+              </div>
+            </section>
           </div>
         </div>
-      </section>
-
-      <!-- APPLE INTELLIGENCE
-  <div class="apple-section">
-    <div class="apple-card reveal">
-      <div class="apple-icon-box">🤖</div>
-      <div>
-        <h3>Integrated with Apple Intelligence</h3>
-        <p>CiteCount works with Apple Intelligence on iOS 18.2 and macOS 15.2 — bringing on-device AI to your writing workflow while keeping your content completely private.</p>
-      </div>
-      <div class="apple-badge-pill">New · iOS 18.2+</div>
-    </div>
-  </div>-->
-
-      <!-- CTA -->
-      <div class="cta-section">
-        <div class="cta-inner reveal">
-          <h2>The word counter you deserve.</h2>
-          <p>Start free. Import your first document in seconds. No account needed, just open CiteCount and begin writing
-            with confidence.</p>
-          <a href="#app-top" class="btn-primary"
-            style="font-size:0.95rem;padding:0.85rem 2rem; border-radius: 8px;">Open CiteCount →</a>
-        </div>
-      </div>
-
-      <!-- TOOL PREVIEW IFRAME MODAL -->
-      <div id="toolPreviewOverlay" class="tool-preview-overlay" aria-hidden="true" style="display:none;">
-        <div class="tool-preview-card" role="dialog" aria-modal="true" aria-labelledby="toolPreviewTitle">
-          <button id="toolPreviewClose" class="tool-preview-close" aria-label="Close preview">×</button>
-          <h3 id="toolPreviewTitle" style="display:none"></h3>
-          <iframe id="toolPreviewFrame" src="" frameborder="0" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" title="Tool preview"></iframe>
-        </div>
-      </div>
-    </div>
-    <script>
-      (function () {
-        const root = document.getElementById('product-page-root');
-        if (!root) return;
-
-        const reveals = root.querySelectorAll('.reveal');
-        const heroMockup = root.querySelector('#product-hero-mockup');
-        let statsAnimated = false;
-
-        function startHeroStats() {
-          if (statsAnimated) return;
-          statsAnimated = true;
-          animateNum(root.querySelector('#stat1'), 120, 900);
-          animateNum(root.querySelector('#stat2'), 129, 900);
-          animateNum(root.querySelector('#stat3'), 713, 1100);
-          animateNum(root.querySelector('#stat4'), 776, 1100);
-          animateNum(root.querySelector('#stat5'), 2, 500);
-        }
-
-        function finalizeReveal(target) {
-          target.classList.remove('reveal');
-          if (target === heroMockup) {
-            startHeroStats();
-          }
-        }
-
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(e => {
-            if (!e.isIntersecting || e.target.dataset.revealed === 'true') return;
-            e.target.dataset.revealed = 'true';
-            e.target.classList.add('visible');
-            observer.unobserve(e.target);
-
-            const onTransitionEnd = event => {
-              if (event.propertyName && event.propertyName !== 'opacity') return;
-              e.target.removeEventListener('transitionend', onTransitionEnd);
-              finalizeReveal(e.target);
-            };
-
-            e.target.addEventListener('transitionend', onTransitionEnd);
-            setTimeout(() => {
-              if (e.target.classList.contains('reveal')) {
-                finalizeReveal(e.target);
-              }
-            }, 900);
-          });
-        }, { threshold: 0.08 });
-        reveals.forEach(el => observer.observe(el));
-
-        function animateNum(el, target, duration) {
-          if (!el) return;
-          let start = null;
-          const step = ts => {
-            if (!start) start = ts;
-            const p = Math.min((ts - start) / duration, 1);
-            el.textContent = Math.round(p * target);
-            if (p < 1) requestAnimationFrame(step);
-          };
-          requestAnimationFrame(step);
-        }
-
-        function formatNumber(n) {
-          return n.toLocaleString('en-US');
-        }
-
-        function initWordsProcessed() {
-          const el = root.querySelector('#words-processed');
-          if (!el) return;
-          const historicalUsers = 100000;
-          const avgWords = 4000;
-          const baseWords = historicalUsers * avgWords;
-          const growthPerSecond = 6.4;
-          const startDate = new Date('2024-01-01T00:00:00Z').getTime();
-
-          function currentWords() {
-            return Math.floor(baseWords + growthPerSecond * ((Date.now() - startDate) / 1000));
-          }
-
-          el.textContent = formatNumber(currentWords());
-          setInterval(() => {
-            el.textContent = formatNumber(currentWords());
-          }, 250);
-        }
-
-        window.addEventListener('load', () => {
-          setTimeout(() => {
-            initWordsProcessed();
-          }, 600);
-        });
-      })();
-    </script>
-    <script>
-      (function(){
-        const root = document.getElementById('product-page-root');
-        if (!root) return;
-
-        const overlay = root.querySelector('#toolPreviewOverlay');
-        const frame = root.querySelector('#toolPreviewFrame');
-        const closeBtn = root.querySelector('#toolPreviewClose');
-        const titleEl = root.querySelector('#toolPreviewTitle');
-        const tiles = root.querySelectorAll('.tool-tile[data-iframe]');
-
-        function openPreview(url, title){
-          if(!overlay || !frame) return;
-          overlay.style.display = 'flex';
-          overlay.setAttribute('aria-hidden','false');
-          document.body.style.overflow = 'hidden';
-          frame.src = url;
-          if(title && titleEl) titleEl.textContent = title;
-        }
-
-        function closePreview(){
-          if(!overlay || !frame) return;
-          overlay.style.display = 'none';
-          overlay.setAttribute('aria-hidden','true');
-          frame.src = '';
-          document.body.style.overflow = '';
-        }
-
-        tiles.forEach(tile=>{
-          tile.addEventListener('click',()=>{
-            const url = tile.dataset.iframe;
-            const name = tile.querySelector('.tool-tile-name')?.textContent || '';
-            if(url) openPreview(url, name);
-          });
-          tile.addEventListener('keydown', (e)=>{
-            if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tile.click(); }
-          });
-        });
-
-        if(closeBtn) closeBtn.addEventListener('click', closePreview);
-        if(overlay) overlay.addEventListener('click',(e)=>{ if(e.target === overlay) closePreview(); });
-
-        window.addEventListener('message',(ev)=>{
-          try{ if(ev?.data?.type === 'citecount:close-preview') closePreview(); }catch(e){}
-        });
-      })();
-    </script>
-
+    
     <!-- Footer Placeholder - Footer will be automatically injected here -->
     <div id="footer-placeholder"></div>
   </div>
