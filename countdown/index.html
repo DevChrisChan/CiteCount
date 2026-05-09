@@ -1856,14 +1856,24 @@
                 months--;
             }
 
-            const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + months + 1, 0);
+            // Calculate remaining days
             let remainingDays;
             
-            if (examDate.getDate() >= now.getDate()) {
-                remainingDays = examDate.getDate() - now.getDate();
+            // When in the same month, use the time-based calculation for accuracy
+            if (months === 0) {
+                remainingDays = Math.floor(distance / (1000 * 60 * 60 * 24));
             } else {
-                remainingDays = examDate.getDate() + (lastDayOfMonth.getDate() - now.getDate());
+                // For different months, use simple day-of-month subtraction
+                if (examDate.getDate() >= now.getDate()) {
+                    remainingDays = examDate.getDate() - now.getDate();
+                } else {
+                    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + months + 1, 0);
+                    remainingDays = examDate.getDate() + (lastDayOfMonth.getDate() - now.getDate());
+                }
             }
+            
+            // Clamp negative days to 0
+            remainingDays = Math.max(0, remainingDays);
 
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
