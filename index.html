@@ -103,7 +103,7 @@
       <button class="no-thanks-btn" onclick="handleNoThanks()" data-lta-event="survey-dismiss-click">Maybe Later</button>
     </div>
   </div>
-  <div class="app-container" id="app-top">
+  <div class="app-container" id="app">
     <div id="announcement-banner" class="announcement-banner" style="display: none;">
       <div class="announcement-content">
         <svg class="announcement-icon" width="20" height="20" viewBox="0 -0.2 50.963 50.963"
@@ -1509,15 +1509,16 @@
   <div id="after-app-placeholder" class="after-app-placeholder">
     <link id="product-page-static-styles" rel="stylesheet" href="/v2/product.css">
     <div id="product-page-root">
+      <hr class="section-divider">
       <!-- HERO -->
       <div class="hero">
-        <h1 class="reveal reveal-d1">Count words.<br>Not <span class="cite-highlight cite-desktop">(in-text citations, 2026)</span><span
-            class="cite-highlight cite-mobile">(citations, 2026)</span>.</h1>
+        <h1 class="reveal reveal-d1">Count words.<br>Not <span class="cite-highlight cite-desktop cite-rotating">(in-text citations, 2026)</span><span
+          class="cite-highlight cite-mobile cite-rotating">(citations, 2026)</span>.</h1>
         <p class="hero-sub reveal reveal-d2">The most precise word counter for IB students and academic writers. Privacy first, CiteCount
           automatically excludes in-text citations, generates formatted references, and your work never leaves your browser.
         </p>
         <div class="hero-actions reveal reveal-d3">
-          <a href="#app-top" class="btn-primary">Open CiteCount →</a>
+          <a href="#app" class="btn-primary">Open CiteCount →</a>
           <a href="#features" class="btn-secondary">See how it works</a>
         </div>
 
@@ -1872,7 +1873,7 @@
               <span class="app-tile-arrow">→</span>
             </a>
             <a href="/exam-timer" class="app-tile">
-              <div class="app-tile-icon">⏱</div>
+              <div class="app-tile-icon">⏱️</div>
               <div>
                 <h3>IB Exam Timer</h3>
                 <p>Full exam simulation with separate reading time and voice guidance for invigilator instructions — perfect
@@ -2057,7 +2058,7 @@
           <h2>The word counter you deserve.</h2>
           <p>Start free. Import your first document in seconds. No account needed, just open CiteCount and begin writing
             with confidence.</p>
-          <a href="#app-top" class="btn-primary"
+          <a href="#app" class="btn-primary"
             style="font-size:0.95rem;padding:0.85rem 2rem; border-radius: 8px;">Open CiteCount →</a>
         </div>
       </div>
@@ -2078,7 +2079,38 @@
 
         const reveals = root.querySelectorAll('.reveal');
         const heroMockup = root.querySelector('#product-hero-mockup');
+        const citationDesktop = root.querySelector('.cite-highlight.cite-desktop');
+        const citationMobile = root.querySelector('.cite-highlight.cite-mobile');
+        const desktopCitations = [
+          '(in-text citations, 2026)',
+          '(Smith, 2020)',
+          '(Zhang, 2024)'
+        ];
+        const mobileCitations = [
+          '(citations, 2026)',
+          '(Smith, 2020)',
+          '(Zhang, 2024)',
+        ];
+        let citationIndex = 0;
         let statsAnimated = false;
+
+        function restartCitationAnimation(el) {
+          if (!el) return;
+          el.style.animation = 'none';
+          void el.offsetHeight;
+          el.style.animation = '';
+        }
+
+        function updateHeroCitations() {
+          if (citationDesktop) {
+            citationDesktop.textContent = desktopCitations[citationIndex];
+            restartCitationAnimation(citationDesktop);
+          }
+          if (citationMobile) {
+            citationMobile.textContent = mobileCitations[citationIndex];
+            restartCitationAnimation(citationMobile);
+          }
+        }
 
         function startHeroStats() {
           if (statsAnimated) return;
@@ -2153,6 +2185,14 @@
           setInterval(() => {
             el.textContent = formatNumber(currentWords());
           }, 250);
+        }
+
+        if (citationDesktop || citationMobile) {
+          updateHeroCitations();
+          setInterval(() => {
+            citationIndex = (citationIndex + 1) % desktopCitations.length;
+            updateHeroCitations();
+          }, 3000);
         }
 
         window.addEventListener('load', () => {

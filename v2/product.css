@@ -40,12 +40,12 @@
 
 @media (prefers-color-scheme: dark) {
   #product-page-root {
-    --white: #0f1724;
-    --bg: #0f1724;
-    --bg2: #141414;
+    --white: #181818;
+    --bg: #181818;
+    --bg2: #202020;
     --border: #2b2b2b;
     --border-dark: #374151;
-    --text: #f5f5f5;
+    --text: #ffffff;
     --text-mid: #9ca3af;
     --text-soft: #9ca3af;
     --text-faint: #6b7280;
@@ -131,7 +131,7 @@
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.03em;
-  color: var(--navy);
+  color: var(--text);
   max-width: 920px;
   margin: 0 auto 1.5rem;
 }
@@ -143,6 +143,33 @@
   border-radius: 3px;
   white-space: nowrap;
   display: inline-block;
+}
+
+#product-page-root .hero h1 .cite-highlight.cite-rotating {
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: hero-cite-in 0.5s forwards, hero-cite-out 0.5s forwards 2.5s;
+  will-change: opacity, transform;
+}
+
+@keyframes hero-cite-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-cite-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 }
 
 #product-page-root .hero h1 .cite-mobile {
