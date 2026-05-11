@@ -261,7 +261,7 @@ class ScrollDetector {
           transition: all 0.2s ease;
         }
         #focus-mode-suggestion-modal .btn-primary {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: #1F40AF;
           color: white;
         }
         #focus-mode-suggestion-modal .btn-primary:hover {
@@ -290,7 +290,7 @@ class ScrollDetector {
       </style>
       <div class="modal-icon">🎯</div>
       <h2>Stay Focused While You Write</h2>
-      <p>It looks like you accidentally scrolled past the editor. Would you like to enable <strong>Focus Mode</strong>?</p>
+      <p>It looks like you scrolled past the editor. Would you like to enable <strong>Focus Mode</strong>?</p>
       <div class="feature-highlight">
         <strong>Focus Mode hides:</strong>
         <ul style="margin: 0.5rem 0 0 1.5rem; line-height: 1.8;">
