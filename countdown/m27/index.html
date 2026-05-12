@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading M27 Countdown - CiteCount</title>
+    <meta name="description" content="Loading the May 2027 IB Exam Countdown.">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            background: #f9fafb;
+            color: #111827;
+        }
+        .status {
+            text-align: center;
+            padding: 2rem;
+            max-width: 32rem;
+        }
+        .status h1 {
+            font-size: 1.5rem;
+            margin: 0 0 0.75rem;
+        }
+        .status p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="status">
+        <h1>Loading May 2027 IB Exam Countdown</h1>
+        <p>If this takes a moment, the page is pulling in the shared countdown template for M27.</p>
+    </div>
+
+    <script>
+        (async () => {
+            try {
+                const response = await fetch('/countdown/n26/index.html');
+                if (!response.ok) {
+                    throw new Error('Failed to load template');
+                }
+
+                let html = await response.text();
+                const replacements = [
+                    ['November 2026', 'May 2027'],
+                    ['November 2026 IB Exam Countdown - CiteCount', 'May 2027 IB Exam Countdown - CiteCount'],
+                    ['/countdown/n26/', '/countdown/m27/'],
+                    ["STORAGE_SCOPE = 'n26'", "STORAGE_SCOPE = 'm27'"],
+                    ['/countdown/n26/dates.json', '/countdown/m27/dates.json'],
+                    ['https://drive.google.com/file/d/1i8cJ2eNB5mqs-OUrSM1P52C6tfTI4lbE/preview', 'https://drive.google.com/file/d/1WVLWwbKDUWTgYwbjJJn9Xzs2--BZgDTu/preview'],
+                    ['2026-10-23', '2027-04-23']
+                ];
+
+                for (const [from, to] of replacements) {
+                    html = html.split(from).join(to);
+                }
+
+                document.open();
+                document.write(html);
+                document.close();
+
+                // Ensure the session dropdown reflects M27 (template may carry selected="selected" from n26)
+                const ensureDropdown = () => {
+                    try {
+                        const sel = document.getElementById('session-switch');
+                        if (!sel) return;
+
+                        // First, normalize labels for known values
+                        for (const opt of Array.from(sel.options)) {
+                            if (opt.value === '/countdown/') opt.text = 'May 2026';
+                            else if (opt.value.indexOf('/countdown/n26/') !== -1) opt.text = 'Nov 2026';
+                            else if (opt.value.indexOf('/countdown/m27/') !== -1) opt.text = 'May 2027';
+                        }
+
+                        // Remove duplicate options (keep the first occurrence of each value)
+                        const seen = new Set();
+                        for (let i = sel.options.length - 1; i >= 0; i--) {
+                            const v = sel.options[i].value;
+                            if (seen.has(v)) {
+                                sel.remove(i);
+                            } else {
+                                seen.add(v);
+                            }
+                        }
+
+                        // Ensure Nov 2026 option exists (template replacements may have overwritten it)
+                        const hasNov = Array.from(sel.options).some(o => o.value && o.value.indexOf('/countdown/n26/') !== -1);
+                        if (!hasNov) {
+                            const novOpt = document.createElement('option');
+                            novOpt.value = '/countdown/n26/';
+                            novOpt.text = 'Nov 2026';
+                            // Insert after May 2026 if present
+                            let inserted = false;
+                            for (let i = 0; i < sel.options.length; i++) {
+                                if (sel.options[i].value === '/countdown/') {
+                                    sel.add(novOpt, sel.options[i + 1] || null);
+                                    inserted = true;
+                                    break;
+                                }
+                            }
+                            if (!inserted) sel.add(novOpt);
+                        }
+
+                        // Ensure M27 is selected
+                        for (const opt of Array.from(sel.options)) {
+                            opt.selected = (opt.value && opt.value.indexOf('/countdown/m27/') !== -1);
+                        }
+                    } catch (e) {
+                        console.error('ensureDropdown failed', e);
+                    }
+                };
+
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    ensureDropdown();
+                } else {
+                    window.addEventListener('DOMContentLoaded', ensureDropdown);
+                }
+            } catch (error) {
+                document.body.innerHTML = '<div class="status"><h1>Unable to load the M27 countdown.</h1><p>Add the template or refresh after the network is available.</p></div>';
+                console.error(error);
+            }
+        })();
+    </script>
+</body>
+</html>

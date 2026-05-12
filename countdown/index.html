@@ -1131,6 +1131,51 @@
             color: var(--text-secondary);
         }
 
+        .jump-next-button {
+            position: fixed;
+            left: 50%;
+            bottom: 1.25rem;
+            transform: translate(-50%, 20px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2000;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.25rem;
+            border: none;
+            border-radius: 999px;
+            background: var(--accent-color);
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 700;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+            transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .jump-next-button.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, 0);
+        }
+
+        .jump-next-button:hover {
+            background: #1e3a8a;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+        }
+
+        .jump-next-button svg {
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 480px) {
+            .jump-next-button {
+                width: calc(100% - 1.5rem);
+                justify-content: center;
+                font-size: 0.9rem;
+            }
+        }
+
         /* Perplexity Ad Box */
         .pplx-ad-box {
             position: fixed;
@@ -1274,13 +1319,12 @@
             <h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
         </div>
         <div class="flex items-center gap-2">
-            <button id="session-toggle-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="Switch to Nov 2026"
-            onclick="window.location.href='/countdown/n26/'" data-lta-event="countdown-nav-n26-click">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6" />
-                </svg>
-                <span class="hidden md:inline text-sm font-medium">Switch to Nov 2026</span>
-            </button>
+            <label for="session-switch" class="sr-only">Switch Exam Session</label>
+            <select id="session-switch" class="header-btn" aria-label="Switch Exam Session" onchange="window.location.href=this.value" style="appearance:none;-webkit-appearance:none;">
+                <option value="/countdown/" selected>May 2026</option>
+                <option value="/countdown/n26/">Nov 2026</option>
+                <option value="/countdown/m27/">May 2027</option>
+            </select>
             <button id="help-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="Help" onclick="openHelpModal()"
             data-lta-event="countdown-header-help-click">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -1461,6 +1505,13 @@
         </div>
     </div>
 
+    <button id="jumpNextUpcomingButton" class="jump-next-button" type="button" onclick="jumpToNextUpcomingExam()" aria-label="Jump to ext upcoming exam">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="8 4 16 12 8 20" />
+        </svg>
+        Next Upcoming Exam
+    </button>
+
     <div id="footer-placeholder"></div>
 <script src="/components/footer-loader.js"></script>
 
@@ -1624,6 +1675,7 @@
         const PERSONAL_STORAGE_KEY = storageKey('personalCountdownSelection');
         let personalSelection = [];
         let countdownDisplayMode = 'months';
+        let currentAllExamGrid = [];
 
         // Perplexity Ad Box Functions
         function dismissPplxAd() {
@@ -2508,6 +2560,53 @@
             }).join('');
         }
 
+        function updateJumpNextUpcomingButton() {
+            const button = document.getElementById('jumpNextUpcomingButton');
+            const section = document.querySelector('.all-countdowns-section');
+            if (!button) return;
+
+            const passedCount = currentAllExamGrid.filter(exam => hasSessionPassed(exam)).length;
+            const nextExam = currentAllExamGrid.find(exam => !hasSessionPassed(exam));
+            let sectionInView = false;
+            let isAboveNextExam = false;
+
+            if (section) {
+                const rect = section.getBoundingClientRect();
+                sectionInView = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+            }
+
+            if (nextExam) {
+                const nextExamCard = document.querySelector(`#examGrid [data-exam-id="${nextExam.id}"]`);
+                if (nextExamCard) {
+                    const rect = nextExamCard.getBoundingClientRect();
+                    isAboveNextExam = rect.top > 140;
+                }
+            }
+
+            const shouldShow = sectionInView && passedCount > 6 && isAboveNextExam;
+
+            button.classList.toggle('visible', shouldShow);
+            button.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+        }
+
+        function jumpToNextUpcomingExam() {
+            const nextExam = currentAllExamGrid.find(exam => !hasSessionPassed(exam));
+            if (!nextExam) return;
+
+            const card = document.querySelector(`#examGrid [data-exam-id="${nextExam.id}"]`);
+            if (!card) return;
+
+            const button = document.getElementById('jumpNextUpcomingButton');
+            if (button) {
+                button.classList.remove('visible');
+                button.setAttribute('aria-hidden', 'true');
+            }
+
+            const headerOffset = 90;
+            const top = card.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }
+
         function removeSelection(examId) {
             personalSelection = personalSelection.filter(id => id !== examId);
             updateSelectedList();
@@ -2601,12 +2700,15 @@
         function populateExamGrid(filteredExams = null) {
             const grid = document.getElementById('examGrid');
             const examsToDisplay = filteredExams || examData;
+            currentAllExamGrid = examsToDisplay.slice();
             
             if (examsToDisplay.length === 0) {
                 grid.innerHTML = '<div class="no-results"><div class="no-results-icon">🔍</div><div>No exams found</div></div>';
             } else {
                 grid.innerHTML = examsToDisplay.map(exam => createExamCard(exam)).join('');
             }
+
+            updateJumpNextUpcomingButton();
         }
 
         function filterExams(searchTerm) {
@@ -2646,6 +2748,8 @@
                     if (secondsEl) secondsEl.textContent = padZero(time.seconds);
                 });
             });
+
+            updateJumpNextUpcomingButton();
         }
 
         // Close modal on outside click or Escape key
@@ -2782,6 +2886,10 @@
                     updateSearchClearButton();
                     renderPersonalList();
                 });
+
+                window.addEventListener('scroll', updateJumpNextUpcomingButton, { passive: true });
+                window.addEventListener('resize', updateJumpNextUpcomingButton);
+                updateJumpNextUpcomingButton();
 
                 setInterval(() => {
                     updateCountdown();
