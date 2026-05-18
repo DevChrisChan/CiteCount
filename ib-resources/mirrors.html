@@ -22,12 +22,98 @@
   <script defer async data-host="citecount.netlify.app" data-events="true" src="https://liteanalytics.com/lite.js"></script>
 
   <style>
-    .page-wrap {
+    .page-layout {
       max-width: 920px;
       margin: 0 auto;
       padding: 2rem;
       padding-top: 5rem;
       min-height: 60vh;
+    }
+
+    .page-wrap {
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .promo-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 0.75rem 0 1.25rem;
+    }
+
+    .promo-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    .dark .promo-title {
+      color: #f3f4f6;
+    }
+
+    .ad-card {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: #ffffff;
+      border-radius: 0.85rem;
+      padding: 1.1rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 18px -12px rgba(30, 64, 175, 0.55);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .ad-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 26px -16px rgba(30, 64, 175, 0.65);
+    }
+
+    .ad-card-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ad-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .ad-card-description {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .ad-card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-top: auto;
+    }
+
+    .subtitle-meta {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .dark .subtitle-meta {
+      color: #d1d5db;
     }
 
     .title {
@@ -251,6 +337,21 @@
       min-width: 0;
     }
 
+    .status-pill.uptime {
+      background-color: #f3f4f6;
+      border-color: #d1d5db;
+      color: #374151;
+      text-transform: none;
+      letter-spacing: 0;
+      min-width: 0;
+    }
+
+    .status-pill.uptime.low {
+      background-color: #fef2f2;
+      border-color: #fca5a5;
+      color: #b91c1c;
+    }
+
     .status-group {
       display: inline-flex;
       align-items: center;
@@ -279,6 +380,18 @@
       background-color: rgba(146, 64, 14, 0.35);
       border-color: rgba(251, 191, 36, 0.7);
       color: #fcd34d;
+    }
+
+    .dark .status-pill.uptime {
+      background-color: rgba(55, 65, 81, 0.8);
+      border-color: #6b7280;
+      color: #e5e7eb;
+    }
+
+    .dark .status-pill.uptime.low {
+      background-color: rgba(127, 29, 29, 0.35);
+      border-color: rgba(252, 165, 165, 0.6);
+      color: #fca5a5;
     }
 
     .empty-state {
@@ -318,8 +431,14 @@
       color: #d1d5db;
     }
 
+    @media (max-width: 900px) {
+      .promo-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 640px) {
-      .page-wrap {
+      .page-layout {
         padding: 1rem;
         padding-top: 4.5rem;
       }
@@ -349,21 +468,62 @@
       </div>
     </header>
 
-    <main class="page-wrap">
-      <h1 class="title">IB Docs Mirrors</h1>
-      <p class="subtitle">Live status feed from ibResources. The top online mirror is what CiteCount uses by default.</p>
+      <main class="page-layout">
+        <section class="page-wrap">
+          <h1 class="title">IB Docs Mirrors</h1>
+          <p class="subtitle">Live status feed from ibResources. The top online mirror is what CiteCount uses by default.<span class="subtitle-meta" id="last-updated"></span></p>
 
-      <div class="top-actions">
-        <a href="/ib-resources/" class="btn-link">Back to IB Resources</a>
-      </div>
+          <div class="top-actions">
+            <a href="/ib-resources/" class="btn-link">Back to IB Resources</a>
+          </div>
 
-      <div class="info-banner" id="mirrors-info">Loading latest mirror status...</div>
-      <div class="mirror-list" id="mirror-list"></div>
+          <div class="info-banner" id="mirrors-info">Loading latest mirror status...</div>
+         
+          <div class="mirror-list" id="mirror-list"></div>
+          <h2 class="promo-title">Explore CiteCount apps</h2>
+          <div class="promo-row">
+            
+            <a href="/countdown" class="ad-card" data-lta-event="mirrors-countdown-click">
+              <div class="ad-card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+              </div>
+              <h3 class="ad-card-title">IB Exam Countdown</h3>
+              <p class="ad-card-description">Track every IB exam with live countdowns, subject dates, and personal reminders.</p>
+              <div class="ad-card-cta">
+                Open Countdown
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+            </a>
+            <a href="/exam-timer" class="ad-card" data-lta-event="mirrors-exam-timer-click">
+              <div class="ad-card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </div>
+              <h3 class="ad-card-title">IB Exam Timer</h3>
+              <p class="ad-card-description">Run mock exams with timed reading and writing phases plus official pacing cues.</p>
+              <div class="ad-card-cta">
+                Start Mock Timer
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </div>
+            </a>
+          </div>
 
-      <div class="disclaimer">
-        If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html">here</a> for further details and instructions.
-      </div>
-    </main>
+          <div class="disclaimer">
+            If you are a representative seeking to request for the removal of specific links, please refer to our correspondence policy by clicking <a href="/ib-resources/correspondence.html">here</a> for further details and instructions.
+          </div>
+        </section>
+      </main>
 
     <div id="footer-placeholder"></div>
   </div>
@@ -372,9 +532,10 @@
   <script src="/components/footer-loader.js"></script>
 
   <script>
-    const mirrorsApiUrl = 'https://ibresources.cc/api/v2/mirrors';
+    const mirrorsApiUrl = 'https://ibresources.cc/api/v3/mirrors';
     const infoEl = document.getElementById('mirrors-info');
     const listEl = document.getElementById('mirror-list');
+    const updatedEl = document.getElementById('last-updated');
 
     function escapeHtml(value) {
       return String(value)
@@ -386,7 +547,13 @@
     }
 
     function setInfoBannerMessage(message) {
+      infoEl.style.display = 'block';
       infoEl.innerHTML = `<span class="info-banner-content"><span class="source-badge">Message from ibresources</span><span class="info-message">${escapeHtml(message)}</span></span>`;
+    }
+
+    function hideInfoBanner() {
+      infoEl.style.display = 'none';
+      infoEl.textContent = '';
     }
 
     function normalizeMirrorStatus(status) {
@@ -394,6 +561,48 @@
       if (normalized === 'online') return 'online';
       if (normalized === 'offline') return 'offline';
       return 'unknown';
+    }
+
+    function formatLastUpdated(date) {
+      const day = String(date.getDate()).padStart(2, '0');
+      const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ];
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${day} ${month} ${year} at ${hours}:${minutes}:${seconds}`;
+    }
+
+    function setLastUpdated(date) {
+      if (!updatedEl) return;
+      updatedEl.textContent = `Last updated at ${formatLastUpdated(date)}`;
+    }
+
+    function getUptimeValue(mirror) {
+      const value = Number(mirror && mirror.uptime);
+      return Number.isFinite(value) ? value : -1;
+    }
+
+    function formatUptime(value) {
+      if (!Number.isFinite(value)) {
+        return 'N/A';
+      }
+
+      return value.toFixed(2);
     }
 
     function renderMirrors(mirrors) {
@@ -408,9 +617,12 @@
         const name = mirror.name || 'Unnamed mirror';
         const url = mirror.url || '#';
         const status = normalizeMirrorStatus(mirror.status);
+        const uptimeValue = getUptimeValue(mirror);
+        const uptimeLabel = uptimeValue >= 0 ? `${formatUptime(uptimeValue)}% uptime` : 'Uptime N/A';
+        const uptimeClass = uptimeValue >= 0 && uptimeValue < 95 ? ' low' : '';
         const isTopOnline = index === firstOnlineIndex && status === 'online';
         const topBadge = isTopOnline ? '<span class="status-pill top">top mirror</span>' : '';
-        return `<article class="mirror-card${isTopOnline ? ' top-online' : ''}" role="link" tabindex="0"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url">${url}</a></div><div class="status-group">${topBadge}<span class="status-pill ${status}">${status}</span></div></article>`;
+        return `<article class="mirror-card${isTopOnline ? ' top-online' : ''}" role="link" tabindex="0"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url">${url}</a></div><div class="status-group">${topBadge}<span class="status-pill uptime${uptimeClass}">${uptimeLabel}</span><span class="status-pill ${status}">${status}</span></div></article>`;
       }).join('');
     }
 
@@ -448,21 +660,24 @@
         }
 
         const payload = await response.json();
-        const mirrors = Array.isArray(payload.mirrors) ? payload.mirrors : [];
+        const mirrors = Array.isArray(payload.mirrors) ? payload.mirrors.slice() : [];
+        mirrors.sort((a, b) => getUptimeValue(b) - getUptimeValue(a));
         const firstOnline = mirrors.find((mirror) => normalizeMirrorStatus(mirror.status) === 'online');
 
-        const messageFromIbresources = payload.additional_info || 'Mirrors can go up/down quickly.';
+        const messageFromIbresources = payload.additional_info;
 
-        if (firstOnline && firstOnline.url) {
+        if (messageFromIbresources) {
           setInfoBannerMessage(messageFromIbresources);
         } else {
-          setInfoBannerMessage(payload.additional_info || 'No online mirrors detected right now.');
+          hideInfoBanner();
         }
 
         renderMirrors(mirrors);
       } catch (error) {
         setInfoBannerMessage('Could not load mirrors right now. Please try again shortly.');
         listEl.innerHTML = '<div class="empty-state">Mirror status is temporarily unavailable.</div>';
+      } finally {
+        setLastUpdated(new Date());
       }
     }
 
