@@ -21,6 +21,25 @@
   <meta name="keywords" content="IB Resources, IB past papers, IB study materials, IB notes, IB exam prep, IB revision, IB IA examples, IB tools">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function applyTheme() {
+        root.classList.toggle('dark', mediaQuery.matches);
+      }
+
+      applyTheme();
+
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener('change', applyTheme);
+      } else if (mediaQuery.addListener) {
+        mediaQuery.addListener(applyTheme);
+      }
+    })();
+  </script>
   
   <script type="application/ld+json">
   {
