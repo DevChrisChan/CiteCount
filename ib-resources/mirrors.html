@@ -12,6 +12,25 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://citecount.com/ib-resources/mirrors" />
 
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function applyTheme() {
+        root.classList.toggle('dark', mediaQuery.matches);
+      }
+
+      applyTheme();
+
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener('change', applyTheme);
+      } else if (mediaQuery.addListener) {
+        mediaQuery.addListener(applyTheme);
+      }
+    })();
+  </script>
+
   <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
   <link rel="shortcut icon" href="/favicon/favicon.ico" />
@@ -230,6 +249,12 @@
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+    }
+
+    .mirror-controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 0.85rem;
     }
 
     .mirror-card {
@@ -480,6 +505,9 @@
           <div class="info-banner" id="mirrors-info">Loading latest mirror status...</div>
          
           <div class="mirror-list" id="mirror-list"></div>
+          <div class="mirror-controls" id="mirror-controls" hidden>
+            <button class="btn-link" id="mirrors-toggle" type="button">Show all mirrors</button>
+          </div>
           <h2 class="promo-title">Explore CiteCount apps</h2>
           <div class="promo-row">
             
@@ -536,6 +564,11 @@
     const infoEl = document.getElementById('mirrors-info');
     const listEl = document.getElementById('mirror-list');
     const updatedEl = document.getElementById('last-updated');
+    const controlsEl = document.getElementById('mirror-controls');
+    const toggleBtn = document.getElementById('mirrors-toggle');
+    const maxVisibleMirrors = 3;
+    let allMirrors = [];
+    let showAllMirrors = false;
 
     function escapeHtml(value) {
       return String(value)
@@ -626,6 +659,32 @@
       }).join('');
     }
 
+    function updateMirrorList() {
+      if (!listEl) return;
+
+      if (!allMirrors.length) {
+        renderMirrors([]);
+        if (controlsEl) {
+          controlsEl.hidden = true;
+        }
+        return;
+      }
+
+      const visibleMirrors = showAllMirrors
+        ? allMirrors
+        : allMirrors.slice(0, maxVisibleMirrors);
+
+      renderMirrors(visibleMirrors);
+
+      if (controlsEl) {
+        controlsEl.hidden = allMirrors.length <= maxVisibleMirrors;
+      }
+
+      if (toggleBtn) {
+        toggleBtn.textContent = showAllMirrors ? 'Show top 3 mirrors' : 'Show all mirrors';
+      }
+    }
+
     listEl.addEventListener('click', (event) => {
       const clickedLink = event.target.closest('a.mirror-url');
       if (clickedLink) return;
@@ -662,7 +721,8 @@
         const payload = await response.json();
         const mirrors = Array.isArray(payload.mirrors) ? payload.mirrors.slice() : [];
         mirrors.sort((a, b) => getUptimeValue(b) - getUptimeValue(a));
-        const firstOnline = mirrors.find((mirror) => normalizeMirrorStatus(mirror.status) === 'online');
+        allMirrors = mirrors;
+        showAllMirrors = false;
 
         const messageFromIbresources = payload.additional_info;
 
@@ -672,13 +732,23 @@
           hideInfoBanner();
         }
 
-        renderMirrors(mirrors);
+        updateMirrorList();
       } catch (error) {
         setInfoBannerMessage('Could not load mirrors right now. Please try again shortly.');
         listEl.innerHTML = '<div class="empty-state">Mirror status is temporarily unavailable.</div>';
+        if (controlsEl) {
+          controlsEl.hidden = true;
+        }
       } finally {
         setLastUpdated(new Date());
       }
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        showAllMirrors = !showAllMirrors;
+        updateMirrorList();
+      });
     }
 
     loadMirrors();
