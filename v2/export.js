@@ -486,7 +486,7 @@ function buildExportMarkup(options) {
     :root { --highlight-included: rgba(255, 0, 0, 0.3); --highlight-excluded: rgba(0, 207, 0, 0.3); }
     body { margin: 0; padding: 32px; background: #ffffff; color: #111111; }
     .export-content { ${fontStyle} line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
-    .citation-highlight { border-radius: 4px; text-decoration: underline; padding: 0 1px; }
+    .citation-highlight { border-radius: 4px;padding: 0 1px; }
     .citation-highlight.included { background: var(--highlight-included); }
     .citation-highlight.excluded { background: var(--highlight-excluded); }
   `;

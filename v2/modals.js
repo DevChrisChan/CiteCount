@@ -96,6 +96,13 @@
         <label for="word-target-input" class="word-target-label">Target word count</label>
         <input id="word-target-input" type="number" min="1" inputmode="numeric" placeholder="e.g., 1600" autocomplete="off" />
         <p id="word-target-error" class="word-target-error" style="display: none;"></p>
+        <label for="word-target-preset-select" class="word-target-presets-label">Or choose from presets</label>
+        <select id="word-target-preset-select" class="word-target-preset-select" onchange="onWordTargetPresetSelect(this)">
+          <option value="">Select a preset…</option>
+          <option value="4000">IB Extended Essay (4,000)</option>
+          <option value="3000">IB Science IA (3,000)</option>
+          <option value="1600">IB TOK Essay (1,600)</option>
+        </select>
         <div class="word-target-mode">
         <span class="word-target-mode-label">Tracking mode</span>
         <div class="word-target-mode-options">

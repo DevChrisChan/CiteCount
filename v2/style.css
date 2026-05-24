@@ -1626,6 +1626,29 @@
     font-size: 0.875rem;
   }
 
+  .word-target-presets-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .word-target-preset-select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.5rem;
+    background: var(--background-secondary);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  .word-target-preset-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+
   .word-target-label {
     font-size: 0.85rem;
     font-weight: 600;

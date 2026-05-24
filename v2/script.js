@@ -46,6 +46,7 @@ const state = {
 const WORD_TARGET_STORAGE_KEY = 'wordTarget';
 const WORD_TARGET_MODE_STORAGE_KEY = 'wordTargetMode';
 const WORD_TARGET_BAR_HIDDEN_KEY = 'wordTargetBarHidden';
+const WORD_TARGET_PRESET_VALUES = [4000, 3000, 1600];
 
 // Context menu and pinned tool editing variables
 let contextMenuTargetTabId = null;
@@ -1851,6 +1852,29 @@ function getSelectedWordTargetMode() {
   return selected?.value === 'limit' ? 'limit' : 'goal';
 }
 
+function syncWordTargetPresetSelect() {
+  const input = document.getElementById('word-target-input');
+  const select = document.getElementById('word-target-preset-select');
+  if (!input || !select) return;
+
+  const parsed = parseInt(input.value, 10);
+  select.value = Number.isFinite(parsed) && WORD_TARGET_PRESET_VALUES.includes(parsed)
+    ? String(parsed)
+    : '';
+}
+
+function onWordTargetPresetSelect(selectEl) {
+  const value = parseInt(selectEl.value, 10);
+  if (!Number.isFinite(value)) return;
+
+  const input = document.getElementById('word-target-input');
+  if (!input) return;
+
+  input.value = String(value);
+  clearWordTargetError();
+  input.focus();
+}
+
 function openWordTargetModal() {
   const modal = document.getElementById('word-target-modal');
   const background = document.getElementById('overlay-background');
@@ -1882,8 +1906,11 @@ function openWordTargetModal() {
     };
     input.oninput = () => {
       clearWordTargetError();
+      syncWordTargetPresetSelect();
     };
   }
+
+  syncWordTargetPresetSelect();
 
   const goalRadio = document.getElementById('word-target-mode-goal');
   const limitRadio = document.getElementById('word-target-mode-limit');
