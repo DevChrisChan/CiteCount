@@ -36,8 +36,16 @@ const state = {
   sortState: {
     field: 'none', // 'none', 'citation'
     direction: 'asc' // 'asc', 'desc'
-  }
+  },
+  wordTarget: null,
+  wordTargetMode: 'goal',
+  wordTargetBarHidden: false,
+  wordTargetGoalWasMet: false
 };
+
+const WORD_TARGET_STORAGE_KEY = 'wordTarget';
+const WORD_TARGET_MODE_STORAGE_KEY = 'wordTargetMode';
+const WORD_TARGET_BAR_HIDDEN_KEY = 'wordTargetBarHidden';
 
 // Context menu and pinned tool editing variables
 let contextMenuTargetTabId = null;
@@ -142,6 +150,10 @@ document.addEventListener('DOMContentLoaded', function () {
   setupResizablePanels();
   setupDragAndDrop();
   updateWordCount();
+  loadWordTarget();
+  loadWordTargetMode();
+  loadWordTargetBarHidden();
+  updateWordTargetUI();
   updateCounterDisplay(); // Initialize counter display
   updateCounterSettings(); // Initialize counter settings display
   updateSortButtonStates();
@@ -222,6 +234,7 @@ function closeOverlays() {
     closeDownloadModal();
   }
   closePastePermissionModal();
+  closeWordTargetModal();
   closeExcludeCitationInfoModal();
   document.getElementById('confirmation-overlay').style.display = 'none';
   document.getElementById('info-dialogue').style.display = 'none';
@@ -1811,6 +1824,235 @@ function toggleHelpOverlay(show) {
   }
 }
 
+function loadWordTarget() {
+  const storedTarget = localStorage.getItem(WORD_TARGET_STORAGE_KEY);
+  const parsedTarget = parseInt(storedTarget, 10);
+  state.wordTarget = Number.isFinite(parsedTarget) && parsedTarget > 0 ? parsedTarget : null;
+}
+
+function loadWordTargetMode() {
+  const storedMode = localStorage.getItem(WORD_TARGET_MODE_STORAGE_KEY);
+  state.wordTargetMode = storedMode === 'limit' ? 'limit' : 'goal';
+}
+
+function loadWordTargetBarHidden() {
+  state.wordTargetBarHidden = localStorage.getItem(WORD_TARGET_BAR_HIDDEN_KEY) === 'true';
+}
+
+function dismissWordTargetBar() {
+  state.wordTargetBarHidden = true;
+  localStorage.setItem(WORD_TARGET_BAR_HIDDEN_KEY, 'true');
+  updateWordTargetUI();
+  notify('Word target bar hidden. Open Word Target from the editor toolbar to show it again.');
+}
+
+function getSelectedWordTargetMode() {
+  const selected = document.querySelector('input[name="word-target-mode"]:checked');
+  return selected?.value === 'limit' ? 'limit' : 'goal';
+}
+
+function openWordTargetModal() {
+  const modal = document.getElementById('word-target-modal');
+  const background = document.getElementById('overlay-background');
+  const content = modal?.querySelector('.word-target-content');
+
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('open');
+    if (content) {
+      content.style.animation = 'none';
+      void content.offsetWidth;
+      content.style.animation = '';
+    }
+  }
+  if (background) {
+    background.style.display = 'block';
+  }
+
+  const input = document.getElementById('word-target-input');
+  if (input) {
+    input.value = state.wordTarget ? String(state.wordTarget) : '';
+    input.focus();
+    input.select();
+    input.onkeydown = (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        saveWordTarget();
+      }
+    };
+    input.oninput = () => {
+      clearWordTargetError();
+    };
+  }
+
+  const goalRadio = document.getElementById('word-target-mode-goal');
+  const limitRadio = document.getElementById('word-target-mode-limit');
+  if (goalRadio && limitRadio) {
+    goalRadio.checked = state.wordTargetMode !== 'limit';
+    limitRadio.checked = state.wordTargetMode === 'limit';
+  }
+
+  clearWordTargetError();
+}
+
+function closeWordTargetModal() {
+  const modal = document.getElementById('word-target-modal');
+  const background = document.getElementById('overlay-background');
+
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('open');
+  }
+  if (background) {
+    background.style.display = 'none';
+  }
+}
+
+function setWordTargetError(message) {
+  const errorEl = document.getElementById('word-target-error');
+  if (errorEl) {
+    errorEl.textContent = message;
+    errorEl.style.display = 'block';
+  }
+}
+
+function clearWordTargetError() {
+  const errorEl = document.getElementById('word-target-error');
+  if (errorEl) {
+    errorEl.textContent = '';
+    errorEl.style.display = 'none';
+  }
+}
+
+function saveWordTarget() {
+  const input = document.getElementById('word-target-input');
+  if (!input) return;
+
+  const parsedTarget = parseInt(input.value, 10);
+  if (!Number.isFinite(parsedTarget) || parsedTarget <= 0) {
+    setWordTargetError('Enter a number greater than 0.');
+    return;
+  }
+
+  const selectedMode = getSelectedWordTargetMode();
+  const modeChanged = state.wordTargetMode !== selectedMode;
+  const targetChanged = state.wordTarget !== parsedTarget;
+  state.wordTargetMode = selectedMode;
+  localStorage.setItem(WORD_TARGET_MODE_STORAGE_KEY, selectedMode);
+
+  state.wordTarget = parsedTarget;
+  state.wordTargetBarHidden = false;
+  if (modeChanged || targetChanged) {
+    state.wordTargetGoalWasMet = false;
+  }
+  localStorage.setItem(WORD_TARGET_STORAGE_KEY, String(parsedTarget));
+  localStorage.removeItem(WORD_TARGET_BAR_HIDDEN_KEY);
+  updateWordTargetUI();
+  closeWordTargetModal();
+}
+
+function clearWordTarget() {
+  state.wordTarget = null;
+  state.wordTargetBarHidden = false;
+  state.wordTargetGoalWasMet = false;
+  localStorage.removeItem(WORD_TARGET_STORAGE_KEY);
+  localStorage.removeItem(WORD_TARGET_BAR_HIDDEN_KEY);
+  updateWordTargetUI();
+  closeWordTargetModal();
+}
+
+function formatWordTargetCount(value) {
+  if (!Number.isFinite(value)) return '0';
+  return value.toLocaleString('en-US');
+}
+
+function wordTargetWordLabel(count) {
+  return Math.abs(count) === 1 ? 'word' : 'words';
+}
+
+function celebrateWordTargetGoal() {
+  const bar = document.getElementById('word-target-bar');
+  if (!bar || bar.style.display === 'none') return;
+
+  const rect = bar.getBoundingClientRect();
+  const container = document.createElement('div');
+  container.className = 'word-target-confetti';
+  container.setAttribute('aria-hidden', 'true');
+
+  const colors = ['#3B82F6', '#60A5FA', '#34D399', '#86EFAC', '#FBBF24', '#FDE68A'];
+  const originX = rect.left + rect.width * 0.5;
+  const originY = rect.top + rect.height * 0.5;
+
+  for (let i = 0; i < 28; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'word-target-confetti-piece';
+    const size = 3 + Math.random() * 3;
+    const angle = (Math.PI * 2 * i) / 28 + (Math.random() - 0.5) * 0.4;
+    const distance = 35 + Math.random() * 55;
+    piece.style.left = `${originX}px`;
+    piece.style.top = `${originY}px`;
+    piece.style.width = `${size}px`;
+    piece.style.height = `${size * (0.5 + Math.random() * 0.5)}px`;
+    piece.style.background = colors[i % colors.length];
+    piece.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+    piece.style.setProperty('--ty', `${Math.sin(angle) * distance - 20}px`);
+    piece.style.setProperty('--rot', `${Math.random() * 540}deg`);
+    piece.style.animationDelay = `${Math.random() * 0.12}s`;
+    container.appendChild(piece);
+  }
+
+  document.body.appendChild(container);
+  setTimeout(() => container.remove(), 1100);
+}
+
+function updateWordTargetUI() {
+  const bar = document.getElementById('word-target-bar');
+  const statusEl = document.getElementById('word-target-bar-status');
+  const metaEl = document.getElementById('word-target-bar-meta');
+  const progressFill = document.getElementById('word-target-bar-fill');
+
+  if (!bar || !statusEl || !metaEl || !progressFill) return;
+
+  const target = state.wordTarget;
+  if (!target || state.wordTargetBarHidden) {
+    bar.style.display = 'none';
+    bar.classList.remove('limit-warning', 'goal-complete');
+    state.wordTargetGoalWasMet = false;
+    return;
+  }
+
+  const mode = state.wordTargetMode === 'limit' ? 'limit' : 'goal';
+  const currentCount = Math.max(0, state.wordsNoCitations || 0);
+  const remaining = target - currentCount;
+  const progressPercentRaw = Math.round((currentCount / target) * 100);
+  const progressPercent = Math.min(100, Math.max(0, progressPercentRaw));
+  const isMet = remaining <= 0;
+  const modeLabel = mode === 'limit' ? 'Limit' : 'Goal';
+  const isGoalMet = mode === 'goal' && isMet;
+
+  bar.style.display = 'flex';
+  bar.classList.toggle('limit-warning', mode === 'limit' && isMet);
+  bar.classList.toggle('goal-complete', isGoalMet);
+
+  if (isGoalMet && !state.wordTargetGoalWasMet) {
+    celebrateWordTargetGoal();
+  }
+  state.wordTargetGoalWasMet = isGoalMet;
+
+  if (remaining > 0) {
+    statusEl.textContent = `${formatWordTargetCount(remaining)} ${wordTargetWordLabel(remaining)} to go`;
+  } else if (remaining === 0) {
+    statusEl.textContent = 'On target';
+  } else {
+    const over = Math.abs(remaining);
+    statusEl.textContent = `${formatWordTargetCount(over)} ${wordTargetWordLabel(over)} over`;
+  }
+
+  progressFill.style.width = `${progressPercent}%`;
+  progressFill.classList.toggle('complete', isMet);
+  metaEl.textContent = `${modeLabel} ${formatWordTargetCount(target)} ${wordTargetWordLabel(target)} • ${Math.max(0, progressPercentRaw)}%`;
+}
+
 function formatText(command) {
   document.execCommand(command, false, null);
   document.getElementById('editor').focus();
@@ -1950,6 +2192,7 @@ function updateWordCountWithSelection() {
   // Update dynamic counter display
   updateCounterDisplay();
   updateCitationsTables();  
+  updateWordTargetUI();
   updateTimeDetails();
 }
 
@@ -2355,6 +2598,7 @@ function updateFilteredWordCount() {
 
   updateTimeDetails();
   updateCounterDisplay();
+  updateWordTargetUI();
 }
 
 function showNotification(message, confirm = false, onConfirm = null, type = 'notification', onCancel = null, customText = null) {
@@ -3663,7 +3907,6 @@ function updateDetailTabCounters() {
   });
 }
 
-// Counter management functions
 function updateCounterDisplay() {
   const statsRow = document.querySelector('.stats-row');
   if (!statsRow) return;
@@ -3725,6 +3968,8 @@ function updateCounterDisplay() {
     counterCard.appendChild(value);
     statsRow.appendChild(counterCard);
   });
+
+  updateWordTargetUI();
 }
 
 function toggleCounter(counterKey, enabled) {

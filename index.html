@@ -415,6 +415,15 @@
                     <line x1="12" y1="15" x2="12" y2="3"></line>
                   </svg>
                 </button>
+                <button id="target-btn" data-tooltip="Word Target" onclick="openWordTargetModal()"
+                  class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-target-action">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                    <circle cx="12" cy="12" r="8"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <circle cx="12" cy="12" r="1"></circle>
+                  </svg>
+                </button>
                 <button data-tooltip="Clear Text (⌘ A, Delete)" onclick="clearText()"
                   class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700" data-lta-event="v2-clear-text-action">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -512,6 +521,21 @@
                     class="text-blue-500 hover:underline" data-lta-event="v2-safety-click">View our
                     safety promise</a>.</p>
               </div>
+            </div>
+            <div id="word-target-bar" class="word-target-bar" style="display: none;" aria-live="polite">
+              <button type="button" id="word-target-bar-main" class="word-target-bar-main" onclick="openWordTargetModal()" data-tooltip="Edit word target">
+                <div class="word-target-bar-track" aria-hidden="true">
+                  <div id="word-target-bar-fill" class="word-target-bar-fill"></div>
+                </div>
+                <span id="word-target-bar-status" class="word-target-bar-status"></span>
+                <span id="word-target-bar-meta" class="word-target-bar-meta"></span>
+              </button>
+              <button type="button" class="word-target-bar-close" onclick="dismissWordTargetBar()" aria-label="Hide word target bar" data-tooltip="Hide bar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
             </div>
           </div>
         </div>

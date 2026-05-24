@@ -81,6 +81,43 @@
       </div>
       </div>
 
+      <!-- Word Target Modal -->
+      <div id="word-target-modal" class="word-target-modal" style="display: none;" onclick="if(event.target === this) closeWordTargetModal()">
+      <div class="word-target-content" role="dialog" aria-modal="true" aria-labelledby="word-target-title" onclick="event.stopPropagation()">
+        <div class="word-target-header">
+        <h2 id="word-target-title">Set Word Target</h2>
+        <button onclick="closeWordTargetModal()" class="close-btn" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        </div>
+        <p class="word-target-subtitle">Track progress using words without citations.</p>
+        <label for="word-target-input" class="word-target-label">Target word count</label>
+        <input id="word-target-input" type="number" min="1" inputmode="numeric" placeholder="e.g., 1600" autocomplete="off" />
+        <p id="word-target-error" class="word-target-error" style="display: none;"></p>
+        <div class="word-target-mode">
+        <span class="word-target-mode-label">Tracking mode</span>
+        <div class="word-target-mode-options">
+          <label class="word-target-mode-option" for="word-target-mode-goal">
+          <input id="word-target-mode-goal" type="radio" name="word-target-mode" value="goal" />
+          <span class="word-target-mode-title">Goal</span>
+          <span class="word-target-mode-hint">Celebrate when reached</span>
+          </label>
+          <label class="word-target-mode-option" for="word-target-mode-limit">
+          <input id="word-target-mode-limit" type="radio" name="word-target-mode" value="limit" />
+          <span class="word-target-mode-title">Hard limit</span>
+          <span class="word-target-mode-hint">Flash warning in target bar</span>
+          </label>
+        </div>
+        </div>
+        <div class="word-target-actions">
+        <button class="word-target-clear" onclick="clearWordTarget()">Clear</button>
+        <button class="word-target-save" onclick="saveWordTarget()">Save Target</button>
+        </div>
+      </div>
+      </div>
+
       <!-- Citation History Modal -->
       <div id="citation-history-modal" class="citation-modal" style="display: none; z-index: 10001;">
       <div class="citation-modal-content">

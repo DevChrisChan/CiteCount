@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Debug Center - CiteCount</title>
+
+	<!-- Meta Tags -->
+	<meta property="og:title" content="Debug Center - CiteCount" />
+	<meta property="og:description" content="Fix common issues, recover content, and manage local data for CiteCount." />
+	<meta property="og:url" content="https://citecount.com/debug.html" />
+	<meta property="og:type" content="website" />
+	<meta name="description" content="Fix common issues, recover content, and manage local data for CiteCount.">
+	<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f4" />
+	<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f0f0f" />
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+	<link rel="shortcut icon" href="/favicon/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="CiteCount" />
+	<link rel="manifest" href="/favicon/site.webmanifest" />
+
+	<!-- Stylesheets -->
+	<link href="/v2/style.css" rel="stylesheet">
+	<link href="/v2/flowbite.css" rel="stylesheet">
+
+	<style>
+		.debug-hero {
+			display: flex;
+			flex-direction: column;
+			gap: 0.4rem;
+			margin-bottom: 2rem;
+		}
+
+		.debug-hero h1 {
+			font-size: 2.25rem;
+			font-weight: 800;
+		}
+
+		.debug-hero p {
+			color: var(--text-secondary);
+			max-width: 720px;
+		}
+
+		.debug-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35rem;
+			border-radius: 999px;
+			padding: 0.2rem 0.65rem;
+			font-size: 0.75rem;
+			font-weight: 600;
+			background: var(--background-secondary);
+			border: 1px solid var(--border-primary);
+			width: fit-content;
+		}
+
+		.debug-section {
+			margin-top: 2.5rem;
+		}
+
+		.debug-section-header {
+			margin-bottom: 1rem;
+		}
+
+		.debug-section-header h2 {
+			font-size: 1.5rem;
+			font-weight: 700;
+			margin-bottom: 0.35rem;
+		}
+
+		.debug-section-header p {
+			color: var(--text-secondary);
+		}
+
+		.debug-grid {
+			display: grid;
+			gap: 1rem;
+		}
+
+		.debug-grid.two-col {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.debug-grid.three-col {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.debug-card {
+			background: var(--surface-color);
+			border: 1px solid var(--border-primary);
+			border-radius: 0.9rem;
+			padding: 1.1rem;
+			box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+		}
+
+		.debug-card h3 {
+			font-size: 1.05rem;
+			font-weight: 700;
+			margin-bottom: 0.75rem;
+		}
+
+		.debug-kv {
+			display: grid;
+			grid-template-columns: 170px 1fr;
+			gap: 0.35rem 0.75rem;
+			font-size: 0.95rem;
+		}
+
+		.debug-kv dt {
+			color: var(--text-secondary);
+			margin: 0;
+		}
+
+		.debug-kv dd {
+			margin: 0;
+			word-break: break-word;
+		}
+
+		.status-pill {
+			display: inline-flex;
+			align-items: center;
+			padding: 0.1rem 0.5rem;
+			border-radius: 999px;
+			font-size: 0.75rem;
+			font-weight: 600;
+			border: 1px solid transparent;
+		}
+
+		.status-pill.ok {
+			background: rgba(16, 185, 129, 0.16);
+			color: #0f766e;
+			border-color: rgba(16, 185, 129, 0.35);
+		}
+
+		.status-pill.warn {
+			background: rgba(234, 179, 8, 0.15);
+			color: #a16207;
+			border-color: rgba(234, 179, 8, 0.4);
+		}
+
+		.status-pill.bad {
+			background: rgba(239, 68, 68, 0.15);
+			color: #b91c1c;
+			border-color: rgba(239, 68, 68, 0.35);
+		}
+
+		.debug-action-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.75rem;
+		}
+
+		.debug-action {
+			display: flex;
+			flex-direction: column;
+			gap: 0.35rem;
+			padding: 0.85rem;
+			border-radius: 0.75rem;
+			border: 1px solid var(--border-primary);
+			background: var(--background-primary);
+			color: inherit;
+			text-align: left;
+			cursor: pointer;
+			transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+		}
+
+		.debug-action:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 12px 20px rgba(0, 0, 0, 0.06);
+			border-color: rgba(30, 64, 175, 0.4);
+		}
+
+		.debug-action strong {
+			font-weight: 700;
+		}
+
+		.debug-action span {
+			font-size: 0.85rem;
+			color: var(--text-secondary);
+		}
+
+		.debug-btn {
+			background: #1e40af;
+			color: #fff;
+			border: none;
+			border-radius: 0.55rem;
+			padding: 0.55rem 0.85rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: opacity 0.15s ease, transform 0.15s ease;
+		}
+
+		.debug-btn:hover {
+			opacity: 0.92;
+			transform: translateY(-1px);
+		}
+
+		.debug-btn.secondary {
+			background: transparent;
+			color: var(--text-primary);
+			border: 1px solid var(--border-primary);
+		}
+
+		.debug-btn.ghost {
+			background: rgba(30, 64, 175, 0.12);
+			color: #1e40af;
+		}
+
+		.debug-btn.danger {
+			background: #b91c1c;
+			color: #fff;
+		}
+
+		.debug-btn:disabled,
+		.debug-action:disabled {
+			opacity: 0.6;
+			cursor: not-allowed;
+			transform: none;
+		}
+
+		.debug-input,
+		.debug-textarea {
+			width: 100%;
+			border: 1px solid var(--border-primary);
+			background: var(--background-primary);
+			color: var(--text-primary);
+			border-radius: 0.55rem;
+			padding: 0.5rem 0.65rem;
+			font-size: 0.95rem;
+		}
+
+		.debug-textarea {
+			min-height: 220px;
+			resize: vertical;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+		}
+
+		.debug-split {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+			gap: 1rem;
+		}
+
+		.debug-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			max-height: 360px;
+			overflow: auto;
+		}
+
+		.debug-list button {
+			width: 100%;
+			text-align: left;
+			border: 1px solid var(--border-primary);
+			border-radius: 0.55rem;
+			padding: 0.55rem 0.65rem;
+			background: transparent;
+			color: inherit;
+			cursor: pointer;
+		}
+
+		.debug-list button.active {
+			border-color: rgba(30, 64, 175, 0.6);
+			background: rgba(30, 64, 175, 0.08);
+		}
+
+		.debug-meta {
+			font-size: 0.85rem;
+			color: var(--text-secondary);
+		}
+
+		.debug-inline {
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+			flex-wrap: wrap;
+		}
+
+		.debug-note {
+			margin-top: 0.65rem;
+			font-size: 0.9rem;
+			color: var(--text-secondary);
+		}
+
+		.debug-note[data-state="success"] {
+			color: #0f766e;
+		}
+
+		.debug-note[data-state="warn"] {
+			color: #a16207;
+		}
+
+		.debug-note[data-state="error"] {
+			color: #b91c1c;
+		}
+
+		.debug-chip-list {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.debug-chip {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35rem;
+			padding: 0.35rem 0.65rem;
+			border-radius: 999px;
+			border: 1px solid var(--border-primary);
+			background: var(--background-secondary);
+			font-size: 0.8rem;
+			cursor: pointer;
+		}
+
+		.debug-chip:hover {
+			border-color: rgba(30, 64, 175, 0.4);
+		}
+
+		.debug-empty {
+			padding: 1rem;
+			border-radius: 0.75rem;
+			background: var(--background-secondary);
+			color: var(--text-secondary);
+			text-align: center;
+			border: 1px dashed var(--border-primary);
+		}
+
+		.debug-quick-filters {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.4rem;
+			margin-top: 0.6rem;
+			margin-bottom: 0.6rem;
+		}
+
+		.debug-quick-filters button {
+			border: 1px solid var(--border-primary);
+			background: transparent;
+			border-radius: 999px;
+			padding: 0.3rem 0.6rem;
+			font-size: 0.75rem;
+			cursor: pointer;
+		}
+
+		.debug-quick-filters button.active {
+			background: rgba(30, 64, 175, 0.12);
+			color: #1e40af;
+			border-color: rgba(30, 64, 175, 0.5);
+		}
+
+		.debug-footer-note {
+			margin-top: 2rem;
+			padding: 1rem 1.2rem;
+			border-radius: 0.9rem;
+			border: 1px solid var(--border-primary);
+			background: var(--background-secondary);
+		}
+
+		.debug-footer-note a {
+			color: inherit;
+			text-decoration: underline;
+		}
+
+		@media (max-width: 980px) {
+			.debug-grid.two-col,
+			.debug-grid.three-col,
+			.debug-action-grid,
+			.debug-split {
+				grid-template-columns: 1fr;
+			}
+
+			.debug-kv {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<!-- Navigation Bar (loaded from template) -->
+		<header class="flex justify-between items-center">
+			<div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/';" style="user-select: none;">
+				<img src="/assets/logo.svg" alt="CiteCount Logo" class="h-6 w-6 logo">
+				<h1 class="text-xl font-bold text-black dark:text-white" style="font-weight: 900; font-size: 1.25rem!important;">CiteCount</h1>
+			</div>
+			<div class="flex items-center gap-2">
+				<button id="other-apps-btn" class="p-2 rounded-md flex items-center gap-2" data-tooltip="More Apps" onclick="toggleAppsModal()"
+					data-lta-event="v2-more-apps-click">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+						class="h-5 w-5">
+						<path d="M3 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM13 5a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V5zM3 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4zM13 15a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z" />
+					</svg>
+					<span class="hidden md:inline text-sm font-medium">More Apps</span>
+				</button>
+			</div>
+		</header>
+
+		<!-- Main Content Area -->
+		<main class="content-area" style="padding: 2rem; padding-top: 5rem; min-height: 70vh;">
+			<div class="new-container" style="max-width: 1200px; margin: 0 auto;">
+				<section class="debug-hero">
+					<span class="debug-pill">Debug Center</span>
+					<h1>Get CiteCount back on track</h1>
+					<p>Use this page to fix common issues, recover drafts, and safely manage local data. Everything runs locally in your browser and nothing is sent to a server.</p>
+				</section>
+
+				<section class="debug-section">
+					<div class="debug-section-header">
+						<h2>System status</h2>
+						<p>Quick snapshot of your device, storage, and connection.</p>
+					</div>
+					<div class="debug-grid three-col">
+						<div class="debug-card">
+							<h3>Device and browser</h3>
+							<dl class="debug-kv">
+								<dt>Browser</dt>
+								<dd id="env-browser">Loading...</dd>
+								<dt>Platform</dt>
+								<dd id="env-platform">Loading...</dd>
+								<dt>Language</dt>
+								<dd id="env-language">Loading...</dd>
+								<dt>Timezone</dt>
+								<dd id="env-timezone">Loading...</dd>
+								<dt>Viewport</dt>
+								<dd id="env-viewport">Loading...</dd>
+							</dl>
+						</div>
+						<div class="debug-card">
+							<h3>Storage health</h3>
+							<dl class="debug-kv">
+								<dt>localStorage</dt>
+								<dd><span id="status-localstorage" class="status-pill">Checking</span></dd>
+								<dt>Keys</dt>
+								<dd id="storage-keys">0</dd>
+								<dt>Approx size</dt>
+								<dd id="storage-size">0 KB</dd>
+								<dt>Quota</dt>
+								<dd id="storage-quota">Unknown</dd>
+								<dt>Cookies</dt>
+								<dd><span id="status-cookies" class="status-pill">Checking</span></dd>
+								<dt>IndexedDB</dt>
+								<dd><span id="status-indexeddb" class="status-pill">Checking</span></dd>
+							</dl>
+						</div>
+						<div class="debug-card">
+							<h3>Network and service worker</h3>
+							<dl class="debug-kv">
+								<dt>Online</dt>
+								<dd><span id="status-online" class="status-pill">Checking</span></dd>
+								<dt>Service worker</dt>
+								<dd><span id="status-serviceworker" class="status-pill">Checking</span></dd>
+								<dt>Cache entries</dt>
+								<dd id="status-caches">0</dd>
+								<dt>Connection test</dt>
+								<dd id="status-connection">Not run</dd>
+							</dl>
+						</div>
+					</div>
+				</section>
+
+				<section class="debug-section">
+					<div class="debug-section-header">
+						<h2>Common fixes</h2>
+						<p>Try these safe actions before clearing data.</p>
+					</div>
+					<div class="debug-grid two-col">
+						<div class="debug-card">
+							<h3>Quick actions</h3>
+							<div class="debug-action-grid">
+								<button class="debug-action" id="action-reload" type="button">
+									<strong>Reload this page</strong>
+									<span>Refresh layout and scripts.</span>
+								</button>
+								<button class="debug-action" id="action-open-app" type="button">
+									<strong>Open CiteCount</strong>
+									<span>Go back to the main app.</span>
+								</button>
+								<button class="debug-action" id="action-connection" type="button">
+									<strong>Run connection test</strong>
+									<span>Checks if resources can load.</span>
+								</button>
+								<button class="debug-action" id="action-clear-caches" type="button">
+									<strong>Clear cached files</strong>
+									<span>Removes stale cache entries.</span>
+								</button>
+							</div>
+							<p class="debug-note" id="action-status" data-state="">Ready.</p>
+						</div>
+						<div class="debug-card">
+							<h3>Reset options</h3>
+							<p class="debug-meta">Use these only after you have a backup of important drafts.</p>
+							<div class="debug-inline" style="margin-top: 0.75rem;">
+								<button class="debug-btn secondary" id="action-unregister" type="button">Unregister service worker</button>
+								<button class="debug-btn danger" id="action-reset" type="button">Clear local data</button>
+							</div>
+							<div class="debug-inline" style="margin-top: 0.75rem;">
+								<input type="checkbox" id="confirm-destructive">
+								<label for="confirm-destructive" class="debug-meta">I understand this removes local data for this browser.</label>
+							</div>
+							<p class="debug-note" id="reset-status" data-state="">No destructive action has been run.</p>
+						</div>
+					</div>
+				</section>
+
+				<section class="debug-section">
+					<div class="debug-section-header">
+						<h2>Recovery shortcuts</h2>
+						<p>These keys look like drafts or settings. Select any chip to open it in the editor below.</p>
+					</div>
+					<div class="debug-grid two-col">
+						<div class="debug-card">
+							<h3>Draft-like keys</h3>
+							<div id="recovery-list" class="debug-chip-list">
+								<span class="debug-meta">Loading...</span>
+							</div>
+						</div>
+						<div class="debug-card">
+							<h3>Settings-like keys</h3>
+							<div id="settings-list" class="debug-chip-list">
+								<span class="debug-meta">Loading...</span>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="debug-section">
+					<div class="debug-section-header">
+						<h2>LocalStorage recovery and editor</h2>
+						<p>Browse saved data, recover drafts, and update settings without leaving this page.</p>
+					</div>
+					<div class="debug-card">
+						<div class="debug-inline" style="justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+							<div class="debug-inline">
+								<button class="debug-btn secondary ls-action" id="ls-refresh" type="button">Refresh list</button>
+								<button class="debug-btn ls-action" id="ls-backup" type="button">Download backup</button>
+								<label class="debug-btn secondary ls-action" for="ls-import" style="cursor: pointer;">
+									Import backup
+									<input id="ls-import" type="file" accept="application/json" style="display: none;">
+								</label>
+							</div>
+							<div class="debug-inline">
+								<input type="checkbox" id="ls-replace-existing">
+								<label for="ls-replace-existing" class="debug-meta">Replace existing keys on import</label>
+							</div>
+						</div>
+						<div class="debug-split">
+							<div>
+								<input id="ls-filter" class="debug-input" type="text" placeholder="Filter by key name...">
+								<div class="debug-quick-filters">
+									<button type="button" data-filter="draft|note|content|text|essay|project">Drafts</button>
+									<button type="button" data-filter="settings|prefs|config|theme|mode|layout|flags">Settings</button>
+									<button type="button" data-filter="citation|cite|reference|quote">Citations</button>
+								</div>
+								<div class="debug-meta" id="ls-stats">Loading keys...</div>
+								<ul id="ls-list" class="debug-list" style="margin-top: 0.75rem;"></ul>
+							</div>
+							<div>
+								<div id="ls-empty" class="debug-empty">Select a key to inspect and edit its value.</div>
+								<div id="ls-editor" style="display: none;">
+									<dl class="debug-kv" style="margin-bottom: 0.75rem;">
+										<dt>Key</dt>
+										<dd id="ls-key">-</dd>
+										<dt>Type</dt>
+										<dd id="ls-type">-</dd>
+										<dt>Bytes</dt>
+										<dd id="ls-bytes">-</dd>
+									</dl>
+									<textarea id="ls-value" class="debug-textarea" spellcheck="false"></textarea>
+									<div class="debug-inline" style="margin-top: 0.75rem;">
+										<button id="ls-save" class="debug-btn ls-action" type="button">Save changes</button>
+										<button id="ls-save-as" class="debug-btn secondary ls-action" type="button">Save as new key</button>
+										<button id="ls-delete" class="debug-btn danger ls-action" type="button">Delete key</button>
+										<button id="ls-copy" class="debug-btn ghost ls-action" type="button">Copy value</button>
+										<button id="ls-pretty" class="debug-btn secondary ls-action" type="button">Pretty print JSON</button>
+									</div>
+									<div class="debug-inline" style="margin-top: 0.75rem;">
+										<input id="ls-save-as-key" class="debug-input" type="text" placeholder="New key name">
+									</div>
+									<div class="debug-section" style="margin-top: 1.25rem;">
+										<h3 style="margin-bottom: 0.5rem;">Recovery output</h3>
+										<textarea id="ls-recovery-output" class="debug-textarea" readonly spellcheck="false"></textarea>
+										<div class="debug-inline" style="margin-top: 0.6rem;">
+											<button id="ls-extract" class="debug-btn secondary ls-action" type="button">Extract readable text</button>
+											<button id="ls-copy-recovery" class="debug-btn ghost ls-action" type="button">Copy recovery text</button>
+										</div>
+									</div>
+									<p id="ls-message" class="debug-note" data-state=""></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="debug-footer-note">
+					<strong>Need more help?</strong> Visit the <a href="/support">support page</a> or email support with a screenshot of this page.
+				</div>
+			</div>
+		</main>
+
+		<!-- Footer Placeholder - Footer will be automatically injected here -->
+		<div id="footer-placeholder"></div>
+	</div>
+
+	<!-- Apps Modal Script -->
+	<script src="/v2/apps-modal.js"></script>
+  
+	<!-- Footer Loader Script -->
+	<script src="/components/footer-loader.js"></script>
+
+	<script>
+		const ui = {
+			envBrowser: document.getElementById('env-browser'),
+			envPlatform: document.getElementById('env-platform'),
+			envLanguage: document.getElementById('env-language'),
+			envTimezone: document.getElementById('env-timezone'),
+			envViewport: document.getElementById('env-viewport'),
+			statusLocalStorage: document.getElementById('status-localstorage'),
+			storageKeys: document.getElementById('storage-keys'),
+			storageSize: document.getElementById('storage-size'),
+			storageQuota: document.getElementById('storage-quota'),
+			statusCookies: document.getElementById('status-cookies'),
+			statusIndexedDb: document.getElementById('status-indexeddb'),
+			statusOnline: document.getElementById('status-online'),
+			statusServiceWorker: document.getElementById('status-serviceworker'),
+			statusCaches: document.getElementById('status-caches'),
+			statusConnection: document.getElementById('status-connection'),
+			actionStatus: document.getElementById('action-status'),
+			resetStatus: document.getElementById('reset-status'),
+			confirmDestructive: document.getElementById('confirm-destructive'),
+			recoveryList: document.getElementById('recovery-list'),
+			settingsList: document.getElementById('settings-list'),
+			storageFilter: document.getElementById('ls-filter'),
+			storageStats: document.getElementById('ls-stats'),
+			storageList: document.getElementById('ls-list'),
+			storageEmpty: document.getElementById('ls-empty'),
+			storageEditor: document.getElementById('ls-editor'),
+			storageKey: document.getElementById('ls-key'),
+			storageType: document.getElementById('ls-type'),
+			storageBytes: document.getElementById('ls-bytes'),
+			storageValue: document.getElementById('ls-value'),
+			storageSaveAsKey: document.getElementById('ls-save-as-key'),
+			storageRecoveryOutput: document.getElementById('ls-recovery-output'),
+			storageMessage: document.getElementById('ls-message'),
+			importInput: document.getElementById('ls-import'),
+			replaceExisting: document.getElementById('ls-replace-existing')
+		};
+
+		const state = {
+			selectedKey: null,
+			keys: []
+		};
+
+		const quickFilterButtons = Array.from(document.querySelectorAll('.debug-quick-filters button'));
+		const storageActions = Array.from(document.querySelectorAll('.ls-action'));
+
+		const formatBytes = (bytes) => {
+			if (!Number.isFinite(bytes)) {
+				return 'Unknown';
+			}
+			if (bytes < 1024) {
+				return bytes + ' B';
+			}
+			const kb = bytes / 1024;
+			if (kb < 1024) {
+				return kb.toFixed(1) + ' KB';
+			}
+			const mb = kb / 1024;
+			return mb.toFixed(1) + ' MB';
+		};
+
+		const setPill = (el, text, tone) => {
+			if (!el) {
+				return;
+			}
+			el.textContent = text;
+			el.className = 'status-pill ' + tone;
+		};
+
+		const setNote = (el, text, tone) => {
+			if (!el) {
+				return;
+			}
+			el.textContent = text;
+			el.dataset.state = tone || '';
+		};
+
+		const isLocalStorageAvailable = () => {
+			try {
+				const testKey = '__cc_debug_test__';
+				window.localStorage.setItem(testKey, '1');
+				window.localStorage.removeItem(testKey);
+				return true;
+			} catch (error) {
+				return false;
+			}
+		};
+
+		const parseJsonValue = (value) => {
+			try {
+				return { ok: true, value: JSON.parse(value) };
+			} catch (error) {
+				return { ok: false };
+			}
+		};
+
+		const estimateLocalStorageBytes = () => {
+			let total = 0;
+			for (let i = 0; i < localStorage.length; i += 1) {
+				const key = localStorage.key(i) || '';
+				const value = localStorage.getItem(key) || '';
+				total += (key.length + value.length) * 2;
+			}
+			return total;
+		};
+
+		const loadLocalStorageKeys = () => {
+			const items = [];
+			for (let i = 0; i < localStorage.length; i += 1) {
+				const key = localStorage.key(i);
+				if (!key) {
+					continue;
+				}
+				const value = localStorage.getItem(key) || '';
+				const bytes = (key.length + value.length) * 2;
+				items.push({ key, bytes });
+			}
+			items.sort((a, b) => a.key.localeCompare(b.key));
+			return items;
+		};
+
+		const renderStorageList = () => {
+			if (!isLocalStorageAvailable()) {
+				state.keys = [];
+				ui.storageStats.textContent = 'localStorage is unavailable in this browser.';
+				ui.storageList.innerHTML = '<li class="debug-empty">Enable cookies or exit private mode to access localStorage.</li>';
+				ui.storageEmpty.style.display = 'block';
+				ui.storageEditor.style.display = 'none';
+				storageActions.forEach((button) => {
+					button.disabled = true;
+				});
+				ui.storageFilter.disabled = true;
+				quickFilterButtons.forEach((button) => {
+					button.disabled = true;
+				});
+				return;
+			}
+
+			storageActions.forEach((button) => {
+				button.disabled = false;
+			});
+			ui.storageFilter.disabled = false;
+			quickFilterButtons.forEach((button) => {
+				button.disabled = false;
+			});
+
+			state.keys = loadLocalStorageKeys();
+			const totalBytes = estimateLocalStorageBytes();
+			const filterValue = ui.storageFilter.value.trim().toLowerCase();
+			let filterRegex = null;
+			if (filterValue.includes('|')) {
+				try {
+					filterRegex = new RegExp(filterValue, 'i');
+				} catch (error) {
+					filterRegex = null;
+				}
+			}
+			const visibleKeys = filterValue
+				? state.keys.filter((item) => {
+					if (filterRegex) {
+						return filterRegex.test(item.key);
+					}
+					return item.key.toLowerCase().includes(filterValue);
+				})
+				: state.keys;
+
+			ui.storageStats.textContent =
+				visibleKeys.length + ' shown of ' + state.keys.length + ' keys, approx ' + formatBytes(totalBytes);
+
+			ui.storageList.innerHTML = '';
+			if (!visibleKeys.length) {
+				ui.storageList.innerHTML = '<li class="debug-empty">No keys match your filter.</li>';
+				return;
+			}
+
+			visibleKeys.forEach((item) => {
+				const li = document.createElement('li');
+				const button = document.createElement('button');
+				const label = document.createElement('div');
+				const meta = document.createElement('div');
+
+				label.textContent = item.key;
+				meta.className = 'debug-meta';
+				meta.textContent = formatBytes(item.bytes);
+
+				button.appendChild(label);
+				button.appendChild(meta);
+				button.className = item.key === state.selectedKey ? 'active' : '';
+				button.type = 'button';
+				button.addEventListener('click', () => selectStorageKey(item.key));
+
+				li.appendChild(button);
+				ui.storageList.appendChild(li);
+			});
+		};
+
+		const renderShortcutChips = (container, matches) => {
+			container.innerHTML = '';
+			if (!matches.length) {
+				container.innerHTML = '<span class="debug-meta">No matching keys found.</span>';
+				return;
+			}
+			matches.slice(0, 12).forEach((item) => {
+				const chip = document.createElement('button');
+				chip.className = 'debug-chip';
+				chip.type = 'button';
+				chip.textContent = item.key;
+				chip.addEventListener('click', () => selectStorageKey(item.key));
+				container.appendChild(chip);
+			});
+		};
+
+		const renderShortcuts = () => {
+			const draftRegex = /draft|note|content|text|essay|project/i;
+			const settingsRegex = /settings|prefs|config|theme|mode|layout|flags|font|accent/i;
+			const drafts = state.keys.filter((item) => draftRegex.test(item.key));
+			const settings = state.keys.filter((item) => settingsRegex.test(item.key));
+			renderShortcutChips(ui.recoveryList, drafts);
+			renderShortcutChips(ui.settingsList, settings);
+		};
+
+		const selectStorageKey = (key) => {
+			const value = localStorage.getItem(key);
+			if (value === null) {
+				return;
+			}
+			state.selectedKey = key;
+			ui.storageKey.textContent = key;
+			ui.storageValue.value = value;
+			ui.storageSaveAsKey.value = '';
+			ui.storageRecoveryOutput.value = '';
+			const parsed = parseJsonValue(value);
+			if (parsed.ok) {
+				const valueType = parsed.value === null ? 'null' : Array.isArray(parsed.value) ? 'json array' : 'json object';
+				ui.storageType.textContent = valueType;
+			} else {
+				ui.storageType.textContent = 'string';
+			}
+			ui.storageBytes.textContent = formatBytes((key.length + value.length) * 2);
+			ui.storageEmpty.style.display = 'none';
+			ui.storageEditor.style.display = 'block';
+			setNote(ui.storageMessage, '', '');
+			renderStorageList();
+		};
+
+		const extractReadableText = (value) => {
+			const parsed = parseJsonValue(value);
+			const strings = [];
+			const visit = (node) => {
+				if (typeof node === 'string') {
+					strings.push(node);
+					return;
+				}
+				if (Array.isArray(node)) {
+					node.forEach(visit);
+					return;
+				}
+				if (node && typeof node === 'object') {
+					Object.values(node).forEach(visit);
+				}
+			};
+
+			if (parsed.ok) {
+				visit(parsed.value);
+			} else {
+				strings.push(value);
+			}
+
+			const filtered = strings.map((text) => text.trim()).filter((text) => text.length > 0);
+			filtered.sort((a, b) => b.length - a.length);
+			return filtered.length ? filtered[0] : '';
+		};
+
+		const updateEnvironmentInfo = () => {
+			ui.envBrowser.textContent = navigator.userAgent;
+			ui.envPlatform.textContent = navigator.platform || 'Unknown';
+			ui.envLanguage.textContent = navigator.language || 'Unknown';
+			ui.envTimezone.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+			ui.envViewport.textContent = window.innerWidth + ' x ' + window.innerHeight;
+		};
+
+		const updateStorageInfo = async () => {
+			const storageOk = isLocalStorageAvailable();
+			setPill(ui.statusLocalStorage, storageOk ? 'Available' : 'Blocked', storageOk ? 'ok' : 'bad');
+			ui.storageKeys.textContent = storageOk ? localStorage.length : '0';
+			ui.storageSize.textContent = storageOk ? formatBytes(estimateLocalStorageBytes()) : '0 KB';
+			setPill(ui.statusCookies, navigator.cookieEnabled ? 'Enabled' : 'Disabled', navigator.cookieEnabled ? 'ok' : 'warn');
+			setPill(ui.statusIndexedDb, window.indexedDB ? 'Supported' : 'Unavailable', window.indexedDB ? 'ok' : 'warn');
+
+			if (navigator.storage && navigator.storage.estimate) {
+				try {
+					const estimate = await navigator.storage.estimate();
+					ui.storageQuota.textContent = formatBytes(estimate.usage || 0) + ' used of ' + formatBytes(estimate.quota || 0);
+				} catch (error) {
+					ui.storageQuota.textContent = 'Unavailable';
+				}
+			} else {
+				ui.storageQuota.textContent = 'Unsupported';
+			}
+		};
+
+		const updateNetworkInfo = () => {
+			setPill(ui.statusOnline, navigator.onLine ? 'Online' : 'Offline', navigator.onLine ? 'ok' : 'warn');
+		};
+
+		const updateServiceWorkerInfo = async () => {
+			if (!('serviceWorker' in navigator)) {
+				setPill(ui.statusServiceWorker, 'Unsupported', 'warn');
+				ui.statusCaches.textContent = '0';
+				return;
+			}
+
+			try {
+				const registrations = await navigator.serviceWorker.getRegistrations();
+				setPill(ui.statusServiceWorker, registrations.length ? 'Registered' : 'None', registrations.length ? 'ok' : 'warn');
+			} catch (error) {
+				setPill(ui.statusServiceWorker, 'Error', 'bad');
+			}
+
+			if ('caches' in window) {
+				const keys = await caches.keys();
+				ui.statusCaches.textContent = String(keys.length);
+			}
+		};
+
+		const runConnectionTest = async () => {
+			ui.statusConnection.textContent = 'Running...';
+			const controller = new AbortController();
+			const timeout = setTimeout(() => controller.abort(), 4000);
+			try {
+				await fetch('/robots.txt?check=' + Date.now(), { cache: 'no-store', signal: controller.signal });
+				ui.statusConnection.textContent = 'Success';
+				setNote(ui.actionStatus, 'Connection test succeeded.', 'success');
+			} catch (error) {
+				ui.statusConnection.textContent = 'Failed';
+				setNote(ui.actionStatus, 'Connection test failed. Check your network or blocker settings.', 'warn');
+			} finally {
+				clearTimeout(timeout);
+			}
+		};
+
+		const downloadBackup = () => {
+			if (!isLocalStorageAvailable()) {
+				setNote(ui.storageMessage, 'localStorage is not available in this browser.', 'warn');
+				return;
+			}
+			const data = {};
+			for (let i = 0; i < localStorage.length; i += 1) {
+				const key = localStorage.key(i);
+				if (key) {
+					data[key] = localStorage.getItem(key);
+				}
+			}
+			const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(blob);
+			link.download = 'citecount-localstorage-backup.json';
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+			setNote(ui.storageMessage, 'Backup downloaded.', 'success');
+		};
+
+		const importBackup = (file) => {
+			if (!isLocalStorageAvailable()) {
+				setNote(ui.storageMessage, 'localStorage is not available in this browser.', 'warn');
+				return;
+			}
+			if (!file) {
+				return;
+			}
+			const reader = new FileReader();
+			reader.onload = () => {
+				try {
+					const data = JSON.parse(reader.result);
+					if (!data || typeof data !== 'object') {
+						throw new Error('Invalid JSON');
+					}
+					let imported = 0;
+					Object.keys(data).forEach((key) => {
+						if (!ui.replaceExisting.checked && localStorage.getItem(key) !== null) {
+							return;
+						}
+						localStorage.setItem(key, String(data[key]));
+						imported += 1;
+					});
+					setNote(ui.storageMessage, 'Imported ' + imported + ' keys.', 'success');
+					renderStorageList();
+					renderShortcuts();
+					updateStorageInfo();
+				} catch (error) {
+					setNote(ui.storageMessage, 'Import failed. Make sure the file is valid JSON.', 'error');
+				}
+			};
+			reader.readAsText(file);
+		};
+
+		const clearCaches = async () => {
+			if (!('caches' in window)) {
+				setNote(ui.actionStatus, 'Cache API is not supported in this browser.', 'warn');
+				return;
+			}
+			const keys = await caches.keys();
+			await Promise.all(keys.map((key) => caches.delete(key)));
+			setNote(ui.actionStatus, 'Cleared ' + keys.length + ' cache entries.', 'success');
+			updateServiceWorkerInfo();
+		};
+
+		const unregisterServiceWorkers = async () => {
+			if (!('serviceWorker' in navigator)) {
+				setNote(ui.resetStatus, 'Service workers are not supported in this browser.', 'warn');
+				return;
+			}
+			const regs = await navigator.serviceWorker.getRegistrations();
+			await Promise.all(regs.map((reg) => reg.unregister()));
+			setNote(ui.resetStatus, 'Unregistered ' + regs.length + ' service workers.', 'success');
+			updateServiceWorkerInfo();
+		};
+
+		const clearLocalData = () => {
+			if (!ui.confirmDestructive.checked) {
+				setNote(ui.resetStatus, 'Check the confirmation box before clearing data.', 'warn');
+				return;
+			}
+			if (!isLocalStorageAvailable()) {
+				setNote(ui.resetStatus, 'localStorage is not available in this browser.', 'warn');
+				return;
+			}
+			try {
+				localStorage.clear();
+				setNote(ui.resetStatus, 'LocalStorage cleared. You can reload the app now.', 'success');
+			} catch (error) {
+				setNote(ui.resetStatus, 'Unable to clear localStorage. Check browser privacy settings.', 'error');
+			}
+			state.selectedKey = null;
+			ui.storageEmpty.style.display = 'block';
+			ui.storageEditor.style.display = 'none';
+			renderStorageList();
+			renderShortcuts();
+			updateStorageInfo();
+		};
+
+		const setupEventHandlers = () => {
+			document.getElementById('action-reload').addEventListener('click', () => location.reload());
+			document.getElementById('action-open-app').addEventListener('click', () => window.location.href = '/');
+			document.getElementById('action-connection').addEventListener('click', runConnectionTest);
+			document.getElementById('action-clear-caches').addEventListener('click', clearCaches);
+			document.getElementById('action-unregister').addEventListener('click', unregisterServiceWorkers);
+			document.getElementById('action-reset').addEventListener('click', clearLocalData);
+
+			document.getElementById('ls-refresh').addEventListener('click', () => {
+				renderStorageList();
+				renderShortcuts();
+				updateStorageInfo();
+			});
+			document.getElementById('ls-backup').addEventListener('click', downloadBackup);
+			ui.importInput.addEventListener('change', (event) => {
+				const file = event.target.files[0];
+				importBackup(file);
+				event.target.value = '';
+			});
+
+			ui.storageFilter.addEventListener('input', renderStorageList);
+
+			quickFilterButtons.forEach((button) => {
+				button.addEventListener('click', () => {
+					quickFilterButtons.forEach((btn) => btn.classList.remove('active'));
+					button.classList.add('active');
+					ui.storageFilter.value = button.dataset.filter || '';
+					renderStorageList();
+				});
+			});
+
+			document.getElementById('ls-save').addEventListener('click', () => {
+				if (!state.selectedKey) {
+					return;
+				}
+				localStorage.setItem(state.selectedKey, ui.storageValue.value);
+				setNote(ui.storageMessage, 'Saved changes to ' + state.selectedKey + '.', 'success');
+				renderStorageList();
+				renderShortcuts();
+				updateStorageInfo();
+			});
+
+			document.getElementById('ls-save-as').addEventListener('click', () => {
+				const newKey = ui.storageSaveAsKey.value.trim();
+				if (!newKey) {
+					setNote(ui.storageMessage, 'Enter a new key name first.', 'warn');
+					return;
+				}
+				localStorage.setItem(newKey, ui.storageValue.value);
+				setNote(ui.storageMessage, 'Saved a copy to ' + newKey + '.', 'success');
+				ui.storageSaveAsKey.value = '';
+				renderStorageList();
+				renderShortcuts();
+				updateStorageInfo();
+			});
+
+			document.getElementById('ls-delete').addEventListener('click', () => {
+				if (!state.selectedKey) {
+					return;
+				}
+				if (!ui.confirmDestructive.checked) {
+					setNote(ui.storageMessage, 'Check the confirmation box before deleting.', 'warn');
+					return;
+				}
+				localStorage.removeItem(state.selectedKey);
+				setNote(ui.storageMessage, 'Deleted ' + state.selectedKey + '.', 'success');
+				state.selectedKey = null;
+				ui.storageEmpty.style.display = 'block';
+				ui.storageEditor.style.display = 'none';
+				renderStorageList();
+				renderShortcuts();
+				updateStorageInfo();
+			});
+
+			document.getElementById('ls-copy').addEventListener('click', async () => {
+				if (!state.selectedKey) {
+					return;
+				}
+				try {
+					await navigator.clipboard.writeText(ui.storageValue.value);
+					setNote(ui.storageMessage, 'Copied value to clipboard.', 'success');
+				} catch (error) {
+					setNote(ui.storageMessage, 'Clipboard copy failed. Use manual copy.', 'warn');
+				}
+			});
+
+			document.getElementById('ls-pretty').addEventListener('click', () => {
+				const parsed = parseJsonValue(ui.storageValue.value);
+				if (!parsed.ok) {
+					setNote(ui.storageMessage, 'Value is not valid JSON.', 'warn');
+					return;
+				}
+				ui.storageValue.value = JSON.stringify(parsed.value, null, 2);
+				setNote(ui.storageMessage, 'Formatted JSON output.', 'success');
+			});
+
+			document.getElementById('ls-extract').addEventListener('click', () => {
+				const extracted = extractReadableText(ui.storageValue.value);
+				if (!extracted) {
+					setNote(ui.storageMessage, 'No readable text found.', 'warn');
+					ui.storageRecoveryOutput.value = '';
+					return;
+				}
+				ui.storageRecoveryOutput.value = extracted;
+				setNote(ui.storageMessage, 'Recovery text extracted.', 'success');
+			});
+
+			document.getElementById('ls-copy-recovery').addEventListener('click', async () => {
+				const text = ui.storageRecoveryOutput.value;
+				if (!text) {
+					return;
+				}
+				try {
+					await navigator.clipboard.writeText(text);
+					setNote(ui.storageMessage, 'Copied recovery text to clipboard.', 'success');
+				} catch (error) {
+					setNote(ui.storageMessage, 'Clipboard copy failed. Use manual copy.', 'warn');
+				}
+			});
+
+			window.addEventListener('online', updateNetworkInfo);
+			window.addEventListener('offline', updateNetworkInfo);
+			window.addEventListener('resize', updateEnvironmentInfo);
+		};
+
+		const init = async () => {
+			updateEnvironmentInfo();
+			updateNetworkInfo();
+			await updateStorageInfo();
+			await updateServiceWorkerInfo();
+			renderStorageList();
+			renderShortcuts();
+			setupEventHandlers();
+		};
+
+		init();
+	</script>
+</body>
+
+</html>
