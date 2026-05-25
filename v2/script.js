@@ -51,6 +51,15 @@ const WORD_TARGET_PRESET_VALUES = [4000, 3000, 1600];
 // Context menu and pinned tool editing variables
 let contextMenuTargetTabId = null;
 let contextMenuTargetTabIndex = -1;
+let counterContextMenuInitialized = false;
+
+const counterEditorState = {
+  active: false,
+  draggingKey: null,
+  draggingFrom: null,
+  dropIndex: null,
+  bound: false
+};
 
 document.addEventListener('DOMContentLoaded', function () {
   const editor = document.getElementById('editor');
@@ -116,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initialize context menu for tab buttons
   initializeTabContextMenu();
+  initializeCounterContextMenu();
   // Update tab labels based on pinned tools
   updatePinnedTabLabels();
 
@@ -1518,7 +1528,7 @@ function toggleSettingsOverlay(show) {
   }
 }
 
-function switchSettingsCategory(category) {
+function switchSettingsCategory(category, skipCounterEditor = false) {
   // Remove active class from all buttons
   const buttons = document.querySelectorAll('.settings-category-btn');
   buttons.forEach(btn => btn.classList.remove('active'));
@@ -1537,6 +1547,391 @@ function switchSettingsCategory(category) {
   const activeContent = document.querySelector(`.settings-category-content[data-category="${category}"]`);
   if (activeContent) {
     activeContent.classList.add('active');
+  }
+
+  if (category === 'counter' && !skipCounterEditor) {
+    openCounterDisplayEditor();
+  }
+}
+
+function openCounterDisplayEditor() {
+  const editor = document.getElementById('counter-display-editor');
+  if (!editor) return;
+
+  const settingsOverlay = document.getElementById('settings-overlay');
+  const settingsOpen = settingsOverlay?.classList.contains('open');
+  editor.dataset.returnToSettings = settingsOpen ? 'true' : 'false';
+
+  if (settingsOpen) {
+    toggleSettingsOverlay(false);
+    if (settingsOverlay?.classList.contains('open')) {
+      return;
+    }
+  }
+
+  editor.style.display = 'flex';
+  document.body.classList.add('counter-editing');
+  counterEditorState.active = true;
+
+  refreshCounterDisplayEditor();
+  bindCounterDisplayEditorEvents();
+}
+
+function closeCounterDisplayEditor(returnToSettings) {
+  const editor = document.getElementById('counter-display-editor');
+  if (!editor) return;
+
+  editor.style.display = 'none';
+  document.body.classList.remove('counter-editing');
+  counterEditorState.active = false;
+  clearCounterDragState();
+  applyCounterEditStateToStatsRow();
+
+  const shouldReturn = typeof returnToSettings === 'boolean'
+    ? returnToSettings
+    : editor.dataset.returnToSettings === 'true';
+  editor.dataset.returnToSettings = 'false';
+
+  if (shouldReturn) {
+    toggleSettingsOverlay(true);
+    switchSettingsCategory('counter', true);
+  }
+}
+
+function resetCounterDisplayEditor() {
+  resetCountersToDefault();
+  refreshCounterDisplayEditor();
+}
+
+function refreshCounterDisplayEditor() {
+  renderCounterAvailableList();
+  applyCounterEditStateToStatsRow();
+}
+
+function renderCounterAvailableList() {
+  const list = document.getElementById('counter-available-list');
+  if (!list) return;
+
+  const disabledCounters = getDisabledCounterKeys();
+  list.innerHTML = '';
+  list.classList.remove('counter-available-drop');
+
+  if (!disabledCounters.length) {
+    const empty = document.createElement('div');
+    empty.className = 'counter-available-empty';
+    empty.textContent = 'All counters are active.';
+    list.appendChild(empty);
+    return;
+  }
+
+  disabledCounters.forEach((key) => {
+    const config = state.settings.counters[key];
+    const card = document.createElement('div');
+    card.className = 'counter-card rounded-lg shadow-sm text-center counter-preview-card counter-available-card';
+    card.dataset.counterKey = key;
+    card.dataset.counterType = key;
+    card.setAttribute('data-tooltip', config.tooltip);
+    card.setAttribute('draggable', 'true');
+
+    const title = document.createElement('h3');
+    title.className = 'text-xs font-medium opacity-75 mb-1';
+    title.textContent = config.shortName;
+
+    const value = document.createElement('p');
+    value.className = 'text-2xl font-black counter-preview-value';
+    value.textContent = getCounterPreviewValue(key);
+
+    card.appendChild(title);
+    card.appendChild(value);
+    list.appendChild(card);
+  });
+}
+
+function getCounterPreviewValue(counterKey) {
+  const safeNumber = (value) => (Number.isFinite(value) ? value.toLocaleString() : '0');
+
+  switch (counterKey) {
+    case 'wordsNoCitations':
+      return safeNumber(state.totalWords - state.citationWords);
+    case 'wordsWithCitations':
+      return safeNumber(state.totalWords);
+    case 'charsNoCitations':
+      return safeNumber(state.totalChars - state.citationChars);
+    case 'charsWithCitations':
+      return safeNumber(state.totalChars);
+    case 'citations':
+      return safeNumber(getIncludedCitationCount());
+    case 'speakingTime':
+      return state.speakingTime || '0 sec';
+    case 'readingTime':
+      return state.readingTime || '0 sec';
+    case 'handwritingTime':
+      return state.handwritingTime || '0 sec';
+    default:
+      return '0';
+  }
+}
+
+function applyCounterEditStateToStatsRow() {
+  const statsRow = document.querySelector('.stats-row');
+  if (!statsRow) return;
+
+  const cards = statsRow.querySelectorAll('.counter-card');
+  cards.forEach((card) => {
+    if (counterEditorState.active) {
+      card.setAttribute('draggable', 'true');
+    } else {
+      card.removeAttribute('draggable');
+    }
+  });
+}
+
+function bindCounterDisplayEditorEvents() {
+  if (counterEditorState.bound) return;
+  counterEditorState.bound = true;
+
+  const statsRow = document.querySelector('.stats-row');
+  if (statsRow) {
+    statsRow.addEventListener('dragstart', handleCounterCardDragStart);
+    statsRow.addEventListener('dragover', handleCounterCardDragOver);
+    statsRow.addEventListener('drop', handleCounterCardDrop);
+    statsRow.addEventListener('dragend', handleCounterCardDragEnd);
+  }
+
+  const availableList = document.getElementById('counter-available-list');
+  if (availableList) {
+    availableList.addEventListener('dragstart', handleAvailableCounterDragStart);
+    availableList.addEventListener('dragover', handleAvailableListDragOver);
+    availableList.addEventListener('dragleave', handleAvailableListDragLeave);
+    availableList.addEventListener('drop', handleAvailableListDrop);
+    availableList.addEventListener('dragend', handleCounterCardDragEnd);
+  }
+
+  document.addEventListener('keydown', handleCounterEditorKeydown);
+}
+
+function handleCounterEditorKeydown(event) {
+  if (!counterEditorState.active) return;
+  if (event.key === 'Escape') {
+    closeCounterDisplayEditor(false);
+  }
+}
+
+function handleCounterCardDragStart(event) {
+  if (!counterEditorState.active) return;
+  const card = event.target.closest('.counter-card');
+  if (!card) return;
+
+  const key = card.dataset.counterType;
+  if (!key) return;
+
+  counterEditorState.draggingKey = key;
+  counterEditorState.draggingFrom = 'active';
+  counterEditorState.dropIndex = null;
+  card.classList.add('counter-dragging');
+  document.body.classList.add('counter-dragging-active');
+  event.dataTransfer.effectAllowed = 'move';
+  event.dataTransfer.setData('text/plain', key);
+}
+
+function handleAvailableCounterDragStart(event) {
+  if (!counterEditorState.active) return;
+  const item = event.target.closest('.counter-available-card');
+  if (!item) return;
+
+  const key = item.dataset.counterKey || item.dataset.counterType;
+  if (!key) return;
+
+  counterEditorState.draggingKey = key;
+  counterEditorState.draggingFrom = 'available';
+  counterEditorState.dropIndex = null;
+  item.classList.add('counter-dragging');
+  document.body.classList.add('counter-dragging-active');
+  event.dataTransfer.effectAllowed = 'copy';
+  event.dataTransfer.setData('text/plain', key);
+}
+
+function handleCounterCardDragOver(event) {
+  if (!counterEditorState.active || !counterEditorState.draggingKey) return;
+  const statsRow = document.querySelector('.stats-row');
+  if (!statsRow) return;
+
+  event.preventDefault();
+  const targetCard = event.target.closest('.counter-card');
+  clearCounterDropTargets();
+
+  if (!targetCard || !statsRow.contains(targetCard)) {
+    placeCounterDropLine(null);
+    counterEditorState.dropIndex = getEnabledCounterKeys().length;
+    return;
+  }
+
+  const rect = targetCard.getBoundingClientRect();
+  const insertAfter = event.clientX > rect.left + rect.width / 2;
+  placeCounterDropLine(targetCard, insertAfter);
+
+  const enabledKeys = getEnabledCounterKeys();
+  const targetKey = targetCard.dataset.counterType;
+  const targetIndex = enabledKeys.indexOf(targetKey);
+  counterEditorState.dropIndex = targetIndex === -1
+    ? enabledKeys.length
+    : targetIndex + (insertAfter ? 1 : 0);
+}
+
+function handleCounterCardDrop(event) {
+  if (!counterEditorState.active || !counterEditorState.draggingKey) return;
+  const statsRow = document.querySelector('.stats-row');
+  if (!statsRow) return;
+
+  event.preventDefault();
+  const dropIndex = counterEditorState.dropIndex;
+  applyCounterDrop(counterEditorState.draggingKey, dropIndex);
+
+  clearCounterDragState();
+}
+
+function handleCounterCardDragEnd() {
+  if (!counterEditorState.active) return;
+  clearCounterDragState();
+}
+
+function handleAvailableListDragOver(event) {
+  if (!counterEditorState.active || counterEditorState.draggingFrom !== 'active') return;
+  event.preventDefault();
+  clearCounterDropTargets();
+  counterEditorState.dropIndex = null;
+  event.currentTarget.classList.add('counter-available-drop');
+}
+
+function handleAvailableListDragLeave(event) {
+  event.currentTarget.classList.remove('counter-available-drop');
+}
+
+function handleAvailableListDrop(event) {
+  if (!counterEditorState.active || counterEditorState.draggingFrom !== 'active') return;
+  event.preventDefault();
+
+  const key = counterEditorState.draggingKey;
+  if (!key || !state.settings.counters[key]) return;
+
+  state.settings.counters[key].enabled = false;
+  const enabledOrder = getEnabledCounterKeys().filter((item) => item !== key);
+  applyCounterOrder(enabledOrder);
+  clearCounterDragState();
+}
+
+function clearCounterDragState() {
+  counterEditorState.draggingKey = null;
+  counterEditorState.draggingFrom = null;
+  counterEditorState.dropIndex = null;
+  clearCounterDropTargets();
+
+  document.querySelectorAll('.counter-card.counter-dragging').forEach((card) => {
+    card.classList.remove('counter-dragging');
+  });
+
+  document.body.classList.remove('counter-dragging-active');
+
+  const availableList = document.getElementById('counter-available-list');
+  if (availableList) {
+    availableList.classList.remove('counter-available-drop');
+  }
+}
+
+function clearCounterDropTargets() {
+  const statsRow = document.querySelector('.stats-row');
+  if (!statsRow) return;
+  const line = statsRow.querySelector('.counter-drop-line');
+  if (line) {
+    line.remove();
+  }
+}
+
+function applyCounterDrop(counterKey, dropIndex) {
+  if (!counterKey || !state.settings.counters[counterKey]) return;
+
+  const enabledOrder = getEnabledCounterKeys();
+  const currentIndex = enabledOrder.indexOf(counterKey);
+  const wasEnabled = currentIndex !== -1;
+
+  if (wasEnabled) {
+    enabledOrder.splice(currentIndex, 1);
+  }
+
+  let insertIndex = typeof dropIndex === 'number' ? dropIndex : enabledOrder.length;
+  if (wasEnabled && currentIndex < insertIndex) {
+    insertIndex -= 1;
+  }
+
+  insertIndex = Math.max(0, Math.min(insertIndex, enabledOrder.length));
+  enabledOrder.splice(insertIndex, 0, counterKey);
+
+  state.settings.counters[counterKey].enabled = true;
+  applyCounterOrder(enabledOrder);
+}
+
+function getCounterDropLine() {
+  const statsRow = document.querySelector('.stats-row');
+  if (!statsRow) return null;
+  let line = statsRow.querySelector('.counter-drop-line');
+  if (!line) {
+    line = document.createElement('div');
+    line.className = 'counter-drop-line';
+  }
+  return line;
+}
+
+function placeCounterDropLine(targetCard, insertAfter = false) {
+  const statsRow = document.querySelector('.stats-row');
+  if (!statsRow) return;
+  const line = getCounterDropLine();
+  if (!line) return;
+
+  if (!targetCard) {
+    statsRow.appendChild(line);
+    return;
+  }
+
+  if (insertAfter) {
+    statsRow.insertBefore(line, targetCard.nextSibling);
+  } else {
+    statsRow.insertBefore(line, targetCard);
+  }
+}
+
+function getSortedCounterEntries() {
+  return Object.entries(state.settings.counters)
+    .sort(([, a], [, b]) => a.order - b.order);
+}
+
+function getEnabledCounterKeys() {
+  return getSortedCounterEntries()
+    .filter(([, config]) => config.enabled)
+    .map(([key]) => key);
+}
+
+function getDisabledCounterKeys() {
+  return getSortedCounterEntries()
+    .filter(([, config]) => !config.enabled)
+    .map(([key]) => key);
+}
+
+function applyCounterOrder(enabledOrder) {
+  const disabledOrder = getDisabledCounterKeys().filter((key) => !enabledOrder.includes(key));
+  const combinedOrder = [...enabledOrder, ...disabledOrder];
+
+  combinedOrder.forEach((key, index) => {
+    if (state.settings.counters[key]) {
+      state.settings.counters[key].order = index;
+    }
+  });
+
+  localStorage.setItem('settings', JSON.stringify(state.settings));
+  updateCounterDisplay();
+  updateCounterSettings();
+
+  if (counterEditorState.active) {
+    refreshCounterDisplayEditor();
   }
 }
 
@@ -3725,6 +4120,10 @@ function updateCounterDisplay() {
     statsRow.appendChild(counterCard);
   });
 
+  if (counterEditorState.active) {
+    applyCounterEditStateToStatsRow();
+  }
+
   updateWordTargetUI();
 }
 
@@ -3809,6 +4208,10 @@ function resetCountersToDefault() {
   // Update display
   updateCounterDisplay();
   updateCounterSettings();
+
+  if (counterEditorState.active) {
+    refreshCounterDisplayEditor();
+  }
   
   // Show confirmation
   showNotification('Counters have been reset to default', false);
@@ -3822,75 +4225,113 @@ function updateCounterSettings() {
   const sortedCounters = Object.entries(state.settings.counters)
     .sort(([, a], [, b]) => a.order - b.order);
 
+  const maxOrder = Math.max(...Object.values(state.settings.counters).map(c => c.order));
+
   counterSettingsContainer.innerHTML = '';
 
   sortedCounters.forEach(([key, config]) => {
     const counterDiv = document.createElement('div');
-    counterDiv.className = 'flex items-center justify-between p-3 rounded-md';
-    counterDiv.style.background = '#f3f4f6';
+    counterDiv.className = 'counter-setting-row';
+    counterDiv.dataset.counterKey = key;
 
-    const leftSection = document.createElement('div');
-    leftSection.className = 'flex-1';
+    const infoSection = document.createElement('div');
+    infoSection.className = 'counter-setting-info';
+    infoSection.setAttribute('role', 'button');
+    infoSection.setAttribute('tabindex', '0');
+    infoSection.setAttribute('aria-pressed', config.enabled ? 'true' : 'false');
+
+    const titleRow = document.createElement('div');
+    titleRow.className = 'counter-setting-title-row';
+
+    const orderBadge = document.createElement('span');
+    orderBadge.className = 'counter-setting-order';
+    orderBadge.textContent = String(config.order + 1);
 
     const label = document.createElement('span');
-    label.className = 'font-medium';
+    label.className = 'counter-setting-title';
     label.textContent = config.shortName;
 
-    const description = document.createElement('p');
-    description.className = 'text-sm text-gray-500 dark:text-gray-400 mt-1';
+    titleRow.appendChild(orderBadge);
+    titleRow.appendChild(label);
+
+    const description = document.createElement('div');
+    description.className = 'counter-setting-desc';
     description.textContent = getCounterDescription(key);
 
-    leftSection.appendChild(label);
-    leftSection.appendChild(description);
+    infoSection.appendChild(titleRow);
+    infoSection.appendChild(description);
 
-    const rightSection = document.createElement('div');
-    rightSection.className = 'flex items-center gap-2';
+    const actionsSection = document.createElement('div');
+    actionsSection.className = 'counter-setting-actions';
 
-    // Toggle switch
+    const reorderDiv = document.createElement('div');
+    reorderDiv.className = 'counter-setting-move';
+
+    const upButton = document.createElement('button');
+    upButton.type = 'button';
+    upButton.className = 'counter-setting-move-btn';
+    upButton.disabled = config.order === 0;
+    upButton.setAttribute('aria-label', `Move ${config.shortName} up`);
+    upButton.textContent = '▲';
+    upButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      moveCounterUp(key);
+    });
+
+    const downButton = document.createElement('button');
+    downButton.type = 'button';
+    downButton.className = 'counter-setting-move-btn';
+    downButton.disabled = config.order === maxOrder;
+    downButton.setAttribute('aria-label', `Move ${config.shortName} down`);
+    downButton.textContent = '▼';
+    downButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      moveCounterDown(key);
+    });
+
+    reorderDiv.appendChild(upButton);
+    reorderDiv.appendChild(downButton);
+
     const toggleLabel = document.createElement('label');
-    toggleLabel.className = 'relative inline-flex items-center cursor-pointer';
+    toggleLabel.className = 'counter-setting-toggle';
 
     const toggleInput = document.createElement('input');
     toggleInput.type = 'checkbox';
-    toggleInput.className = 'sr-only peer';
+    toggleInput.className = 'counter-setting-toggle-input';
     toggleInput.checked = config.enabled;
+    toggleInput.setAttribute('aria-label', `Show ${config.shortName}`);
     toggleInput.addEventListener('change', function() {
       toggleCounter(key, this.checked);
       updateCounterSettings();
     });
 
-    const toggleDiv = document.createElement('div');
-    toggleDiv.className = 'w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600';
+    const toggleTrack = document.createElement('span');
+    toggleTrack.className = 'counter-setting-toggle-track';
 
     toggleLabel.appendChild(toggleInput);
-    toggleLabel.appendChild(toggleDiv);
+    toggleLabel.appendChild(toggleTrack);
 
-    // Reorder buttons
-    const reorderDiv = document.createElement('div');
-    reorderDiv.className = 'flex flex-col gap-1';
+    actionsSection.appendChild(reorderDiv);
+    actionsSection.appendChild(toggleLabel);
 
-    const upButton = document.createElement('button');
-    upButton.className = 'p-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed';
-    upButton.disabled = config.order === 0;
-    upButton.innerHTML = '▲';
-    upButton.addEventListener('click', () => moveCounterUp(key));
+    const toggleFromInfo = () => {
+      toggleInput.checked = !toggleInput.checked;
+      toggleCounter(key, toggleInput.checked);
+      updateCounterSettings();
+    };
 
-    const downButton = document.createElement('button');
-    downButton.className = 'p-1 rounded hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed';
-    const maxOrder = Math.max(...Object.values(state.settings.counters).map(c => c.order));
-    downButton.disabled = config.order === maxOrder;
-    downButton.innerHTML = '▼';
-    downButton.addEventListener('click', () => moveCounterDown(key));
+    infoSection.addEventListener('click', toggleFromInfo);
+    infoSection.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleFromInfo();
+      }
+    });
 
-    reorderDiv.appendChild(upButton);
-    reorderDiv.appendChild(downButton);
-
-    rightSection.appendChild(toggleLabel);
-    rightSection.appendChild(reorderDiv);
-
-    counterDiv.appendChild(leftSection);
-    counterDiv.appendChild(rightSection);
-
+    counterDiv.appendChild(infoSection);
+    counterDiv.appendChild(actionsSection);
     counterSettingsContainer.appendChild(counterDiv);
   });
 }
@@ -4607,6 +5048,165 @@ function initializeTabContextMenu() {
       contextMenu.style.display = 'none';
     }
   });
+}
+
+function initializeCounterContextMenu() {
+  if (counterContextMenuInitialized) return;
+  counterContextMenuInitialized = true;
+
+  const statsRow = document.querySelector('.stats-row');
+  if (!statsRow) return;
+
+  statsRow.addEventListener('contextmenu', (event) => {
+    const counterCard = event.target.closest('.counter-card');
+    if (!counterCard || !statsRow.contains(counterCard)) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const valueText = getCounterCardValue(counterCard);
+    openCounterContextMenu(event.clientX, event.clientY, valueText);
+  });
+
+  document.addEventListener('click', (event) => {
+    const menu = document.getElementById('counter-context-menu');
+    if (menu && !menu.contains(event.target)) {
+      closeCounterContextMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeCounterContextMenu();
+    }
+  });
+
+  window.addEventListener('scroll', closeCounterContextMenu, true);
+  window.addEventListener('resize', closeCounterContextMenu);
+}
+
+function getCounterCardValue(counterCard) {
+  const valueEl = counterCard.querySelector('p');
+  if (!valueEl) return '';
+
+  const rawValue = (valueEl.textContent || '').trim();
+  const match = rawValue.match(/-?[\d,.]+/);
+  return match ? match[0] : rawValue;
+}
+
+function openCounterContextMenu(x, y, valueText) {
+  closeCounterContextMenu();
+
+  const menu = document.createElement('div');
+  menu.id = 'counter-context-menu';
+  menu.className = 'file-context-menu';
+  menu.style.left = x + 'px';
+  menu.style.top = y + 'px';
+  menu.style.visibility = 'hidden';
+
+  const copyItem = document.createElement('div');
+  copyItem.className = 'file-context-menu-item';
+  copyItem.textContent = 'Copy Statistics';
+  copyItem.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    copyCounterValue(valueText);
+    closeCounterContextMenu();
+  });
+
+  const editItem = document.createElement('div');
+  editItem.className = 'file-context-menu-item';
+  editItem.textContent = 'Edit Counters';
+  editItem.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    openCounterSettings();
+    closeCounterContextMenu();
+  });
+
+  menu.appendChild(copyItem);
+  menu.appendChild(editItem);
+  document.body.appendChild(menu);
+
+  const menuRect = menu.getBoundingClientRect();
+  const padding = 8;
+  let left = x;
+  let top = y;
+
+  if (left + menuRect.width > window.innerWidth - padding) {
+    left = window.innerWidth - menuRect.width - padding;
+  }
+
+  if (top + menuRect.height > window.innerHeight - padding) {
+    top = window.innerHeight - menuRect.height - padding;
+  }
+
+  menu.style.left = Math.max(left, padding) + 'px';
+  menu.style.top = Math.max(top, padding) + 'px';
+  menu.style.visibility = 'visible';
+}
+
+function closeCounterContextMenu() {
+  const menu = document.getElementById('counter-context-menu');
+  if (menu) {
+    menu.remove();
+  }
+}
+
+function copyCounterValue(valueText) {
+  const valueToCopy = valueText || '0';
+  const showCopySuccess = () => {
+    if (typeof notify === 'function') {
+      notify('Counter copied to clipboard.');
+    } else if (typeof showNotification === 'function') {
+      showNotification('Counter copied to clipboard.', false, null, 'success');
+    }
+  };
+
+  const showCopyError = () => {
+    if (typeof notify === 'function') {
+      notify('Failed to copy counter.');
+    } else if (typeof showNotification === 'function') {
+      showNotification('Failed to copy counter.', false, null, 'error');
+    }
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(valueToCopy).then(showCopySuccess).catch(() => {
+      fallbackCopyText(valueToCopy, showCopySuccess, showCopyError);
+    });
+  } else {
+    fallbackCopyText(valueToCopy, showCopySuccess, showCopyError);
+  }
+}
+
+function fallbackCopyText(valueToCopy, onSuccess, onError) {
+  const textArea = document.createElement('textarea');
+  textArea.value = valueToCopy;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    if (typeof onSuccess === 'function') {
+      onSuccess();
+    }
+  } catch (err) {
+    if (typeof onError === 'function') {
+      onError();
+    }
+  }
+  document.body.removeChild(textArea);
+}
+
+function openCounterSettings() {
+  if (typeof toggleSettingsOverlay === 'function') {
+    toggleSettingsOverlay(true);
+  }
+  if (typeof switchSettingsCategory === 'function') {
+    switchSettingsCategory('counter');
+  }
 }
 
 // Open the edit pinned tool modal

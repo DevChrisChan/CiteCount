@@ -23,12 +23,6 @@
 						</svg>
 						<span>Editing & Interface</span>
 					</button>
-					<button class="settings-category-btn" data-category="counter" onclick="switchSettingsCategory('counter')">
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-						</svg>
-						<span>Counter Display</span>
-					</button>
 					<button class="settings-category-btn" data-category="tools" onclick="switchSettingsCategory('tools'); setTimeout(() => initializeToolsSelection(), 50);">
 						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -125,6 +119,16 @@
 								</label>
 							</div>
 
+							<div class="flex items-center justify-between p-3 rounded-md" style="background: #f3f4f6;">
+								<div>
+									<span class="font-medium">Edit Counters</span>
+									<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Reorder, add, or remove counters in the top bar</p>
+								</div>
+								<button onclick="openCounterDisplayEditor()" class="counter-open-btn" data-lta-event="v2-open-counter-editor">
+									Edit
+								</button>
+							</div>
+
 							<div class="p-3 rounded-md" style="background: #f3f4f6;">
 								<div class="flex items-center justify-between mb-3">
 									<div>
@@ -191,16 +195,6 @@
 					</div>
 				</div>
 
-				<div class="settings-category-content" data-category="counter">
-					<h3 class="text-lg font-medium mb-4">Counter Display</h3>
-					<div class="space-y-3">
-						<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Customize which counters appear in the top bar and their order. Use the arrow buttons to reorder.</p>
-							<button onclick="resetCountersToDefault()" class="px-4 py-2 hover:bg-blue-600 text-white rounded-md font-medium transition-colors mb-4" data-lta-event="v2-reset-counters-default" style="background-color: #1F40AF;">
-								Reset to Default
-							</button>
-							<div id="counter-settings-container" class="space-y-3"></div>
-						</div>
-					</div>
 
 					<div class="settings-category-content" data-category="tools">
 						<h3 class="text-lg font-medium mb-4">Customise Tools</h3>
@@ -357,6 +351,31 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div id="counter-display-editor" class="counter-display-editor" style="display: none;">
+			<div class="counter-display-panel">
+				<div class="counter-display-panel-header">
+					<div>
+						<h3 class="text-lg font-semibold">Counter Layout</h3>
+						<p class="text-sm text-gray-500 dark:text-gray-400">Drag counters in the top bar to reorder. Drop them here to remove or add from the list.</p>
+					</div>
+				</div>
+				<div class="counter-display-panel-body">
+					<div class="counter-display-column">
+						<div class="counter-display-column-title">Available Counters</div>
+						<div id="counter-available-list" class="counter-available-list"></div>
+						<div class="counter-display-hint">Drag a counter into the top bar to add it. Drag a counter back here to remove it.</div>
+					</div>
+				</div>
+				<div class="counter-display-panel-footer">
+					<button class="counter-display-btn secondary" onclick="resetCounterDisplayEditor()">
+						Reset
+					</button>
+					<button class="counter-display-btn" onclick="closeCounterDisplayEditor(false)">
+						Done
+					</button>
 				</div>
 			</div>
 		</div>
