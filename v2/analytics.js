@@ -2,7 +2,7 @@
   'use strict';
 
   const ANALYTICS_SEND_COOLDOWN_MS = 60 * 1000;
-  const ANALYTICS_LAST_SEND_KEY = 'citecount_analytics_last_send_at';
+  const ANALYTICS_LAST_SEND_KEY_PREFIX = 'citecount_analytics_last_send_at:';
   let analyticsSendInFlight = false;
 
   // ============================================================================
@@ -16,6 +16,30 @@
       console.error('Failed to reconstruct webhook URL');
       return null;
     }
+  }
+
+  function getPageTitle() {
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    const rawTitle = (
+      (ogTitle && ogTitle.getAttribute('content')) ||
+      (twitterTitle && twitterTitle.getAttribute('content')) ||
+      document.title ||
+      ''
+    ).trim();
+
+    if (!rawTitle) {
+      return 'Website Analytics';
+    }
+
+    const cleaned = rawTitle.replace(/\s*[-|]\s*CiteCount\s*$/i, '').trim();
+    return cleaned || rawTitle;
+  }
+
+  function getAnalyticsLastSendKey() {
+    const path = window.location.pathname || '/';
+    const normalizedPath = path === '/' ? 'home' : path;
+    return `${ANALYTICS_LAST_SEND_KEY_PREFIX}${encodeURIComponent(normalizedPath)}`;
   }
 
   // ============================================================================
@@ -151,7 +175,8 @@
   // SEND ANALYTICS TO DISCORD
   // ============================================================================
   function canSendAnalytics() {
-    const lastSendAt = Number(localStorage.getItem(ANALYTICS_LAST_SEND_KEY) || 0);
+    const storageKey = getAnalyticsLastSendKey();
+    const lastSendAt = Number(localStorage.getItem(storageKey) || 0);
     return !lastSendAt || Date.now() - lastSendAt >= ANALYTICS_SEND_COOLDOWN_MS;
   }
 
@@ -161,7 +186,7 @@
     }
 
     analyticsSendInFlight = true;
-    localStorage.setItem(ANALYTICS_LAST_SEND_KEY, String(Date.now()));
+    localStorage.setItem(getAnalyticsLastSendKey(), String(Date.now()));
 
     try {
       const webhookUrl = getWebhookUrl();
@@ -178,10 +203,11 @@
       const timestamp = getDiscordTimestamp();
       const currentPage = window.location.pathname || '/';
       const referrer = document.referrer || 'Direct/None';
+      const pageTitle = getPageTitle();
 
       // Build Discord Embed
       const embed = {
-        title: '📊 Website Analytics',
+        title: pageTitle,
         color: 0x1f2937, // Dark gray
         timestamp: new Date(timestamp * 1000).toISOString(),
         fields: [
