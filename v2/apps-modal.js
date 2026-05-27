@@ -34,7 +34,7 @@
           <span class="app-title">CiteCount</span>
         </a>
         <!-- Citation Generator removed per update; Help Center will be added after Contact -->
-        <a href="/countdown/" class="app-card" data-app-id="countdown-m26" data-lta-event="v2-more-apps-countdown-click">
+        <a href="/countdown/m27" class="app-card" data-app-id="countdown-m26" data-lta-event="v2-more-apps-countdown-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
@@ -43,7 +43,7 @@
               </svg>
             </div>
           </div>
-          <span class="app-title">IB M26 Exams Countdown</span>
+          <span class="app-title">IB M27 Exams Countdown</span>
         </a>
         <a href="/countdown/n26/" class="app-card" data-app-id="countdown-n26" data-lta-event="v2-more-apps-countdown-n26-click">
           <div class="app-icon-wrapper">
@@ -80,17 +80,21 @@
           </div>
           <span class="app-title">IB Resources</span>
         </a>
-        <a href="/ib-results/" class="app-card" data-app-id="ib-results" data-lta-event="v2-more-apps-bulletin-click">
+        <a href="/ib-resources/mirrors.html" class="app-card" data-app-id="ib-results" data-lta-event="v2-more-apps-bulletin-click">
           <div class="app-icon-wrapper">
             <div class="app-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="32" height="32">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="32" height="32">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+              <!--<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="32" height="32">
                 <line x1="18" y1="20" x2="18" y2="10"/>
                 <line x1="12" y1="20" x2="12" y2="4"/>
                 <line x1="6" y1="20" x2="6" y2="14"/>
-              </svg>
+              </svg>-->
             </div>
           </div>
-          <span class="app-title">Simulate IB Results</span>
+          <span class="app-title">IBDocs Mirrors</span>
         </a>
         <a href="/blogs" class="app-card" data-app-id="blogs" data-lta-event="v2-more-apps-blogs-click">
           <div class="app-icon-wrapper">

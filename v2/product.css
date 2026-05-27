@@ -9,6 +9,7 @@
 #product-page-root {
   --navy: #1a2744;
   --navy-mid: #243154;
+  --navy-strong: #1a2744;
   --navy-light: #2e3d66;
   --blue-accent: #3b5bdb;
   --blue-light: #e8edff;
@@ -49,11 +50,12 @@
     --text-mid: #9ca3af;
     --text-soft: #9ca3af;
     --text-faint: #6b7280;
-    --navy: #1f3a8a;
-    --navy-mid: #1e40af;
-    --navy-light: rgba(59,130,246,0.06);
-    --blue-accent: #3b82f6;
-    --blue-light: rgba(59,130,246,0.06);
+    --navy: #dbeafe;
+    --navy-mid: #2563eb;
+    --navy-strong: #1d4ed8;
+    --navy-light: rgba(147, 197, 253, 0.14);
+    --blue-accent: #93c5fd;
+    --blue-light: rgba(147, 197, 253, 0.16);
     --red-cite: #f87171;
     --red-cite-bg: rgba(248,113,113,0.08);
     --green-excl: #34d399;
@@ -80,7 +82,7 @@
   }
 
   #product-page-root .btn-primary {
-    background: var(--navy);
+    background: var(--navy-strong);
     color: white;
   }
 
@@ -199,7 +201,7 @@
 }
 
 #product-page-root .btn-primary {
-  background: var(--navy);
+  background: var(--navy-strong);
   color: white;
   padding: 0.95rem 2.2rem;
   border-radius: var(--radius-sm);
@@ -668,7 +670,7 @@
 }
 
 #product-page-root .btn-sm {
-  background: var(--navy);
+  background: var(--navy-strong);
   color: white;
   border: none;
   border-radius: var(--radius-sm);
@@ -695,7 +697,7 @@
 }
 
 #product-page-root .id-tab.active {
-  background: var(--navy);
+  background: var(--navy-strong);
   color: white;
 }
 
@@ -742,7 +744,7 @@
 }
 
 #product-page-root .style-tab.active {
-  background: var(--navy);
+  background: var(--navy-strong);
   color: white;
 }
 
@@ -1055,7 +1057,7 @@
 }
 
 #product-page-root .flow-connector::after {
-  content: "\\2193";
+  content: "\2193";
   position: absolute;
   left: -4px;
   top: 50%;
@@ -1086,7 +1088,7 @@
 }
 
 #product-page-root .apple-card {
-  background: var(--navy);
+  background: var(--navy-strong);
   border-radius: var(--radius);
   padding: 2.5rem 3rem;
   display: flex;
@@ -1175,7 +1177,7 @@
 
 /* FOOTER */
 #product-page-root footer {
-  background: var(--navy);
+  background: var(--navy-strong);
   padding: 2rem 2.5rem;
 }
 

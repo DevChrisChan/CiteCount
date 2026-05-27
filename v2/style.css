@@ -1916,7 +1916,7 @@
     right: 1rem;
     transform: scale(0.95);
     transform-origin: top right;
-    width: min(88%, 380px);
+    width: min(88%, 350px);
     max-height: calc(100vh - 5rem);
     z-index: 60;
     padding: 0.9rem 1rem;
@@ -1988,6 +1988,60 @@
     .paste-permission-modal {
       background: rgba(17, 24, 39, 0.98);
       border-color: #374151;
+      color: var(--text-primary);
+    }
+
+    .paste-permission-modal h2,
+    .paste-permission-modal h3,
+    .paste-permission-modal h4 {
+      color: var(--text-primary);
+    }
+
+    .paste-permission-modal .text-gray-700,
+    .paste-permission-modal .text-gray-600,
+    .paste-permission-modal .text-gray-500 {
+      color: var(--text-secondary);
+    }
+
+    .paste-permission-modal .text-gray-300 {
+      color: #d1d5db;
+    }
+
+    .paste-permission-modal .text-blue-600 {
+      color: #93c5fd;
+    }
+
+    .paste-permission-modal .text-red-600 {
+      color: #fca5a5;
+    }
+
+    .paste-permission-modal .text-green-600 {
+      color: #86efac;
+    }
+
+    .paste-permission-modal .bg-gray-100 {
+      background: #1f2937;
+    }
+
+    .paste-permission-modal .bg-gray-200 {
+      background: #374151;
+      color: #e5e7eb;
+    }
+
+    .paste-permission-modal .bg-blue-50 {
+      background: rgba(59, 130, 246, 0.15);
+    }
+
+    .paste-permission-modal .bg-yellow-50 {
+      background: rgba(234, 179, 8, 0.12);
+    }
+
+    .paste-permission-modal .hover\:bg-gray-200:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .paste-permission-modal .hover\:bg-gray-300:hover {
+      background: #4b5563;
     }
   }
 
@@ -2909,6 +2963,20 @@
     gap: 1rem;
     justify-content: center;
     pointer-events: all;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .welcome-buttons button,
+    .welcome-buttons label {
+      background: #1f2937;
+      color: var(--text-primary);
+      border: 1px solid #374151;
+    }
+
+    .welcome-buttons button:hover,
+    .welcome-buttons label:hover {
+      background: #374151;
+    }
   }
 
   .confirmation-overlay {
