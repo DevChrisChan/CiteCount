@@ -2376,7 +2376,8 @@ function groupCitations() {
 function calculateCitationWords() {
   state.citationWords = 0;
   state.citationGroups.forEach((group, citationText) => {
-    if (!state.includedCitations.get(citationText)) {
+    const isCitation = state.includedCitations.get(citationText) !== false;
+    if (isCitation) {
       state.citationWords += group.wordCount * group.count;
     }
   });
@@ -2385,7 +2386,8 @@ function calculateCitationWords() {
 function calculateCitationChars() {  // Added
   state.citationChars = 0;
   state.citationGroups.forEach((group, citationText) => {
-    if (!state.includedCitations.get(citationText)) {
+    const isCitation = state.includedCitations.get(citationText) !== false;
+    if (isCitation) {
       state.citationChars += group.charCount * group.count;
     }
   });
