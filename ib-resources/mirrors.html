@@ -578,6 +578,8 @@
     const maxVisibleMirrors = 3;
     let allMirrors = [];
     let showAllMirrors = false;
+    let lastUpdatedAt = null;
+    let lastUpdatedIntervalId = null;
 
     function escapeHtml(value) {
       return String(value)
@@ -631,7 +633,28 @@
 
     function setLastUpdated(date) {
       if (!updatedEl) return;
-      updatedEl.textContent = `Last updated ${formatLastUpdated(date)}`;
+
+      lastUpdatedAt = date;
+
+      const updateLastUpdatedText = () => {
+        if (!updatedEl || !lastUpdatedAt) return;
+
+        const secondsElapsed = Math.max(0, Math.floor((Date.now() - lastUpdatedAt.getTime()) / 1000));
+        const minutesElapsed = Math.floor(secondsElapsed / 60);
+        const relativeLabel = secondsElapsed >= 60
+          ? `${minutesElapsed} ${minutesElapsed === 1 ? 'minute' : 'minutes'} ago`
+          : `${secondsElapsed} ${secondsElapsed === 1 ? 'second' : 'seconds'} ago`;
+
+        updatedEl.textContent = `Last updated ${formatLastUpdated(lastUpdatedAt)} (${relativeLabel}).`;
+      };
+
+      updateLastUpdatedText();
+
+      if (lastUpdatedIntervalId) {
+        clearInterval(lastUpdatedIntervalId);
+      }
+
+      lastUpdatedIntervalId = window.setInterval(updateLastUpdatedText, 1000);
     }
 
     function getUptimeValue(mirror) {

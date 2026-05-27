@@ -376,22 +376,8 @@ function saveSettings() {
 }
 
 function toggleSetting(setting, value) {
-  state.settings[setting] = value;
-  saveSettings();
-  if (setting.startsWith('words') || setting.startsWith('chars') || setting === 'citations') {
-    updateWordCount();
-  }
-  if (setting === 'spellCheck') {
-    document.getElementById('editor').spellcheck = value;
-  }
-  if (setting === 'focus') {
-    const afterAppContent = document.getElementById('after-app-placeholder');
-    if (afterAppContent) {
-      afterAppContent.style.display = value ? 'none' : 'block';
-    }
-  }
   if (setting === 'simplifiedMode') {
-    // Keep the toggle flipped - don't revert yet
+    const previousValue = !!state.settings.simplifiedMode;
     const checkbox = document.getElementById('simplifiedMode');
     
     // Show restart modal with blur background
@@ -466,8 +452,9 @@ function toggleSetting(setting, value) {
       'confirmation',
       () => {
         // User cancelled - revert the toggle
-        if (checkbox) checkbox.checked = !value;
-        state.settings[setting] = !value;
+        if (checkbox) checkbox.checked = previousValue;
+        state.settings[setting] = previousValue;
+        saveSettings();
       },
       {
         title: 'App Restart Required',
@@ -487,6 +474,20 @@ function toggleSetting(setting, value) {
     }, 50);
     
     return;
+  }
+  state.settings[setting] = value;
+  saveSettings();
+  if (setting.startsWith('words') || setting.startsWith('chars') || setting === 'citations') {
+    updateWordCount();
+  }
+  if (setting === 'spellCheck') {
+    document.getElementById('editor').spellcheck = value;
+  }
+  if (setting === 'focus') {
+    const afterAppContent = document.getElementById('after-app-placeholder');
+    if (afterAppContent) {
+      afterAppContent.style.display = value ? 'none' : 'block';
+    }
   }
   if (setting === 'warnLeave') {
     updateBeforeUnloadHandler();
