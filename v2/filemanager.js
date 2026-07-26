@@ -1441,11 +1441,7 @@ function hideLocalBackupReminderModal() {
 let fileInputModalCallback = null;
 let fileInputModalType = 'project';
 let selectedIconId = null;
-
-function canCloseFileInputModal() {
-  const input = document.getElementById('file-input-modal-input');
-  return !input || !input.value.trim();
-}
+let fileInputModalKeydownHandler = null;
 
 function toggleIconPicker() {
   const picker = document.getElementById('icon-picker-container');
@@ -1485,21 +1481,26 @@ function selectIcon(iconId) {
   }
 }
 
-function showFileInputModal(title, placeholder, type, callback) {
+function showFileInputModal(title, placeholder, type, callback, options = {}) {
   const modal = document.getElementById('file-input-modal');
   const titleEl = document.getElementById('file-input-modal-title');
   const input = document.getElementById('file-input-modal-input');
   const iconToggle = document.getElementById('icon-picker-toggle');
   const iconPicker = document.getElementById('icon-picker-container');
+  const confirmBtn = document.getElementById('file-input-modal-confirm-btn');
+  const showIconPicker = options.showIconPicker !== false && type === 'project';
   
   titleEl.textContent = title;
   input.placeholder = placeholder;
-  input.value = '';
+  input.value = options.initialValue ?? '';
   fileInputModalType = type;
   fileInputModalCallback = callback;
+  if (confirmBtn) {
+    confirmBtn.textContent = options.confirmLabel || 'Create';
+  }
   
-  // Show icon picker only for projects
-  if (type === 'project') {
+  // Show icon picker only when creating a project
+  if (showIconPicker) {
     iconToggle.style.display = 'flex';
     ensureIconPickerGrid();
     selectedIconId = fileManager.getRandomIconId();
@@ -1515,7 +1516,10 @@ function showFileInputModal(title, placeholder, type, callback) {
   }
   
   modal.style.display = 'flex';
-  setTimeout(() => input.focus(), 100);
+  setTimeout(() => {
+    input.focus();
+    input.select();
+  }, 100);
   
   // Handle Enter key
   input.onkeydown = (e) => {
@@ -1525,11 +1529,22 @@ function showFileInputModal(title, placeholder, type, callback) {
       closeFileInputModal();
     }
   };
+
+  fileInputModalKeydownHandler = (e) => {
+    if (e.key === 'Escape') {
+      closeFileInputModal();
+    }
+  };
+  document.addEventListener('keydown', fileInputModalKeydownHandler);
 }
 
 function closeFileInputModal() {
   const modal = document.getElementById('file-input-modal');
   modal.style.display = 'none';
+  if (fileInputModalKeydownHandler) {
+    document.removeEventListener('keydown', fileInputModalKeydownHandler);
+    fileInputModalKeydownHandler = null;
+  }
   fileInputModalCallback = null;
 }
 
@@ -1563,7 +1578,7 @@ function confirmFileInput() {
 }
 
 function createNewProject() {
-  showFileInputModal('Create New Project', 'Enter project name (optional)...', 'project', (name, iconId) => {
+  showFileInputModal('Create New Project', 'Enter project name... (optional)', 'project', (name, iconId) => {
     const projectId = fileManager.createProject(name, true, iconId);
     const project = fileManager.projects.find(p => p.id === projectId);
     notify('Project created: ' + project.name);
@@ -1587,92 +1602,22 @@ function startRenamingProject(projectId) {
   // Hide context menu if open
   fileManager.hideContextMenu();
 
-  const item = document.querySelector(`[data-project-id="${projectId}"]`);
-  if (!item) {
-    console.warn('Project item element not found:', projectId);
-    return;
-  }
-
-  const nameSpan = item.querySelector('.name');
-  if (!nameSpan) {
-    console.warn('Name span not found in project item');
-    return;
-  }
-
-  const currentName = project.name;
-
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.value = currentName;
-  input.className = 'file-rename-input';
-
-  const confirmBtn = document.createElement('button');
-  confirmBtn.type = 'button';
-  confirmBtn.className = 'file-rename-confirm-btn';
-  confirmBtn.title = 'Confirm';
-  confirmBtn.style.border = 'none';
-  confirmBtn.style.background = 'transparent';
-  confirmBtn.style.cursor = 'pointer';
-  confirmBtn.style.display = 'inline-flex';
-  confirmBtn.style.alignItems = 'center';
-  confirmBtn.style.justifyContent = 'center';
-  confirmBtn.style.padding = '4px';
-  confirmBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-
-  const finishRename = () => {
-    const newName = input.value.trim();
-    if (newName && newName !== currentName) {
-      fileManager.renameProject(projectId, newName);
-    } else {
-      fileManager.renderFileTree();
-    }
-  };
-
-  // If focus leaves input but not to the confirm button, finish rename
-  input.onblur = () => {
-    setTimeout(() => {
-      if (document.activeElement !== confirmBtn) {
-        finishRename();
+  showFileInputModal(
+    'Rename Project',
+    'Enter new project name...',
+    'rename',
+    (newName) => {
+      const trimmedName = newName.trim();
+      if (trimmedName && trimmedName !== project.name) {
+        fileManager.renameProject(projectId, trimmedName);
       }
-    }, 0);
-  };
-
-  input.onkeydown = (e) => {
-    if (e.key === 'Enter') {
-      finishRename();
-    } else if (e.key === 'Escape') {
-      fileManager.renderFileTree();
+    },
+    {
+      initialValue: project.name,
+      confirmLabel: 'Rename',
+      showIconPicker: false
     }
-  };
-
-  confirmBtn.onclick = (e) => {
-    e.stopPropagation();
-    finishRename();
-  };
-
-  const wrapper = document.createElement('div');
-  wrapper.className = 'file-rename-wrapper';
-  wrapper.style.display = 'flex';
-  wrapper.style.alignItems = 'center';
-  wrapper.style.minWidth = '0';
-  wrapper.style.gap = '8px';
-  input.style.flex = '1';
-  input.style.minWidth = '0';
-  input.style.overflow = 'hidden';
-  input.style.textOverflow = 'ellipsis';
-  input.style.whiteSpace = 'nowrap';
-  confirmBtn.style.marginLeft = '8px';
-  confirmBtn.style.flex = '0 0 28px';
-  confirmBtn.style.width = '28px';
-  confirmBtn.style.height = '28px';
-  confirmBtn.style.minWidth = '28px';
-
-  wrapper.appendChild(input);
-  wrapper.appendChild(confirmBtn);
-
-  nameSpan.replaceWith(wrapper);
-  input.focus();
-  input.select();
+  );
 }
 
 function startRenamingFolder(folderId) {
@@ -1685,91 +1630,22 @@ function startRenamingFolder(folderId) {
   // Hide context menu if open
   fileManager.hideContextMenu();
 
-  const item = document.querySelector(`[data-folder-id="${folderId}"]`);
-  if (!item) {
-    console.warn('Folder item element not found:', folderId);
-    return;
-  }
-
-  const nameSpan = item.querySelector('.name');
-  if (!nameSpan) {
-    console.warn('Name span not found in folder item');
-    return;
-  }
-
-  const currentName = folder.name;
-
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.value = currentName;
-  input.className = 'file-rename-input';
-
-  const confirmBtn = document.createElement('button');
-  confirmBtn.type = 'button';
-  confirmBtn.className = 'file-rename-confirm-btn';
-  confirmBtn.title = 'Confirm';
-  confirmBtn.style.border = 'none';
-  confirmBtn.style.background = 'transparent';
-  confirmBtn.style.cursor = 'pointer';
-  confirmBtn.style.display = 'inline-flex';
-  confirmBtn.style.alignItems = 'center';
-  confirmBtn.style.justifyContent = 'center';
-  confirmBtn.style.padding = '4px';
-  confirmBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-
-  const finishRename = () => {
-    const newName = input.value.trim();
-    if (newName && newName !== currentName) {
-      fileManager.renameFolder(folderId, newName);
-    } else {
-      fileManager.renderFileTree();
-    }
-  };
-
-  input.onblur = () => {
-    setTimeout(() => {
-      if (document.activeElement !== confirmBtn) {
-        finishRename();
+  showFileInputModal(
+    'Rename Folder',
+    'Enter new folder name...',
+    'rename',
+    (newName) => {
+      const trimmedName = newName.trim();
+      if (trimmedName && trimmedName !== folder.name) {
+        fileManager.renameFolder(folderId, trimmedName);
       }
-    }, 0);
-  };
-
-  input.onkeydown = (e) => {
-    if (e.key === 'Enter') {
-      finishRename();
-    } else if (e.key === 'Escape') {
-      fileManager.renderFileTree();
+    },
+    {
+      initialValue: folder.name,
+      confirmLabel: 'Rename',
+      showIconPicker: false
     }
-  };
-
-  confirmBtn.onclick = (e) => {
-    e.stopPropagation();
-    finishRename();
-  };
-
-  const wrapper = document.createElement('div');
-  wrapper.className = 'file-rename-wrapper';
-  wrapper.style.display = 'flex';
-  wrapper.style.alignItems = 'center';
-  wrapper.style.minWidth = '0';
-  wrapper.style.gap = '8px';
-  input.style.flex = '1';
-  input.style.minWidth = '0';
-  input.style.overflow = 'hidden';
-  input.style.textOverflow = 'ellipsis';
-  input.style.whiteSpace = 'nowrap';
-  confirmBtn.style.marginLeft = '8px';
-  confirmBtn.style.flex = '0 0 28px';
-  confirmBtn.style.width = '28px';
-  confirmBtn.style.height = '28px';
-  confirmBtn.style.minWidth = '28px';
-
-  wrapper.appendChild(input);
-  wrapper.appendChild(confirmBtn);
-
-  nameSpan.replaceWith(wrapper);
-  input.focus();
-  input.select();
+  );
 }
 
 function deleteProjectWithConfirmation(projectId) {

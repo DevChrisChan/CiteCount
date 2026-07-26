@@ -792,7 +792,17 @@
     padding: 0.5rem;
     background: inherit;
     border-bottom: 1px solid var(--border-primary);
-    z-index: 1;
+    z-index: 5;
+    overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  .toolbar > * {
+    flex-shrink: 0;
   }
 
   .toolbar button,
@@ -830,6 +840,34 @@
     white-space: nowrap;
     z-index: 100;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .toolbar button:hover::after {
+    content: none;
+  }
+
+  .toolbar-floating-tooltip {
+    position: fixed;
+    z-index: 100000;
+    display: inline-block;
+    max-width: min(280px, calc(100vw - 16px));
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.35rem;
+    background: rgba(51, 51, 51, 0.96);
+    color: #fff;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    white-space: normal;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.12s ease, transform 0.12s ease;
+  }
+
+  .toolbar-floating-tooltip.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* Show tooltip on mobile only (when text labels are hidden) */
@@ -907,6 +945,7 @@
     font-weight: 500;
     color: var(--text-primary);
     min-width: 0;
+    overflow: hidden;
     text-align: left;
   }
 
@@ -990,11 +1029,19 @@
   }
 
   .word-target-bar-status {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-weight: 600;
     white-space: nowrap;
   }
 
   .word-target-bar-meta {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: var(--text-secondary);
     font-size: 0.8125rem;
     white-space: nowrap;

@@ -1,3 +1,4 @@
+// Full script.js
 const state = {
   citations: [],
   citationGroups: new Map(),

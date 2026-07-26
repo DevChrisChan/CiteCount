@@ -60,7 +60,7 @@
       </div>-->
 
       <!-- New Project/Folder Modal -->
-      <div id="file-input-modal" class="file-input-modal" style="display: none;" onclick="if(event.target === this && canCloseFileInputModal()) closeFileInputModal()">
+      <div id="file-input-modal" class="file-input-modal" style="display: none;" onclick="if(event.target === this) closeFileInputModal()">
       <div class="file-input-modal-content" onclick="event.stopPropagation()">
         <h3 id="file-input-modal-title">Create New Project</h3>
         <div style="display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 1rem;">
@@ -76,7 +76,7 @@
         </div>
         <div class="file-input-modal-actions">
         <button class="file-input-modal-btn cancel" onclick="closeFileInputModal()">Cancel</button>
-        <button class="file-input-modal-btn confirm" onclick="confirmFileInput()">Create</button>
+        <button id="file-input-modal-confirm-btn" class="file-input-modal-btn confirm" onclick="confirmFileInput()">Create</button>
         </div>
       </div>
       </div>

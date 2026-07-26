@@ -2,7 +2,16 @@ const CACHE_NAME = 'site-static-cache';
 const ASSETS = [
   '/',
   '/index.html',
-  '/v2/script.js',
+  '/v2/app-state.js',
+  '/v2/app-init.js',
+  '/v2/editor.js',
+  '/v2/settings-core.js',
+  '/v2/counters.js',
+  '/v2/layout.js',
+  '/v2/overlays.js',
+  '/v2/tools-panel.js',
+  '/v2/engagement.js',
+  '/v2/system.js',
   '/v2/style.css',
   '/v2/flowbite.css'
 ];
