@@ -505,13 +505,13 @@
       <main class="page-layout">
         <section class="page-wrap">
           <h1 class="title">IB Docs Mirrors</h1>
-          <p class="subtitle">Curated mirror list used by CiteCount. Mirrors are listed in priority order.</p>
+          <p class="subtitle">Live status feed from ibResources. The top active IBDocs mirror is what CiteCount uses by default.<span class="subtitle-meta" id="last-updated"></span></p>
 
           <div class="top-actions">
             <a href="/ib-resources/" class="btn-link">Back to IB Resources</a>
           </div>
 
-          <div class="info-banner" id="mirrors-info">Mirror list loaded from the static CiteCount list.</div>
+          <div class="info-banner" id="mirrors-info">Loading latest mirror status...</div>
          
           <div class="mirror-list" id="mirror-list"></div>
           <div class="mirror-controls" id="mirror-controls" hidden>
@@ -569,8 +569,10 @@
   <script src="/components/footer-loader.js"></script>
 
   <script>
+    const mirrorsApiUrl = 'https://ibresources.cc/api/v3/mirrors';
     const infoEl = document.getElementById('mirrors-info');
     const listEl = document.getElementById('mirror-list');
+    const updatedEl = document.getElementById('last-updated');
     const controlsEl = document.getElementById('mirror-controls');
     const toggleBtn = document.getElementById('mirrors-toggle');
     const maxVisibleMirrors = 3;
@@ -584,6 +586,9 @@
     ];
     let allMirrors = [];
     let showAllMirrors = false;
+    let lastUpdatedAt = null;
+    let lastUpdatedIntervalId = null;
+
     function escapeHtml(value) {
       return String(value)
         .replaceAll('&', '&amp;')
@@ -595,7 +600,7 @@
 
     function setInfoBannerMessage(message) {
       infoEl.style.display = 'block';
-      infoEl.innerHTML = `<span class="info-banner-content"><span class="source-badge">Mirror list note</span><span class="info-message">${escapeHtml(message)}</span></span>`;
+      infoEl.innerHTML = `<span class="info-banner-content"><span class="source-badge">Message from ibresources</span><span class="info-message">${escapeHtml(message)}</span></span>`;
     }
 
     function hideInfoBanner() {
@@ -610,16 +615,87 @@
       return 'unknown';
     }
 
+    function formatLastUpdated(date) {
+      const day = String(date.getDate()).padStart(2, '0');
+      const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ];
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${day} ${month} ${year} at ${hours}:${minutes}:${seconds}`;
+    }
+
+    function setLastUpdated(date) {
+      if (!updatedEl) return;
+
+      lastUpdatedAt = date;
+
+      const updateLastUpdatedText = () => {
+        if (!updatedEl || !lastUpdatedAt) return;
+
+        const secondsElapsed = Math.max(0, Math.floor((Date.now() - lastUpdatedAt.getTime()) / 1000));
+        const minutesElapsed = Math.floor(secondsElapsed / 60);
+        const relativeLabel = secondsElapsed >= 60
+          ? `${minutesElapsed} ${minutesElapsed === 1 ? 'minute' : 'minutes'} ago`
+          : `${secondsElapsed} ${secondsElapsed === 1 ? 'second' : 'seconds'} ago`;
+
+        updatedEl.textContent = `Last updated ${formatLastUpdated(lastUpdatedAt)} (${relativeLabel}).`;
+      };
+
+      updateLastUpdatedText();
+
+      if (lastUpdatedIntervalId) {
+        clearInterval(lastUpdatedIntervalId);
+      }
+
+      lastUpdatedIntervalId = window.setInterval(updateLastUpdatedText, 1000);
+    }
+
+    function getUptimeValue(mirror) {
+      const value = Number(mirror && mirror.uptime);
+      return Number.isFinite(value) ? value : -1;
+    }
+
+    function formatUptime(value) {
+      if (!Number.isFinite(value)) {
+        return 'N/A';
+      }
+
+      return value.toFixed(2);
+    }
+
     function renderMirrors(mirrors) {
       if (!mirrors.length) {
-        listEl.innerHTML = '<div class="empty-state">No mirrors are currently available.</div>';
+        listEl.innerHTML = '<div class="empty-state">No mirrors are currently available from the API.</div>';
         return;
       }
 
-      listEl.innerHTML = mirrors.map((mirror) => {
+      const firstOnlineIndex = mirrors.findIndex((mirror) => normalizeMirrorStatus(mirror.status) === 'online');
+
+      listEl.innerHTML = mirrors.map((mirror, index) => {
         const name = mirror.name || 'Unnamed mirror';
         const url = mirror.url || '#';
-        return `<article class="mirror-card" role="link" tabindex="0"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url">${url}</a></div></article>`;
+        const status = normalizeMirrorStatus(mirror.status);
+        const uptimeValue = getUptimeValue(mirror);
+        const uptimeLabel = uptimeValue >= 0 ? `${formatUptime(uptimeValue)}% uptime` : 'Uptime N/A';
+        const uptimeClass = uptimeValue >= 0 && uptimeValue < 95 ? ' low' : '';
+        const isTopOnline = index === firstOnlineIndex && status === 'online';
+        const topBadge = isTopOnline ? '<span class="status-pill top">top mirror</span>' : '';
+        return `<article class="mirror-card${isTopOnline ? ' top-online' : ''}" role="link" tabindex="0"><div><div class="mirror-name">${name}</div><a href="${url}" target="_blank" rel="noopener noreferrer" class="mirror-url">${url}</a></div><div class="status-group">${topBadge}<span class="status-pill uptime${uptimeClass}">${uptimeLabel}</span><span class="status-pill ${status}">${status}</span></div></article>`;
       }).join('');
     }
 
@@ -675,11 +751,42 @@
       }
     });
 
-    function loadMirrors() {
-      allMirrors = staticMirrors.slice();
-      showAllMirrors = false;
-      hideInfoBanner();
-      updateMirrorList();
+    async function loadMirrors() {
+      try {
+        const response = await fetch(mirrorsApiUrl, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+
+        const payload = await response.json();
+        const mirrors = Array.isArray(payload.mirrors) ? payload.mirrors.slice() : [];
+        if (!mirrors.length) {
+          throw new Error('API returned no mirrors');
+        }
+        mirrors.sort((a, b) => getUptimeValue(b) - getUptimeValue(a));
+        allMirrors = mirrors;
+        showAllMirrors = false;
+
+        const messageFromIbresources = payload.additional_info;
+
+        if (messageFromIbresources) {
+          setInfoBannerMessage(messageFromIbresources);
+        } else {
+          hideInfoBanner();
+        }
+
+        updateMirrorList();
+      } catch (error) {
+        allMirrors = staticMirrors.slice();
+        showAllMirrors = false;
+        setInfoBannerMessage('Could not load live mirrors right now, so the static fallback list is being shown.');
+        updateMirrorList();
+        if (controlsEl) {
+          controlsEl.hidden = allMirrors.length <= maxVisibleMirrors;
+        }
+      } finally {
+        setLastUpdated(new Date());
+      }
     }
 
     if (toggleBtn) {
