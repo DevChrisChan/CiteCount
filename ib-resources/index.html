@@ -783,7 +783,7 @@
           <div class="category-section" id="cat-Grind-Papers">
             <div class="category-title">Grind Papers</div>
             <div class="resource-grid">
-              <div class="resource-card starred" id="ib-docs-card" data-url="https://dl.ibdocs.re/" role="button" tabindex="0" aria-label="Open IB Docs mirror"><span class="star-badge">★</span><div class="resource-title">IB Docs</div><div class="resource-description">Repository for IB past papers, mark schemes, books, and more. Opens the default mirror directly.</div><div class="resource-url" id="ib-docs-url">dl.ibdocs.re</div><div class="mirror-actions"><!--<button class="mirror-button" id="ib-docs-show-mirrors" type="button">View mirrors</button>--><a class="mirror-link" href="/ib-resources/mirrors.html">View all mirrors</a></div></div>
+              <div class="resource-card starred" id="ib-docs-card" data-url="https://dl.pirateib.su" role="button" tabindex="0" aria-label="Open IB Docs mirror"><span class="star-badge">★</span><div class="resource-title">IB Docs</div><div class="resource-description">Repository for IB past papers, mark schemes, books, and more. Opens the default mirror directly.</div><div class="resource-url" id="ib-docs-url">dl.pirateib.su</div><div class="mirror-actions"><!--<button class="mirror-button" id="ib-docs-show-mirrors" type="button">View mirrors</button>--><a class="mirror-link" href="/ib-resources/mirrors.html">View all mirrors</a></div></div>
               <div class="resource-card starred" onclick="window.open('https://revisiondojo.com/', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">RevisionDojo</div><div class="resource-description">Topical questions, mock exam generation, flashcards, and more</div><div class="resource-url">revisiondojo.com</div></div>
               <div class="resource-card starred" onclick="window.open('https://revisionvillage.pages.dev/homepage', '_blank', 'noopener,noreferrer')"><span class="star-badge">★</span><div class="resource-title">Revision Village Archive</div><div class="resource-description">An archive for Revision Village.</div><div class="resource-url">revisionvillage.pages.dev</div></div>
               <div class="resource-card" onclick="window.open('https://pestle.pages.dev/', '_blank', 'noopener,noreferrer')"><div class="resource-title">Pestle</div><div class="resource-description">Revision platform based on the IB Question Banks</div><div class="resource-url">pestle.pages.dev</div></div>
@@ -885,8 +885,7 @@
 
   <script>
     const staticMirrors = [
-      { name: 'IBDocs', url: 'https://dl.ibdocs.re/' },
-      { name: 'IBDocs 2', url: 'https://repo.ibdocs.re/' },
+      { name: 'IBDocs', url: 'https://dl.pirateib.su/' },
       { name: 'SufferingRepo', url: 'https://sufferingrepo.lol/' },
       { name: 'DynamicRepo', url: 'https://dynamicrepo.lol/' },
       { name: 'pirateIB IBDocs', url: 'https://dl.pirateib.lol/' },
@@ -913,8 +912,8 @@
         card.dataset.url = selectedMirror.url;
         urlLabel.textContent = getMirrorHost(selectedMirror.url);
       } else {
-        card.dataset.url = 'https://dl.ibdocs.re/';
-        urlLabel.textContent = 'dl.ibdocs.re';
+        card.dataset.url = 'https://dl.pirateib.su/';
+        urlLabel.textContent = 'dl.pirateib.su';
       }
     }
 
@@ -966,14 +965,14 @@
           if (event.target.closest('.mirror-button') || event.target.closest('.mirror-link')) {
             return;
           }
-          const openUrl = ibDocsCard.dataset.url || 'https://dl.ibdocs.re/';
+          const openUrl = ibDocsCard.dataset.url || 'https://dl.pirateib.su/';
           window.open(openUrl, '_blank', 'noopener,noreferrer');
         });
 
         ibDocsCard.addEventListener('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            const openUrl = ibDocsCard.dataset.url || 'https://dl.ibdocs.re/';
+            const openUrl = ibDocsCard.dataset.url || 'https://dl.pirateib.su/';
             window.open(openUrl, '_blank', 'noopener,noreferrer');
           }
         });
